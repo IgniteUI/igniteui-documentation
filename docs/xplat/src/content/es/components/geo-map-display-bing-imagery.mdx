@@ -1,0 +1,156 @@
+---
+title: "Mapa de {Platform} | Herramientas de visualización de datos | Mostrar imágenes de Bing | Infragistics"
+description: "Use {Platform} de Infragistics para mostrar imágenes de Microsoft Bing Maps. ¡Vea los tutoriales del mapa de {ProductName}!"
+keywords: "Mapa de {Platform}, bing maps, {ProductName}, Infragistics, origen de teselas de imagen, fondo del mapa"
+license: commercial
+mentionedTypes: ["GeographicMap", "BingMapsMapImagery"]
+_language: es
+llms:
+  description: "NOTA: a partir del 30 de junio de 2025, se retirarán todas las cuentas Básicas (gratuitas) de Microsoft Bing Maps para empresas."
+platformType: xplat
+---
+
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+import { Image } from 'astro:assets';
+import bingmapsimagery from '@xplat-images/general/BingMapsImagery.png';
+
+# {Platform}: mostrar imágenes de Bing Maps
+
+NOTA: a partir del 30 de junio de 2025, se retirarán todas las cuentas Básicas (gratuitas) de Microsoft Bing Maps para empresas. Si todavía usa una cuenta básica sin pago y su clave, ahora es el momento de actuar para evitar interrupciones del servicio. Los titulares de licencias de Bing Maps para empresas pueden seguir usando Bing Maps en sus aplicaciones hasta el 30 de junio de 2028.
+
+Para más detalles:
+
+[Blogs de Microsoft Bing](https://blogs.bing.com/maps/2025-06/Bing-Maps-for-Enterprise-Basic-Account-shutdown-June-30,2025)
+
+El {Platform} `BingMapsMapImagery` es un servicio de mapas de imágenes geográficas proporcionado por la empresa Microsoft®. Ofrece 3 estilos de teselas de imágenes geográficas del mundo. Este servicio de imágenes geográficas es accesible directamente en el sitio web <a href="http://www.bing.com/maps" target="_blank">www.bing.com/maps</a>. El componente de mapa {ProductName} puede mostrar imágenes geográficas de Bing Maps en el contenido de fondo del mapa mediante la clase `BingMapsMapImagery`.
+
+## Ejemplo de {Platform}: mostrar imágenes de Bing Maps
+
+
+{/*<Sample src="/maps/geo-map/display-bing-imagery" height="500" alt="{Platform} Displaying Imagery from Bing Maps Example" />*/}
+<Image src={bingmapsimagery} alt="Imágenes de {Platform} Bing Maps" />
+
+
+
+## Fragmento de código
+El siguiente fragmento de código muestra cómo mostrar teselas de imágenes geográficas de Bing Maps en {Platform} `GeographicMap` usando la clase `BingMapsMapImagery`.
+
+```json-snippet source="/maps/geo-map/display-bing-imagery"
+{
+    "type": "GeographicMap",
+    "$setInCode": {
+        "backgroundContent": [
+            "angular",
+            "react",
+            "webComponents",
+            "blazor",
+            "winUI",
+            "wpf"
+        ]
+    },
+    "$assignInCode": {
+        "backgroundContent": [
+            "angular",
+            "react",
+            "webComponents",
+            "blazor",
+            "winUI",
+            "wpf"
+        ]
+    },
+    "name": "roadMap",
+    "height": "100%",
+    "width": "100%",
+    "zoomable": true,
+    "backgroundContent": {
+        "type": "BingMapsMapImagery",
+        "name": "roadImagery",
+        "apiKey": "REPLACE_WITH_BING_KEY",
+        "imageryStyle": "Road"
+    },
+    "$type": "+doc:markup"
+}
+```
+
+```json-snippet source="/maps/geo-map/display-bing-imagery" channel="bindingImports...bindingFields,bindingInit,bindingCode"
+{
+    "type": "GeographicMap",
+    "$setInCode": {
+        "backgroundContent": [
+            "angular",
+            "react",
+            "webComponents",
+            "blazor",
+            "winUI",
+            "wpf"
+        ]
+    },
+    "$assignInCode": {
+        "backgroundContent": [
+            "angular",
+            "react",
+            "webComponents",
+            "blazor",
+            "winUI",
+            "wpf"
+        ]
+    },
+    "name": "roadMap",
+    "height": "100%",
+    "width": "100%",
+    "zoomable": true,
+    "backgroundContent": {
+        "type": "BingMapsMapImagery",
+        "name": "roadImagery",
+        "apiKey": "REPLACE_WITH_BING_KEY",
+        "imageryStyle": "Road"
+    },
+    "$type": [
+        "+doc:bindingImports",
+        "+doc:bindingFields",
+        "+doc:bindingInit",
+        "+doc:bindingCode"
+    ]
+}
+```
+
+<PlatformBlock for="Angular, React">
+
+Bing sirve sus teselas a través del protocolo indicado en su URI REST, y una página servida con el otro protocolo
+se rechaza. Resuélvalo con respecto a la página de alojamiento antes de asignar las imágenes:
+
+```ts
+// resolving BingMaps uri based on HTTP protocol of hosting website
+let tileUri = roadImagery.actualBingImageryRestUri;
+const isHttpSecured = window.location.toString().startsWith("https:");
+if (isHttpSecured) {
+    tileUri = tileUri.replace("http:", "https:");
+} else {
+    tileUri = tileUri.replace("https:", "http:");
+}
+roadImagery.bingImageryRestUri = tileUri;
+```
+
+</PlatformBlock>
+
+## Propiedades
+La tabla siguiente resume las propiedades de la clase `BingMapsMapImagery`:
+
+| Nombre de la propiedad  | Tipo de propiedad   | Descripción   |
+|----------------|-----------------|---------------|
+|`apiKey`|string|Representa la propiedad para establecer una clave de API necesaria para el servicio de imágenes de Bing Maps. Debe obtener esta clave en el sitio web <a href="http://www.bingmapsportal.coms" target="_blank">www.bingmapsportal.com</a>.|
+|`imageryStyle`|`BingMapsImageryStyle`|Representa la propiedad para establecer el estilo de mapa de las teselas de imágenes de Bing Maps. Esta propiedad puede establecerse con los siguientes valores de la enumeración `BingMapsImageryStyle`: <ul><li> Aerial: especifica el estilo de mapa aéreo sin superposición de carreteras o etiquetas</li> <li> AerialWithLabels: especifica el estilo de mapa aéreo con superposición de carreteras y etiquetas</li><li> Road: especifica el estilo de mapa de carreteras sin superposición aérea</li></ul>|
+|`bingImageryRestUri`|string|Representa la propiedad para establecer el URI REST de las imágenes de Bing, que indica de dónde proceden TilePath y SubDomains. Es una propiedad opcional; si no se especifica, usa el URI REST predeterminado.|
+|`cultureName`|string|Representa una propiedad para establecer el nombre de la cultura del origen de teselas.|
+|`isDeferredLoad`|boolean|Representa la propiedad que especifica si el servicio de Bing Maps debe inicializarse automáticamente al asignar valores válidos a las propiedades.|
+|`isInitialized`|boolean|Representa la propiedad que se establece en True cuando las teselas de imágenes geográficas del servicio de Bing Maps se han inicializado y están listas para renderizarse en el componente de mapa.|
+|`subDomains`|`\SubDomainsCollection`|Representa una colección de imágenes de subdominios URI|
+|`tilePath`|string|Representa una propiedad que establece el URI de la imagen de tesela del mapa; es la ubicación real de Bing Maps|
+
+
+## Referencias de API
+`BingMapsImageryStyle`
+`BingMapsMapImagery`
+`GeographicMap`

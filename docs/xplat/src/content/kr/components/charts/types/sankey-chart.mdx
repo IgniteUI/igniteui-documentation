@@ -1,0 +1,605 @@
+---
+title: "{Platform} 생키 차트 | 데이터 시각화 | Infragistics"
+description: "{Platform} 생키 차트는 노드 띠로 표현된 단계들 사이의 가중 흐름을 그리며, 띠 사이를 잇는 리본의 너비는 각 흐름의 값에 비례합니다."
+keywords: "{Platform} 차트, 생키 차트, 생키 다이어그램, 흐름도, 충적 차트, 종속성 휠, Infragistics"
+license: commercial
+mentionedTypes: ["DataChart", "SankeySeries", "RadialSankeySeries", "FlowSeries", "FlowStyleMapping", "SankeyLayoutAdapter", "SankeyNodeAlignment", "SankeyLinkAggregationMode", "SankeyRibbonShape", "SankeyHighlightScope", "SankeyDataLegendScope", "CalloutLayer", "DataToolTipLayer", "DataLegend", "CategoryXAxis", "NumericYAxis", "CategoryAngleAxis", "ProportionalCategoryAngleAxis", "NumericRadiusAxis"]
+namespace: Infragistics.Controls.Charts
+_language: ko
+llms:
+  description: "{ProductName} 생키 차트는 단계들 사이의 가중 흐름을 그리는 DataChart 시리즈입니다. 노드는 쌓인 띠이고 링크는 너비가 각 흐름의 값에 비례하는 리본입니다."
+platformType: xplat
+---
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+# {Platform} 생키 차트
+
+{ProductName} 생키 차트는 수량이 한 단계에서 다음 단계로 어떻게 흐르는지 보여 줍니다. 각 노드는 그것을 통과하는 양을 높이로 하는 띠이며, 각 링크는 흐르는 양에 비례하는 너비의 리본이므로, 독자는 가장 큰 흐름이 어디로 가고 어디에서 나뉘거나 합쳐지는지 한눈에 볼 수 있습니다. 이 차트는 `DataChart`에서 호스팅되는 `SankeySeries`이므로, 차트의 축, 툴팁, 강조, 선택, 애니메이션 및 주석 레이어를 사용합니다.
+
+## {Platform} 생키 차트 예제
+
+다음 예제는 월별 예산을 필요, 원하는 것, 저축으로 나눈 다음, 각각이 어디로 가는지 나눕니다. 축은 숨겨져 있으며 `CalloutLayer`가 모든 노드에 레이블을 붙입니다.
+
+<Sample src="/charts/data-chart/sankey-budget-showcase" height={600} alt="{Platform} 생키 차트 예제" />
+
+이 샘플이 마음에 드십니까? 완전한 {ProductName} 툴킷을 사용해 보고 직접 앱을 만들어 보십시오. <a href="{environment:infragisticsBaseUrl}/products/{ProductSpinal}/download">무료 평가판을 다운로드하십시오.</a>
+
+## 생키 차트 권장 사항
+
+### {Platform} 생키 차트가 프로젝트에 적합합니까?
+
+생키 차트는 단계를 거쳐 이동하는 데이터이며 각 이동의 크기가 중요한 경우에 적합합니다. 예를 들어 소득에서 지출로 가는 돈, 공급원에서 사용처로 가는 에너지, 랜딩 페이지에서 전환으로 가는 방문자, 지역에서 판매 채널로 가는 주문 등이 있습니다. 모든 흐름이 끝에서 끝까지 너비를 유지하므로, 차트는 부분과 그 부분들이 다시 결합되는 방식을 모두 보여 줍니다.
+
+### 생키 차트 사용 사례
+
+- 예산 및 현금 흐름 - 소득이 지출 및 저축 카테고리로 나뉘는 경우.
+- 에너지, 재료 또는 자원 균형.
+- 분기 경로가 있는 고객 여정 및 전환 깔때기.
+- 지역, 제품, 채널 같은 여러 범주형 차원에 걸친 한 모집단의 분석(충적 차트).
+
+### 생키 차트를 사용하지 말아야 하는 경우
+
+- 데이터에 단계나 방향이 없는 경우 - 전체의 부분을 보여 주려면 [파이 차트](pie-chart.mdx) 또는 [트리맵](treemap-chart.mdx)을 사용하십시오.
+- 정확한 값을 비교해야 하는 경우 - 정밀하게 읽기 쉬운 [막대 차트](bar-chart.mdx) 또는 [열 차트](column-chart.mdx)가 더 적합합니다.
+- 비슷한 크기의 작은 흐름이 많은 경우 - 리본이 가늘어져 서로 구별하기 어렵습니다.
+
+### 생키 차트 데이터 구조
+
+생키 차트는 두 종류의 레코드를 읽습니다:
+
+- **링크** - 흐름마다 하나의 레코드이며, 원본 노드, 대상 노드, 값을 지정합니다. 모든 생키 차트에 필요합니다.
+- **노드** - 노드마다 하나의 레코드이며, id, 레이블, 속한 단계(레이어)를 포함합니다. 이는 선택 사항입니다. 없으면 시리즈가 링크로부터 노드와 레이어를 도출합니다.
+
+노드의 값은 들어오는 총합과 나가는 총합 중 큰 값이므로, 받은 것을 모두 전달하는 노드는 양쪽의 흐름과 정확히 같은 높이를 가집니다. 값이 유한한 수가 아닌 링크는 건너뛰며 리본을 그리지 않습니다.
+
+단계는 카테고리 축을 따라 배열되며(단계마다 하나의 카테고리), 쌓인 노드 값은 숫자 축을 따라 배열됩니다.
+
+## {Platform} 생키 차트 데이터 바인딩
+
+### 노드와 링크
+
+노드를 시리즈의 데이터 소스에, 링크를 `linkSource`에 바인딩하십시오. 노드 필드는 `nodeIdMemberPath`, `nodeLabelMemberPath`, `nodeLayerMemberPath`로 이름을 지정하고, 링크 필드는 `linkSourceMemberPath`, `linkTargetMemberPath`, `linkValueMemberPath`로 이름을 지정하십시오. 링크의 원본과 대상은 노드 id를 이름으로 사용하며, 노드의 레이어는 `CategoryXAxis`에서 해당 단계의 0부터 시작하는 인덱스입니다.
+
+```json-snippet source="/charts/data-chart/sankey-budget-showcase"
+{
+    "descriptions": {
+        "content": {
+            "type": "DataChart",
+            "name": "chart",
+            "axes": [
+                {
+                    "type": "CategoryXAxis",
+                    "name": "xAxis",
+                    "dataSourceRef": "SankeyHouseholdStages",
+                    "label": "Stage"
+                },
+                {
+                    "type": "NumericYAxis",
+                    "name": "yAxis"
+                }
+            ],
+            "series": [
+                {
+                    "type": "SankeySeries",
+                    "name": "sankey",
+                    "xAxisRef": "xAxis",
+                    "yAxisRef": "yAxis",
+                    "dataSourceRef": "SankeyHouseholdNodes",
+                    "nodeIdMemberPath": "Id",
+                    "nodeLabelMemberPath": "Label",
+                    "nodeLayerMemberPath": "Layer",
+                    "linkSourceRef": "SankeyHouseholdLinks",
+                    "linkSourceMemberPath": "Source",
+                    "linkTargetMemberPath": "Target",
+                    "linkValueMemberPath": "Value"
+                }
+            ]
+        }
+    }
+}
+```
+
+각 링크가 고유하고 안정적인 id를 가질 때 `linkIdMemberPath`를 설정하십시오. 데이터가 변경되면 시리즈가 id로 링크를 매칭하므로, 수정된 링크는 이전 모양에서 새 모양으로 애니메이션됩니다.
+
+### 링크만 사용
+
+시리즈에 링크는 있지만 노드가 없거나, 레이어가 없는 노드가 있는 경우, 시리즈는 고유한 원본과 대상으로부터 노드를 만들고 각 노드에 레이어를 할당합니다. 노드 레이블은 링크에서 사용된 id입니다.
+
+<Sample src="/charts/data-chart/sankey-edge-list" height={600} alt="{Platform} 에지 목록에서 만든 생키 차트" />
+
+```json-snippet source="/charts/data-chart/sankey-edge-list"
+{
+    "descriptions": {
+        "content": {
+            "type": "DataChart",
+            "name": "chart",
+            "axes": [
+                {
+                    "type": "CategoryXAxis",
+                    "name": "xAxis",
+                    "dataSourceRef": "SankeyIncomeStages",
+                    "label": "Stage"
+                },
+                {
+                    "type": "NumericYAxis",
+                    "name": "yAxis"
+                }
+            ],
+            "series": [
+                {
+                    "type": "SankeySeries",
+                    "name": "sankey",
+                    "xAxisRef": "xAxis",
+                    "yAxisRef": "yAxis",
+                    "linkSourceRef": "SankeyIncomeFlow",
+                    "linkSourceMemberPath": "Source",
+                    "linkTargetMemberPath": "Target",
+                    "linkValueMemberPath": "Value"
+                }
+            ]
+        }
+    }
+}
+```
+
+레이아웃이 도출되는 방식을 제어하는 두 가지 속성이 있습니다. 노드에 명시적인 레이어가 있으면 둘 다 적용되지 않습니다.
+
+| 속성 | 값 | 효과 |
+|---|---|---|
+| `nodeAlignment` | `Left`(기본값), `Right`, `Justify`, `Center` | 노드가 배치되는 레이어입니다. `Left`는 각 노드를 가능한 한 빨리 배치하고, `Right`는 가능한 한 늦게 배치합니다. `Justify`는 원본을 첫 번째 레이어에 두고 나가는 링크가 없는 모든 노드를 마지막 레이어로 옮기며, `Center`는 각 노드를 둘 사이의 중간에 배치합니다. |
+| `linkAggregation` | `Aggregate`(기본값), `Separate` | 같은 원본과 대상을 가진 여러 레코드를 총합을 나타내는 하나의 리본으로 합칠지, 아니면 각각 하나의 리본으로 그릴지 여부입니다. |
+
+### 카테고리 행(충적 차트)
+
+각 행이 카테고리의 조합과 개수인 표를 차트로 만들려면, 시리즈의 `layoutAdapter`에 `SankeyLayoutAdapter`를 할당하십시오. 어댑터의 링크 데이터 소스를 표로 설정하고, `dimensionMemberPaths`에 카테고리 열을 순서대로 나열하며, `linkValueMemberPath`에 개수 열의 이름을 지정하십시오. 각 열은 단계가 되고, 열의 각 고유 값은 노드가 되며, 각 행은 연속된 열의 값들을 링크합니다.
+
+<Sample src="/charts/data-chart/sankey-alluvial" height={600} alt="{Platform} 충적 생키 차트" />
+
+```json-snippet source="/charts/data-chart/sankey-alluvial"
+{
+    "skipAlterDataCasing": true,
+    "descriptions": {
+        "content": {
+            "type": "DataChart",
+            "name": "chart",
+            "axes": [
+                {
+                    "type": "CategoryXAxis",
+                    "name": "xAxis",
+                    "dataSourceRef": "SankeyOrderStages",
+                    "label": "Stage"
+                },
+                {
+                    "type": "NumericYAxis",
+                    "name": "yAxis"
+                }
+            ],
+            "series": [
+                {
+                    "type": "SankeySeries",
+                    "name": "sankey",
+                    "xAxisRef": "xAxis",
+                    "yAxisRef": "yAxis",
+                    "layoutAdapter": {
+                        "type": "SankeyLayoutAdapter",
+                        "linkItemsSourceRef": "SankeyOrderChannels",
+                        "dimensionMemberPaths": [ "Region", "Product", "Channel" ],
+                        "linkValueMemberPath": "Orders"
+                    }
+                }
+            ]
+        }
+    }
+}
+```
+
+`layoutAdapter`가 할당되면 시리즈는 어댑터의 노드와 링크를 그리고, 자체 데이터 소스와 링크 바인딩은 무시합니다.
+
+## {Platform} 생키 차트 구성
+
+### 노드 간격
+
+`nodeGap`는 한 단계에 쌓인 노드 사이의 간격을 설정합니다. 기본적으로 시리즈는 데이터에서 간격을 선택하여, 가장 붐비는 단계의 간격이 가장 큰 단계 총합의 약 4분의 1을 차지하고 어떤 단일 간격도 그 총합의 4%보다 넓지 않도록 합니다. 직접 설정하려면 픽셀이 아니라 숫자 축의 단위로, 값의 크기에 비례하여 지정하십시오. `0`는 띠를 빈틈없이 쌓습니다. 노드가 더 많은 단계에는 간격이 더 많으므로, 더 붐비는 단계에서 리본이 더 넓게 퍼집니다.
+
+```json-snippet source="/charts/data-chart/sankey-edge-list"
+{
+    "type": "DataChart",
+    "series": [
+        {
+            "type": "SankeySeries",
+            "$type": "+doc:markup",
+            "nodeGap": 250,
+            "$nodeGap": "+doc:markup"
+        }
+    ]
+}
+```
+
+### 노드 레이블
+
+축 레이블은 노드가 아니라 단계의 이름을 나타냅니다. 모든 노드에 레이블을 붙이려면, 시리즈를 대상으로 하는 `CalloutLayer`를 추가하고, `isAutoCalloutBehaviorEnabled`를 켜고, `useValueForAutoCalloutLabels`를 false로 설정하여 각 콜아웃이 값이 아니라 노드의 레이블을 표시하도록 하십시오. `useItemColorForOutline`는 각 콜아웃의 윤곽선을 노드의 색상으로 표시합니다. 마지막 단계의 레이블을 위한 공간을 남기려면 차트의 `plotAreaMarginRight`를 늘리십시오. 시리즈는 각 레이블을 노드 옆에 배치하며, 공간이 있으면 오른쪽, 없으면 왼쪽에 배치합니다. 위치를 더 제한하려면 레이어의 `allowedPositions`를 설정하십시오.
+
+```json-snippet source="/charts/data-chart/sankey-budget-showcase"
+{
+    "type": "DataChart",
+    "name": "chart",
+    "plotAreaMarginRight": 180,
+    "$plotAreaMarginRight": "+doc:markup",
+    "series": [
+        {
+            "type": "SankeySeries",
+            "name": "sankey"
+        },
+        {
+            "type": "CalloutLayer",
+            "$type": "+doc:markup",
+            "name": "nodeLabels",
+            "targetSeriesRef": "sankey",
+            "isAutoCalloutBehaviorEnabled": true,
+            "useValueForAutoCalloutLabels": false,
+            "useItemColorForOutline": true,
+            "calloutStrokeThickness": 2,
+            "calloutTextColor": "Black",
+            "calloutBackground": "White"
+        }
+    ]
+}
+```
+
+### 툴팁
+
+커서 근처의 흐름을 설명하는 `DataToolTipLayer`를 추가하십시오. 툴팁은 가장 가까운 노드에 고정되며, 카테고리 툴팁이 가장 가까운 카테고리에 고정되는 것과 비슷합니다. 툴팁의 제목은 노드의 레이블이며, 커서가 있는 쪽의 리본마다 한 행씩 총합과 함께 나열합니다:
+
+- 노드의 왼쪽에서는 행이 노드로 들어오는 리본이며, 각 행은 그것이 나오는 노드의 이름으로 표시됩니다.
+- 노드의 오른쪽에서는 행이 노드에서 나가는 리본이며, 각 행은 그것이 가는 노드의 이름으로 표시됩니다.
+- 그쪽에 리본이 없는 노드(예: 왼쪽에 있는 원본)는 대신 반대쪽을 나열합니다.
+
+두 단계 사이의 중간점을 넘으면, 다음 단계의 노드가 가장 가까운 노드가 됩니다. 그러면 툴팁은 그 노드로 이동하여 그곳에 도착하는 같은 리본을 설명합니다.
+
+시리즈의 `dataToolTipScope` 속성은 툴팁이 다루는 범위를 바꿉니다:
+
+- `Node`(기본값)은 가장 가까운 노드를 설명합니다.
+- `Stage`는 가장 가까운 단계의 모든 노드를 각각 별도의 그룹으로 설명합니다.
+- `Element`는 커서 아래의 노드나 리본, 또는 가장 가까운 것만 설명합니다.
+
+레이어의 개별 그룹화 모드에서는 나열된 각 리본이 자체 툴팁을 가지며, 그 리본을 가리킵니다. `DataLegend`는 대신 시리즈의 `dataLegendScope` 속성을 따르며, 기본값은 `Stage`입니다.
+
+```json-snippet source="/charts/data-chart/sankey-budget-showcase"
+{
+    "type": "DataChart",
+    "series": [
+        {
+            "type": "SankeySeries",
+            "$type": "+doc:markup",
+            "title": "Monthly Budget",
+            "$title": "+doc:markup"
+        },
+        {
+            "type": "DataToolTipLayer",
+            "$type": "+doc:markup",
+            "name": "tooltips"
+        }
+    ]
+}
+```
+
+### 축 숨기기
+
+생키 차트는 보통 축 선, 눈금선, 값 레이블 없이 가장 잘 읽힙니다. `areLabelsVisible`를 false로, `tickLength`를 `0`로 설정하고, 두 축 모두에서 `stroke`와 `majorStroke`를 `\Transparent`로 설정하십시오.
+
+```json-snippet source="/charts/data-chart/sankey-budget-showcase"
+{
+    "type": "DataChart",
+    "axes": [
+        {
+            "type": "CategoryXAxis",
+            "$type": "+doc:markup",
+            "name": "xAxis",
+            "dataSourceRef": "SankeyHouseholdStages",
+            "label": "Stage",
+            "areLabelsVisible": false,
+            "tickLength": 0,
+            "stroke": "Transparent",
+            "majorStroke": "Transparent"
+        },
+        {
+            "type": "NumericYAxis",
+            "$type": "+doc:markup",
+            "name": "yAxis",
+            "areLabelsVisible": false,
+            "tickLength": 0,
+            "stroke": "Transparent",
+            "majorStroke": "Transparent"
+        }
+    ]
+}
+```
+
+## {Platform} 생키 차트 스타일 지정
+
+다음 예제는 세 노드는 레이블로, 한 노드는 값으로 색상을 지정하고, 리본은 일정한 너비로 그리며, 노드 모서리를 둥글게 하고, 노드나 리본 위에 마우스를 올리면 차트의 나머지 부분을 흐리게 표시합니다.
+
+<Sample src="/charts/data-chart/sankey-styling" height={600} alt="{Platform} 생키 차트 스타일 지정" />
+
+### 노드 및 리본 색상
+
+`useItemWiseColors`는 차트 팔레트에서 각 노드에 고유한 색상을 부여합니다. 이 설정이 없으면 모든 노드는 시리즈의 `brush`와 `outline`을 사용합니다. 각 리본은 원본 노드의 채우기와 윤곽선으로 그려집니다. `areaFillOpacity`는 리본의 투명도를, `thickness`는 노드와 리본 윤곽선의 두께를 설정합니다.
+
+```json-snippet source="/charts/data-chart/sankey-budget-showcase"
+{
+    "type": "DataChart",
+    "series": [
+        {
+            "type": "SankeySeries",
+            "$type": "+doc:markup",
+            "useItemWiseColors": true,
+            "$useItemWiseColors": "+doc:markup",
+            "areaFillOpacity": 0.7,
+            "$areaFillOpacity": "+doc:markup",
+            "thickness": 0,
+            "$thickness": "+doc:markup"
+        }
+    ]
+}
+```
+
+### 스타일 매핑
+
+`styleMappings`는 노드의 색상을 선언적으로 지정합니다. 각 `FlowStyleMapping`는 `nodeLabel`로, `minimumValue`부터 `maximumValue`까지의 값 범위로(양 끝 포함), 또는 둘 다로 노드를 매칭하고, 그 `fill`와 `outline`를 적용합니다. 노드의 나가는 리본도 이를 따릅니다. 노드와 처음 매칭되는 매핑이 우선하며, 매칭된 노드는 항목별 색상 대신 매핑의 색상을 사용합니다. 따라서 팔레트로 모든 노드에 색상을 지정하고 일부만 강조할 수 있습니다. 대신 코드에서 요소의 스타일을 다시 지정하려면 시리즈의 `assigningStyle` 이벤트를 처리하십시오.
+
+```json-snippet source="/charts/data-chart/sankey-styling"
+{
+    "type": "DataChart",
+    "series": [
+        {
+            "type": "SankeySeries",
+            "$type": "+doc:markup",
+            "useItemWiseColors": true,
+            "styleMappings": [
+                { "type": "FlowStyleMapping", "nodeLabel": "Savings", "fill": "#2E7D32", "outline": "#2E7D32" },
+                { "type": "FlowStyleMapping", "nodeLabel": "Housing", "fill": "#1565C0", "outline": "#1565C0" },
+                { "type": "FlowStyleMapping", "nodeLabel": "Discretionary", "fill": "#EF6C00", "outline": "#EF6C00" },
+                { "type": "FlowStyleMapping", "minimumValue": 9000, "maximumValue": 10000, "fill": "#6A1B9A", "outline": "#6A1B9A" }
+            ]
+        }
+    ]
+}
+```
+
+### 리본 모양과 노드 모서리
+
+`ribbonShape`는 리본의 모양을 설정합니다. `Curved`(기본값)은 고전적인 S자 곡선으로, 가파른 굴곡을 지날 때 겉보기 너비가 좁아집니다. `Straightened`는 더 빨리 대각선이 되고 덜 좁아지며, `UniformWidth`는 리본을 전체 길이에 걸쳐 같은 너비로 유지합니다. 모든 모양은 노드와 같은 지점에서 만나므로, 리본은 연결하는 띠와 여전히 정렬됩니다. `radiusX`와 `radiusY`는 노드 띠의 모서리를 둥글게 하며, 둘 다 기본값은 `0`입니다.
+
+```json-snippet source="/charts/data-chart/sankey-styling"
+{
+    "type": "DataChart",
+    "series": [
+        {
+            "type": "SankeySeries",
+            "$type": "+doc:markup",
+            "ribbonShape": "UniformWidth",
+            "$ribbonShape": "+doc:markup",
+            "radiusX": 4,
+            "$radiusX": "+doc:markup",
+            "radiusY": 4,
+            "$radiusY": "+doc:markup"
+        }
+    ]
+}
+```
+
+### 강조 표시
+
+차트의 `highlightingMode`를 설정하여 포인터가 가리키는 것을 강조하십시오. `highlightScope`는 무엇을 강조할지 결정합니다: `ConnectedFlow`(기본값)은 호버된 노드와 그 노드로 들어오고 나가는 모든 리본을, 호버된 리본은 그것이 잇는 두 노드와 함께 강조하며, `Element`는 호버된 노드나 리본만 강조합니다.
+
+```json-snippet source="/charts/data-chart/sankey-styling"
+{
+    "type": "DataChart",
+    "$type": "+doc:markup",
+    "highlightingMode": "FadeOthersSpecific",
+    "$highlightingMode": "+doc:markup",
+    "highlightingBehavior": "DirectlyOver",
+    "$highlightingBehavior": "+doc:markup",
+    "series": [
+        {
+            "type": "SankeySeries",
+            "$type": "+doc:markup",
+            "highlightScope": "ConnectedFlow",
+            "$highlightScope": "+doc:markup"
+        }
+    ]
+}
+```
+
+## {Platform} 생키 차트 강조된 값
+
+강조된 값 오버레이는 모든 링크마다 첫 번째 값 위에 두 번째 값을 원래 리본 가운데에 더 얇은 리본으로 그립니다. 예를 들어 필터링된 부분집합을 전체와 비교하는 경우입니다. `highlightedLinkValueMemberPath`에 두 번째 값의 이름을 지정하고 `highlightedValuesDisplayMode`를 `Overlay`로 설정하십시오. 두 번째 값이 링크와 다른 컬렉션에 있다면 `highlightedLinkSource`에 바인딩하십시오.
+
+<Sample src="/charts/data-chart/sankey-highlighted-overlay" height={600} alt="{Platform} 생키 차트 강조된 값" />
+
+```json-snippet source="/charts/data-chart/sankey-highlighted-overlay"
+{
+    "type": "DataChart",
+    "series": [
+        {
+            "type": "SankeySeries",
+            "$type": "+doc:markup",
+            "linkSourceRef": "SankeyIncomeFlow",
+            "linkSourceMemberPath": "Source",
+            "linkTargetMemberPath": "Target",
+            "linkValueMemberPath": "Value",
+            "highlightedLinkValueMemberPath": "Highlighted",
+            "$highlightedLinkValueMemberPath": "+doc:markup",
+            "highlightedValuesDisplayMode": "Overlay",
+            "$highlightedValuesDisplayMode": "+doc:markup"
+        }
+    ]
+}
+```
+
+## {Platform} 생키 차트 애니메이션
+
+흐름이 변경되면 시리즈는 이전 리본과 노드에서 새 리본과 노드로 애니메이션할 수 있습니다. `transitionDuration`를 애니메이션 길이(밀리초)로 설정하십시오. 기본값은 `0`이며 애니메이션이 없습니다. 그러면 데이터를 제자리에서 변경할 때 애니메이션이 적용됩니다. 다른 `linkSource`를 할당하거나 `linkValueMemberPath`를 다른 값 열로 지정할 때도 애니메이션하려면 `shouldAnimateOnDataSourceSwap`를 true로 설정하십시오. 데이터의 모든 버전에서 각 링크를 식별하는 필드를 `linkIdMemberPath`로 설정하면, 각 리본이 자신의 이전 모양에서 애니메이션됩니다. 새 흐름이 숫자 축의 범위를 바꾸는 경우, 시리즈가 재조정 중에도 애니메이션되도록 차트의 `animateSeriesWhenAxisRangeChanges`를 true로 설정하십시오.
+
+다음 예제는 월마다 하나의 값 열을 유지합니다. 편집기에서 월을 선택하면 `linkValueMemberPath`이 그 월의 열로 설정되고, 흐름이 새 값으로 애니메이션됩니다.
+
+<Sample src="/charts/data-chart/sankey-monthly-flow" height={650} alt="{Platform} 월별 애니메이션 생키 차트" />
+
+```json-snippet source="/charts/data-chart/sankey-monthly-flow"
+{
+    "skipAlterDataCasing": true,
+    "descriptions": {
+        "content": {
+            "type": "DataChart",
+            "$type": "+doc:markup",
+            "animateSeriesWhenAxisRangeChanges": true,
+            "$animateSeriesWhenAxisRangeChanges": "+doc:markup",
+            "series": [
+                {
+                    "type": "SankeySeries",
+                    "$type": "+doc:markup",
+                    "linkSourceRef": "SankeyBudgetMonths",
+                    "linkIdMemberPath": "Id",
+                    "linkSourceMemberPath": "Source",
+                    "linkTargetMemberPath": "Target",
+                    "linkValueMemberPath": "July",
+                    "shouldAnimateOnDataSourceSwap": true,
+                    "transitionDuration": 1000
+                }
+            ]
+        }
+    }
+}
+```
+
+```json-snippet source="/charts/data-chart/sankey-monthly-flow" channel="handlersImports...handler"
+{
+    "skipAlterDataCasing": true,
+    "descriptions": {
+        "editor": {
+            "type": "PropertyEditorPanel",
+            "name": "editor",
+            "targetRef": "chart",
+            "descriptionType": "DataChart",
+            "properties": [
+                {
+                    "type": "PropertyEditorPropertyDescription",
+                    "propertyPath": "MonthHandler",
+                    "name": "MonthEditor",
+                    "label": "Month",
+                    "shouldOverrideDefaultEditor": true,
+                    "valueType": "EnumValue",
+                    "dropDownNames": [ "July", "August", "September" ],
+                    "dropDownValues": [ "July", "August", "September" ],
+                    "primitiveValue": "July",
+                    "changedRef": "EditorChangeSankeyMonth",
+                    "$changedRef": "+doc:handler"
+                }
+            ]
+        },
+        "content": {
+            "type": "DataChart",
+            "name": "chart"
+        }
+    }
+}
+```
+
+## {Platform} 방사형 생키 차트
+
+`RadialSankeySeries`는 종속성 휠 방식으로 원 주위에 같은 흐름을 그립니다. 단계는 각도가 되고, 노드 띠는 호가 되며, 리본은 그 사이를 가로지릅니다. `SankeySeries`와 같은 데이터와 같은 속성을 받지만, 카테고리 축과 숫자 축 대신 `CategoryAngleAxis`와 `NumericRadiusAxis`를 사용합니다. `CalloutLayer`의 `calloutCollisionMode`를 `RadialOutsideEnd`로 설정하면 노드 레이블을 원의 바깥쪽에 배치합니다.
+
+<Sample src="/charts/data-chart/radial-sankey-showcase" height={700} alt="{Platform} 방사형 생키 차트" />
+
+```json-snippet source="/charts/data-chart/radial-sankey-showcase"
+{
+    "descriptions": {
+        "content": {
+            "type": "DataChart",
+            "name": "chart",
+            "axes": [
+                {
+                    "type": "CategoryAngleAxis",
+                    "name": "angleAxis",
+                    "dataSourceRef": "SankeyIncomeStages",
+                    "label": "Stage"
+                },
+                {
+                    "type": "NumericRadiusAxis",
+                    "name": "radiusAxis"
+                }
+            ],
+            "series": [
+                {
+                    "type": "RadialSankeySeries",
+                    "name": "radialSankey",
+                    "angleAxisRef": "angleAxis",
+                    "radiusAxisRef": "radiusAxis",
+                    "linkSourceRef": "SankeyIncomeFlow",
+                    "linkSourceMemberPath": "Source",
+                    "linkTargetMemberPath": "Target",
+                    "linkValueMemberPath": "Value"
+                },
+                {
+                    "type": "CalloutLayer",
+                    "name": "nodeLabels",
+                    "targetSeriesRef": "radialSankey",
+                    "isAutoCalloutBehaviorEnabled": true,
+                    "useValueForAutoCalloutLabels": false,
+                    "calloutCollisionMode": "RadialOutsideEnd"
+                }
+            ]
+        }
+    }
+}
+```
+
+### 비례 단계
+
+`CategoryAngleAxis`를 사용하면 모든 단계가 원에서 같은 몫을 차지합니다. 단계의 크기를 다르게 하려면 `ProportionalCategoryAngleAxis`를 사용하고 `valueMemberPath`에 가중치 열의 이름을 지정하십시오. 각 단계가 원에서 차지하는 몫은 그 가중치에 비례합니다.
+
+<Sample src="/charts/data-chart/radial-sankey-proportional-stages" height={700} alt="{Platform} 비례 단계 방사형 생키 차트" />
+
+```json-snippet source="/charts/data-chart/radial-sankey-proportional-stages"
+{
+    "type": "DataChart",
+    "axes": [
+        {
+            "type": "ProportionalCategoryAngleAxis",
+            "$type": "+doc:markup",
+            "name": "angleAxis",
+            "dataSourceRef": "SankeyIncomeStageWeights",
+            "label": "Stage",
+            "valueMemberPath": "Weight"
+        }
+    ]
+}
+```
+
+강조된 값 오버레이는 방사형 시리즈에서도 같은 방식으로 작동합니다.
+
+<Sample src="/charts/data-chart/radial-sankey-highlighted-overlay" height={700} alt="{Platform} 방사형 생키 차트 강조된 값" />
+
+## 추가 리소스
+
+- [차트 주석](../features/chart-annotations.mdx)
+- [차트 강조 표시](../features/chart-highlighting.mdx)
+- [방사형 차트](radial-chart.mdx)
+- [트리맵](treemap-chart.mdx)
+
+## API 참조
+
+- `DataChart`
+- `SankeySeries`
+- `RadialSankeySeries`
+- `SankeyLayoutAdapter`
+- `FlowStyleMapping`
+- `CalloutLayer`
+- `DataToolTipLayer`
+- `DataLegend`
+- `CategoryXAxis`
+- `NumericYAxis`
+- `CategoryAngleAxis`
+- `ProportionalCategoryAngleAxis`
+- `NumericRadiusAxis`

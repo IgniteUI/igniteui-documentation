@@ -1,0 +1,350 @@
+<ComponentBlock for="Grid">
+
+---
+title: "Adicionando linhas no Angular Data Grid - Ignite UI for Angular"
+description: "Saiba como usar e personalizar o recurso integrado de adição de linhas com o Ignite UI for Angular. Recursos de CRUD e adição intuitiva de linhas no grid. Veja exemplos!"
+keywords: "adição de linhas, igniteui for angular, infragistics"
+license: commercial
+_language: pt-BR
+llms:
+  description: "O {ComponentTitle} oferece uma forma prática de realizar manipulações de dados por meio da adição de linhas inline e uma API poderosa para operações CRUD do Angular."
+---
+
+</ComponentBlock>
+
+<ComponentBlock for="TreeGrid, HierarchicalGrid, PivotGrid">
+
+---
+title: "Adicionando linhas no {ComponentTitle} do Angular - Ignite UI for Angular"
+description: "Saiba como usar e personalizar o recurso integrado de adição de linhas com o Ignite UI for Angular. Recursos de CRUD e adição intuitiva de linhas no grid. Veja exemplos!"
+keywords: "adição de linhas, igniteui for angular, infragistics"
+license: commercial
+_canonicalLink: grid/row-adding
+_language: pt-BR
+llms:
+  description: "O {ComponentTitle} oferece uma forma prática de realizar manipulações de dados por meio da adição de linhas inline e uma API poderosa para operações CRUD do Angular."
+---
+
+</ComponentBlock>
+
+
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+# Adicionando linhas no {ComponentTitle} do Angular
+
+<ComponentBlock for="Grid, HierarchicalGrid, PivotGrid">
+
+O {ComponentTitle} oferece uma forma prática de realizar manipulações de dados por meio da adição de linhas inline e uma API poderosa para operações CRUD do Angular. Adicione um componente [Action Strip](/action-strip) com ações de edição habilitadas no template do grid, passe o mouse sobre uma linha e use o botão fornecido ou pressione <kbd>ALT</kbd> + <kbd>+</kbd> para abrir a interface de adição de linha.
+</ComponentBlock>
+<ComponentBlock for="TreeGrid">
+
+O {ComponentTitle} oferece uma forma prática de realizar manipulações de dados por meio da adição de linhas inline e uma API poderosa para operações CRUD do Angular. Adicione um componente [Action Strip](/action-strip) com ações de edição habilitadas no template do grid, passe o mouse sobre uma linha e use o botão fornecido, pressione <kbd>ALT</kbd> + <kbd>+</kbd> para abrir a interface de adição de linha, ou <kbd>ALT</kbd> + <kbd>SHIFT</kbd> + <kbd>+</kbd> para abrir a interface de adição de um filho para a linha selecionada.
+</ComponentBlock>
+
+## Exemplo de adição de linhas do {ComponentTitle} do Angular
+
+O exemplo a seguir demonstra como habilitar a adição nativa de linhas no {ComponentTitle}. Alterar o valor de uma célula e depois clicar ou navegar para outra célula da mesma linha não atualiza o valor da linha até que seja confirmado pelo botão **Done**, ou descartado pelo botão **Cancel**.
+
+<ComponentBlock for="Grid">
+
+<Sample src="/grid/grid-add-row" height={520} alt="" />
+
+</ComponentBlock>
+<ComponentBlock for="TreeGrid">
+
+<Sample src="/tree-grid/treegrid-add-row" height={520} alt="Exemplo de adição de linhas do {ComponentTitle} do Angular" />
+
+</ComponentBlock>
+<ComponentBlock for="HierarchicalGrid">
+
+<Sample src="/hierarchical-grid/hierarchical-grid-add-row" height={510} alt="Exemplo de adição de linhas do {ComponentTitle} do Angular" />
+
+</ComponentBlock>
+
+## Uso da adição de linhas
+
+Para começar, importe o `{ComponentName}Module` no arquivo **app.module.ts**:
+
+```typescript
+// app.module.ts
+
+...
+import { {ComponentName}Module } from 'igniteui-angular';
+
+@NgModule({
+    ...
+    imports: [..., {ComponentName}Module],
+    ...
+})
+export class AppModule {}
+```
+
+Em seguida, defina um {ComponentTitle} com fonte de dados vinculada e <ApiLink type="{ComponentApiType}" member="rowEditable" label="rowEditable" /> definido como true, e um componente [Action Strip](../action-strip.mdx) com ações de edição habilitadas. A entrada <ApiLink type="GridEditingActions" member="addRow" label="addRow" /> controla a visibilidade do botão que abre a interface de adição de linhas.
+
+<ComponentBlock for="Grid">
+
+```html
+<igx-grid [data]="data" [primaryKey]="'ProductID'" [autoGenerate]="false" [rowEditable]="true">
+    <igx-column field="ProductID" header="Product ID" dataType="number"></igx-column>
+    <igx-column field="ReorderLevel" header="Reorder Level" dataType="number"></igx-column>
+    <igx-column field="ProductName" header="Product Name" dataType="string"></igx-column>
+    <igx-column field="UnitsInStock" header="Units In Stock" dataType="number"></igx-column>
+    <igx-column field="OrderDate" dataType="date"></igx-column>
+    <igx-column field="Discontinued" header="Discontinued" dataType="boolean"></igx-column>
+    
+    <igx-action-strip #actionstrip>
+        <igx-grid-editing-actions [addRow]="true"></igx-grid-editing-actions>
+    </igx-action-strip>
+</igx-grid>
+```
+
+</ComponentBlock>
+<ComponentBlock for="TreeGrid">
+
+```html
+<igx-tree-grid igxPreventDocumentScroll [data]="data"
+    primaryKey="ID" foreignKey="ParentID" [rowEditable]="true">
+    <igx-column [field]="'Name'" dataType="string"></igx-column>
+    <igx-column [field]="'Title'" dataType="string"></igx-column>
+    <igx-column [field]="'HireDate'" dataType="date"></igx-column>
+    <igx-column [field]="'OnPTO'" dataType="boolean" width="130px">
+        <ng-template igxCell let-cell="cell" let-val>
+            <igx-icon [color]="cell.row.data.OnPTO? 'red': 'green'">account_circle</igx-icon>
+        </ng-template>
+    </igx-column>
+    <igx-column [field]="'Age'" dataType="number"></igx-column>
+    <igx-action-strip #actionstrip>
+        <igx-grid-editing-actions [addRow]="true" [addChild]="actionstrip.context?.treeRow.level < 2">
+        </igx-grid-editing-actions>
+    </igx-action-strip>
+</igx-tree-grid>
+```
+
+</ComponentBlock>
+<ComponentBlock for="HierarchicalGrid">
+
+```html
+<igx-hierarchical-grid igxPreventDocumentScroll [data]="localdata"
+    [autoGenerate]="false" [primaryKey]="'Debut'" [rowEditable]="true">
+    <igx-column field="Artist" [dataType]="'string'"></igx-column>
+    <igx-column field="HasGrammyAward" header="Has Grammy Award?" [dataType]="'boolean'">
+    </igx-column>
+    <igx-column field="Debut" dataType="number"></igx-column>
+    <igx-column field="GrammyNominations" header="Grammy Nominations" dataType="number"></igx-column>
+    <igx-column field="GrammyAwards" header="Grammy Awards" dataType="number"></igx-column>
+
+    <igx-action-strip #actionstrip1>
+        <igx-grid-editing-actions [addRow]="true"></igx-grid-editing-actions>
+    </igx-action-strip>
+
+    <igx-row-island [key]="'Albums'" [autoGenerate]="false" [primaryKey]="'USBillboard200'" [rowEditable]="true">
+        <igx-column field="Album" [dataType]="'string'"></igx-column>
+        <igx-column field="LaunchDate" header="Launch Date" [dataType]="'date'"></igx-column>
+        <igx-column field="BillboardReview" header="Billboard Review" dataType="number"></igx-column>
+        <igx-column field="USBillboard200" header="US Billboard 200" dataType="number"></igx-column>
+        <igx-row-island [key]="'Songs'" [autoGenerate]="false" [primaryKey]="'Number'" [rowEditable]="true">
+            <igx-column field="Number" header="No." dataType="number"></igx-column>
+            <igx-column field="Title" [dataType]="'string'"></igx-column>
+            <igx-column field="Released" [dataType]="'date'"></igx-column>
+            <igx-column field="Genre" [dataType]="'string'"></igx-column>
+
+            <igx-action-strip #actionstrip3>
+                <igx-grid-editing-actions [addRow]="true"></igx-grid-editing-actions>
+            </igx-action-strip>
+
+        </igx-row-island>
+
+        <igx-action-strip #actionstrip2>
+            <igx-grid-editing-actions [addRow]="true"></igx-grid-editing-actions>
+        </igx-action-strip>
+    </igx-row-island>
+</igx-hierarchical-grid>
+```
+
+</ComponentBlock>
+
+<DocsAside type="info">
+Definir a chave primária é obrigatório para as operações de adição de linhas.
+</DocsAside>
+
+<DocsAside type="info">
+Por padrão, todas as colunas, exceto a chave primária, são editáveis na interface de adição de linhas. Se você quiser desabilitar a edição de uma coluna específica, precisa definir a entrada <ApiLink type="Column" member="editable" label="editable" /> da coluna como `false`.
+</DocsAside>
+
+<ComponentBlock for="Grid, HierarchicalGrid, PivotGrid">
+
+<DocsAside type="info">
+A entrada IgxGridEditingActions que controla a visibilidade do botão de adicionar linha pode usar o contexto do action strip (do tipo <ApiLink type="RowType" kind="interface" />) para ajustar finamente os registros para os quais o botão é exibido.
+</DocsAside>
+</ComponentBlock>
+<ComponentBlock for="TreeGrid">
+
+<DocsAside type="info">
+As entradas IgxGridEditingActions que controlam a visibilidade dos botões de adicionar linha e adicionar filho podem usar o contexto do action strip (do tipo <ApiLink type="RowType" kind="interface" />) para ajustar finamente os registros para os quais os botões são exibidos.
+</DocsAside>
+</ComponentBlock>
+
+O <ApiLink type="BaseTransactionService" /> interno é fornecido automaticamente para {ComponentTitle}. Ele mantém as alterações pendentes de célula até que o estado da linha seja enviado ou cancelado.
+
+## Iniciando a adição de linhas programaticamente
+
+{ComponentTitle} permite abrir a interface de adição de linha programaticamente, usando dois métodos públicos diferentes. Um aceita um ID de linha para especificar a linha abaixo da qual a interface deve aparecer, e outro funciona por índice. Você pode usar esses métodos para abrir a interface em qualquer ponto da visualização de dados atual. Mudar a página ou especificar uma linha que, por exemplo, esteja filtrada não é suportado.
+
+<ComponentBlock for="Grid, HierarchicalGrid, PivotGrid">
+Usar `beginAddRowById` exige que você especifique a linha a ser usada como contexto da operação pelo seu rowID (PK). O método então funciona como se o usuário final tivesse clicado no botão de adicionar linha do action strip para a linha especificada, abrindo a interface abaixo dela. Você também pode fazer a interface aparecer como a primeira linha do grid, passando `null` como primeiro parâmetro.
+</ComponentBlock>
+<ComponentBlock for="TreeGrid">
+Usar `beginAddRowById` exige que você especifique a linha a ser usada como contexto da operação pelo seu rowID (PK). O método então funciona como se o usuário final tivesse clicado no botão de adicionar linha do action strip para a linha especificada, abrindo a interface abaixo dela. O segundo parâmetro controla se a linha é adicionada como filha da linha de contexto ou como irmã. Você também pode fazer a interface aparecer como a primeira linha do grid, passando `null` como primeiro parâmetro.
+</ComponentBlock>
+
+<ComponentBlock for="Grid, HierarchicalGrid, PivotGrid">
+
+```typescript
+this.grid.beginAddRowById('ALFKI');  // spawns the add row UI under the row with PK 'ALFKI'
+this.grid.beginAddRowById(null);     // spawns the add row UI as the first record
+```
+
+</ComponentBlock>
+<ComponentBlock for="TreeGrid">
+
+```typescript
+this.treeGrid.beginAddRowById('ALFKI', true);   // spawns the add row UI to add a child for the row with PK 'ALFKI'
+this.treeGrid.beginAddRowById(null);            // spawns the add row UI as the first record
+```
+
+</ComponentBlock>
+
+<ComponentBlock for="Grid, HierarchicalGrid, PivotGrid">
+
+O método `beginAddRowByIndex` funciona de forma semelhante, mas exige que você especifique o índice _em_ que a interface deve aparecer. Os valores permitidos vão de 0 até o tamanho da visualização de dados menos 1.
+
+```typescript
+this.grid.beginAddRowByIndex(10);   // spawns the add row UI at index 10
+this.grid.beginAddRowByIndex(0);    // spawns the add row UI as the first record
+```
+
+</ComponentBlock>
+<ComponentBlock for="TreeGrid">
+
+O método `beginAddRowByIndex` funciona de forma semelhante, mas a linha usada como contexto é especificada pelo índice.
+
+```typescript
+this.treeGrid.beginAddRowByIndex(10, true);   // spawns the add row UI to add a child for the row at index 10
+this.treeGrid.beginAddRowByIndex(null);       // spawns the add row UI as the first record
+```
+
+</ComponentBlock>
+
+## Posicionamento
+
+- A interface de adição de linha na posição padrão fica abaixo da linha para a qual o usuário final clicou no botão de adicionar linha.
+
+- O {ComponentTitle} rola automaticamente para exibir totalmente a interface de adição de linha.
+
+- O overlay da interface de adição de linha mantém a sua posição durante a rolagem.
+
+## Comportamento
+
+A interface de adição de linha tem o mesmo comportamento da edição de linha, pois foi projetada para oferecer uma experiência de edição consistente aos usuários finais. Consulte o tópico [{ComponentTitle} Row Editing](/{igPath}/row-editing) para mais informações.
+
+Depois que uma nova linha é adicionada pela interface de adição de linha, a sua posição e/ou visibilidade é determinada pelo estado de ordenação, filtragem e agrupamento do {ComponentTitle}. Em um {ComponentTitle} que não tenha nenhum desses estados aplicados, ela aparece como o último registro. Um snackbar é exibido brevemente, contendo um botão que o usuário final pode usar para rolar o {ComponentTitle} até a posição da linha, caso ela não esteja visível.
+
+## Navegação pelo teclado
+
+- <kbd>ALT</kbd> + <kbd>+</kbd> - Entra no modo de edição para adicionar uma linha
+<ComponentBlock for="TreeGrid">
+
+- <kbd>ALT</kbd> + <kbd>SHIFT</kbd> + <kbd>+</kbd> - Entra no modo de edição para adicionar um filho
+</ComponentBlock>
+
+- <kbd>ESC</kbd> sai do modo de adição de linha sem enviar nenhuma alteração
+
+- <kbd>TAB</kbd> move o foco de uma célula editável da linha para a próxima e da célula editável mais à direita para os botões CANCEL e DONE. A navegação a partir do botão DONE vai para a célula editável mais à esquerda da linha que está sendo editada.
+
+## Integração de recursos
+
+- Qualquer operação de adição de linha será interrompida se a visualização de dados do {ComponentTitle} for modificada. Todas as alterações feitas pelo usuário final são enviadas. Operações que alteram a visualização de dados incluem, entre outras, ordenação, agrupamento, filtragem, paginação etc.
+
+- Os resumos são atualizados depois que a operação de adição de linha termina. O mesmo vale para os outros recursos que dependem da visualização de dados, como ordenação, filtragem etc.
+<ComponentBlock for="HierarchicalGrid">
+
+- Ao abrir a interface para Hierarchical Grids, qualquer layout filho atualmente expandido para a linha para a qual o usuário final clicou no botão de adicionar linha é recolhido.
+</ComponentBlock>
+
+
+## Personalizando o overlay de adição de linhas
+
+### Personalizando o texto
+
+Personalizar o texto do overlay de adição de linhas é possível usando `igxRowAddTextDirective`.
+
+```html
+<ng-template igxRowAddText>
+ Adding Row
+</ng-template>
+ ```
+
+### Personalizando botões
+
+Personalizar os botões do overlay de edição de linha é possível usando `igxRowEditActionsDirective`.
+Se você quiser que os botões façam parte da navegação por teclado, cada um deles deve ter o `igxRowEditTabStopDirective`.
+
+ ```html
+ <ng-template igxRowEditActions let-endRowEdit>
+ <button igxButton igxRowEditTabStop (click)="endRowEdit(false)">Cancel</button>
+ <button igxButton igxRowEditTabStop (click)="endRowEdit(true)">Apply</button>
+</ng-template>
+ ```
+
+<DocsAside type="info">
+Usar a diretiva `igxRowEditActions` alterará as ações de edição dos botões dos overlays de edição e de adição.
+</DocsAside>
+
+## Cenários remotos
+
+Na maioria dos cenários de dados remotos, a atribuição da chave primária acontece na requisição de criação ao servidor. Nesse caso, os registros adicionados no cliente não terão o valor final da chave primária até serem salvos no banco de dados do servidor. Nesse caso, a forma recomendada de tratar essa atualização no {ComponentTitle} é a seguinte:
+
+- Se o {ComponentTitle} não usar transações.
+
+    Depois que a requisição de criação for concluída com sucesso e retornar os dados do registro adicionado, você pode substituir o id desse registro na instância local do registro de dados.
+
+- Se o {ComponentTitle} usar transações.
+
+    Depois que a requisição de criação ou de atualização em lote for concluída com sucesso e retornar as instâncias de registro adicionadas (com seus ids gerados pelo banco de dados), as transações ADD relacionadas devem ser removidas do log de transações usando o método de API <ApiLink kind="interface" type="TransactionService" member="clear" />. Isso é necessário porque a transação local terá um campo id gerado, que pode ser diferente do criado no banco de dados; por isso, elas devem ser removidas. Depois, você pode adicionar à instância local de dados os registros passados na resposta.
+
+Isso garantirá que os ids gerados remotamente sejam sempre refletidos nos dados locais, e que as operações subsequentes de atualização/exclusão tenham como alvo os ids de registro corretos.
+
+## Estilização
+
+A interface de adição de linha é composta pelos botões nas `IgxActionStrip` ações de edição, pelos editores e overlay de edição, além do snackbar que permite ao usuário final rolar até a linha recém-adicionada. Para estilizar esses componentes, consulte os guias completos nos respectivos tópicos:
+
+- [Edição de linha do {ComponentTitle}](/{igPath}/row-editing#estilização)
+- [IgxSnackbar](/snackbar#estilização)
+- [IgxActionStrip](/action-strip#estilização)
+
+## Referências da API
+- <ApiLink type="{ComponentApiType}" member="rowEditable" label="rowEditable" />
+- <ApiLink type="{ComponentApiType}" member="rowEditEnter" label="rowEditEnter" />
+- <ApiLink type="{ComponentApiType}" member="rowEdit" label="rowEdit" />
+- <ApiLink type="{ComponentApiType}" member="rowEditDone" label="rowEditDone" />
+- <ApiLink type="{ComponentApiType}" member="rowEditExit" label="rowEditExit" />
+- <ApiLink type="{ComponentApiType}" member="endEdit" label="endEdit" />
+- <ApiLink type="{ComponentApiType}" member="primaryKey" label="primaryKey" />
+- <ApiLink type="{ComponentApiType}" />
+- <ApiLink type="ActionStrip" />
+- <ApiLink type="GridEditingActions" />
+## Recursos adicionais
+
+
+- [Visão geral do {ComponentTitle}](/{igPath}/{ComponentMainTopic})
+<ComponentBlock for="Grid, TreeGrid, HierarchicalGrid">
+- [Edição do {ComponentTitle}](/{igPath}/editing)
+</ComponentBlock>
+- [{ComponentTitle} Transactions](/{igPath}/batch-editing)
+
+Nossa comunidade é ativa e sempre receptiva a novas ideias.
+
+- [Ignite UI for Angular **Fóruns**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

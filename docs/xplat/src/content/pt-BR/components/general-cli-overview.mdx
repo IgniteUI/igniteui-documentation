@@ -1,0 +1,594 @@
+﻿---
+title: "{Platform} CLI - {ProductName}"
+description: "O CLI {ProductName} cria a estrutura de projetos {Platform}, adiciona visões de componentes pré-configuradas e conecta assistentes de codificação com IA por meio de um servidor MCP integrado."
+keywords: "{Platform} cli, interface de linha de comando, {ProductName}, Infragistics"
+mentionedTypes: []
+license: MIT
+last_updated: "2026-10-01"
+_language: pt-BR
+llms:
+  description: "O Ignite UI CLI (igniteui-cli) é uma ferramenta de linha de comando global e independente para criar e montar a estrutura de aplicativos {Platform} com {ProductName}."
+---
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+
+
+# Ignite UI CLI for {Platform}
+
+O [Ignite UI CLI](https://github.com/IgniteUI/igniteui-cli) (`igniteui-cli`) é uma ferramenta de linha de comando global e independente para criar e montar a estrutura de aplicativos {Platform} com {ProductName}. Ele oferece modelos de projeto pré-configurados para {ProductName}, um assistente guiado, passo a passo, para a primeira configuração, comandos `new` e `add` não interativos para fluxos de trabalho automatizados, um servidor de desenvolvimento e um servidor MCP integrado para conectar assistentes de codificação com IA à documentação ao vivo de {ProductName}.
+
+O Ignite UI CLI não substitui as ferramentas de build do seu framework: os projetos que ele cria são aplicativos {Platform} padrão, que continuam totalmente compatíveis com os comandos e a configuração nativos de build depois da montagem.
+
+<PlatformBlock for="React">
+O Ignite UI CLI não substitui o Vite nem outras ferramentas do React: os projetos criados com o CLI são aplicativos React padrão baseados em Vite, e continuam totalmente compatíveis com os scripts do npm e os comandos do Vite depois da montagem.
+</PlatformBlock>
+
+## Instale o Ignite UI CLI
+
+Instale o Ignite UI CLI globalmente usando npm:
+
+```bash
+npm install -g igniteui-cli
+```
+
+Ou, usando yarn:
+
+```cmd
+yarn global add igniteui-cli
+```
+
+Verifique a instalação:
+
+```cmd
+ig version
+```
+
+## Criar um novo projeto
+
+O Ignite UI CLI oferece dois modos para criar projetos: um assistente interativo guiado e um comando direto com argumentos.
+
+### Use o assistente guiado
+
+O assistente guiado é o ponto de partida recomendado para novos projetos. Ele pede que você escolha um framework, um tipo de projeto, um modelo e um tema, e então monta e faz o commit do projeto automaticamente.
+
+Para ativar o assistente, execute:
+
+```cmd
+ig
+```
+
+ou:
+
+```cmd
+ig new
+```
+
+Para um passo a passo das opções do assistente, consulte [Guia passo a passo usando o Ignite UI CLI](./general-step-by-step-guide-using-cli.mdx).
+
+### Crie um projeto diretamente
+
+<PlatformBlock for="React">
+Para criar um projeto React de forma não interativa, informe `react` como framework e `igr-ts` como tipo de projeto:
+
+```cmd
+ig new <project-name> --framework=react --template=side-nav
+```
+
+Os seguintes modelos de projeto base estão disponíveis para React:
+
+| ID do template   | Descrição                                                                 |
+| :------------ | :-------------------------------------------------------------------------- |
+| empty         | Estrutura de projeto mínima, sem visões predefinidas. A autenticação não está disponível para este modelo. |
+| side-nav      | Estrutura de projeto com uma gaveta de navegação lateral. Oferece suporte à autenticação como complemento (veja abaixo). |
+| side-nav-mini | Estrutura de projeto com uma gaveta de navegação lateral compacta. Oferece suporte à autenticação como complemento (veja abaixo). |
+
+Ao usar o assistente interativo, selecionar `side-nav` ou `side-nav-mini` dispara uma pergunta adicional sobre adicionar autenticação. Selecionar `empty` pula a pergunta de autenticação. Os seguintes IDs de modelo são gerados e também podem ser usados diretamente com `ig new` para a criação não interativa - eles não aparecem na lista de modelos do assistente:
+
+| ID do template        | Descrição                                      |
+| :----------------- | :----------------------------------------------- |
+| side-nav-auth      | Navegação lateral estendida com autenticação.    |
+| side-nav-mini-auth | Navegação lateral mini estendida com autenticação. |
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+Para criar um projeto Web Components de forma não interativa, informe `webcomponents` como framework e `igc-ts` como tipo de projeto:
+
+```cmd
+ig new <project-name> --framework=webcomponents --type=igc-ts --template=side-nav
+```
+
+Os seguintes modelos de projeto base estão disponíveis para Web Components:
+
+| ID do template   | Descrição                                                                 |
+| :------------ | :-------------------------------------------------------------------------- |
+| empty         | Estrutura de projeto mínima, sem visões predefinidas. A autenticação não está disponível para este modelo. |
+| side-nav      | Estrutura de projeto com uma gaveta de navegação lateral. Oferece suporte à autenticação como complemento (veja abaixo). |
+| side-nav-mini | Estrutura de projeto com uma gaveta de navegação lateral compacta. Oferece suporte à autenticação como complemento (veja abaixo). |
+
+Ao usar o assistente interativo, selecionar `side-nav` ou `side-nav-mini` dispara uma pergunta adicional sobre adicionar autenticação. Selecionar `empty` pula a pergunta de autenticação. Os seguintes IDs de modelo são gerados e também podem ser usados diretamente com `ig new` para a criação não interativa - eles não aparecem na lista de modelos do assistente:
+
+| ID do template        | Descrição                                      |
+| :----------------- | :----------------------------------------------- |
+| side-nav-auth      | Navegação lateral estendida com autenticação.    |
+| side-nav-mini-auth | Navegação lateral mini estendida com autenticação. |
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+Os projetos Blazor são montados pela **CLI do .NET**, por isso é necessário o **.NET SDK 10.0 ou mais recente**. No primeiro uso, o CLI instala automaticamente o pacote
+[`IgniteUI.Blazor.Templates`](https://www.nuget.org/packages/IgniteUI.Blazor.Templates), caso ainda não esteja presente.
+
+Para criar um projeto Blazor de forma não interativa, informe `blazor` como framework e escolha um modelo de hospedagem:
+
+```cmd
+ig new <project-name> --framework blazor --hosting Server
+```
+
+Um exemplo mais completo, que também define o tema, a variante do tema e ignora a restauração de pacotes:
+
+```cmd
+ig new MyApp --framework blazor --hosting Auto --theme material --variant dark --skip-install
+```
+
+### Opções do Blazor
+
+| Opção            | Alias | Valores                                          | Padrão     | Descrição                                                        |
+| :---------------- | :---- | :---------------------------------------------- | :---------- | :----------------------------------------------------------------- |
+| `--hosting`       |       | `Server`, `Wasm`, `Auto`                        | `Server`    | Modelo de hospedagem do Blazor (somente Blazor).                                |
+| `--theme`         | `-th` | `bootstrap`, `material`, `fluent`, `indigo`     | `bootstrap` | Tema do Ignite UI aplicado ao projeto.                            |
+| `--variant`       |       | `light`, `dark`                                 | `light`     | Variante de cor do tema (somente Blazor).                                |
+| `--skip-install`  | `-si` | —                                               | `false`     | Ignora a restauração de pacotes depois da montagem.                       |
+| `--skip-git`      | `-sg` | —                                               | `false`     | Não inicializa um repositório Git para o projeto.               |
+
+> [!NOTE]
+`--hosting` e `--variant` são válidos somente para o framework Blazor e são ignorados pelos outros frameworks.
+
+### Modelos de projeto base
+
+Os seguintes modelos de projeto base estão disponíveis para Blazor:
+
+| ID do template | Descrição                                                                      |
+| :---------- | :------------------------------------------------------------------------------- |
+| empty       | Blazor Web App mínimo, montado pelo pacote `IgniteUI.Blazor.Templates`.   |
+
+Depois de criar o projeto, execute-o com as ferramentas padrão do .NET:
+
+```cmd
+cd <project-name>
+dotnet run
+```
+
+</PlatformBlock>
+
+Os seguintes argumentos estão disponíveis ao criar um projeto:
+
+| Argumento         | Alias  | Descrição                                                                                                           |
+| :--------------- | :----- | :-------------------------------------------------------------------------------------------------------------------- |
+| `name`           | `-n`   | O nome da aplicação. A aplicação é criada dentro de um diretório com o mesmo nome.                        |
+| `--framework`    | `-f`   | O framework do projeto gerado. Padrão: `jquery`. Suportados: `jquery`, `angular`, `react`, `webcomponents`. |
+| `--type`         | `-t`   | O tipo de projeto para o framework selecionado. Use `igr-ts` para React ou `igc-ts` para Web Components.                   |
+| `--template`     |        | O modelo de projeto a ser usado. Consulte as tabelas de modelos acima para ver as opções disponíveis por framework.                       |
+| `--skip-git`     | `--sg` | Ignora a inicialização automática do repositório Git. Usa o valor de configuração global `skip-git` se for omitido.                    |
+| `--skip-install` | `--si` | Ignora a instalação dos pacotes npm na criação do projeto.                                                                   |
+| `--assistants`   |        | Configura os servidores MCP para os assistentes de codificação com IA especificados. Valores: `generic`, `vscode`, `cursor`, `gemini`, `junie`, `none`. |
+| `--agents`       |        | Copia os arquivos de Agent Skill para os diretórios de skills dos agentes especificados. Valores: `generic`, `claude`, `copilot`, `cursor`, `codex`, `windsurf`, `gemini`, `junie`, `none`. |
+
+<PlatformBlock for="React, WebComponents, Blazor">
+
+### Configuração de IA durante a criação do projeto
+
+Quando as opções `--agents` e `--assistants` não são informadas, o `ig new` pergunta se você quer configurar as ferramentas de IA como parte do fluxo de criação do projeto. Depois de montar o projeto, o assistente exibe as seguintes perguntas:
+
+```bash
+? Which AI coding assistants do you want to configure MCP servers for? (Press <space> to select)
+❯◉ VS Code (GitHub Copilot)
+ ◉ Cursor
+ ◯ Generic (.mcp.json)
+ ◯ Gemini CLI
+ ◯ JetBrains (AI Assistant)
+ ◯ None
+```
+
+```bash
+? Which AI agents should receive skill files? (Press <space> to select)
+❯◉ GitHub Copilot (.agents/skills/)
+ ◉ Claude (.claude/skills/)
+ ◉ Cursor (.cursor/rules/)
+ ◯ Codex (.codex/)
+ ◯ Windsurf (.windsurfrules)
+ ◯ Gemini CLI (.gemini/)
+ ◯ JetBrains Junie (.junie/guidelines/)
+ ◯ None
+```
+
+Navegue pelas opções com as teclas de seta, alterne as seleções com a BARRA DE ESPAÇO e confirme com ENTER.
+
+Para pular totalmente as perguntas de configuração de IA durante a criação do projeto, informe `--assistants none --agents none`:
+
+```cmd
+ig new my-app --framework=react --template=side-nav --assistants none --agents none
+```
+
+Para configurar automaticamente as ferramentas de IA sem perguntas, especifique os valores desejados:
+
+```cmd
+ig new my-app --framework=react --template=side-nav --assistants vscode --agents copilot claude
+```
+
+</PlatformBlock>
+
+## Adicionar um template de componente
+
+Depois de criar um projeto, você pode adicionar outras visões de componentes a qualquer momento. Executar `ig add` sem argumentos abre um navegador de modelos interativo:
+
+```cmd
+ig add
+```
+
+Para adicionar diretamente um modelo de componente específico, informe o ID do modelo e um nome para o novo componente:
+
+```cmd
+ig add [component-template] [component-name]
+```
+
+Por exemplo, para adicionar um componente de grade de dados chamado `MyGrid`:
+
+```cmd
+ig add grid MyGrid
+```
+
+Para listar todos os modelos disponíveis no projeto atual:
+
+```cmd
+ig list
+```
+
+A lista é sensível ao projeto e reflete o framework e o tipo do projeto.
+
+Para um passo a passo guiado do assistente de adição de componentes, consulte [Guia passo a passo usando o Ignite UI CLI](./general-step-by-step-guide-using-cli.mdx#adicionar-visão).
+
+<DocsAside type="info">
+Seu arquivo de rotas será atualizado com o caminho para a nova página gerada. Por exemplo, um componente chamado `MyGrid` poderá ser acessado em `/my-grid`.
+</DocsAside>
+
+<PlatformBlock for="React">
+Os seguintes modelos de componente estão disponíveis para React:
+
+| Nome               | Modelo de componente |
+| :----------------- | :----------------- |
+| Accordion          | accordion          |
+| Avatar             | avatar             |
+| Badge              | badge              |
+| Banner             | banner             |
+| Breadcrumbs        | breadcrumbs        |
+| Bullet Graph       | bullet-graph       |
+| Botão             | button             |
+| Grupo de botões       | button-group       |
+| Calendário           | calendar           |
+| Card               | card               |
+| Carrossel           | carousel           |
+| Category Chart     | category-chart     |
+| Chat               | chat               |
+| Caixa de seleção           | checkbox           |
+| Chip               | chip               |
+| Progresso circular  | circular-progress  |
+| Color Picker       | color-picker       |
+| Color Picker Alpha | color-picker-alpha |
+| Combo              | combo              |
+| Date Picker        | date-picker        |
+| Date Range Picker  | date-range-picker  |
+| Date Time Input    | date-time-input    |
+| Diálogo             | dialog             |
+| Divisor            | divider            |
+| Doughnut Chart     | doughnut-chart     |
+| Dropdown           | dropdown           |
+| Expansion Panel    | expansion-panel    |
+| File Input         | file-input         |
+| Financial Chart    | financial-chart    |
+| Form               | form               |
+| Grid               | grid               |
+| Hierarchical Grid  | hierarchical-grid  |
+| Destaque          | highlight          |
+| Ícone               | icon               |
+| Botão de ícone        | icon-button        |
+| Input              | input              |
+| Linear Gauge       | linear-gauge       |
+| Progresso linear    | linear-progress    |
+| Lista               | list               |
+| Mask Input         | mask-input         |
+| Gaveta de navegação         | nav-drawer         |
+| Navbar             | navbar             |
+| Pie Chart          | pie-chart          |
+| Pivot Grid         | pivot-grid         |
+| QR Code            | qr-code            |
+| Radial Gauge       | radial-gauge       |
+| Radio Group        | radio-group        |
+| Slider de intervalo       | range-slider       |
+| Rating             | rating             |
+| Ripple             | ripple             |
+| Select             | select             |
+| Slider             | slider             |
+| Snackbar           | snackbar           |
+| Splitter           | splitter           |
+| Stepper            | stepper            |
+| Switch             | switch             |
+| Tabs               | tabs               |
+| Text Area          | text-area          |
+| Theme Provider     | theme-provider     |
+| Tile Manager       | tile-manager       |
+| Toast              | toast              |
+| Toggle Button      | toggle-button      |
+| Tooltip            | tooltip            |
+| Tree               | tree               |
+| Tree Grid          | tree-grid          |
+| Virtual Scroll     | virtual-scroll     |
+
+O modelo `financial-chart` não aparece no assistente interativo `ig add`. Adicione-o diretamente com `ig add financial-chart [component-name]`.
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+Os seguintes modelos de componente estão disponíveis para Web Components:
+
+| Nome               | Modelo de componente |
+| :----------------- | :----------------- |
+| Accordion          | accordion          |
+| Avatar             | avatar             |
+| Badge              | badge              |
+| Banner             | banner             |
+| Breadcrumb         | breadcrumb         |
+| Botão             | button             |
+| Grupo de botões       | button-group       |
+| Calendário           | calendar           |
+| Card               | card               |
+| Carrossel           | carousel           |
+| Carrossel vertical  | carousel-vertical  |
+| Chat               | chat               |
+| Caixa de seleção           | checkbox           |
+| Chip               | chip               |
+| Progresso circular  | circular-progress  |
+| Color Picker       | color-picker       |
+| Color Picker Alpha | color-picker-alpha |
+| Combo              | combo              |
+| Grupos de combo       | combo-groups       |
+| Date Picker        | date-picker        |
+| Date Range Picker  | date-range-picker  |
+| Date Time Input    | date-time-input    |
+| Diálogo             | dialog             |
+| Formulário em diálogo        | dialog-form        |
+| Divisor            | divider            |
+| Dock Manager       | dock-manager       |
+| Dropdown           | dropdown           |
+| Expansion Panel    | expansion-panel    |
+| File Input         | file-input         |
+| Financial Chart    | financial-chart    |
+| Form               | form               |
+| Grid               | grid               |
+| Edição de grade       | grid-editing       |
+| Resumos da grade     | grid-summaries     |
+| Hierarchical Grid  | hierarchical-grid  |
+| Destaque          | highlight          |
+| Ícone               | icon               |
+| Botão de ícone        | icon-button        |
+| Input              | input              |
+| Linear Gauge       | linear-gauge       |
+| Progresso linear    | linear-progress    |
+| Lista               | list               |
+| Mask Input         | mask-input         |
+| Formatos de máscara de entrada | mask-input-formats |
+| Gaveta de navegação         | nav-drawer         |
+| Navbar             | navbar             |
+| Pie Chart          | pie-chart          |
+| Pivot Grid         | pivot-grid         |
+| QR Code            | qr-code            |
+| Radial Gauge       | radial-gauge       |
+| Radio Group        | radio-group        |
+| Slider de intervalo       | range-slider       |
+| Rating             | rating             |
+| Ripple             | ripple             |
+| Select             | select             |
+| Grupos de select      | select-groups      |
+| Slider             | slider             |
+| Snackbar           | snackbar           |
+| Ação do snackbar    | snackbar-action    |
+| Splitter           | splitter           |
+| Splitter vertical  | splitter-vertical  |
+| Stepper            | stepper            |
+| Stepper vertical   | stepper-vertical   |
+| Switch             | switch             |
+| Tabs               | tabs               |
+| Text Area          | text-area          |
+| Theme Provider     | theme-provider     |
+| Tile Manager       | tile-manager       |
+| Toast              | toast              |
+| Toggle Button      | toggle-button      |
+| Tooltip            | tooltip            |
+| Tree               | tree               |
+| Tree Grid          | tree-grid          |
+| Virtual Scroll     | virtual-scroll     |
+
+</PlatformBlock>
+
+## Execute a aplicação
+
+O comando `start` compila a aplicação, inicia um servidor web local e a abre no seu navegador padrão:
+
+```cmd
+ig start
+```
+
+<PlatformBlock for="React">
+### Usando o Vite
+
+O aplicativo React gerado pelo Ignite UI CLI usa o [Vite](https://vitejs.dev/) como ferramenta de build e oferece builds rápidos de desenvolvimento e substituição de módulo em tempo de execução (HMR). Para iniciar o servidor de desenvolvimento do Vite diretamente, sem o wrapper do CLI:
+
+```cmd
+npm run dev
+```
+
+O servidor de desenvolvimento do Vite inicia em `http://localhost:5173` por padrão. Use `ig start` quando quiser que o CLI cuide da compilação e da inicialização em um único comando.
+</PlatformBlock>
+
+<PlatformBlock for="React, WebComponents, Blazor">
+
+## Integração com assistentes de IA (MCP)
+
+O Ignite UI CLI inclui um **servidor MCP (Model Context Protocol)** integrado, que conecta assistentes de codificação com IA - GitHub Copilot, Claude, Cursor e outros - diretamente à documentação e às referências de API dos componentes {ProductName}. Depois de configurado, o seu assistente de IA pode montar projetos, adicionar e modificar componentes, pesquisar na documentação, consultar detalhes da API e gerar código {ProductName} preciso, sem sair do seu editor.
+
+O servidor MCP do CLI é iniciado por meio de `npx`, sem exigir instalação global:
+
+```cmd
+npx -y igniteui-cli mcp
+```
+
+Ou, se você tiver o Ignite UI CLI instalado globalmente:
+
+```cmd
+ig mcp
+```
+
+<PlatformBlock for="React, WebComponents, Blazor">
+
+### Configuração rápida com `ig ai-config`
+
+O comando `ai-config` configura os servidores MCP, copia os arquivos de skill específicos do framework para o diretório de skills de cada agente e configura os arquivos de instruções, tudo em uma única etapa. Execute-o na raiz do seu projeto:
+
+```cmd
+npx igniteui-cli ai-config
+```
+
+Se você tiver o CLI instalado globalmente:
+
+```cmd
+ig ai-config
+```
+
+<DocsAside type="info">
+Sem fixar a versão, `npx` pode baixar uma versão mais antiga do CLI que não reconhece o subcomando `ai-config` e, em vez disso, iniciará um prompt interativo de criação de projeto, criando um novo projeto dentro do seu projeto existente. Certifique-se de ter instalado a versão 16.x do CLI.
+</DocsAside>
+
+#### Modo interativo
+
+Se nenhum parâmetro for informado, o comando entra no modo interativo. Primeiro, você é perguntado quais assistentes de codificação com IA devem receber a configuração do servidor MCP:
+
+```bash
+? Which AI coding assistants do you want to configure MCP servers for? (Press <space> to select)
+❯◉ VS Code (GitHub Copilot)       - writes .vscode/mcp.json
+ ◉ Cursor                          - writes .cursor/mcp.json
+ ◯ Generic (.mcp.json)             - writes .mcp.json
+ ◯ Gemini CLI                      - writes .gemini/settings.json
+ ◯ JetBrains (AI Assistant)        - writes .junie/mcp.json
+ ◯ None
+```
+
+Em seguida, você é perguntado quais agentes de IA devem receber os arquivos de skill:
+
+```bash
+? Which AI agents should receive skill files? (Press <space> to select)
+❯◉ GitHub Copilot (.agents/skills/) - copies skills to .agents/skills/
+ ◉ Claude (.claude/skills/)          - copies skills to .claude/skills/
+ ◉ Cursor (.cursor/rules/)           - copies skills to .cursor/rules/
+ ◯ Codex (.codex/)                   - copies skills to .codex/
+ ◯ Windsurf (.windsurfrules)         - copies skills to .windsurfrules/
+ ◯ Gemini CLI (.gemini/)             - copies skills to .gemini/
+ ◯ JetBrains Junie (.junie/)         - copies skills to .junie/guidelines/
+ ◯ None
+```
+
+Navegue pelas opções com as teclas de seta, alterne as seleções com a BARRA DE ESPAÇO e confirme com ENTER.
+
+#### Modo não interativo
+
+Use `--assistants` para escolher quais assistentes de codificação recebem a configuração MCP, e `--agents` para escolher quais agentes recebem os arquivos de skill:
+
+```cmd
+ig ai-config --assistants vscode --agents copilot
+```
+
+Direcione vários assistentes e agentes em uma única execução:
+
+```cmd
+ig ai-config --assistants generic vscode --agents claude copilot cursor
+```
+
+| Opção | Valores | Padrão |
+|:-----|:-------|:--------|
+| `--assistants` | `generic`, `vscode`, `cursor`, `gemini`, `junie`, `none` | Solicitado de forma interativa |
+| `--agents` | `generic`, `claude`, `copilot`, `cursor`, `codex`, `windsurf`, `gemini`, `junie`, `none` | Solicitado de forma interativa |
+
+#### Iniciar os servidores
+
+Depois que o comando terminar, inicie os servidores MCP no seu cliente de IA. Os servidores estão configurados, mas ainda não estão em execução - o cliente precisa iniciar cada servidor antes que as ferramentas fiquem disponíveis para o agente.
+
+**VS Code com GitHub Copilot:** abra `.vscode/mcp.json`. O VS Code exibe um botão **Start** em linha acima de cada entrada de servidor. Clique em **Start** para `igniteui` e `igniteui-theming`. Depois de iniciados, o VS Code mostra a quantidade de ferramentas disponíveis ao lado de cada servidor (por exemplo, _"13 tools | 1 prompt"_). Como alternativa, execute **MCP: List Servers** na Paleta de Comandos (`Ctrl+Shift+P` / `Cmd+Shift+P`), selecione cada servidor e escolha **Start**.
+
+Para as instruções completas de configuração em todos os clientes de IA e a ligação das Agent Skills, consulte [Agent Skills](./ai/skills.mdx) e [Ignite UI CLI MCP](./ai/cli-mcp.mdx).
+
+</PlatformBlock>
+
+Configure o seu cliente de IA para usar o servidor MCP do CLI manualmente. A maioria das equipes conecta o MCP do CLI e o MCP de Theming juntos: o MCP do CLI cuida dos fluxos de trabalho de projetos e componentes, e o MCP de Theming cuida das paletas, dos temas e dos design tokens.
+
+**VS Code** - crie ou edite `.vscode/mcp.json` na raiz do seu projeto:
+
+```json
+{
+  "servers": {
+    "igniteui-cli": {
+      "command": "npx",
+      "args": ["-y", "igniteui-cli", "mcp"]
+    },
+    "igniteui-theming": {
+      "command": "npx",
+      "args": ["-y", "igniteui-theming", "igniteui-theming-mcp"]
+    }
+  }
+}
+```
+
+**Cursor, Claude Desktop, Claude Code, JetBrains e outros clientes MCP:**
+
+```json
+{
+  "mcpServers": {
+    "igniteui-cli": {
+      "command": "npx",
+      "args": ["-y", "igniteui-cli", "mcp"]
+    },
+    "igniteui-theming": {
+      "command": "npx",
+      "args": ["-y", "igniteui-theming", "igniteui-theming-mcp"]
+    }
+  }
+}
+```
+
+Para os guias de configuração por cliente (VS Code, GitHub, Cursor, Claude Desktop, Claude Code, JetBrains) e uma descrição completa das ferramentas disponíveis, consulte [Ignite UI CLI MCP](./ai/cli-mcp.mdx).
+
+<PlatformBlock for="React, WebComponents">
+
+Para um passo a passo completo usando os dois servidores MCP, consulte [Crie um aplicativo de ponta a ponta com o CLI MCP e o Theming MCP](./general-how-to-mcp-e2e.mdx).
+
+</PlatformBlock>
+
+</PlatformBlock>
+
+## Comandos do Ignite UI CLI
+
+A lista completa dos comandos disponíveis do Ignite UI CLI é mantida na [wiki do Ignite UI CLI](https://github.com/IgniteUI/igniteui-cli/wiki):
+
+| Comando                                                               | Alias | Descrição                                                                                                                                                               |
+| :-------------------------------------------------------------------- | :---- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| [ig start](https://github.com/IgniteUI/igniteui-cli/wiki/start)       |       | Compila a aplicação, inicia um servidor web e a abre no navegador padrão.                                                                                         |
+| [ig build](https://github.com/IgniteUI/igniteui-cli/wiki/build)       |       | Compila a aplicação em um diretório de saída.                                                                                                                          |
+| [ig generate](https://github.com/IgniteUI/igniteui-cli/wiki/generate) | g     | Gera um novo template personalizado para os frameworks e tipos de projeto compatíveis.                                                                                               |
+| [ig help](https://github.com/IgniteUI/igniteui-cli/wiki/help)         | -h    | Lista os comandos disponíveis com descrições breves.                                                                                                                         |
+| [ig config](https://github.com/IgniteUI/igniteui-cli/wiki/config)     |       | Lê e grava as configurações do Ignite UI CLI.                                                                                                                    |
+| [ig doc](https://github.com/IgniteUI/igniteui-cli/wiki/doc)           |       | Pesquisa um determinado termo na base de conhecimento da Infragistics.                                                                                                                |
+| [ig list](https://github.com/IgniteUI/igniteui-cli/wiki/list)         | l     | Lista os modelos disponíveis para o framework e o tipo do projeto. Quando executado dentro da pasta de um projeto, usa o framework e o tipo do projeto, independentemente dos argumentos informados. |
+| [ig test](https://github.com/IgniteUI/igniteui-cli/wiki/test)         |       | Executa os testes do projeto atual.                                                                                                                               |
+| ig upgrade-packages                                                   |       | Atualiza os pacotes do Ignite UI do projeto de Trial para Licensed.                                                                                                        |
+| ig mcp                                                                |       | Inicia o servidor MCP integrado para conectar assistentes de codificação com IA à documentação dos componentes {ProductName}.                                                              |
+| [ig ai-config](https://github.com/IgniteUI/igniteui-cli/wiki/ai-config)                                                        |       | Configura os servidores MCP e copia as Agent Skills para o diretório de skills de cada agente. Aceita as opções `--assistants` e `--agents`, ou o modo interativo.                       |
+| ig version                                                            | -v    | Mostra a versão do Ignite UI CLI instalada localmente ou, se nenhuma instalação local for encontrada, a versão instalada globalmente.                                                                         |

@@ -1,0 +1,162 @@
+---
+title: "Información emergente de datos de gráficos de {Platform} | Herramientas de visualización de datos | Infragistics"
+description: "¡Use el gráfico de Infragistics {ProductName} con la capa de información emergente de datos!"
+keywords: "Gráficos {Platform}, leyenda de gráfico, leyenda, tipos de leyenda, {ProductName}, Infragistics"
+license: commercial
+
+mentionedTypes: ["DataChart", "Legend", "CategoryChart", "FinancialChart", "DataLegend", "DataToolTipLayer", "DataAbbreviationMode", "DataLegendSeriesValueType", "DataToolTipLayerGroupingMode", "DataLegendLayoutMode"]
+namespace: Infragistics.Controls.Charts
+_language: es
+llms:
+  description: "En {ProductName}, DataToolTip muestra en una información emergente los valores y títulos de las series, así como los distintivos de leyenda de las series."
+platformType: xplat
+---
+
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import { Image } from 'astro:assets';
+import layoutMode from '@xplat-images/general/layout_mode.png';
+
+
+# Información emergente de datos de {Platform}
+
+En {ProductName}, **DataToolTip** muestra en una información emergente los valores y títulos de las series, así como los distintivos de leyenda de las series. Además, ofrece muchas propiedades de configuración de `DataLegend` para filtrar filas de series y columnas de valores, y para dar estilo y formato a los valores. Este tipo de información emergente se actualiza al mover el ratón dentro del área de trazado de `CategoryChart`<PlatformBlock for="Web">, `FinancialChart`,</PlatformBlock> y de los componentes `DataChart`.
+
+## Propiedades de la información emergente de datos de {Platform}
+
+Todas las propiedades de `DataToolTipLayer` llevan el prefijo **DataToolTip** y se exponen en la API de <PlatformBlock for="Web">los componentes `CategoryChart` y `FinancialChart`</PlatformBlock><PlatformBlock for="WinUI, Uno">el componente `CategoryChart`</PlatformBlock>. Sin embargo, deberá crear una instancia de `DataToolTipLayer` y añadirla a la colección de series del componente `DataChart` si quiere usarla con gráficos radiales, gráficos polares o gráficos de dispersión.
+
+## Elementos de la información emergente de datos de {Platform}
+
+**DataToolTip** muestra el contenido mediante un conjunto de tres tipos de filas y cuatro tipos de columnas.
+
+### Filas de la información emergente de datos de {Platform}
+
+Las filas de **DataToolTip** incluyen la fila de encabezado, la(s) fila(s) de series y la fila de resumen.
+
+La fila de encabezado muestra la etiqueta del eje del punto sobre el que se pasa el cursor, y puede cambiarse con la propiedad `dataToolTipHeaderText`.
+
+La fila de series puede ser en realidad un conjunto de filas que corresponden a cada serie representada en el gráfico. Estas filas muestran el distintivo de la leyenda, el título de la serie, el valor real o abreviado de la serie y el símbolo de abreviatura y la unidad, si se han especificado.
+
+Por último, hay una fila de resumen que muestra el total de todos los valores de las series. El título de resumen predeterminado puede cambiarse con la propiedad `dataToolTipSummaryTitleText` de la leyenda. Además, puede usar la propiedad `dataToolTipSummaryType` para personalizar si se muestran en la fila de resumen el total, el mínimo, el máximo o la media de los valores de las series.
+
+El siguiente ejemplo muestra la información emergente de datos con un resumen aplicado:
+
+<Sample src="/charts/category-chart/data-tooltip" height={450} alt="Ejemplo de información emergente de datos de gráficos de categorías de {Platform}" />
+
+
+
+
+### Columnas de la información emergente de datos de {Platform}
+
+Las columnas de `DataToolTipLayer` incluyen las columnas de título, etiqueta, valor y unidades. Cada serie del gráfico puede tener varias columnas para la etiqueta, el valor y las unidades, según las colecciones `dataToolTipIncludedColumns` o `dataToolTipExcludedColumns` del gráfico.
+
+La columna de título muestra los distintivos de la leyenda y los títulos de las series, que proceden de la propiedad `chartTitle` de las distintas `Series` representadas en el gráfico.
+
+La columna de etiqueta muestra el nombre o la abreviatura de las distintas rutas de propiedades de las colecciones `dataToolTipIncludedColumns` o `dataToolTipExcludedColumns` de la información emergente.
+
+La columna de valor muestra los valores de las series como texto abreviado, que puede formatearse con la propiedad `dataToolTipValueFormatAbbreviation` para aplicar la misma abreviatura a todos los números estableciendo esta propiedad en `DataAbbreviationMode.Auto` o en `Shared`. Como alternativa, un usuario puede elegir otras abreviaturas, como `Independent`, `Kilo`, `Million`, etc. La precisión de los valores abreviados se controla con `dataToolTipValueFormatMinFractions` y `dataToolTipValueFormatMaxFractions` para el número mínimo y máximo de dígitos, respectivamente.
+
+La columna de unidades muestra un símbolo de abreviatura o un texto de unidad, o ambos, que pueden establecerse en **DataToolTip** mediante `dataToolTipUnitsText` para todas las columnas, o mediante las siguientes propiedades de cada serie del gráfico:
+
+- Category Series (p. ej., ColumnSeries)
+  - ValueMemberAsLegendUnit="K"
+- Series de precios financieros:
+  - OpenMemberAsLegendUnit="K"
+  - LowMemberAsLegendUnit="K"
+  - HighMemberAsLegendUnit="K"
+  - CloseMemberAsLegendUnit="K"
+- Range Series:
+  - LowMemberAsLegendUnit="K"
+  - HighMemberAsLegendUnit="K"
+- Radial Series:
+  - ValueMemberAsLegendUnit="km"
+- Polar Series:
+  - RadiusMemberAsLegendUnit="km"
+  - AngleMemberAsLegendUnit="degrees"
+
+Para las propiedades anteriores, existen propiedades correspondientes que terminan en **MemberAsLegendLabel** para determinar el texto de las columnas de etiqueta mencionadas anteriormente.
+<PlatformBlock for="Web">
+Las columnas incluidas en las colecciones `dataToolTipIncludedColumns` y `dataToolTipExcludedColumns` corresponden, en general, a las rutas de valor de sus elementos de datos subyacentes, pero la serie financiera tiene la opción de incluir algunas rutas especiales además de las rutas `High`, `Low`, `Open` y `Close` que la serie financiera necesita para representarse correctamente. Puede mostrar opciones `TypicalPrice`, `Change` y `Volume` dentro de la información emergente.
+</PlatformBlock>
+<PlatformBlock for="Angular, React, WebComponents, Blazor">
+El siguiente ejemplo muestra una información emergente de datos con las columnas añadidas de apertura, máximo, mínimo, cierre y cambio:
+
+<Sample src="/charts/financial-chart/data-tooltip" height={450} alt="Ejemplo de información emergente de datos de {Platform} Financial Chart" />
+</PlatformBlock>
+
+
+
+
+## Agrupación de la información emergente de datos de {Platform} para Data Chart
+
+`dataLegendGroup` puede establecerse, en todos los tipos de serie, como una cadena que clasifica un grupo de series en la leyenda de datos. Cada grupo tendrá su propia fila de resumen, que se muestra antes de otro grupo de series:
+De forma predeterminada, DataLegend oculta los nombres de los grupos, pero puede mostrarlos estableciendo la propiedad `groupRowVisible` en true. `groupingMode` debe establecerse en "Grouped" y `labelDisplayMode` en "Visible" en la capa de información emergente de datos.
+
+<Sample src="/charts/data-chart/data-tooltip-grouping" height={450} alt="Agrupación de la información emergente de datos de {Platform}" />
+
+
+
+## Agrupación y posicionamiento de la información emergente de datos de {Platform} para gráficos de categorías<PlatformBlock for="Web"> y gráficos financieros</PlatformBlock>
+
+Puede establecer la propiedad `dataToolTipGroupingMode` en `Grouped` o en `Individual` para agrupar el contenido de varias series en una única información emergente, o para mostrar contenido separado de cada serie en varias informaciones emergentes. En el modo `Grouped`, puede personalizar dónde se muestra la información emergente estableciendo las propiedades `dataToolTipGroupedPositionModeX` y `dataToolTipGroupedPositionModeY`. Esto le permite, básicamente, personalizar las alineaciones horizontal y vertical de la información emergente, y decidir si quiere que siga los puntos de serie más cercanos a la posición del ratón o anclar la información emergente al borde del área de trazado.
+
+El siguiente ejemplo muestra una información emergente de datos colocada en la parte superior derecha del gráfico:
+
+<Sample src="/charts/category-chart/data-tooltip-positioning" height={450} alt="Ejemplo de posicionamiento de la información emergente de datos de gráficos de categorías de {Platform}" />
+
+
+## Formato de valores de la información emergente de datos de {Platform}
+
+**DataToolTip** abrevia automáticamente los números grandes mediante su propiedad `dataToolTipValueFormatAbbreviation`. Esto añade un multiplicador en la columna de unidades, como kilo, millón, mil millones, etc. Puede personalizar el número de decimales que se muestran estableciendo `dataToolTipValueFormatMinFractions` y `dataToolTipValueFormatMaxFractions`. Así podrá determinar el número mínimo y máximo de dígitos que aparecen después de la coma decimal, respectivamente.
+
+El siguiente ejemplo muestra un **DataToolTip** con los valores mínimo y máximo de decimales establecidos:
+
+<Sample src="/charts/category-chart/data-tooltip-formatting-decimals" height={450} alt="Ejemplo de formato de decimales de la información emergente de datos de gráficos de categorías de {Platform}" />
+
+
+
+
+<PlatformBlock for="Angular, React, WebComponents, Blazor">
+## Modo de valor de la información emergente de datos de {Platform}
+
+Puede cambiar la visualización decimal predeterminada de los valores dentro de **DataToolTip** a una moneda, modificando la propiedad `dataToolTipValueFormatMode` de la capa. **DataToolTip** también permite modificar la configuración regional del símbolo de moneda mostrado, mediante su propiedad `dataToolTipValueFormatCulture`, estableciéndola con la etiqueta de configuración regional correspondiente. Por ejemplo, el siguiente ejemplo muestra un gráfico con `dataToolTipValueFormatCulture` establecido en "en-GB":
+
+<Sample src="/charts/financial-chart/data-tooltip-formatting-currency" height={450} alt="Ejemplo de formato de moneda de la información emergente de datos de Financial Chart de {Platform}" />
+</PlatformBlock>
+
+
+## Modo de disposición
+
+Los elementos de la leyenda pueden colocarse en una estructura vertical o de tabla mediante la propiedad `layoutMode`. El valor predeterminado es `Table`, que mantiene el mismo aspecto que en versiones anteriores.
+
+p. ej.
+
+<Image src={layoutMode} alt="Modo de disposición" />
+
+
+## Estilo de la información emergente de datos de {Platform}
+
+**DataToolTip** ofrece propiedades para dar estilo a cada tipo de columna. Cada una de estas propiedades empieza por Title, Label, Value o Units, y puede dar estilo al color, la fuente y el margen del texto. Por ejemplo, si quisiera establecer el color del texto de cada uno de ellos, tendría que establecer las propiedades `dataToolTipTitleTextColor`, `dataToolTipLabelTextColor`, `dataToolTipValueTextColor` y `dataToolTipUnitsTextColor`.
+
+<PlatformBlock for="Angular, React, WebComponents, Blazor">
+El siguiente ejemplo muestra un uso de las propiedades de estilo mencionadas anteriormente:
+
+<Sample src="/charts/financial-chart/data-tooltip-styling-props" height={450} alt="Ejemplo de estilo de la información emergente de datos de Financial Chart de {Platform}" />
+</PlatformBlock>
+
+
+Se exponen varias propiedades, incluida la agrupación de partes de la información emergente.
+
+- `GroupTextMarginLeft/GroupTextMarginTop/GroupTextMarginRight/GroupTextMarginBottom`
+- `groupTextColor`
+- `GroupTextFontSize/GroupTextFontFamily/GroupTextFontStyle/GroupTextFontWeight`
+- `HeaderTextMarginLeft/HeaderTextMarginTop/HeaderTextMarginRight/HeaderTextMarginBottom`
+- `headerTextColor`
+- `HeaderTextFontSize/HeaderTextFontFamily/HeaderTextFontStyle/HeaderTextFontWeight`
+
+
+## Referencias de API
+`DataToolTipLayer`
+`CategoryChart`<PlatformBlock for="Web">
+`FinancialChart`</PlatformBlock>
+`DataChart`

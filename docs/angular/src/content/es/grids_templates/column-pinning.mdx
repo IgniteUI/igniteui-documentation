@@ -1,0 +1,459 @@
+<ComponentBlock for="Grid">
+
+---
+title: "Anclaje de columnas en Angular Grid: Ignite UI for Angular"
+description: "¿Quiere usar la función de anclaje de Ignite UI for Angular al desarrollar su próxima aplicación? Bloquee columnas o cambie su orden fácilmente con una API completa."
+keywords: "bloquear columna, ignite ui for angular, infragistics"
+license: commercial
+_language: es
+llms:
+  description: "Una columna o varias columnas pueden anclarse al lado izquierdo o derecho del grid de interfaz de Angular."
+---
+
+</ComponentBlock>
+<ComponentBlock for="TreeGrid">
+
+---
+title: "Anclaje de columnas en Angular Tree Grid: Ignite UI for Angular"
+description: "¿Quiere usar la función de anclaje de Ignite UI for Angular al desarrollar su próxima aplicación? Bloquee columnas o cambie su orden fácilmente con una API completa."
+keywords: "bloquear columna, ignite ui for angular, infragistics"
+license: commercial
+_canonicalLink: grid/column-pinning
+_language: es
+llms:
+  description: "Una columna o varias columnas pueden anclarse al lado izquierdo o derecho del grid de interfaz de Angular."
+---
+
+</ComponentBlock>
+<ComponentBlock for="HierarchicalGrid">
+
+---
+title: "Anclaje de columnas en Angular Hierarchical Grid: Ignite UI for Angular"
+description: "¿Quiere usar la función de anclaje de Ignite UI for Angular al desarrollar su próxima aplicación? Bloquee columnas o cambie su orden fácilmente con una API completa."
+keywords: "bloquear columna, ignite ui for angular, infragistics"
+license: commercial
+_canonicalLink: grid/column-pinning
+_language: es
+llms:
+  description: "Una columna o varias columnas pueden anclarse al lado izquierdo o derecho del grid de interfaz de Angular."
+---
+
+</ComponentBlock>
+
+
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+# Anclaje de columnas de {ComponentTitle} en Angular
+
+Una columna o varias columnas pueden anclarse al lado izquierdo o derecho del grid de interfaz de Angular. El **anclaje de columnas** en Ignite UI for Angular permite a los usuarios finales bloquear columnas en un orden determinado, de modo que puedan verlas mientras se desplazan horizontalmente por {ComponentTitle}. El Material UI Grid tiene una interfaz integrada de anclaje de columnas, que puede usarse desde la barra de herramientas de {ComponentTitle} para cambiar el estado de anclaje de las columnas. Además, puede definir una interfaz personalizada y cambiar el estado de anclaje de las columnas mediante la API de anclaje de columnas.
+
+## Ejemplo de anclaje de columnas de {ComponentTitle} en Angular
+
+<ComponentBlock for="Grid">
+
+<Sample src="/grid/grid-sample-toolbar-pinning" height={510} alt="Ejemplo de anclaje de columnas de {ComponentTitle} en Angular" />
+
+</ComponentBlock>
+<ComponentBlock for="TreeGrid">
+
+<Sample src="/tree-grid/treegrid-toolbar-pinning" height={630} alt="Ejemplo de anclaje de columnas de {ComponentTitle} en Angular" />
+
+</ComponentBlock>
+<ComponentBlock for="HierarchicalGrid">
+
+<Sample src="/hierarchical-grid/hierarchical-grid-toolbar-pinning" height={510} alt="Ejemplo de anclaje de columnas de {ComponentTitle} en Angular" />
+
+</ComponentBlock>
+
+## API de anclaje de columnas
+
+El anclaje de columnas se controla mediante la entrada `pinned` de <ApiLink type="Column" label="igx-column" />. Las columnas ancladas se muestran de forma predeterminada en el lado izquierdo de {ComponentTitle} y permanecen fijas mientras se desplazan horizontalmente las columnas no ancladas en el cuerpo de {ComponentTitle}.
+
+<ComponentBlock for="Grid">
+
+```html
+<igx-grid #grid1 [data]="data | async" [width]="700px" [autoGenerate]="false" (columnInit)="initColumns($event)"
+    (selected)="selectCell($event)">
+    <igx-column [field]="Name" [pinned]="true"></igx-column>
+    <igx-column [field]="AthleteNumber"></igx-column>
+    <igx-column [field]="TrackProgress"></igx-column>
+    <igx-paginator [perPage]="10">
+    </igx-paginator>
+</igx-grid>
+```
+
+</ComponentBlock>
+<ComponentBlock for="TreeGrid">
+
+```html
+<igx-tree-grid #treeGrid [data]="data" primaryKey="ID" foreignKey="ParentID" [autoGenerate]="false">
+    <igx-column [field]="Name" [pinned]="true"></igx-column>
+    <igx-column [field]="Title"></igx-column>
+    <igx-column [field]="ID"></igx-column>
+</igx-tree-grid>
+```
+
+</ComponentBlock>
+
+<ComponentBlock for="HierarchicalGrid">
+
+```html
+<igx-hierarchical-grid class="hgrid" [data]="localdata" [autoGenerate]="false"
+        [height]="'600px'" [width]="'800px'" #hierarchicalGrid>
+    <igx-column [field]="Artist" [width]="200px" [pinned]="true"></igx-column>
+    <igx-column [field]="Debut" [width]="200px"></igx-column>
+</igx-hierarchical-grid>
+```
+
+</ComponentBlock>
+
+También puede usar los métodos <ApiLink type="{ComponentApiType}" member="pinColumn" label="pinColumn" /> o <ApiLink type="{ComponentApiType}" member="unpinColumn" label="unpinColumn" /> de {ComponentTitle} de <ApiLink type="{ComponentApiType}" /> para anclar o desanclar columnas por su nombre de campo:
+
+<ComponentBlock for="Grid">
+
+```typescript
+this.grid.pinColumn('AthleteNumber');
+this.grid.unpinColumn('Name');
+```
+
+</ComponentBlock>
+<ComponentBlock for="TreeGrid">
+
+```typescript
+this.treeGrid.pinColumn('Title');
+this.treeGrid.unpinColumn('Name');
+```
+
+</ComponentBlock>
+<ComponentBlock for="HierarchicalGrid">
+
+```typescript
+this.hierarchicalGrid.pinColumn('Artist');
+this.hierarchicalGrid.unpinColumn('Debut');
+```
+
+</ComponentBlock>
+
+Ambos métodos devuelven un valor booleano que indica si su operación respectiva se ha realizado correctamente. Normalmente fallan porque la columna ya está en el estado deseado.
+
+Una columna se ancla a la derecha de la columna anclada más a la derecha. Para cambiar el orden de las columnas ancladas, puede suscribirse al evento <ApiLink type="{ComponentApiType}" member="columnPin" label="columnPin" /> y cambiar la propiedad <ApiLink kind="interface" type="IPinColumnEventArgs" member="insertAtIndex" /> de los argumentos del evento a la posición de índice deseada.
+
+<ComponentBlock for="Grid">
+
+```html
+<igx-grid #grid1 [data]="data | async" [autoGenerate]="true" (columnPin)="columnPinning($event)"></igx-grid>
+```
+
+```typescript
+public columnPinning(event) {
+    if (event.column.field === 'Name') {
+        event.insertAtIndex = 0;
+    }
+}
+```
+
+</ComponentBlock>
+<ComponentBlock for="TreeGrid">
+
+```html
+<igx-tree-grid #treeGrid [data]="data" primaryKey="ID" foreignKey="ParentID" [autoGenerate]="true" (columnPin)="columnPinning($event)"></igx-tree-grid>
+```
+
+```typescript
+public columnPinning(event) {
+    if (event.column.field === 'Name') {
+        event.insertAtIndex = 0;
+    }
+}
+```
+
+</ComponentBlock>
+<ComponentBlock for="HierarchicalGrid">
+
+```html
+<igx-hierarchical-grid class="hgrid" [data]="localdata" [autoGenerate]="false"
+        [height]="'600px'" [width]="'800px'" 
+        (columnPin)="columnPinning($event)" #hierarchicalGrid>
+</igx-hierarchical-grid> 
+```
+
+```typescript
+public columnPinning(event) {
+    if (event.column.field === 'Artist') {
+        event.insertAtIndex = 0;
+    }
+}
+```
+
+</ComponentBlock>
+
+## Posición del anclaje
+
+Puede cambiar la posición del anclaje de columnas mediante la opción de configuración <ApiLink type="{ComponentApiType}" member="pinning" label="pinning" />. Permite establecer la posición de las columnas en Start o End.
+Cuando se establece en End, las columnas se renderizan al final de la cuadrícula, después de las columnas no ancladas. Las columnas no ancladas pueden desplazarse horizontalmente, mientras que las columnas ancladas permanecen fijas a la derecha.
+
+<ComponentBlock for="Grid">
+
+```html
+<igx-grid [data]="data" [autoGenerate]="true" [pinning]="pinningConfig"></igx-grid>
+```
+
+</ComponentBlock>
+
+<ComponentBlock for="TreeGrid">
+
+```html
+<igx-tree-grid #grid1 [data]="data" [autoGenerate]="true" [pinning]="pinningConfig"></igx-tree-grid>
+```
+
+</ComponentBlock>
+
+<ComponentBlock for="HierarchicalGrid">
+
+```html
+<igx-hierarchical-grid #grid1 [data]="data" [autoGenerate]="true" [pinning]="pinningConfig"></igx-hierarchical-grid>
+```
+
+</ComponentBlock>
+
+```typescript
+public pinningConfig: IPinningConfig = { columns: ColumnPinningPosition.End };
+```
+
+### Demostración
+
+<ComponentBlock for="Grid">
+
+<Sample src="/grid/grid-sample-right-pinning" height={510} alt="" />
+
+</ComponentBlock>
+
+<ComponentBlock for="HierarchicalGrid">
+
+<Sample src="/hierarchical-grid/hierarchical-grid-sample-right-pinning" height={510} alt="" />
+
+</ComponentBlock>
+
+<ComponentBlock for="TreeGrid">
+
+<Sample src="/tree-grid/tree-grid-sample-right-pinning" height={510} alt="" />
+
+</ComponentBlock>
+
+### Anclaje de columnas en ambos lados
+Además, puede especificar la ubicación de anclaje de cada columna por separado, lo que le permite anclar columnas a ambos lados de la cuadrícula para mayor comodidad y una optimización más sencilla de los conjuntos de datos. Consulte la demostración siguiente para más referencia. Para anclar una columna, seleccione una columna haciendo clic en un encabezado y use los botones de anclaje añadidos a la barra de herramientas, o simplemente arrastre una columna hasta otra ya anclada.
+
+<ComponentBlock for="Grid">
+
+<Sample src="/grid/grid-toolbar-pinning-both-sides" height={510} alt="" />
+
+</ComponentBlock>
+
+<ComponentBlock for="HierarchicalGrid">
+
+<Sample src="/hierarchical-grid/hierarchical-grid-both-sides-pinning" height={510} alt="" />
+
+</ComponentBlock>
+
+<ComponentBlock for="TreeGrid">
+
+<Sample src="/tree-grid/tree-grid-both-sides-pinning" height={510} alt="" />
+
+</ComponentBlock>
+
+## Interfaz personalizada de anclaje de columnas
+
+Puede definir su propia interfaz y cambiar el estado de anclaje de las columnas mediante la API relacionada.
+
+Supongamos que, en lugar de una barra de herramientas, quiere definir iconos de anclaje en los encabezados de las columnas que el usuario final pueda pulsar para cambiar el estado de anclaje de una columna concreta.
+Para ello, puede crear una plantilla de encabezado para la columna con un icono personalizado.
+
+<ComponentBlock for="Grid">
+
+```html
+<igx-grid #grid1 [data]="data" [width]="'100%'" [height]="'500px'">
+    <igx-column #col *ngFor="let c of columns" [field]="c.field" [header]="c.header" [width]="c.width" [pinned]='c.pinned'
+        [hidden]='c.hidden' [headerClasses]="'customHeaderSyle'">
+        <ng-template igxHeader>
+            <div class="title-inner">
+                <span style="float:left">{{col.header}}</span>
+                <igx-icon class="pin-icon" fontSet="fas" name="fa-thumbtack" (click)="toggleColumn(col)"></igx-icon>
+            </div>
+        </ng-template>
+    </igx-column>
+</igx-grid>
+```
+
+</ComponentBlock>
+
+<ComponentBlock for="TreeGrid">
+
+```html
+<ng-template igxHeader let-column #pinTemplate>
+    <div class="title-inner">
+        <span style="float:left">{{column.header || column.field}}</span>
+        <igx-icon class="pin-icon" [class.pinned]="column.pinned" [class.unpinned]="!column.pinned" fontSet="fas" name="fa-thumbtack"
+            (click)="toggleColumn(column)"></igx-icon>
+    </div>
+</ng-template>
+<div class="grid__wrapper">
+    <igx-tree-grid #treeGrid [data]="data" primaryKey="ID" foreignKey="ParentID" [autoGenerate]="false" height="620px"
+        width="100%">
+        <igx-column [field]="'Name'" dataType="string" [headerTemplate]="pinTemplate" width="250px"></igx-column>
+        <igx-column [field]="'Title'" dataType="string" [headerTemplate]="pinTemplate" width="300px"></igx-column>
+        <igx-column [field]="'ID'" dataType="number" [headerTemplate]="pinTemplate" width="200px"></igx-column>
+        <igx-column [field]="'HireDate'" header="Hire Date" dataType="date" [headerTemplate]="pinTemplate" width="200px"></igx-column>
+        <igx-column [field]="'Age'" dataType="number" [headerTemplate]="pinTemplate" width="200px"></igx-column>
+        <igx-column [field]="'Address'" dataType="string" [headerTemplate]="pinTemplate" width="200px"></igx-column>
+        <igx-column [field]="'City'" dataType="string" [headerTemplate]="pinTemplate" width="200px"></igx-column>
+        <igx-column [field]="'Country'" dataType="string" [headerTemplate]="pinTemplate" width="200px"></igx-column>
+        <igx-column [field]="'Fax'" dataType="string" [headerTemplate]="pinTemplate" width="200px"></igx-column>
+        <igx-column [field]="'PostalCode'" header="Postal Code" dataType="string" [headerTemplate]="pinTemplate" width="200px"></igx-column>
+        <igx-column [field]="'Phone'" dataType="string" [headerTemplate]="pinTemplate" width="200px"></igx-column>
+    </igx-tree-grid>
+</div>
+```
+
+</ComponentBlock>
+
+<ComponentBlock for="HierarchicalGrid">
+
+```html
+<ng-template igxHeader let-column #pinTemplate>
+    <div class="title-inner">
+        <span style="float:left">{{column.header || column.field}}</span>
+        <igx-icon class="pin-icon" [class.pinned]="column.pinned" [class.unpinned]="!column.pinned" fontSet="fas" name="fa-thumbtack"
+            (click)="toggleColumn(column)"></igx-icon>
+    </div>
+</ng-template>
+<igx-hierarchical-grid class="hierarchicalGrid" [data]="localdata" [autoGenerate]="false"
+    [height]="'500px'" [width]="'100%'" #hierarchicalGrid>
+    <igx-column field="CompanyName" header="Company Name" [headerTemplate]="pinTemplate" width="200px" [pinned]="true"></igx-column>
+    <igx-column field="ContactName" header="Contact Name" [headerTemplate]="pinTemplate" width="150px"></igx-column>
+    <igx-column field="ContactTitle" header="Contact Title" [headerTemplate]="pinTemplate" width="200px"></igx-column>
+    <igx-row-island [key]="'Orders'" [autoGenerate]="false">
+        <igx-column field="OrderDate" header="Order Date" [headerTemplate]="pinTemplate" [dataType]="'date'" width="150px"></igx-column>
+        <igx-column field="RequiredDate" header="Required Date" [headerTemplate]="pinTemplate" [dataType]="'date'" width="150px"></igx-column>
+        <igx-column field="ShippedDate" header="Shipped Date" [headerTemplate]="pinTemplate" [dataType]="'date'" width="150px"></igx-column>
+        <igx-column field="ShipVia" header="Ship Via" [headerTemplate]="pinTemplate" width="150px"></igx-column>
+        <igx-row-island [key]="'OrderDetails'" [autoGenerate]="false">
+            <igx-column field="UnitPrice" header="Unit Price" width="150px"></igx-column>
+            <igx-column field="Quantity" width="150px"></igx-column>
+            <igx-column field="Discount" width="150px"></igx-column>
+        </igx-row-island>
+    </igx-row-island>
+</igx-hierarchical-grid>
+```
+
+</ComponentBlock>
+
+Al hacer clic en el icono personalizado, puede cambiarse el estado de anclaje de la columna correspondiente usando los métodos de la API de la columna.
+
+```typescript
+public toggleColumn(col: ColumnType) {
+    col.pinned ? col.unpin() : col.pin();
+}
+```
+
+### Demostración
+
+<ComponentBlock for="Grid">
+
+<Sample src="/grid/grid-sample-pinning" height={510} alt="" />
+
+</ComponentBlock>
+<ComponentBlock for="TreeGrid">
+
+<Sample src="/tree-grid/treegrid-column-pinning" height={630} alt="" />
+
+</ComponentBlock>
+<ComponentBlock for="HierarchicalGrid">
+
+<Sample src="/hierarchical-grid/hierarchical-grid-pinning" height={510} alt="" />
+
+</ComponentBlock>
+
+## Limitaciones del anclaje
+
+- Establecer explícitamente los anchos de columna en porcentaje (%) hace que el cuerpo y el contenido del encabezado de {ComponentTitle} se desalineen cuando hay columnas ancladas. Para que el anclaje de columnas funcione correctamente, los anchos de columna deben estar en píxeles (px) o asignarse automáticamente mediante {ComponentTitle}.
+
+
+<ComponentBlock for="Grid">
+
+## Estilos
+
+El igxGrid permite dar estilo mediante la [Biblioteca de temas de Ignite UI for Angular](/themes/sass/component-themes). La <ApiLink kind="sass" module="themes" type="function-grid-theme" label="theme" /> de la cuadrícula expone una gran variedad de propiedades que permiten personalizar todas las funciones de la cuadrícula.
+
+En los pasos siguientes veremos cómo personalizar el estilo del anclaje de la cuadrícula.
+
+### Importar el tema global
+
+Para empezar a personalizar la función de anclaje, debe importar el archivo `index`, donde se encuentran todas las funciones de estilo y los mixins.
+
+```scss
+@use "igniteui-angular/theming" as *;
+
+// IMPORTANT: Prior to Ignite UI for Angular version 13 use:
+// @import '~igniteui-angular/lib/core/styles/themes/index';
+```
+
+### Definir un tema personalizado
+
+A continuación, cree un tema nuevo que extienda <ApiLink kind="sass" module="themes" type="function-grid-theme" label="grid-theme" code={true} /> y acepte los parámetros necesarios para personalizar la función de anclaje como desee.
+
+```scss
+$custom-theme: grid-theme(
+  $pinned-border-width: 5px,
+  $pinned-border-style: double,
+  $pinned-border-color: #ffcd0f,
+  $cell-active-border-color: #ffcd0f
+);
+```
+
+<DocsAside type="info">
+En lugar de codificar los valores de color como acabamos de hacer, podemos lograr más flexibilidad con los colores usando las funciones <ApiLink kind="sass" module="palettes" type="function-palette" label="palette" code={true} /> y <ApiLink kind="sass" module="palettes" type="function-color" label="color" code={true} />. Consulte el tema [`Palettes`](/themes/sass/palettes) para obtener orientación detallada sobre cómo usarlas.
+</DocsAside>
+
+### Aplicar el tema personalizado
+
+La forma más sencilla de aplicar su tema es con una sentencia `sass` `@include` en el archivo de estilos global:
+
+```scss
+:host {
+  @include tokens($custom-theme);
+}
+```
+
+### Demostración
+
+<Sample src="/grid/grid-pinning-styling" height={506} alt="" />
+
+<DocsAside type="info">
+El ejemplo no se verá afectado por el tema global seleccionado en `Change Theme`.
+</DocsAside>
+
+</ComponentBlock>
+
+
+## Referencias de API
+- <ApiLink type="{ComponentApiType}" />
+- <ApiLink type="Column" />
+## Recursos adicionales
+
+
+- [Descripción general de {ComponentTitle}](/{igPath}/{ComponentMainTopic})
+- [Virtualización y rendimiento](/{igPath}/virtualization)
+- [Paginación](/{igPath}/paging)
+- [Filtrado](/{igPath}/filtering)
+- [Ordenación](/{igPath}/sorting)
+- [Resúmenes](/{igPath}/summaries)
+- [Movimiento de columnas](/{igPath}/column-moving)
+- [Redimensionado de columnas](/{igPath}/column-resizing)
+- [Selección](/{igPath}/selection)
+
+Nuestra comunidad está activa y siempre da la bienvenida a nuevas ideas.
+
+- [Ignite UI for Angular **Foros**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

@@ -1,0 +1,489 @@
+---
+title: "Componente Angular Time Picker | Ignite UI for Angular | Licença MIT"
+description: "O componente Time Picker do Ignite UI for Angular permite ao usuário selecionar a hora em uma caixa de diálogo com spinners, que é então refletida no campo de entrada. Experimente agora"
+keywords: "Ignite UI for Angular, controles de UI, widgets Angular, widgets web, widgets de UI, Angular, Native Angular Components Suite, Native Angular Controls, Native Angular Components Library, Native Angular Components, componente Angular Time Picker, controle Angular Time Picker, Time Picker, Angular Time Picker"
+license: MIT
+_language: pt-BR
+llms:
+  description: "O componente time picker permite que os usuários insiram ou selecionem partes de hora de um objeto Date, a partir de um menu suspenso ou de uma caixa de diálogo com spinners, que é então refletido no campo de entrada."
+---
+
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+# Visão geral do Angular Time Picker
+
+<div class="highlight">
+O componente time picker permite que os usuários insiram ou selecionem partes de hora de um objeto `Date`, a partir de um menu suspenso ou de uma caixa de diálogo com spinners, que é então refletido no campo de entrada. No modo menu suspenso, que é o padrão, o campo de entrada é editável e os usuários também podem editar a hora selecionada.
+</div>
+
+<hr/>
+
+<p>O componente time picker tem diferentes templates integrados para exibir um botão de relógio, além de recursos como validação, formatação personalizada de hora e outros.</p>
+
+## Exemplo do Angular Time Picker
+
+Em geral, os usuários podem informar um horário preferido por meio de entrada de texto ou escolhendo um valor de hora em um menu suspenso do Angular Time Picker. O exemplo básico do Angular Time Picker abaixo mostra como os usuários podem informar o valor com facilidade, com a ajuda do menu suspenso ou usando o teclado.
+
+<Sample src="/scheduling/timepicker-dropdown" height={540} alt="" />
+
+<hr/>
+
+## Primeiros passos com o Ignite UI for Angular Time Picker
+
+Para começar com o componente Ignite UI for Angular Time Picker, primeiro é preciso instalar o Ignite UI for Angular. Em um aplicativo Angular existente, digite o seguinte comando:
+
+```cmd
+ng add igniteui-angular
+```
+
+Para uma introdução completa ao Ignite UI for Angular, leia o tópico [_primeiros passos_](/general/getting-started).
+
+O próximo passo é importar o `IgxTimePickerModule` no arquivo **app.module.ts**.
+
+<DocsAside type="info">
+O IgxTimePicker também depende do **BrowserAnimationsModule**. Ele também precisa ser adicionado ao AppModule.
+</DocsAside>
+
+```typescript
+// app.module.ts
+
+...
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { IgxTimePickerModule } from 'igniteui-angular/time-picker';
+// import { IgxTimePickerModule } from '@infragistics/igniteui-angular'; for licensed package
+
+@NgModule({
+    ...
+    imports: [..., BrowserAnimationsModule, IgxTimePickerModule],
+    ...
+})
+export class AppModule {}
+```
+
+Alternativamente, a partir de `16.0.0` você pode importar o `IgxTimePickerComponent` como uma dependência independente, ou usar o token [`IGX_TIME_PICKER_DIRECTIVES`](https://github.com/IgniteUI/igniteui-angular/blob/master/projects/igniteui-angular/time-picker/src/time-picker/public_api.ts) para importar o componente e todos os seus componentes e diretivas de apoio.
+
+```typescript
+// home.component.ts
+
+import { FormsModule } from '@angular/forms';
+import { IGX_TIME_PICKER_DIRECTIVES } from 'igniteui-angular/time-picker';
+// import { IGX_TABS_DIRECTIVES } from '@infragistics/igniteui-angular'; for licensed package
+
+@Component({
+    selector: 'app-home',
+    template: '<igx-time-picker [(ngModel)]="time"></igx-time-picker>',
+    styleUrls: ['home.component.scss'],
+    standalone: true,
+    imports: [IGX_TIME_PICKER_DIRECTIVES, FormsModule]
+    /* or imports: [IgxTimePickerComponent, FormsModule] */
+})
+export class HomeComponent {
+    public time: Date;
+}
+```
+
+Agora que você importou o módulo ou as diretivas do Ignite UI for Angular Time Picker, pode começar a usar o componente `igx-time-picker`.
+
+## Usando o Angular Time Picker
+
+### Padrão
+
+Para adicionar o time picker em um template, use o seguinte código:
+
+```html
+{/*meeting.component.html*/}
+<igx-time-picker></igx-time-picker>
+```
+
+A saída deve ser igual à da demonstração.
+
+<hr/>
+
+### Vinculação
+
+O Time Picker no Angular pode ser vinculado a um objeto Date ou a um valor de string apenas com horário no formato `ISO 8601`, definindo a propriedade <ApiLink type="TimePicker" member="value" label="value" /> ou `ngModel`.
+
+Primeiro, crie uma string de hora no formato `ISO 8601`:
+
+```typescript
+public time = '09:15:30';
+```
+
+Em seguida, use o `ngModel` para criar uma vinculação de dados bidirecional:
+
+```html
+<igx-time-picker [(ngModel)]="time"></igx-time-picker>
+```
+
+ou defina a entrada <ApiLink type="TimePicker" member="value" label="value" /> no template:
+
+```html
+<igx-time-picker [value]="time"></igx-time-picker>
+```
+
+Para usá-lo em um formulário reativo, você precisa definir um `formControlName` no picker
+
+```html
+<form [formGroup]="form">
+    <igx-time-picker formControlName="timePicker"></igx-time-picker>
+</form>
+```
+
+```typescript
+export class SampleFormComponent {
+    // ...
+    public form: FormGroup;
+    constructor(private fb: FormBuilder) {
+        this.form = this.fb.group({
+            timePicker: ['', Validators.required]
+        });
+    }
+}
+```
+
+### Projeção de componentes
+
+O componente time picker permite projetar componentes filhos — da mesma forma que no <ApiLink type="InputGroup" />: [`igxLabel`](/label-input), [`IgxHint`](/input-group#dicas), [`igxPrefix`](/input-group#prefixo-e-sufixo), [`igxSuffix`](/input-group#prefixo-e-sufixo), exceto <ApiLink type="InputDirective" />. Informações mais detalhadas sobre isso podem ser encontradas no tópico [Label & Input](/label-input).
+
+Na configuração padrão, um ícone de alternância do menu suspenso/caixa de diálogo é exibido como prefixo. Ele pode ser alterado ou redefinido usando o componente <ApiLink type="PickerToggle" />. Ele pode ser decorado com [`igxPrefix`](/input-group#prefixo-e-sufixo) ou [`igxSuffix`](/input-group#prefixo-e-sufixo), o que definirá a sua posição — no início ou no fim da entrada, respectivamente.
+
+No exemplo a seguir, adicionamos um rótulo e uma dica personalizados e alteramos a posição padrão do ícone de alternância para exibi-lo como sufixo:
+
+```html
+<igx-time-picker [(ngModel)]="date" mode="dialog" [inputFormat]="'hh:mm'">
+    <label igxLabel>Home Time </label>
+    <igx-picker-toggle igxSuffix>
+        <igx-icon>home</igx-icon>
+    </igx-picker-toggle>
+    <igx-hint>{{date.toLocaleString()}}</igx-hint>
+</igx-time-picker>
+```
+
+<DocsAside type="info">
+Este componente usa Material Icons. Adicione o seguinte link ao seu `index.html`: `<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">`
+</DocsAside>
+
+```typescript
+public date: Date = new Date();
+```
+
+E aqui está o nosso Ignite UI for Angular Time Picker com template:
+
+<Sample src="/scheduling/timepicker-sample-5" height={600} alt="" />
+
+## Botões de ação personalizados
+
+O <ApiLink type="TimePicker" /> oferece suporte à personalização dos botões de ação. Para isso, envolva os botões em `ng-template` marcados com o seletor da diretiva <ApiLink type="PickerActionsDirective" />.
+
+No exemplo abaixo, são adicionados botões de ação personalizados para as ações 'CANCEL', 'DONE' e 'NOW'.
+
+```html
+{/* sample.component.html */}
+
+<igx-time-picker #picker format="hh:mm" mode="dropdown">
+    <ng-template igxTimePickerActions>
+        <div class="container action-buttons">
+
+            <button igxButton="flat" (click)="picker.cancelButtonClick()">cancel</button>
+            <button igxButton="flat" (click)="picker.okButtonClick()">done</button>
+            <button igxButton="flat" (click)="selectNow(picker)">now</button>
+        
+</div>
+    </ng-template>
+</igx-time-picker>
+```
+
+```typescript
+// sample.component.ts
+...
+public selectNow(timePicker: IgxTimePickerComponent) {
+    timePicker.value = new Date();
+    timePicker.close();
+}
+...
+```
+
+E aqui está: um time picker com template novo, com menu suspenso, ações personalizadas e suporte à vinculação bidirecional:
+
+<Sample src="/scheduling/timepicker-sample-6" height={600} alt="" />
+
+<hr/>
+
+## Personalizando os ícones de alternância e de limpeza
+
+O <ApiLink type="TimePicker" /> pode ser configurado com <ApiLink type="PickerToggle" /> e <ApiLink type="PickerClear" />; eles podem ser usados para alterar os ícones de alternância e de limpeza sem precisar adicionar os seus próprios manipuladores de clique.
+
+```html
+ <igx-time-picker>
+    <label igxLabel>Select time</label>
+    <igx-picker-toggle igxPrefix>
+        <igx-icon>snooze</igx-icon>
+    </igx-picker-toggle>
+    <igx-picker-clear igxSuffix>
+        <igx-icon>delete</igx-icon>
+    </igx-picker-clear>
+</igx-time-picker>
+```
+
+### Navegação pelo teclado
+
+- Os usuários podem navegar pelas partes de hora do componente com as teclas de seta <kbd>Up</kbd> e <kbd>Down</kbd> do teclado, ou rolando o campo de entrada e o menu suspenso/caixa de diálogo. A navegação na entrada é possível independentemente de <ApiLink type="TimePicker" member="minValue" label="minValue" /> ou <ApiLink type="TimePicker" member="maxValue" label="maxValue" />, enquanto a navegação no menu suspenso/caixa de diálogo fica restrita ao intervalo de <ApiLink type="TimePicker" member="minValue" label="minValue" /> e <ApiLink type="TimePicker" member="maxValue" label="maxValue" />.
+- O menu suspenso do time picker pode ser aberto clicando no ícone de alternância, pressionando a tecla <kbd>Space</kbd> ou pressionando as teclas <kbd>Alt</kbd> + <kbd>Down</kbd>. No modo caixa de diálogo, isso pode ser feito clicando na entrada.
+- Pressionar a tecla <kbd>Enter</kbd> ou clicar com o mouse fora do menu suspenso/caixa de diálogo aplica a seleção e fecha o menu suspenso/caixa de diálogo.
+- Pressionar a tecla <kbd>Escape</kbd> cancela a seleção e fecha o menu suspenso/caixa de diálogo.
+- Quando um novo valor é informado com o menu suspenso fechado, clique fora do time picker ou pressione <kbd>Tab</kbd> para mover o foco, de modo que o valor seja aceito.
+
+## Exemplos
+
+### Modo de diálogo
+
+O modo padrão do time picker é o modo de menu suspenso editável. Para alterar o modo do time picker para caixa de diálogo somente leitura, defina a entrada <ApiLink type="TimePicker" member="mode" label="mode" /> como <ApiLink kind="type" type="PickerInteractionMode" />:
+
+```typescript
+// timePickerDropdown.component.ts
+
+import { PickerInteractionMode } from 'igniteui-angular/core';
+// import { PickerInteractionMode } from '@infragistics/igniteui-angular'; for licensed package
+...
+public mode = PickerInteractionMode.Dialog;
+```
+
+```html
+{/*timePickerDropdown.component.html*/}
+<igx-time-picker [mode]="mode"></igx-time-picker>
+```
+
+ou simplesmente altere o <ApiLink type="TimePicker" member="mode" label="mode" /> no time picker assim:
+
+```html
+{/*timePickerDropdown.component.html*/}
+<igx-time-picker mode="dialog"></igx-time-picker>
+```
+
+No modo caixa de diálogo, o cabeçalho da caixa exibe a hora atualmente selecionada no <ApiLink type="TimePicker" member="inputformat" label="formato de entrada" /> do picker. Você pode alterar a posição do cabeçalho definindo a propriedade <ApiLink type="TimePicker" member="headerOrientation" label="headerOrientation" />.
+
+<Sample src="/scheduling/timepicker-sample-1" height={600} alt="Exemplo do Angular Time Picker" />
+
+<hr/>
+
+Quando <ApiLink type="TimePicker" member="minValue" label="minValue" /> e <ApiLink type="TimePicker" member="maxValue" label="maxValue" /> são definidos, a caixa de diálogo exibe a hora somente dentro desse intervalo. Veja o exemplo [Valor mín. e máx.](#valor-mínimo-e-máximo) abaixo para mais detalhes.
+
+### Formato de exibição e de entrada
+
+O componente time picker oferece suporte a diferentes formatos de exibição e de entrada.
+
+O formato de exibição é o formato do valor no modo de edição, e pode ser um dos formatos do [DatePipe](https://angular.io/api/common/DatePipe) do Angular listados. Isso permite oferecer suporte a opções de formato predefinidas, como `shortTime` e `longTime`.
+
+O formato de entrada é o formato do valor quando não está em modo de edição, e também o formato no qual as partes da hora são exibidas no menu suspenso/caixa de diálogo. A propriedade `inputFormat` aceita uma string de formato construída com caracteres suportados pelo DatePipe, por exemplo `hh:mm:ss`, mas não oferece suporte a opções de formato predefinidas, como `shortTime` e `longTime`. Se a propriedade `inputFormat` não for definida, o padrão é `hh:mm tt`.
+Alternativamente, se a propriedade <ApiLink type="TimePicker" member="inputFormat" label="inputFormat" /> não estiver definida, o formato de entrada será inferido a partir de <ApiLink type="TimePicker" member="displayFormat" label="displayFormat" />, caso ele possa ser interpretado como contendo apenas partes numéricas de data e hora.
+
+```html
+<igx-time-picker
+    [(ngModel)]="time"
+    [inputFormat]="`hh:mm:ss`"
+    [displayFormat]="`shortTime`">
+</igx-time-picker>
+```
+
+<DocsAside type="info">
+O `IgxTimePicker` agora oferece suporte a entrada IME. Quando a composição termina, o controle converte os números de caracteres largos em caracteres ASCII.
+</DocsAside>
+
+### Incremento e decremento
+
+O time picker expõe os métodos públicos <ApiLink type="TimePicker" member="increment" label="increment" /> e <ApiLink type="TimePicker" member="decrement" label="decrement" />, que aceitam dois parâmetros opcionais: a `DatePart` a ser modificada e a `delta` pela qual ela será alterada. Se não for especificada, a `DatePart` tem como padrão `Hours` e a `delta` tem como padrão <ApiLink type="TimePicker" member="itemsDelta" label="itemsDelta" />.
+
+Você pode encontrar um exemplo que ilustra o uso dos dois métodos em [Diretiva Date Time Editor](/date-time-editor#increment-decrement).
+
+### Formulários e validação
+
+O componente time picker oferece suporte a todas as diretivas do [NgModel](https://angular.io/api/forms/NgModel) do FormsModule principal e do [ReactiveFormsModule](https://angular.io/api/forms/ReactiveFormsModule) (FormControl, FormGroup etc.). Isso também inclui as funções de [validadores de formulários](https://angular.io/api/forms/Validators). Além disso, os [valores mín. e máx.](#valor-mínimo-e-máximo) do componente também atuam como validadores de formulário.
+
+O exemplo [Integração com Reactive Forms](/angular-reactive-form-validation) demonstra como usar o igxTimePicker em Reactive Forms.
+
+#### Valor mínimo e máximo
+
+Você pode especificar <ApiLink type="TimePicker" member="minValue" label="minValue" /> e <ApiLink type="TimePicker" member="maxValue" label="maxValue" /> para restringir a entrada do usuário; nesse caso, o menu suspenso/caixa de diálogo exibirá a hora somente dentro desse intervalo. No modo menu suspenso, no entanto, ainda é possível que o usuário digite uma hora inválida. Você pode tratar o evento <ApiLink type="TimePicker" member="validationFailed" label="validationFailed" /> para notificar o usuário quando isso acontecer.
+
+<DocsAside type="info">
+Os valores mín./máx. devem ser um objeto Date ou uma string apenas com hora no formato `ISO 8601`:
+</DocsAside>
+
+```typescript
+// app.module.ts
+
+...
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { IgxTimePickerModule } from 'igniteui-angular/time-picker';
+import { IgxToastModule } from 'igniteui-angular/toast';
+// import { IgxTimePickerModule, IgxToastModule } from '@infragistics/igniteui-angular'; for licensed package
+
+@NgModule({
+    ...
+    imports: [..., BrowserAnimationsModule, IgxTimePickerModule, IgxToastModule],
+    ...
+})
+export class AppModule {}
+
+// app.component.ts
+
+public time = '10:00:00';
+public min = '09:15:30';
+public max = '18:15:30';
+
+@ViewChild('toast', { static: true })
+private toast;
+
+public onValidationFailed() {
+    this.toast.open();
+}
+```
+
+```html
+<igx-time-picker
+ [(ngModel)]="time"
+    [itemsDelta]="{hours:2, minutes:5}"
+    [inputFormat]="'hh:mm:ss tt'"
+    [headerOrientation]="true"
+    [minValue]="min"
+    [maxValue]="max"
+ (onValidationFailed)="onValidationFailed()">
+ <label igxLabel>Meeting Start</label>
+</igx-time-picker>
+
+<igx-toast #toast message="Value must be between 09:15:30 AM and 06:15:30 PM"></igx-toast>
+
+```
+
+O menu suspenso exibe valores dentro do intervalo mín./máx. (09:15:30 AM~06:15:30 PM) com base no delta dos itens. Um toast é adicionado para mostrar uma mensagem quando uma hora inválida é digitada.
+
+<DocsAside type="info">
+Os valores exibidos para cada parte da hora no menu suspenso/caixa de diálogo são calculados com base no delta dos itens, sempre começando em zero. Se <ApiLink type="TimePicker" member="minValue" label="minValue" /> e <ApiLink type="TimePicker" member="maxValue" label="maxValue" /> não corresponderem ao delta dos itens, os valores exibidos começarão/terminarão no próximo/último valor possível que atenda ao limite.
+</DocsAside>
+
+E pronto:
+
+<Sample src="/scheduling/timepicker-sample-4" height={540} alt="" />
+
+<hr/>
+
+#### Usando date picker e time picker juntos
+
+Em alguns casos, quando o [`IgxDatePicker`](/date-picker) e o IgxTimePicker são usados juntos, pode ser necessário vinculá-los ao mesmo valor de objeto Date.
+
+Para isso, em formulários orientados a template, use `ngModel` para vincular os dois componentes ao mesmo objeto Date.
+
+<Sample src="/scheduling/template-driven-form" height={540} alt="" />
+
+<hr/>
+
+Em formulários reativos, podemos tratar o evento <ApiLink type="TimePicker" member="valueChange" label="valueChange" /> de cada componente e atualizar o valor do outro.
+
+<Sample src="/scheduling/reactive-form" height={540} alt="" />
+
+<hr/>
+
+## Estilização
+
+Para começar a estilizar o time picker, precisamos importar o arquivo `index`, onde são exportadas todas as funções de tema e o mixin `tokens()`:
+
+```scss
+@use "igniteui-angular/theming" as *;
+
+// IMPORTANT: Prior to Ignite UI for Angular version 13 use:
+// @import '~igniteui-angular/lib/core/styles/themes/index';
+```
+
+Seguindo a abordagem mais simples, criamos um novo tema que estende o <ApiLink kind="sass" module="themes" type="function-dialog-theme" label="time-picker-theme" code={true} /> e aceita parâmetros que estilizam o time picker.
+
+```scss
+$my-time-picker-theme: time-picker-theme(
+  $text-color: #e4c8a5,
+  $hover-text-color: #ecaa53,
+  $selected-text-color: #ecaa53,
+  $header-background: #ecaa53,
+  $background-color: #011627
+);
+```
+
+<DocsAside type="info">
+Para estilizar componentes adicionais usados como parte do conteúdo da janela do time picker (como o [`IgxButton`](./inputs/button.mdx)), deve ser criado um tema adicional específico para o respectivo componente, colocado apenas no escopo da janela de diálogo (para não afetar o restante da aplicação).
+</DocsAside>
+
+Como a janela do time picker usa o [`IgxOverlayService`](/overlay), para que o nosso tema personalizado alcance a janela do time picker que queremos estilizar, vamos fornecer uma saída específica onde a janela de diálogo será colocada no DOM quando estiver visível.
+
+Os itens do nosso time picker **não são** descendentes do nosso componente `host` — eles são exibidos atualmente na saída de overlay padrão, no fim do body do `document`. Essa mudança é feita usando a propriedade <ApiLink kind="interface" type="OverlaySettings" member="outlet" /> em `overlaySettings`. A propriedade `outlet` controla onde o contêiner do overlay deve ser renderizado.
+
+Aqui, podemos passar uma referência ao elemento onde queremos que o nosso contêiner fique:
+
+```html
+<igx-time-picker #picker [overlaySettings]="{ outlet: element }">
+</igx-time-picker>
+```
+
+
+```typescript
+export class TimepickerStylingComponent {
+    constructor(public element: ElementRef) {
+    }
+}
+```
+
+Agora, os itens do time picker são renderizados corretamente **dentro** do host do nosso componente, o que significa que o nosso tema personalizado terá efeito:
+
+<DocsAside type="info">
+Para saber mais sobre as várias opções de fornecer temas aos elementos exibidos usando o [`IgxOverlayService`](/overlay), consulte o tópico [Estilização de overlay](/overlay-styling).
+</DocsAside>
+
+```scss
+:host {
+    @include tokens($my-time-picker-theme);
+}
+```
+
+<DocsAside type="info">
+Em alguns templates de componentes, o Emulated View Encapsulation ainda pode impedir que as declarações de token geradas cheguem aos elementos aninhados do Ignite UI. Se o tema não tiver efeito, use `::ng-deep` conforme mostrado abaixo ou mova o tema para uma folha de estilos global.
+</DocsAside>
+
+```scss
+:host {
+    ::ng-deep {
+        @include tokens($my-time-picker-theme);
+    }
+}
+```
+
+### Demonstração
+
+<Sample src="/scheduling/timepicker-styling" height={600} alt="" />
+
+<hr/>
+
+## Referências da API
+<hr/>
+- <ApiLink type="Icon" />
+- <ApiLink type="InputDirective" />
+- <ApiLink type="InputGroup" />
+- <ApiLink type="TimePicker" />
+- <ApiLink kind="sass" module="themes" type="function-time-picker-theme" label="Estilos do IgxTimePickerComponent" />
+- <ApiLink type="OverlayService" />
+- <ApiLink kind="sass" module="themes" type="function-overlay-theme" label="Estilos do IgxOverlay" />
+## Dependências de tema
+
+- <ApiLink kind="sass" module="themes" type="function-input-group-theme" label="Tema do IgxInputGroup" />
+- <ApiLink kind="sass" module="themes" type="function-icon-theme" label="Tema do IgxIcon" />
+- <ApiLink kind="sass" module="themes" type="function-button-theme" label="Tema do IgxButton" />
+- <ApiLink kind="sass" module="themes" type="function-overlay-theme" label="Tema do IgxOverlay" />
+
+## Recursos adicionais
+
+- [Date Time Editor](/date-time-editor)
+- [Label e Input](/label-input)
+- [Integração com formulários reativos](/angular-reactive-form-validation)
+
+Nossa comunidade é ativa e sempre receptiva a novas ideias.
+
+- [Ignite UI for Angular **Fóruns**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

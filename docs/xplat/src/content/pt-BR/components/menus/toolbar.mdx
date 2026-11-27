@@ -1,0 +1,307 @@
+---
+title: "Componente Toolbar do {Platform} | {ProductName}"
+description: "Veja como começar facilmente com o componente Toolbar do {Platform}. Compatível com o Data Chart. Amplie o seu ."
+keywords: "{ProductName}, controles de UI, widgets {Platform}, widgets web, widgets de UI, {Platform}, Suíte de componentes nativos {Platform}, Controles nativos {Platform}, Biblioteca de componentes nativos {Platform}, componentes Toolbar do {Platform}, controles Toolbar do {Platform}"
+license: commercial
+mentionedTypes: ["Toolbar", "ToolAction", "DomainChart", "CategoryChart", "DataChart", "Axis", "ValueLayerValueMode"]
+_language: pt-BR
+llms:
+  description: "O componente Toolbar do {Platform} é um contêiner complementar para operações de UI, usado principalmente com os nossos componentes de gráfico."
+platformType: xplat
+---
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+
+# Visão geral do Toolbar do {Platform}
+
+O componente Toolbar do {Platform} é um contêiner complementar para operações de UI, usado principalmente com os nossos componentes de gráfico. A toolbar se atualiza dinamicamente com um conjunto predefinido de propriedades e itens de ferramenta quando é vinculada aos componentes `DataChart` ou `CategoryChart`. Você poderá criar ferramentas personalizadas para o seu projeto, permitindo que os usuários finais façam alterações e oferecendo um número ilimitado de possibilidades de personalização.
+
+## Exemplo do Toolbar do {Platform}
+
+<Sample src="/charts/toolbar/actions-built-in-category-chart" height={600} alt="Exemplo do Toolbar do {Platform}" />
+
+
+<PlatformBlock for="Angular, React, WebComponents, Blazor">
+## Dependências
+
+<PlatformBlock for="Angular, WebComponents, React">
+Instale os pacotes {ProductName} de layouts, inputs, gráficos e core:
+
+```cmd
+npm install {PackageLayouts}
+npm install {PackageInputs}
+npm install {PackageCharts}
+npm install {PackageCore}
+```
+
+Os módulos a seguir são necessários ao usar o `Toolbar` com o componente `DataChart` e os seus recursos.
+
+</PlatformBlock>
+<PlatformBlock for="Blazor">
+
+
+
+Adicione o namespace **IgniteUI.Blazor.Controls** no arquivo **_Imports.razor**:
+
+```razor
+@using IgniteUI.Blazor.Controls
+```
+
+A integração da toolbar com o gráfico, e as séries, linhas de tendência, anotações e interatividade que seus ferramentas adicionam ao gráfico no cliente, vêm de módulos que nenhum componente Razor solicita; por isso, eles precisam ser registrados. <ApiLink raw type="ToolbarModule" /> e <ApiLink raw type="DataChartCoreModule" /> são opcionais: o `Toolbar` e o `DataChart` os carregam na primeira renderização (consulte [Módulos de componentes](../general-getting-started.mdx#módulos-do-componente)).
+
+</PlatformBlock>
+
+```json-snippet source="/charts/toolbar/layout-actions-for-data-chart" channel="modulesImports...moduleRegistration" exclude="Xaml"
+{
+    "descriptions": {
+        "content": {
+            "type": "Toolbar",
+            "name": "toolbar"
+        }
+    },
+    "modules": [
+        "layouts/ToolbarModule",
+        "charts/DataChartToolbarModule",
+        "charts/DataChartCoreModule",
+        "charts/DataChartCategoryModule",
+        "charts/DataChartAnnotationModule",
+        "charts/DataChartInteractivityModule",
+        "charts/DataChartCategoryTrendLineModule"
+    ],
+    "$modules": [
+        "+doc:modulesImports",
+        "+doc:moduleRegistration"
+    ]
+}
+```
+
+</PlatformBlock>
+
+
+## Uso
+
+### Ações de ferramenta
+
+A seguir, uma lista dos diferentes itens `ToolAction` que você pode adicionar à Toolbar.
+
+- `ToolActionButton`
+- `ToolActionCheckbox`
+- `ToolActionIconButton`
+- `ToolActionIconMenu`
+- `ToolActionLabel`
+- `ToolActionNumberInput`
+- `ToolActionRadio`
+- `ToolActionSubPanel`
+
+Cada uma dessas ferramentas expõe um evento `OnCommand` disparado por clique do mouse. Observe que o `ToolActionIconMenu` é um wrapper para outras ferramentas, que também podem ser envolvidas dentro de um `ToolActionIconMenu`.
+
+Ferramentas novas e existentes podem ser reposicionadas e marcadas como ocultas usando as propriedades `overlayId`, `beforeId` e `afterId` do objeto `ToolAction`. ToolActions também expõe uma propriedade `ToolAction.visibility`.
+
+O exemplo a seguir demonstra alguns recursos. Primeiro, você pode agrupar ferramentas no `ToolActionSubPanel`, inclusive ocultando ferramentas integradas como as ações de ferramenta do menu **ZoomReset** e **AnalyzeMenu**. Neste exemplo, uma nova instância da ação de ferramenta **ZoomReset** é criada dentro do **ZoomMenu**, usando a propriedade `afterId` e atribuindo-a a **ZoomOut** para ser precisa quanto à sua posição. Ela também é destacada pela propriedade `isHighlighted` da ferramenta.
+
+<Sample src="/charts/toolbar/layout-actions-for-data-chart" height={600} alt="Exemplo do Toolbar do {Platform}" />
+
+
+### Integração com o Data Chart do {Platform}
+
+O {Platform} Toolbar contém uma propriedade `Target`. Ela é usada para vincular um componente, como o `DataChart`, conforme mostrado no código abaixo:
+
+```json-snippet source="/charts/toolbar/layout-actions-for-data-chart"
+{
+    "descriptions": {
+        "aboveContentLeft": {
+            "type": "Toolbar",
+            "name": "toolbar",
+            "targetRef": "chart",
+            "orientation": "Horizontal"
+        },
+        "content": {
+            "type": "DataChart",
+            "name": "chart",
+            "isHorizontalZoomEnabled": true,
+            "isVerticalZoomEnabled": true
+        }
+    }
+}
+```
+
+Vários itens `ToolAction` e menus predefinidos ficam disponíveis quando o `DataChart` é vinculado à Toolbar. Veja a lista das ações de ferramenta {Platform} `DataChart` integradas e dos seus `overlayId` associados:
+
+Ações de zoom
+
+- `\ZoomMenu`: um `ToolActionIconMenu` que expõe três itens `ToolActionLabel` para invocar os métodos `m:zoomIn` e `m:zoomOut` do gráfico, para aumentar ou diminuir o nível de zoom do gráfico, incluindo `\ZoomReset`, um `ToolActionLabel` que invoca o método `m:resetZoom` do gráfico para redefinir o nível de zoom para a sua posição padrão.
+
+Ações de tendência
+
+- `\AnalyzeMenu`: um `ToolActionIconMenu` que contém várias opções para configurar diferentes aspectos do gráfico.
+- `\AnalyzeHeader`: um cabeçalho de subseção.
+  - `\LinesMenu`: um submenu que contém várias ferramentas para mostrar diferentes linhas horizontais tracejadas no gráfico.
+  - `\LinesHeader`: um cabeçalho de seção de submenu para as três ferramentas a seguir:
+    - `\\MaxValue`: um `ToolActionCheckbox` que exibe uma linha horizontal tracejada ao longo do yAxis, no valor máximo da série.
+    - `\\MinValue`: um `ToolActionCheckbox` que exibe uma linha horizontal tracejada ao longo do yAxis, no valor mínimo da série.
+    - `\Average`: um `ToolActionCheckbox` que exibe uma linha horizontal tracejada ao longo do yAxis, no valor médio da série.
+  - `\TrendsMenu`: um submenu que contém ferramentas para aplicar várias linhas de tendência à área de plotagem do `DataChart`.
+  - `\TrendsHeader`: um cabeçalho de seção de submenu para as três ferramentas a seguir:
+    - **Exponential**: um `ToolActionRadio` que define o `trendLineType` de cada série do gráfico como **ExponentialFit**.
+    - **Linear**: um `ToolActionRadio` que define o `trendLineType` de cada série do gráfico como **LinearFit**.
+    - **Logarithmic**: um `ToolActionRadio` que define o `trendLineType` de cada série do gráfico como **LogarithmicFit**.
+- `\HelpersHeader`: um cabeçalho de subseção.
+  - `\SeriesAvg`: um `ToolActionCheckbox` que adiciona ou remove uma `ValueLayer` na coleção de séries do gráfico, usando o `ValueLayerValueMode` do tipo `Average`.
+  - `\ValueLabelsMenu`: um submenu que contém várias ferramentas para mostrar diferentes anotações na área de plotagem do `DataChart`.
+  - `\ValueLabelsHeader`: um cabeçalho de seção de submenu para as ferramentas a seguir:
+    - `\ShowValueLabels`: um `ToolActionCheckbox` que alterna a exibição dos valores dos pontos de dados usando uma `CalloutLayer`.
+    - `\ShowLastValueLabel`: um `ToolActionCheckbox` que alterna as anotações do valor final do eixo, usando uma `FinalValueLayer`.
+- `\ShowCrosshairs`: um `ToolActionCheckbox` que alterna as anotações de crosshair ao passar o mouse, por meio da propriedade `crosshairsDisplayMode` do gráfico.
+- `\ShowGridlines`: um `ToolActionCheckbox` que alterna linhas de grade extras aplicando uma `MajorStroke` ao eixo X.
+
+Ação Salvar como imagem
+
+- `\CopyAsImage`: um `ToolActionLabel` que expõe uma opção para copiar o gráfico para a área de transferência.
+- `\CopyHeader`: um cabeçalho de subseção.
+
+### Ícones SVG
+
+Ao adicionar ferramentas manualmente, os ícones podem ser atribuídos com o método `m:RegisterIconFromText`. Há três parâmetros a passar para esse método. O primeiro é o nome da coleção de ícones definida na ferramenta, por exemplo `iconCollectionName`. O segundo é o nome do ícone definido na ferramenta, por exemplo `iconName`, seguido da adição da string SVG.
+
+### Ícones com Data URL
+
+Da mesma forma que ao adicionar SVG, você também pode adicionar uma imagem de ícone a partir de uma URL, por meio de `m:registerIconFromDataURL`. O terceiro parâmetro do método é usado para informar uma string de URL.
+
+O código a seguir registra um ícone de cada forma, uma string SVG e uma URL, em duas coleções:
+
+```json-snippet source="/charts/toolbar/custom-actions-for-data-chart" channel="handler" item="ToolbarCustomIconOnViewInit"
+{
+    "descriptions": {
+        "aboveContentLeft": {
+            "type": "Toolbar",
+            "name": "toolbar"
+        }
+    },
+    "onInit": [
+        "ToolbarCustomIconOnViewInit"
+    ]
+}
+```
+
+Uma ferramenta então solicita um ícone registrado pela coleção e pelo nome sob o qual ele foi registrado:
+
+```json-snippet source="/charts/toolbar/layout-actions-for-data-chart"
+{
+    "type": "ToolActionLabel",
+    "title": "Custom Icon",
+    "iconName": "CustomIcon",
+    "iconCollectionName": "CustomCollection"
+}
+```
+
+### Orientação vertical
+
+Por padrão, a Toolbar do {Platform} é exibida na horizontal, mas ela também pode ser exibida na vertical, definindo a propriedade `Toolbar.orientation`.
+
+```json-snippet source="/charts/toolbar/layout-in-vertical-orientation"
+{
+    "type": "Toolbar",
+    "name": "toolbar",
+    "orientation": "Vertical"
+}
+```
+
+O exemplo a seguir demonstra a orientação vertical da Toolbar do {Platform}.
+
+<Sample src="/charts/toolbar/layout-in-vertical-orientation" height={600} alt="Orientação vertical do {Platform}" />
+
+
+### Editor de cores
+
+Você pode adicionar uma ferramenta personalizada de editor de cores à Toolbar do {Platform}, que também funcionará com o evento Command para aplicar estilização personalizada à sua aplicação.
+
+```json-snippet source="/charts/toolbar/color-editor-support"
+{
+    "descriptions": {
+        "aboveContentLeft": {
+            "type": "Toolbar",
+            "name": "toolbar",
+            "targetRef": "chart",
+            "actions": [
+                {
+                    "type": "ToolActionColorEditor",
+                    "title": "Series Brush",
+                    "name": "colorEditorTool",
+                    "commandId": "ToggleSeriesBrush"
+                }
+            ]
+        },
+        "content": {
+            "type": "DataChart",
+            "name": "chart",
+            "isHorizontalZoomEnabled": true
+        }
+    }
+}
+```
+
+O exemplo a seguir demonstra como estilizar o pincel da série do Data Chart do {Platform} com a ferramenta Color Editor.
+<Sample src="/charts/toolbar/color-editor-support" height={600} alt="Suporte ao Color Editor do {Platform}" />
+
+
+
+{/* ## Styling/Theming
+
+The icon component can be styled by using it's `baseTheme` property directly to the `Toolbar`.
+
+<PlatformBlock for="Angular">
+
+```html
+<igx-toolbar baseTheme="SlingshotDark" />
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-toolbar base-theme="SlingshotDark" />
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbToolbar BaseTheme="BaseControlTheme.SlingshotDark" />
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrToolbar baseTheme="SlingshotDark" />
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Xaml">
+
+```xml
+<igLayouts:XamToolbar BaseTheme="SlingshotDark" />
+```
+
+</PlatformBlock>
+
+{/*The following example demonstrates the various theme options that can be applied.
+<Sample src="/charts/toolbar/theming" height={600} alt="{Platform} Toolbar Styling/Theming" />
+ */}
+
+
+## Referências da API
+
+`Toolbar`<br />
+`DataChart`<br />
+
+## Recursos adicionais
+
+- [{ProductName} **Fóruns**]({ForumsLink})
+- [{ProductName} **GitHub**]({GithubLink})

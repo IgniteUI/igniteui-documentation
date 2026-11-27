@@ -1,0 +1,479 @@
+---
+title: "Reordenação e movimentação de colunas do {Platform} {ComponentTitle} - {ProductName}"
+description: "Defina uma ordem personalizada de colunas e habilite a reordenação das colunas por arrastar e soltar com o mouse ou por gestos de toque, ou usando a API de movimentação de colunas {Platform}. Experimente o {ProductName}!"
+keywords: "{Platform}, {ComponentKeywords}, {ProductName}, Infragistics"
+license: commercial
+mentionedTypes: [{ComponentApiMembers}]
+sharedComponents: ["Grid", "TreeGrid", "HierarchicalGrid"]
+namespace: Infragistics.Controls
+_canonicalLink: "{CanonicalLinkToGridColumnMoving}"
+_language: pt-BR
+llms:
+  description: "O recurso de Movimentação de colunas do {Platform} {ComponentTitle} em {ProductName} permite reordenar colunas de forma rápida e fácil."
+---
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+
+# Reordenação e movimentação de colunas do {ComponentTitle}
+
+O recurso de Movimentação de colunas do {Platform} {ComponentTitle} em {ProductName} permite reordenar colunas de forma rápida e fácil. Isso pode ser feito pela API de Movimentação de colunas ou arrastando e soltando os cabeçalhos para outra posição com o mouse ou por gestos de toque. Na {Platform} {ComponentTitle}, você pode habilitar a Movimentação de colunas para colunas fixadas e não fixadas, e também para [Cabeçalhos de várias colunas](multi-column-headers.mdx).
+
+<DocsAside type="info">
+A reordenação entre colunas e grupos de colunas só é permitida quando estão no mesmo nível da hierarquia e ambos estão no mesmo grupo. A movimentação é permitida entre colunas/grupos de colunas, se forem colunas de nível superior.
+</DocsAside>
+
+<DocsAside type="info">
+Se um cabeçalho de coluna tiver template e a Movimentação de colunas estiver habilitada, ou se a coluna correspondente for agrupável, os elementos com template precisam ter o atributo **draggable** definido como **false**!
+</DocsAside>
+
+<PlatformBlock for="Angular">
+Isso permite anexar manipuladores a qualquer evento emitido pelo elemento; caso contrário, o evento é consumido pela diretiva `igxDrag`.
+</PlatformBlock>
+
+
+<DocsAside type="info">
+Se a área fixada exceder a sua largura máxima permitida (80% da largura total do <ApiLink type="{ComponentName}" />), uma dica visual informará ao usuário final que a operação de soltar é proibida e que a fixação não é possível. Isso significa que você não poderá soltar uma coluna na área fixada.
+</DocsAside>
+
+<PlatformBlock for="Angular">
+```html
+<ng-template igxHeader>
+    <igx-icon [attr.draggable]="false" (click)="onClick()"></igx-icon>
+</ng-template>
+```
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```razor
+@code {
+    public RenderFragment<IgbColumnTemplateContext> headerTemplate => (context) =>
+    {
+        return @<IgbIcon Collection="fas" IconName="fa-thumbtack" draggable="false" @onclick="() => onClick()"></IgbIcon>;
+    };
+}
+```
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+```ts
+public headerTemplate = (ctx: IgcCellTemplateContext) => {
+    return html`
+        <igc-icon draggable="false" @click="${() => this.onClick()}"></igc-icon>
+    `;
+}
+```
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+const headerTemplate = (ctx: IgrCellTemplateContext) => {
+    return (
+    <>
+       <IgrIcon draggable={false} onClick={onClick}></IgrIcon>
+    </>
+    );
+}
+```
+</PlatformBlock>
+
+## {Platform} {ComponentTitle} Exemplo de visão geral da movimentação de colunas
+
+<Sample src="/{ComponentSample}/column-moving-options" height={650} alt="{Platform} {ComponentTitle} Exemplo de visão geral da movimentação de colunas" />
+
+
+
+## Visão geral
+
+O recurso de **movimentação de colunas** é habilitado por grid, o que significa que o <ApiLink type="{ComponentName}" /> pode ter colunas movíveis ou imóveis. Isso é feito pela entrada <ApiLink type="{ComponentName}" member="moving" /> do <ApiLink type="{ComponentName}" />.
+<ComponentBlock for="Grid">
+<PlatformBlock for="Angular">
+
+```html
+<{ComponentSelector} [moving]="true"></{ComponentSelector}>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```razor
+<{ComponentSelector} Moving=true></{ComponentSelector}>
+```
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+```html
+<{ComponentSelector} moving="true"></{ComponentSelector}>
+```
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+<{ComponentSelector} moving={true}></{ComponentSelector}>
+```
+</PlatformBlock>
+
+</ComponentBlock>
+
+<ComponentBlock for="HierarchicalGrid">
+<PlatformBlock for="Angular">
+```html
+<{ComponentSelector} [moving]="true">
+    ...
+    <{RowIslandSelector} [moving]="true"></{RowIslandSelector}>
+</{ComponentSelector}>
+```
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```razor
+<{ComponentSelector} Moving=true>
+    ...
+    <{RowIslandSelector} Moving=true></{RowIslandSelector}>
+</{ComponentSelector}>
+```
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+```html
+<{ComponentSelector} moving="true">
+    ...
+    <{RowIslandSelector} moving="true"></{RowIslandSelector}>
+</{ComponentSelector}>
+```
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+<{ComponentSelector} moving={true}>
+    ...
+    <{RowIslandSelector} moving={true}></{RowIslandSelector}>
+</{ComponentSelector}>
+```
+</PlatformBlock>
+
+</ComponentBlock>
+## API
+
+Além da funcionalidade de arrastar e soltar, o recurso de Movimentação de colunas também oferece métodos de API para mover uma coluna ou reordenar colunas programaticamente:
+
+<ApiLink type="GridBaseDirective" member="moveColumn" /> - Move uma coluna antes ou depois de outra coluna (um alvo). O primeiro parâmetro é a coluna a ser movida, e o segundo é a coluna alvo. Também aceita um terceiro parâmetro opcional `Position` (representando um valor <ApiLink type="DropPosition" />), que determina se a coluna deve ser colocada antes ou depois da coluna alvo.
+
+
+<PlatformBlock for="React, Angular, WebComponents">
+```typescript
+// Move the ID column after the Name column
+const idColumn = grid.getColumnByName("ID");
+const nameColumn = grid.getColumnByName("Name");
+
+grid.moveColumn(idColumn, nameColumn, DropPosition.AfterDropTarget);
+
+```
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```csharp
+    public async void HandleClick()
+    {
+        IgbColumn Col1 = await this.grid.GetColumnByVisibleIndexAsync(0);
+        IgbColumn Col2 = await this.grid.GetColumnByVisibleIndexAsync(1);
+        this.Grid.MoveColumn(Col1,Col2, DropPosition.AfterDropTarget);
+    }
+```
+
+</PlatformBlock>
+
+
+<ApiLink type="Column" member="move" label="Move" /> - Move uma coluna para um índice visível especificado. Se o parâmetro de índice passado for inválido (for negativo ou exceder o número de colunas), ou se a coluna não puder ser movida para esse índice (se estiver dentro de outro grupo), nenhuma operação será realizada.
+
+<PlatformBlock for="WebComponents">
+```typescript
+// Move the ID column at 3rd position.
+const idColumn = grid.getColumnByName("ID");
+idColumn.move(3);
+```
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```csharp
+    public async void HandleClick()
+    {
+        IgbColumn Col1 = await this.grid.GetColumnByVisibleIndexAsync(0);
+        this.Col1.Move(3);
+    }
+```
+</PlatformBlock>
+
+Observe que, ao usar o recurso de movimentação de colunas, o <PlatformBlock for="Angular,WebComponents"><ApiLink type="GridComponentEventMap" member="columnMovingEnd" /></PlatformBlock><PlatformBlock for="React"><ApiLink type="Grid" member="onColumnMovingEnd" /></PlatformBlock><PlatformBlock for="Blazor"><ApiLink type="Grid" member="columnMovingEnd" /></PlatformBlock> evento será emitido se a operação for bem-sucedida. Observe também que, em comparação com a funcionalidade de arrastar e soltar, usar o recurso de movimentação de colunas não exige definir a propriedade <ApiLink type="{ComponentName}" member="moving" /> como true.
+
+## Eventos
+
+Há vários eventos relacionados à movimentação de colunas que permitem acompanhar as operações de arrastar e soltar das colunas. São eles <PlatformBlock for="Angular,WebComponents"><ApiLink type="GridComponentEventMap" member="columnMovingStart" /></PlatformBlock><PlatformBlock for="React"><ApiLink type="Grid" member="onColumnMovingStart" /></PlatformBlock><PlatformBlock for="Blazor"><ApiLink type="Grid" member="columnMovingStart" /></PlatformBlock>, `ColumnMoving` e <PlatformBlock for="Angular,WebComponents"><ApiLink type="GridComponentEventMap" member="columnMovingEnd" /></PlatformBlock><PlatformBlock for="React"><ApiLink type="Grid" member="onColumnMovingEnd" /></PlatformBlock><PlatformBlock for="Blazor"><ApiLink type="Grid" member="columnMovingEnd" /></PlatformBlock>.
+
+Você pode se inscrever no <PlatformBlock for="Angular,WebComponents"><ApiLink type="GridComponentEventMap" member="columnMovingEnd" /></PlatformBlock><PlatformBlock for="React"><ApiLink type="Grid" member="onColumnMovingEnd" /></PlatformBlock><PlatformBlock for="Blazor"><ApiLink type="Grid" member="columnMovingEnd" /></PlatformBlock> evento do <ApiLink type="{ComponentName}" /> para implementar alguma lógica personalizada quando uma coluna é solta em uma nova posição. Por exemplo, você pode cancelar a soltura da coluna **Category** depois da coluna **Change On Year(%)** no trecho de código a seguir.
+
+<PlatformBlock for="Angular">
+```html
+<{ComponentSelector} #dataGrid [data]="data" [autoGenerate]="false" [moving]="true" (columnMovingEnd)="onColumnMovingEnd($event)">
+    <igx-column [field]="'Category'"></igx-column>
+    <igx-column [field]="'Change On Year(%)'" [dataType]="'number'" ></igx-column>
+</{ComponentSelector}>
+```
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+```html
+<{ComponentSelector} id="dataGrid" auto-generate="false" moving="true">
+    <igc-column field="Category"></igc-column>
+    <igc-column field="Change On Year(%)" data-type="number" ></igc-column>
+</{ComponentSelector}>
+```
+
+```typescript
+constructor() {
+    var dataGrid = this.dataGrid = document.getElementById('dataGrid') as {ComponentName}Component;
+    dataGrid.data = this.data;
+    dataGrid.addEventListener("columnMovingEnd", this.onColumnMovingEnd);
+}
+```
+
+```typescript
+public onColumnMovingEnd(event) {
+    if (event.detail.source.field === "Category" && event.detail.target.field === "Change On Year(%)") {
+        event.detail.cancel = true;
+    }
+}
+```
+
+</PlatformBlock>
+
+<ComponentBlock for="Grid, HierarchicalGrid">
+<PlatformBlock for="React">
+```tsx
+const onColumnMovingEnd = (event: IgrColumnMovingEndEventArgs) => {
+   if (event.detail.source.field === "Category" && event.detail.target.field === "Change On Year(%)") {
+        event.detail.cancel = true;
+    }
+}
+
+<{ComponentSelector} autoGenerate={false} moving={true} data={data} onColumnMovingEnd={onColumnMovingEnd}>
+    <IgrColumn field="Category"></IgrColumn>
+    <IgrColumn field="Change On Year(%)" dataType="number"></IgrColumn>
+</{ComponentSelector}>
+
+```
+</PlatformBlock>
+</ComponentBlock>
+
+<PlatformBlock for="Blazor">
+```razor
+    <{ComponentSelector} ShowGroupArea="true" @ref='Grid' Width="100%" Height="100%"
+             AllowFiltering=true
+             FilterMode="FilterMode.ExcelStyleFilter"
+             AutoGenerate=true
+             Data=northwindEmployees
+             Moving="true"
+             ColumnMovingEndScript='onColumnMovingEnd'>
+    </{ComponentSelector}>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```javascript
+igRegisterScript("onColumnMovingEnd", (event) => {
+    if (event.detail.source.field === "Category" && event.detail.target.field === "Change On Year(%)") {
+        event.detail.cancel = true;
+    }
+}, false);
+```
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+## Estilização
+
+Para começar a estilizar os cabeçalhos de movimentação de colunas do <ApiLink type="{ComponentName}" />, precisamos importar o arquivo `index`, onde ficam todas as funções de tema e os mixins dos componentes:
+
+```scss
+@use "igniteui-{Platform}/theming" as *;
+
+// IMPORTANT: Prior to {ProductName} version 13 use:
+// @import '~igniteui-{Platform}/lib/core/styles/themes/index';
+```
+
+Usando a abordagem mais simples, criamos um novo tema que estende o <ApiLink type="function-grid-theme" label="grid-theme" kind="sass" module="index.html" /> e aceita os parâmetros `$ghost-header-background`, `$ghost-header-text-color` e `$ghost-header-icon-color`.
+
+```scss
+// Define dark theme for the column moving
+$dark-grid-column-moving-theme: grid-theme(
+    $ghost-header-text-color: #F4D45C,
+    $ghost-header-background: #575757,
+    $ghost-header-icon-color: #f4bb5c
+);
+```
+
+A última etapa é **incluir** os mixins dos componentes com o seu tema correspondente:
+
+```scss
+@include grid($dark-grid-column-moving-theme);
+```
+
+<DocsAside type="info">
+Dependendo da estratégia de [**View Encapsulation**](/components/themes/sass/component-themes.html#view-encapsulation) do componente, pode ser necessário `penetrate` esse encapsulamento usando `::ng-deep`
+</DocsAside>
+
+```scss
+:host {
+    ::ng-deep {
+        @include grid($dark-grid-column-moving-theme);
+    }
+}
+```
+
+### Definindo uma paleta de cores
+
+Em vez de fixar os valores de cor como acabamos de fazer, podemos obter mais flexibilidade em relação às cores usando as funções <ApiLink type="function-igx-palette" label="igx-palette" kind="sass" module="index.html" /> e <ApiLink type="function-igx-color" label="igx-color" kind="sass" module="index.html" />.
+
+
+**igx-palette** gera uma paleta de cores com base nas cores primária e secundária que são passadas:
+
+```scss
+$yellow-color: #F4D45C;
+$black-color: #575757;
+
+$dark-palette: palette($primary: $yellow-color, $secondary: $black-color);
+```
+
+E então, com <ApiLink type="function-igx-color" label="**igx-color**" kind="sass" module="index.html" />, podemos obter facilmente uma cor da paleta.
+
+```scss
+$dark-grid-column-moving-theme: grid-theme(
+    $palette: $dark-palette,
+    $ghost-header-text-color: color($dark-palette, "primary", 400),
+    $ghost-header-background: color($dark-palette, "secondary", 200),
+    $ghost-header-icon-color: color($dark-palette, "primary", 500)
+);
+```
+
+
+<DocsAside type="info">
+As funções de cor e de paleta são poderosas para gerar e obter cores. Consulte o tópico [Paletas](/components/themes/palettes.html) para orientações detalhadas sobre como usá-las.
+</DocsAside>
+
+### Usando schemas
+
+Indo além do mecanismo de temas, você pode criar uma estrutura robusta e flexível que se beneficia dos [schemas](/components/themes/sass/schemas.html). Um **schema** é uma receita de tema.
+
+Estenda um dos dois schemas predefinidos fornecidos para cada componente, neste caso - <ApiLink type="variable-_light-grid" label="light-grid" kind="sass" module="index.html" />.
+
+```scss
+// Extending the dark grid schema
+$dark-grid-column-moving-schema: extend($_light-grid,
+        (
+            ghost-header-text-color:(
+               color: ("primary", 400)
+            ),
+            ghost-header-background:(
+               color: ("secondary", 200)
+            ),
+            ghost-header-icon-color:(
+               color: ("primary", 500)
+            )
+        )
+);
+```
+
+Para aplicar o nosso schema personalizado, precisamos **estender** um dos globais (<ApiLink type="variable-light-schema" label="light" kind="sass" module="index.html" /> ou <ApiLink type="variable-dark-schema" label="dark" kind="sass" module="index.html" />), o que basicamente indica os componentes com um schema personalizado, e depois adicioná-lo ao tema do respectivo componente:
+
+```scss
+// Extending the global dark-schema
+$custom-light-schema: extend($light-schema,(
+    igx-grid: $dark-grid-column-moving-schema,
+));
+
+// Defining dark-grid-theme with the global dark schema
+$dark-grid-column-moving-theme: grid-theme(
+  $palette: $dark-palette,
+  $schema: $custom-light-schema
+);
+```
+
+Não se esqueça de incluir o tema da mesma forma como foi demonstrado acima.
+
+### Demonstração
+
+
+<Sample src="/{ComponentSample}/column-moving-styles" height={650} alt="{Platform} {ComponentTitle} Exemplo estilizado de movimentação da grade" />
+
+
+
+<DocsAside type="info">
+O exemplo não será afetado pelo tema global selecionado em **Change Theme**.
+</DocsAside>
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents, Blazor, React">
+## Estilização
+
+Além dos temas predefinidos, a grade pode ser personalizada ainda mais definindo algumas das propriedades CSS disponíveis. Para criar um tema completo a partir de apenas algumas cores, consulte o [tópico de temas](theming.mdx).
+
+Caso você queira alterar algumas das cores, primeiro é preciso definir uma classe para a grade:
+
+<PlatformBlock for="WebComponents">
+```html
+<{ComponentSelector} class="grid"></{ComponentSelector}>
+```
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+<{ComponentSelector} className="grid"></{ComponentSelector}>
+```
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```razor
+<{ComponentSelector} class="grid"></{ComponentSelector}>
+```
+</PlatformBlock>
+
+Em seguida, defina as propriedades CSS relacionadas nessa classe:
+
+```css
+.grid {
+    --ig-grid-ghost-header-text-color: #f4d45c;
+    --ig-grid-ghost-header-background: #ad9d9d;
+    --ig-grid-ghost-header-icon-color: #f4d45c;
+}
+```
+
+### Demonstração
+
+<Sample src="/{ComponentSample}/column-moving-styles" height={650} alt="{Platform} {ComponentTitle} Exemplo estilizado de movimentação da grade" />
+
+</PlatformBlock>
+
+## Referências da API
+<ApiLink type="{ComponentName}" />
+<ApiLink type="Column" />
+## Recursos adicionais
+
+<ComponentBlock for="Grid">
+- [Virtualização e desempenho](virtualization.mdx)
+- [Paginação](paging.mdx)
+- [Filtragem](filtering.mdx)
+- [Ordenação](sorting.mdx)
+- [Resumos](summaries.mdx)
+- [Fixação de colunas](column-pinning.mdx)
+- [Redimensionamento de colunas](column-resizing.mdx)
+- [Seleção](selection.mdx)
+- [Pesquisa](search.mdx)
+</ComponentBlock>
+
+Nossa comunidade é ativa e sempre receptiva a novas ideias.
+
+- [{ProductName} **Fóruns**]({ForumsLink})
+- [{ProductName} **GitHub**]({GithubLink})

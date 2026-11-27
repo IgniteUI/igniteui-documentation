@@ -1,0 +1,311 @@
+---
+title: "Temas do {Platform} {ComponentTitle} - {ProductName}"
+description: "Um tema de {ProductName} {ComponentTitle} pode ser criado apenas com uma cor de fundo, uma cor de primeiro plano e uma cor de destaque. Gere os tokens derivados --ig-grid-* com grid-theme(), o Theming MCP ou o playground de temas."
+keywords: "{Platform} {ComponentTitle} temas, {Platform} {ComponentTitle} estilização, tema de grade, grid-theme, tokens derivados, theming mcp, variáveis css, {ProductName}, Infragistics"
+license: commercial
+mentionedTypes: [{ComponentApiMembers}]
+sharedComponents: ["Grid", "TreeGrid", "HierarchicalGrid", "PivotGrid"]
+namespace: Infragistics.Controls
+_canonicalLink: "{CanonicalLinkToGridTheming}"
+_language: pt-BR
+llms:
+  description: "A {ProductName} {ComponentTitle} theme can be built from a background, foreground and accent color, with every other --ig-grid-* color derived. Generate the derived tokens with grid-theme() (Sass), the Theming MCP or the theme playground; without them each property is independent."
+---
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+
+# Temas do {Platform} {ComponentTitle}
+
+Um tema de {ComponentTitle} pode ser criado apenas com uma cor de **fundo**, **primeiro plano** e **destaque**, com todas as demais cores derivadas delas: o cabeçalho, as linhas, as bordas, os resumos, a barra de ferramentas, o paginador e os popups de filtragem. As cores derivadas não precisam ser escritas à mão; gere-as com <PlatformBlock for="WebComponents, React">`grid-theme()`, </PlatformBlock>o [Theming MCP](../../ai/theming-mcp.mdx) ou o [playground de temas](#experimente).
+
+A derivação fica no tema gerado, não no componente. Por padrão, cada propriedade de `--ig-grid-*` é independente e altera apenas a sua própria parte do {ComponentTitle} - veja [Ajuste fino de propriedades individuais](#ajuste-fino-de-propriedades-individuais).
+
+<DocsAside type="info">
+Não há um conjunto separado de tokens por grade. A Grid, a Tree Grid, a Hierarchical Grid e a Pivot Grid leem todas as mesmas propriedades customizadas de `--ig-grid-*`, então o mesmo tema se aplica a qualquer uma delas sem modificação.
+</DocsAside>
+
+## Exemplo de temas do {Platform} {ComponentTitle}
+
+Os quatro temas abaixo são personalizados: foram escritos para este exemplo, não vêm com a biblioteca. Eles compartilham um bloco gerado de tokens derivados, então cada tema define apenas os tokens primários e algumas cores de superfície e borda. Ao alternar entre eles, você vê até onde esses poucos valores chegam em um tema gerado.
+
+<ComponentBlock for="Grid">
+
+<Sample iframeOnly noBorder={false} src="/{ComponentSample}/theming" height={720} alt="Exemplo de temas do {Platform} {ComponentTitle}" />
+
+</ComponentBlock>
+<ComponentBlock for="TreeGrid">
+
+<Sample iframeOnly noBorder={false} src="/{ComponentSample}/theming" height={710} alt="Exemplo de temas do {Platform} {ComponentTitle}" />
+
+</ComponentBlock>
+<ComponentBlock for="HierarchicalGrid">
+
+<Sample iframeOnly noBorder={false} src="/{ComponentSample}/theming" height={630} alt="Exemplo de temas do {Platform} {ComponentTitle}" />
+
+</ComponentBlock>
+<ComponentBlock for="PivotGrid">
+
+<Sample iframeOnly noBorder={false} src="/{ComponentSample}/theming" height={650} alt="Exemplo de temas do {Platform} {ComponentTitle}" />
+
+</ComponentBlock>
+
+## Criar um tema
+
+Um tema gerado é um bloco de propriedades customizadas de `--ig-grid-*` declaradas em uma classe. O bloco contém os três tokens primários, além de todos os outros tokens escritos como expressões CSS sobre eles:
+
+```css
+.my-grid {
+  --ig-grid-background: #08002e;
+  --ig-grid-accent-color: #ff7d52;
+  --ig-grid-foreground: hsla(from color(from var(--ig-grid-background) var(--y-contrast)) h 0 l/1);
+  --ig-grid-header-background: color-mix(in srgb, var(--ig-grid-foreground) 6%, var(--ig-grid-background));
+  --ig-grid-header-text-color: var(--ig-grid-foreground);
+  --ig-grid-row-hover-background: color-mix(in srgb, var(--ig-grid-accent-color) 8%, var(--ig-grid-row-odd-background));
+  /* … and the rest of the token set */
+}
+```
+
+Escolha o caminho que se encaixa na sua toolchain; cada um produz este mesmo conjunto de tokens.
+
+<PlatformBlock for="WebComponents, React">
+
+### Sass
+
+Se o seu projeto compila Sass, o mecanismo de temas pode gerar o conjunto de tokens para você usando a função `grid-theme()`. Para usá-la, primeiro instale o pacote de temas:
+
+```bash
+npm install igniteui-theming
+```
+
+Em seguida, importe o pacote, que exporta as funções de tema e o mixin `tokens()`:
+
+```scss
+@use "igniteui-theming" as *;
+```
+
+Depois, declare o tema com <ApiLink type="function-grid-theme" label="grid-theme" kind="sass" module="index.html" /> e inclua-o no elemento que você quer afetar:
+
+```scss
+.my-grid {
+  @include tokens(grid-theme(
+    $background: #08002e,
+    $accent-color: #ff7d52
+  ));
+}
+```
+
+Cada parâmetro corresponde ao token de mesmo nome - `$background` para `--ig-grid-background`, `$accent-color` para `--ig-grid-accent-color` - e cada token que você deixar de fora é emitido como uma expressão sobre os que você definiu.
+
+</PlatformBlock>
+
+### Theming MCP
+
+O [Ignite UI Theming MCP](../../ai/theming-mcp.mdx) gera o tema por meio do seu assistente de IA. Peça a saída em CSS e ele retorna propriedades customizadas prontas para uso, então não é preciso um toolchain local de Sass.
+
+<PlatformBlock for="Blazor">
+Este é o caminho recomendado para projetos Blazor. Informe a plataforma no seu prompt:
+
+> _"Usando a plataforma Blazor, crie um tema CSS de grade para a classe `.my-grid` com fundo #08002e e cor de destaque #ff7d52."_
+
+Adicione o CSS gerado ao seu `wwwroot/css/app.css`.
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents, React">
+> _"Crie um tema CSS de grade para a classe `.my-grid` com fundo #08002e e cor de destaque #ff7d52."_
+
+</PlatformBlock>
+
+### Playground de temas
+
+O [playground de temas](#experimente) no final deste tópico gera o conjunto de tokens para as cores que você escolher. Selecione **Mostrar código** para copiar o bloco CSS completo.
+
+### Mantenha o tema atualizado
+
+Um bloco CSS gerado é um instantâneo da versão da biblioteca para a qual foi gerado. Gere-o novamente após uma atualização do {ProductName} para incluir quaisquer novas mudanças no tema da grade.<PlatformBlock for="WebComponents, React"> Com o `grid-theme()`, atualize o `igniteui-theming` junto com os seus outros pacotes {ProductName} e recompile - é um pacote separado, então atualizar apenas os componentes não o atualiza.</PlatformBlock> Com o Theming MCP ou o playground, execute novamente o mesmo prompt ou as mesmas cores e substitua o bloco.
+
+## Aplique o tema
+
+Aplique a classe ao {ComponentTitle}:
+
+<ComponentBlock for="Grid, TreeGrid, HierarchicalGrid">
+
+<PlatformBlock for="WebComponents">
+```html
+<{ComponentSelector} class="my-grid"></{ComponentSelector}>
+```
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+<{ComponentSelector} className="my-grid"></{ComponentSelector}>
+```
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```razor
+<{ComponentSelector} Class="my-grid"></{ComponentSelector}>
+```
+</PlatformBlock>
+
+</ComponentBlock>
+<ComponentBlock for="PivotGrid">
+
+O {ComponentTitle} gerencia seu próprio atributo `class`, então coloque a classe do tema em um elemento contêiner. Os tokens são herdados pelo {ComponentTitle} dentro dele:
+
+<PlatformBlock for="WebComponents">
+```html
+<div class="my-grid">
+    <{ComponentSelector}></{ComponentSelector}>
+</div>
+```
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+<div className="my-grid">
+    <{ComponentSelector}></{ComponentSelector}>
+</div>
+```
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```razor
+<div class="my-grid">
+    <{ComponentSelector}></{ComponentSelector}>
+</div>
+```
+</PlatformBlock>
+
+</ComponentBlock>
+
+Com a classe aplicada, o tema está completo. O {ComponentTitle} agora é índigo escuro com um destaque coral, e o texto, o cabeçalho, as bordas das linhas, os estados de hover, os tons de seleção e os elementos dos popups foram todos calculados a partir desses dois valores. A partir daqui, os tokens primários são tudo o que você precisa alterar.
+
+<DocsAside type="note">
+Declare os tokens primários no mesmo elemento dos tokens derivados, ou em um dos seus ancestrais. As referências `var()` de uma propriedade customizada são resolvidas no elemento em que ela é declarada; por isso, tokens primários definidos em um descendente desse elemento são ignorados pelo bloco derivado.
+</DocsAside>
+
+## Tokens primários
+
+Em um tema gerado, o {ComponentTitle} é construído a partir de três tokens primários, e todas as demais cores seguem esses tokens.
+
+| Token | O que ele controla em um tema gerado |
+| -- | -- |
+| `--ig-grid-background` | A superfície sobre a qual todo o componente é construído. Todas as outras superfícies e o primeiro plano padrão são derivados dela. |
+| `--ig-grid-foreground` | Texto e ícones. Derivados do fundo por contraste quando não definidos. |
+| `--ig-grid-accent-color` | Cor interativa: indicadores de ordenação, seleção, tons de hover, foco. |
+
+`--ig-grid-foreground` está listado como primário, mas raramente precisa ser definido. Se deixado de lado, é escolhido por contraste com o fundo; assim, um fundo escuro produz texto claro, e um fundo claro produz texto escuro, sem uma segunda declaração.
+
+## Como a derivação funciona
+
+Os tokens derivados em um tema gerado não são cores fixas. Cada um é uma expressão CSS sobre os tokens primários:
+
+```css
+.my-grid {
+  --ig-grid-foreground: hsla(from color(from var(--ig-grid-background) var(--y-contrast)) h 0 l/1);
+  --ig-grid-header-background: color-mix(in srgb, var(--ig-grid-foreground) 6%, var(--ig-grid-background));
+  --ig-grid-row-hover-background: color-mix(in srgb, var(--ig-grid-accent-color) 8%, var(--ig-grid-row-odd-background));
+  --ig-grid-sorted-header-icon-color: hsl(from var(--ig-grid-accent-color) h s l/0.7);
+}
+```
+
+Duas consequências decorrem disso. Primeiro, ao alterar um token primário, tudo o que depende dele é recalculado, inclusive em tempo de execução por meio das propriedades customizadas CSS. Segundo, as relações se mantêm qualquer que seja o valor fornecido, então um tema não pode sair de sincronia consigo mesmo. Ambos valem apenas enquanto os tokens gerados estiverem declarados; ao removê-los, cada propriedade volta a ser independente.
+
+## Aprofundando
+
+Em um tema gerado, alguns tokens são raízes de derivação por si mesmos. Declarar um deles o desvincula do fundo, e o que estiver sobre ele deve derivar do novo valor.
+
+`--ig-grid-header-background` é o exemplo mais claro. Se não for alterado, ele é misturado a partir de `--ig-grid-background`, e o texto do cabeçalho segue `--ig-grid-foreground`. Ao declará-lo, o texto do cabeçalho é recalculado para ter contraste com o próprio fundo do cabeçalho:
+
+```css
+.my-grid {
+  --ig-grid-header-background: #ff7d52;
+  --ig-grid-header-text-color: hsla(from color(from var(--ig-grid-header-background) var(--y-contrast)) h 0 l/1);
+}
+```
+
+<DocsAside type="note">
+Recorra a isso apenas quando quiser que uma superfície deixe de acompanhar o fundo. A maioria dos tokens derivados é melhor deixar como está - sobrescrever um deles fixa um valor que, de outra forma, permaneceria em sincronia com o restante do tema.
+</DocsAside>
+
+## Estrutura
+
+Cor é só metade de um tema. Densidade e arredondamento são controlados por tokens globais do design system, e não por tokens da grade; por isso, você os define junto com os tokens da grade:
+
+```css
+.my-grid {
+  --ig-size: var(--ig-size-small);   /* small | medium | large */
+  --ig-radius-factor: 0;             /* 0 to 1 */
+}
+```
+
+As linhas da grade também são tokens do tema. Para ocultar uma delas, tinja-a com a superfície por trás, em vez de removê-la, para que as métricas das linhas não mudem entre os temas:
+
+```css
+.my-grid {
+  /* horizontal dividers, blended away */
+  --ig-grid-row-border-color: var(--ig-grid-background);
+  /* vertical dividers, drawn in the same color the theme derives for rows */
+  --ig-grid-body-column-border-color-odd: hsl(from color-mix(in srgb, var(--ig-grid-foreground) 16%, var(--ig-grid-background)) h s l/0.38);
+  --ig-grid-body-column-border-color-even: hsl(from color-mix(in srgb, var(--ig-grid-foreground) 16%, var(--ig-grid-background)) h s l/0.38);
+}
+```
+
+## Ajuste fino de propriedades individuais
+
+Por padrão, cada propriedade de `--ig-grid-*` é independente. Cada uma é resolvida com base na paleta básica - no tema Material, por exemplo, o cabeçalho usa `var(--ig-grid-header-background, var(--ig-gray-100))` - então um único ajuste altera apenas essa parte do {ComponentTitle} e deixa o restante do design intacto. Isso torna os ajustes pontuais seguros e previsíveis:
+
+```css
+.my-grid {
+  --ig-grid-header-background: #120b3d;
+  --ig-grid-header-text-color: #ffffff;
+}
+```
+
+A mesma independência se aplica aos tokens primários. Sem um tema gerado, `--ig-grid-background` e `--ig-grid-accent-color` são propriedades comuns e **não** se propagam para o restante do {ComponentTitle}:
+
+```css
+/* The background changes, the header stays gray. */
+.my-grid {
+  --ig-grid-background: #08002e;
+  --ig-grid-accent-color: #ff7d52;
+}
+```
+
+Para redesenhar toda a {ComponentTitle} a partir de poucas cores, [crie um tema](#criar-um-tema).
+
+## Experimente
+
+Altere uma cor e veja como ela alcança o cabeçalho, as linhas, os resumos, o paginador e os popups de filtragem. Troque de grade para confirmar que os mesmos tokens servem a todas elas e, em seguida, selecione **Mostrar código** para copiar o bloco CSS completo - os tokens primários junto com todos os tokens derivados.
+
+<Sample iframeOnly fullscreenBtn noBorder={false} src="/grids/playground/grid-theme-playground" height={700} alt="playground de temas da {Platform}" />
+
+## Referências da API
+
+- <ApiLink type="{ComponentName}" />
+<PlatformBlock for="WebComponents, React">
+- <ApiLink type="function-grid-theme" label="grid-theme" kind="sass" module="index.html" />
+</PlatformBlock>
+
+## Recursos adicionais
+
+<ComponentBlock for="Grid">
+- [Visão geral do {ComponentTitle}](../data-grid.mdx)
+</ComponentBlock>
+<ComponentBlock for="TreeGrid, HierarchicalGrid, PivotGrid">
+- [Visão geral do {ComponentTitle}](overview.mdx)
+</ComponentBlock>
+- [Paletas](../../themes/palettes.mdx)
+- [Tipografia](../../themes/typography.mdx)
+<ComponentBlock for="Grid, TreeGrid, HierarchicalGrid">
+- [Tamanho](size.mdx)
+- [Estilização condicional](conditional-cell-styling.mdx)
+</ComponentBlock>
+
+Nossa comunidade é ativa e sempre receptiva a novas ideias.
+
+- [{ProductName} **Fóruns**]({ForumsLink})
+- [{ProductName} **GitHub**]({GithubLink})

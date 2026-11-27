@@ -1,0 +1,94 @@
+---
+title: "Filtro de resaltado de gráficos de {Platform} | Visualización de datos | Infragistics"
+description: "Filtro de resaltado de gráficos de {Platform} de Infragistics"
+keywords: "Gráficos {Platform}, resaltado, filtrado, Infragistics"
+license: commercial
+mentionedTypes: ["CategoryChart", "DataChart", "Series", "HighlightedValuesDisplayMode", "HorizontalAnchoredCategorySeries"]
+namespace: Infragistics.Controls.Charts
+_language: es
+llms:
+  description: "Los componentes de gráfico {ProductName} admiten una superposición de resaltado de datos que puede mejorar la visualización de las series representadas en esos gráficos, al permitirle ver un subconjunto de los datos representados."
+platformType: xplat
+---
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+
+
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+# Filtro de resaltado de gráficos de {Platform}
+
+Los componentes de gráfico {ProductName} admiten una superposición de resaltado de datos que puede mejorar la visualización de las series representadas en esos gráficos, al permitirle ver un subconjunto de los datos representados. Cuando está habilitada, resalta un subconjunto de los datos mientras muestra el conjunto total con una opacidad reducida en el caso de las series de columnas y áreas, y con una línea discontinua en el caso de las series de líneas. Esto puede ayudarle a visualizar, por ejemplo, valores objetivo frente a valores reales en su conjunto de datos. Esta característica se muestra en el siguiente ejemplo:
+
+<Sample src="/charts/data-chart/chart-highlight-filter-multiple-series" height={500} alt="Ejemplo de filtro de resaltado de {Platform}" />
+
+
+Tenga en cuenta que la característica de resaltado de datos es compatible con `DataChart` y `CategoryChart`, pero se configura de formas distintas en esos controles debido a la naturaleza de su funcionamiento. Una cosa sigue siendo común a esta característica: debe establecer la propiedad `highlightedValuesDisplayMode` en `SeriesHighlightedValuesDisplayMode.Overlay` si quiere ver el resaltado. A continuación se explican las distintas configuraciones de la característica de filtro de resaltado.
+
+## Uso del filtro de resaltado con DataChart
+
+En `DataChart`, gran parte de la API del filtro de resaltado se aplica a las propias series, principalmente estableciendo la propiedad `highlightedDataSource` en una colección que representa un subconjunto de los datos que quiere resaltar. El número de elementos de `highlightedDataSource` debe coincidir con el número de datos enlazados a `DataSource` de la serie que quiere resaltar; en el caso de las series de categorías, se usará de forma predeterminada `ValueMemberPath` que haya definido como ruta de resaltado. El ejemplo de la parte superior de esta página usa `highlightedDataSource` en `DataChart` para mostrar la superposición.
+
+Si el esquema no coincide entre `highlightedDataSource` y `DataSource` de la serie, puede configurarlo mediante la propiedad `HighlightedValueMemberPath` de la serie. Además, si quiere usar `DataSource` de la propia serie como origen del resaltado y tiene una ruta en su elemento de datos que representa el subconjunto, también puede hacerlo. Para ello, basta con establecer la propiedad `HighlightedValueMemberPath` en esa ruta y no proporcionar `highlightedDataSource`.
+
+La opacidad reducida de las series de columnas y áreas puede configurarse estableciendo la propiedad `highlightedValuesFadeOpacity` en la serie. También puede establecer la propiedad `highlightedValuesDisplayMode` en `SeriesHighlightedValuesDisplayMode.Hidden` si no quiere ver la superposición en absoluto.
+
+La parte de la serie que muestra el filtro de resaltado se representará por separado en las capas de leyenda y de información emergente del gráfico. Puede configurar el título que recibe en la información emergente y en la leyenda estableciendo `highlightedTitleSuffix`. Esto añadirá el valor que indique al final de `chartTitle` de la serie.
+
+Si se usa `DataLegend` o `DataToolTipLayer`, las series resaltadas aparecerán agrupadas. Esto puede gestionarse estableciendo la propiedad `highlightedValuesDataLegendGroup` de la serie para clasificarlas adecuadamente.
+
+El siguiente ejemplo muestra el uso de la agrupación de la leyenda de datos y de la superposición de resaltado dentro del control `DataChart`, usando `highlightedValuesDataLegendGroup`:
+
+<Sample src="/charts/data-chart/data-legend-grouping-and-highlighting" height={500} alt="Ejemplo de agrupación con resaltado de la leyenda de datos de {Platform}" />
+
+
+El siguiente ejemplo muestra el uso de la agrupación de la leyenda de datos y de la superposición de resaltado dentro del control `DataChart`, usando `highlightedValuesDataLegendGroup`:
+
+<Sample src="/charts/data-chart/data-tooltip-grouping-and-highlighting" height={500} alt="Ejemplo de agrupación con resaltado de la información emergente de datos de {Platform}" />
+
+
+El siguiente ejemplo muestra el uso de la característica de superposición de resaltado de datos dentro del control `DataChart`, usando `highlightedValueMemberPath`:
+
+<Sample src="/charts/data-chart/chart-highlight-filter" height={500} alt="Ejemplo de filtro de resaltado de {Platform}" />
+
+
+## Uso del filtro de resaltado en CategoryChart
+
+El filtro de resaltado de `CategoryChart` se aplica en el gráfico estableciendo la propiedad `initialHighlightFilter`. Como `CategoryChart` tiene en cuenta de forma predeterminada todas las propiedades del elemento de datos subyacente, también deberá definir `initialGroups` en el gráfico, para que los datos puedan agruparse y agregarse de forma que pueda tener un subconjunto de datos sobre el que filtrar. Puede establecer `initialGroups` en una ruta de valor de su elemento de datos subyacente para agrupar por una ruta que tenga valores duplicados.
+
+{/*Unsure of this part. Need to review */}
+{/* ????? The `initialHighlightFilter` is done using OData filter query syntax. The syntax for this is an abbreviation of the filter operator. For example, if you wanted to have an InitialHighlightFilter of "Month not equals January" it would be represented as "Month ne 'January'"*/}
+
+De forma similar a `DataChart`, la propiedad `highlightedValuesDisplayMode` también se expone en `CategoryChart`. Si no quiere ver la superposición, puede establecer esta propiedad en `SeriesHighlightedValuesDisplayMode.Hidden`.
+
+El siguiente ejemplo muestra el uso de la característica de superposición de resaltado de datos dentro del control `CategoryChart`:
+
+<Sample src="/charts/category-chart/chart-highlight-filter" height={500} alt="Ejemplo de filtro de resaltado de {Platform}" />
+
+
+{/*TODO add new section that talks about how this feature also applies to Range, Financial series and the HighlightedValueMemberPath property corresponds to:
+HighlightedHighMemberPath and HighlightedLowMemberPath in Range Series
+HighlightedHighMemberPath, HighlightedLowMemberPath, HighlightedOpenMemberPath, HighlightedCloseMemberPath in Financial Series*/}
+
+## Recursos adicionales
+
+Puede encontrar más información sobre características relacionadas de los gráficos en estos temas:
+
+- [Resaltado de gráficos](chart-highlighting.mdx)
+- [Información emergente de datos de gráficos](chart-data-tooltip.mdx)
+- [Agregaciones de datos de gráficos](chart-data-aggregations.mdx)
+
+## Referencias de API
+
+La siguiente es una lista de miembros de la API mencionados en las secciones anteriores:
+
+
+| Propiedades de `CategoryChart`                    | Propiedades de `DataChart` |
+| ----------------------------------------------|---------------------------|
+| `highlightedDataSource`        | `highlightedDataSource`  |
+| `highlightedTitleSuffix`        | `highlightedTitleSuffix`  |
+| `highlightedValueMemberPath`    | `highlightedValueMemberPath`     |
+| `highlightedValuesDisplayMode`  | `highlightedValuesDisplayMode`   |
+| `highlightedValuesFadeOpacity`  | `highlightedValuesFadeOpacity`   |
+| `highlightedValuesDisplayMode`  | `highlightedValuesDisplayMode`   |
+| `initialHighlightFilter`        |  |
+| `initialGroups`                 |  |

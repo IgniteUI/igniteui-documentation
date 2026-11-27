@@ -1,0 +1,97 @@
+---
+title: "Anotaciones de usuario de gráficos de {Platform} | Visualización de datos | Infragistics"
+description: "Anotaciones de usuario de gráficos de {Platform} de Infragistics"
+keywords: "Gráficos {Platform}, anotaciones de usuario, Infragistics"
+mentionedTypes: ["DataChart", "UserAnnotationLayer", "UserStripAnnotation", "UserSliceAnnotation", "UserPointAnnotation", "Toolbar", "UserAnnotationInformation", "SeriesViewer", "UserAnnotationInformationEventArgs", "UserAnnotationToolTipContentUpdatingEventArgs"]
+namespace: Infragistics.Controls.Charts
+_language: es
+llms:
+  description: "En {ProductName}, puede anotar el DataChart con anotaciones de corte, de banda y de punto durante la ejecución, usando la característica de anotaciones de usuario."
+platformType: xplat
+---
+
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+import { Image } from 'astro:assets';
+import dataChartUserAnnotationCreate from '@xplat-images/charts/data-chart-user-annotation-create.gif';
+import dataChartUserAnnotationDelete from '@xplat-images/charts/data-chart-user-annotation-delete.gif';
+import Badge from 'igniteui-astro-components/components/mdx/Badge.astro';
+
+
+# Capa de anotaciones de usuario de gráficos de {Platform} <Badge variant="preview" />
+
+En {ProductName}, puede anotar `DataChart` con anotaciones de corte, de banda y de punto durante la ejecución, usando la característica de anotaciones de usuario. Esto permite al usuario final añadir más detalles al gráfico, como señalar eventos únicos importantes (por ejemplo, los informes trimestrales de una empresa) mediante la anotación de corte, o eventos con duración mediante la anotación de banda. También puede señalar puntos individuales de las series representadas mediante la anotación de punto, o cualquier combinación de estas tres.
+
+Esto está integrado directamente con las herramientas disponibles en `Toolbar`. El siguiente tema explica, con ejemplos, cómo puede utilizar `Toolbar` para añadir anotaciones de usuario al área de trazado del gráfico, así como cómo añadir estas anotaciones de usuario mediante código.
+
+<Sample src="/charts/data-chart/user-annotation-layer" height={500} alt="Ejemplo de líneas de tendencia de {Platform}" />
+
+
+<DocsAside type="info">
+Esta característica está diseñada para admitir ejes X e Y, y por ahora no admite ejes radiales ni angulares.
+</DocsAside>
+
+## Uso de las anotaciones de usuario con la barra de herramientas
+
+`Toolbar` expone un elemento de menú Annotations con dos herramientas con las etiquetas "Annotate Chart" y "Delete Note." Para que este elemento de menú aparezca, primero debe establecer la propiedad `isUserAnnotationsEnabled` del gráfico correspondiente en `true`.
+
+La opción "Annotate Chart" que aparece al abrirlo le permite anotar el área de trazado de `DataChart`. Esto puede hacerse añadiendo anotaciones de corte, de banda o de punto. Puede añadir una anotación de corte haciendo clic en una etiqueta del eje X o Y. Puede añadir una anotación de banda haciendo clic y arrastrando en el área de trazado. Además, puede añadir una anotación de punto haciendo clic en un punto de una serie representada en el gráfico.
+
+<Image src={dataChartUserAnnotationCreate} alt="{Platform} user-annotation-create" class="responsive-img" />
+
+Puede eliminar las anotaciones que haya añadido previamente seleccionando el elemento de menú "Delete Note" y, a continuación, haciendo clic en la anotación del eje correspondiente a las anotaciones de usuario de corte o de banda, o haciendo clic en el punto de datos correspondiente en el caso de la anotación de usuario de punto.
+
+<Image src={dataChartUserAnnotationDelete} alt="{Platform} user-annotation-delete" class="responsive-img" />
+
+Al añadir una de estas anotaciones de usuario mediante `Toolbar`, `DataChart` generará un evento llamado `UserAnnotationInformationRequested`, en el que puede proporcionar más información para las anotaciones de usuario. Los argumentos de este evento tienen una propiedad llamada `AnnotationInfo` que devuelve un objeto `UserAnnotationInformation` que permite configurar distintos aspectos de la anotación que se va a añadir.
+
+En la tabla siguiente se detallan las distintas propiedades configurables de `UserAnnotationInformation`:
+
+| Propiedad | Tipo | Descripción |
+|------------|---------|-------------|
+|`annotationData`|`string`|Esta propiedad permite añadir información adicional a la anotación de usuario. Está diseñada para usarse con el evento `UserAnnotationToolTipContentUpdating` y mostrar información adicional en la información emergente de la anotación.|
+|`annotationId`|`string`|Esta propiedad de solo lectura devuelve el ID de cadena único de la anotación de usuario.|
+|`badgeColor`|`string`|Esta propiedad obtiene o establece el color que se usará para el distintivo de la anotación de usuario.|
+|`badgeImageUri`|`string`|Esta propiedad obtiene o establece una ruta a una imagen que se usará como distintivo de la anotación de usuario.|
+|`dialogSuggestedXLocation`|`double`|Esta propiedad obtiene una ubicación X recomendada para mostrar un cuadro de diálogo según la ubicación en la que se añadió la anotación de usuario.|
+|`dialogSuggestedYLocation`|`double`|Esta propiedad obtiene una ubicación Y recomendada para mostrar un cuadro de diálogo según la ubicación en la que se añadió la anotación de usuario.|
+|`UserStripAnnotation.label`|`string`|Esta propiedad obtiene o establece la etiqueta que se mostrará en la anotación de usuario.|
+|`mainColor`|`string`|Esta propiedad obtiene o establece el color que se usará para rellenar el fondo de la anotación de usuario.|
+
+Después de haber realizado los cambios en la anotación mediante el evento `UserAnnotationInformationRequested`, debe invocar el método `m:finishAnnotationFlow` de `DataChart` para finalizar la creación de la anotación y confirmar los cambios. Como alternativa, también puede cancelar la creación de la anotación llamando a `m:cancelAnnotationFlow` y pasando el `annotationId` de la anotación, que puede obtenerse del parámetro `AnnotationInfo` de los argumentos del evento `UserAnnotationInformationRequested`, como se ha indicado anteriormente. Esto eliminará la anotación del área de trazado.
+
+## Uso de las anotaciones de usuario mediante código
+
+Cuando use `UserAnnotationLayer` mediante código, puede invocar dos métodos diferentes en `DataChart` para poner el gráfico en un modo en el que puede añadir o eliminar una anotación de usuario. Estos métodos se llaman `m:startCreatingAnnotation` y `m:startDeletingAnnotation`, respectivamente.
+
+Después de invocar `m:startCreatingAnnotation`, puede añadir una anotación de corte haciendo clic en una etiqueta del eje X o Y, añadir una anotación de banda haciendo clic y arrastrando en el área de trazado y soltando el botón del ratón, o añadir una anotación de punto haciendo clic en un punto de datos de una serie representada en el gráfico.
+
+Al añadir una de estas anotaciones de usuario se generará un evento llamado `UserAnnotationInformationRequested`, en el que puede proporcionar más información para la anotación de usuario. Los argumentos de este evento tienen una propiedad llamada `AnnotationInfo` que devuelve un objeto `UserAnnotationInformation` que permite configurar distintos aspectos de la anotación que se va a añadir.
+
+Después de haber realizado los cambios en la anotación mediante el evento `UserAnnotationInformationRequested`, debe invocar el método `m:finishAnnotationFlow` de `DataChart` para finalizar la creación de la anotación y confirmar los cambios. Como alternativa, también puede cancelar la creación de la anotación llamando a `m:cancelAnnotationFlow` y pasando el `annotationId` de la anotación, que puede obtenerse del parámetro `AnnotationInfo` de los argumentos del evento `UserAnnotationInformationRequested`, como se ha indicado anteriormente. Esto eliminará la anotación del área de trazado.
+
+Una vez añadida la anotación de usuario al gráfico, aparecerá en la colección `Series` como `UserAnnotationLayer`. `UserAnnotationLayer` tiene una colección `UserAnnotationLayer.annotations` que puede almacenar elementos `UserSliceAnnotation`, `UserStripAnnotation` y `UserPointAnnotation`, según el tipo de anotaciones añadidas al área de trazado.
+
+## Información emergente de la anotación de usuario
+
+Cada una de las anotaciones de usuario puede mostrar una información emergente al pasar el ratón por encima, para añadir aún más detalles a las anotaciones.
+
+El gráfico expone un evento `UserAnnotationToolTipContentUpdating` que puede gestionar para actualizar el contenido de la información emergente de la anotación de usuario mientras se muestra la información emergente. Los argumentos de este evento exponen dos propiedades: `Content` y `AnnotationInfo`.
+
+La información emergente está diseñada para funcionar junto con el evento `UserAnnotationInformationRequested`, de modo que pueda proporcionar más detalles a la anotación de usuario mediante la propiedad `UserAnnotationInformation.AnnotationData` de dicho evento. La propiedad `AnnotationInfo` de los argumentos del evento `UserAnnotationToolTipContentUpdating` será la misma instancia que la propiedad `AnnotationInfo` de `UserAnnotationInformationRequested`, que puede modificar en ese evento. Esto le permite aprovechar la información proporcionada a la anotación de usuario en el momento de su creación y ofrecer aún más información en la información emergente.
+
+
+## Referencias de API
+`DataChart`
+`UserAnnotationLayer`
+`UserAnnotationInformation`
+`UserSliceAnnotation`
+`UserStripAnnotation`
+`UserPointAnnotation`
+## Recursos adicionales
+
+Puede encontrar más información sobre características relacionadas de los gráficos en estos temas:
+
+- [Anotaciones de gráficos](chart-annotations.mdx)
+- [Anotaciones de datos de gráficos](chart-data-annotations.mdx)

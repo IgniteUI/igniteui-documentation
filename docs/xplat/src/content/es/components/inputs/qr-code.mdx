@@ -1,0 +1,800 @@
+---
+title: "{Platform} QR Code"
+description: "El {ProductName} QR Code muestra un código QR (Quick Response) escaneable como SVG en línea, generado en el cliente a partir de cualquier valor de cadena, con tamaño personalizable, corrección de errores y un logotipo central."
+keywords: "{Platform} QR Code, {ProductName}, código QR, código escaneable, código QR en SVG, generador de QR, logotipo, corrección de errores"
+license: MIT
+mentionedTypes: ["QrCode"]
+last_updated: "2026-09-23"
+_language: es
+llms:
+  description: "El {ProductName} QR Code muestra un código QR (Quick Response) escaneable como SVG en línea, generado en el cliente a partir de cualquier valor de cadena, con tamaño personalizable, corrección de errores y un logotipo central."
+---
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+import Anatomy from 'igniteui-astro-components/components/mdx/Anatomy.astro';
+import Badge from 'igniteui-astro-components/components/mdx/Badge.astro';
+import Faq from 'igniteui-astro-components/components/mdx/Faq.astro';
+import FaqItem from 'igniteui-astro-components/components/mdx/FaqItem.astro';
+import { Image } from 'astro:assets';
+import qrCodeAnatomy from '@xplat-images/anatomy-content-light/qr-code-lt-a.png';
+import qrCodeDo1 from '@xplat-images/qr-code/qr-code-do1.png';
+import qrCodeDo1_2x from '@xplat-images/qr-code/qr-code-do1@2x.png';
+import qrCodeDoNot1 from '@xplat-images/qr-code/qr-code-do-not1.png';
+import qrCodeDoNot1_2x from '@xplat-images/qr-code/qr-code-do-not1@2x.png';
+import qrCodeDo2 from '@xplat-images/qr-code/qr-code-do2.png';
+import qrCodeDo2_2x from '@xplat-images/qr-code/qr-code-do2@2x.png';
+import qrCodeDoNot2 from '@xplat-images/qr-code/qr-code-do-not2.png';
+import qrCodeDoNot2_2x from '@xplat-images/qr-code/qr-code-do-not2@2x.png';
+
+{/*
+Blazor is excluded in toc.json until its QR Code wrappers ship. Its blocks below are staged and must be verified against the released wrapper APIs before removing the exclusion.
+*/}
+
+# Componente QR Code de <Badge variant="new" />
+
+El {ProductName} QR Code muestra un código QR (Quick Response) escaneable como SVG en línea, generado en el cliente a partir de cualquier valor de cadena, con tamaño personalizable, corrección de errores y logotipo central.
+
+## Demostración en vivo
+
+La demostración de {Platform} QR Code muestra un código a partir de una cadena de URL y permite cambiar la forma de sus módulos, su tamaño y su logotipo central.
+
+<PlatformBlock for="Angular">
+
+<Sample src="/data-display/qr-code-overview" height={595} position="center" noBackground={false} showThemePicker={true} noBorder={false} alt="Ejemplo de QR Code de Angular" />
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+<Sample src="/inputs/qr-code/overview" height={620} position="center" noBackground={false} noBorder={false} showThemePicker={true} alt="Ejemplo de {Platform} QR Code" />
+
+</PlatformBlock>
+
+## Anatomía
+
+El {Platform} QR Code es un gráfico SVG cuadrado formado por tres esquinas de patrón de localización, los módulos de datos codificados, un margen de zona silenciosa y un logotipo central opcional.
+
+<Anatomy
+  class="qr-code-anatomy"
+  name="QR Code"
+  description="Partes del QR Code: contenedor, matriz QR, zona silenciosa, logotipo central opcional y esquinas de patrón de localización."
+  src={qrCodeAnatomy.src}
+  alt="Anatomía del QR Code"
+/>
+
+<style>{`
+  .qr-code-anatomy {
+    --igd-anatomy-padding: 0px;
+  }
+
+  [id^="cw-"][id*="qr-code"][id$="-example"]:not([id*="logo"]) .igd-sample-frame {
+    width: 100%;
+  }
+`}</style>
+
+<span class="ig-typography__body-2" style="display: block; margin-bottom: 24px;"><strong>1. Contenedor del QR Code:</strong> el elemento host que renderiza el SVG.<br />
+<strong>2. Matriz QR:</strong> la matriz codificada que almacena el destino o la carga de datos.<br />
+<strong>3. Zona silenciosa:</strong> el espacio vacío alrededor del código que garantiza que los lectores puedan leerlo de forma fiable.<br />
+<strong>4. Logotipo central (opcional):</strong> un contenedor central opcional que se usa para mostrar un logotipo de marca o un icono personalizado.<br />
+<strong>5. Esquinas de patrón de localización:</strong> marcadores cuadrados en las esquinas que ayudan a los lectores a detectar y orientar correctamente el código.</span>
+
+```text
+<igc-qr-code>
+└── svg[role="img"]
+    ├── <title>                          // "QR code: <value>" or the aria-label value
+    ├── ::part(background)               // background rect
+    ├── <mask>                           // rendered when logo-src is set
+    ├── <g>                              // masked when logo-src is set
+    │   ├── ::part(dots)                 // data modules path
+    │   ├── ::part(corner-square)        // outer finder-pattern squares (×3)
+    │   └── ::part(corner-dot)           // inner finder-pattern dots (×3)
+    └── <image>                          // center logo, rendered when logo-src is set
+```
+
+## Primeros pasos
+
+Para usar el {Platform} QR Code, complete el <PlatformBlock for="Angular">[{ProductName} Primeros pasos](../general/getting-started.mdx)</PlatformBlock><PlatformBlock for="WebComponents, React, Blazor">[{ProductName} Primeros pasos](../general-getting-started.mdx)</PlatformBlock> para la configuración básica del proyecto y, después, registre el componente.
+
+<PlatformBlock for="WebComponents, Angular">
+
+El QR Code requiere `igniteui-webcomponents` 7.3.0 o posterior. Los métodos de exportación `toBlob()` y `toImage()` requieren la 7.3.2 o posterior.
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+{ProductName} renderiza el QR Code como un web component, así que instale `igniteui-webcomponents` en su proyecto Angular:
+
+```cmd
+npm install igniteui-webcomponents
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+El QR Code requiere `igniteui-react` 19.9.0 o posterior.
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents, Angular">
+
+Importe [`IgcQrCodeComponent`]({environment:infragisticsBaseUrl}/api/webcomponents/igniteui-webcomponents/latest/classes/IgcQrCodeComponent) y un tema, y después registre el componente:
+
+```ts
+import { defineComponents, IgcQrCodeComponent } from 'igniteui-webcomponents';
+import 'igniteui-webcomponents/themes/light/bootstrap.css';
+
+defineComponents(IgcQrCodeComponent);
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+Añada `CUSTOM_ELEMENTS_SCHEMA` al componente de Angular que renderiza `igc-qr-code`:
+
+```ts
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+
+@Component({
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
+})
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+Importe el wrapper <ApiLink pkg="core" type="QrCode" /> y un tema:
+
+```tsx
+import { IgrQrCode } from 'igniteui-react';
+import 'igniteui-webcomponents/themes/light/bootstrap.css';
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+Registre el módulo <ApiLink pkg="core" type="QrCode" /> en **Program.cs**:
+
+```csharp
+builder.Services.AddIgniteUIBlazor(typeof(IgbQrCodeModule));
+```
+
+Enlace la hoja de estilos del tema en **wwwroot/index.html** (Blazor WebAssembly) o en **Pages/_Host.cshtml** (Blazor Server):
+
+```razor
+<link href="_content/IgniteUI.Blazor/themes/light/bootstrap.css" rel="stylesheet" />
+```
+
+</PlatformBlock>
+
+Renderice el QR Code con un valor:
+
+<PlatformBlock for="WebComponents, Angular">
+
+```html
+<igc-qr-code value="https://www.infragistics.com"></igc-qr-code>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrQrCode value="https://www.infragistics.com"></IgrQrCode>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbQrCode Value="https://www.infragistics.com"></IgbQrCode>
+```
+
+</PlatformBlock>
+
+De forma predeterminada, esto renderiza un código QR de 128×128 píxeles con un margen de zona silenciosa de 4 módulos, corrección de errores `M`, y módulos y esquinas cuadrados.
+
+## Uso
+
+Establezca `value` con cualquier cadena para renderizar un código QR escaneable. El componente elige el modo de codificación más compacto (numérico, alfanumérico o de bytes) y la versión QR más pequeña que quepa en el valor. Al borrar `value` se elimina el SVG.
+
+### Corrección de errores
+
+Use `errorLevel` para elegir el nivel de corrección de errores `L`, `M` (predeterminado), `Q` o `H`. Los niveles más altos recuperan más información de un código dañado o cubierto, pero producen un código más denso. Use `version` para anclar una versión de QR entre `1` y `40` cuando necesite dimensiones de módulo predecibles; déjela sin establecer para usar la versión más pequeña que quepa en `value`.
+
+<PlatformBlock for="WebComponents, Angular">
+
+```html
+<igc-qr-code
+  value="https://www.infragistics.com"
+  version="4"
+  error-level="H">
+</igc-qr-code>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrQrCode
+  value="https://www.infragistics.com"
+  version={4}
+  errorLevel="H">
+</IgrQrCode>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbQrCode
+  Value="https://www.infragistics.com"
+  Version="4"
+  ErrorLevel="QrCodeErrorLevel.H">
+</IgbQrCode>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+<Sample src="/data-display/qr-code-error-correction" height={320} position="center" noBackground={false} noBorder={false} spacing="md" alt="Ejemplo de corrección de errores de QR Code de Angular" />
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+<Sample src="/inputs/qr-code/error-correction" height={320} position="center" noBackground={false} noBorder={false} spacing="md" alt="Ejemplo de corrección de errores de {Platform} QR Code" />
+
+</PlatformBlock>
+
+### Tamaño
+
+Use `size` para establecer el ancho y el alto renderizados en píxeles, y `margin` para establecer la zona silenciosa en módulos QR. La zona silenciosa se dibuja dentro de `size`, así que un `margin` mayor hace que los módulos sean más pequeños.
+
+<PlatformBlock for="WebComponents, Angular">
+
+```html
+<igc-qr-code
+  value="https://www.infragistics.com"
+  size="256"
+  margin="2">
+</igc-qr-code>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrQrCode
+  value="https://www.infragistics.com"
+  size={256}
+  margin={2}>
+</IgrQrCode>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbQrCode
+  Value="https://www.infragistics.com"
+  Size="256"
+  Margin="2">
+</IgbQrCode>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+<Sample src="/data-display/qr-code-size" height={515} position="center" noBorder={false} noBackground={false} spacing="md" alt="Ejemplo de tamaño de QR Code de Angular" />
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+<Sample src="/inputs/qr-code/size" height={515} position="center" noBorder={false} spacing="md" noBackground={false} alt="Ejemplo de tamaño de {Platform} QR Code" />
+
+</PlatformBlock>
+
+### Logotipo central
+
+Establezca `logoSrc` para renderizar una imagen en el centro del código; el componente enmascara los módulos que hay debajo. `logoSize` establece el tamaño del logotipo como una proporción de `0` a `1` del área de logotipo segura más grande, que es el 9 % del código con el nivel `H`. `logoMargin` añade espacio en blanco alrededor del logotipo en píxeles.
+
+El logotipo nunca cubre más de lo que permite el `errorLevel` actual. Con el nivel `M` predeterminado, los valores de `logoSize` por encima de aproximadamente `0.44` se renderizan con el mismo tamaño limitado, así que establezca `errorLevel` en `H` para obtener el logotipo más grande.
+
+`logoSrc` acepta URL normales y URI `data:image/*`. Los orígenes con esquemas no seguros (como `javascript:` o `vbscript:`) y los URI `data:` que no son de imagen se rechazan, y no se renderiza ningún logotipo.
+
+<PlatformBlock for="WebComponents, Angular">
+
+```html
+<igc-qr-code
+  value="https://www.infragistics.com"
+  error-level="H"
+  logo-src="/assets/logo.png"
+  logo-size="0.5"
+  logo-margin="4">
+</igc-qr-code>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrQrCode
+  value="https://www.infragistics.com"
+  errorLevel="H"
+  logoSrc="/assets/logo.png"
+  logoSize={0.5}
+  logoMargin={4}>
+</IgrQrCode>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbQrCode
+  Value="https://www.infragistics.com"
+  ErrorLevel="QrCodeErrorLevel.H"
+  LogoSrc="/assets/logo.png"
+  LogoSize="0.5"
+  LogoMargin="4">
+</IgbQrCode>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+<Sample src="/data-display/qr-code-logo" height={245} position="center" noBackground={false} noBorder={false} spacing="md" alt="Ejemplo de logotipo de QR Code de Angular" />
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+<Sample src="/inputs/qr-code/logo" height={245} position="center" noBackground={false} noBorder={false} spacing="md" alt="Ejemplo de logotipo de {Platform} QR Code" />
+
+</PlatformBlock>
+
+### Formas
+
+Use `dotStyle` para dar forma a los módulos de datos y a los puntos interiores de los patrones de localización, y `squareStyle` para dar forma a los cuadrados exteriores de los patrones de localización. Ambos aceptan `square` (predeterminado), `circle` o `rounded`.
+
+<PlatformBlock for="WebComponents, Angular">
+
+```html
+<igc-qr-code
+  value="https://www.infragistics.com"
+  dot-style="rounded"
+  square-style="rounded">
+</igc-qr-code>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrQrCode
+  value="https://www.infragistics.com"
+  dotStyle="rounded"
+  squareStyle="rounded">
+</IgrQrCode>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbQrCode
+  Value="https://www.infragistics.com"
+  DotStyle="QrCodeDotStyle.Rounded"
+  SquareStyle="QrCodeSquareStyle.Rounded">
+</IgbQrCode>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+<Sample src="/data-display/qr-code-dot-shapes" height={320} position="center" noBackground={false} noBorder={false} spacing="md" alt="Ejemplo de formas de puntos del QR Code de Angular" />
+
+<Sample src="/data-display/qr-code-corner-shapes" height={320} position="center" noBackground={false} noBorder={false} spacing="md" alt="Ejemplo de formas de esquinas del QR Code de Angular" />
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+<Sample src="/inputs/qr-code/dot-shapes" height={320} position="center" noBackground={false} noBorder={false} spacing="md" alt="Ejemplo de formas de puntos de {Platform} QR Code" />
+
+<Sample src="/inputs/qr-code/corner-shapes" height={320} position="center" noBackground={false} noBorder={false} spacing="md" alt="Ejemplo de formas de esquinas de {Platform} QR Code" />
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents, Angular">
+
+### Exportar
+
+Llame a `toImage()` para exportar el código QR como archivo PNG, JPEG, WebP o SVG, o a `toBlob()` para obtenerlo como `Blob` SVG. Ambos métodos resuelven los colores del tema y añaden el logotipo en línea, de modo que la exportación coincide con el código renderizado.
+
+```ts
+const qrCode = document.querySelector('igc-qr-code') as IgcQrCodeComponent;
+
+// Downloads a 512×512 PNG from a 256px QR code.
+await qrCode.toImage({ format: 'png', scale: 2, fileName: 'my-qr-code', download: true });
+```
+
+</PlatformBlock>
+
+### Qué hacer y qué no
+
+**Cuándo usarlo:** los códigos QR ofrecen a los usuarios un puente rápido desde un medio impreso o una pantalla estática hacia una acción digital, como abrir una página, descargar una aplicación o verificar un enlace.
+
+**Cuándo no usarlo:** evite los códigos QR para información que deba poder leerse sin escáner, o cuando un botón, un enlace directo o una URL corta sirvan mejor al destino.
+
+<table class="table" style="width: 100%; margin: 0 auto 26px;">
+  <tbody>
+    <tr>
+      <td style="width: 50%; border: none; padding: 0 13px 13px 0;"><Image src={qrCodeDo1} srcset={`${qrCodeDo1.src} 1x, ${qrCodeDo1_2x.src} 2x`} alt="Código QR con un encabezado, una llamada a la acción y una URL corta de respaldo" style="border: 1px solid #D2DBE8; margin: unset;"/>
+      </td>
+      <td style="width: 50%; border: none; padding: 0 0 13px 13px;"><Image src={qrCodeDoNot1} srcset={`${qrCodeDoNot1.src} 1x, ${qrCodeDoNot1_2x.src} 2x`} alt="Código QR como única forma de completar un paso obligatorio, sin enlace ni botón" style="border: 1px solid #D2DBE8; margin: unset;"/>
+      </td>
+    </tr>
+    <tr>
+      <td style="border: none; padding: 13px 13px 13px 0; color: green;">
+        <strong>Hacer</strong>
+      </td>
+      <td style="border: none; padding: 13px 0 13px 13px; color: red;">
+        <strong>No hacer</strong>
+      </td>
+    </tr>
+    <tr>
+      <td style="border: none; padding: 13px 13px 13px 0; text-align: left;">
+        Use los códigos QR para acciones breves y de alta intención, con un destino claro y espacio en blanco suficiente alrededor.
+      </td>
+      <td style="border: none; padding: 13px 0 13px 13px; text-align: left;">
+        Evite usar códigos QR para contenido crítico por sí solos, o en lugares donde los usuarios no puedan escanearlos fácilmente.
+      </td>
+    </tr>
+    <tr>
+      <td style="width: 50%; border: none; padding: 0 13px 13px 0;"><Image src={qrCodeDo2} srcset={`${qrCodeDo2.src} 1x, ${qrCodeDo2_2x.src} 2x`} alt="Código QR negro sobre fondo blanco" style="border: 1px solid #D2DBE8; margin: unset;"/>
+      </td>
+      <td style="width: 50%; border: none; padding: 0 0 13px 13px;"><Image src={qrCodeDoNot2} srcset={`${qrCodeDoNot2.src} 1x, ${qrCodeDoNot2_2x.src} 2x`} alt="Código QR claro sobre un fondo pizarra de bajo contraste" style="border: 1px solid #D2DBE8; margin: unset;"/>
+      </td>
+    </tr>
+    <tr>
+      <td style="border: none; padding: 13px 13px 13px 0; color: green;">
+        <strong>Hacer</strong>
+      </td>
+      <td style="border: none; padding: 13px 0 13px 13px; color: red;">
+        <strong>No hacer</strong>
+      </td>
+    </tr>
+    <tr>
+      <td style="border: none; padding: 13px 13px 13px 0; text-align: left;">
+        Mantenga el primer plano oscuro y el fondo claro (idealmente negro sobre blanco) para que las cámaras de los teléfonos puedan escanearlo rápido.
+      </td>
+      <td style="border: none; padding: 13px 0 13px 13px; text-align: left;">
+        Evite los códigos QR de colores claros sobre fondos oscuros o tintes de marca de bajo contraste que impidan la detección del escáner.
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+## Propiedades
+
+El {Platform} QR Code expone propiedades para el valor codificado, la densidad del código, el tamaño, el logotipo y la personalización de la forma.
+
+| Nombre | Tipo | Valor predeterminado | Descripción |
+| -- | -- | -- | -- |
+| <ApiLink pkg="core" type="QrCode" member="value" label="value" /> | `string` | — | La cadena codificada en el código QR. |
+| <ApiLink pkg="core" type="QrCode" member="version" label="version" /> | `number` | — | La versión de QR (1–40). Cuando no se establece, se usa la versión más pequeña que cabe en `value`. |
+| <ApiLink pkg="core" type="QrCode" member="errorLevel" label="errorLevel" /> | `'L' \| 'M' \| 'Q' \| 'H'` | `'M'` | El nivel de corrección de errores. También limita el tamaño del logotipo. |
+| <ApiLink pkg="core" type="QrCode" member="size" label="size" /> | `number` | `128` | El ancho y el alto renderizados, en píxeles. |
+| <ApiLink pkg="core" type="QrCode" member="margin" label="margin" /> | `number` | `4` | El margen de la zona silenciosa, en módulos QR. |
+| <ApiLink pkg="core" type="QrCode" member="logoSrc" label="logoSrc" /> | `string` | — | La URL de origen de una imagen de logotipo central opcional. |
+| <ApiLink pkg="core" type="QrCode" member="logoSize" label="logoSize" /> | `number` | `0.4` | El tamaño del logotipo como proporción (0–1) del área de logotipo segura más grande. |
+| <ApiLink pkg="core" type="QrCode" member="logoMargin" label="logoMargin" /> | `number` | — | El margen alrededor del logotipo, en píxeles. |
+| <ApiLink pkg="core" type="QrCode" member="dotStyle" label="dotStyle" /> | `'square' \| 'circle' \| 'rounded'` | `'square'` | La forma de los módulos de datos y de los puntos interiores de los patrones de localización. |
+| <ApiLink pkg="core" type="QrCode" member="squareStyle" label="squareStyle" /> | `'square' \| 'circle' \| 'rounded'` | `'square'` | La forma de los cuadrados exteriores de los patrones de localización. |
+
+<PlatformBlock for="WebComponents, Angular">
+
+## Métodos
+
+| Nombre | Devuelve | Descripción |
+| -- | -- | -- |
+| `toBlob()` | `Promise<Blob>` | Serializa el código QR como un blob `image/svg+xml` con los colores del tema resueltos y el logotipo en línea. Se rechaza cuando `value` no está establecido. |
+| `toImage(options?)` | `Promise<File>` | Exporta el código QR como archivo de imagen. `options` acepta `format` (`'png'` predeterminado, `'jpeg'`, `'webp'` o `'svg'`), `scale` (predeterminado `1`), `fileName` (predeterminado `'qr-code'`) y `download` (predeterminado `false`). Se rechaza cuando `value` no está establecido o las opciones no son válidas. |
+
+</PlatformBlock>
+
+## Estilos
+
+<PlatformBlock for="Angular">
+
+<Sample src="/data-display/qr-code-styling" height={300} noBackground={false} position="center" noBorder={false} spacing="md" alt="Ejemplo de estilo del QR Code de Angular" />
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+<Sample src="/inputs/qr-code/styling" height={300} noBackground={false} position="center" noBorder={false} spacing="md" alt="Ejemplo de estilo de {Platform} QR Code" />
+
+</PlatformBlock>
+
+El aspecto del {Platform} QR Code se controla mediante variables CSS, partes CSS y el sistema de temas.
+
+### Variables de estilo
+
+| Variable | Qué cambia |
+| -- | -- |
+| `--ig-qr-code-background` | El color de fondo del código QR. Por defecto, `white`. |
+| `--ig-qr-code-dark-color` | El color de los módulos de datos, y el de los cuadrados y puntos de las esquinas salvo que se sobrescriba. Por defecto, `black`. |
+| `--ig-qr-code-corner-square-color` | El color de los cuadrados exteriores de las esquinas del patrón de localización. Recurre a `--ig-qr-code-dark-color`. |
+| `--ig-qr-code-corner-dot-color` | El color de los puntos interiores de las esquinas del patrón de localización. Recurre a `--ig-qr-code-dark-color`. |
+
+### Partes de estilo
+
+| Parte | Qué estiliza |
+| -- | -- |
+| `background` | El rectángulo de fondo del código QR. |
+| `dots` | Los módulos de datos (puntos) del código QR. |
+| `corner-square` | Los cuadrados exteriores de las esquinas del patrón de localización. |
+| `corner-dot` | Los puntos interiores de las esquinas del patrón de localización. |
+
+### Temas con Sass
+
+Cree un tema con `qr-code-theme()` y páselo al mixin `tokens`.
+
+```scss
+@use "igniteui-theming/sass/themes" as *;
+
+$custom-qr-code-theme: qr-code-theme(
+  $background: #ffffff,
+  $dark-color: #1a1a2e,
+  $corner-square-color: #c0392b,
+  $corner-dot-color: #1a1a2e
+);
+
+:root {
+  @include tokens($custom-qr-code-theme);
+}
+```
+
+### Variables CSS
+
+Establezca las variables CSS del componente directamente cuando necesite un estilo local sin un paso de compilación de Sass.
+
+```css
+igc-qr-code {
+  --ig-qr-code-background: var(--ig-gray-50);
+  --ig-qr-code-dark-color: var(--ig-primary-800);
+  --ig-qr-code-corner-square-color: var(--ig-secondary-800);
+}
+
+igc-qr-code::part(corner-dot) {
+  fill: var(--ig-success-500);
+}
+```
+
+### Dar estilo con Tailwind
+
+Combine las clases de utilidad de Tailwind con las variables CSS del QR Code. [Configure Tailwind](../themes/tailwind.mdx) con el tema de Ignite UI primero:
+
+```css
+@import "tailwindcss/theme.css";
+@import "tailwindcss/utilities.css";
+```
+
+Aplique la utilidad `light-qr-code` para dar al QR Code sus variables de tema, y después sobrescriba variables individuales con clases de propiedad arbitraria. El prefijo `!` marca la utilidad como importante, de modo que tenga prioridad sobre los estilos predeterminados del componente.
+
+<PlatformBlock for="WebComponents, Angular">
+
+```html
+<igc-qr-code
+  value="https://www.infragistics.com"
+  class="!light-qr-code [--ig-qr-code-dark-color:#1a1a1a] [--ig-qr-code-background:#f7df1e]">
+</igc-qr-code>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrQrCode
+  value="https://www.infragistics.com"
+  className="!light-qr-code [--ig-qr-code-dark-color:#1a1a1a] [--ig-qr-code-background:#f7df1e]">
+</IgrQrCode>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbQrCode
+  Value="https://www.infragistics.com"
+  Class="!light-qr-code [--ig-qr-code-dark-color:#1a1a1a] [--ig-qr-code-background:#f7df1e]">
+</IgbQrCode>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+<Sample src="/data-display/qr-code-tailwind-styling" height={330} position="center" noBackground={false} noBorder={false} spacing="md" alt="Ejemplo de estilo de QR Code de Angular con Tailwind" />
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+<Sample src="/inputs/qr-code/tailwind-styling" height={330} position="center" noBackground={false} noBorder={false} spacing="md" alt="Ejemplo de estilo de {Platform} QR Code con Tailwind" />
+
+</PlatformBlock>
+
+## Accesibilidad
+
+El {Platform} QR Code es un gráfico estático que los lectores de pantalla anuncian mediante el `<title>` de su SVG.
+
+### Interacción por teclado
+
+El QR Code no es enfocable y no responde a la entrada del teclado.
+
+### Lectores de pantalla / ARIA
+
+El `<svg>` renderizado tiene `role="img"` y un `<title>` que los lectores de pantalla anuncian. El título predeterminado es `QR code: <value>`; establezca `aria-label` para anunciar una frase más significativa.
+
+<PlatformBlock for="WebComponents, Angular">
+
+```html
+<igc-qr-code
+  value="https://www.infragistics.com/products"
+  aria-label="Scan to visit our product page">
+</igc-qr-code>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrQrCode
+  value="https://www.infragistics.com/products"
+  ariaLabel="Scan to visit our product page">
+</IgrQrCode>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbQrCode
+  Value="https://www.infragistics.com/products"
+  AriaLabel="Scan to visit our product page">
+</IgbQrCode>
+```
+
+</PlatformBlock>
+
+### Cumplimiento de accesibilidad
+
+Infragistics documenta la compatibilidad de accesibilidad de {ProductName} con las áreas de las pautas de la Sección 508 y WCAG 2.1 en el tema [Cumplimiento de accesibilidad](../interactivity/accessibility-compliance.mdx).
+
+| Criterio | Cómo cumple el componente |
+| -- | -- |
+| [1.1.1 Contenido no textual](https://www.w3.org/WAI/WCAG21/Understanding/non-text-content) | El `<title>` del SVG proporciona una alternativa textual, tomada de `aria-label` o derivada de `value`. |
+| [1.4.11 Contraste de elementos no textuales](https://www.w3.org/WAI/WCAG21/Understanding/non-text-contrast) | Los módulos negros predeterminados sobre fondo blanco superan la relación de contraste de 3:1 para los objetos gráficos. |
+| [4.1.2 Nombre, función, valor](https://www.w3.org/WAI/WCAG21/Understanding/name-role-value) | El SVG expone `role="img"` con `<title>` como su nombre accesible. |
+
+Sus responsabilidades:
+
+- Acompañe el QR Code con una llamada a la acción breve y visible, para que los usuarios que ven puedan saber qué ocurrirá después de escanearlo.
+- Proporcione un `aria-label` cuando el `value` codificado sea opaco (por ejemplo, un token o un identificador corto), para que el texto anunciado sea significativo.
+- Mantenga un contraste suficiente entre el color de los módulos y el fondo al sobrescribir las variables CSS, para que los escáneres puedan leer el código de forma fiable.
+
+## Solución de problemas
+
+La guía de resolución de problemas del {Platform} QR Code sigue un formato problema → causa → solución para los problemas habituales de integración y de renderizado.
+
+### ¿Por qué mi código QR no se escanea?
+
+El contraste entre los módulos y el fondo es demasiado bajo, el código es demasiado pequeño en la pantalla o el margen de la zona silenciosa es demasiado pequeño. Restaure los colores `black` predeterminados en `white`, aumente `size`, y use un `margin` de al menos `4` módulos para un escaneo fiable.
+
+### ¿Por qué mi logotipo es más pequeño que el logoSize que establecí?
+
+El logotipo se limita al área segura de la `errorLevel` actual. Establezca `errorLevel` en `H` para permitir el logotipo más grande.
+
+### ¿Por qué no aparece mi logotipo?
+
+`logoSrc` usa un origen rechazado (un esquema no seguro o un URI `data:` que no es de imagen), o la imagen no se ha cargado. Use una URL de imagen válida o un URI `data:image/*`; asignar después un origen válido renderiza el logotipo.
+
+### ¿Por qué mi código QR no cambió automáticamente a un tema oscuro?
+
+Los colores del QR Code no se invierten con el tema global claro/oscuro, porque los códigos de texto claro sobre fondo oscuro no se pueden escanear de forma fiable. Para cambiarlos en la variante oscura de su interfaz, establezca `--ig-qr-code-background` y `--ig-qr-code-dark-color` explícitamente.
+
+## Limitaciones conocidas
+
+El {Platform} QR Code tiene las siguientes limitaciones.
+
+- El QR Code no tiene slots ni eventos.
+- La estructura visual del QR Code sigue una disposición fija y estandarizada, y no se refleja en contextos de derecha a izquierda.
+
+<PlatformBlock for="WebComponents, Angular">
+
+- Las exportaciones omiten un logotipo cargado desde una URL de origen cruzado que no envía cabeceras CORS.
+
+</PlatformBlock>
+
+## Referencias de API
+
+Use estas referencias de la API para ver la superficie completa de la API del QR Code.
+
+<PlatformBlock for="WebComponents, Angular">
+
+[`IgcQrCodeComponent`]({environment:infragisticsBaseUrl}/api/webcomponents/igniteui-webcomponents/latest/classes/IgcQrCodeComponent)
+
+</PlatformBlock>
+
+<PlatformBlock for="React, Blazor">
+
+<ApiLink pkg="core" type="QrCode" />
+
+</PlatformBlock>
+
+## Dependencias
+
+El {Platform} QR Code requiere una hoja de estilos de tema, que añade en **Primeros pasos**. No tiene otras dependencias en tiempo de ejecución.
+
+## Recursos adicionales
+
+Use estos recursos para soporte y para la documentación relacionada de Ignite UI.
+
+- [{ProductName} **Foros**]({ForumsLink})
+- [{ProductName} **GitHub**]({GithubLink})
+
+## Componentes relacionados
+
+El QR Code es una primitiva de visualización independiente. Cuando necesite contenido visual relacionado, considere los siguientes componentes:
+
+- [Icon](../layouts/icon.mdx): para imágenes simbólicas estáticas que no necesitan ser escaneables.
+- [Avatar](../layouts/avatar.mdx): para imágenes de identidad que representan personas o entidades.
+
+## Preguntas frecuentes
+
+<Faq>
+  <FaqItem question="¿Qué datos puedo codificar en un código QR?" indicatorPosition="end">
+    La propiedad `value` acepta cualquier cadena. Los usos habituales incluyen URL, texto plano, referencias de pago, tokens de configuración de un solo uso, credenciales de Wi-Fi y cargas vCard. El componente selecciona automáticamente el modo de codificación más compacto (numérico, alfanumérico o de bytes) que cabe en la entrada.
+  </FaqItem>
+
+  <FaqItem question="¿Necesito una conexión a internet o una biblioteca externa para renderizar un QR Code?" indicatorPosition="end">
+    No. El componente QR Code genera el SVG completamente en el cliente a partir de la cadena `value`, sin depender de bibliotecas externas de generación de QR. La única petición de red es para la imagen del logotipo central cargada desde una URL.
+  </FaqItem>
+
+  <FaqItem question="¿Qué tamaño puede tener el logotipo central sin romper el código?" indicatorPosition="end">
+    La proporción `logoSize` (predeterminada `0.4`) es una fracción del área de logotipo segura más grande, que es el 9 % del código con el nivel de error `H`. El QR Code limita el logotipo al área segura de la `errorLevel` actual, de modo que el código sigue siendo escaneable. Establezca `errorLevel` en `H` para permitir el logotipo más grande.
+  </FaqItem>
+
+  <FaqItem question="¿Qué paquete proporciona el QR Code?" indicatorPosition="end">
+    <PlatformBlock for="WebComponents, Angular">El QR Code se distribuye en el paquete `igniteui-webcomponents`, versión 7.3.0 o posterior.</PlatformBlock>
+    <PlatformBlock for="Angular">Las aplicaciones de Angular lo instalan directamente porque `igniteui-angular` no incluye el QR Code.</PlatformBlock>
+    <PlatformBlock for="React, Blazor">El QR Code se distribuye en el paquete `{PackageCommon}`.</PlatformBlock>
+  </FaqItem>
+</Faq>

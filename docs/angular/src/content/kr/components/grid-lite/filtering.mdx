@@ -1,0 +1,201 @@
+---
+title: "Angular Grid Lite 필터링 | Ignite UI for Angular | MIT 라이선스"
+description: "Angular Grid Lite의 필터 작업, 필터 사용자 지정, 원격 필터링입니다. 오픈 소스 Angular Grid Lite로 앱을 만들어 보십시오. 지금 사용해 보십시오."
+keywords: "filtering, {Platform}, {ComponentKeywords}, {ProductName}, Infragistics"
+license: MIT
+mentionedTypes: [{ComponentApiMembers}]
+namespace: Infragistics.Controls
+_language: ko
+llms:
+  description: "The Grid Lite supports filtering operations on its data source."
+---
+
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+
+# Angular Grid Lite 필터 작업
+
+Grid Lite는 데이터 소스에 대한 필터링 작업을 지원합니다. 데이터 필터링은 열 단위로 제어되므로 필터링 가능한 열과 불가능한 열을 둘 수 있습니다. 기본적으로 열의 필터링은 열 구성 객체의 `filterable` 속성으로 명시적으로 설정하지 않는 한 비활성화되어 있습니다.
+
+```html
+<igx-grid-lite-column
+  field="price"
+  filterable
+></igx-grid-lite-column>
+```
+
+`filteringCaseSensitive` 속성을 사용하여 문자열 열의 필터 작업이 대소문자를 구분해야 하는지도 제어할 수 있습니다:
+
+```html
+<igx-grid-lite-column
+  field="name"
+  filterable
+  filteringCaseSensitive
+></igx-grid-lite-column>
+```
+
+이 속성들을 프로그래밍 방식으로 설정할 수도 있습니다:
+
+```typescript
+column.filterable = true;
+column.filteringCaseSensitive = true;
+```
+
+<Sample src="/grid-lite/filtering-simple" height={600} alt="Angular Grid Lite 필터링 구성" />
+
+## 필터 모델
+
+그리드에서 필터 작업의 기본 구성 요소는 다음 구조를 가진 <ApiLink type="GridLiteFilteringExpression" />입니다:
+
+```typescript
+export interface FilterExpression<T, K extends Keys<T> = Keys<T>> {
+  /**
+   * The target column for the filter operation.
+   */
+  key: K;
+  /**
+   * The filter function which will be executed against the data records.
+   */
+  condition: FilterOperation<T[K]> | OperandKeys<T[K]>;
+
+  /**
+   * The filtering value used in the filter condition function.
+   *
+   * @remarks
+   * Optional for unary conditions.
+   */
+  searchTerm?: T[K];
+  /**
+   * Dictates how this expression should resolve in the filter operation in relation to
+   * other expressions.
+   */
+  criteria?: FilterCriteria;
+  /**
+   * Whether the sort operation should be case sensitive.
+   *
+   * @remarks
+   * If not provided, the value is resolved based on the column filter configuration (if any).
+   */
+  caseSensitive?: boolean;
+}
+```
+
+## 필터 API
+
+Grid Lite는 API에서 필터 작업을 적용하는 두 가지 주요 방법을 제공합니다. <ApiLink type="GridLite" member="filter" label="filter()" />/<ApiLink type="GridLite" member="clearFilter" label="clearFilter()" /> 메서드를 사용하거나 <ApiLink type="GridLite" member="filterExpressions" /> 속성을 사용하는 것입니다.
+
+**`filter()`** 메서드는 단일 표현식 또는 필터 표현식의 배열을 받아, 그 표현식을 기준으로 그리드 데이터를 필터링합니다.
+
+```typescript
+// Single
+grid.filter({ key: 'firstName', condition: 'contains', searchTerm: 'George' });
+
+// Multiple
+grid.filter([
+  { key: 'firstName', condition: 'startsWith', searchTerm: 'a' },
+  { key: 'firstName', condition: 'startsWith', searchTerm: 'g', criteria: 'or' },
+]);
+```
+
+**`clearFilter()`** 메서드는 이름에서 알 수 있듯이, 전달된 인수에 따라 단일 열 또는 그리드 컴포넌트 전체의 필터 상태를 지웁니다.
+
+```typescript
+// Clear the filter state for the `age` column.
+grid.clearFilter('age');
+
+// Clear the filter state of the grid.
+grid.clearFilter();
+```
+
+## 초기 필터 상태
+
+<ApiLink type="GridLite" member="filterExpressions" label="filterExpressions" /> 속성은 동작이 **`filter()`** 메서드 호출과 매우 비슷합니다. 그리드의 필터 상태를 선언적으로 제어하는 방법을 제공하지만, 가장 유용한 점은 Grid Lite 컴포넌트가 처음 렌더링될 때 초기 필터 상태를 설정할 수 있다는 것입니다.
+
+예를 들어 다음은 Lit 기반 샘플입니다:
+
+```typescript
+{
+  filteringExpressions: IgxGridLiteFilteringExpression<User>[] = [
+    { key: 'age', condition: 'greaterThan', searchTerm: 21 },
+    /** unary condition so `searchTerm` is not required */
+    { key: 'active', condition: 'true' },
+  ];
+}
+```
+
+```html
+<igx-grid-lite [filteringExpressions]="filteringExpressions"></igx-grid-lite>
+```
+
+이 속성은 컴포넌트의 현재 필터 상태를 가져오고, 애플리케이션의 다른 상태에 따라 추가 처리를 하는 데 사용할 수 있습니다.
+
+```typescript
+const state = grid.filterExpressions;
+// Save the current filter state
+saveUserFilterState(state);
+```
+
+## 이벤트
+
+UI를 통해 필터 작업이 수행되면 컴포넌트는 사용자 지정 **`filtering`** 이벤트를 발생시킵니다. **`detail`** 속성은 Grid Lite가 적용할 정렬 표현식입니다. 이 이벤트는 취소할 수 있으며, 취소되면 현재 필터 작업을 막습니다.
+
+그리드가 새 필터 상태를 적용한 후에는 **`filtered`** 이벤트가 발생합니다. 이 이벤트에는 작업의 대상이 된 열의 필터 상태가 포함되며, 취소할 수 없습니다.
+
+```html
+<igx-grid-lite (filtering)="onFiltering($event)" (filtered)="onFiltered($event)"></igx-grid-lite>
+```
+
+```typescript
+onFiltering(event: IgxFilteringEvent) { ... }
+onFiltered(event: IgxFilteredEvent) { ... }
+```
+
+<Sample src="/grid-lite/filtering-events" height={510} alt="Angular Grid Lite 필터링 구성 이벤트" />
+
+## 원격 필터 작업
+
+필터링을 원격으로 수행해야 하거나 현재 상태/데이터를 어딘가의 서버에 저장하고 싶은 경우, Grid Lite는 이 동작을 구현하고 사용자 지정할 수 있는 훅을 제공합니다.
+
+<ApiLink type="GridLite" member="dataPipelineConfiguration" label="dataPipelineConfiguration" /> 속성을 사용하면 필터 작업이 실행되기 직전마다 호출되는 사용자 지정 훅을 제공할 수 있습니다. 콜백은 **`DataPipelineParams`** 객체를 전달받습니다.
+
+```typescript
+export type DataPipelineParams<T extends object> = {
+  /**
+   * The current data state of the grid.
+   */
+  data: T[];
+  /**
+   * The grid component itself.
+   */
+  grid: GridLite<T>;
+  /**
+   * The type of data operation being performed.
+   */
+  type: 'sort' | 'filter';
+};
+```
+
+```typescript
+grid.dataPipelineConfiguration = { filter: (params: DataPipelineParams<T>) => T[] | Promise<T[]> };
+```
+
+사용자 지정 콜백은 비동기일 수 있으며, 그리드는 콜백이 해결될 때까지 기다립니다.
+
+다음 예제는 원격 필터 작업을 모의(mock)하며, 컴포넌트의 필터 상태를 기반으로 생성된 REST 엔드포인트를 반영합니다.
+
+<Sample src="/grid-lite/filtering-pipeline" height={510} alt="Angular Grid Lite 필터링 구성 원격" />
+
+## API 참조
+
+- <ApiLink type="GridLite" />
+- <ApiLink type="GridLiteColumn" />
+
+## 추가 리소스
+
+- [열 구성](/grid-lite/column-configuration)
+- [정렬](/grid-lite/sorting)
+
+커뮤니티는 활발하며 새로운 아이디어를 언제나 환영합니다.
+
+- [Grid Lite **GitHub**](https://github.com/IgniteUI/igniteui-grid-lite)

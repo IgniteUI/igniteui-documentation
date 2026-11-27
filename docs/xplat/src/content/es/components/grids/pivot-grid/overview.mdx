@@ -1,0 +1,778 @@
+---
+title: "Componente de cuadrícula dinámica {Platform} - {ProductName} de Infragistics"
+description: "Cree cuadrículas dinámicas y tablas {Platform} rápidas y adaptables con {ProductName}. Realice análisis complejos y aplique ordenación, agrupación o filtrado de datos."
+keywords: "cuadrícula dinámica {Platform}, tabla dinámica material {Platform}, {ProductName}, Infragistics"
+license: commercial
+mentionedTypes: ["PivotGrid", "PivotDimension", "PivotValue"]
+namespace: Infragistics.Controls
+_language: es
+llms:
+  description: "La cuadrícula dinámica {Platform} se usa para resumir y representar datos multidimensionales voluminosos en un formato de tabla cruzada."
+---
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+
+# Descripción general de la cuadrícula dinámica {Platform}
+
+La cuadrícula dinámica {Platform} se usa para resumir y representar datos multidimensionales voluminosos en un formato de tabla cruzada. El resumen de datos puede ordenarse, agruparse o filtrarse de forma fácil y rápida. Estos datos pueden incluir sumas, promedios y otras estadísticas. Los usuarios finales pueden modificar la disposición de la tabla dinámica mediante operaciones de arrastrar y soltar, según sus necesidades.
+
+La cuadrícula dinámica {Platform} presenta los datos en una tabla dinámica y ayuda a los usuarios a realizar análisis complejos sobre el conjunto de datos proporcionado. Este sofisticado control de cuadrícula dinámica se usa para organizar, resumir y filtrar grandes volúmenes de datos, que después se muestran en formato de tabla cruzada. Las características clave de una cuadrícula dinámica de {Platform} son las dimensiones de fila, las dimensiones de columna, las agregaciones y los filtros.
+
+El <ApiLink type="PivotGrid" /> permite a los usuarios configurar y mostrar sus datos en una estructura de tabla dinámica multidimensional.
+Las filas y columnas representan grupos de datos distintos, y los valores de las celdas de datos representan agregaciones. Esto permite realizar análisis de datos complejos a partir de un conjunto de datos plano sencillo. El <ApiLink type="PivotGrid" /> es una tabla dinámica con muchas funciones que facilita la configuración de las distintas dimensiones y valores, así como operaciones de datos adicionales sobre ellos, como el filtrado y la ordenación.
+
+## Ejemplo de cuadrícula dinámica de {Platform}
+
+A continuación se muestra un ejemplo de cuadrícula dinámica de {Platform} combinada con el componente {Platform} de selector de datos dinámicos. Así puede disponer de opciones de configuración más flexibles en tiempo de ejecución.
+
+<Sample src="/{PivotGridSample}/data-selector" height={700} alt="Ejemplo de cuadrícula dinámica de {Platform} con selector dinámico" />
+
+## Primeros pasos con la cuadrícula dinámica de {Platform}
+
+{Platform} {PivotGridName} puede configurarse mediante la propiedad <ApiLink type="PivotGrid" member="pivotConfiguration" label="PivotConfiguration" />.
+
+<PlatformBlock for="Angular">
+
+```html
+<igx-pivot-grid #grid1 [data]="data" [pivotConfiguration]="pivotConfigHierarchy">
+</igx-pivot-grid>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-pivot-grid #grid1 data="data" pivot-configuration="pivotConfigHierarchy">
+</igc-pivot-grid>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbPivotGrid PivotConfiguration="PivotConfiguration" Data="PivotData">
+</IgbPivotGrid>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrPivotGrid data={pivotData} pivotConfiguration={pivotConfiguration}>
+</IgrPivotGrid>
+```
+
+</PlatformBlock>
+
+Se define mediante tres dimensiones principales: **filas**, **columnas** y **valores**. Las **filas** y las **columnas** definen la estructura agrupada que se muestra en las filas y columnas de la cuadrícula. Los **valores** definen los campos de agregación y la agregación que se usará para calcular y mostrar los valores relacionados de los grupos.
+
+También puede definirse un filtro mediante la propiedad de configuración **filters**. Puede usarse para campos que no quiere añadir como dimensión o como valor, pero cuyos valores de miembro relacionados quiere filtrar mediante la interfaz.
+
+### Configuración de dimensiones
+
+Cada configuración de dimensión básica requiere un <ApiLink type="PivotDimension" member="memberName" label="MemberName" /> que coincida con un campo de los **datos** proporcionados.
+
+Pueden definirse varias dimensiones hermanas, lo que crea un grupo anidado más complejo en el área de dimensiones de fila o de columna correspondiente.
+
+Las dimensiones pueden reordenarse o moverse de un área a otra mediante sus chips correspondientes, usando arrastrar y soltar.
+
+Una dimensión también puede describir una jerarquía expandible mediante la propiedad <ApiLink type="PivotDimension" member="childLevel" label="ChildLevel" />, por ejemplo:
+<PlatformBlock for="React">
+
+```tsx
+const dimension: IgrPivotDimension = {
+  memberName: "AllProducts",
+  enabled: true,
+  childLevel: {
+    memberName: "ProductCategory",
+    enabled: true
+  }
+};
+```
+
+</PlatformBlock>
+<PlatformBlock for="WebComponents">
+
+
+```typescript
+{
+  memberFunction: () => 'All',
+  memberName: 'AllProducts',
+  enabled: true,
+  childLevel: {
+    memberFunction: (data) => data.ProductCategory,
+    memberName: 'ProductCategory',
+    enabled: true
+  }
+}
+```
+
+</PlatformBlock>
+<PlatformBlock for="Blazor">
+
+```razor
+@code {
+  var pivotConfiguration = new IgbPivotConfiguration();
+  pivotConfiguration.Rows.Add(new IgbPivotDimension()
+  {
+    MemberName = "Product",
+    Enabled = true,
+    Name = "pivotDimension1",
+    ChildLevel = new IgbPivotDimension() { MemberName = "Country", Enabled = true, Name = "pivotDimension2" }
+  });
+}
+```
+
+</PlatformBlock>
+En este caso, la dimensión muestra un expansor en la sección correspondiente de la cuadrícula (fila o columna) y permite expandir o contraer los hijos como parte de la jerarquía. De forma predeterminada, las dimensiones de fila se expanden inicialmente. Este comportamiento puede controlarse con la propiedad <ApiLink type="PivotGrid" member="defaultExpandState" label="DefaultExpandState" /> de la cuadrícula dinámica.
+
+### Dimensiones predefinidas
+
+Como parte de la cuadrícula dinámica se exponen algunas dimensiones predefinidas adicionales para facilitar la configuración.
+
+<ApiLink type="PivotDateDimension" /> puede usarse para campos de fecha. Describe por defecto la siguiente jerarquía:
+
+- Todos los periodos
+- Años
+- Trimestres
+- Meses
+- Fecha completa
+
+Puede establecerse para filas o columnas, por ejemplo:
+<PlatformBlock for="React">
+
+```ts
+const pivotConfiguration: IgrPivotConfiguration = {
+  columns: [
+    new IgrPivotDateDimension({
+      enabled: true,
+      memberName: "Date",
+    })
+  ]
+};
+```
+
+</PlatformBlock>
+<PlatformBlock for="Angular">
+
+```typescript
+public pivotConfigHierarchy: IPivotConfiguration = {
+  rows: [
+    new IgxPivotDateDimension({ memberName: 'Date', enabled: true });
+  ]
+}
+```
+
+</PlatformBlock>
+<PlatformBlock for="WebComponents">
+
+```typescript
+public pivotConfigHierarchy: IgcPivotConfiguration = {
+  rows: [
+    new IgcPivotDateDimension({ memberName: 'Date', enabled: true });
+  ]
+}
+```
+
+</PlatformBlock>
+<PlatformBlock for="Blazor">
+
+```razor
+@code {
+  IgbPivotDateDimension dateDim = new IgbPivotDateDimension();
+  dateDim.BaseDimension = new IgbPivotDimension()
+    {
+      MemberName = "Date",
+      Enabled = true
+    };
+  _config.Rows.Add(dateDim);
+}
+```
+
+</PlatformBlock>
+
+También permite una mayor personalización mediante el segundo parámetro de opción, para habilitar o deshabilitar una parte concreta de la jerarquía, por ejemplo:
+<PlatformBlock for="Angular">
+
+```typescript
+new IgxPivotDateDimension({ memberName: 'Date', enabled: true }, {
+  total: true,
+  years: true,
+  months: true,
+  fullDate: true,
+  quarters: false
+});
+```
+
+</PlatformBlock>
+<PlatformBlock for="React">
+
+```tsx
+new IgrPivotDateDimension({
+  enabled: true,
+  memberName: "Date",
+}, {
+  total: true,
+  years: true,
+  months: true,
+  fullDate: true,
+  quarters: false
+});
+```
+
+</PlatformBlock>
+<PlatformBlock for="WebComponents">
+
+```typescript
+new IgcPivotDateDimension({ memberName: 'Date', enabled: true }, {
+  total: true,
+  years: true,
+  months: true,
+  fullDate: true,
+  quarters: false
+});
+```
+
+</PlatformBlock>
+<PlatformBlock for="Blazor">
+
+```razor
+@code {
+  IgbPivotDateDimension dateDim = new IgbPivotDateDimension();
+  dateDim.BaseDimension = new IgbPivotDimension()
+    {
+      MemberName = "Date",
+      Enabled = true
+    };
+  dateDim.Options = new IgbPivotDateDimensionOptions()
+    {
+      Years = true,
+      Months = true,
+      FullDate = true,
+      Quarters = true
+    };
+  _config.Rows.Add(dateDim);
+}
+```
+
+</PlatformBlock>
+### Configuración de valores
+
+La configuración de un valor requiere un **miembro** que coincida con un campo de los **datos** proporcionados, o puede definir una función **agregadora** personalizada para escenarios más complejos. De forma predeterminada hay 4 agregaciones predefinidas que pueden usarse según el tipo de datos del campo:
+
+- `PivotNumericAggregate`: para campos numéricos.
+  Contiene las siguientes funciones de agregación: `SUM`, `AVG`, `MIN`, `MAX`, `COUNT`.
+- `PivotDateAggregate`: para campos de fecha.
+  Contiene las siguientes funciones de agregación: `LATEST`, `EARLIEST`, `COUNT`.
+- `PivotTimeAggregate`: para campos de hora.
+  Contiene las siguientes funciones de agregación: `LATEST`, `EARLIEST`, `COUNT`.
+- `PivotAggregate`: para cualquier otro tipo de datos. Es la agregación base.
+  Contiene la siguiente función de agregación: `COUNT`.
+
+La función de agregación actual puede cambiarse en tiempo de ejecución usando el menú desplegable del chip de valor. De forma predeterminada, muestra una lista de las agregaciones disponibles según el tipo de datos del campo. También puede establecerse una lista personalizada de agregaciones mediante la propiedad <ApiLink type="PivotValue" member="aggregateList" label="AggregateList" />, por ejemplo:
+<PlatformBlock for="React">
+
+```typescript
+const totalSale = (members: any, data: any) => data.reduce((accumulator:any, value: any) => accumulator + value.UnitPrice * value.UnitsSold, 0);
+
+const totalMin = (members: any, data: any) => {
+  return data.map((x:any) => x.UnitPrice * x.UnitsSold).reduce((a:number, b:number) => Math.min(a, b));
+};
+
+const totalMax = (members: any, data: any) => {
+  return data.map((x:any) => x.UnitPrice * x.UnitsSold).reduce((a:number, b:number) => Math.max(a,b));
+};
+
+const pivotConfiguration: IgrPivotConfiguration = {
+  values: [
+    {
+      enabled: true,
+      member: "AmountofSale",
+      displayName: "Amount of Sale",
+      aggregate: {
+          aggregatorName: "SUM",
+          key: "SUM",
+          label: "Sum of Sale",
+      },
+      aggregateList: [{
+          key: 'SUM',
+          aggregator: totalSale,
+          label: 'Sum of Sale'
+      }, {
+          key: 'MIN',
+          aggregator: totalMin,
+          label: 'Minimum of Sale'
+      }, {
+          key: 'MAX',
+          aggregator: totalMax,
+          label: 'Maximum of Sale'
+      }]
+    }
+  ]
+};
+```
+
+</PlatformBlock>
+<PlatformBlock for="Angular">
+
+```typescript
+public pivotConfigHierarchy: IPivotConfiguration = {
+  values: [
+    {
+      member: 'AmountOfSale',
+      displayName: 'Amount of Sale',
+      aggregate: {
+          key: 'SUM',
+          aggregator: IgxTotalSaleAggregate.totalSale,
+          label: 'Sum of Sale'
+      },
+      aggregateList: [{
+          key: 'SUM',
+          aggregator: IgxTotalSaleAggregate.totalSale,
+          label: 'Sum of Sale'
+      }, {
+          key: 'MIN',
+          aggregator: IgxTotalSaleAggregate.totalMin,
+          label: 'Minimum of Sale'
+      }, {
+          key: 'MAX',
+          aggregator: IgxTotalSaleAggregate.totalMax,
+          label: 'Maximum of Sale'
+      }]
+    }
+  ]
+}
+
+public static totalSale: PivotAggregation = (members, data: any) =>
+  data.reduce((accumulator, value) => accumulator + value.UnitPrice * value.UnitsSold, 0);
+
+public static totalMin: PivotAggregation = (members, data: any) => {
+  return data.map(x => x.UnitPrice * x.UnitsSold).reduce((a, b) => Math.min(a, b));
+};
+
+public static totalMax: PivotAggregation = (members, data: any) => {
+  return data.map(x => x.UnitPrice * x.UnitsSold).reduce((a, b) => Math.max(a,b));
+};
+```
+
+</PlatformBlock>
+<PlatformBlock for="WebComponents">
+
+```typescript
+public pivotConfigHierarchy: IgcPivotConfiguration = {
+  values: [
+    {
+      member: 'AmountOfSale',
+      displayName: 'Amount of Sale',
+      aggregate: {
+        key: 'SUM',
+        aggregator: IgcTotalSaleAggregate.totalSale,
+        label: 'Sum of Sale'
+      },
+      aggregateList: [{
+        key: 'SUM',
+        aggregator: IgcTotalSaleAggregate.totalSale,
+        label: 'Sum of Sale'
+      }, {
+        key: 'MIN',
+        aggregator: IgcTotalSaleAggregate.totalMin,
+        label: 'Minimum of Sale'
+      }, {
+        key: 'MAX',
+        aggregator: IgcTotalSaleAggregate.totalMax,
+        label: 'Maximum of Sale'
+      }]
+    }
+  ]
+}
+
+public static totalSale: PivotAggregation = (members, data: any) =>
+  data.reduce((accumulator, value) => accumulator + value.UnitPrice * value.UnitsSold, 0);
+
+public static totalMin: PivotAggregation = (members, data: any) => {
+  return data.map(x => x.UnitPrice * x.UnitsSold).reduce((a, b) => Math.min(a, b));
+};
+
+public static totalMax: PivotAggregation = (members, data: any) => {
+  return data.map(x => x.UnitPrice * x.UnitsSold).reduce((a, b) => Math.max(a,b));
+};
+```
+
+</PlatformBlock>
+<PlatformBlock for="Blazor">
+
+```razor
+@code {
+  IgbPivotConfiguration pivotConfiguration1 = new IgbPivotConfiguration();
+  IgbPivotValue pivotValue = new IgbPivotValue()
+    {
+      Member = "Sales",
+      Name = "pivotValue1",
+      DisplayName = "Amount of Sales",
+      Enabled = true,
+      Aggregate = new IgbPivotAggregator() { Key = "sum", AggregatorName = PivotAggregationType.SUM, Label = "Sum of Sales" }
+    };
+  pivotValue.AggregateList.Add(new IgbPivotAggregator() { Key = "sum", AggregatorName = PivotAggregationType.SUM, Label = "Sum of Sales" });
+  pivotValue.AggregateList.Add(new IgbPivotAggregator() { Key = "min", AggregatorName = PivotAggregationType.MIN, Label = "Minimum of Sales" });
+  pivotValue.AggregateList.Add(new IgbPivotAggregator() { Key = "max", AggregatorName = PivotAggregationType.MAX, Label = "Maximum of Sales" });
+  pivotConfiguration1.Values.Add(pivotValue);
+```
+
+</PlatformBlock>
+
+El valor de la tabla dinámica también proporciona una propiedad <ApiLink type="PivotDimension" member="displayName" label="DisplayName" />. Puede usarse para mostrar un nombre personalizado para este valor en el encabezado de la columna.
+
+### Propiedad Enable
+
+<ApiLink type="PivotGrid" member="pivotConfiguration" label="PivotConfiguration" /> es la interfaz que describe el estado actual del componente <ApiLink type="PivotGrid" />. Con ella, el desarrollador puede declarar campos de los datos como **filas**, **columnas**, **filtros** o **valores**. La configuración permite habilitar o deshabilitar cada uno de estos elementos por separado. Solo los elementos habilitados se incluyen en el estado actual de la cuadrícula dinámica. El componente <ApiLink type="PivotDataSelector" /> usa la misma configuración y muestra una lista de todos los elementos, habilitados y deshabilitados. Para cada uno de ellos hay una casilla de verificación en el estado adecuado. Los usuarios finales pueden ajustar fácilmente el estado de la tabla dinámica alternando los distintos elementos con estas casillas.
+La propiedad `Enable` controla si un <ApiLink type="PivotDimension" /> o un <ApiLink type="PivotValue" /> está activo y participa en la vista dinámica que renderiza la cuadrícula dinámica.
+
+### Código de configuración completo
+
+Veamos una configuración básica de tabla dinámica:
+<PlatformBlock for="React">
+
+```tsx
+const pivotConfiguration1: IgrPivotConfiguration = {
+  columns: [
+    new IgrPivotDateDimension({
+      enabled: true,
+      memberName: "Date",
+    })
+  ],
+  rows: [
+    {
+      enabled: true,
+      memberName: "SellerCity"
+    },
+    {
+      enabled: true,
+      memberName: "ProductName"
+    }
+  ],
+  filters: [
+    {
+      enabled: true,
+      memberName: "SellerName"
+    }
+  ],
+  values: [
+    {
+      member: "ProductUnitPrice",
+      displayName: "Amount of Sale",
+      dataType: "currency",
+      enabled: true,
+      aggregate: {
+        aggregatorName: "SUM",
+        key: "SUM",
+        label: "Sum of Sale",
+      }
+    }
+  ]
+};
+```
+
+</PlatformBlock>
+<PlatformBlock for="Angular">
+
+```typescript
+public pivotConfigHierarchy: IPivotConfiguration = {
+  columns: [
+    {
+      memberName: 'Product',
+      memberFunction: (data) => data.Product.Name,
+      enabled: true
+    }
+  ],
+  rows: [
+    {
+      memberName: 'Seller',
+      memberFunction: (data) => data.Seller.Name,
+      enabled: true,
+    }
+  ],
+  values: [
+    {
+      member: 'NumberOfUnits',
+      aggregate: {
+        aggregator: IgxPivotNumericAggregate.sum,
+        key: 'sum',
+        label: 'Sum'
+      },
+      enabled: true
+    }
+  ]
+};
+```
+
+</PlatformBlock>
+<PlatformBlock for="WebComponents">
+
+```typescript
+public pivotConfigHierarchy: IgcPivotConfiguration = {
+  columns: [
+    {
+      memberName: 'ProductName',
+      memberFunction: (data) => data.ProductName,
+      enabled: true
+    },
+    {
+      memberName: 'SellerCity',
+      memberFunction: (data) => data.SellerCity,
+      enabled: true
+    }
+  ],
+  rows: [
+    {
+      memberName: 'SellerName',
+      memberFunction: (data) => data.SellerName,
+      enabled: true,
+    }
+  ],
+  values: [
+    {
+      member: 'AmountofSale',
+      displayName: "Amount of Sale",
+      aggregate: {
+        aggregator: IgcPivotNumericAggregate.sum,
+        key: 'SUM',
+        label: 'Sum of Sale'
+      },
+      enabled: true
+    }
+  ]
+};
+```
+
+</PlatformBlock>
+<PlatformBlock for="Blazor">
+
+```csharp
+IgbPivotConfiguration pivotConfiguration = new IgbPivotConfiguration();
+pivotConfiguration.Rows.Add(new IgbPivotDimension()
+  {
+    MemberName = "SellerName",
+    Enabled = true,
+    Name = "pivotDimension1"
+  });
+pivotConfiguration.Columns.Add(new IgbPivotDimension()
+  {
+    MemberName = "ProductName",
+    Enabled = true,
+    Name = "pivotDimension2"
+  });
+pivotConfiguration.Columns.Add(new IgbPivotDimension()
+  {
+    MemberName = "SellerCity",
+    Enabled = true,
+    Name = "pivotDimension2"
+  });
+pivotConfiguration.Values.Add(new IgbPivotValue()
+  {
+    Member = "AmountofSale",
+    Name = "pivotValue1",
+    Enabled = true,
+    Aggregate = new IgbPivotAggregator() { Key = "SUM", AggregatorName = PivotAggregationType.SUM, Label = "Sum" }
+  });
+```
+
+</PlatformBlock>
+
+Esta configuración define 1 fila, 1 columna y 1 agregación que suma los valores de cada grupo de dimensiones.
+Los miembros coinciden con los campos disponibles en el origen de datos proporcionado:
+
+<PlatformBlock for="WebComponents">
+```typescript
+public data = [
+[
+  {
+    ProductName: `Clothing`,
+    ProductUnitPrice: 12.8,
+    SellerName: `Stanley Brooker`,
+    SellerCity: `Seattle`,
+    Date: `2007-01-01T00:00:00`,
+    Value: 94.4,
+    NumberOfUnits: 282
+  },
+];
+```
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```csharp
+public PivotDataFlat()
+{
+  this.Add(new PivotDataFlatItem()
+  {
+    ProductName = @"Clothing",
+    ProductUnitPrice = 12.8,
+    SellerName = @"Stanley Brooker",
+    SellerCity = @"Seattle",
+    Date = @"2007-01-01T00:00:00",
+    Value = 94.4,
+    NumberOfUnits = 282
+  });
+```
+
+</PlatformBlock>
+
+### Ejemplo de configuración completa
+
+Usar el código anterior dará lugar al siguiente ejemplo, que agrupa las columnas únicas de Date, Product Name y Seller City en filas únicas y muestra las agregaciones relacionadas para el importe de venta en las celdas correspondientes:
+
+<Sample src="/{PivotGridSample}/features" height={700} alt="Ejemplo de características básicas de la cuadrícula dinámica de {Platform}" />
+
+
+### Generar la configuración automáticamente
+La propiedad <ApiLink type="PivotGrid" member="autoGenerateConfig" label="AutoGenerateConfig" /> genera automáticamente dimensiones y valores a partir de los campos del origen de datos:
+
+- Campos numéricos:
+  - Se crea como <ApiLink type="PivotValue" /> usando el agregador `PivotNumericAggregate.sum`.
+  - Se añade a la colección de valores y se habilita de forma predeterminada.
+
+- Campos no numéricos:
+  - Se crea como <ApiLink type="PivotDimension" />.
+  - Desactivado de forma predeterminada.
+  - Se añade a la colección de columnas.
+
+- Campos de fecha (solo está habilitado el primer campo `date`; los demás campos `date` aplican la regla de campos no numéricos):
+  - Se crea como <ApiLink type="PivotDateDimension" />
+  - Habilitado de forma predeterminada
+  - se añade a la colección de filas.
+
+Esta función permite a los desarrolladores crear rápidamente una vista dinámica sin especificar manualmente las dimensiones y los valores. Con un selector de pivot junto a la cuadrícula dinámica, los usuarios pueden habilitar y reordenar las dimensiones y los valores según sea necesario.
+
+### Claves de cálculo dinámico
+
+La cuadrícula dinámica permite personalizar los campos de clave de objeto que usa para sus cálculos dinámicos.
+Abajo puede ver con más detalle cómo se usan, en datos de ejemplo, donde ya se ven los valores agregados:
+
+```json
+[
+  {
+    ProductCategory: 'All', AllProducts: 'All Products', All: 1000, 'All-Bulgaria': 774, 'All-USA': 829, 'All-Uruguay': 524,
+    AllProducts_records: [
+      { ProductCategory: 'Clothing', 'All-Bulgaria': 774, 'All-USA': 296, 'All-Uruguay': 456 },
+      { ProductCategory: 'Bikes', 'All-Uruguay': 68 },
+      { ProductCategory: 'Accessories', 'All-USA': 293 },
+      { ProductCategory: 'Components', 'All-USA': 240 }
+    ]
+  }
+];
+```
+
+Todas estas claves se almacenan en la propiedad **pivotKeys**, que forma parte de <ApiLink type="PivotGrid" member="pivotConfiguration" label="PivotConfiguration" /> y puede usarse para cambiar las claves dinámicas predeterminadas.
+- **children**: campo que almacena los hijos para construir la jerarquía. Representa un mapa de los valores agrupados y de todos los pivotGridRecords basados en ese valor. Puede utilizarse en escenarios muy específicos en los que haya que hacer algo al crear las jerarquías. No es necesario cambiarlo para un uso habitual.
+- **records**: campo que almacena una referencia a los registros de datos originales. Puede verse en el ejemplo anterior: **AllProducts_records**. Evite definir en los datos campos con el mismo nombre que esta propiedad. Si sus registros de datos tienen una propiedad **records**, puede especificar un valor distinto y único para ella usando **pivotKeys**.
+- **aggregations**: campo que almacena los valores de agregación. Se aplica al crear las jerarquías y, en escenarios habituales, no debe modificarse.
+- **level**: campo que almacena el nivel de dimensión según su jerarquía. Evite definir en los datos campos con el mismo nombre que esta propiedad. Si sus registros de datos tienen una propiedad **level**, puede especificar un valor distinto y único para ella usando **pivotKeys**.
+- **columnDimensionSeparator**: separador usado al generar los valores únicos de campo de columna. Es el guion (**-**) del valor de ejemplo: **All-Bulgaria**.
+- **rowDimensionSeparator**: separador usado al generar los valores únicos de campo de fila. Se usa al crear los campos **records** y **level**.
+
+Los valores predeterminados son:
+
+<PlatformBlock for="Angular, WebComponents">
+```typescript
+{
+  aggregations: 'aggregations',
+  records: 'records',
+  children: 'children',
+  level: 'level',
+  rowDimensionSeparator: '_',
+  columnDimensionSeparator: '-'
+};
+```
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+@code {
+  {
+    aggregations: 'aggregations',
+    records: 'records',
+    children: 'children',
+    level: 'level',
+    rowDimensionSeparator: '_',
+    columnDimensionSeparator: '-'
+  };
+}
+```
+
+</PlatformBlock>
+
+<DocsAside type="info">
+Si tiene valores de campo de datos que contienen las claves predeterminadas, asegúrese de cambiar los separadores por otros símbolos que no esté usando actualmente. De lo contrario, podría provocar un comportamiento inesperado al calcular y mostrar los valores agregados.
+</DocsAside>
+<PlatformBlock for="Blazor">
+
+Al sobrescribir <ApiLink type="PivotConfiguration" member="pivotKeys" label="PivotKeys" /> en Blazor, actualmente tendrá que definir todas las demás claves, ya que al asignar un nuevo objeto PivotKeys se sustituyen por completo las predeterminadas:
+
+```razor
+@code {
+  var pivotConfiguration = new IgbPivotConfiguration();
+  pivotConfiguration.PivotKeys = new IgbPivotKeys()
+  {
+    Aggregations = "aggregations",
+    Records = "records",
+    Children = "children",
+    Level = "level",
+    RowDimensionSeparator = "_",
+    ColumnDimensionSeparator = "^"
+  };
+}
+```
+
+</PlatformBlock>
+
+## Estilos
+
+La cuadrícula dinámica de {Platform} comparte las mismas propiedades CSS que la cuadrícula base. Para darle estilo, basta con establecer los valores de propiedad deseados y limitarlos al componente de cuadrícula dinámica. Para crear un tema completo a partir de unos pocos colores, consulte el [tema de personalización visual](../_shared/theming.mdx).
+
+```css
+igc-pivot-grid {
+  --header-background: #3b3a3a;
+  --header-text-color: #ffcd0f;
+  --content-background: #494949;
+  --content-text-color: #ffcd0f;
+  --row-odd-background: #494949;
+  --row-even-background: #494949;
+  --row-hover-background: #3b3a3a;
+  --row-hover-text-color: #ffcd0f;
+}
+```
+
+<Sample src="/{PivotGridSample}/styling" height={700} alt="Estilo de la cuadrícula dinámica de {Platform}" />
+
+## Problemas conocidos y limitaciones
+
+|Limitación|Descripción|
+|--- |--- |
+| No se admite establecer columnas de forma declarativa. | La cuadrícula dinámica genera sus columnas a partir de la configuración de <ApiLink type="PivotGrid" member="columns" label="Columns" />, por lo que no se admite establecerlas de forma declarativa, como en la cuadrícula base. Estas columnas se descartan. |
+| Establecer valores duplicados en las propiedades <ApiLink type="PivotDimension" member="memberName" label="MemberName" /> o <ApiLink type="PivotValue" member="member" label="Member" /> de las dimensiones/valores. | Estas propiedades deben ser únicas para cada dimensión/valor. La duplicación puede provocar la pérdida de datos en el resultado final. |
+| La selección de filas solo se admite en modo **Single**. | Actualmente no se admite la selección múltiple. |
+
+<PlatformBlock for="Angular">
+| La combinación de miembros de dimensión distingue entre mayúsculas y minúsculas | La cuadrícula dinámica crea grupos y combina los valores iguales (distinguiendo mayúsculas y minúsculas). Pero las dimensiones proporcionan <ApiLink type="PivotDimension" member="memberFunction" label="MemberFunction" /> y esto puede cambiarse allí; el resultado de <ApiLink type="PivotDimension" member="memberFunction" label="MemberFunction" /> se compara y se usa como valor mostrado.|
+</PlatformBlock>
+## Referencias de API
+
+<ApiLink type="PivotConfiguration" /><br />
+<ApiLink type="PivotGrid" /><br />
+<ApiLink type="PivotDataSelector" /><br />
+<ApiLink type="PivotDateDimensionOptions" /><br />
+<ApiLink type="Column" /><br />
+
+## Recursos adicionales
+
+Nuestra comunidad está activa y siempre da la bienvenida a nuevas ideas.
+
+- [{ProductName} **Foros**]({ForumsLink})
+- [{ProductName} **GitHub**]({GithubLink})

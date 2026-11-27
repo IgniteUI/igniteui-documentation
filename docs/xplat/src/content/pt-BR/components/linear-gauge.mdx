@@ -1,0 +1,404 @@
+---
+title: "{Platform} Linear Gauge | Ferramentas de visualização de dados | Infragistics"
+description: "Use o controle linear gauge {Platform} da Infragistics para visualizar dados com uma visão simples e concisa. Conheça os elementos configuráveis do linear gauge do {ProductName}!"
+keywords: "linear gauge, {ProductName}, Infragistics, animação, rótulos, ponteiro, escalas, faixas, marcas de graduação"
+license: commercial
+mentionedTypes: ["LinearGauge"]
+namespace: Infragistics.Controls.Gauges
+_language: pt-BR
+llms:
+  description: "O componente linear gauge do {ProductName} permite visualizar dados na forma de um medidor linear."
+platformType: xplat
+---
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+# Visão geral do {Platform} Linear Gauge
+
+O componente linear gauge do {ProductName} permite visualizar dados na forma de um medidor linear. O `LinearGauge` oferece uma visão simples e concisa de um valor comparado com uma escala e com uma ou mais faixas. Ele oferece suporte a uma escala, um conjunto de marcas de graduação e um conjunto de rótulos. O componente também tem suporte integrado a transições animadas, que podem ser facilmente personalizadas definindo a propriedade `transitionDuration`. Os recursos do componente linear gauge incluem orientação e direção configuráveis, elementos visuais configuráveis, como o ponteiro, e mais.
+
+## Exemplo do {Platform} Linear Gauge
+
+O exemplo a seguir demonstra como definir várias propriedades no mesmo `LinearGauge` pode transformá-lo em um linear gauge completamente diferente.
+
+<Sample src="/gauges/linear-gauge/animation" height={155} alt="Exemplo do {Platform} Linear Gauge" />
+
+
+
+
+<PlatformBlock for="Angular, React, WebComponents">
+
+
+## Dependências
+
+Ao instalar o componente de medidor {Platform}, o pacote principal também precisa ser instalado.
+
+```cmd
+npm install --save {PackageCore}
+npm install --save {PackageGauges}
+```
+
+</PlatformBlock>
+
+
+<PlatformBlock for="Angular, React, WebComponents, Blazor">
+## Módulos do componente
+
+<PlatformBlock for="Angular, React, WebComponents">
+
+O `LinearGauge` requer os seguintes módulos:
+
+
+```json-snippet source="/gauges/linear-gauge/animation" channel="modulesImports...moduleRegistration" exclude="Xaml"
+{
+    "descriptions": {
+        "content": {
+            "type": "LinearGauge",
+            "name": "gauge"
+        }
+    },
+    "modules": [
+        "gauges/LinearGaugeModule"
+    ],
+    "$modules": [
+        "+doc:modulesImports",
+        "+doc:moduleRegistration"
+    ]
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+Registre os serviços de {ProductName}:
+
+```csharp
+// in Program.cs file
+
+builder.Services.AddIgniteUIBlazor();
+```
+
+O registro de <ApiLink raw type="LinearGaugeModule" />, o módulo de recurso do cliente de `LinearGauge`, é **opcional**: o componente carrega seus recursos na primeira vez em que é renderizado. Listá-lo em `builder.Services.AddIgniteUIBlazor(typeof(IgbLinearGaugeModule))` pode ser usado para pré-carregar recursos ou para dar suporte a elementos criados somente no cliente (veja [Módulos do componente](general-getting-started.mdx#módulos-do-componente)).
+
+</PlatformBlock>
+
+</PlatformBlock>
+
+
+
+## Uso
+
+O código a seguir demonstra como criar um linear gauge com um ponteiro e três faixas comparativas na escala.
+
+```json-snippet
+{
+    "type": "LinearGauge",
+    "height": "30px",
+    "width": "700px",
+    "minimumValue": 5,
+    "maximumValue": 55,
+    "value": 43,
+    "ranges": [
+        { "type": "LinearGraphRange", "startValue": 0,  "endValue": 15, "brush": "red" },
+        { "type": "LinearGraphRange", "startValue": 15, "endValue": 30, "brush": "yellow" },
+        { "type": "LinearGraphRange", "startValue": 30, "endValue": 55, "brush": "green" }
+    ]
+}
+```
+
+
+## Ponteiro
+
+Esta é a medida principal exibida pelo componente linear gauge e é visualizada como uma barra, mas você pode personalizá-la para mostrar praticamente qualquer formato, como demonstrado abaixo.
+
+```json-snippet source="/gauges/linear-gauge/needle"
+{
+    "type": "LinearGauge",
+    "height": "80px",
+    "width": "400px",
+    "minimumValue": 0,
+    "maximumValue": 100,
+    "value": 50,
+    "interval": 10,
+    "isNeedleDraggingEnabled": true,
+    "needleShape": "Custom",
+    "needleBrush": "DodgerBlue",
+    "needleOutline": "DodgerBlue",
+    "needleStrokeThickness": 1,
+    "needleBreadth": 15,
+    "needleInnerExtent": 0.35,
+    "needleOuterExtent": 0.65,
+    "needleOuterPointExtent": 0.8,
+    "needleInnerPointExtent": 0.325,
+    "needleInnerPointWidth": 0,
+    "needleOuterPointWidth": 0.3,
+    "needleInnerBaseWidth": 0,
+    "needleOuterBaseWidth": 0.07
+}
+```
+
+
+<Sample src="/gauges/linear-gauge/needle" height={125} alt="Ponteiro do {Platform} linear gauge" />
+
+
+## Destacar o ponteiro
+
+O linear gauge pode ser modificado para mostrar um segundo ponteiro. Isso fará com que a `LinearGauge.value` do ponteiro principal apareça com menor opacidade. Para habilitar isso, primeiro defina `highlightValueDisplayMode` como Overlay e depois aplique um `highlightValue`.
+
+```json-snippet source="/gauges/linear-gauge/highlight-needle"
+{
+    "type": "LinearGauge",
+    "height": "80px",
+    "width": "400px",
+    "minimumValue": 0,
+    "maximumValue": 100,
+    "value": 50,
+    "interval": 10,
+    "labelInterval": 10,
+    "labelExtent": 0.025,
+    "labelsPreTerminal": 0,
+    "labelsPostInitial": 0,
+    "needleBrush": "Blue",
+    "highlightValueDisplayMode": "Overlay",
+    "highlightValue": 25,
+    "isHighlightNeedleDraggingEnabled": true
+}
+```
+
+
+<Sample src="/gauges/linear-gauge/highlight-needle" height={125} alt="Ponteiro de destaque do {Platform} linear gauge" />
+
+
+## Faixas
+
+As faixas são elementos visuais que destacam um intervalo específico de valores em uma escala. Sua finalidade é comunicar visualmente o estado qualitativo da medida de desempenho, mostrando ao mesmo tempo o grau em que ela está dentro desse estado.
+
+```json-snippet source="/gauges/linear-gauge/ranges"
+{
+    "type": "LinearGauge",
+    "height": "80px",
+    "width": "400px",
+    "minimumValue": 0,
+    "maximumValue": 100,
+    "value": 50,
+    "interval": 10,
+    "rangeBrushes":  [ "#A4BD29", "#F86232" ],
+    "rangeOutlines": [ "#A4BD29", "#F86232" ],
+    "ranges": [
+        { "type": "LinearGraphRange", "startValue": 0,  "endValue": 50,  "innerStartExtent": 0.075, "innerEndExtent": 0.075, "outerStartExtent": 0.25, "outerEndExtent": 0.4 },
+        { "type": "LinearGraphRange", "startValue": 50, "endValue": 100, "innerStartExtent": 0.075, "innerEndExtent": 0.075, "outerStartExtent": 0.4,  "outerEndExtent": 0.55 }
+    ]
+}
+```
+
+
+<Sample src="/gauges/linear-gauge/ranges" height={125} alt="Faixas do {Platform} linear gauge" />
+
+
+
+## Marcas de escala
+
+As marcas de graduação servem como divisão visual da escala em intervalos, para aumentar a legibilidade do linear gauge.
+
+Marcas principais – As marcas principais são usadas como delimitadores primários na escala. A frequência com que aparecem, suas extensões e seu estilo podem ser controlados definindo as propriedades correspondentes.
+
+Marcas secundárias – As marcas secundárias representam marcas auxiliares, que podem ser usadas para melhorar ainda mais a legibilidade da escala e podem ser personalizadas de forma semelhante às principais.
+
+```json-snippet source="/gauges/linear-gauge/tickmarks"
+{
+    "type": "LinearGauge",
+    "height": "80px",
+    "width": "400px",
+    "minimumValue": 0,
+    "maximumValue": 100,
+    "value": 50,
+    "interval": 10,
+    "tickBrush": "DodgerBlue",
+    "ticksPreTerminal": 0,
+    "ticksPostInitial": 0,
+    "tickStrokeThickness": 2,
+    "tickStartExtent": 0.25,
+    "tickEndExtent": 0.05,
+    "minorTickCount": 4,
+    "minorTickBrush": "DarkViolet",
+    "minorTickStartExtent": 0.15,
+    "minorTickEndExtent": 0.05,
+    "minorTickStrokeThickness": 1
+}
+```
+
+
+<Sample src="/gauges/linear-gauge/tickmarks" height={125} alt="Marcas de graduação do {Platform} linear gauge" />
+
+
+
+## Rótulos
+
+Os rótulos indicam as medidas na escala.
+
+```json-snippet source="/gauges/linear-gauge/labels"
+{
+    "type": "LinearGauge",
+    "height": "80px",
+    "width": "400px",
+    "minimumValue": 0,
+    "maximumValue": 100,
+    "value": 50,
+    "interval": 10,
+    "labelInterval": 10,
+    "labelExtent": 0.025,
+    "labelsPreTerminal": 0,
+    "labelsPostInitial": 0,
+    "fontBrush": "DodgerBlue",
+    "font": "11px Verdana"
+}
+```
+
+
+<Sample src="/gauges/linear-gauge/labels" height={125} alt="Rótulos do {Platform} linear gauge" />
+
+
+
+## Fundo
+
+O elemento de fundo representa o plano de fundo e a borda do componente linear gauge. Ele é sempre o primeiro elemento renderizado, e todos os demais elementos, como rótulos e marcas de graduação, ficam sobrepostos a ele.
+
+```json-snippet source="/gauges/linear-gauge/backing"
+{
+    "type": "LinearGauge",
+    "height": "80px",
+    "width": "400px",
+    "minimumValue": 0,
+    "maximumValue": 100,
+    "value": 50,
+    "interval": 10,
+    "backingBrush": "#bddcfc",
+    "backingOutline": "DodgerBlue",
+    "backingStrokeThickness": 4,
+    "backingInnerExtent": 0,
+    "backingOuterExtent": 1
+}
+```
+
+
+<Sample src="/gauges/linear-gauge/backing" height={125} alt="Plano de fundo do {Platform} linear gauge" />
+
+
+
+## Escala
+
+A escala é um elemento visual que destaca toda a faixa de valores no linear gauge. Você pode personalizar a aparência e o formato da escala. Ela também pode ser invertida (usando a propriedade `isScaleInverted`), e todos os rótulos serão renderizados da direita para a esquerda, em vez da esquerda para a direita.
+
+```json-snippet source="/gauges/linear-gauge/scale"
+{
+    "type": "LinearGauge",
+    "height": "80px",
+    "width": "400px",
+    "minimumValue": 0,
+    "maximumValue": 100,
+    "value": 50,
+    "interval": 10,
+    "isScaleInverted": false,
+    "scaleBrush": "DodgerBlue",
+    "scaleOutline": "DarkViolet",
+    "scaleStrokeThickness": 1,
+    "scaleInnerExtent": 0.05,
+    "scaleOuterExtent": 0.65,
+    "scaleStartExtent": 0.05,
+    "scaleEndExtent": 0.95
+}
+```
+
+
+<Sample src="/gauges/linear-gauge/scale" height={125} alt="Escala do {Platform} linear gauge" />
+
+
+
+## Resumo
+
+Para sua conveniência, todos os trechos de código acima foram combinados em um único bloco de código abaixo, que você pode copiar facilmente para o seu projeto e ver o linear gauge com todos os recursos e elementos visuais habilitados.
+
+```json-snippet
+{
+    "type": "LinearGauge",
+    "height": "80px",
+    "width": "400px",
+    "minimumValue": 0,
+    "maximumValue": 100,
+    "value": 50,
+    "interval": 10,
+
+    "isScaleInverted": false,
+    "scaleBrush": "DodgerBlue",
+    "scaleOutline": "DarkViolet",
+    "scaleStrokeThickness": 1,
+    "scaleInnerExtent": 0.05,
+    "scaleOuterExtent": 0.65,
+    "scaleStartExtent": 0.05,
+    "scaleEndExtent": 0.95,
+
+    "backingBrush": "#bddcfc",
+    "backingOutline": "DodgerBlue",
+    "backingStrokeThickness": 4,
+    "backingInnerExtent": 0,
+    "backingOuterExtent": 1,
+
+    "labelInterval": 10,
+    "labelExtent": 0.025,
+    "labelsPreTerminal": 0,
+    "labelsPostInitial": 0,
+    "fontBrush": "DodgerBlue",
+    "font": "11px Verdana",
+
+    "tickBrush": "DodgerBlue",
+    "ticksPreTerminal": 0,
+    "ticksPostInitial": 0,
+    "tickStrokeThickness": 2,
+    "tickStartExtent": 0.25,
+    "tickEndExtent": 0.05,
+    "minorTickCount": 4,
+    "minorTickBrush": "DarkViolet",
+    "minorTickStartExtent": 0.15,
+    "minorTickEndExtent": 0.05,
+    "minorTickStrokeThickness": 1,
+
+    "isNeedleDraggingEnabled": true,
+    "needleShape": "Custom",
+    "needleBrush": "DodgerBlue",
+    "needleOutline": "DodgerBlue",
+    "needleStrokeThickness": 1,
+    "needleBreadth": 15,
+    "needleInnerExtent": 0.35,
+    "needleOuterExtent": 0.65,
+    "needleOuterPointExtent": 0.8,
+    "needleInnerPointExtent": 0.325,
+    "needleInnerPointWidth": 0,
+    "needleOuterPointWidth": 0.3,
+    "needleInnerBaseWidth": 0,
+    "needleOuterBaseWidth": 0.07,
+
+    "highlightValueDisplayMode": "Overlay",
+    "highlightValue": 25,
+    "isHighlightNeedleDraggingEnabled": true,
+
+    "rangeBrushes":  [ "#A4BD29", "#F86232" ],
+    "rangeOutlines": [ "#A4BD29", "#F86232" ],
+    "ranges": [
+        { "type": "LinearGraphRange", "startValue": 0,  "endValue": 50,  "innerStartExtent": 0.075, "innerEndExtent": 0.075, "outerStartExtent": 0.25, "outerEndExtent": 0.4 },
+        { "type": "LinearGraphRange", "startValue": 50, "endValue": 100, "innerStartExtent": 0.075, "innerEndExtent": 0.075, "outerStartExtent": 0.4,  "outerEndExtent": 0.55 }
+    ]
+}
+```
+
+
+## Referências da API
+`LinearGauge`
+`LinearGraphRange`
+## Recursos adicionais
+
+Você pode encontrar mais informações sobre outros tipos de medidores nestes tópicos:
+
+- [Bullet Graph](./bullet-graph.mdx)
+- [Medidor radial](./radial-gauge.mdx)

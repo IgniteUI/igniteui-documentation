@@ -1,0 +1,677 @@
+---
+title: "Componente Angular Date Range Picker | Ignite UI for Angular | Licença MIT"
+description: "O componente Angular Date Range Picker permite escolher um intervalo de datas definindo sua data inicial e final. Você pode selecionar um intervalo em uma UI de calendário. Experimente agora." 
+keywords: "Angular Date Range Picker, Date Range Picker, Date Picker, componente Angular Date Range Picker, componentes de UI Angular, componente Angular"
+license: MIT
+_language: pt-BR
+llms:
+  description: "O Angular Date Range Picker é um componente leve que inclui uma entrada de texto e um pop-up de calendário, permitindo que os usuários selecionem facilmente as datas inicial e final."
+---
+
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+# Visão geral do componente Angular Date Range Picker
+
+O Angular Date Range Picker é um componente leve que inclui uma entrada de texto e um pop-up de calendário, permitindo que os usuários selecionem facilmente as datas inicial e final. Ele é altamente personalizável para atender a diversos requisitos de aplicação, oferecendo recursos como restrições de intervalo de datas, formatos de data configuráveis e muito mais.
+
+## Exemplo de Angular Date Range Picker
+
+Abaixo está um exemplo que demonstra o componente <ApiLink type="DateRangePicker" /> em funcionamento, em que um pop-up de calendário permite que os usuários selecionem as datas inicial e final.
+
+<Sample src="/scheduling/basic-daterangepicker" height={600} alt="Exemplo de Angular Date Range Picker" />
+
+<hr/>
+
+## Primeiros passos com o Date Range Picker do Ignite UI for Angular
+
+Para começar com o componente <ApiLink type="DateRangePicker" /> do Ignite UI for Angular, primeiro é preciso instalar o Ignite UI for Angular. Em um aplicativo Angular existente, digite o seguinte comando:
+
+```cmd
+ng add igniteui-angular
+```
+
+Para uma introdução completa ao Ignite UI for Angular, leia o tópico [_primeiros passos_](/general/getting-started).
+
+O próximo passo é importar o `IgxDateRangePickerModule` no arquivo **app.module.ts**.
+
+Como o <ApiLink type="DateRangePicker" /> usa o <ApiLink type="Calendar" label="**IgxCalendarComponent**" />, ele também depende do **BrowserAnimationsModule**, então esse módulo também precisa ser adicionado ao `AppModule`:
+
+```typescript
+// app.module.ts
+
+import { IgxDateRangePickerModule } from 'igniteui-angular/date-picker';
+// import { IgxDateRangePickerModule } from '@infragistics/igniteui-angular'; for licensed package
+
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
+@NgModule({
+    ...
+    imports: [..., IgxDateRangePickerModule, BrowserAnimationsModule],
+    ...
+})
+export class AppModule {}
+```
+
+Alternativamente, a partir de `16.0.0` você pode importar o <ApiLink type="DateRangePicker" /> como uma dependência independente, ou usar o token [`IGX_DATE_RANGE_PICKER_DIRECTIVES`](https://github.com/IgniteUI/igniteui-angular/blob/master/projects/igniteui-angular/date-picker/src/date-range-picker/public_api.ts) para importar o componente e todos os seus componentes e diretivas de apoio.
+
+```typescript
+// home.component.ts
+
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { IGX_DATE_RANGE_PICKER_DIRECTIVES } from 'igniteui-angular/date-picker';
+// import { IGX_DATE_RANGE_PICKER_DIRECTIVES } from '@infragistics/igniteui-angular'; for licensed package
+
+@Component({
+    selector: 'app-home',
+    template: '<igx-date-range-picker [value]="range"></igx-date-range-picker>',
+    styleUrls: ['home.component.scss'],
+    standalone: true,
+    imports: [BrowserAnimationsModule, IGX_DATE_RANGE_PICKER_DIRECTIVES]
+    /* or imports: [BrowserAnimationsModule, IgxDateRangePickerComponent] */
+})
+export class HomeComponent {}
+```
+
+Agora que você importou o módulo ou as diretivas do Date Range Picker do Ignite UI for Angular, pode começar a usar o componente `igx-date-range-picker`.
+
+## Usando o componente Angular Date Range Picker
+
+### Exibição e valor
+
+Para instanciar um date range picker em seu modo padrão, use o código a seguir:
+
+```html
+<igx-date-range-picker [value]="range"></igx-date-range-picker>
+```
+
+```typescript
+public range: DateRange = { start: new Date(2020, 4, 20), end: new Date(2020, 4, 25) };
+```
+
+<DocsAside type="info">
+O valor do Date Range Picker é do tipo <ApiLink type="DateRange" kind="interface" />, que contém uma data inicial e uma data final.
+</DocsAside>
+
+O seletor oferece dois modos para exibir valores de data: entrada única e duas entradas. No modo de entrada única, o campo não é editável e o intervalo de datas não pode ser editado digitando. No modo de duas entradas, porém, os usuários podem editar as datas inicial e final digitando em campos de entrada separados.
+
+Quando o calendário está visível, um intervalo de datas pode ser selecionado escolhendo uma data inicial e uma final. Selecionar uma data define as datas inicial e final e, depois que uma segunda data é escolhida, ela define a data final. Se um intervalo já estiver selecionado, clicar em qualquer outra data do calendário iniciará uma nova seleção de intervalo.
+
+Para criar uma vinculação de dados bidirecional, use `ngModel`:
+
+```html
+<igx-date-range-picker [(ngModel)]="range"></igx-date-range-picker>
+```
+
+### Exibir entradas editáveis separadas
+
+O componente Angular Date Range Picker também permite configurar duas entradas separadas para as datas inicial e final. Isso pode ser feito usando <ApiLink type="DateRangeStart" /> e <ApiLink type="DateRangeEnd" /> como filhos do date range picker, como mostrado na demonstração abaixo:
+
+```html
+<igx-date-range-picker [(ngModel)]="range">
+    <igx-date-range-start>
+        <igx-picker-toggle igxPrefix>
+            <igx-icon>calendar_today</igx-icon>
+        </igx-picker-toggle>
+        <label igxLabel>Start Date</label>
+        <input igxInput igxDateTimeEditor type="text">
+        <igx-picker-clear igxSuffix>
+            <igx-icon>clear</igx-icon>
+        </igx-picker-clear>
+    </igx-date-range-start>
+    <igx-date-range-end>
+        <igx-picker-toggle igxPrefix>
+            <igx-icon>calendar_today</igx-icon>
+        </igx-picker-toggle>
+        <label igxLabel>End Date</label>
+        <input igxInput igxDateTimeEditor type="text">
+        <igx-picker-clear igxSuffix>
+            <igx-icon>clear</igx-icon>
+        </igx-picker-clear>
+    </igx-date-range-end>
+</igx-date-range-picker>
+```
+
+<DocsAside type="info">
+Na configuração de duas entradas, coloque o `input` diretamente dentro de `igx-date-range-start` e `igx-date-range-end`.
+
+Para abrir o calendário a partir de um ícone, use `igx-picker-toggle` com `igxPrefix` aplicado diretamente a ele:
+
+```html
+<igx-picker-toggle igxPrefix>
+  <igx-icon>calendar_today</igx-icon>
+</igx-picker-toggle>
+```
+
+Para mostrar uma ação de limpeza, use `igx-picker-clear` com `igxSuffix` aplicado diretamente a ele:
+
+```html
+<igx-picker-clear igxSuffix>
+  <igx-icon>clear</igx-icon>
+</igx-picker-clear>
+```
+
+</DocsAside>
+
+- <ApiLink type="DateRangeStart" /> e <ApiLink type="DateRangeEnd" /> oferecem suporte a conteúdo projetado, como rótulos, dicas, alternadores do seletor e botões de limpeza.
+- Use `igx-picker-toggle` para a ação de calendário e `igx-picker-clear` para a ação de limpeza.
+- Aplique `igxPrefix` diretamente a `igx-picker-toggle` e `igxSuffix` diretamente a `igx-picker-clear`.
+- Adicione o <ApiLink type="InputDirective" /> diretamente dentro de cada componente.
+- Para habilitar a edição de datas, decore as duas entradas com a diretiva [`igxDateTimeEditor`](./date-time-editor.mdx).
+
+<Sample src="/scheduling/daterangepicker-start-end" height={600} alt="" />
+
+### Modos de pop-up
+
+Por padrão, o <ApiLink type="DateRangePicker" /> abre seu pop-up de calendário no modo `dropdown`. Como alternativa, o calendário pode ser aberto no modo `dialog` definindo a propriedade <ApiLink type="DateRangePicker" member="mode" label="mode" /> como `dialog`.
+
+```html
+<igx-date-range-picker [mode]="'dialog'"></igx-date-range-picker>
+```
+
+<Sample src="/scheduling/daterangepicker-mode" height={700} alt="" />
+
+<hr/>
+
+Na configuração padrão de entrada única, o calendário abre quando você clica na entrada ou no ícone de calendário.
+
+Ao usar duas entradas separadas no modo `dropdown`, as entradas continuam editáveis; por isso, o calendário normalmente é aberto pelo alternador do seletor.
+
+Ao usar duas entradas separadas no modo `dialog`, clicar em qualquer uma das entradas abre o calendário.
+
+O valor do intervalo é definido quando as datas são escolhidas no calendário. Você vai notar que, no modo de lista suspensa, o botão `Done` não está disponível. No modo de diálogo, um botão `Cancel` permite reverter a seleção ao fechar.
+
+### Navegação pelo teclado
+
+O <ApiLink type="DateRangePicker" /> oferece uma navegação pelo teclado intuitiva, permitindo que os usuários incrementem, decrementem ou pulem facilmente entre as diferentes partes do componente, sem precisar usar o mouse.
+
+As opções de navegação pelo teclado disponíveis variam conforme o componente esteja no modo de entrada única ou de duas entradas.
+
+**Modo de duas entradas:**
+
+| Teclas                         | Descrição                                                                                                                             |
+| :--------------------------- | :-------------------------------------------------------------------------------------------------------------------------------------- |
+| <kbd>&larr;</kbd>            | Move o cursor um caractere para a esquerda                                                                                               |
+| <kbd>&rarr;</kbd>            | Move o cursor um caractere para a direita                                                                                              |
+| <kbd>Ctrl + ArrowLeft</kbd>  | Move o cursor para o início da seção atual da máscara de entrada ou para o início da seção anterior, se ele já estiver no início |
+| <kbd>Ctrl + ArrowRight</kbd> | Move o cursor para o fim da seção atual da máscara de entrada ou para o fim da próxima, se ele já estiver no fim                   |
+| <kbd>ArrowUp</kbd>           | Incrementa em um passo a parte "focada" da máscara de entrada                                                                   |
+| <kbd>ArrowDown</kbd>         | Decrementa em um passo a parte "focada" da máscara de entrada                                                                   |
+| <kbd>Home</kbd>              | Move o cursor para o início da máscara de entrada                                                                                      |
+| <kbd>End</kbd>               | Move o cursor para o fim da máscara de entrada                                                                                            |
+| <kbd>Ctrl + ;</kbd>          | Define a data atual como valor do componente                                                                                     |
+
+**Nos modos de entrada única e de duas entradas:**
+
+| Teclas                       | Descrição                  |
+| :------------------------- | :--------------------------- |
+| <kbd>Alt + ArrowDown</kbd> | Abre a lista suspensa do calendário  |
+| <kbd>Alt + ArrowUp</kbd>   | Fecha a lista suspensa do calendário |
+
+A seção [navegação pelo teclado do calendário](/calendar#navegação-pelo-teclado) contém todas as combinações de teclas que podem ser usadas no calendário.
+
+<hr/>
+
+## Layout
+
+### Projeção de componentes
+
+Para enriquecer a UX padrão do Date Range Picker, o componente permite projetar componentes filhos - o mesmo que no <ApiLink type="InputGroup" />: [`igxLabel`](/label-input), [`igx-hint / igxHint`](/input-group#dicas), [`igx-prefix / igxPrefix`](/input-group#prefixo-e-sufixo), [`igx-suffix / igxSuffix`](/input-group#prefixo-e-sufixo), excluindo <ApiLink type="InputDirective" />. Informações mais detalhadas sobre isso podem ser encontradas no tópico [Label e Input](/label-input).
+
+```html
+<igx-date-range-picker #dateRangePicker [(ngModel)]="range">
+    <label igxLabel>Flight dates</label>
+    @if (dateRangePicker.invalid) {
+        <igx-hint>
+            Please choose start and end date!
+        </igx-hint>
+    }
+</igx-date-range-picker>
+```
+
+Ou para duas entradas:
+
+```html
+<igx-date-range-picker #dateRangePicker [(ngModel)]="range">
+    <igx-date-range-start>
+        <igx-picker-toggle igxPrefix>
+            <igx-icon>calendar_today</igx-icon>
+        </igx-picker-toggle>
+        <label igxLabel>Start Date</label>
+        <input igxInput igxDateTimeEditor type="text">
+        @if (dateRangePicker.invalid) {
+            <igx-hint>
+                Please choose start and end date!
+            </igx-hint>
+        }
+        <igx-picker-clear igxSuffix>
+            <igx-icon>clear</igx-icon>
+        </igx-picker-clear>
+    </igx-date-range-start>
+    <igx-date-range-end>
+        <igx-picker-toggle igxPrefix>
+            <igx-icon>calendar_today</igx-icon>
+        </igx-picker-toggle>
+        <label igxLabel>End Date</label>
+        <input igxInput igxDateTimeEditor type="text">
+        <igx-picker-clear igxSuffix>
+            <igx-icon>clear</igx-icon>
+        </igx-picker-clear>
+    </igx-date-range-end>
+</igx-date-range-picker>
+```
+
+#### Ícones de alternância e de limpeza
+
+Na configuração padrão, com uma única entrada somente leitura, um ícone de calendário padrão é exibido como prefixo, e um ícone de limpeza, como sufixo. Esses ícones podem ser alterados ou redefinidos usando <ApiLink type="PickerToggle" /> e <ApiLink type="PickerClear" />. Eles podem ser decorados com [`igxPrefix`](/input-group#prefixo-e-sufixo) ou [`igxSuffix`](/input-group#prefixo-e-sufixo), o que define a posição deles - no início ou no fim da entrada, respectivamente:
+
+```html
+<igx-date-range-picker>
+    <igx-picker-toggle igxSuffix>
+        <igx-icon>calendar_view_day</igx-icon>
+    </igx-picker-toggle>
+    <igx-picker-clear igxSuffix>
+        <igx-icon>clear</igx-icon>
+    </igx-picker-clear>
+</igx-date-range-picker>
+```
+
+<DocsAside type="info">
+Este componente usa Material Icons. Adicione o seguinte link ao seu `index.html`: `<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">`
+</DocsAside>
+
+Quando um Date Range Picker tem duas entradas separadas para as datas inicial e final, ele não expõe esses ícones por padrão. O <ApiLink type="PickerToggle" /> e o <ApiLink type="PickerClear" /> devem ser adicionados manualmente como filhos de <ApiLink type="DateRangeStart" /> ou <ApiLink type="DateRangeEnd" />, assim:
+
+<DocsAside type="info">
+Na configuração de duas entradas:
+
+- use `igx-picker-toggle igxPrefix` para a ação de calendário
+- use `igx-picker-clear igxSuffix` para a ação de limpeza
+</DocsAside>
+
+```html
+<igx-date-range-picker>
+    <igx-date-range-start>
+        <igx-picker-toggle igxPrefix>
+            <igx-icon>calendar_view_day</igx-icon>
+        </igx-picker-toggle>
+        <label igxLabel>Start Date</label>
+        <input igxInput igxDateTimeEditor type="text">
+        <igx-picker-clear igxSuffix>
+            <igx-icon>clear</igx-icon>
+        </igx-picker-clear>
+    </igx-date-range-start>
+    <igx-date-range-end>
+        <igx-picker-toggle igxPrefix>
+            <igx-icon>calendar_view_day</igx-icon>
+        </igx-picker-toggle>
+        <label igxLabel>End Date</label>
+        <input igxInput igxDateTimeEditor type="text">
+        <igx-picker-clear igxSuffix>
+            <igx-icon>clear</igx-icon>
+        </igx-picker-clear>
+    </igx-date-range-end>
+</igx-date-range-picker>
+```
+
+### Intervalos de datas personalizados e predefinidos
+
+Você também pode adicionar chips de intervalo de datas personalizados ao pop-up do calendário para uma seleção de intervalo mais rápida, usando a propriedade <ApiLink type="DateRangePicker" member="customRanges" label="customRanges" />. Por exemplo, você pode criar um chip de intervalo personalizado para selecionar rapidamente o intervalo dos próximos 7 dias, terminando na data atual. Além disso, ao definir a propriedade <ApiLink type="DateRangePicker" member="usePredefinedRanges" label="usePredefinedRanges" />, um conjunto de chips de intervalos predefinidos será exibido junto com os personalizados.
+
+```ts
+public today = new Date();
+
+public nextSeven = new Date(
+    this.today.getFullYear(),
+    this.today.getMonth(),
+    this.today.getDate() + 7
+);
+
+public customRanges: CustomDateRange[] = [
+    {
+        label: 'Next 7 days',
+        dateRange: {
+          start: this.today,
+          end: this.nextSeven
+        }
+      }
+];
+```
+
+```html
+<igx-date-range-picker [usePredefinedRanges]="true" [customRanges]="customRanges"></igx-date-range-picker>
+```
+
+Além disso, conteúdo ou ações personalizados podem ser transformados em template usando a diretiva <ApiLink type="PickerActionsDirective" />. A demonstração a seguir mostra os intervalos predefinidos e personalizados, junto com as ações em template:
+
+<Sample src="/scheduling/daterangepicker-range-buttons" height={700} alt="" />
+
+### Formatação
+
+O componente Date Range Picker oferece suporte a diferentes formatos de exibição e de entrada.
+
+O formato de exibição do valor pode ser um dos formatos listados do [DatePipe](https://angular.io/api/common/DatePipe) do Angular. Isso permite oferecer suporte a opções de formato predefinidas, como `shortDate` e `longDate`.
+
+A propriedade <ApiLink type="DateRangePicker" member="inputFormat" label="inputFormat" /> aceita uma string de formato montada com caracteres compatíveis com o DatePipe, por exemplo, `MM/dd/yyyy`, mas não oferece suporte a opções de formato predefinidas, como `shortDate` e `longDate`. Se a propriedade <ApiLink type="DateRangePicker" member="inputFormat" label="inputFormat" /> não estiver definida, o token [ID de localidade do Angular](https://angular.io/api/core/LOCALE_ID) é usado ao montá-la.
+
+```html
+<igx-date-range-picker [(ngModel)]="range" required
+    inputFormat="dd/MM/yyyy" displayFormat="shortDate">
+</igx-date-range-picker>
+```
+
+Se a propriedade <ApiLink type="DateRangePicker" member="inputFormat" label="inputFormat" /> não estiver definida, o formato de entrada será inferido a partir de <ApiLink type="DateRangePicker" member="displayFormat" label="displayFormat" />, caso ele possa ser interpretado como contendo apenas partes numéricas de data e hora.
+
+<DocsAside type="info">
+O `IgxDateRangePicker` agora oferece suporte a entrada IME. Quando a composição termina, o controle converte os números de caracteres largos em caracteres ASCII.
+</DocsAside>
+
+### Formulários e validação
+
+O componente Date Range Picker oferece suporte a todas as diretivas do [FormsModule](https://angular.io/api/forms/FormsModule) principal, do [NgModel](https://angular.io/api/forms/NgModel) e do [ReactiveFormsModule](https://angular.io/api/forms/ReactiveFormsModule) ([`FormControl`](https://angular.io/api/forms/FormControl), [`FormGroup`](https://angular.io/api/forms/FormGroup), etc.). Isso também inclui as funções de [Forms Validators](https://angular.io/api/forms/Validators). Além disso, os valores de [min e max](#valores-mínimo-e-máximo) e [disabledDates](#datas-desabilitadas-e-especiais) do componente também atuam como validadores de formulário.
+
+O [NgModel](https://angular.io/api/forms/NgModel) e os validadores podem ser definidos em <ApiLink type="DateRangePicker" /> ou nas entradas individuais das datas inicial e final.
+
+Os trechos e exemplos a seguir ilustram o uso do validador `required` em um formulário orientado a template.
+
+Primeiro, precisamos configurar o modelo para um componente de intervalo único somente leitura, o que é feito no nível do componente:
+
+```html
+<igx-date-range-picker [(ngModel)]="range" required>
+    <label igxLabel>Period</label>
+</igx-date-range-picker>
+```
+
+A mesma configuração pode ser usada ao definir duas entradas separadas. Observe que, nesse caso, a validação também é aplicada às duas entradas.
+
+```html
+<igx-date-range-picker [(ngModel)]="range" required>
+    <igx-date-range-start>
+        <igx-picker-toggle igxPrefix>
+            <igx-icon>calendar_today</igx-icon>
+        </igx-picker-toggle>
+        <label igxLabel>Start Date</label>
+        <input igxInput igxDateTimeEditor type="text">
+        <igx-picker-clear igxSuffix>
+            <igx-icon>clear</igx-icon>
+        </igx-picker-clear>
+    </igx-date-range-start>
+    <igx-date-range-end>
+        <igx-picker-toggle igxPrefix>
+            <igx-icon>calendar_today</igx-icon>
+        </igx-picker-toggle>
+        <label igxLabel>End Date</label>
+        <input igxInput igxDateTimeEditor type="text">
+        <igx-picker-clear igxSuffix>
+            <igx-icon>clear</igx-icon>
+        </igx-picker-clear>
+    </igx-date-range-end>
+</igx-date-range-picker>
+```
+
+Ao usar duas entradas separadas, é possível definir as propriedades model e required em cada entrada. Observe que a validação é específica de cada entrada individual.
+
+```html
+<igx-date-range-picker>
+    <igx-date-range-start>
+        <input igxInput igxDateTimeEditor [(ngModel)]="range.start" type="text" required/>
+    </igx-date-range-start>
+    <igx-date-range-end>
+        <input igxInput igxDateTimeEditor [(ngModel)]="range.end" type="text" required/>
+    </igx-date-range-end>
+</igx-date-range-picker>
+```
+
+<Sample src="/scheduling/daterangepicker-validation" height={600} alt="" />
+
+<hr/>
+
+### Valores mínimo e máximo
+
+Você pode especificar as propriedades <ApiLink type="DateRangePicker" member="minValue" label="minValue" /> e <ApiLink type="DateRangePicker" member="maxValue" label="maxValue" /> para restringir a entrada do usuário, desabilitando as datas do calendário que estiverem fora do intervalo definido por esses valores.
+
+```typescript
+public minDate = new Date(2020, 1, 15);
+public maxDate = new Date(2020, 11, 1);
+```
+
+```html
+<igx-date-range-picker [(ngModel)]="range" required
+    [minValue]="minDate" [maxValue]="maxDate">
+</igx-date-range-picker>
+```
+
+```html
+<igx-date-range-picker [minValue]="minDate" [maxValue]="maxDate">
+    <igx-date-range-start>
+        <input igxInput igxDateTimeEditor [(ngModel)]="range.start" type="text" required/>
+    </igx-date-range-start>
+    <igx-date-range-end>
+        <input igxInput igxDateTimeEditor [(ngModel)]="range.end" type="text" required/>
+    </igx-date-range-end>
+</igx-date-range-picker>
+```
+
+O `IgxDateRangePickerComponent` também é um validador, o que significa que controla sua validade internamente usando <ApiLink type="DateRangePicker" member="minValue" label="minValue" /> e <ApiLink type="DateRangePicker" member="maxValue" label="maxValue" />. Você também pode acessar ambos por meio de `ngModel`:
+
+```html
+<igx-date-range-picker #dateRangePicker="ngModel" [(ngModel)]="range" required
+    [minValue]="minDate" [maxValue]="maxDate">
+    <igx-date-range-start>
+        <input igxInput igxDateTimeEditor type="text"/>
+    </igx-date-range-start>
+    <igx-date-range-end>
+        <input igxInput igxDateTimeEditor type="text"/>
+    </igx-date-range-end>
+</igx-date-range-picker>
+
+{/* minValue & maxValue will be true if the current range does not satisfy them */}
+@if (dateRangePicker.minValue || dateRangePicker.maxValue) {
+    <div>
+        <p>Value not in range.</p>
+    </div>
+}
+```
+
+### Datas desabilitadas e especiais
+
+Você também pode definir datas desabilitadas no calendário para restringir o intervalo de datas que o usuário pode escolher. Para definir as datas desabilitadas, use a propriedade <ApiLink type="DateRangePicker" member="disabledDates" label="disabledDates" />.
+
+```ts
+export class DateRangeSampleComponent implements OnInit {
+    @ViewChild('dateRange') public dateRange: IgxDateRangePicker;
+
+    public minDate = new Date(2025, 4, 1);
+    public maxDate = new Date(2025, 4, 31);
+
+    public ngOnInit() {
+        this.dateRange.disabledDates = [
+            {
+                type: DateRangeType.Between,
+                dateRange: [this.minDate, this.maxDate]
+            }
+        ] as DateRangeDescriptor[];
+    }
+}
+```
+
+Você pode ver mais informações sobre todas as possibilidades que a propriedade <ApiLink type="DateRangePicker" member="disabledDates" label="disabledDates" /> oferece aqui: [datas desabilitadas do calendário](/calendar#como-desabilitar-datas-no-calendar-angular).
+
+Você também pode fazer o mesmo se quiser definir uma ou mais datas especiais no calendário; a única diferença é que, nesse caso, você deve usar a propriedade <ApiLink type="DateRangePicker" member="specialDates" label="specialDates" />. [Datas especiais](/calendar#datas-especiais)
+
+### Templates
+
+Quando dois editores são usados, o separador padrão pode ser substituído usando a diretiva <ApiLink type="DateRangeSeparatorDirective" />. Veja como alterar o separador de data para um hífen `-`:
+
+```html
+<igx-date-range-picker>
+    <igx-date-range-start>
+        <input igxInput igxDateTimeEditor [(ngModel)]="range.start" type="text" required/>
+    </igx-date-range-start>
+    <ng-template igxDateRangeSeparator>-</ng-template>
+    <igx-date-range-end>
+        <input igxInput igxDateTimeEditor [(ngModel)]="range.end" type="text" required/>
+    </igx-date-range-end>
+</igx-date-range-picker>
+```
+
+### Configurações específicas do calendário
+
+Você pode personalizar ainda mais o calendário do pop-up usando várias propriedades. Mais informações sobre como elas afetam o calendário podem ser encontradas no tópico [**IgxCalendarComponent**](/calendar).
+
+| Nome                 | Tipo                       | Descrição                                                                                                        |
+| :------------------- | :------------------------- | :----------------------------------------------------------------------------------------------------------------- |
+| `orientation`        | 'vertical' ou 'horizontal' | Permite definir se o calendário deve ser exibido na vertical ou na horizontal.                             |
+| `displayMonthsCount` | string                     | Controla quantos meses ficam visíveis por vez, com um valor de 1 ou 2.                                     |
+| `showWeekNumbers`    | string                     | Ativa ou desativa a coluna de números das semanas no calendário.                                                        |
+| `weekStart`          | string                     | Define o dia de início da semana.                                                                                    |
+| `hideOutsideDays`    | boolean                    | Oculta os dias que caem fora da visualização do mês atual.                                                               |
+| `hideHeader`         | boolean                    | Oculta o cabeçalho do calendário (aplicável apenas no modo de diálogo).                                                        |
+| `headerOrientation`  | 'vertical' ou 'horizontal' | Alinha o cabeçalho do calendário na vertical ou na horizontal (apenas no modo de diálogo).                                          |
+| `activeDate`         | Date                       | Define a data que fica inicialmente destacada no calendário. Se não for definida, a data atual se torna a data ativa. |
+
+```html
+ <igx-date-range-picker [hideHeader]="true"
+                        [orientation]="'vertical'"
+                        [headerOrientation]="'horizontal'"
+                        [displayMonthsCount]="1">
+</igx-date-range-picker>
+```
+
+As partes de cabeçalho, subcabeçalho e título do cabeçalho do calendário podem ser personalizadas usando as diretivas de template `igxCalendarHeader`, `igxCalendarSubheader` e `igxCalendarHeaderTitle`, por exemplo:
+
+```html
+<igx-date-range-picker [value]="date">
+  <ng-template igxCalendarHeader let-format>
+    {{ format.month.combined | titlecase }}{{format.day.combined }}{{ format.weekday.combined }}
+  </ng-template>
+  <ng-template igxCalendarSubheader let-format>
+    <span (click)="format.yearView()">{{ format.year.combined }}</span>
+    <span (click)="format.monthView()">{{ format.month.combined | titlecase }}</span>
+  </ng-template>
+  <ng-template igxCalendarHeaderTitle let-format>
+    <span>My calendar</span>
+  </ng-template>
+</igx-date-range-picker>
+```
+
+Para personalizar o conteúdo das células de dia do calendário, por exemplo, para mostrar disponibilidade ou preços, adicione um `ng-template` marcado com a diretiva `igxCalendarDay` dentro do `igx-date-range-picker`. O date range picker passa o template para o seu calendário. A diretiva está incluída em `IGX_DATE_RANGE_PICKER_DIRECTIVES`, ou você pode importar `IgxCalendarDayTemplateDirective` separadamente. O contexto do template inclui os estados de intervalo do dia, como `firstInRange`, `lastInRange` e `withinRange`. Para o contexto completo e o comportamento das células de dia, veja [Template de dia](/calendar#template-de-dia) no tópico do calendário.
+
+```html
+<igx-date-range-picker [value]="range">
+    <ng-template igxCalendarDay let-date let-withinRange="withinRange">
+        <span [class.day--in-range]="withinRange">{{ date.getDate() }}</span>
+    </ng-template>
+</igx-date-range-picker>
+```
+
+## Estilização
+
+Para começar a estilizar o `igxDateRangePicker`, precisamos importar o arquivo `index`, onde são exportadas todas as funções de tema e o mixin `tokens()`:
+
+```scss
+@use "igniteui-angular/theming" as *;
+
+// IMPORTANT: Prior to Ignite UI for Angular version 13 use:
+// @import '~igniteui-angular/lib/core/styles/themes/index';
+```
+
+O componente Date Range Picker expõe `date-range-picker-theme` e utiliza vários componentes e diretivas, incluindo `igxInputGroupComponent`, `igxCalendar` e `igxOverlay`. Qualquer estilização global desses componentes e diretivas vai afetar o `igxDateRangeComponent`. Como o componente Date Range Picker usa os temas de input group e de calendário, precisamos criar novos temas que estendam o <ApiLink kind="sass" module="themes" type="function-calendar-theme" label="calendar-theme" code={true} /> e o <ApiLink kind="sass" module="themes" type="function-input-group-theme" label="input-group-theme" code={true} /> e usem alguns dos seus parâmetros para estilizar o date range picker em conjunto com o tema do date range picker. Usaremos uma única paleta de cores personalizada para definir as cores de todos os temas:
+
+```scss
+// COMMON
+$purple: #9E379F;
+$blue: #61AEDB;
+$light-gray: #efefef;
+
+$custom-palette: palette(
+  $primary: $blue, 
+  $secondary: $purple, 
+  $surface: $light-gray
+);
+
+$today-text: color($custom-palette, "primary", 500);
+$text-color: color($custom-palette, "secondary", 200);
+$color-focused: color($custom-palette, "secondary", 500);
+
+// DATE-RANGE
+$custom-date-range-theme: date-range-picker-theme(
+  $label-color: $color-focused
+);
+
+// INPUT GROUP
+$custom-input-group-theme: input-group-theme(
+  $filled-text-color: $text-color,
+  $idle-text-color: $text-color,
+  $focused-text-color: $color-focused,
+  $idle-bottom-line-color: $purple,
+  $hover-bottom-line-color: $color-focused,
+  $interim-bottom-line-color: $color-focused
+);
+
+// CALENDAR
+$custom-calendar-theme: calendar-theme(
+  $date-current-foreground: $today-text,
+  $border-radius: 0.5,
+  $date-border-radius: 0.5
+);
+```
+
+O último passo é passar os temas personalizados:
+
+```scss
+:host {
+  @include tokens($custom-date-range-theme);
+  @include tokens($custom-input-group-theme);
+  @include tokens($custom-calendar-theme);
+}
+```
+
+<DocsAside type="warning">
+As substituições de tokens normalmente são herdadas pelo encapsulamento de View [`Emulated`](/themes/sass/component-themes#encapsulamento-de-visualização), mas os seletores gerados para os elementos aninhados do seletor ainda podem exigir `::ng-deep`. Se o tema local não tiver efeito, envolva a inclusão afetada em `::ng-deep` ou mova-a para uma folha de estilos global. Um calendário exibido em um overlay destacado deve ser temado a partir de um seletor que consiga corresponder ao seu outlet, ou ser movido para baixo do contêiner temado.
+</DocsAside>
+
+### Escopo dos estilos
+
+Em relação ao escopo dos estilos, consulte as duas seções de estilização [Estilos de componente com escopo de overlay](/overlay-styling#Scoped Overlay Styles) e [Estilos com escopo do Input Group](/input-group#estilização), pois elas trazem mais informações.
+
+<Sample src="/scheduling/styled-daterangepicker" height={600} alt="" />
+
+## Demonstração do aplicativo
+
+A demonstração abaixo define um formulário para passagens aéreas que usa o <ApiLink type="DateRangePicker" />. Se nenhuma data for selecionada, um <ApiLink type="HintDirective" /> é usado para exibir um erro de validação. A seleção das datas é restringida pelas propriedades <ApiLink type="DateRangePicker" member="minValue" label="minValue" /> e <ApiLink type="DateRangePicker" member="maxValue" label="maxValue" /> do <ApiLink type="DateRangePicker" />
+
+<Sample src="/scheduling/flight-booking" height={600} alt="" />
+
+<hr/>
+
+## Referências da API
+<hr/>
+- <ApiLink type="DateRangePicker" />
+- <ApiLink type="Calendar" />
+- <ApiLink kind="sass" module="themes" type="function-calendar-theme" label="Estilos do IgxCalendarComponent" />
+- <ApiLink kind="sass" module="themes" type="function-overlay-theme" label="Estilos do IgxOverlay" />
+- <ApiLink type="InputGroup" />
+## Dependências de tema
+
+- <ApiLink kind="sass" module="themes" type="function-calendar-theme" label="Tema do IgxCalendar" />
+- <ApiLink kind="sass" module="themes" type="function-overlay-theme" label="Tema do IgxOverlay" />
+- <ApiLink kind="sass" module="themes" type="function-icon-theme" label="Tema do IgxIcon" />
+- <ApiLink kind="sass" module="themes" type="function-button-theme" label="Tema do IgxButton" />
+- <ApiLink kind="sass" module="themes" type="function-input-group-theme" label="Tema do IgxInputGroup" />
+- <ApiLink kind="sass" module="themes" type="function-drop-down-theme" label="Tema do IgxDropDown" />
+
+## Recursos adicionais
+
+Tópicos relacionados:
+
+- [Date Time Editor](/date-time-editor)
+- [Label e Input](/label-input)
+- [Integração com formulários reativos](/angular-reactive-form-validation)
+- [Date Picker](/date-picker)
+
+Nossa comunidade é ativa e sempre receptiva a novas ideias.
+
+- [Ignite UI for Angular **Fóruns**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

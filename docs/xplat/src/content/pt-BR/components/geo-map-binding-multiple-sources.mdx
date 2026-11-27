@@ -1,0 +1,300 @@
+---
+title: "Mapa {Platform} | Ferramentas de visualização de dados | Vinculação de várias fontes de dados | Infragistics"
+description: "Use o mapa {Platform} da Infragistics para adicionar vários objetos de série geográfica e sobrepor fontes de dados personalizadas com dados geoespaciais. Veja os tutoriais de mapa de {ProductName}!"
+keywords: "Mapa {Platform}, séries geográficas, {ProductName}, Infragistics, vinculação de dados"
+license: commercial
+mentionedTypes: ["GeographicMap", "SeriesViewer", "Series", "GeographicShapeSeriesBase"]
+_language: pt-BR
+llms:
+  description: "No mapa {ProductName}, você pode adicionar vários objetos de série geográfica para sobrepor fontes de dados personalizadas com dados geoespaciais."
+platformType: xplat
+---
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+# {Platform} Vinculando várias fontes de dados
+
+No mapa {ProductName}, você pode adicionar vários objetos de série geográfica para sobrepor fontes de dados personalizadas com dados geoespaciais. Por exemplo, `GeographicSymbolSeries` para plotar as localizações geográficas de aeroportos, o `GeographicPolylineSeries` para plotar voos entre aeroportos, e uma segunda `GeographicPolylineSeries` para plotar as linhas de grade das principais coordenadas geográficas.
+
+
+## {Platform} Exemplo de vinculação de várias fontes de dados
+
+
+<Sample src="/maps/geo-map/binding-multiple-sources" height={500} alt="{Platform} Exemplo de vinculação de várias fontes de dados" />
+
+
+
+
+Este tópico guia você, passo a passo, até a exibição de várias séries geográficas que plotarão os seguintes dados geoespaciais:
+
+- `GeographicSymbolSeries` – exibe as localizações dos principais aeroportos
+- `GeographicPolylineSeries` – exibe os voos entre aeroportos
+- `GeographicPolylineSeries` – exibe as linhas de grade das principais coordenadas
+
+Você pode usar séries geográficas nesta ou em outras combinações para plotar os dados desejados.
+
+## Criando fontes de dados
+
+Crie fontes de dados para todas as séries geográficas que você quer exibir no mapa {ProductName}. Por exemplo, você pode usar o script [WorldConnections](./geo-map-resources-world-connections.mdx).
+
+
+```json-snippet source="/maps/geo-map/binding-multiple-sources" channel="auto"
+{
+    "type": "GeographicMap",
+    "name": "geoMap",
+    "$type": ["+doc:markup", "+doc:bindingCode"],
+    "$series": "-doc:markup",
+    "height": "100%",
+    "width": "100%",
+    "zoomable": true,
+    "series": [
+        {
+            "type": "GeographicPolylineSeries",
+            "name": "lineSeries",
+            "dataSourceRef": "WorldFlights",
+            "shapeMemberPath": "Points",
+            "shapeStroke": "rgba(196, 14, 14, 0.05)",
+            "shapeStrokeThickness": 4
+        },
+        {
+            "type": "GeographicPolylineSeries",
+            "name": "gridSeries",
+            "dataSourceRef": "WorldGridlines",
+            "shapeMemberPath": "Points",
+            "shapeStroke": "Gray",
+            "shapeStrokeThickness": 1
+        },
+        {
+            "type": "GeographicSymbolSeries",
+            "name": "symbolSeries",
+            "dataSourceRef": "WorldAirports",
+            "latitudeMemberPath": "Lat",
+            "longitudeMemberPath": "Lon",
+            "markerType": "Circle",
+            "markerBrush": "#aad3df",
+            "markerOutline": "rgb(73, 73, 73)",
+            "thickness": 1
+        }
+    ]
+}
+```
+
+## Sobrepondo voos
+
+Crie primeiro um objeto `GeographicPolylineSeries` com as conexões de voo entre os principais aeroportos e adicione-o à coleção Series do mapa {ProductName}.
+
+```json-snippet source="/maps/geo-map/binding-multiple-sources" code="allCode"
+{
+    "type": "GeographicMap",
+    "name": "geoMap",
+    "height": "100%",
+    "width": "100%",
+    "zoomable": true,
+    "series": [
+        {
+            "type": "GeographicPolylineSeries",
+            "name": "lineSeries",
+            "$type": "+doc:markup",
+            "dataSourceRef": "WorldFlights",
+            "shapeMemberPath": "Points",
+            "shapeStroke": "rgba(196, 14, 14, 0.05)",
+            "shapeStrokeThickness": 4
+        },
+        {
+            "type": "GeographicPolylineSeries",
+            "name": "gridSeries",
+            "dataSourceRef": "WorldGridlines",
+            "shapeMemberPath": "Points",
+            "shapeStroke": "Gray",
+            "shapeStrokeThickness": 1
+        },
+        {
+            "type": "GeographicSymbolSeries",
+            "name": "symbolSeries",
+            "dataSourceRef": "WorldAirports",
+            "latitudeMemberPath": "Lat",
+            "longitudeMemberPath": "Lon",
+            "markerType": "Circle",
+            "markerBrush": "#aad3df",
+            "markerOutline": "rgb(73, 73, 73)",
+            "thickness": 1
+        }
+    ]
+}
+```
+
+## Sobrepondo linhas de grade
+
+Crie um segundo objeto `GeographicPolylineSeries` com as linhas de grade geográficas e adicione-o à coleção Series do mapa {ProductName}.
+
+```json-snippet source="/maps/geo-map/binding-multiple-sources" code="allCode"
+{
+    "type": "GeographicMap",
+    "name": "geoMap",
+    "height": "100%",
+    "width": "100%",
+    "zoomable": true,
+    "series": [
+        {
+            "type": "GeographicPolylineSeries",
+            "name": "lineSeries",
+            "dataSourceRef": "WorldFlights",
+            "shapeMemberPath": "Points",
+            "shapeStroke": "rgba(196, 14, 14, 0.05)",
+            "shapeStrokeThickness": 4
+        },
+        {
+            "type": "GeographicPolylineSeries",
+            "name": "gridSeries",
+            "$type": "+doc:markup",
+            "dataSourceRef": "WorldGridlines",
+            "shapeMemberPath": "Points",
+            "shapeStroke": "Gray",
+            "shapeStrokeThickness": 1
+        },
+        {
+            "type": "GeographicSymbolSeries",
+            "name": "symbolSeries",
+            "dataSourceRef": "WorldAirports",
+            "latitudeMemberPath": "Lat",
+            "longitudeMemberPath": "Lon",
+            "markerType": "Circle",
+            "markerBrush": "#aad3df",
+            "markerOutline": "rgb(73, 73, 73)",
+            "thickness": 1
+        }
+    ]
+}
+```
+
+## Sobrepondo aeroportos
+
+Crie um objeto `GeographicSymbolSeries` com os pontos dos aeroportos e adicione-o à coleção Series do mapa geográfico {ProductName}.
+
+```json-snippet source="/maps/geo-map/binding-multiple-sources" code="allCode"
+{
+    "type": "GeographicMap",
+    "name": "geoMap",
+    "height": "100%",
+    "width": "100%",
+    "zoomable": true,
+    "series": [
+        {
+            "type": "GeographicPolylineSeries",
+            "name": "lineSeries",
+            "dataSourceRef": "WorldFlights",
+            "shapeMemberPath": "Points",
+            "shapeStroke": "rgba(196, 14, 14, 0.05)",
+            "shapeStrokeThickness": 4
+        },
+        {
+            "type": "GeographicPolylineSeries",
+            "name": "gridSeries",
+            "dataSourceRef": "WorldGridlines",
+            "shapeMemberPath": "Points",
+            "shapeStroke": "Gray",
+            "shapeStrokeThickness": 1
+        },
+        {
+            "type": "GeographicSymbolSeries",
+            "name": "symbolSeries",
+            "$type": "+doc:markup",
+            "dataSourceRef": "WorldAirports",
+            "latitudeMemberPath": "Lat",
+            "longitudeMemberPath": "Lon",
+            "markerType": "Circle",
+            "markerBrush": "#aad3df",
+            "markerOutline": "rgb(73, 73, 73)",
+            "thickness": 1
+        }
+    ]
+}
+```
+
+## Resumo
+
+Para sua conveniência, todos os trechos de código acima estão combinados em um único bloco de código abaixo, que você pode copiar facilmente para o seu projeto.
+
+```json-snippet source="/maps/geo-map/binding-multiple-sources" channel="bindingImports" exclude="Blazor,Xaml"
+{
+    "type": "GeographicMap",
+    "name": "geoMap",
+    "height": "100%",
+    "width": "100%",
+    "zoomable": true,
+    "series": [
+        {
+            "type": "GeographicPolylineSeries",
+            "name": "lineSeries",
+            "dataSourceRef": "WorldFlights",
+            "shapeMemberPath": "Points",
+            "shapeStroke": "rgba(196, 14, 14, 0.05)",
+            "shapeStrokeThickness": 4
+        },
+        {
+            "type": "GeographicPolylineSeries",
+            "name": "gridSeries",
+            "dataSourceRef": "WorldGridlines",
+            "shapeMemberPath": "Points",
+            "shapeStroke": "Gray",
+            "shapeStrokeThickness": 1
+        },
+        {
+            "type": "GeographicSymbolSeries",
+            "name": "symbolSeries",
+            "dataSourceRef": "WorldAirports",
+            "latitudeMemberPath": "Lat",
+            "longitudeMemberPath": "Lon",
+            "markerType": "Circle",
+            "markerBrush": "#aad3df",
+            "markerOutline": "rgb(73, 73, 73)",
+            "thickness": 1
+        }
+    ]
+}
+```
+
+```json-snippet source="/maps/geo-map/binding-multiple-sources" code="allCode"
+{
+    "type": "GeographicMap",
+    "name": "geoMap",
+    "height": "100%",
+    "width": "100%",
+    "zoomable": true,
+    "series": [
+        {
+            "type": "GeographicPolylineSeries",
+            "name": "lineSeries",
+            "dataSourceRef": "WorldFlights",
+            "shapeMemberPath": "Points",
+            "shapeStroke": "rgba(196, 14, 14, 0.05)",
+            "shapeStrokeThickness": 4
+        },
+        {
+            "type": "GeographicPolylineSeries",
+            "name": "gridSeries",
+            "dataSourceRef": "WorldGridlines",
+            "shapeMemberPath": "Points",
+            "shapeStroke": "Gray",
+            "shapeStrokeThickness": 1
+        },
+        {
+            "type": "GeographicSymbolSeries",
+            "name": "symbolSeries",
+            "dataSourceRef": "WorldAirports",
+            "latitudeMemberPath": "Lat",
+            "longitudeMemberPath": "Lon",
+            "markerType": "Circle",
+            "markerBrush": "#aad3df",
+            "markerOutline": "rgb(73, 73, 73)",
+            "thickness": 1
+        }
+    ]
+}
+```
+
+
+## Referências da API
+`GeographicPolylineSeries`
+`GeographicSymbolSeries`

@@ -1,0 +1,728 @@
+---
+title: "Tipos de dados de coluna do {Platform} {ComponentTitle} - {ProductName}"
+description: "Trate templates de célula e de edição no {Platform} escolhendo entre vários tipos de dados de coluna predefinidos: coluna numérica, de texto, de data, booleana, de moeda e de porcentagem."
+keywords: "Tipo de dado de coluna, {Platform}, {ComponentKeywords}, {ProductName}, Infragistics"
+license: commercial
+mentionedTypes: [{ComponentApiMembers}]
+sharedComponents: ["Grid", "TreeGrid", "HierarchicalGrid"]
+namespace: Infragistics.Controls
+_canonicalLink: "{CanonicalLinkToGridColumnTypes}"
+_language: pt-BR
+llms:
+  description: "O {Platform} {ComponentTitle} oferece um tratamento padrão para os tipos de dados de coluna numérico, de texto, de data, booleano, de moeda e de porcentagem, com base nos quais a aparência dos templates padrão e de edição será definida."
+---
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+
+# {Platform} {ComponentTitle} Visão geral dos tipos de coluna
+
+O {Platform} {ComponentTitle} oferece um tratamento padrão para os tipos de dados de coluna **number**, **string**, **date**, **boolean**, **currency** e **percent**, com base nos quais a aparência dos templates padrão e de edição será definida.
+
+<ComponentBlock for="Grid, TreeGrid">
+## Exemplo de tipos de coluna do {Platform} {ComponentTitle}
+
+<Sample src="/{ComponentSample}/column-data-types" height={550} alt="Tipos de dados de coluna do {Platform} {ComponentTitle}" />
+
+
+</ComponentBlock>
+
+## Template padrão do {Platform} {ComponentTitle}
+
+Se você quiser habilitar um template específico para o tipo de dado, deve definir a entrada <ApiLink type="Column" member="dataType" /> da coluna; caso contrário, a coluna será tratada como uma coluna de texto, pois esse é o valor padrão de <ApiLink type="Column" member="dataType" /> da coluna.
+
+As seções a seguir descrevem os templates padrão de cada <ApiLink type="Column" member="dataType" />.
+
+### String
+
+Esta coluna <ApiLink type="Column" member="dataType" /> não altera a aparência nem o formato do valor da célula.
+
+### Número
+
+Se o <ApiLink type="Column" member="dataType" /> for definido como **number**, o valor da célula será formatado com base nas configurações de aplicação ou de <ApiLink pkg="core" type="DatePicker" member="locale" label="Locale" /> do grid, assim como quando a propriedade <ApiLink type="Column" member="pipeArgs" /> for especificada. Então, o formato numérico será alterado com base nelas; por exemplo, pode mudar:
+
+- Número de dígitos após o ponto decimal
+- Separador decimal com `,` ou `.`
+
+<PlatformBlock for="Angular">
+```ts
+public options = {
+  digitsInfo: '1.4-4',
+};
+public formatOptions = this.options;
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+```html
+<igx-column [pipeArgs]="formatOptions" [dataType]="'number'">
+</igx-column>
+```
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```razor
+<IgbColumn Field="Sales" DataType="GridColumnDataType.Number" PipeArgs=formatOptions></IgbColumn>
+
+@code {
+    private IgbColumnPipeArgs formatOptions = new IgbColumnPipeArgs() { DigitsInfo = "1.4-4" };
+}
+
+```
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+```html
+<igc-column id="column" data-type="number">
+</igc-column>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+```ts
+public get formatOptions(): any {
+  return {
+    digitsInfo: "1.4-4"
+  };
+}
+
+constructor() {
+    var column = document.getElementById('column') as IgcColumnComponent;
+    column.pipeArgs = this.formatOptions;
+}
+
+```
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+const formatOptions : IgrColumnPipeArgs = {
+    digitsInfo: "1.4-4"
+};
+
+<IgrColumn pipeArgs={formatOptions} dataType="number"></IgrColumn>
+```
+
+</PlatformBlock>
+
+### DateTime, Date e Time
+
+A aparência das partes da data (por exemplo, dia, mês, ano) será definida com base no formato <ApiLink pkg="core" type="DatePicker" member="locale" label="Locale" /> ou na entrada <ApiLink type="Column" member="pipeArgs" />. Os argumentos do pipe podem ser usados para especificar um formato de data ou um fuso horário personalizado:
+
+- **format** - o valor padrão para formatar a data é `'mediumDate'`. Outras opções disponíveis são `'short'`, `'long'`, `'shortDate'`, `'fullDate'`, `'longTime'`, `'fullTime'` e outras.
+- **timezone** - O fuso horário local do sistema do usuário é o valor padrão. Também é possível passar o deslocamento de fuso horário, ou a abreviação padrão GMT/UTC ou de fuso horário continental dos EUA. Exemplos de fusos horários diferentes que exibirão o horário correspondente de qualquer lugar do mundo:
+
+<PlatformBlock for="Angular">
+```ts
+public formatDateOptions = {
+    /** The date/time components that a date column will display, using predefined options or a custom format string. */
+    /** e.g 'dd/mm/yyyy' or 'shortDate' **/
+    format: 'longDate',
+    /** A timezone offset (such as '+0430'), or a standard UTC/GMT or continental US timezone abbreviation. */
+    timezone: 'GMT'
+};
+public formatOptions = this.options;
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+```html
+<igx-column [pipeArgs]="formatDateOptions" [dataType]="'date'">
+</igx-column>
+```
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```razor
+<IgbColumn Field="Date" DataType="GridColumnDataType.Date" PipeArgs=formatDateOptions></IgbColumn>
+
+@code {
+    private IgbColumnPipeArgs formatDateOptions = new IgbColumnPipeArgs()
+    {
+        // The date/time components that a date column will display, using predefined options or a custom format string.
+        // e.g 'dd/mm/yyyy' or 'shortDate'
+        Format = "longDate",
+        /** A timezone offset (such as '+0430'), or a standard UTC/GMT or continental US timezone abbreviation.*/
+        Timezone = "GMT"
+    };
+}
+
+```
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+```html
+<igc-column id="column" data-type="date">
+</igc-column>
+```
+
+
+```ts
+public get formatDateOptions(): any {
+    return {
+        format: "long",
+        timezone: "UTC+0"
+    };
+}
+
+constructor() {
+    var column = document.getElementById('column') as IgcColumnComponent;
+    column.pipeArgs = this.formatDateOptions;
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+const formatOptions : IgrColumnPipeArgs = {
+    format: "long",
+    timezone: "UTC+0"
+};
+
+<IgrColumn pipeArgs={formatOptions} dataType="date"></IgrColumn>
+
+```
+</PlatformBlock>
+
+Fusos horários disponíveis:
+
+| Fuso horário                  | Valor                     |
+|---------------------------| ------------------------- |
+| Alpha Time Zone           |‘UTC+1’                    |
+| Australian Central Time   |‘UTC+9:30/ +10:30’         |
+| Arabia Standard Time      |‘UTC+3’                    |
+| Central Standard Time     |‘UTC-6’                    |
+| China Standard Time       |‘UTC+8’                    |
+| Delta Time Zone           |‘UTC+4’                    |
+| Greenwich Mean Time       |‘UTC+0’                    |
+| Gulf Standard Time        |‘UTC+4’                    |
+| Hawaii Standard Time      |‘UTC-10’                   |
+| India Standard Time       |‘UTC+4’                    |
+
+
+O `{ComponentName}` aceita valores de data dos tipos **objeto Date**, **número (milissegundos)** e **uma string de data e hora ISO**. Esta seção mostra [como configurar um formato de exibição personalizado](../data-grid.mdx#formato-de-exibição-personalizado).
+
+Como você pode ver no exemplo, especificamos opções de formato diferentes para mostrar os formatos disponíveis para o tipo de coluna específico. Por exemplo, abaixo você encontra as opções de formato para a parte de **hora** do objeto de data:
+
+<PlatformBlock for="Angular, WebComponents">
+```ts
+// Time format with equivalent example
+public timeFormats = [
+    { format: 'shortTime', eq: 'h:mm a' },
+    { format: 'mediumTime', eq: 'h:mm:ss a' },
+    { format: 'longTime', eq: 'h:mm:ss a z' },
+    { format: 'fullTime', eq: 'h:mm:ss a zzzz' },
+];
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```razor
+// Time format with equivalent example
+@code {
+    public Dictionary<string, string> timeFormats = new() {
+        { "shortTime", "h:mm a" },
+        { "mediumTime", "h:mm:ss a" },
+        { "longTime", "h:mm:ss a z" },
+        { "fullTime", "h:mm:ss a zzzz" },
+    };
+}
+```
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+const timeFormats = [
+    { format: 'shortTime', eq: 'h:mm a' },
+    { format: 'mediumTime', eq: 'h:mm:ss a' },
+    { format: 'longTime', eq: 'h:mm:ss a z' },
+    { format: 'fullTime', eq: 'h:mm:ss a zzzz' },
+];
+```
+</PlatformBlock>
+
+#### Edição de células
+
+Quando se trata de edição de célula com base no tipo de coluna, um editor diferente aparecerá:
+- `DateTime` - será usado <ApiLink pkg="core" type="DatePicker" />. Este editor fornecerá as orientações de máscara para os elementos de entrada que fazem parte do objeto `DateTime`.
+- `Date` - será usado <ApiLink pkg="core" type="DatePicker" />.
+- `Time` - será usado <ApiLink pkg="core" type="DateTimeInput" />.
+
+#### Filtragem
+
+Os mesmos editores listados acima serão usados na filtragem rápida/filtragem estilo Excel. Estes são os operandos de filtragem que cada tipo expõe:
+- `DateTime` e `Date` - Igual a, Diferente de, Antes de, Depois de, Hoje, Ontem, Este mês, Mês passado, Próximo mês, Este ano, Ano passado, Próximo ano, Vazio, Não vazio, Nulo, Não nulo;
+- `Time` - Em, Não em, Antes de, Depois de, Em ou antes de, Em ou depois de, Vazio, Não vazio, Nulo, Não nulo;
+
+#### Resumos
+
+Os operandos de resumo disponíveis serão **Count**, **Earliest** (data/hora) e **Latest** (data/hora).
+
+#### Ordenação
+
+- `Time`: a coluna é ordenada com base na parte de hora do objeto; os milissegundos serão desconsiderados.
+- `Date`: a coluna é ordenada com base na parte da data, desconsiderando a parte da hora.
+- `DateTime`: a coluna é ordenada com base na data completa.
+
+### Booleano
+
+O template padrão usa ícones do Material para visualizar valores booleanos: o ícone 'clear' para valores **false** e o ícone 'check' para valores **true**. Já o template de edição usa o componente <ApiLink pkg="core" type="Checkbox" />.
+
+<PlatformBlock for="Angular">
+```html
+<igx-column [dataType]="'boolean'">
+</igx-column>
+```
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```razor
+<IgbColumn DataType="GridColumnDataType.Boolean"></IgbColumn>
+```
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+```html
+<igc-column data-type="boolean">
+</igc-column>
+```
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+<IgrColumn dataType="boolean"></IgrColumn>
+```
+</PlatformBlock>
+
+### Imagem
+
+O template padrão usa o valor vindo dos dados como fonte de imagem para um template de imagem padrão. O template de imagem padrão extrai o nome do arquivo de imagem e o define como o atributo `alt` da imagem, para atender ao requisito de acessibilidade. O tamanho da célula exibida é ajustado aos tamanhos das imagens renderizadas; por isso, tenha em mente que imagens grandes ainda serão renderizadas e as linhas do grid ficarão tão grandes quanto as imagens na coluna de imagem. Filtragem, ordenação e agrupamento ficam desativados por padrão em colunas do tipo imagem. Se quiser habilitá-los, você precisa fornecer estratégias personalizadas que executem as operações de dados.
+
+<PlatformBlock for="Angular">
+```html
+<igx-grid>
+    <igx-column [dataType]="'image'">
+    </igx-column>
+<igx-grid>
+```
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```razor
+<IgbColumn DataType="GridColumnDataType.Image"></IgbColumn>
+```
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+```html
+<igc-column field="Image" data-type="image">
+</igc-column>
+```
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+<IgrColumn field="Image" dataType="image"></IgrColumn>
+```
+</PlatformBlock>
+
+Quando `AutoGenerate` é usado nas colunas, a grade analisa os valores do primeiro registro de dados. Se um valor for do tipo string e corresponder ao padrão de uma URL que termina em extensão de imagem (gif, jpg, jpeg, tiff, png, webp, bmp), a coluna será marcada automaticamente como `dataType === GridColumnDataType.Image` e um template de imagem padrão será renderizado.
+
+### Moeda
+
+#### Template padrão
+
+<PlatformBlock for="Angular">
+O template padrão exibirá um valor numérico com o símbolo de moeda, que pode ser colocado antes ou depois do número. Tanto a posição do símbolo de moeda quanto a formatação do valor numérico são baseadas no [LOCALE_ID](https://angular.io/api/core/LOCALE_ID) da aplicação fornecido, ou em {ComponentTitle} <ApiLink pkg="core" type="DatePicker" member="locale" label="Locale" />.
+
+**Usando LOCALE_ID**
+
+```ts
+import { LOCALE_ID } from '@angular/core';
+// ...
+
+@Component({
+    selector: 'app-component.sample',
+    templateUrl: 'grid-component.sample.html',
+    providers: [{provide: LOCALE_ID, useValue: 'fr-FR' }]
+})
+```
+
+**Usando a localidade do Grid**
+
+```html
+<{ComponentSelector} [locale]="'fr-FR'" [data]="data">
+</{ComponentSelector}>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor, WebComponents, React">
+O template padrão exibirá um valor numérico com o símbolo de moeda, que pode ser colocado antes ou depois do número.
+
+</PlatformBlock>
+
+Usando a entrada <ApiLink type="Column" member="pipeArgs" />, o usuário final pode personalizar o formato numérico por **ponto decimal**, **currencyCode** e **display**.
+
+<PlatformBlock for="Angular">
+```ts
+public options = {
+  digitsInfo: '3.4-4',
+  display: 'symbol-narrow'
+};
+public formatOptions = this.options;
+```
+
+```html
+<igx-column field="UnitsInStock"
+    [pipeArgs]="formatOptions"
+    [dataType]="'currency'">
+</igx-column>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```razor
+<IgbColumn Field="UnitsInStock" DataType="GridColumnDataType.Currency" PipeArgs=formatOptions></IgbColumn>
+
+@code {
+    private IgbColumnPipeArgs formatOptions = new IgbColumnPipeArgs()
+    {
+        DigitsInfo = "3.4-4",
+        Display = "symbol-narrow"
+    };
+}
+
+```
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+```html
+<igc-column id="column" field="UnitsInStock" data-type="currency">
+</igc-column>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+```ts
+public get formatOptions(): any {
+    return {
+        digitsInfo: '3.4-4',
+        display: 'symbol-narrow'
+    };
+}
+
+constructor() {
+    var column = document.getElementById('column') as IgcColumnComponent;
+    column.pipeArgs = this.formatOptions;
+}
+
+```
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+const formatOptions : IgrColumnPipeArgs = {
+    digitsInfo: "1.4-4",
+    display: "symbol-narrow"
+};
+
+<IgrColumn pipeArgs={formatOptions} dataType="currency" field="UnitsInStock"></IgrColumn>
+```
+
+</PlatformBlock>
+
+| Parâmetro                 | Descrição                                                |
+|---------------------------| -------------------------|
+| digitsInfo                | Representa a representação decimal do valor monetário        |
+| display*                  | Exibe o valor pelo símbolo estreito ou largo                |
+
+<PlatformBlock for="Angular">
+| currencyCode              | Código de moeda ISO 4217                                     |
+</PlatformBlock>
+
+*display - para a localidade padrão en-US, o código USD pode ser representado pelo símbolo estreito $ ou pelo símbolo largo US$.
+
+<ComponentBlock for="Grid">
+Ao editar o valor da célula, o **símbolo de moeda** ficará visível como sufixo ou prefixo. Mais informações sobre isso podem ser encontradas no tópico oficial [Edição de célula](cell-editing.mdx#exemplo-de-edição-de-células-e-templates-de-edição-do-{PlatformLower}-grid).
+</ComponentBlock>
+
+> Ao usar as teclas de seta <kbd>↑</kbd> + <kbd>↓</kbd>, o valor será incrementado/decrementado com um passo baseado em digitsInfo - minFractionDigits (o número mínimo de dígitos após o ponto decimal. O padrão é 0)
+
+
+### Percentual
+
+O template padrão mostra o equivalente percentual do valor numérico subjacente. O valor exibido na célula é o resultado de uma multiplicação pelo fator de exibição de '100' — por exemplo, como o fator padrão é 100 e o "valor" passado à célula é 0,123, o valor exibido na célula será "12.3%".
+
+Na edição de célula, o valor será o mesmo do valor da fonte de dados — o fator de exibição é '1'. Ao editar a célula, uma prévia do valor percentual será mostrada como um elemento de sufixo. Por exemplo, ao editar '0.0547', o elemento de prévia mostrará '5.47%'.
+
+<PlatformBlock for="Angular">
+```ts
+public options = {
+    /**
+    * Decimal representation options, specified by a string in the following format:
+    * `{minIntegerDigits}`.`{minFractionDigits}`-`{maxFractionDigits}`.
+    * `minIntegerDigits`: The minimum number of integer digits before the decimal point. Default is 1.
+    * `minFractionDigits`: The minimum number of digits after the decimal point. Default is 0.
+    * `maxFractionDigits`: The maximum number of digits after the decimal point. Default is 3.
+    */
+    digitsInfo: '2.2-3'
+};
+public formatPercentOptions = this.options;
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+```html
+<igx-column field="UnitsInStock"
+    [pipeArgs]="formatPercentOptions"
+    [dataType]="'percent'">
+</igx-column>
+```
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```razor
+<IgbColumn Field="UnitsInStock" DataType="GridColumnDataType.Percent" PipeArgs=formatPercentOptions></IgbColumn>
+
+@code {
+    private IgbColumnPipeArgs formatPercentOptions = new IgbColumnPipeArgs()
+    {
+        /**
+        *Decimal representation options, specified by a string in the following format:
+        * `{minIntegerDigits}`.`{minFractionDigits}`-`{maxFractionDigits}`.
+        *`minIntegerDigits`: The minimum number of integer digits before the decimal point. Default is 1.
+        * `minFractionDigits`: The minimum number of digits after the decimal point. Default is 0.
+        *`maxFractionDigits`: The maximum number of digits after the decimal point. Default is 3.
+        */
+        DigitsInfo = "2.2-3"
+    };
+}
+
+```
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+```html
+<igc-column id="column" field="UnitsInStock" data-type="percent">
+</igc-column>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+```ts
+public get formatPercentOptions(): any {
+    return {
+        /**
+        * Decimal representation options, specified by a string in the following format:
+        * `{minIntegerDigits}`.`{minFractionDigits}`-`{maxFractionDigits}`.
+        * `minIntegerDigits`: The minimum number of integer digits before the decimal point. Default is 1.
+        * `minFractionDigits`: The minimum number of digits after the decimal point. Default is 0.
+        * `maxFractionDigits`: The maximum number of digits after the decimal point. Default is 3.
+        */
+        digitsInfo: '2.2-3'
+    };
+}
+
+constructor() {
+    var column = document.getElementById('column') as IgcColumnComponent;
+    column.pipeArgs = this.formatPercentOptions;
+}
+
+```
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+/**
+- Decimal representation options, specified by a string in the following format:
+- `{minIntegerDigits}`.`{minFractionDigits}`-`{maxFractionDigits}`.
+- `minIntegerDigits`: The minimum number of integer digits before the decimal point. Default is 1.
+- `minFractionDigits`: The minimum number of digits after the decimal point. Default is 0.
+- `maxFractionDigits`: The maximum number of digits after the decimal point. Default is 3.
+*/
+const formatOptions : IgrColumnPipeArgs = {
+    digitsInfo: "2.2-3"
+};
+
+<IgrColumn pipeArgs={formatOptions} dataType="percent"></IgrColumn>
+```
+
+</PlatformBlock>
+
+<DocsAside type="info">
+Ao usar as teclas de seta <kbd>↑</kbd> + <kbd>↓</kbd>, o valor será incrementado/decrementado com um passo baseado em digitsInfo - minFractionDigits (o número mínimo de dígitos após o ponto decimal. O padrão é 0)
+</DocsAside>
+
+## Template de edição padrão
+
+Veja a parte de templates de edição do tópico [{ComponentTitle} Editing](editing.mdx#templates-de-edição)
+
+## Template de edição e formatador personalizados
+
+A definição de template personalizado e de formatador de coluna sempre terá precedência sobre o tipo de dado de coluna definido:
+
+### Template personalizado
+<PlatformBlock for="Angular">
+```html
+<{ComponentSelector} #grid1 [data]="data | async" [autoGenerate]="false">
+    <igx-column [field]="'UnitsInStock'" [dataType]="'currency'" [pipeArgs]="formatOptions" [editable]="true">
+        <ng-template igxCellEditor let-value>
+            {{ value | currency:'USD':'symbol':'1.0-0'}}
+        </ng-template>
+    </igx-column>
+</{ComponentSelector}>
+```
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+```html
+<{ComponentSelector} id="grid1" auto-generate="false">
+    <igc-column id="UnitsInStock" field="UnitsInStock" data-type="currency" editable="true">
+    </igc-column>
+</{ComponentSelector}>
+```
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+```ts
+constructor() {
+    var unitsInStock = document.getElementById('UnitsInStock') as IgcColumnComponent;
+    unitsInStock.inlineEditorTemplate = this.editCellTemplate;
+}
+
+public editCellTemplate = (ctx: IgcCellTemplateContext) => {
+    return html`<input>`;
+}
+
+```
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+const editCellTemplate = (ctx: IgrCellTemplateContext) => {
+    return (
+        <>
+            <input />
+        </>
+    );
+}
+
+<{ComponentSelector} autoGenerate={false}>
+    <IgrColumn inlineEditorTemplate={editCellTemplate}></IgrColumn>
+</{ComponentSelector}>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```razor
+<{ComponentSelector}>
+ <IgbColumn InlineEditorTemplate="EditTemplate"></IgbColumn>
+</{ComponentSelector}>
+@code {
+    public RenderFragment<IgbCellTemplateContext> EditTemplate = (ctx) =>
+    {
+        var value = ctx.Cell.Value;
+        return@<input value="@value" />;
+    };
+}
+```
+</PlatformBlock>
+
+### Formatador de coluna
+
+<PlatformBlock for="WebComponents">
+```html
+<{ComponentSelector} id="grid1" auto-generate="false">
+    <igc-column id="UnitsInStock" field="UnitsInStock" data-type="currency">
+    </igc-column>
+</{ComponentSelector}>
+```
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+```ts
+constructor() {
+    var unitsInStock = this.unitsInStock = document.getElementById('UnitsInStock') as IgcColumnComponent;
+    unitsInStock.formatter = this.formatCurrency;
+}
+
+public formatCurrency(value: number) {
+    return `$ ${value.toFixed(0)}`;
+}
+
+```
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+const formatCurrency = (value: number) => {
+    return `$ ${value.toFixed(0)}`;
+}
+
+<{ComponentSelector} autoGenerate={false}>
+    <IgrColumn formatter={formatCurrency} field="UnitsInStock"></IgrColumn>
+</{ComponentSelector}>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```razor
+<{ComponentSelector}>
+ <IgbColumn FormatterScript="CurrencyFormatter"></IgbColumn>
+</{ComponentSelector}>
+
+```
+
+```javascript
+//In Javascript
+igRegisterScript("CurrencyFormatter", (value) => {
+    return `$ ${value.toFixed(0)}`;
+}, false);
+
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+```ts
+ // Through column formatter property
+public formatCurrency(value: number) {
+    return `Dollar sign ${value.toFixed(0)}`;
+}
+
+public init(column: IgxColumnComponent) {
+    switch (column.field) {
+        case 'UnitsInStock':
+            column.formatter = this.formatCurrency;
+            break;
+        default:
+            return;
+}
+
+```
+
+</PlatformBlock>
+
+
+## Referências da API
+<ApiLink type="{ComponentName}" />
+<ApiLink type="Column" />
+## Recursos adicionais
+
+- Para templates personalizados, veja o [tópico de edição de célula](cell-editing.mdx#templates-de-edição-de-célula)
+- [Edição](editing.mdx)
+- [Resumos](summaries.mdx)

@@ -1,0 +1,473 @@
+---
+title: "Componente Angular Stepper: Ignite UI for Angular | Licencia MIT" 
+description: "Use el componente Angular Stepper para visualizar el contenido como un proceso y mostrar su progreso dividiendo el contenido en pasos lógicos. Aprenda cómo hacerlo."
+keywords: "componente Angular Stepper, componente Angular Wizard, control Angular Stepper, control Angular Wizard, componentes de interfaz de Angular, Ignite UI for Angular, controles de interfaz, widgets de Angular, widgets web, widgets de interfaz, Angular, Infragistics"
+license: MIT
+_language: es
+llms:
+  description: "El Stepper de Ignite UI for Angular es un componente muy personalizable que visualiza el contenido como un proceso y muestra su progreso dividiendo el contenido en pasos sucesivos."
+---
+
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+import { Image } from 'astro:assets';
+import stepperStep from '../images/stepper/stepper-step.png';
+import stepperContenttop from '../images/stepper/stepper-contentTop.png';
+
+# Información general del componente Angular Stepper
+
+El Stepper de Ignite UI for Angular es un componente muy personalizable que visualiza el contenido como un proceso y muestra su progreso dividiendo el contenido en pasos sucesivos. Aparece como una línea vertical u horizontal. Proporcionado por la [biblioteca de componentes de Angular de Ignite UI](https://www.infragistics.com/products/ignite-ui-angular), el componente stepper ofrece un flujo de trabajo tipo asistente y múltiples funciones, como la validación de pasos, el estilo, la orientación y la navegación por teclado.
+
+## Ejemplo de Angular Stepper
+
+En este ejemplo de Angular Stepper puede ver cómo se da a los usuarios la oportunidad de personalizar su tarjeta de crédito y de pasar por el proceso en cinco pasos lógicos: seleccionar el tipo de tarjeta, añadir la información de la empresa, rellenar la información personal, indicar los datos de envío y confirmar.
+Tenga en cuenta que el cuarto paso de nuestra demostración de stepper de Angular solo se habilita si el usuario marca la casilla del segundo paso, lo que indica que su dirección postal es distinta de la dirección física de la empresa.
+
+<Sample src="/layouts/stepper-overview-sample" height={725} alt="Ejemplo de Angular Stepper" />
+
+<hr/>
+
+Este es un ejemplo que muestra cómo lograr la funcionalidad anterior con formularios reactivos de Angular.
+
+<Sample src="/layouts/stepper-sample-reactive-forms" height={725} alt="Ejemplo de Angular Stepper con formularios reactivos" />
+
+## Primeros pasos con Ignite UI for Angular Stepper
+
+Para empezar a usar el componente Ignite UI for Angular Stepper, primero debe instalar Ignite UI for Angular. En una aplicación Angular existente, escriba el siguiente comando:
+
+```cmd
+ng add igniteui-angular
+```
+
+Para una introducción completa a Ignite UI for Angular, lea el tema [_primeros pasos_](/general/getting-started).
+
+El siguiente paso es importar `IgxStepperModule` en el archivo **app.module.ts**.
+
+```typescript
+// app.module.ts
+
+...
+import { IgxStepperModule } from 'igniteui-angular/stepper';
+// import { IgxStepperModule } from '@infragistics/igniteui-angular'; for licensed package
+
+@NgModule({
+    ...
+    imports: [..., IgxStepperModule],
+    ...
+})
+export class AppModule {}
+```
+
+Como alternativa, a partir de `16.0.0` puede importar `IgxStepperComponent` como dependencia independiente, o usar el token [`IGX_STEPPER_DIRECTIVES`](https://github.com/IgniteUI/igniteui-angular/blob/master/projects/igniteui-angular/stepper/src/stepper/public_api.ts) para importar el componente y todos sus componentes y directivas de apoyo.
+
+```typescript
+// home.component.ts
+
+import { FormsModule } from '@angular/forms';
+import { IGX_STEPPER_DIRECTIVES } from 'igniteui-angular/stepper';
+// import { IGX_STEPPER_DIRECTIVES } from '@infragistics/igniteui-angular'; for licensed package
+
+@Component({
+    selector: 'app-home',
+    template: `<igx-stepper>
+        <igx-step> 
+            <p igxStepTitle>Step 1</p>
+        </igx-step>
+        <igx-step> 
+            <p igxStepTitle>Step 2</p>
+        </igx-step>
+    </igx-stepper>`,
+    styleUrls: ['home.component.scss'],
+    standalone: true,
+    imports: [IGX_STEPPER_DIRECTIVES, FormsModule]
+    /* or imports: [IgxStepperComponent, FormsModule] */
+})
+export class HomeComponent {
+    public task: Task;
+}
+```
+
+Ahora que ha importado el módulo o las directivas de Angular Stepper, puede empezar con una configuración básica de `igx-stepper` y sus pasos.
+Ahora que ha importado el módulo o las directivas de Angular Stepper, puede empezar con una configuración básica de `igx-stepper` y sus pasos.
+
+## Uso de Angular Stepper
+
+<ApiLink type="Step" /> es la representación de cada paso que pertenece a <ApiLink type="Stepper" />. Los pasos proporcionan las propiedades <ApiLink type="Step" member="isValid" label="isValid" />, <ApiLink type="Step" member="active" label="active" />, <ApiLink type="Step" member="optional" label="optional" />, <ApiLink type="Step" member="disabled" label="disabled" /> y <ApiLink type="Step" member="completed" label="completed" />, que le permiten configurar los estados de cada paso según sus requisitos de negocio.
+
+### Declarar un Stepper
+
+Ahora que tenemos importado el módulo del stepper, empecemos con su configuración.
+
+Los pasos pueden declararse con uno de los siguientes enfoques.
+
+- Recorrer un conjunto de datos
+
+```html
+<igx-stepper>
+    <igx-step *ngFor="let step of stepsData" [disabled]=”step.disabled”>
+        <igx-icon igxStepIndicator>
+   {{step.indicator}}
+        </igx-icon>
+
+        <p igxStepTitle>
+   {{step.title}}
+        </p>
+    </igx-step>
+</igx-stepper>
+```
+
+
+<DocsAside type="info">
+Este componente usa Material Icons. Añada el siguiente enlace a su `index.html`: `<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">`
+</DocsAside>
+
+- Crear pasos estáticos
+
+```html
+<igx-stepper>
+    <igx-step> 
+       <p igxStepTitle>Step 1</p>
+    </igx-step>
+    <igx-step> 
+       <p igxStepTitle>Step 2</p>
+    </igx-step>
+</igx-stepper>
+```
+
+Para cada paso, el usuario puede configurar el indicador, el título, el subtítulo y el contenido con las directivas `igxStepIndicator`, `igxStepTitle`, `igxStepSubtitle` y `igxStepContent`, de la siguiente manera:
+
+```html
+<igx-stepper>
+    <igx-step>
+       <igx-icon igxStepIndicator>home</igx-icon>
+       <p igxStepTitle>Home</p>
+       <p igxStepSubtitle>Home Sub Title</p>
+       <div igxStepContent>
+          ...
+       </div>
+    </igx-step>
+</igx-stepper>
+```
+
+<Image src={stepperStep} alt="Estructura de paso de Ignite UI for Angular Stepper" class="responsive-img" style="margin-bottom:10px; -webkit-box-shadow: 4px 4px 4px 4px #ccc; -moz-box-shadow: 4px 4px 4px 4px #ccc; box-shadow: 4px 4px 4px 4px #ccc; max-width: 500px" />
+
+### Cambiar la orientación del Stepper
+
+Puede personalizar la orientación del stepper mediante la propiedad expuesta <ApiLink type="Stepper" member="orientation" label="orientation" />. Acepta un miembro de la enumeración `IgxStepperOrientation`: `Horizontal` _(valor predeterminado)_ o `Vertical`.
+
+**Orientación horizontal del Stepper**
+
+`horizontal` es el valor predeterminado de la propiedad `igx-stepper` <ApiLink type="Stepper" member="orientation" label="orientation" />.
+Cuando el stepper tiene orientación horizontal, puede determinar si el contenido de los pasos se muestra encima o debajo de los encabezados de los pasos. Esto se logra estableciendo la propiedad booleana <ApiLink type="Stepper" /> <ApiLink type="Stepper" member="contentTop" label="contentTop" />, cuyo valor predeterminado es `false`. Si está habilitada, el contenido de los pasos se mostrará encima de los encabezados.
+
+<Image src={stepperContenttop} alt="Ignite UI for Angular Stepper con el contenido renderizado encima del stepper" class="responsive-img" style="margin-bottom:10px; -webkit-box-shadow: 4px 4px 4px 4px #ccc; -moz-box-shadow: 4px 4px 4px 4px #ccc; box-shadow: 4px 4px 4px 4px #ccc; max-width: 800px" />
+
+**Orientación vertical del Stepper**
+
+Puede cambiar fácilmente del diseño horizontal al vertical. Para cambiar la orientación predeterminada, debe establecer la propiedad <ApiLink type="Stepper" member="orientation" label="orientation" /> en `vertical`.
+
+```html
+<igx-stepper [orientation]="'vertical'">
+ <igx-step>    
+    …   
+ </igx-step>
+
+ <igx-step>    
+    …   
+ </igx-step>
+</igx-stepper>
+```
+
+La demostración siguiente muestra cómo pueden cambiarse en tiempo de ejecución la <ApiLink type="Stepper" member="orientation" label="orientation" /> del stepper y la [posición de los títulos](/stepper#personalizar-los-pasos).
+
+<Sample src="/layouts/stepper-label-position-and-orientation-sample" height={528} alt="Ejemplo de orientación de Angular Stepper" />
+
+<hr/>
+
+### Estados de los pasos
+
+<ApiLink type="Stepper" /> admite cuatro estados de paso, y cada uno aplica estilos distintos de forma predeterminada:
+
+- <ApiLink type="Step" member="active" label="**active**" />: indica si el paso es el que se muestra actualmente. Por diseño, si el usuario no establece explícitamente el atributo active de un paso en `true`, el paso activo inicial será el primer paso no deshabilitado.
+- <ApiLink type="Step" member="disabled" label="**disabled**" />: indica si el paso es interactivo. De forma predeterminada, el atributo disabled de un paso está establecido en `false`.
+- <ApiLink type="Step" member="optional" label="**optional**" />: de forma predeterminada, el atributo optional de un paso está establecido en `false`. Si no se requiere la validez de un paso en un stepper lineal, puede habilitarse el atributo optional para poder avanzar independientemente de la validez del paso.
+- <ApiLink type="Step" member="completed" label="**completed**" />: de forma predeterminada, el atributo completed de un paso devuelve `false`. Sin embargo, el usuario puede sobrescribir este comportamiento predeterminado estableciendo el atributo completed según sea necesario. Cuando un paso se marca como completado, no solo cambia el estilo del encabezado del paso de forma predeterminada, sino también el de la línea de progreso entre el paso completado y el siguiente. Ambos estilos pueden modificarse usando <ApiLink kind="sass" module="themes" type="function-stepper-theme" label="Variables CSS" /> expuesto.
+
+<ApiLink type="Stepper" /> le ofrece la posibilidad de establecer la lógica de validación de cada paso mediante la propiedad de enlace bidireccional <ApiLink type="Step" member="isValid" label="**isValid**" />. Según su valor, se decide si el usuario puede avanzar en el modo de stepper lineal.
+De forma predeterminada, la propiedad <ApiLink type="Step" member="isValid" label="isValid" /> de un paso está establecida en `true`.
+
+### Stepper lineal
+
+`igx-stepper` le permite definir el flujo de sus pasos mediante la propiedad <ApiLink type="Stepper" member="linear" label="linear" />. De forma predeterminada, linear está establecido en `false` y el usuario puede seleccionar cualquier paso no deshabilitado en el <ApiLink type="Stepper" />.
+
+Cuando la propiedad <ApiLink type="Stepper" member="linear" label="linear" /> se establece en `true`, el stepper exigirá que el paso actual no opcional sea válido antes de avanzar al siguiente.
+
+Si el paso actual no opcional no es válido, no puede avanzar al siguiente paso hasta que valide el actual.
+
+<DocsAside type="info">
+La validez de los pasos opcionales no se tiene en cuenta para avanzar.
+</DocsAside>
+
+El ejemplo siguiente muestra cómo configurar un stepper lineal:
+
+<Sample src="/layouts/stepper-linear-sample" height={430} alt="Ejemplo de stepper lineal de Angular" />
+
+<hr/>
+
+### Interacciones con los pasos
+
+<ApiLink type="Stepper" /> proporciona los siguientes métodos de la API para las interacciones con los pasos:
+
+- <ApiLink type="Stepper" member="navigateTo" label="**navigateTo**" />: activa el paso del índice indicado.
+- <ApiLink type="Stepper" member="next" label="**next**" />: activa el siguiente paso no deshabilitado.
+- <ApiLink type="Stepper" member="prev" label="**prev**" />: activa el paso no deshabilitado anterior.
+- <ApiLink type="Stepper" member="reset" label="**reset**" />: restablece el stepper a su estado inicial.
+
+<DocsAside type="info">
+El método reset no borra el contenido del paso. Esto debe hacerse manualmente.
+</DocsAside>
+
+### Personalizar los pasos
+
+El Stepper de Ignite UI for Angular le permite configurar distintas opciones para los títulos, los indicadores y mucho más.
+
+Esto puede lograrse mediante la propiedad <ApiLink type="Stepper" member="stepType" label="stepType" /> de <ApiLink type="Stepper" />. Acepta un miembro de la enumeración `IgxStepType`:
+
+- Full _(valor predeterminado)_
+- Indicator
+- Título
+
+**Full**
+
+Si se definen títulos y subtítulos, con esta configuración se renderizarán tanto los indicadores como los títulos.
+
+El usuario también puede definir la posición del título de los pasos, de modo que pueda colocarse antes, después, encima o debajo del indicador del paso.
+El usuario puede configurar la posición del título con la propiedad <ApiLink type="Stepper" member="titlePosition" label="titlePosition" />. Ambas propiedades aceptan un miembro de la enumeración `IgxStepperTitlePosition`:
+
+- end
+- start
+- bottom
+- top
+
+Cuando el `igx-stepper` tiene orientación horizontal, el valor predeterminado de la posición del título es `bottom`.
+
+Cuando la orientación es vertical, la posición del título es por defecto `end`.
+
+<DocsAside type="info">
+La propiedad <ApiLink type="Stepper" member="titlePosition" label="titlePosition" /> solo es aplicable **cuando** la propiedad <ApiLink type="Stepper" member="stepType" label="stepType" /> del stepper está establecida en `full`.
+</DocsAside>
+
+**Indicator**
+
+Si quiere mostrar solo los indicadores de los pasos, establezca la opción <ApiLink type="Stepper" member="stepType" label="stepType" /> en `indicator`.
+
+El indicador de paso admite cualquier contenido, aunque con la restricción de que su tamaño será siempre de **24 píxeles**. Teniendo esto en cuenta, recomendamos usar [IgxIconComponent](/layouts/icon) o [IgxAvatarComponent](layouts/avatar.mdx) como indicadores de paso.
+
+**Title**
+
+Si quiere mostrar solo los títulos de los pasos, establezca la opción <ApiLink type="Stepper" member="stepType" label="stepType" /> en `title`.
+
+De este modo, si se definen subtítulos, también se renderizarán debajo del título del paso.
+
+<DocsAside type="info">
+Este contenedor puede volver a tener plantilla según sus necesidades, sin restricciones de tamaño. Por ejemplo, puede añadir dentro de él un indicador de más de 24 píxeles.
+</DocsAside>
+
+La demostración siguiente muestra todos los tipos de paso expuestos y cómo pueden cambiarse:
+
+<Sample src="/layouts/stepper-steptypes-sample" height={300} alt="Ejemplo de tipos de paso de Angular" />
+
+<hr/>
+
+El <ApiLink type="Stepper" /> también le permite personalizar los indicadores renderizados para los pasos activos, no válidos y completados. Esto se logra con las directivas `igxStepActiveIndicator`, `igxStepInvalidIndicator` y `igxStepCompletedIndicator`:
+
+```html
+<igx-stepper>
+    <ng-template igxStepActiveIndicator>
+       <igx-icon>edit</igx-icon>
+    </ng-template>
+
+    <ng-template igxStepInvalidIndicator>
+       <igx-icon>error</igx-icon>
+    </ng-template>
+
+    <ng-template igxStepCompletedIndicator>
+       <igx-icon>check</igx-icon>
+    </ng-template>
+    ...
+</igx-stepper>
+```
+
+<DocsAside type="info">
+Estas plantillas se aplicarán a todos los pasos con el estado correspondiente.
+</DocsAside>
+
+### Animaciones de Angular Stepper
+
+Las animaciones de Angular Stepper ofrecen a los usuarios finales una experiencia atractiva al interactuar con los pasos definidos. Las opciones de animación disponibles difieren según la orientación del stepper.
+
+Cuando el stepper tiene **orientación horizontal**, está configurado para usar la animación `slide` de forma predeterminada. También admite `fade` como alternativa. Las animaciones se configuran mediante la entrada <ApiLink type="Stepper" member="horizontalAnimationType" label="horizontalAnimationType" />.
+
+En la disposición **con orientación vertical**, el tipo de animación puede definirse con la propiedad <ApiLink type="Stepper" member="verticalAnimationType" label="verticalAnimationType" />. De forma predeterminada, su valor es `grow` y el usuario puede establecerlo también en `fade`.
+
+Establecer `none` en los dos tipos de animación desactiva las animaciones del stepper.
+
+<ApiLink type="Stepper" /> le permite configurar la duración de la transición entre los pasos. Esto se logra con la propiedad <ApiLink type="Stepper" member="animationDuration" label="animationDuration" />, que recibe un número como argumento y es común a ambas orientaciones.
+
+## Navegación por teclado
+
+Angular Stepper ofrece al usuario final una gran variedad de interacciones por teclado. Esta funcionalidad está habilitada de forma predeterminada y permite a los usuarios moverse fácilmente entre los pasos.
+La navegación de <ApiLink type="Stepper" /> cumple los [estándares de accesibilidad W3](https://www.w3.org/WAI/ARIA/apg/example-index/tabs/tabs-manual.html#accessibilityfeatures) y es cómoda de usar.
+
+**Combinaciones de teclas**
+
+- <kbd>Tab</kbd>: mueve el foco al siguiente elemento enfocable
+- <kbd>Shift + Tab</kbd>: mueve el foco al elemento enfocable anterior
+- <kbd>Arrow Down</kbd>: mueve el foco al encabezado del siguiente paso accesible cuando `igx-stepper` tiene **orientación vertical**
+- <kbd>Arrow Up</kbd>: mueve el foco al encabezado del paso accesible anterior cuando `igx-stepper` tiene **orientación vertical**
+- <kbd>Arrow Left</kbd>: mueve el foco al encabezado del paso accesible anterior en ambas orientaciones
+- <kbd>Arrow Right</kbd>: mueve el foco al encabezado del siguiente paso accesible en ambas orientaciones
+- <kbd>Home</kbd>: mueve el foco al encabezado del PRIMER paso habilitado en `igx-stepper`
+- <kbd>End</kbd>: mueve el foco al encabezado del ÚLTIMO paso habilitado en `igx-stepper`
+- <kbd>Enter / Space</kbd>: activa el paso que tiene el foco
+
+ <DocsAside type="info">
+ Por diseño, cuando el usuario pulsa la tecla <kbd>Tab</kbd> sobre el encabezado del paso, el foco pasa al contenedor del contenido del paso. Si quiere que ese contenedor se omita, el desarrollador debe establecer en `[tabIndex]="-1"` el contenedor del contenido.
+ </DocsAside>
+
+El componente Stepper también está disponible en el [App Builder™ de arrastrar y soltar](https://www.infragistics.com/products/appbuilder), de bajo código.
+
+## Estilos de Angular Stepper
+
+### Mapa de propiedades del tema Stepper
+
+Al modificar una propiedad principal, todas las propiedades dependientes relacionadas se actualizan automáticamente para reflejar el cambio:
+
+| Propiedad principal | Propiedad dependiente | Descripción |
+| --- | --- | --- |
+| **$step-background** | $step-hover-background | El fondo del encabezado del paso al pasar el cursor |
+|  | $step-focus-background | El fondo del encabezado del paso al recibir el foco |
+|  | $indicator-background | El color de fondo del indicador del paso |
+|  | $title-color | El color del título del paso |
+|  | $subtitle-color | El color del subtítulo del paso |
+|  | $current-step-background | El fondo del encabezado del paso actual |
+|  | $invalid-step-background | El fondo del encabezado del paso no válido |
+|  | $complete-step-background | El fondo del encabezado del paso completado |
+|  | $disabled-indicator-background | El fondo del indicador del paso deshabilitado |
+|  | $disabled-title-color | El color del título del paso deshabilitado |
+|  | $disabled-subtitle-color | El color del subtítulo del paso deshabilitado |
+|  | $step-separator-color | El color del borde separador entre pasos |
+| **$indicator-background** | $indicator-outline | El color del contorno del indicador del paso |
+|  | $indicator-color | El color del texto del indicador del paso |
+| **$current-step-background** | $current-step-hover-background | El fondo del encabezado del paso actual al pasar el cursor |
+|  | $current-step-focus-background | El fondo del encabezado del paso actual al recibir el foco |
+|  | $current-indicator-background | El color de fondo del indicador del paso actual |
+|  | $current-title-color | El color del título del paso actual |
+|  | $current-subtitle-color | El color del subtítulo del paso actual |
+| **$invalid-indicator-background** | $invalid-indicator-outline | El color del contorno del indicador del paso no válido |
+|  | $invalid-indicator-color | El color del indicador del paso no válido |
+|  | $invalid-title-color | El color del título del paso no válido |
+|  | $invalid-subtitle-color | El color del subtítulo del paso no válido |
+|  | $invalid-title-hover-color | El color del título del paso no válido al pasar el cursor |
+|  | $invalid-subtitle-hover-color | El color del subtítulo del paso no válido al pasar el cursor |
+|  | $invalid-title-focus-color | El color del título del paso no válido al recibir el foco |
+|  | $invalid-subtitle-focus-color | El color del subtítulo del paso no válido al recibir el foco |
+| **$complete-step-background** | $complete-step-hover-background | El fondo del encabezado del paso completado al pasar el cursor |
+|  | $complete-step-focus-background | El fondo del encabezado del paso completado al recibir el foco |
+|  | $complete-indicator-background | El color de fondo del indicador del paso completado |
+|  | $complete-indicator-color | El color del indicador del paso completado |
+|  | $complete-title-color | El color del título del paso completado |
+|  | $complete-subtitle-color | El color del subtítulo del paso completado |
+|  | $complete-title-hover-color | El color del título del paso completado al pasar el cursor |
+|  | $complete-subtitle-hover-color | El color del subtítulo del paso completado al pasar el cursor |
+|  | $complete-title-focus-color | El color del título del paso completado al recibir el foco |
+|  | $complete-subtitle-focus-color | El color del subtítulo del paso completado al recibir el foco |
+
+Usando el [Ignite UI for Angular Theming](/themes), podemos cambiar en gran medida el aspecto de `igx-stepper`.
+
+Primero, para usar las funciones que expone el motor de temas, necesitamos importar el archivo `index` en nuestro archivo de estilos:
+
+```scss
+@use "igniteui-angular/theming" as *;
+
+// IMPORTANT: Prior to Ignite UI for Angular version 13 use:
+// @import '~igniteui-angular/lib/core/styles/themes/index';
+```
+
+Siguiendo el enfoque más sencillo, creamos un tema nuevo que extiende <ApiLink kind="sass" module="themes" type="function-stepper-theme" label="stepper-theme" /> y proporciona solo unos pocos parámetros base. El tema generará automáticamente todos los estilos necesarios, incluidos los colores específicos de cada estado y los primeros planos con contraste accesible. También puede sobrescribir cualquiera de los parámetros disponibles si quiere un control mayor sobre el aspecto.
+
+```scss
+$stepper-theme: stepper-theme(
+  $step-background: #351e65,
+  $current-indicator-background: #f6cd28,
+
+  $border-radius-step-header: 16px,
+  $border-radius-indicator: 10px 4px 10px 4px,
+);
+```
+
+El último paso es incluir el tema del componente.
+
+```scss
+:host {
+    @include tokens($custom-stepper-theme);
+}
+```
+
+### Demostración
+
+El ejemplo siguiente muestra un estilo sencillo aplicado mediante [Ignite UI for Angular Theming](/themes).
+
+<Sample src="/layouts/stepper-styling-sample" height={264} alt="Ejemplo de estilos de Angular Stepper" />
+
+### Dar estilo con Tailwind
+
+Puede dar estilo al stepper con nuestras clases de utilidad de Tailwind personalizadas. Asegúrese de [configurar Tailwind](/themes/tailwind) primero.
+
+Junto con la importación de tailwind en su hoja de estilos global, puede aplicar las utilidades de tema deseadas de la siguiente manera:
+
+```scss
+@import "tailwindcss";
+...
+@use 'igniteui-theming/tailwind/utilities/material.css';
+```
+
+El archivo de utilidades incluye las variantes de tema `light` y `dark`.
+
+- Use las clases `light-*` para el tema claro.
+- Use las clases `dark-*` para el tema oscuro.
+- Añada el nombre del componente después del prefijo, por ejemplo, `light-stepper`, `dark-stepper`.
+
+Una vez aplicadas, estas clases habilitan los cálculos dinámicos del tema. A partir de ahí, puede sobrescribir las variables CSS generadas usando `arbitrary properties`. Después de los dos puntos, indique cualquier formato de color CSS válido (HEX, variable CSS, RGB, etc.).
+
+Puede encontrar la lista completa de propiedades en <ApiLink kind="sass" module="themes" type="function-stepper-theme" label="stepper-theme" />. La sintaxis es la siguiente:
+
+```html
+<igx-stepper
+  class="!light-stepper ![--step-background:#7B9E89] ![--border-radius-step-header:6px]">
+  ...
+</igx-stepper>
+```
+
+<DocsAside type="info">
+El signo de exclamación (`!`) es obligatorio para asegurar que la clase de utilidad tenga prioridad. Tailwind aplica los estilos por capas y, si no se marcan estos estilos como importantes, los sobrescribirá el tema predeterminado del componente.
+</DocsAside>
+
+Al final, su stepper debería verse así:
+
+<Sample src="/layouts/stepper-tailwind-styling-sample/" height={200} iframeOnly />
+
+<hr/>
+
+## Referencia de API
+
+- <ApiLink type="Stepper" />
+- <ApiLink type="Step" />
+
+## Recursos adicionales
+
+Nuestra comunidad está activa y siempre acoge con agrado nuevas ideas.
+
+- [Ignite UI for Angular **Foros**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

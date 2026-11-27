@@ -1,0 +1,749 @@
+---
+title: "Angular Input Group 컴포넌트 | Ignite UI for Angular | MIT 라이선스"
+description: "Ignite UI for Angular의 Input Group 컴포넌트는 사용하기 쉽고 보기 좋은 폼을 만들고, 데이터 입력을 단순하게 하며, 검증과 오류 처리를 완화하는 기능을 제공합니다."
+keywords: "Ignite UI for Angular, UI 컨트롤, Angular 위젯, 웹 위젯, UI 위젯, Angular, Native Angular Components Suite, Angular UI 컴포넌트, Native Angular Components Library, Native Angular Components, Angular Label 컴포넌트, Angular Label 컨트롤, Angular Input 컴포넌트, Angular Input 컨트롤, Input 컴포넌트, Input 컨트롤, Label 컴포넌트, Label 컨트롤, Angular Input Group 컴포넌트, Angular Input Group 컨트롤, Angular Input 디렉티브, Angular Label 디렉티브, Angular 폼, Angular 반응형 폼, Angular 폼 검증"
+license: MIT
+_language: ko
+llms:
+  description: "IgxInputGroupComponent를 사용하면 input, select, textarea 같은 입력 요소를 강화할 수 있습니다."
+---
+
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+# Angular Input Group 컴포넌트 개요
+
+`IgxInputGroupComponent`을(를) 사용하면 input, select, textarea 같은 입력 요소를 강화할 수 있습니다. 이는 접두사, 접미사 또는 힌트로서 그 양쪽에 텍스트, 아이콘, 버튼, 사용자 지정 검증, 플로팅 레이블 등 사용자 지정 콘텐츠를 추가하여 달성할 수 있습니다.
+
+## Angular Input Group 예제
+
+<Sample src="/data-entries/input-group-sample-1" height={100} alt="Angular Input Group 예제" />
+
+<hr/>
+
+## Ignite UI for Angular Input Group 시작하기
+
+Ignite UI for Angular Input Group 컴포넌트를 시작하려면 먼저 Ignite UI for Angular를 설치해야 합니다. 기존 Angular 애플리케이션에서 다음 명령을 입력하십시오:
+
+```cmd
+ng add igniteui-angular
+```
+
+Ignite UI for Angular에 대한 전체 소개는 [_시작하기_](/general/getting-started) 항목을 읽어 보십시오.
+
+다음 단계는 **app.module.ts** 파일에서 `IgxInputGroupModule`을 가져오는 것입니다.
+
+`IgxInputGroupComponent`이(가) 작동하는 템플릿 기반 폼을 가지려면 Angular **FormsModule**에도 의존한다는 점에 유의하십시오:
+
+```typescript
+// app.module.ts
+
+import { FormsModule } from '@angular/forms';
+import { IgxInputGroupModule } from 'igniteui-angular/input-group';
+// import { IgxInputGroupModule } from '@infragistics/igniteui-angular'; for licensed package
+
+@NgModule({
+    ...
+    imports: [..., IgxInputGroupModule, FormsModule],
+    ...
+})
+export class AppModule {}
+```
+
+또는 `16.0.0` 버전부터는 `IgxInputGroupComponent`을 독립형(standalone) 종속성으로 가져올 수 있으며, [`IGX_INPUT_GROUP_DIRECTIVES`](https://github.com/IgniteUI/igniteui-angular/blob/master/projects/igniteui-angular/input-group/src/input-group/public_api.ts) 토큰을 사용하여 컴포넌트와 모든 지원 컴포넌트 및 디렉티브를 가져올 수도 있습니다.
+
+```typescript
+// home.component.ts
+
+import { FormsModule } from '@angular/forms';
+import { IGX_INPUT_GROUP_DIRECTIVES } from 'igniteui-angular/input-group';
+import { IgxIconComponent } from 'igniteui-angular/icon';
+// import { IGX_INPUT_GROUP_DIRECTIVES, IgxIconComponent } from '@infragistics/igniteui-angular'; for licensed package
+
+@Component({
+    selector: 'app-home',
+    template: `
+    <igx-input-group>
+        <igx-prefix>+359</igx-prefix>
+        <label igxLabel for="phone">Phone</label>
+        <input igxInput [(ngModel)]="value" name="phone" type="tel" maxlength="9" />
+        <igx-icon igxSuffix>phone</igx-icon>
+    </igx-input-group>
+    `,
+    styleUrls: ['home.component.scss'],
+    standalone: true,
+    imports: [IGX_INPUT_GROUP_DIRECTIVES, IgxIconComponent, FormsModule]
+    /* or imports: [IgxInputGroupComponent, IgxPrefixDirective, IgxLabelDirective, IgxInputDirective, IgxIconComponent, IgxSuffixDirective, FormsModule] */
+})
+export class HomeComponent {
+    public value = '123456789';
+}
+```
+
+<DocsAside type="info">
+이 컴포넌트는 Material Icons를 사용합니다. 다음 링크를 `index.html`에 추가하십시오: `<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">`
+</DocsAside>
+
+이제 Ignite UI for Angular Input Group 모듈 또는 디렉티브를 가져왔으므로, `igx-input-group` 컴포넌트를 사용하기 시작할 수 있습니다.
+
+<DocsAside type="info">
+`igxInput`, `igxLabel`, `igx-prefix`, `igx-suffix` 또는 `igx-hint` 디렉티브 중 어느 것이든 사용하려면, 이를 `<igx-input-group>` 컨테이너로 감싸야 합니다.
+</DocsAside>
+
+## Angular Input Group 사용하기
+
+### Label & Input
+
+<ApiLink type="LabelDirective" label="igxLabel" /> 및 <ApiLink type="InputDirective" label="igxInput" /> 디렉티브와 그 검증, 데이터 바인딩, API에 대해서는 [Label & Input 문서](/label-input)에서 읽을 수 있습니다.
+
+### 접두사 & 접미사
+
+`igx-prefix` 또는 `igxPrefix`와 `igx-suffix` 또는 `igxSuffix` 디렉티브는 HTML 요소, 문자열, 아이콘 또는 다른 컴포넌트를 포함하거나 붙일 수 있습니다. 다음 샘플에서는 문자열 **접두사**와 아이콘 **접미사**가 있는 새 입력 필드를 만들겠습니다:
+
+```html
+<igx-input-group>
+    <igx-prefix>+359</igx-prefix>
+    <label igxLabel for="phone">Phone</label>
+    <input igxInput name="phone" type="tel" maxlength="9" />
+    <igx-icon igxSuffix>phone</igx-icon>
+</igx-input-group>
+```
+
+<Sample src="/data-entries/input-group-sample-3" height={110} alt="Angular Input Group 예제" />
+
+<hr/>
+
+### 힌트
+
+<ApiLink type="HintDirective" label="igx-hint" /> 디렉티브는 입력 아래에 배치되는 도우미 텍스트를 제공합니다. <ApiLink type="HintDirective" member="position" label="position" /> 속성의 값에 따라 입력의 시작 부분이나 끝 부분에 위치할 수 있습니다. 전화번호 입력에 힌트를 추가해 보겠습니다:
+
+```html
+<igx-input-group>
+    <igx-prefix>+359</igx-prefix>
+    <label igxLabel for="phone">Phone</label>
+    <input igxInput name="phone" type="tel" />
+    <igx-suffix>
+        <igx-icon>phone</igx-icon>
+    </igx-suffix>
+    <igx-hint position="start">Ex.: +359 888 123 456</igx-hint>
+</igx-input-group>
+```
+
+힌트가 있는 전화번호 필드는 다음과 같이 보입니다:
+<Sample src="/data-entries/input-group-sample-4" height={110} alt="Angular Input Group 예제" />
+
+<hr/>
+
+### 입력 유형 & 입력 그룹 유형 토큰
+
+입력 그룹의 스타일은 <ApiLink type="InputGroup" label="igxInputGroup" /> 컴포넌트의 <ApiLink type="InputGroup" member="type" label="type" /> 속성을 사용하여 바꿀 수 있습니다. 입력 그룹 컴포넌트는 다음 유형을 지원합니다: `line`(유형을 지정하지 않으면 기본값), `border`, `box`, `search`. `line`, `border`, `box` 유형은 `Material Design` 테마 전용으로 만들어졌습니다. 다른 테마에서 이들 유형을 설정해도 입력 그룹의 모양에는 아무런 영향이 없습니다.
+선언적으로 특정 유형을 설정하는 예:
+
+```html
+<igx-input-group type="border"></igx-input-group>
+```
+
+<ApiLink kind="variable" type="IGX_INPUT_GROUP_TYPE" /> 주입 토큰을 사용하면 모든 입력 그룹 인스턴스에 대해 애플리케이션 수준에서 유형을 지정할 수 있습니다. 이는 관련된 모든 컴포넌트의 스타일을 한 번에 지정하는 간단한 방법을 제공합니다.
+유형을 설정하려면 <ApiLink kind="variable" type="IGX_INPUT_GROUP_TYPE" /> 주입 토큰을 사용하여 DI 공급자를 만드십시오.
+
+```typescript
+providers: [{provide: IGX_INPUT_GROUP_TYPE, useValue: 'box' }]
+```
+
+<DocsAside type="info">
+<ApiLink type="InputGroup" member="type" label="type" /> 속성은 <ApiLink kind="variable" type="IGX_INPUT_GROUP_TYPE" />보다 우선하므로, 유형 속성이 명시적으로 설정되면 컴포넌트 수준에서 토큰 값을 재정의할 수 있습니다.
+대부분의 `igniteui-angular` 폼 컨트롤은 내부적으로 입력 그룹 컴포넌트를 사용하거나 사용자 지정 템플릿을 허용합니다. 전역 토큰을 설정하면 이 컴포넌트들에도 영향을 줍니다.
+</DocsAside>
+
+Ignite UI for Angular는 `type="file"`의 입력에 대한 스타일도 제공하며, 모든 입력 그룹 유형과 테마를 지원합니다. 템플릿에 이것만 추가하면 됩니다:
+
+```html
+<igx-input-group>
+    <input igxInput type="file" multiple />
+</igx-input-group>
+```
+
+<Sample src="/data-entries/input-group-sample-5" height={695} alt="" />
+
+### 입력 그룹 테마
+
+입력 그룹 컴포넌트는 여러 테마 - `material`, `fluent`, `bootstrap`, `indigo-design`를 지원합니다. <ApiLink type="InputGroup" member="theme" label="theme" />는 컴포넌트 초기화 중에 자동으로 설정되며, 현재 사용 중인 스타일시트에서 추론됩니다. 실행 중 전환으로 애플리케이션에서 여러 테마를 지원할 계획이라면, `theme` 입력 속성을 사용하여 테마를 명시적으로 설정할 수 있습니다.
+
+```html
+<igx-input-group theme="fluent">...</igx-input-group>
+```
+
+### 타입 폼
+
+Ignite UI for Angular Input Group 컴포넌트는 Angular 14부터 기본인 엄격한 타입의 반응형 폼 안에서 사용할 수 있습니다. 타입 폼에 대해 더 알아보려면 [Angular 공식 문서](https://angular.io/guide/typed-forms)를 확인할 수 있습니다.
+
+<Sample src="/data-entries/typed-form" height={770} alt="" />
+
+## 검증
+
+다음 샘플은 [템플릿 기반](https://angular.io/guide/forms) 또는 [반응형 폼](https://angular.io/guide/reactive-forms)을 사용할 때 입력 검증을 구성하는 방법을 보여 줍니다.
+
+### 템플릿 기반 폼
+
+템플릿 기반 폼 검증은 `input` 요소에 검증 속성, 즉 `required`, `minlength` 등을 추가하여 달성합니다.
+
+```html
+<form>
+    <igx-input-group>
+        <label igxLabel for="username">Username</label>
+        <input igxInput name="username" type="text" required />
+    </igx-input-group>
+
+    <igx-input-group>
+        <label igxLabel for="email">Email</label>
+        <input igxInput name="email" type="email" required email />
+    </igx-input-group>
+
+    <igx-input-group>
+        <label igxLabel for="password">Password</label>
+        <input igxInput name="password" type="password" required minlength="8" />
+    </igx-input-group>
+
+    <button igxButton="contained" igxRipple type="submit">Submit</button>
+</form>
+```
+
+`required` 속성은 레이블 옆에 별표를 추가하여 이 필드를 반드시 채워야 함을 나타냅니다. 또한 `input`에 `email`와 `minlength` 같은 추가 검증이 적용되어 있으면, 개발자는 <ApiLink type="HintDirective" label="igx-hint" /> 디렉티브를 통해 최종 사용자에게 추가 요구 사항을 알릴 수 있습니다.
+
+다음 예는 양방향 데이터 바인딩을 사용하며, `ngModel`을(를) 지역 변수로 내보내서 컨트롤의 상태를 검사하는 방법을 보여 줍니다.
+
+```html
+<form #login="ngForm">
+    ...
+    <igx-input-group>
+        <label igxLabel for="email">Email</label>
+        <input igxInput name="email" type="email" [(ngModel)]="user.email" #email="ngModel" required email />
+        @if (email.errors?.email) {
+            <igx-hint>Please enter a valid email</igx-hint>
+        }
+    </igx-input-group>
+
+    <igx-input-group>
+        <label igxLabel for="password">Password</label>
+        <input igxInput name="password" type="password"
+            [(ngModel)]="user.password" #password="ngModel" required minlength="8" />
+        @if (password.errors?.minlength) {
+            <igx-hint>Password should be at least 8 characters</igx-hint>
+        }
+    </igx-input-group>
+
+    <button igxButton="contained" igxRipple type="submit">Submit</button>
+</form>
+```
+
+폼 컨트롤 중 하나라도 유효하지 않다면 사용자는 폼을 제출할 수 없어야 합니다. 이는 폼의 상태를 기준으로 제출 버튼을 활성화하거나 비활성화하여 달성할 수 있습니다.
+
+다음 예는 `ngForm`을(를) 지역 변수로 내보내서 폼의 상태를 검사하는 방법을 보여 줍니다.
+
+```html
+<form #registrationForm="ngForm">
+    <igx-input-group>
+        <label igxLabel for="email">Email</label>
+        <input igxInput name="email" type="email" [(ngModel)]="user.email" #email="ngModel" required email />
+        @if (email.errors?.email) {
+            <igx-hint>Please enter a valid email</igx-hint>
+        }
+    </igx-input-group>
+    ...
+
+    <button igxButton="contained" igxRipple type="submit" [disabled]="!registrationForm.valid">Submit</button>
+</form>
+```
+
+위 구성의 결과는 아래 샘플에서 볼 수 있습니다. Email과 Password 필드에 입력을 시작하면, 입력한 값이 유효하지 않을 때 <ApiLink type="HintDirective" label="igx-hint" />이(가) 표시되는 것을 알 수 있습니다. 이 샘플은 또한 <ApiLink type="Icon" label="igx-icon" />와 [`igx-suffix`](#접두사--접미사) 디렉티브를 사용하여 비밀번호의 표시 여부를 전환하는 방법도 보여 줍니다.
+
+<Sample src="/data-entries/template-driven-form-validation" height={480} alt="" />
+
+### 반응형 폼
+
+반응형 폼 검증은 검증자 함수를 컴포넌트 클래스의 폼 컨트롤 모델에 직접 추가하여 달성합니다. 컴포넌트 클래스에서 컨트롤을 만든 다음, 이를 템플릿의 폼 컨트롤 요소와 연결해야 합니다.
+
+```ts
+public registrationForm: FormGroup<User>;
+
+constructor(fb: FormBuilder) {
+    this.registrationForm = fb.group({
+        username: ['', { nonNullable: true, validators: [Validators.required] }],
+        email: ['', { nonNullable: true, validators: [Validators.required, Validators.email] }],
+        password: ['', { nonNullable: true, validators: [Validators.required, Validators.minLength(8)] }]
+    });
+}
+```
+
+```html
+<form [formGroup]="registrationForm">
+    <igx-input-group>
+        <label igxLabel for="username">Username</label>
+        <input igxInput name="username" type="text" formControlName="username" />
+    </igx-input-group>
+
+    <igx-input-group>
+        <label igxLabel for="email">Email</label>
+        <input igxInput name="email" type="email" formControlName="email" />
+    </igx-input-group>
+
+    <igx-input-group>
+        <label igxLabel for="password">Password</label>
+        <input igxInput name="password" type="password" formControlName="password" />
+    </igx-input-group>
+
+    <button igxButton="contained" igxRipple type="submit">Submit</button>
+</form>
+```
+
+템플릿 기반 폼 샘플과 마찬가지로, `email`과 `minlength` 같은 추가 검증이 있을 때 검증이 실패하면 최종 사용자에게 알리기 위해 <ApiLink type="HintDirective" label="igx-hint" /> 디렉티브를 사용할 수 있습니다.
+
+다음 예는 `get` 메서드를 통해 컨트롤에 접근하여 그 상태를 검사하는 방법을 보여 줍니다. 또한 `FormGroup`의 상태를 검사하여 제출 버튼을 활성화하거나 비활성화하는 방법도 보여 줍니다.
+
+```ts
+public get email() {
+    return this.registrationForm.get('email');
+}
+
+public get password() {
+    return this.registrationForm.get('password');
+}
+```
+
+```html
+<form [formGroup]="registrationForm">
+    ...
+    <igx-input-group>
+        <label igxLabel for="email">Email</label>
+        <input igxInput name="email" type="email" formControlName="email" />
+        @if (email.errors?.email) {
+            <igx-hint>Please enter a valid email</igx-hint>
+        }
+    </igx-input-group>
+
+    <igx-input-group>
+        <label igxLabel for="password">Password</label>
+        <input igxInput name="password" type="password" formControlName="password" />
+        @if (password.errors?.minlength) {
+            <igx-hint>Password should be at least 8 characters</igx-hint>
+        }
+    </igx-input-group>
+
+    <button igxButton="contained" igxRipple type="submit" [disabled]="!registrationForm.valid">Submit</button>
+</form>
+```
+
+위 구성의 결과는 아래 샘플에서 볼 수 있습니다. 템플릿 기반 폼 샘플과 마찬가지로, <ApiLink type="Icon" label="igx-icon" />과 [`igx-suffix`](#접두사--접미사) 디렉티브를 사용하여 비밀번호의 표시 여부를 전환하는 방법도 보여 줍니다.
+
+<Sample src="/data-entries/reactive-form-validation" height={480} alt="" />
+
+### 사용자 지정 검증자
+
+일부 입력 필드는 사용자 지정 검증이 필요할 수 있으며, 이는 사용자 지정 검증자를 통해 달성할 수 있습니다. 값이 유효하지 않으면 검증자는 특정 오류 메시지를 표시하는 데 사용할 수 있는 일련의 오류를 생성합니다.
+
+아래는 입력한 이메일 주소에 미리 정의된 값이 포함되어 있는지 검증하고, 그 값이 나타나는 위치에 따라 서로 다른 오류를 생성하는 간단한 사용자 지정 반응형 폼 검증자의 예입니다.
+
+```ts
+public registrationForm: FormGroup<User>;
+
+constructor(fb: FormBuilder) {
+    this.registrationForm = fb.group({
+        email: ['', {
+            nonNullable: true,
+            validators: [
+                Validators.required,
+                Validators.email,
+                this.emailValidator('infragistics')
+            ]
+        }],
+        ...
+    });
+}
+
+private emailValidator(val: string): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+        const value = control.value?.toLowerCase();
+        const localPartRegex = new RegExp(`(?<=(${val})).*[@]`);
+        const domainRegex = new RegExp(`(?<=[@])(?=.*(${val}))`);
+        const returnObj: ValidatorErrors = {};
+
+        if (value && localPartRegex.test(value)) {
+            returnObj.localPart = true;
+        }
+        if (value && domainRegex.test(value)) {
+            returnObj.domain = true;
+        }
+
+        return returnObj;
+    }
+}
+```
+
+### 교차 필드 검증
+
+어떤 시나리오에서는 한 컨트롤의 검증이 다른 컨트롤의 값에 의존할 수 있습니다. 두 컨트롤을 단일 사용자 지정 검증자에서 평가하려면, 검증은 공통 상위 컨트롤, 즉 `FormGroup`에서 수행해야 합니다. 검증자는 `FormGroup`의 `get` 메서드를 호출하여 하위 컨트롤을 가져오고 값을 비교하며, 검증이 실패하면 `FormGroup`에 대한 오류 집합을 생성합니다.
+
+이 방식은 폼의 상태만 유효하지 않음으로 설정합니다. 컨트롤의 상태를 설정하려면 [`setErrors`](https://angular.io/api/forms/AbstractControl#seterrors) 메서드를 사용하여 생성된 오류를 수동으로 추가할 수 있습니다. 그런 다음 검증이 성공하면, 제공된 값에 대해 컨트롤의 검증을 다시 실행하는 [`setValue`](https://angular.io/api/forms/AbstractControl#setvalue) 메서드를 사용하여 오류를 제거할 수 있습니다.
+
+아래 예는 Password에 Email 주소가 포함되면 안 되고, Repeat password는 Password와 일치해야 하는 교차 필드 검증을 보여 줍니다.
+
+```ts
+private passwordValidator(): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+        const email = control.get('email');
+        const password = control.get('password');
+        const repeatPassword = control.get('repeatPassword');
+        const returnObj: ValidatorErrors = {};
+
+        if (email.value
+            && password.value
+            && password.value.toLowerCase().includes(email.value)) {
+            password.setErrors({ ...password.errors, containsEmail: true });
+            returnObj.containsEmail = true;
+        }
+
+        if (password
+            && repeatPassword
+            && password.value !== repeatPassword.value) {
+            repeatPassword.setErrors({ ...repeatPassword.errors, mismatch: true });
+            returnObj.mismatch = true;
+        }
+
+        if (!returnObj.containsEmail && password.errors?.containsEmail) {
+            password.setValue(password.value);
+        }
+
+        if (!returnObj.mismatch && repeatPassword.errors?.mismatch) {
+            repeatPassword.setValue(repeatPassword.value);
+        }
+
+        return returnObj;
+    }
+}
+```
+
+`FormGroup`에 사용자 지정 검증자를 추가하려면, 폼을 만들 때 두 번째 인수로 전달해야 합니다.
+
+```ts
+public registrationForm: FormGroup<User>;
+
+constructor(fb: FormBuilder) {
+    this.registrationForm = fb.group({
+        email: ['', {
+            nonNullable: true,
+            validators: [
+                Validators.required,
+                Validators.email,
+                this.emailValidator('infragistics')
+            ]
+        }],
+        ...
+    },
+    {
+        validators: [this.passwordValidator()]
+    });
+}
+```
+
+아래 샘플은 앞선 예제의 사용자 지정 `emailValidator`과 교차 필드 `passwordValidator`와 함께 내장 검증자를 어떻게 결합하여 사용할 수 있는지 보여 줍니다.
+
+<Sample src="/data-entries/reactive-form-custom-validation" height={480} alt="" />
+
+## 스타일링
+
+### Input Group 테마 속성 매핑
+
+기본 속성을 수정하면 관련된 모든 종속 속성이 자동으로 업데이트됩니다:
+
+<div class="theme-switcher-wrapper">
+
+  {/*Theme Switcher Radios and Labels*/}
+  <input type="radio" name="theme" id="material" checked/>
+  <label for="material" class="switch-label">Material</label>
+  <input type="radio" name="theme" id="fluent"/>
+  <label for="fluent" class="switch-label">Fluent</label>
+  <input type="radio" name="theme" id="bootstrap"/>
+  <label for="bootstrap" class="switch-label">Bootstrap</label>
+  <input type="radio" name="theme" id="indigo"/>
+  <label for="indigo" class="switch-label">Indigo</label>
+
+  <div class="tables">
+
+    {/* Material Theme Table */}
+    <div class="theme-table material">
+
+        | 기본 속성 | 종속 속성 | 설명 |
+| --- | --- | --- |
+| **$box-background** | $box-background-hover | 입력 상자의 마우스 오버 배경 |
+|  | $box-background-focus | 입력 상자의 포커스 배경 |
+|  | $box-disabled-background | 비활성화 상태 배경 |
+|  | $placeholder-color | 플레이스홀더 텍스트 색상 |
+|  | $hover-placeholder-color | 플레이스홀더 텍스트의 마우스 오버 색상 |
+|  | $idle-text-color | 기본 텍스트 색상 |
+|  | $filled-text-color | 입력이 채워졌을 때의 텍스트 색상 |
+|  | $filled-text-hover-color | 마우스 오버 시 채워진 상태의 입력 텍스트 색상 |
+|  | $focused-text-color | 입력에 포커스가 있을 때의 텍스트 색상 |
+|  | $idle-secondary-color | 유휴 상태일 때의 보조 텍스트 색상 |
+|  | $input-prefix-color | 입력 상자 안 접두사의 텍스트 색상 |
+|  | $input-prefix-color--filled | 채워진 접두사의 텍스트 색상 |
+|  | $input-prefix-color--focused | 포커스된 접두사의 텍스트 색상 |
+|  | $input-suffix-color | 입력 상자 안 접미사의 텍스트 색상 |
+|  | $input-suffix-color--filled | 채워진 접미사의 텍스트 색상 |
+|  | $input-suffix-color--focused | 포커스된 접미사의 텍스트 색상 |
+|  | $disabled-placeholder-color | 입력이 비활성화되었을 때의 플레이스홀더 색상 |
+|  | $disabled-text-color | 입력이 비활성화되었을 때의 텍스트 색상 |
+| **$idle-bottom-line-color** | $hover-bottom-line-color | 입력 아래 하단 선의 마우스 오버 색상 |
+|  | $focused-bottom-line-color | 하단 선의 포커스 색상 |
+|  | $focused-secondary-color | 포커스 상태의 레이블 색상 |
+|  | $border-color | 테두리 유형 입력 그룹의 테두리 색상 |
+|  | $focused-border-color | 테두리 유형 입력 그룹의 포커스된 입력 테두리 색상 |
+| **$border-color**| $hover-border-color | 입력 테두리의 마우스 오버 색상 |
+|  | $focused-border-color | 입력에 포커스가 있을 때의 테두리 색상 |
+|  | $focused-secondary-color | 포커스 상태의 레이블 색상 |
+| **$input-prefix-background** | $input-prefix-color | 입력 상자 안 접두사의 텍스트 색상 |
+|  | $input-prefix-background--filled | 채워진 상태일 때 입력 접두사의 배경색 |
+|  | $input-prefix-background--focused | 포커스 상태일 때 입력 접두사의 배경색 |
+| **$input-suffix-background**| $input-suffix-color | 입력 상자 안 접미사의 텍스트 색상 |
+|  | $input-suffix-background--filled | 채워진 상태일 때 입력 접미사의 배경색 |
+|  | $input-suffix-background--focused | 포커스 상태일 때 입력 접미사의 배경색 |
+| **$search-background** | $placeholder-color | 검색 입력 안의 플레이스홀더 텍스트 색상 |
+|  | $hover-placeholder-color | 플레이스홀더 텍스트의 마우스 오버 색상 |
+|  | $idle-text-color | 검색 입력의 텍스트 색상 |
+|  | $idle-secondary-color | 유휴 상태일 때의 보조 텍스트 색상 |
+|  | $filled-text-color | 검색 입력이 채워졌을 때의 텍스트 색상 |
+|  | $filled-text-hover-color | 검색 입력이 채워졌을 때 마우스 오버 텍스트 색상 |
+|  | $focused-text-color | 검색 입력에 포커스가 있을 때의 텍스트 색상 |
+|  | $input-prefix-color | 검색 안 접두사 색상 |
+|  | $input-suffix-color | 검색 안 접미사 색상 |
+|  | $input-prefix-color--filled | 입력이 채워졌을 때의 접두사 색상 |
+|  | $input-suffix-color--filled | 입력이 채워졌을 때의 접미사 색상 |
+|  | $input-prefix-color--focused | 입력에 포커스가 있을 때의 접두사 색상 |
+|  | $input-suffix-color--focused | 입력에 포커스가 있을 때의 접미사 색상 |
+|  | $search-disabled-background | 검색 입력이 비활성화되었을 때의 배경 |
+|  | $disabled-placeholder-color | 비활성화되었을 때의 플레이스홀더 색상 |
+|  | $disabled-text-color | 비활성화되었을 때의 텍스트 색상 |
+
+</div>
+    {/* Fluent Theme Table */}
+    <div class="theme-table fluent">
+
+      | 기본 속성 | 종속 속성 | 설명 |
+| --- | --- | --- |
+| **$border-color** | $hover-border-color | 입력 테두리의 마우스 오버 색상 |
+|  | $focused-border-color | 입력에 포커스가 있을 때의 테두리 색상 |
+|  | $focused-secondary-color | 포커스 상태의 레이블 색상 |
+|**$input-prefix-background** | $input-suffix-background | 유휴 상태일 때 입력 접미사의 배경색 |
+|  | $input-prefix-color | 입력 상자 안 접두사의 텍스트 색상 |
+|  | $input-prefix-color--filled | 채워진 접두사의 텍스트 색상 |
+| **$input-suffix-background** | $input-prefix-background | 유휴 상태일 때 입력 접두사의 배경색 |
+|  | $input-suffix-color | 입력 상자 안 접미사의 텍스트 색상 |
+|  | $input-suffix-color--filled | 채워진 접미사의 텍스트 색상 |
+|**$search-background** | $placeholder-color | 검색 입력 안의 플레이스홀더 텍스트 색상 |
+|  | $hover-placeholder-color | 플레이스홀더 텍스트의 마우스 오버 색상 |
+|  | $idle-secondary-color | 유휴 상태일 때의 보조 텍스트 색상 |
+|  | $idle-text-color | 검색 입력의 텍스트 색상 |
+|  | $filled-text-color | 검색 입력이 채워졌을 때의 텍스트 색상 |
+|  | $filled-text-hover-color | 검색 입력이 채워졌을 때 마우스 오버 텍스트 색상 |
+|  | $focused-text-color | 검색 입력에 포커스가 있을 때의 텍스트 색상 |
+|  | $input-prefix-color | 검색 안 접두사 색상 |
+|  | $input-suffix-color | 검색 안 접미사 색상 |
+|  | $input-prefix-color--filled | 입력이 채워졌을 때의 접두사 색상 |
+|  | $input-suffix-color--filled | 입력이 채워졌을 때의 접미사 색상 |
+|  | $input-prefix-color--focused | 입력에 포커스가 있을 때의 접두사 색상 |
+|  | $input-suffix-color--focused | 입력에 포커스가 있을 때의 접미사 색상 |
+|  | $search-disabled-background | 검색 입력이 비활성화되었을 때의 배경 |
+|  | $disabled-placeholder-color | 비활성화되었을 때의 플레이스홀더 색상 |
+|  | $disabled-text-color | 비활성화되었을 때의 텍스트 색상 |
+
+</div>
+    {/* Bootstrap Theme Table */}
+    <div class="theme-table bootstrap">
+
+      | 기본 속성 | 종속 속성 | 설명 |
+| --- | --- | --- |
+| **$border-color** | $focused-border-color | 입력에 포커스가 있을 때의 테두리 색상 |
+|  | $focused-secondary-color | 포커스 상태의 레이블 색상 |
+| **$input-prefix-background** | $input-suffix-background | 유휴 상태일 때 입력 접미사의 배경색 |
+|  | $input-prefix-color | 입력 상자 안 접두사의 텍스트 색상 |
+|  | $input-prefix-color--filled | 채워진 접두사의 텍스트 색상 |
+| **$input-suffix-background**| $input-prefix-background | 유휴 상태일 때 입력 접두사의 배경색 |
+|  | $input-suffix-color | 입력 상자 안 접미사의 텍스트 색상 |
+|  | $input-suffix-color--filled | 채워진 접미사의 텍스트 색상 |
+| **$search-background** | $placeholder-color | 검색 입력 안의 플레이스홀더 텍스트 색상 |
+|  | $hover-placeholder-color | 플레이스홀더 텍스트의 마우스 오버 색상 |
+|  | $idle-secondary-color | 유휴 상태일 때의 보조 텍스트 색상 |
+|  | $idle-text-color | 검색 입력의 텍스트 색상 |
+|  | $filled-text-color | 검색 입력이 채워졌을 때의 텍스트 색상 |
+|  | $filled-text-hover-color | 검색 입력이 채워졌을 때 마우스 오버 텍스트 색상 |
+|  | $focused-text-color | 검색 입력에 포커스가 있을 때의 텍스트 색상 |
+|  | $input-prefix-color | 검색 안 접두사 색상 |
+|  | $input-suffix-color | 검색 안 접미사 색상 |
+|  | $input-prefix-color--filled | 입력이 채워졌을 때의 접두사 색상 |
+|  | $input-suffix-color--filled | 입력이 채워졌을 때의 접미사 색상 |
+|  | $input-prefix-color--focused | 입력에 포커스가 있을 때의 접두사 색상 |
+|  | $input-suffix-color--focused | 입력에 포커스가 있을 때의 접미사 색상 |
+|  | $search-disabled-background | 검색 입력이 비활성화되었을 때의 배경 |
+|  | $disabled-placeholder-color | 비활성화되었을 때의 플레이스홀더 색상 |
+|  | $disabled-text-color | 비활성화되었을 때의 텍스트 색상 |
+
+</div>
+    {/* Indigo Theme Table */}
+    <div class="theme-table indigo">
+
+      | 기본 속성 | 종속 속성 | 설명 |
+| --- | --- | --- |
+| **$idle-bottom-line-color** | $hover-bottom-line-color | 입력 아래 하단 선의 마우스 오버 색상 |
+|  | $focused-bottom-line-color | 하단 선의 포커스 색상 |
+| **$border-color** | $hover-border-color | 입력 테두리의 마우스 오버 색상 |
+|  | $focused-border-color | 입력에 포커스가 있을 때의 테두리 색상 |
+| **$input-prefix-background** | $input-prefix-color | 입력 상자 안 접두사의 텍스트 색상 |
+|  | $input-prefix-background--filled | 채워진 상태일 때 입력 접두사의 배경색 |
+|  | $input-prefix-background--focused | 포커스 상태일 때 입력 접두사의 배경색 |
+|**$input-suffix-background** | $input-suffix-color | 입력 상자 안 접미사의 텍스트 색상 |
+|  | $input-suffix-background--filled | 채워진 상태일 때 입력 접미사의 배경색 |
+|  | $input-suffix-background--focused | 포커스 상태일 때 입력 접미사의 배경색 |
+| **$search-background** | $placeholder-color | 검색 입력 안의 플레이스홀더 텍스트 색상 |
+|  | $hover-placeholder-color | 플레이스홀더 텍스트의 마우스 오버 색상 |
+|  | $box-background-hover | 검색 입력의 마우스 오버 배경 |
+|  | $idle-text-color | 검색 입력의 텍스트 색상 |
+|  | $filled-text-color | 검색 입력이 채워졌을 때의 텍스트 색상 |
+|  | $filled-text-hover-color | 검색 입력이 채워졌을 때 마우스 오버 텍스트 색상 |
+|  | $focused-text-color | 검색 입력에 포커스가 있을 때의 텍스트 색상 |
+|  | $input-prefix-color | 검색 안 접두사 색상 |
+|  | $input-suffix-color | 검색 안 접미사 색상 |
+|  | $search-disabled-background | 검색 입력이 비활성화되었을 때의 배경 |
+|  | $disabled-placeholder-color | 비활성화되었을 때의 플레이스홀더 색상 |
+|  | $disabled-text-color | 비활성화되었을 때의 텍스트 색상 |
+
+</div>
+  
+</div>
+</div>
+
+입력 그룹 스타일링을 시작하려면 가장 먼저 스타일 파일에 `index` 파일을 포함해야 합니다:
+
+```scss
+@use "igniteui-angular/theming" as *;
+
+// IMPORTANT: Prior to Ignite UI for Angular version 13 use:
+// @import '~igniteui-angular/lib/core/styles/themes/index';
+```
+
+입력 그룹의 모양을 사용자 지정하려면 <ApiLink kind="sass" module="themes" type="function-input-group-theme" label="input-group-theme" code={true} />을(를) 확장하여 새 테마를 만들 수 있습니다. 이 방식을 사용하면 바꾸고 싶은 매개변수만 재정의할 수 있으며, 나머지는 기본 테마가 자동으로 처리합니다.
+
+테두리나 배경 색상 같은 핵심 매개변수 몇 개만 지정해도, 상태 기반 스타일(마우스 오버, 포커스 등)이 일관되게 적용된 완전히 스타일이 지정된 입력 그룹을 얻을 수 있습니다.
+
+간단한 예는 다음과 같습니다:
+
+```scss
+$custom-input-group: input-group-theme(
+    $box-background: #57a5cd,
+    $border-color: #57a5cd,
+);
+```
+
+마지막 단계는 새로 만든 테마를 포함하는 것입니다:
+
+```scss
+:host {
+  @include tokens($custom-input-group);
+}
+```
+
+아래 샘플에서는 사용자 지정 CSS 변수를 사용하는 입력 그룹으로 [`Carbon`](https://carbondesignsystem.com/components/text-input/usage/#live-demo) 디자인 시스템에서 사용되는 디자인과 시각적으로 비슷한 디자인을 만드는 방법을 볼 수 있습니다.
+
+<Sample src="/data-entries/input-group-style" height={230} alt="" />
+
+<DocsAside type="info">
+이 샘플은 [Indigo Light](/themes/sass/schemas#사전-정의된-스키마) 스키마를 사용합니다.
+</DocsAside>
+
+<DocsAside type="info">
+페이지에 `box`, `border`, `line`, `search` 같은 여러 유형의 입력 그룹이 포함되어 있다면, 테마 변수는 특정 입력 그룹 유형에 한정하는 것이 가장 좋습니다.
+</DocsAside>
+<br/>예를 들어:<br/>
+상자 스타일 입력의 스타일을 지정할 때는 `.igx-input-group--box`을(를) 사용하십시오.
+검색 입력을 대상으로 할 때는 `.igx-input-group--search`을(를) 사용하십시오.
+이렇게 하면 서로 다른 입력 유형 간의 스타일 충돌을 막는 데 도움이 됩니다.
+예를 들어 어두운 `$box-background`을(를) 전역으로 설정하면 테두리 또는 선 입력의 테두리가 보이지 않게 될 수 있습니다(보통 흰색으로 나타남).
+
+<hr/>
+
+### Tailwind로 스타일링하기
+
+사용자 지정 Tailwind 유틸리티 클래스를 사용하여 입력 그룹의 스타일을 지정할 수 있습니다. 먼저 [Tailwind를 설정](/themes/tailwind)했는지 확인하십시오.
+
+전역 스타일시트에 Tailwind를 가져온 다음, 다음과 같이 원하는 테마 유틸리티를 적용할 수 있습니다:
+
+```scss
+@import "tailwindcss";
+...
+@use 'igniteui-theming/tailwind/utilities/material.css';
+```
+
+유틸리티 파일에는 `light` 및 `dark` 테마 변형이 모두 포함되어 있습니다.
+
+- 밝은 테마에는 `light-*` 클래스를 사용하십시오.
+- 어두운 테마에는 `dark-*` 클래스를 사용하십시오.
+- 접두사 뒤에 컴포넌트 이름을 붙이십시오. 예: `light-input-group`, `dark-input-group`.
+
+적용하면 이 클래스는 동적 테마 계산을 가능하게 합니다. 그런 다음 `arbitrary properties`을 사용하여 생성된 CSS 변수를 재정의할 수 있습니다. 콜론 뒤에는 유효한 CSS 색상 형식(HEX, CSS 변수, RGB 등)을 입력하십시오.
+
+속성의 전체 목록은 <ApiLink kind="sass" module="themes" type="function-input-group-theme" label="input-group-theme" />에서 확인할 수 있습니다. 구문은 다음과 같습니다:
+
+```html
+<article class="sample-column">
+    <igx-input-group class="!light-input-group ![--box-background:#A3C7B2] ![--focused-secondary-color:#3A5444]" type="box">
+        <igx-prefix>+359</igx-prefix>
+        <label igxLabel for="phone">Phone</label>
+        <input type="tel" igxInput name="phone" />
+        <igx-suffix>
+            <igx-icon>phone</igx-icon>
+        </igx-suffix>
+        <igx-hint position="start">Ex.: +359 888 123 456</igx-hint>
+    </igx-input-group>
+
+    <igx-input-group class="!light-input-group ![--border-color:#7B9E89]" type="border">
+        ...
+    </igx-input-group>
+
+    <igx-input-group class="!light-input-group ![--search-background:#A3C7B2] ![--focused-secondary-color:#3A5444]" type="search">
+        ...
+    </igx-input-group>
+</article>
+```
+
+<DocsAside type="info">
+유틸리티 클래스가 우선 적용되도록 느낌표(`!`)가 필요합니다. Tailwind는 스타일을 계층으로 적용하므로, 이 스타일을 중요(important)로 표시하지 않으면 컴포넌트의 기본 테마에 의해 재정의됩니다.
+</DocsAside>
+
+최종적으로 입력은 다음과 같이 보여야 합니다:
+
+<Sample src="/data-entries/input-group-tailwind-style" height={350} iframeOnly />
+
+## API 참조
+<hr/>
+- <ApiLink type="InputDirective" />
+- <ApiLink type="HintDirective" />
+- IgxInputGroup 유형
+- <ApiLink type="InputGroup" />
+- <ApiLink kind="sass" module="themes" type="function-input-group-theme" label="IgxInputGroupComponent 스타일" />
+## 테마 종속성
+
+- <ApiLink kind="sass" module="themes" type="function-button-theme" label="IgxButton 테마" />
+- <ApiLink kind="sass" module="themes" type="function-icon-theme" label="IgxIcon 테마" />
+
+## 추가 리소스
+
+<hr/>
+
+관련 항목:
+
+- [Label & Input](/label-input)
+- [Reactive Forms Integration](/angular-reactive-form-validation)
+
+커뮤니티는 활발하며 새로운 아이디어를 언제나 환영합니다.
+
+- [Ignite UI for Angular **포럼**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

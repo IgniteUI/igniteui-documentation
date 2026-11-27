@@ -1,0 +1,251 @@
+---
+title: "{Platform} Data Grid | Edição de células e linhas com atualização em lote | Infragistics"
+description: "Use o componente de grade {Platform} da Infragistics, que oferece suporte ao recurso de edição de células e linhas, e que também pode ser configurado para atualizar em lote todas as células da grade em qualquer momento. Saiba como o {ProductName} pode ajudar você a exibir melhor os seus dados!"
+keywords: "{Platform} Table, Data Grid, edição de células e linhas, {ProductName}, atualização em lote, Infragistics"
+license: commercial
+mentionedTypes: ["DataGrid", "EditModeType", "TransactionType", "GridDataCommittingEventArgs"]
+namespace: Infragistics.Controls.Grids.Implementation
+_canonicalLink: "{CanonicalLinkToGridCellEditing}"
+_language: pt-BR
+llms:
+  description: "A {ProductName} Data Table / Data Grid oferece suporte à edição de células e linhas com atualização em lote."
+platformType: xplat
+---
+
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+
+# Edição na grade {Platform}
+
+A {ProductName} Data Table / Data Grid oferece suporte à edição de células e linhas com atualização em lote. Observe que, por enquanto, isso se limita a colunas sem template.
+
+## Exemplo de edição da grade {Platform}
+
+
+<Sample src="/grids/data-grid/cell-editing" height={600} alt="Exemplo de edição da grade {Platform}" />
+
+
+
+<div class="divider--half"></div>
+
+## Visão geral
+
+A edição no data grid {Platform} é configurada usando a opção `EditMode` da grade {Platform}. Essa propriedade aceita três opções diferentes, listadas abaixo:
+
+- `None`: a edição não está habilitada.
+- `Cell`: permite que as células entrem em modo de edição e confirma o valor ao sair do modo de edição.
+- `CellBatch`: permite que as células entrem em modo de edição, mas as alterações ficam em cache até serem confirmadas.
+- `Row`: permite que as linhas entrem em modo de edição e confirma o valor ao sair.
+
+Quando definido como `CellBatch`, para confirmar as alterações é preciso executar o método `m:commitEdits` da grade. A grade deixará as células em itálico até que sejam confirmadas, dando controle sobre quando as alterações são enviadas de volta à fonte de dados.
+
+Além disso, o tratamento de erros pode ser feito conectando-se ao evento `CellValueChanging` e inspecionando os novos valores antes de serem confirmados. A grade expõe um método `m:setEditError` que pode exibir uma mensagem de erro. Isso mantém a célula em modo de edição até que um valor válido seja informado. Caso contrário, o método `m:rejectEdit` da grade pode ser executado para reverter o valor inválido. Se nenhum valor inválido for encontrado, você também pode confirmar as alterações chamando o método `m:acceptEdit` da grade.
+
+As confirmações podem ser aprovadas ou recusadas no nível da grade, conectando-se a `DataCommitting` por meio dos métodos `m:acceptCommit` ou `m:rejectCommit`, passando o argumento do evento `commitID` como parâmetro. Esse evento também expõe uma coleção `changes` que armazena todas as modificações antes de serem confirmadas. Por exemplo, você pode verificar se uma confirmação veio de uma operação de adição, atualização ou exclusão pela propriedade `TransactionType` exposta na coleção `changes` e executar um `m:acceptCommit` ou um `m:rejectCommit` quando necessário.
+
+## Edição estilo Excel
+
+`EditOnKeyPress` permite que você comece a editar imediatamente ao digitar, de forma semelhante ao comportamento do Excel. Além disso, você pode definir a propriedade `EditModeClickAction` como `SingleClick` para permitir que os usuários editem células rapidamente enquanto navegam para outras células. Por padrão, é necessário clicar duas vezes para entrar no modo de edição.
+
+## Trecho de código
+
+A seguir, mostra-se como configurar a edição no data grid e confirmar os dados.
+
+```json-snippet source="/grids/data-grid/cell-editing"
+{
+    "skipAlterDataCasing": true,
+    "descriptions": {
+        "content": {
+            "type": "DataGrid",
+            "name": "grid",
+            "dataSourceRef": "EmployeesSalesData",
+            "activationMode": "Cell",
+            "editMode": "CellBatch",
+            "height": "100%",
+            "width": "100%",
+            "$setInCode": {
+                "dataSourceRef": [
+                    "webComponents"
+                ]
+            }
+        }
+    }
+}
+```
+
+<PlatformBlock for="React, WebComponents, Blazor">
+E o controle que confirma o lote:
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<button onClick={this.onCommitClick}>Commit Data</button>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```html
+<button id="clickCommit">Commit</button>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<button @onclick="OnCommitClick">Commit Data</button>
+
+@code {
+    public IgbDataGrid DataGridRef;
+
+    private void OnCommitClick(MouseEventArgs e)
+    {
+        this.DataGridRef.CommitEdits();
+    }
+}
+```
+
+</PlatformBlock>
+
+## Desfazer/refazer alterações em lote
+
+A seguir, mostra-se como reverter alterações enquanto a atualização em lote está habilitada.
+
+```json-snippet source="/grids/data-grid/cell-editing"
+{
+    "skipAlterDataCasing": true,
+    "descriptions": {
+        "content": {
+            "type": "DataGrid",
+            "name": "grid",
+            "dataSourceRef": "EmployeesSalesData",
+            "activationMode": "Cell",
+            "editMode": "CellBatch",
+            "height": "100%",
+            "width": "100%",
+            "$setInCode": {
+                "dataSourceRef": [
+                    "webComponents"
+                ]
+            }
+        }
+    }
+}
+```
+
+<PlatformBlock for="React, WebComponents, Blazor">
+E os controles que as desfazem e refazem:
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<button disabled={!this.canUndo} onClick={this.onUndoClick}>Undo</button>
+<button disabled={!this.canRedo} onClick={this.onRedoClick}>Redo</button>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```html
+<button id="undoClick" disabled="true">Undo</button>
+<button id="redoClick" disabled="true">Redo</button>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<button @onclick="OnUndoClick">Undo</button>
+<button @onclick="OnRedoClick">Redo</button>
+
+@code {
+    public IgbDataGrid DataGridRef;
+
+    private void OnUndoClick(MouseEventArgs e)
+    {
+        this.DataGridRef.Undo();
+    }
+
+    private void OnRedoClick(MouseEventArgs e)
+    {
+        this.DataGridRef.Redo();
+    }
+}
+```
+
+</PlatformBlock>
+
+## Validação de erros e integridade das confirmações
+
+A seguir, mostra-se como incorporar tratamento de erros verificando se as células estão vazias ao sair do modo de edição e aceitando apenas confirmações de células atualizadas.
+
+```json-snippet source="/grids/data-grid/cell-editing"
+{
+    "skipAlterDataCasing": true,
+    "descriptions": {
+        "content": {
+            "type": "DataGrid",
+            "name": "grid",
+            "dataSourceRef": "EmployeesSalesData",
+            "activationMode": "Cell",
+            "editMode": "CellBatch",
+            "cellValueChangingRef": "DataGridValidateCellEdit",
+            "dataCommittingRef": "DataGridCommitUpdatesOnly",
+            "height": "100%",
+            "width": "100%",
+            "$setInCode": {
+                "dataSourceRef": [
+                    "webComponents"
+                ]
+            }
+        }
+    }
+}
+```
+
+
+E os handlers que ela cita:
+
+
+```json-snippet source="/grids/data-grid/cell-editing" channel="handlersImports...handler"
+{
+    "skipAlterDataCasing": true,
+    "$styleOptions": { "omitHandlerSignature": false },
+    "descriptions": {
+        "content": {
+            "type": "DataGrid",
+            "name": "grid",
+            "dataSourceRef": "EmployeesSalesData",
+            "activationMode": "Cell",
+            "editMode": "CellBatch",
+            "cellValueChangingRef": "DataGridValidateCellEdit",
+            "dataCommittingRef": "DataGridCommitUpdatesOnly",
+            "height": "100%",
+            "width": "100%",
+            "$setInCode": {
+                "dataSourceRef": [
+                    "webComponents"
+                ]
+            },
+            "$cellValueChangingRef": "+doc:handler",
+            "$dataCommittingRef": "+doc:handler"
+        }
+    }
+}
+```
+
+
+
+## Referências da API
+
+- `CellBatch`
+- `EditModeClickAction`
+- `EditMode`
+- `SingleClick`
+- `TransactionType`

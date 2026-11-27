@@ -1,0 +1,236 @@
+---
+title: "Angular Excel처럼 동작하는 그리드 - Excel에서 붙여넣기 | Infragistics"
+description: "풍부하고 성능이 좋은 API를 사용하여 더 적은 코드로 Excel에서 데이터를 붙여넣도록 Angular 그리드를 구성하고, 풍부한 API로 선택한 그리드 데이터를 쉽게 내보내십시오."
+keywords: export selected, igniteui for angular, infragistics
+license: commercial
+_language: ko
+llms:
+  description: "Ignite UI for Angular 그리드는 클립보드에 복사된 Excel 데이터를 읽을 수 있습니다."
+---
+
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+
+# Angular 그리드 Excel에서 붙여넣기
+
+Ignite UI for Angular <ApiLink type="Grid" />은(는) 클립보드에 복사된 Excel 데이터를 읽을 수 있습니다. 이 섹션에서는 사용자 지정 코드로 이를 수행하는 방법을 보여 드립니다.
+
+## Angular Excel에서 붙여넣기 예제
+
+이 샘플은 Excel에서 `igxGrid` Material UI 테이블로 붙여넣기를 구현하는 방법을 보여 줍니다.
+샘플을 사용하려면 Excel 스프레드시트를 열고 행 몇 개를 복사한 다음, 키보드(Ctrl + V, Shift + Insert, Command + V)를 사용하여 그리드에 붙여넣으십시오.
+
+위쪽에는 옵션 2개가 있는 드롭다운 버튼이 있습니다:
+<ol>
+<li>"Paste data as new rows" – 이 모드에서는 Excel에서 복사한 모든 데이터가 새 행으로 그리드에 추가됩니다</li>
+<li>"Paste starting from active cell" – 이 모드에서는 그리드의 데이터가 덮어써집니다.</li>
+</ol>
+
+붙여넣기 후 새 데이터는 기울임꼴로 표시됩니다.
+
+
+<Sample src="/grid/grid-paste" height={570} alt="Angular Excel에서 붙여넣기 예제" />
+
+<igc-divider></igc-divider>
+
+## 사용법
+
+`igxGrid`에 `paste-handler` 디렉티브(코드는 다음 섹션에 있습니다)를 추가하고 그 `onDataProcessed` 이벤트를 처리해야 합니다. `onDataProcessed` 이벤트는 배열 형태로 Excel 데이터에 접근할 수 있게 해 주는 매개변수를 하나 가집니다. 참고는 `addRecords`와 `updateRecords` 메서드를 확인하십시오.
+
+```html
+<igx-grid #grid1 [data]="data" [width]="'100%'" [height]="'505px'" [autoGenerate]="false" paste-handler (onDataProcessed)="dataPasted($event)" [primaryKey]="'ID'">
+    <igx-column [field]="'Name'"></igx-column>
+    <igx-column [field]="'Title'"></igx-column>
+    <igx-column [field]="'Phone'"></igx-column>
+    <igx-column [field]="'Country'"></igx-column>
+</igx-grid>
+```
+
+```typescript
+    public dataPasted(processedData) {
+        if (this.pasteMode === "Paste data as new records") {
+            this.addRecords(processedData);
+        } else {
+            this.updateRecords(processedData);
+        }
+    }
+
+    public addRecords(processedData: any[]) {
+        const columns = this.grid1.visibleColumns;
+        const pk = this.grid1.primaryKey;
+        const addedData = [];
+        for (const curentDataRow of processedData) {
+            const rowData = {};
+            for (const col of columns) {
+                rowData[col.field] = curentDataRow[col.visibleIndex];
+            }
+            // generate PK
+            rowData[pk] = this.grid1.data.length + 1;
+            this.grid1.addRow(rowData);
+            addedData.push(rowData);
+            this.grid1.cdr.detectChanges();
+        }
+        // scroll to last added row
+        this.grid1.verticalScrollContainer.scrollTo(this.grid1.data.length);
+
+        this.grid1.verticalScrollContainer.chunkLoad.pipe(take(1)).subscribe(() => {
+            this.clearStyles();
+            for (const data of addedData) {
+                const row = this.grid1.getRowByKey(data[pk]);
+                if (row) {
+                    row.nativeElement.style["font-style"] = "italic";
+                    row.nativeElement.style.color = "gray";
+                }
+            }
+        });
+    }
+    public updateRecords(processedData: any[]) {
+        const cell = this.grid1.selectedCells[0];
+        const pk = this.grid1.primaryKey;
+        if (!cell) { return; }
+        const rowIndex = cell.row.index;
+        // const rowPkValue = cell.row.data[pk];
+        const cellIndex = cell.column.visibleIndex;
+        const columns = this.grid1.visibleColumns;
+        let index = 0;
+        const updatedRecsPK = [];
+        for (const curentDataRow of processedData) {
+            const rowData = {};
+            const dataRec = this.grid1.data[rowIndex + index];
+            const rowPkValue = dataRec ? dataRec[pk] : this.grid1.data.length + 1;
+            rowData[pk] = rowPkValue;
+            for (let j = 0; j < columns.length; j++) {
+                let currentCell;
+                if (j >= cellIndex) {
+                    currentCell = curentDataRow.shift();
+                }
+                const colKey = columns[j].field;
+                rowData[colKey] = currentCell || (!!dataRec ? dataRec[colKey] : null);
+            }
+            if (!dataRec) {
+                // no rec to update, add instead
+                rowData[pk] = rowPkValue;
+                this.grid1.addRow(rowData);
+                continue;
+            }
+            this.grid1.updateRow(rowData, rowPkValue);
+            this.grid1.cdr.detectChanges();
+            updatedRecsPK.push(rowPkValue);
+            index++;
+        }
+
+        this.clearStyles();
+        for (const pkVal of updatedRecsPK) {
+            const row = this.grid1.getRowByKey(pkVal);
+            if (row) {
+            row.nativeElement.style["font-style"] = "italic";
+            row.nativeElement.style.color = "gray";
+            }
+        }
+    }
+
+    protected clearStyles() {
+        for (const row of this.grid1.rowList.toArray()) {
+            row.nativeElement.style["font-style"] = "";
+            row.nativeElement.style.color = "";
+        }
+    }
+```
+
+<igc-divider></igc-divider>
+
+## 붙여넣기 처리 디렉티브
+
+이것은 `paste-handler`의 구현입니다. 이 코드는 클립보드에서 붙여넣은 데이터를 받는 DOM `textarea` 요소를 만듭니다. `textarea`에 데이터가 붙여넣어지면, 디렉티브는 이를 배열로 파싱한 다음 파싱된 데이터를 전달하며 사용자 지정 이벤트 `onDataProcessed`를 발생시킵니다.
+
+```typescript
+import { Directive, EventEmitter, HostListener, Output} from "@angular/core";
+
+@Directive({ selector: "[paste-handler]" })
+export class PasteHandler {
+    public textArea;
+
+    @Output()
+    public onDataProcessed = new EventEmitter<any>();
+
+    public ngOnInit(): void {
+        const div = document.createElement("div");
+        const divStyle = div.style;
+        divStyle.position = "fixed";
+        document.body.appendChild(div);
+        this.textArea = document.createElement("textarea");
+        const style = this.textArea.style;
+        style.opacity = "0";
+        style.height = "0px";
+        style.width = "0px";
+        style.overflow = "hidden";
+        div.appendChild(this.textArea);
+
+        this.textArea.addEventListener("paste", (eventArgs) => { this.onPaste(eventArgs); });
+    }
+
+    @HostListener("focusin", ["$event"])
+    public focusIn(eventArgs) {
+    }
+
+    @HostListener("keydown", ["$event"])
+    public ControlV(eventArgs) {
+        const ctrl = eventArgs.ctrlKey;
+        const key = eventArgs.keyCode;
+        // Ctrl-V || Shift-Ins || Cmd-V
+        if ((ctrl || eventArgs.metaKey) && key === 86 || eventArgs.shiftKey && key === 45) {
+            this.textArea.focus();
+        }
+    }
+
+    public onPaste(eventArgs) {
+    let data;
+    const clData = "clipboardData";
+
+    // get clipboard data - from window.cliboardData for IE or from the original event's arguments.
+    if (window[clData]) {
+        window.event.returnValue = false;
+        data = window[clData].getData("text");
+    } else {
+        data = eventArgs[clData].getData("text/plain");
+    }
+
+    // process the clipboard data
+    const processedData = this.processData(data);
+
+    this.onDataProcessed.emit(processedData);
+    }
+
+    public processData(data) {
+        const pasteData = data.split("\n");
+        for (let i = 0; i < pasteData.length; i++) {
+            pasteData[i] = pasteData[i].split("\t");
+            // Check if last row is a dummy row
+            if (pasteData[pasteData.length - 1].length === 1 && pasteData[pasteData.length - 1][0] === "") {
+                pasteData.pop();
+            }
+            // remove empty data
+            if (pasteData.length === 1 &&
+                 pasteData[0].length === 1 &&
+                  (pasteData[0][0] === "" || pasteData[0][0] === "\r")) {
+                    pasteData.pop();
+            }
+        }
+        return pasteData;
+    }
+}
+
+```
+
+## API 참조
+- <ApiLink type="Grid" />
+## 추가 리소스
+
+
+- [Excel Exporter](/grid/export-excel) - Excel Exporter 서비스를 사용하여 IgxGrid에서 데이터를 Excel로 내보내십시오. 또한 IgxGrid에서 선택한 데이터만 내보내는 옵션도 제공합니다. 내보내기 기능은 IgxExcelExporterService 클래스에 캡슐화되어 있으며, 데이터는 MS Excel 표 형식으로 내보내집니다. 이 형식은 필터링, 정렬 등의 기능을 지원합니다. 이를 위해서는 IgxExcelExporterService의 export 메서드를 호출하고 첫 번째 인수로 IgxGrid 컴포넌트를 전달해야 합니다.
+
+커뮤니티는 활발하며 새로운 아이디어를 언제나 환영합니다.
+
+- [Ignite UI for Angular **포럼**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

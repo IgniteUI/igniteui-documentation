@@ -1,0 +1,498 @@
+---
+title: "{Platform} Excel 라이브러리 | 셀 사용하기 | Infragistics"
+description: "Infragistics {Platform} Excel 라이브러리의 셀에 접근하고, 수식과 주석을 추가하고, 셀을 병합하고, 셀 서식을 지정하는 등의 작업을 수행하는 방법을 알아보십시오. {ProductName} Excel 데모를 확인하십시오!"
+keywords: "Excel 라이브러리, 셀 작업, {ProductName}, Infragistics"
+license: commercial
+mentionedTypes: ["Workbook", "Worksheet", "WorksheetCell", "WorkbookStyleCollection", "IWorksheetCellFormat", "WorkbookColorInfo", "DisplayOptions"]
+_language: ko
+llms:
+  description: "Excel 워크시트의 WorksheetCell 객체는 워크시트의 실제 데이터 값을 보관하는 객체입니다."
+platformType: xplat-unmapped
+---
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+# {Platform} 셀 사용하기
+
+Excel 워크시트의 <ApiLink type="WorksheetCell" /> 객체는 워크시트의 실제 데이터 값을 보관하는 객체입니다. 이 항목에서는 이름으로 셀과 영역에 접근하고, 셀에 수식과 주석을 추가하며, 셀을 병합하고 서식을 지정하는 등 이 셀들에 대해 수행할 수 있는 많은 작업을 다룹니다.
+
+## {Platform} 셀 사용하기 예제
+
+
+<Sample src="/excel/excel-library/working-with-cells" height={200} alt="{Platform} 셀 사용하기 예제" />
+
+
+
+
+<PlatformBlock for="Angular, React, WebComponents">
+
+
+## 참조
+
+다음 코드는 아래 코드 조각을 사용하는 데 필요한 import를 보여 줍니다:
+
+```ts
+import { Workbook } from "{PackageExcel}";
+import { WorkbookFormat } from "{PackageExcel}";
+import { Worksheet } from "{PackageExcel}";
+import { WorksheetTable } from "{PackageExcel}";
+import { NamedReference } from "{PackageExcel}";
+import { WorksheetCellComment } from "{PackageExcel}";
+import { FormattedString } from "{PackageExcel}";
+```
+
+</PlatformBlock>
+
+
+## 셀과 영역 참조하기
+
+<ApiLink type="Worksheet" /> 객체의 <ApiLink type="Worksheet" member="getCell" label="GetCell" /> 또는 <ApiLink type="Worksheet" member="getRegion" label="GetRegion" /> 메서드를 호출하여 각각 <ApiLink type="WorksheetCell" /> 객체 또는 <ApiLink type="WorksheetRegion" /> 객체에 접근할 수 있습니다. 두 메서드 모두 셀을 참조하는 문자열 매개변수를 받습니다. 서식을 적용하거나 수식과 셀 내용을 다룰 때 셀에 대한 참조를 얻는 것이 유용합니다.
+
+다음 예제 코드는 셀과 영역을 참조하는 방법을 보여 줍니다:
+
+```ts
+var workbook = new Workbook();
+var worksheet = workbook.worksheets().add("Sheet1");
+
+//Accessing a single cell
+var cell = worksheet.getCell("E2");
+//Accessing a range of cells
+var region = worksheet.getRegion("G1:G10");
+```
+
+<PlatformBlock for="Blazor">
+
+```razor
+var workbook = new Workbook();
+var worksheet = workbook.Worksheets.Add("Sheet1");
+
+//Accessing a single cell
+var cell = worksheet.GetCell("E2");
+//Accessing a range of cells
+var region = worksheet.GetRegion("G1:G10");
+```
+
+</PlatformBlock>
+
+## 이름으로 셀과 영역에 접근하기
+
+Microsoft Excel에서는 개별 셀뿐만 아니라 셀 영역에도 이름을 지정할 수 있습니다. 셀이나 영역의 이름을 주소 대신 사용하여 해당 셀이나 영역을 참조할 수 있습니다.
+
+Infragistics {Platform} Excel 라이브러리는 <ApiLink type="Worksheet" /> 객체의 <ApiLink type="Worksheet" member="getCell" label="GetCell" /> 및 <ApiLink type="Worksheet" member="getRegion" label="GetRegion" /> 메서드를 통해 이름으로 셀과 영역을 참조하는 것을 지원합니다. 해당 셀이나 영역을 참조하는 <ApiLink type="NamedReference" /> 인스턴스를 사용하여 셀 또는 영역을 참조합니다.
+
+셀이나 영역에 이름을 지정하는 예로 다음 코드 조각을 사용할 수 있습니다:
+
+```ts
+var workbook = new Workbook();
+var worksheet = workbook.worksheets().add("Sheet1");
+
+var cell_reference = workbook.namedReferences().add("myCell", "=Sheet1:A1");
+var region_reference = workbook.namedReferences().add("myRegion", "=Sheet1!A1:B2");
+```
+
+<PlatformBlock for="Blazor">
+
+```razor
+var workbook = new Workbook();
+var worksheet = workbook.Worksheets.Add("Sheet1");
+
+var cell_reference = workbook.NamedReferences.Add("myCell", "=Sheet1:A1");
+var region_reference = workbook.NamedReferences.Add("myRegion", "=Sheet1!A1:B2");
+```
+
+</PlatformBlock>
+
+위의 "myCell" 및 "myRegion" 이름 참조가 가리키는 셀과 영역을 가져오려면 다음 코드를 사용할 수 있습니다:
+
+```ts
+var cell = worksheet.getCell("myCell");
+var region = worksheet.getRegion("myRegion");
+```
+
+<PlatformBlock for="Blazor">
+
+```razor
+var cell = worksheet.GetCell("myCell");
+var region = worksheet.GetRegion("myRegion");
+```
+
+</PlatformBlock>
+
+## 셀에 주석 추가하기
+
+주석을 사용하면 최종 사용자의 마우스가 셀 위에 있을 때 셀에 대한 힌트나 메모를 표시할 수 있습니다. 주석은 텍스트를 포함하는 툴팁과 같은 콜아웃으로 표시됩니다. Infragistics {Platform} Excel 라이브러리에서는 <ApiLink type="WorksheetCell" /> 객체의 <ApiLink type="WorksheetCell" member="comment" label="Comment" /> 속성을 설정하여 셀에 주석을 추가할 수 있습니다.
+
+다음 예제 코드는 셀에 주석을 추가하는 방법을 보여 줍니다:
+
+```ts
+var workbook = new Workbook();
+var worksheet = workbook.worksheets().add("Sheet1");
+
+var cellComment = new WorksheetCellComment();
+var commentText = new FormattedString("This cell has a comment.");
+cellComment.text = commentText;
+
+worksheet.rows(0).cells(0).comment = cellComment;
+```
+
+<PlatformBlock for="Blazor">
+
+```razor
+var workbook = new Workbook();
+var worksheet = workbook.Worksheets.Add("Sheet1");
+
+var cellComment = new WorksheetCellComment();
+var commentText = new FormattedString("This cell has a comment!");
+cellComment.Text = commentText;
+
+worksheet.Rows[0].Cells[0].Comment = cellComment;
+```
+
+</PlatformBlock>
+
+## 셀에 수식 추가하기
+
+Infragistics {Platform} Excel 라이브러리를 사용하면 워크시트의 셀 또는 셀 그룹에 Microsoft Excel 수식을 추가할 수 있습니다. <ApiLink type="WorksheetCell" /> 객체의 <ApiLink type="WorksheetCell" member="applyFormula" label="ApplyFormula" /> 메서드를 사용하거나 <ApiLink type="Formula" /> 객체를 인스턴스화하여 셀에 적용하면 됩니다. 수식을 셀에 적용하는 방법과 관계없이, <ApiLink type="WorksheetCell" /> 객체의 <ApiLink type="WorksheetCell" member="formula" label="Formula" /> 속성을 사용하여 <ApiLink type="Formula" /> 객체에 접근할 수 있습니다. 값이 필요하다면 셀의 <ApiLink type="WorksheetCell" member="value" label="Value" /> 속성을 사용하십시오.
+
+다음 코드는 셀에 수식을 추가하는 방법을 보여 줍니다.
+
+```ts
+ var workbook = new Workbook();
+ var worksheet = workbook.worksheets().add("Sheet1");
+ worksheet.rows(5).cells(0).applyFormula("=SUM(A1:A5)");
+
+ //Using a Formula object to apply a formula
+ var sumFormula = Formula.parse("=SUM(A1:A5)", CellReferenceMode.A1);
+ sumFormula.applyTo(worksheet.rows(5).cells(0));
+```
+
+<PlatformBlock for="Blazor">
+
+```razor
+var workbook = new Workbook();
+var worksheet = workbook.Worksheets.Add("Sheet1");
+worksheet.Rows[5].Cells[0].ApplyFormula("=SUM(A1:A5)");
+
+//Using a Formula object to apply a formula
+var sumFormula = Formula.Parse("=SUM(A1:A5)", CellReferenceMode.A1);
+sumFormula.ApplyTo(worksheet.Rows[5].Cells[0]);
+```
+
+</PlatformBlock>
+
+## 셀 서식 복사하기
+셀은 배경색, 서식 문자열, 글꼴 스타일을 포함하여 서로 다른 서식을 가질 수 있습니다. 셀이 이전에 서식이 지정된 셀과 같은 서식을 가져야 하는 경우, <ApiLink type="WorksheetCell" /> 객체의 <ApiLink type="WorksheetCell" member="cellFormat" label="CellFormat" /> 속성을 통해 노출된 각 옵션을 개별적으로 설정하는 대신, <ApiLink type="IWorksheetCellFormat" /> 객체의 <ApiLink type="IWorksheetCellFormat" member="setFormatting" label="SetFormatting" /> 메서드를 호출하여 복사할 <ApiLink type="IWorksheetCellFormat" /> 객체를 전달할 수 있습니다. 그러면 첫 번째 셀의 모든 서식 설정이 두 번째 셀로 복사됩니다. 행, 병합된 셀 영역 또는 열에 대해서도 이를 수행할 수 있습니다.
+
+다음 코드는 두 번째 열의 서식을 네 번째 열로 복사하는 방법을 보여 줍니다:
+
+```ts
+var workbook = new Workbook();
+var worksheet = workbook.worksheets().add("Sheet1");
+
+//Format 2nd column
+worksheet.columns(1).cellFormat.fill = CellFill.createSolidFill("Blue");
+worksheet.columns(1).cellFormat.font.bold = true;
+
+//Copy format of 2nd column to 4th column
+worksheet.columns(3).cellFormat.setFormatting(worksheet.columns(1).cellFormat);
+```
+
+<PlatformBlock for="Blazor">
+
+```razor
+var workbook = new Workbook();
+var worksheet = workbook.Worksheets.Add("Sheet1");
+
+//Format 2nd column
+worksheet.Columns[1].CellFormat.Fill = CellFill.CreateSolidFill(CoreGraphics.Colors.Blue);
+worksheet.Columns[1].CellFormat.Font.Bold = ExcelDefaultableBoolean.True;
+
+//Copy format of 2nd column to 4th column
+worksheet.Columns[3].CellFormat.SetFormatting(worksheet.Columns[1].CellFormat);
+```
+
+</PlatformBlock>
+
+## 셀 서식 지정하기
+
+Infragistics {Platform} Excel 라이브러리를 사용하면 셀의 모양과 동작을 사용자 지정할 수 있습니다. <ApiLink type="WorksheetCell" />, <ApiLink type="WorksheetRow" />, <ApiLink type="WorksheetColumn" />, <ApiLink type="WorksheetMergedCellsRegion" /> 객체의 <ApiLink type="WorksheetCell" member="cellFormat" label="CellFormat" /> 속성을 통해 노출된 속성을 설정하여 셀을 사용자 지정할 수 있습니다.
+
+셀 모양의 모든 측면을 사용자 지정할 수 있습니다. 셀의 글꼴, 배경, 테두리와 텍스트 정렬 및 회전을 설정할 수 있습니다. 셀 텍스트의 문자마다 다른 서식을 적용할 수도 있습니다.
+
+서식 문자열을 할당하여 셀 값의 서식을 지정할 수도 있습니다. 허용되는 서식 문자열은 전통적인 서식 표준과 서식 코드를 따릅니다.
+
+다음 코드는 숫자를 통화로 표시하도록 셀의 서식을 지정하는 방법을 보여 줍니다:
+
+```ts
+var workbook = new Workbook(format);
+var worksheet = workbook.worksheets().add("Sheet1");
+
+worksheet.columns(2).cellFormat.formatString = "\"$\"#,##0.00";
+```
+
+<PlatformBlock for="Blazor">
+
+```razor
+var workbook = new Workbook();
+var worksheet = workbook.Worksheets.Add("Sheet1");
+
+worksheet.Columns[2].CellFormat.FormatString = "\"$\"#,##0.00";
+```
+
+</PlatformBlock>
+
+## Excel 2007 색상 모델
+
+색상 팔레트는 Microsoft Excel 2007 UI의 색상 대화 상자와 유사합니다. Excel 옵션 => 저장 => 색상으로 이동하여 이 색상 대화 상자를 열 수 있습니다.
+
+<ApiLink type="CellFill" /> 클래스의 정적 속성과 메서드를 사용하여 가능한 모든 채우기 유형을 만들 수 있습니다. 다음과 같습니다:
+
+- `NoColor` - 색상이 없는 채우기를 나타내는 속성으로, 워크시트에 배경 이미지가 있다면 그 이미지가 보이도록 합니다.
+
+- `CreateSolidFill` - 패턴 스타일이 `Solid`이고 배경색이 메서드에 지정된 <ApiLink type="WorkbookColorInfo" member="color" label="Color" /> 또는 <ApiLink type="WorkbookColorInfo" />로 설정된 <ApiLink type="CellFillPattern" /> 인스턴스를 반환합니다.
+
+- `CreatePatternFill` - 지정된 패턴 스타일과 배경 및 패턴 색상으로 지정된 <ApiLink type="WorkbookColorInfo" member="color" label="Color" /> 또는 <ApiLink type="WorkbookColorInfo" /> 값을 가진 <ApiLink type="CellFillPattern" /> 인스턴스를 반환합니다.
+
+- `CreateLinearGradientFill` - 지정된 각도와 그라데이션 정지점을 가진 <ApiLink type="CellFillLinearGradient" /> 인스턴스를 반환합니다.
+
+- `CreateRectangularGradientFill` - 내부 사각형의 지정된 왼쪽, 위, 오른쪽, 아래와 그라데이션 정지점을 가진 <ApiLink type="CellFillRectangularGradient" /> 인스턴스를 반환합니다. 내부 사각형 값이 지정되지 않으면 셀의 중앙이 내부 사각형으로 사용됩니다.
+
+만들 수 있는 다양한 채우기를 나타내는 파생 유형은 다음과 같습니다:
+
+- <ApiLink type="CellFillPattern" /> - 셀 채우기로 색상 없음, 단색 또는 패턴 채우기를 나타내는 패턴입니다. Excel의 셀 서식 대화 상자 채우기 탭의 색상 섹션에 직접 대응하는 배경색 정보와 패턴 색상 정보를 가집니다.
+
+- <ApiLink type="CellFillLinearGradient" /> - 선형 그라데이션 채우기를 나타냅니다. 왼쪽에서 오른쪽 선형 그라데이션의 시계 방향 각도인 각도와, 그라데이션 길이를 따라 두 개 이상의 색상 전환을 설명하는 그라데이션 정지점 컬렉션을 가집니다.
+
+- <ApiLink type="CellFillRectangularGradient" /> - 사각형 그라데이션 채우기를 나타냅니다. 그라데이션이 시작되어 셀 가장자리까지 나가는 내부 사각형을 상대 좌표로 설명하는 위, 왼쪽, 오른쪽, 아래 값을 가집니다. 또한 내부 사각형에서 셀 가장자리까지의 경로를 따라 두 개 이상의 색상 전환을 설명하는 그라데이션 정지점 컬렉션을 가집니다.
+
+다음 코드 조각은 <ApiLink type="WorksheetCell" />에서 단색 채우기를 만드는 방법을 보여 줍니다:
+
+```ts
+var workbook = new Workbook();
+var worksheet = workbook.worksheets().add("Sheet1");
+
+var cellFill = CellFill.createSolidFill("Blue");
+worksheet.rows(0).cells(0).cellFormat.fill = cellFill;
+```
+
+<PlatformBlock for="Blazor">
+
+```razor
+var workbook = new Workbook();
+var worksheet = workbook.Worksheets.Add("Sheet1");
+
+var cellFill = CellFill.CreateSolidFill(Core.Graphics.Colors.Blue);
+worksheet.Rows[0].Cells[0].CellFormat.Fill = cellFill;
+```
+
+</PlatformBlock>
+
+셀의 선형 및 사각형 그라데이션을 사용하여 색상(Excel 셀 배경, 테두리 등의 색상)을 지정할 수 있습니다. 이러한 그라데이션이 있는 통합 문서를 .xls 파일 형식으로 저장하고 Microsoft Excel 2007/2010에서 열면 그라데이션이 보이지만, 이 파일을 Microsoft Excel 2003에서 열면 셀이 첫 번째 그라데이션 정지점의 단색으로 채워집니다.
+
+색상을 정의하는 방법은 다음과 같습니다:
+
+- 자동 색상(WindowText 시스템 색상)
+
+- 사용자가 정의한 모든 RGB 색상
+
+- 테마 색상
+
+RGB 또는 테마 색상을 사용하는 경우, 선택적으로 틴트를 적용하여 색상을 밝게 하거나 어둡게 할 수 있습니다. 이 틴트는 Microsoft Excel 2007 UI에서 직접 설정할 수 없지만, 사용자에게 표시되는 색상 팔레트의 여러 색상은 실제로 틴트가 적용된 테마 색상입니다.
+
+각 통합 문서에는 연결된 테마 색상이 12개 있습니다. 다음과 같습니다:
+
+- Light 1
+
+- Light 2
+
+- Dark 1
+
+- Dark 2
+
+- Accent1
+
+- Accent2
+
+- Accent3
+
+- Accent4
+
+- Accent5
+
+- Accent6
+
+- Hyperlink
+
+- Followed Hyperlink
+
+- 통합 문서를 만들 때 기본값이 있으며, Excel을 통해 사용자 지정할 수 있습니다.
+
+색상은 봉인된 불변 클래스인 <ApiLink type="WorkbookColorInfo" /> 클래스로 정의됩니다. 이 클래스에는 자동 색상을 반환하는 정적 `Automatic` 속성이 있으며, 색상 또는 테마 값과 선택적 틴트로 <ApiLink type="WorkbookColorInfo" /> 인스턴스를 만들 수 있는 여러 생성자가 있습니다.
+
+<ApiLink type="WorkbookColorInfo" />의 <ApiLink type="WorkbookColorInfo" member="getResolvedColor" label="GetResolvedColor" /> 메서드를 사용하면 사용자가 Excel에서 파일을 열 때 실제로 보게 될 색상을 판단할 수 있습니다.
+
+<ApiLink type="WorkbookColorInfo" />가 테마 색상을 나타내는 경우, 통합 문서에서 테마 색상의 RGB 값을 가져올 수 있도록 메서드에 Workbook 인스턴스를 전달해야 합니다.
+
+.xlsx 같은 최신 파일 형식으로 저장할 때는 최신 색상 정보가 파일에 직접 저장됩니다. .xls 같은 이전 파일 형식으로 저장할 때는 팔레트에서 가장 가까운 색상의 인덱스가 저장됩니다. 또한 이전 형식에는 최신 색상 정보를 나타내기 위해 저장할 수 있는 미래 기능 레코드가 있습니다.
+
+이전 형식을 Microsoft Excel 2003 이하 버전에서 열면 이러한 미래 기능 레코드는 무시되지만, 이전 파일 형식을 Excel 2007 이상에서 열면 해당 레코드가 읽히고 그 안의 색상 정보가 일반 서식 레코드에서 이전에 로드된 인덱스 색상을 덮어씁니다.
+
+## Excel 서식 지원
+
+셀의 <ApiLink type="WorksheetCell" member="cellFormat" label="CellFormat" /> 속성이 반환하는 <ApiLink type="IWorksheetCellFormat" /> 객체를 사용하여 <ApiLink type="WorksheetCell" />에 다양한 서식을 설정할 수 있습니다. 이 <ApiLink type="IWorksheetCellFormat" /> 객체를 사용하면 테두리, 글꼴, 채우기, 정렬, 그리고 셀이 맞춤에 맞게 줄어들어야 하는지 또는 잠겨야 하는지 여부 등 셀의 여러 측면에 스타일을 지정할 수 있습니다.
+
+<ApiLink type="Workbook" /> 객체의 <ApiLink type="Workbook" member="styles" label="Styles" /> 컬렉션을 사용하면 Microsoft Excel 2007의 기본 제공 스타일에도 접근할 수 있습니다. Excel의 전체 스타일 목록은 Microsoft Excel 2007의 홈 탭에 있는 셀 스타일 갤러리에서 찾을 수 있습니다.
+
+통합 문서의 <ApiLink type="Workbook" member="styles" label="Styles" /> 컬렉션에는 "normal" 스타일이라는 특별한 유형의 스타일이 있으며, 이는 해당 컬렉션의 <ApiLink type="WorkbookStyleCollection" member="normalStyle" label="NormalStyle" /> 속성을 사용하거나 컬렉션에서 "Normal"이라는 이름으로 인덱싱하여 접근할 수 있습니다.
+
+<ApiLink type="WorkbookStyleCollection" member="normalStyle" label="NormalStyle" />에는 행, 열 또는 셀에서 별도로 지정하지 않는 한 통합 문서의 모든 셀에 대한 기본 속성이 포함되어 있습니다. <ApiLink type="WorkbookStyleCollection" member="normalStyle" label="NormalStyle" />의 속성을 변경하면 통합 문서의 모든 기본 셀 서식 속성이 변경됩니다. 예를 들어 통합 문서의 기본 글꼴을 변경하려는 경우 유용합니다.
+
+<ApiLink type="WorkbookStyleCollection" member="clear" label="Clear" /> 및 <ApiLink type="WorkbookStyleCollection" member="reset" label="Reset" /> 메서드를 사용하여 <ApiLink type="Workbook" member="styles" label="Styles" /> 컬렉션을 비우거나 미리 정의된 상태로 재설정할 수 있습니다. 두 메서드 모두 사용자가 정의한 모든 스타일을 제거하지만, <ApiLink type="WorkbookStyleCollection" member="clear" label="Clear" />는 <ApiLink type="Workbook" member="styles" label="Styles" /> 컬렉션을 완전히 비웁니다.
+
+이 기능과 함께 <ApiLink type="IWorksheetCellFormat" /> 객체에 <ApiLink type="IWorksheetCellFormat" member="style" label="Style" /> 속성이 추가되었습니다. 이는 서식의 상위 스타일을 나타내는 <ApiLink type="WorkbookStyle" /> 인스턴스에 대한 참조입니다. 스타일의 서식의 경우 스타일은 상위 스타일을 가질 수 없으므로 이 속성은 항상 null입니다. 행, 열, 셀 서식의 경우 <ApiLink type="IWorksheetCellFormat" member="style" label="Style" /> 속성은 기본적으로 항상 <ApiLink type="WorkbookStyleCollection" member="normalStyle" label="NormalStyle" />를 반환합니다.
+
+<ApiLink type="IWorksheetCellFormat" member="style" label="Style" /> 속성을 null로 설정하면 <ApiLink type="WorkbookStyleCollection" member="normalStyle" label="NormalStyle" />로 되돌아갑니다. 스타일 컬렉션의 다른 스타일로 설정하면, 그 스타일이 이제 셀 서식에서 설정되지 않은 모든 속성의 기본값을 보유합니다.
+
+셀 서식에 <ApiLink type="IWorksheetCellFormat" member="style" label="Style" /> 속성을 설정하면, <ApiLink type="IWorksheetCellFormat" member="style" label="Style" />에 포함된 서식 옵션이 셀 서식에서 제거됩니다. 다른 모든 속성은 그대로 유지됩니다. 예를 들어 테두리 서식을 포함한 셀 스타일을 만들고 그 스타일을 셀의 <ApiLink type="IWorksheetCellFormat" member="style" label="Style" />로 설정하면, 셀 서식의 테두리 서식 옵션이 제거되고 셀 서식에는 채우기 서식만 남습니다.
+
+서식에서 서식 옵션 플래그를 제거하면 관련된 모든 속성이 설정되지 않은 값으로 재설정되므로, 셀 서식의 테두리 속성은 암시적으로 기본값/설정되지 않은 값으로 재설정됩니다.
+
+행, 열, 셀, 병합된 셀을 나타내는 클래스에서 <ApiLink type="WorksheetCell" member="getResolvedCellFormat" label="GetResolvedCellFormat" /> 메서드를 사용하여 셀에 실제로 표시될 내용을 판단할 수 있습니다.
+
+이 메서드는 기반이 된 연결된 <ApiLink type="IWorksheetCellFormat" />를 다시 참조하는 <ApiLink type="IWorksheetCellFormat" /> 인스턴스를 반환합니다. 따라서 <ApiLink type="WorksheetCell" member="cellFormat" label="CellFormat" /> 속성에 대한 이후의 변경 사항은 <ApiLink type="WorksheetCell" member="getResolvedCellFormat" label="GetResolvedCellFormat" /> 호출에서 반환된 인스턴스에 반영됩니다.
+
+## 셀 병합하기
+
+셀의 값이나 서식을 설정하는 것 외에도, 셀을 병합하여 둘 이상의 셀이 하나처럼 보이도록 할 수 있습니다. 셀을 병합하려면 직사각형 영역이어야 합니다.
+
+셀을 병합하면 영역의 각 셀은 같은 값과 셀 서식을 가집니다. 병합된 셀은 <ApiLink type="WorksheetCell" member="associatedMergedCellsRegion" label="AssociatedMergedCellsRegion" /> 속성으로 접근할 수 있는 같은 <ApiLink type="WorksheetMergedCellsRegion" /> 객체와도 연결됩니다. 결과적으로 생성된 <ApiLink type="WorksheetMergedCellsRegion" /> 객체도 셀과 같은 값과 셀 서식을 가집니다.
+
+영역 또는 영역 내 임의의 셀의 값(또는 셀 서식)을 설정하면 모든 셀과 영역의 값이 바뀝니다. 셀의 병합을 해제하면 이전에 병합되었던 모든 셀은 병합 해제 전에 가졌던 공유 셀 서식을 유지합니다. 다만 영역의 왼쪽 위 셀만 공유 값을 유지합니다.
+
+병합된 셀 영역을 만들려면 <ApiLink type="Worksheet" /> 객체의 <ApiLink type="Worksheet" member="mergedCellsRegions" label="MergedCellsRegions" /> 컬렉션에 셀 범위를 추가해야 합니다. 이 컬렉션에는 정수 매개변수 네 개를 받는 `Add` 메서드가 있습니다. 네 매개변수는 시작 행과 열(가장 왼쪽 위 셀)의 인덱스, 그리고 끝 행과 열(가장 오른쪽 아래 셀)의 인덱스를 결정합니다.
+
+```ts
+var workbook = new Workbook();
+var worksheet = workbook.worksheets().add("Sheet1");
+
+// Make some column headers
+worksheet.rows(1).cells(1).value = "Morning";
+worksheet.rows(1).cells(2).value = "Afternoon";
+worksheet.rows(1).cells(3).value = "Evening";
+
+// Create a merged region from column 1 to column 3
+var mergedRegion1 =  ws.mergedCellsRegions().add(0, 1, 0, 3);
+
+// Set the value of the merged region
+mergedRegion1.value = "Day 1";
+
+// Set the cell alignment of the middle cell in the merged region.
+// Since a cell and its merged region shared a cell format, this will ultimately set the format of the merged region
+worksheet.rows(0).cells(2).cellFormat.alignment = HorizontalCellAlignment.Center;
+```
+
+<PlatformBlock for="Blazor">
+
+```razor
+var workbook = new Workbook();
+var worksheet = workbook.Worksheets.Add("Sheet1");
+
+// Make some column headers
+worksheet.Rows[1].Cells[1].Value = "Morning";
+worksheet.Rows[1].Cells[2].Value = "Afternoon";
+worksheet.Rows[1].Cells[3].Value = "Evening";
+
+// Create a merged region from column 1 to column 3
+var mergedRegion1 = worksheet.MergedCellsRegions.Add(0, 1, 0, 3);
+
+// Set the value of the merged region
+mergedRegion1.Value = "Day1";
+
+// Set the cell alignment of the middle cell in the merged region.
+// Since a cell and its merged region shared a cell format, this will ultimately set the format of the merged region
+worksheet.Rows[0].Cells[2].CellFormat.Alignment = HorizontalCellAlignment.Center;
+```
+
+</PlatformBlock>
+
+## Excel에 표시되는 대로 셀 텍스트 가져오기
+
+셀에 표시되는 텍스트는 실제 셀 값 외에도 서식 문자열과 셀이 포함된 열의 너비 같은 여러 요인에 따라 달라집니다.
+
+서식 문자열은 셀의 값이 텍스트로 변환되는 방식과 서식이 지정된 값과 함께 표시되어야 하는 리터럴 문자를 결정합니다. 서식 코드에 대한 더 자세한 정보는 여기에서 확인할 수 있습니다.
+
+셀에서 사용할 수 있는 가로 공간의 양은 값이 사용자에게 표시되는 방식에 큰 역할을 합니다.
+
+열 너비에 따라 표시되는 텍스트가 달라질 수 있습니다.
+
+숫자를 표시할 때 **"General"** 또는 **"@"**를 포함하는 서식 문자열을 사용하면, 셀 너비에 맞는 서식을 찾기 위해 여러 서식이 시도됩니다. 예시 서식 목록은 다음과 같습니다:
+
+- **일반 값** - 공간이 무제한이라면 표시되었을 방식으로 숫자가 표시됩니다.
+
+- **소수 자릿수 제거** - 맞는 서식을 찾을 때까지 소수 자릿수가 한 번에 하나씩 제거됩니다. 예를 들어 값 12345.6789는 맞는 서식이 나올 때까지 12345.679, 12345.68, 12345.7, 12346 형식으로 줄어듭니다. 첫 번째 유효 숫자만 남으면 멈추므로, 예를 들어 0.0001234567890 같은 값은 0.0001까지만 줄어들 수 있습니다.
+
+- **과학적 표기법, 소수 5자리** - 숫자가 0.00000E+00 형식으로 표시되며, 예를 들어 1.23457E+09 또는 1.23457E-04와 같습니다.
+
+- **과학적 표기법, 소수 4자리** - 숫자가 0.0000E+00 형식으로 표시되며, 예를 들어 1.2346E+09 또는 1.23456E-04와 같습니다.
+
+- **과학적 표기법, 소수 3자리** - 숫자가 0.000E+00 형식으로 표시되며, 예를 들어 1.235E+09 또는 1.235E-0과 같습니다.
+
+- **과학적 표기법, 소수 2자리** - 숫자가 0.00E+00 형식으로 표시되며, 예를 들어 1.23E+09 또는 1.23E-04와 같습니다.
+
+- **과학적 표기법, 소수 1자리** - 숫자가 0.0E+00 형식으로 표시되며, 예를 들어 1.2E+09 또는 1.2E-04와 같습니다.
+
+- **과학적 표기법, 소수 0자리** - 숫자가 0E+00 형식으로 표시되며, 예를 들어 1E+09 또는 1E-04와 같습니다.
+
+- **반올림된 값** - 첫 번째 유효 숫자가 숫자의 소수 부분에 있는 경우, 값은 가장 가까운 정수 값으로 반올림됩니다. 예를 들어 값 0.0001234567890은 0으로 반올림되며, 셀에 표시되는 텍스트는 0이 됩니다.
+
+- **해시 표시** - 숫자의 축약된 버전을 표시할 수 없으면, 셀 너비 전체에 걸쳐 해시(#)가 반복됩니다.
+
+- **빈 문자열** - 셀에 해시 표시가 하나도 들어갈 수 없으면, 셀 텍스트로 빈 문자열이 반환됩니다.
+
+숫자 값의 서식 문자열에 General 또는 @가 포함되어 있지 않으면, 크기 조정 단계는 다음 세 가지뿐입니다: 일반 값, 해시 표시, 빈 문자열
+
+셀에 텍스트를 사용하는 경우, 셀에서 잘리는지 여부와 관계없이 셀에 표시되는 텍스트는 항상 전체 값입니다.
+
+이것이 적용되지 않는 유일한 경우는 서식 문자열에 채우기 문자를 사용한 경우입니다. 그러면 텍스트를 넣을 공간이 충분하지 않을 때 값이 모두 해시 표시로 표시됩니다.
+
+워크시트의 <ApiLink type="Worksheet" member="displayOptions" label="DisplayOptions" />' <ApiLink type="DisplayOptions" member="showFormulasInCells" label="ShowFormulasInCells" /> 속성을 설정하면 수식의 결과 대신 수식이 셀에 표시되며, 서식 문자열과 셀 너비는 무시됩니다. 텍스트 값은 서식 문자열이 @인 것처럼, 정수가 아닌 숫자 값은 서식 문자열이 0.0인 것처럼, 정수 숫자 값은 서식 문자열이 0인 것처럼 표시됩니다.
+
+또한 값이 들어갈 수 없는 경우에도 전부 해시로 표시되지는 않습니다. 표시 텍스트는 완전히 보이지 않더라도 셀 텍스트로 전체 텍스트를 계속 반환합니다.
+
+다음 코드 조각은 Excel에 표시되는 것과 같은 텍스트를 가져오기 위해 <ApiLink type="WorksheetCell" member="getText" label="GetText" /> 메서드를 사용하는 방법을 보여 줍니다:
+
+```ts
+var workbook = new Workbook();
+var worksheet = this.workbook.worksheets().add("Sheet1");
+
+var cellText = worksheet.rows(0).cells(0).getText();
+```
+
+<PlatformBlock for="Blazor">
+
+```razor
+var workbook = new Workbook();
+var worksheet = workbook.Worksheets.Add("Sheet1");
+
+var cellText = worksheet.Rows[0].Cells[0].GetText();
+```
+
+</PlatformBlock>
+
+
+## API 참조
+<ApiLink type="CellFillLinearGradient" />
+<ApiLink type="CellFillPattern" />
+<ApiLink type="CellFillRectangularGradient" />
+<ApiLink type="CellFill" />
+<ApiLink type="IWorksheetCellFormat" />
+<ApiLink type="Formula" />
+<ApiLink type="WorkbookColorInfo" />
+<ApiLink type="WorkbookStyle" />
+<ApiLink type="Workbook" />
+<ApiLink type="WorksheetCell" />
+<ApiLink type="WorksheetColumn" />
+<ApiLink type="WorksheetRegion" />
+<ApiLink type="WorksheetRow" />
+<ApiLink type="Worksheet" />

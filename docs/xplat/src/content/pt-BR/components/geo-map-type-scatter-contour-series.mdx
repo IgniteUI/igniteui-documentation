@@ -1,0 +1,107 @@
+---
+title: "Mapa {Platform} | Ferramentas de visualização de dados | Série de contorno de dispersão | Vinculação de dados | Infragistics"
+description: "Use a série de contorno de dispersão do mapa {Platform} da Infragistics para desenhar linhas de contorno coloridas, em um contexto geográfico, com base em uma triangulação de dados de longitude e latitude, com um valor numérico atribuído a cada ponto. Saiba mais sobre as séries do mapa {ProductName}!"
+keywords: "Mapa {Platform}, série de contorno de dispersão, {ProductName}, Infragistics"
+license: commercial
+mentionedTypes: ["GeographicMap", "GeographicContourLineSeries", "CustomPaletteColorScale", "Series"]
+_language: pt-BR
+llms:
+  description: "No componente de mapa {Platform}, você pode usar a GeographicContourLineSeries para desenhar linhas de contorno coloridas, em um contexto geográfico, com base em uma triangulação de dados de longitude e latitude, com um valor numérico atribuído a cada ponto."
+platformType: xplat
+---
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+
+# Mapa de contorno geográfico de {Platform}
+
+No componente de mapa {Platform}, você pode usar o `GeographicContourLineSeries` para desenhar linhas de contorno coloridas, em um contexto geográfico, com base em uma triangulação de dados de longitude e latitude, com um valor numérico atribuído a cada ponto. Este tipo de série geográfica é útil para renderizar dados dispersos, definidos por localizações geográficas, como temperatura do clima, pressão atmosférica, precipitação, distribuição populacional, dados topográficos etc.
+
+## {Platform} Exemplo de mapa de contorno geográfico
+
+
+<Sample src="/maps/geo-map/type-scatter-contour-series" height={500} alt="{Platform} Exemplo de uso da série de contorno de dispersão" />
+
+
+
+
+<PlatformBlock for="Angular, React, WebComponents, Blazor">
+
+O `GeographicContourLineSeries` funciona de forma muito semelhante ao `GeographicScatterAreaSeries`, exceto que representa os dados como linhas de contorno, coloridas usando uma escala de preenchimento, enquanto a série de área de dispersão geográfica representa os dados como uma superfície interpolada usando uma escala de cores.
+
+</PlatformBlock>
+
+## Requisitos de dados
+Assim como outros tipos de séries geográficas no componente de mapa, o `GeographicContourLineSeries` tem a propriedade `DataSource`, que pode ser vinculada a um array de objetos. Além disso, cada item na fonte de itens deve ter três colunas de dados: duas que armazenam a localização geográfica (coordenadas de longitude e latitude) e uma coluna de dados que armazena um valor associado à localização geográfica. Essas colunas de dados são identificadas pelas propriedades `longitudeMemberPath`, `latitudeMemberPath` e `valueMemberPath` da série geográfica.
+O `GeographicContourLineSeries` executa automaticamente a triangulação de dados integrada nos itens do ItemsSource se nenhuma triangulação for definida na propriedade `trianglesSource`. No entanto, calcular a triangulação pode ser um processo muito demorado; por isso, o desempenho em tempo de execução será melhor ao especificar um `\TriangulationSource` para esta propriedade, principalmente quando houver um grande número de itens de dados.
+
+## Vinculação de dados
+A tabela a seguir resume as propriedades de `GeographicContourLineSeries` usadas na vinculação de dados.
+
+| Nome da propriedade  | Tipo da propriedade   | Descrição   |
+|--------------|---------------| ---------------|
+|`DataSource`|qualquer|A fonte dos itens de dados para realizar a triangulação, caso a propriedade `trianglesSource` não forneça dados de triangulação.|
+|`longitudeMemberPath`|string|O nome da propriedade que contém a Longitude de todos os itens vinculados a `DataSource`.|
+|`latitudeMemberPath`|string|O nome da propriedade que contém a Latitude de todos os itens vinculados ao `DataSource`.|
+|`valueMemberPath`|string|O nome da propriedade que contém um valor nas coordenadas de Latitude e Longitude de cada item de dados. Este valor numérico será convertido em uma cor quando a propriedade `fillScale` for definida.|
+|`trianglesSource`|qualquer|Obtém ou define a fonte dos dados de triangulação. Definir Triangles do objeto TriangulationSource com esta propriedade melhora tanto o desempenho em tempo de execução quanto a renderização da série geográfica.|
+|`triangleVertexMemberPath1`|string|O nome da propriedade dos itens de TrianglesSource que, para cada triângulo, contém o índice do primeiro ponto de vértice no ItemsSource. Não é obrigatório definir esta propriedade. Ela é usada por padrão, a menos que uma lógica de triangulação personalizada seja fornecida.|
+|`triangleVertexMemberPath2`|string| O nome da propriedade dos itens de TrianglesSource que, para cada triângulo, contém o índice do primeiro ponto de vértice no ItemsSource. Não é obrigatório definir esta propriedade. Ela é usada por padrão, a menos que uma lógica de triangulação personalizada seja fornecida.|
+|`triangleVertexMemberPath3`|string|O nome da propriedade dos itens de TrianglesSource que, para cada triângulo, contém o índice do primeiro ponto de vértice no ItemsSource. Não é obrigatório definir esta propriedade. Ela é usada por padrão, a menos que uma lógica de triangulação personalizada seja fornecida.|
+
+## Escala de preenchimento de contorno
+Use a propriedade `fillScale` do `GeographicContourLineSeries` para resolver os pincéis de preenchimento das linhas de contorno da série geográfica.
+A classe `ValueBrushScale fornecida deve atender à maioria das suas necessidades de coloração, mas o aplicativo pode herdar a classe ValueBrushScale para uma lógica de coloração personalizada.
+A tabela a seguir lista as propriedades do CustomPaletteColorScale que afetam a coloração da superfície do GeographicContourLineSeries.
+
+| Nome da propriedade  | Tipo da propriedade   | Descrição   |
+|--------------|---------------| ---------------|
+|`GeographicMap.brushes`|BrushCollection|Obtém ou define a coleção de pincéis para preencher os contornos do `GeographicContourLineSeries`|
+|`maximumValue`|double|O valor mais alto para atribuir um pincel em uma escala de preenchimento.|
+|`minimumValue`|double|O valor mais baixo para atribuir um pincel em uma escala de preenchimento.|
+
+## Trecho de código
+
+O código a seguir mostra como vincular o `GeographicContourLineSeries` a dados de triangulação que representam as temperaturas da superfície do mundo.
+
+```json-snippet channel="auto" include="bindingImports" source="/maps/geo-map/type-scatter-contour-series"
+{
+    "type": "GeographicMap",
+    "name": "geoMap",
+    "height": "100%",
+    "width": "100%",
+    "zoomable": true,
+    "$setInCode": { "series": ["angular", "react", "webComponents"] },
+    "$assignInCode": { "series": ["angular", "react", "webComponents"] },
+    "series": [
+        {
+            "type": "GeographicContourLineSeries",
+            "name": "contourSeries",
+            "dataSourceRef": "WorldTemperatures",
+            "longitudeMemberPath": "Lon",
+            "latitudeMemberPath": "Lat",
+            "valueMemberPath": "Value",
+            "thickness": 4,
+            "$setInCode": { "fillScale": ["blazor"] },
+            "fillScale": {
+                "type": "ValueBrushScale",
+                "brushes": [
+                    "rgba(32, 146, 252, 0.5)",
+                    "rgba(14, 194, 14, 0.5)",
+                    "rgba(252, 120, 32, 0.5)",
+                    "rgba(252, 32, 32, 0.5)"
+                ],
+                "minimumValue": 0,
+                "maximumValue": 30
+            }
+        }
+    ]
+}
+```
+
+
+## Referências da API
+
+`fillScale`<br />
+`GeographicContourLineSeries`<br />
+<PlatformBlock for="Angular, React, WebComponents, Blazor">`GeographicScatterAreaSeries`<br />
+</PlatformBlock>`ValueBrushScale`<br />

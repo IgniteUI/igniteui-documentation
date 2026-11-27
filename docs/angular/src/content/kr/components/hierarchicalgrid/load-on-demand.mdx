@@ -1,0 +1,194 @@
+---
+title: "Hierarchical Grid 요청 시 로드 - Native Angular | Ignite UI for Angular"
+description: "Ignite UI for Angular Hierarchical Grid는 펼쳐진 각 하위 그리드에 대해 요청 시 데이터를 로드하는 데 필요한 도구를 제공합니다. 그렇게 하면 데이터 양이 크게 줄고, 사용자가 필요할 때만 데이터를 가져올 수 있습니다."
+keywords: "Ignite UI for Angular, UI 컨트롤, Angular 위젯, 웹 위젯, UI 위젯, Angular, Native Angular Components Suite, Native Angular Controls, Native Angular Components Library, Angular Hierarchical Grid 컴포넌트, Angular 계층형 데이터 테이블 컴포넌트, Angular Hierarchical Grid 컨트롤, Angular 계층형 데이터 테이블 컨트롤, Angular 고성능 Hierarchical Grid, Angular 고성능 계층형 데이터 테이블, Hierarchical Grid, 계층형 데이터 테이블"
+license: commercial
+_language: ko
+llms:
+  description: "Ignite UI for Angular HierarchicalGrid는 서버에서 가져올 데이터를 최소한으로 요청하여 빠르게 렌더링하므로, 사용자는 결과를 화면에서 보고 보이는 데이터와 가능한 한 빨리 상호 작용할 수 있습니다."
+---
+
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+import { Image } from 'astro:assets';
+import hgridDatabase from '../../images/hgrid-database.jpg';
+
+
+# 계층형 그리드 요청 시 로드
+
+Ignite UI for Angular <ApiLink type="HierarchicalGrid" />은(는) 서버에서 가져올 데이터를 최소한으로 요청하여 빠르게 렌더링하므로, 사용자는 결과를 화면에서 보고 보이는 데이터와 가능한 한 빨리 상호 작용할 수 있습니다. 처음에는 루트 그리드의 데이터만 가져와 렌더링하며, 사용자가 하위 그리드를 포함한 행을 펼친 후에야 해당 하위 그리드의 데이터를 받습니다. 요청 시 로드(Load on Demand)라고도 알려진 이 메커니즘은 어떤 원격 데이터와도 쉽게 동작하도록 구성할 수 있습니다.
+
+이 항목은 [Northwind WebAPI](https://data-northwind.indigo.design/swagger/index.html)에서 데이터를 요청하여 요청 시 로드를 구성하는 방법을 보여 줍니다. 동작하는 데모를 먼저 보여 주고, 나중에 단계별로 살펴보면서 만드는 과정을 설명하겠습니다.
+
+## Angular 계층형 그리드 요청 시 로드 예제
+
+<Sample src="/hierarchical-grid/hierarchical-grid-lod" height={620} alt="Angular 계층형 그리드 요청 시 로드 예제" />
+
+
+### 계층형 그리드 설정
+
+계층형 그리드를 설정해 보겠습니다. 먼저 예상되는 계층 수준을 포함하는 계층형 그리드 템플릿을 정의하겠습니다. 고객을 위한 루트 그리드 <ApiLink type="HierarchicalGrid" member="primaryKey" label="primaryKey" />는 고객 데이터이고, 첫 번째 수준의 주문은 `orderId`, 주문 상세는 `productId`입니다. 각 데이터베이스 테이블과 그 키를 알고 있으므로 초기 템플릿을 정의할 수 있습니다. 여기서 `customerId` 참조를 사용할 수 있으므로, 나중에 코드에서 엔드포인트로부터 데이터를 가져온 후 루트 그리드의 데이터를 쉽게 설정할 수 있습니다:
+
+```html
+<igx-hierarchical-grid #hGrid [primaryKey]="'customerId'" [autoGenerate]="true" [height]="'600px'" [width]="'100%'">
+    <igx-row-island [key]="'Orders'" [primaryKey]="'orderId'" [autoGenerate]="true">
+        <igx-row-island [key]="'Details'" [primaryKey]="'productId'" [autoGenerate]="true">
+        </igx-row-island>
+    </igx-row-island>
+</igx-hierarchical-grid>
+```
+
+나중에 코드에서 엔드포인트로부터 데이터를 가져온 다음 `#hGrid` 참조를 사용하면 루트 그리드의 데이터를 쉽게 설정할 수 있습니다. 펼쳐진 하위 항목의 데이터를 설정하는 것은 조금 다릅니다.
+
+행이 처음 펼쳐지면 그 행을 위한 새 하위 `IgxHierarchicalGrid`이(가) 렌더링되며, 새로 만든 그리드의 참조를 가져와 데이터를 설정해야 합니다. 그래서 각 <ApiLink type="RowIsland" /> 컴포넌트는 그 특정 행 island에 대해 새 하위 그리드가 만들어질 때 발생하는 <ApiLink type="RowIsland" member="gridCreated" label="gridCreated" /> 이벤트를 제공합니다. 이를 사용하여 새 그리드에 필요한 참조를 얻고, 엔드포인트에서 데이터를 요청하여 적용할 수 있습니다.
+
+엔드포인트는 row island의 키, 부모 행의 기본 키, 그리고 고유 식별자만 필요로 하므로, 모든 row island에 대해 하나의 메서드를 사용할 수 있습니다. 이 모든 정보는 이벤트 인수에서 직접 접근할 수 있습니다.
+
+#### 로딩 표시 설정
+
+이제 데이터가 아직 로드 중임을 사용자에게 알려 사용자 경험을 개선하겠습니다. 그래야 그동안 빈 그리드를 보고 있을 필요가 없습니다. 이것이 <ApiLink type="HierarchicalGrid" />이 그리드가 비어 있는 동안 표시할 수 있는 로딩 표시기를 지원하는 이유입니다.
+
+데이터가 없는 동안 <ApiLink type="HierarchicalGrid" member="isLoading" label="isLoading" /> 속성을 `true`(으)로 설정하여 로딩 표시기를 표시합니다. 루트 그리드에 대해 처음에 설정해야 하며, 새 하위 그리드를 만들 때도 데이터가 로드될 때까지 설정해야 합니다. 템플릿에서 항상 `true`로 설정해 둘 수도 있지만, 대신 (`false`로 설정하여) 숨기고, 서비스가 빈 배열을 반환하면 그리드에 데이터가 없음을 표시하고 싶습니다.
+
+마지막으로 <ApiLink type="Grid" member="autoGenerate" label="autoGenerate" /> 속성을 끄고 마크업에서 열 컬렉션을 정의하겠습니다.
+
+모든 변경을 추가한 후 템플릿 파일 `hierarchical-grid-lod.component.html`은 다음과 같이 보일 것입니다:
+
+```html
+    <igx-hierarchical-grid #hGrid [data]="remoteData" [isLoading]="true" [primaryKey]="'customerId'" [autoGenerate]="false" [height]="'580px'" [width]="'100%'" [igxPreventDocumentScroll]="true" [allowAdvancedFiltering]="true" (advancedFilteringExpressionsTreeChange)="refreshRootGridData()">
+            <igx-grid-toolbar></igx-grid-toolbar>
+
+            <igx-column field="customerId" [dataType]="'string'"></igx-column>
+            <igx-column field="companyName" [dataType]="'string'"></igx-column>
+            <igx-column field="contactName" [dataType]="'string'"></igx-column>
+            <igx-column field="contactTitle" [dataType]="'string'"></igx-column>
+
+        <igx-row-island #rowIsland1 [key]="'Orders'" [primaryKey]="'orderId'" [autoGenerate]="false" (gridCreated)="gridCreated($event)">
+            <igx-column field="orderId" [dataType]="'number'"></igx-column>
+            <igx-column field="customerId" [dataType]="'string'"></igx-column>
+            <igx-column field="shipVia" [dataType]="'string'"></igx-column>
+            <igx-column field="freight" [dataType]="'number'"></igx-column>
+
+            <igx-row-island #rowIsland2 [key]="'Details'" [primaryKey]="'productId'" [autoGenerate]="false" (gridCreated)="gridCreated($event)">
+                <igx-column field="orderId" [dataType]="'number'"></igx-column>
+                <igx-column field="productId" [dataType]="'number'"></igx-column>
+                <igx-column field="unitPrice" [dataType]="'number'"></igx-column>
+                <igx-column field="quantity" [dataType]="'number'"></igx-column>
+                <igx-column field="discount" [dataType]="'number'"></igx-column>
+            </igx-row-island>
+        </igx-row-island>
+    </igx-hierarchical-grid>
+```
+
+### 고급 필터링
+
+`IgxHierarchicalGrid`의 고급 필터링 대화 상자는 루트 그리드와 각 row island에 선언된 열에서 필드를 가져옵니다. 여기에는 하위 데이터가 아직 로드되지 않은 중첩 row island도 포함되므로, 어떤 하위 그리드를 펼치기 전에도 중첩 쿼리가 있는 필터링 표현식을 만들 수 있습니다.
+
+대화 상자는 열의 `dataType`에 맞는 조건과 편집기를 제공하며, `dataType`가 없는 열은 문자열로 취급됩니다. 대화 상자에서는 선언된 열만 사용할 수 있습니다.
+
+#### 초기 필터 설정
+
+이제 그리드에 초기 필터링 규칙을 추가하여 루트 그리드가 처음 로드될 때 필터링되도록 하겠습니다. <ApiLink type="FilteringExpressionsTree" />을(를) 만들고 `ngOnInit` 라이프사이클 훅을 사용하여 `IgxHierarchicalGrid`의 <ApiLink type="HierarchicalGrid" member="advancedFilteringExpressionsTree" label="advancedFilteringExpressionsTree" /> 속성에 설정하겠습니다.
+
+예를 들어 주문의 운임(freight)이 적어도 `500`인 고객을 필터링하고 싶다고 가정해 보겠습니다. 필터링 표현식에서 중첩 쿼리를 만들 수 있는 기능을 활용하면 다음과 같은 결과가 됩니다:
+
+```TypeScript
+public ngOnInit() {
+    const ordersTree = new FilteringExpressionsTree(FilteringLogic.And, undefined, 'Orders', ['customerId']);
+    ordersTree.filteringOperands.push({
+        fieldName: 'freight',
+        ignoreCase: false,
+        condition: IgxNumberFilteringOperand.instance().condition('greaterThanOrEqualTo'),
+        conditionName: IgxNumberFilteringOperand.instance().condition('greaterThanOrEqualTo').name,
+        searchVal: 500
+    });
+
+    const customersTree = new FilteringExpressionsTree(FilteringLogic.And, undefined, 'Customers', ['customerId', 'companyName', 'contactName', 'contactTitle']);
+    customersTree.filteringOperands.push({
+        fieldName: 'customerId',
+        condition: IgxStringFilteringOperand.instance().condition('inQuery'),
+        conditionName: IgxStringFilteringOperand.instance().condition('inQuery').name,
+        ignoreCase: false,
+        searchTree: ordersTree
+    });
+    this.hGrid.advancedFilteringExpressionsTree = customersTree;
+}
+```
+
+### 엔드포인트에 연결하기
+
+브라우저가 제공하는 XMLHttpRequest 인터페이스를 사용하여 HTTP 프로토콜로 엔드포인트와 통신합니다. 이를 더 쉽게 하기 위해 간소화된 클라이언트 HTTP API를 제공하는 Angular의 [`HttpClient`](https://angular.io/api/common/http/HttpClient) 모듈을 사용하겠습니다.
+
+#### 루트 그리드 데이터 가져오기
+
+[Northwind WebAPI](https://data-northwind.indigo.design/swagger/index.html)는 `IFilteringExpressionsTree`을(를) 매개변수로 받는 POST 엔드포인트를 제공하며, 이를 사용하여 `IgxHierarchicalGrid`의 고급 필터링 기능을 활용하고 루트 그리드의 레코드를 필터링하겠습니다. 엔드포인트는 표현식 트리의 `entity`에 루트 테이블의 이름이 필요합니다. 고급 필터링 대화 상자에서 만들거나 편집한 표현식 트리에는 루트 그리드의 `entity`이 없습니다. 그리드는 그 이름을 알지 못하므로, 요청을 보낼 때 이를 설정합니다. 이는 `refreshRootGridData` 메서드에서 하겠습니다:
+
+```typescript
+public refreshRootGridData() {
+    const tree = this.hGrid.advancedFilteringExpressionsTree;
+    this.hGrid.isLoading = true;
+    if (tree) {
+        const query = { ...tree, entity: 'Customers' };
+        this.http.post(`${API_ENDPOINT}/QueryBuilder/ExecuteQuery`, query).subscribe(data =>{
+            this.remoteData = Object.values(data)[0];
+            this.hGrid.isLoading = false;
+            this.hGrid.cdr.detectChanges();
+        });
+    } else {
+        this.http.get(`${API_ENDPOINT}/Customers`).subscribe(data => {
+            this.remoteData = Object.values(data);
+            this.hGrid.isLoading = false;
+            this.hGrid.cdr.detectChanges();
+        });
+    }
+}
+```
+
+보시다시피 `this.http`은(는) `HttpCLient` 모듈에 대한 참조가 됩니다. `subscribe` 메서드는 Angular Observable의 일부이며, HTTP 요청의 비동기 응답을 처리하는 데 사용됩니다. 데이터가 수신되면 가져온 데이터를 관련 그리드에 할당하고, 로딩 상태를 false로 업데이트하며, 변경 감지를 트리거하여 UI가 변경 사항을 반영하도록 합니다.
+
+루트 그리드가 처음 렌더링된 후 데이터를 로드하기 위해 `ngAfterViewInit` 라이프사이클 훅을 사용하고 `refreshRootGridData` 메서드를 호출하겠습니다:
+
+````TypeScript
+public ngAfterViewInit() {
+    this.refreshRootGridData();
+}
+````
+
+#### 하위 그리드 데이터 가져오기
+
+다음으로 하위 그리드의 데이터를 얻기 위한 GET 요청의 URL을 어떻게 만들지 정의하겠습니다. 다음은 테이블 사이의 관계를 시각적으로 나타낸 것입니다:
+
+<Image src={hgridDatabase} alt="관계형 계층 데이터베이스" class="responsive-img" />
+
+마지막으로 새로 만들어진 하위 그리드의 데이터를 요청하는 `gridCreated` 메서드를 구현해야 합니다. 이는 루트 수준 그리드 데이터를 가져오는 것과 비슷하지만, 이번에는 이벤트 <ApiLink type="RowIsland" member="gridCreated" label="gridCreated" />에서 제공되는 데이터를 사용하여 URL을 만듭니다:
+
+````TypeScript
+public gridCreated(event: IGridCreatedEventArgs) {
+    event.grid.isLoading = true;
+    const url = this.buildUrl(event);
+    this.http.get(url).subscribe(data => {
+        event.grid.data = Object.values(data);
+        event.grid.isLoading = false;
+        this.hGrid.cdr.detectChanges();
+    });
+}
+
+private buildUrl(event: IGridCreatedEventArgs) {
+    const parentKey = (event.grid.parent as any).key ?? 'Customers';
+    const url = `${API_ENDPOINT}/${parentKey}/${event.parentID}/${event.owner.key}`;
+    return url;
+}
+````
+
+## API 참조
+- <ApiLink type="HierarchicalGrid" />
+- <ApiLink type="RowIsland" />
+## 추가 리소스
+
+
+- [계층형 그리드 컴포넌트](/hierarchicalgrid/hierarchical-grid)
+
+커뮤니티는 활발하며 새로운 아이디어를 언제나 환영합니다.
+
+- [Ignite UI for Angular **포럼**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular

@@ -1,0 +1,194 @@
+---
+title: "Grade Master-Detail {Platform} | Infragistics"
+description: "Defina um template de visualização de detalhes expansível para os dados nas linhas da Grid {Platform} do Ignite UI. Útil para exibir dados no estilo master-detail em uma estrutura hierárquica."
+keywords: "{Platform}, {ComponentKeywords}, {ProductName}, master detail, Infragistics"
+license: commercial
+mentionedTypes: ["Infragistics.Controls.Grid"]
+_language: pt-BR
+llms:
+  description: "O componente Grid oferece suporte à especificação de um template de detalhes que exibe informações adicionais para uma linha específica, expandindo ou recolhendo o seu conteúdo."
+---
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+
+# Grade Master-Detail {Platform}
+
+O componente <ApiLink type="Grid" /> oferece suporte à especificação de um template de detalhes que exibe informações adicionais de uma determinada linha, expandindo/recolhendo o seu conteúdo. Quando especificado, cada registro atua como mestre, que, ao ser expandido, mostra um template de detalhes personalizável com os dados contextuais do registro atual.
+
+Este modo é útil quando você precisa exibir dados no estilo master-detail em uma estrutura hierárquica.
+
+## Exemplo de Master-Detail da Grid {Platform}
+
+
+<Sample src="/{GridSample}/master-detail" height={600} alt="Exemplo de Master Detail do {Platform} {ComponentTitle}" />
+
+
+
+## Configuração
+
+Para configurar o <ApiLink type="Grid" /> para exibir no modo master-detail, você precisa especificar um template para a grade:
+
+
+<PlatformBlock for="Angular">
+```html
+<{ComponentSelector}>
+         <ng-template GridDetail let-dataItem>
+              <!-- Custom detail template content here -->
+        </ng-template>
+</{ComponentSelector}>
+```
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```ts
+constructor() {
+  var grid = this.grid = document.getElementById('grid') as IgcGridComponent;
+  this._bind = () => {
+    grid.data = this.customersData;
+    grid.detailTemplate = this.masterDetailTemplate;
+  }
+  this._bind();
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+    <IgbGrid DetailTemplateScript="DetailTemplate"  AutoGenerate=true  Data=northwindEmployees></IgbGrid>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrGrid detailTemplate={masterDetailTemplate} autoGenerate={false} data={nwindData}></IgrGrid>
+```
+
+</PlatformBlock>
+
+O contexto do template são os dados do registro mestre, para que os valores do registro mestre possam ser exibidos no template de detalhes. Por exemplo:
+
+<PlatformBlock for="Angular">
+```html
+<{ComponentSelector}>
+         <ng-template GridDetail let-dataItem>
+            @if (dataItem.Category) {
+                <div>
+                    <header>{{dataItem.Category.CategoryName}}</header>
+                    <span>{{dataItem.Category.Description}}</span>
+                </div>
+            }
+        </ng-template>
+</{ComponentSelector}>
+```
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```ts
+    public masterDetailTemplate = (ctx: IgcGridMasterDetailContext) => {
+        var data = ctx.implicit;
+        return html` <div class="contact-container">
+        <span><strong>Name:</strong> ${data.ContactName}</span> <br/>
+        <span><strong>Title:</strong> ${data.ContactTitle}</span> <br/>
+        <span><strong>Company:</strong> ${data.CompanyName}</span> <br/>
+    </div>`;
+    }
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+
+```javascript
+// In JavaScript
+igRegisterScript("DetailTemplate", (ctx) => {
+    var html = window.igTemplating.html;
+    var data = ctx.implicit;
+    return html` <div class="contact-container">
+        <span><strong>Name:</strong> ${data.ContactName}</span> <br/>
+        <span><strong>Title:</strong> ${data.ContactTitle}</span> <br/>
+        <span><strong>Company:</strong> ${data.CompanyName}</span> <br/>
+    </div>`;
+}, false);
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+const masterDetailTemplate = (args: IgrGridMasterDetailContext) => {
+    const data = args.implicit;
+    return (
+        <div className="contact-container">
+            <span><strong>Name:</strong> {data.ContactName}</span> <br/>
+            <span><strong>Title:</strong> {data.ContactTitle}</span> <br/>
+            <span><strong>Company:</strong> {data.CompanyName}</span> <br/>
+        </div>
+    );
+}
+```
+
+</PlatformBlock>
+
+## API
+
+
+<PlatformBlock for="Angular">
+
+
+
+Os estados de expansão podem ser controlados pela entrada <ApiLink type="GridBaseDirective" member="expansionStates" label="ExpansionStates" /> do <ApiLink type="Grid" />. Os estados são armazenados em pares chave-valor [identificador da linha, estado de expansão]. A propriedade obtém/define os estados de expansão atuais e oferece suporte à vinculação bidirecional:
+
+```html
+  <{ComponentSelector} [(expansionStates)]='expansionState' >
+  </{ComponentSelector}>
+```
+
+
+</PlatformBlock>
+
+
+Também são expostos métodos adicionais da API para controlar os estados de expansão:
+- <ApiLink type="GridBaseDirective" member="expandAll" label="ExpandAll" />
+- <ApiLink type="GridBaseDirective" member="collapseAll" label="CollapseAll" />
+- <ApiLink type="GridBaseDirective" member="toggleRow" label="ToggleRow" />
+- <ApiLink type="GridBaseDirective" member="expandRow" label="ExpandRow" />
+- <ApiLink type="GridBaseDirective" member="collapseRow" label="CollapseRow" />
+
+## Navegação pelo teclado
+
+- Quando o foco está em uma linha de detalhes:
+
+  - <kbd>🡑</kbd> - navega uma linha para cima, focando uma célula da linha anterior.
+  - <kbd>🡓</kbd> - navega uma linha para baixo, focando uma célula da próxima linha.
+  - <kbd>TAB</kbd> - permite que o foco se mova para o próximo elemento focável dentro do template, se houver elementos focáveis; caso contrário, move para a próxima linha da grade.
+  - <kbd>SHIFT</kbd> + <kbd>TAB</kbd> - move o foco para a linha anterior.
+
+- Quando o foco está em uma linha de dados com expansor:
+  - <kbd>ALT</kbd> + <kbd>🡒</kbd> ou <kbd>ALT</kbd> + <kbd>🡓</kbd> - expande a linha.
+  - <kbd>ALT</kbd> + <kbd>🡐</kbd> ou <kbd>ALT</kbd> + <kbd>🡑</kbd> - recolhe a linha.
+
+## Problemas conhecidos e limitações
+
+
+|Limitações conhecidas| Descrição|
+| --- | --- |
+| A navegação com Tab dentro do template de detalhes personalizado pode não atualizar a posição de rolagem da grade mestre caso o próximo elemento focado esteja fora da janela de visualização.| A navegação com Tab dentro do template de detalhes personalizado fica a cargo do navegador. |
+| O template de detalhes não será exportado para o Excel.| Como o template de detalhes pode conter qualquer tipo de conteúdo, não é possível exportá-lo para o Excel por padrão.|
+| O recurso de pesquisa não destacará elementos do template de detalhes. | |
+
+
+## Referências da API
+
+<ApiLink type="Grid" /><br />
+<ApiLink type="Column" /><br />
+<PlatformBlock for="Angular,React,WebComponents"><ApiLink type="GridRowComponent" /></PlatformBlock><PlatformBlock for="Blazor"><ApiLink type="GridRow" /></PlatformBlock><br />

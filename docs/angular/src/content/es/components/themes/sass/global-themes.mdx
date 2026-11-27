@@ -1,0 +1,191 @@
+---
+title: "Temas globales"
+description: "El componente de temas de Ignite UI for Angular está desarrollado en SASS con una API de baja complejidad que permite cambiar el estilo de un componente, de varios componentes o de todo el conjunto."
+keywords: "Ignite UI for Angular, controles de interfaz, widgets de Angular, widgets web, widgets de interfaz, Angular, Native Angular Components Suite, Native Angular Controls, Native Angular Components Library, Native Angular Components, componente de temas de Angular, temas de Angular"
+_language: es
+llms:
+  description: "El tema global le permite generar rápidamente un tema que usa su paleta de colores personalizada, su esquema y sus elevaciones."
+---
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+
+# Temas globales
+
+<div class="highlight">
+El tema global le permite generar rápidamente un tema que usa su paleta de colores personalizada, su esquema y sus elevaciones. La paleta de colores, el esquema y las elevaciones se aplicarán a todos los componentes que no tengan temas personalizados creados para ellos.
+</div>
+<igc-divider></igc-divider>
+
+## Descripción general
+
+Si incluyó el archivo _`igniteui-angular.css`_ en su proyecto de aplicación, ahora es un buen momento para eliminarlo. Vamos a usar nuestro propio archivo _`my-app-theme.scss`_ para generar un tema global para todos los componentes de su aplicación.
+
+**Ignite UI for Angular** usa un tema global de forma predeterminada para aplicar el tema a todo el conjunto de componentes. Sin embargo, según su caso de uso, puede crear temas limitados a los componentes que tiene en su aplicación. Por ahora, incluiremos todos nuestros temas en un único archivo.
+Para generar un tema global vamos a incluir dos mixins, `core` y `theme`. Ambos mixins aceptan algunos argumentos:
+
+### Mixin core  
+
+<hr/>
+
+|                   Nombre    |   Tipo  | Valor predeterminado |                                                       Descripción         |
+| :-----------------------: | :-----: | :-----: | :-----------------------------------------------------------------------: |
+|         `$print-layout`   | boolean |   true  |                             Incluye o excluye los estilos para impresión.      |
+| `$enhanced-accessibility` | boolean |  false  | Cambia los pinceles de color de los gráficos a una paleta apta para daltónicos.            |
+
+
+### Mixins de tema
+
+<hr/>
+
+|        Nombre   |   Tipo  |               Valor predeterminado    |                                                                                     Descripción              |
+| :-----------: | :-----: | :----------------------: | :----------------------------------------------------------------------------------------------------------: |
+|   `$palette`  |    map  |                `null`    |                                  El mapa de paleta que usarán los temas predeterminados de todos los componentes.      |
+|    `$schema`  |    map  | `$light-material-schema` |                                                  El esquema que sirve de base para dar estilo a los componentes.        |
+|   `$exclude`  |   list  |                  `()`    |                                       Una lista de temas de componente que se excluirán del tema global.       |
+| `$roundness`  | Número  |                `null`    | Define el factor de redondeo global para todos los componentes (el valor puede ser cualquier fracción decimal entre 0 y 1). |
+| `$elevation`  | boolean |                `true`    |                                              Activa o desactiva las elevaciones de todos los componentes del tema.        |
+| `$elevations` |    Map  |  `$material-elevations`  |                                                 El mapa de elevaciones que usarán todos los temas de componente.        |
+
+Vamos a crear un tema global personalizado que use los colores primario, secundario y de superficie de su empresa.
+
+```scss
+// Import the theming module
+@use "igniteui-angular/theming" as *;
+
+// IMPORTANT: Prior to Ignite UI for Angular version 13 use:
+// @import '~igniteui-angular/lib/core/styles/themes/index';
+
+$primary-color: #2ab759;
+$secondary-color: #f96a88;
+$surface-color: #fff;
+
+$my-color-palette: palette(
+    $primary: $primary-color,
+    $secondary: $secondary-color,
+    $surface: $surface-color
+);
+
+// IMPORTANT: Make sure you always include core first!
+@include core();
+@include typography();
+// Pass the color palette we generated to the theme mixin.
+@include theme($my-color-palette);
+```
+
+El mixin `core()` configura la infraestructura compartida, como el tamaño, el espaciado, la accesibilidad mejorada, los estilos globales de directivas y los estilos de impresión. El mixin `theme()` genera la paleta, las elevaciones, los metadatos del tema y las declaraciones de tokens de componente para el esquema seleccionado. A partir de la versión 22.1.0, `theme()` no genera estilos estructurales de componente; estos se incluyen en el paquete de cada componente y se eliminan automáticamente si no se usan.
+
+<DocsAside type="info">
+Incluir `core` antes de `theme` es esencial. Los mixins `core` proporcionan todas las definiciones base que necesita el mixin `theme` para funcionar correctamente.
+</DocsAside>
+
+## Excluir componentes
+
+<hr/>
+
+<DocsAside type="info">
+Desde Ignite UI for Angular 22.1.0, los estilos estructurales de cada componente se incluyen en su propio paquete y ya se eliminan automáticamente según lo que importe su aplicación: no necesita `$exclude` para evitar que el CSS de componentes no usados llegue a su compilación. La lista `$exclude` del mixin `theme` solo controla ahora los **tokens** de diseño compartidos (propiedades personalizadas CSS `--ig-*`) que se emiten en su hoja de estilos global, una cantidad de CSS mucho menor que la de los estilos estructurales.
+</DocsAside>
+
+El mixin `theme` le permite proporcionar una lista de nombres de componentes que se excluirán de la salida de tokens del tema global. Por ejemplo, si quiere eliminar los tokens que generamos para `igx-avatar` y `igx-badge` porque sabe que su aplicación nunca los usará, puede hacerlo pasando la lista de componentes así:
+
+```scss
+// ...
+$unnecessary: (igx-avatar, igx-badge);
+
+@include theme($my-color-palette, $exclude: $unnecessary);
+```
+
+Si sabe que su aplicación no usará algunos componentes, puede añadirlos a `$exclude` para omitir sus declaraciones de tokens. Esto no controla el CSS estructural; los paquetes de componentes no usados ya los elimina la compilación de la aplicación.
+
+También puede hacer lo contrario y emitir tokens solo para los componentes que quiera, con el método siguiente:
+
+```scss
+@use 'sass:map';
+
+@function include($items, $register) {
+    @return map.keys(map.remove($register, $items...));
+}
+
+$allowed: (igx-avatar, igx-badge);
+
+@include theme(
+    $exclude: include($allowed, $components)
+);
+```
+
+## Reinicios de terceros
+
+Ignite UI declara sus capas en el orden `ig.reset` → `ig.base` → la capa del sistema de diseño activo → `ig.derived`. Envuelva las hojas de estilo de reinicio o normalización de terceros en la capa `ig.reset` de menor precedencia:
+
+```scss
+@layer ig.reset {
+  @import "minireset.css";
+}
+```
+
+Los estilos de aplicación sin capa siguen teniendo prioridad sobre los estilos en capas de Ignite UI.
+
+## Temas claro y oscuro
+
+También ofrecemos versiones _**claras**_ y _**oscuras**_ de nuestros cuatro temas: Material, Fluent, Indigo y Bootstrap.
+
+Para usar cualquiera de las versiones, solo tiene que pasarla al mixin <ApiLink kind="sass" module="themes" type="mixin-theme" label="theme" />:
+
+_**Claro**_
+
+```scss
+@include core();
+@include typography(
+    $font-family: $material-typeface,
+    $type-scale: $material-type-scale
+);
+@include theme(
+    $schema: $light-material-schema,
+    $palette: $light-material-palette,
+);
+```
+
+***Oscuro**_
+
+```scss
+@include core();
+@include typography(
+    $font-family: $material-typeface,
+    $type-scale: $material-type-scale
+);
+@include theme(
+    $schema: $dark-material-schema,
+    $palette: $dark-material-palette,
+);
+```
+
+### Temas disponibles
+
+Ignite UI for Angular le permite elegir entre un conjunto de temas predefinidos.
+La tabla siguiente muestra todos los temas integrados que puede usar de inmediato.
+
+| Tema                                                           | Esquema                    | Paleta de colores                                                                          |
+| :-------------------------------------------------------------- | :------------------------ | :------------------------------------------------------------------------------------- |
+| [**Material claro**](./presets/material.mdx#tema-predeterminado)         |  `$light-material-schema` | $light-material-palette                                                                |
+| [**Material oscuro**](./presets/material.mdx#tema-material-oscuro)    |  `$dark-material-schema`  | $dark-material-palette                                                                 |
+| [**Fluent claro**](./presets/fluent.mdx)                           | `$light-fluent-schema`    | $light-fluent-palette <br /> $light-fluent-excel-palette <br /> $light-fluent-word-palette |
+| [**Fluent oscuro**](./presets/fluent.mdx#tema-fluent-oscuro)          |  `$dark-fluent-schema`    | $dark-fluent-palette <br /> $dark-fluent-excel-palette <br /> $dark-fluent-word-palette    |
+| [**Bootstrap claro**](./presets/bootstrap.mdx)                     | `$light-bootstrap-schema` | $light-bootstrap-palette                                                               |
+| [**Bootstrap oscuro**](./presets/bootstrap.mdx#tema-bootstrap-oscuro) |  `$dark-bootstrap-schema` | $dark-bootstrap-palette                                                                |
+| [**Indigo claro**](./presets/indigo.mdx)                           | `$light-indigo-schema`    | $light-indigo-palette                                                                  |
+| [**Indigo oscuro**](./presets/indigo.mdx#tema-indigo-oscuro)          |   `$dark-indigo-schema`   | $dark-indigo-palette                                                                   |
+
+
+## Recursos adicionales
+
+<hr/>
+
+Aprenda a crear temas de componente individuales:
+
+- [Temas de componente](/themes/sass/component-themes)
+
+Nuestra comunidad está activa y siempre da la bienvenida a nuevas ideas.
+
+- [Ignite UI for Angular **Foros**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

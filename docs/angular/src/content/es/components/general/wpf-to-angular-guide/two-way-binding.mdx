@@ -1,0 +1,96 @@
+---
+title: "Enlace de datos bidireccional en Angular con ngModel | Guía de WPF a Angular | Infragistics"
+description: "Aprenda cómo se usa el enlace de datos bidireccional en Angular para mostrar información al usuario final y permitirle modificar los datos subyacentes mediante la interfaz." 
+keywords: "enlace de datos bidireccional en Angular, ignite ui for angular, infragistics"
+_language: es
+llms:
+  description: "El enlace de datos bidireccional en Angular permite que los datos fluyan del componente a la vista y viceversa."
+---
+
+# Qué es el enlace de datos bidireccional en Angular
+
+El enlace de datos bidireccional en Angular permite que los datos fluyan del componente a la vista y viceversa. Se usa para mostrar información al usuario final y le permite realizar cambios en los datos subyacentes mediante la interfaz. Esto crea una conexión bidireccional entre la vista (la plantilla) y la clase del componente que ya hemos mencionado. El proceso es similar al enlace bidireccional de WPF.  
+
+<iframe width="100%" height="600" src="https://www.youtube.com/embed/MrjTTDEj7cA">
+</iframe>
+
+## ¿Cómo funciona el enlace de datos en Angular?
+
+El enlace de datos de Angular funciona sincronizando los datos de los [componentes de Angular](https://www.infragistics.com/products/ignite-ui-angular) con la interfaz. De este modo, siempre puede mostrar el valor actual de los datos. En cuanto al enlace bidireccional, la sincronización automática de datos se produce entre el modelo y la vista, manteniendo ambos sincronizados en todo momento. Por eso, cualquier cambio realizado en el modelo se refleja de inmediato en la vista. Y a la inversa: los cambios realizados en la vista se actualizan también en el modelo.
+El enlace de datos bidireccional en Angular se usa para mostrar información al usuario final y le permite realizar cambios en los datos subyacentes mediante la interfaz. Esto crea una conexión bidireccional entre la vista (la plantilla) y la clase del componente. Es similar al enlace bidireccional de WPF.
+
+Un enlace unidireccional toma el estado de nuestra clase de componente y lo muestra en nuestra vista. Veamos este código:
+
+```html
+<input #myTitle (keyup)="keyup(myTitle.value)"/>
+<h2>{{ text }}</h2>
+```
+
+```typescript
+export class SampleComponent implements OnInit {
+
+text = 'default value';
+
+keyup(value) {
+  this.text = value;
+}
+...
+```
+
+Aquí simplemente usamos `interpolation` para enlazar la propiedad text al HTML. Esto mostrará el valor de la propiedad text en la interfaz. El elemento `input` gestiona la interacción del usuario y actualiza la propiedad `text` subyacente a través de la interfaz, usando el [enlace de eventos](/general/wpf-to-angular-guide/angular-events). En esencia, la entrada hace lo contrario del enlace unidireccional: toma la información de la interfaz y actualiza la propiedad en la clase del componente. El método enlazado al evento keyup de la entrada actualiza la propiedad text cada vez que se produce el evento. Una vez que el método del evento cambia el valor de la propiedad text, ese cambio se refleja en la interfaz mediante el enlace unidireccional con `interpolation` del elemento h2. Así, si el usuario escribe algo en el elemento de entrada, el texto del h2 se actualiza de inmediato; este comportamiento es, básicamente, una simulación de un enlace bidireccional. Lo mismo puede conseguirse en WPF con un enlace unidireccional y un manejador del evento keyup, pero el enlace bidireccional es mucho más cómodo de usar.
+
+## Cómo implementar el enlace de datos bidireccional en Angular
+
+Afortunadamente, podemos implementar la lógica del ejemplo anterior de una forma mucho más sencilla, ¡y aquí es donde entra el enlace bidireccional!
+
+La dirección de un enlace bidireccional no es solo **de la clase del componente a la interfaz**, sino también **de la interfaz a la clase del componente**. Para lograrlo, vamos a usar una [directiva](https://angular.io/api/core/Directive) llamada [`ngModel`](https://angular.io/api/forms/NgModel). Actualicemos el ejemplo anterior con la directiva `ngModel`. La sintaxis es: un corchete de apertura seguido de un paréntesis de apertura, y, por supuesto, el paréntesis y el corchete de cierre correspondientes. Esto se llama **banana en la caja**, ¡así que veámoslo en acción!
+
+```html
+<input [(ngModel)]="text"/>
+<h2>{{ text }}</h2>
+```
+
+Y los enlaces equivalentes en WPF serían:
+
+```xml
+<TextBox Text="{Binding Path=Text, Mode=TwoWay}"></TextBox>
+<TextBlock Text="{Binding Path=Text, Mode=OneWay}"></TextBlock>
+```
+
+El enlace de Angular es cuestión de sintaxis, mientras que en WPF se parece más a una configuración; en concreto, al valor de `Binding.Mode`.
+
+Si ejecutamos este código, se producirá un error en la consola que indica que `ngModel` es una propiedad desconocida del elemento de entrada. Esto se debe a que, para usar la directiva `ngModel`, es necesario importar el [`FormsModule`](https://angular.io/api/forms/FormsModule). Hay que importarlo en el archivo `app.module.ts`:
+
+```typescript
+import { FormsModule } from '@angular/forms';
+...
+@NgModule({
+  imports: [
+    BrowserModule,
+    FormsModule
+  ]
+...
+```
+
+Si ejecutamos el ejemplo, el valor inicial de la entrada será igual a **valor predeterminado**, que es el valor de la propiedad `text`. Como la entrada es editable, al cambiar su valor se reflejará de inmediato en el elemento h2. Así, al escribir en la entrada se actualiza la propiedad `text`, y el elemento h2 muestra ese valor mediante `interpolation`.
+
+Otra forma equivalente de lograrlo es:
+
+```html
+<input [ngModel]="text" (ngModelChange)="text = $event"/>
+```
+
+En realidad, es similar al primer ejemplo, que usaba un enlace de propiedad y un enlace de evento.
+
+
+## Recursos adicionales
+
+- [De escritorio a web: enlace bidireccional de Angular con ngModel](https://www.youtube.com/watch?v=MrjTTDEj7cA&list=PLG8rj6Rr0BU-AqcJMuwggKy0GMIkjkt3j)
+- [Enlace unidireccional en Angular](/general/wpf-to-angular-guide/one-way-binding)
+- [NgModel de Angular](https://angular.io/api/forms/NgModel)
+
+<hr/>
+Nuestra comunidad está activa y siempre da la bienvenida a nuevas ideas.
+
+- [Ignite UI for Angular **Foros**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

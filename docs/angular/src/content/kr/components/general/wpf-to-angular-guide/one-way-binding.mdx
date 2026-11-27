@@ -1,0 +1,158 @@
+---
+title: "Angular의 단방향 데이터 바인딩 | WPF에서 Angular 가이드 | Infragistics"
+description: "Angular의 단방향 데이터 바인딩을 알아보고, 기반 데이터의 변경과 동기화된 상태를 유지하면서 최종 사용자에게 정보를 보여 주는 방법을 확인하십시오."
+keywords: one-way data binding in angular, ignite ui for angular, infragistics
+_language: ko
+llms:
+  description: "Angular의 단방향 데이터 바인딩(즉 단방향 바인딩)은 컴포넌트에서 뷰(DOM)로, 또는 그 반대로 - 뷰에서 컴포넌트로 데이터를 바인딩하는 방법입니다."
+---
+
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+
+# Angular의 단방향 데이터 바인딩이란 무엇입니까
+
+Angular의 단방향 데이터 바인딩(즉 단방향 바인딩)은 컴포넌트에서 뷰(DOM)로, 또는 그 반대로 - 뷰에서 컴포넌트로 데이터를 바인딩하는 방법입니다. 최종 사용자에게 정보를 보여 주는 데 사용되며, 기반 데이터가 바뀔 때마다 자동으로 동기화된 상태를 유지합니다. 이는 WPF의 단방향 바인딩과 비슷합니다.
+
+<iframe width="100%" height="600" src="https://www.youtube.com/embed/fP7iVhFNTOk">
+</iframe>
+
+## Angular 데이터 바인딩이란 무엇입니까?
+
+데이터 바인딩은 UI 업데이트 과정을 크게 간소화하고 앱을 만들 때 반복 코드를 줄여 주므로 프로그래머들이 널리 사용합니다. Angular의 데이터 바인딩은 매우 쉬우며, WPF와 달리 데이터 컨텍스트, 뷰 모델, `INotifyPropertyChanged`(INPC)를 신경 쓸 필요가 없습니다. 신경 써야 할 것은 HTML 파일과 typescript 파일뿐입니다. 어떤 데이터 바인딩이든 먼저 바인딩할 속성이 필요합니다. 따라서 컴포넌트 클래스에 `text`라는 속성을 추가하고 값을 설정하겠습니다.
+WPF에서는 DataContext를 설정하고 XAML에서 속성을 바인딩해야 합니다:
+
+```csharp
+public class IgniteUIClass
+{
+  public string Text  { get; set; }
+  
+  public IgniteUIClass()
+  { 
+    this.Text = "IgniteUI for Angular";
+  }
+}
+...
+public MainWindow()
+{
+  InitializeComponent();
+  this.DataContext = new IgniteUIClass();
+}
+```
+
+```xml
+<Label Content="{Binding Path=Text, Mode=OneWay}"></Label>
+```
+
+Angular에서는 DOM 속성을 컴포넌트의 속성에 직접 바인딩합니다:
+
+```typescript
+export class SampleComponent implements OnInit {
+
+  text = 'IgniteUI for Angular';
+
+  constructor() { }
+  ngOnInit() {}
+}
+```
+
+```html
+<h2>{{ text }}</h2>
+```
+
+## Angular 데이터 바인딩 보간
+
+위 코드에서는 `text` 속성의 값에 바인딩하여 HTML에 텍스트를 표시하기만 합니다. 이 경우 `interpolation`를 사용하여 단방향 바인딩을 만듭니다. 이를 위해 이중 중괄호, 속성의 이름(여기서는 `text`), 그리고 닫는 이중 중괄호를 입력합니다. 같은 결과를 얻는 또 다른 방법은 h2 태그를 만들고 `text` 속성을 innerHTML 속성에 바인딩하는 것이며, 이때도 `interpolation` 구문을 다시 사용합니다:
+
+```html
+<h2 innerHTML="{{ text }}"></h2>
+```
+
+`interpolation`에 대해 중요한 점은 두 가지입니다.
+
+- 첫째, 중괄호 안의 모든 것은 `string`(으)로 렌더링됩니다.
+- 둘째, 중괄호 안의 모든 것은 `template expression`(으)로 취급됩니다. 이를 통해 연결(concatenation) 같은 더 복잡한 작업도 할 수 있습니다.
+
+예를 들어 텍스트를 `text` 속성의 값과 연결해 보겠습니다:
+
+```html
+<h2>{{"Welcome to " + text }}</h2>
+```
+
+템플릿 표현식을 사용하면 JavaScript 속성과 메서드에도 바인딩할 수 있습니다. 예를 들어 `text` 속성의 length에 바인딩하면 숫자 20이 표시됩니다:
+
+```html
+<h2>{{ text.length }}</h2>
+```
+
+그 속성의 메서드에도 바인딩할 수 있습니다. 예를 들어 `toUpperCase()`에 바인딩할 수 있습니다:
+
+```html
+<h2>{{ text.toUpperCase() }}</h2>
+```
+
+이는 WPF의 데이터 바인딩보다 훨씬 강력하며 사용하기도 훨씬 쉽습니다. 템플릿 표현식 안에서 수학 계산도 할 수 있습니다. 예를 들어 표현식에 **2 + 2**를 넣으면 4와 같은 결과가 표시됩니다:
+
+```html
+<h2>{{ 2 + 2 }}</h2>
+```
+
+또 한 가지 할 수 있는 것은 typescript 파일의 실제 메서드에 바인딩하는 것입니다. 이를 구현하는 짧은 예는 다음과 같습니다:
+
+```html
+<h2>{{ getTitle() }}</h2>
+```
+
+이 `getTitle()`은(는) typescript 파일에 정의된 메서드입니다. 페이지의 결과는 그 메서드가 반환한 값입니다:
+
+```typescript
+getTitle() {
+  return 'Simple Title';
+}
+```
+
+`interpolation`은(는) 꽤 강력해 보이지만 한계도 있습니다. 예를 들어 **문자열**만 나타낼 수 있다는 것입니다.
+그래서 이제 컴포넌트 클래스에 간단한 불리언 속성을 만들어 보겠습니다:
+
+```typescript
+export class SampleComponent implements OnInit {
+
+  text = 'IgniteUI for Angular';
+  isDisabled = false;
+  constructor() { }
+...
+```
+
+이제 텍스트 타입의 간단한 `input`를 만들고, `isDisabled` 속성을 입력의 `disabled` 속성에 바인딩하겠습니다:
+
+```html
+<input type="text" disabled="{{ isDisabled }}"/>
+```
+
+예상되는 결과는 `input`이(가) 활성화되는 것이지만, 실제로는 비활성화되어 있습니다. 이는 `interpolation`이(가) 문자열을 반환하지만, 입력의 disabled 속성은 불리언 타입이며 불리언 값을 요구하기 때문입니다.
+이것이 올바르게 동작하도록 Angular는 `property binding`을(를) 제공합니다.
+
+## Angular 속성 바인딩
+
+Angular의 속성 바인딩은 HTML 요소 또는 디렉티브의 대상 속성에 값을 바인딩하는 데 사용됩니다. 구문은 보간과 조금 다릅니다. 속성 바인딩에서는 속성 이름을 대괄호로 감싸며, 그 값에는 중괄호가 없고 바인딩할 속성의 이름만 들어갑니다.  
+
+```html
+<input type="text" [disabled]="isDisabled"/>
+```
+
+속성 바인딩을 사용하면 입력의 `disabled` 속성이 문자열이 **아니라** 불리언 결과에 바인딩됩니다. `isDisabled` 값은 false이므로, 앱을 실행하면 입력이 활성화된 것으로 표시됩니다.
+
+<DocsAside type="info">
+바인딩이 데이터 타입 결과에 의존한다면 `property binding`을(를) 사용해야 한다는 점을 기억하는 것이 매우 중요합니다! 바인딩이 단순히 문자열 값에 의존한다면 `interpolation`을(를) 사용해야 합니다.
+</DocsAside>
+
+## 추가 리소스
+
+- [데스크톱에서 웹으로: Angular 보간과 속성 바인딩을 사용한 단방향 데이터 바인딩](https://www.youtube.com/watch?v=fP7iVhFNTOk&list=PLG8rj6Rr0BU-AqcJMuwggKy0GMIkjkt3j)
+- [Angular의 양방향 바인딩](/general/wpf-to-angular-guide/two-way-binding)
+- [Angular 데이터 표시](https://angular.io/guide/displaying-data#displaying-data)
+
+<hr/>
+커뮤니티는 활발하며 새로운 아이디어를 언제나 환영합니다.
+
+- [Ignite UI for Angular **포럼**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

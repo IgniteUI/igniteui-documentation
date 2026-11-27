@@ -1,0 +1,605 @@
+---
+title: "Sankey Chart de {Platform} | Visualización de datos | Infragistics"
+description: "El Sankey Chart de {Platform} dibuja flujos ponderados entre etapas como bandas de nodos unidas por cintas cuyo ancho es proporcional al valor de cada flujo."
+keywords: "Gráficos {Platform}, Sankey Chart, diagrama de Sankey, diagrama de flujo, gráfico aluvial, rueda de dependencias, Infragistics"
+license: commercial
+mentionedTypes: ["DataChart", "SankeySeries", "RadialSankeySeries", "FlowSeries", "FlowStyleMapping", "SankeyLayoutAdapter", "SankeyNodeAlignment", "SankeyLinkAggregationMode", "SankeyRibbonShape", "SankeyHighlightScope", "SankeyDataLegendScope", "CalloutLayer", "DataToolTipLayer", "DataLegend", "CategoryXAxis", "NumericYAxis", "CategoryAngleAxis", "ProportionalCategoryAngleAxis", "NumericRadiusAxis"]
+namespace: Infragistics.Controls.Charts
+_language: es
+llms:
+  description: "El Sankey Chart de {ProductName} es una serie de DataChart que dibuja flujos ponderados entre etapas: los nodos son bandas apiladas y los enlaces son cintas cuyo ancho es proporcional al valor de cada flujo."
+platformType: xplat
+---
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+# Sankey Chart de {Platform}
+
+El Sankey Chart de {ProductName} muestra cómo fluye una cantidad de una etapa a la siguiente. Cada nodo es una banda cuya altura es la cantidad que pasa por él, y cada enlace es una cinta cuyo ancho es proporcional al flujo que transporta, de modo que el lector puede ver de un vistazo adónde van los flujos más grandes y dónde se dividen o se unen. El gráfico es el `SankeySeries`, alojado en `DataChart`, por lo que usa los ejes, las informaciones emergentes, el resaltado, la selección, las animaciones y las capas de anotación del gráfico.
+
+## Ejemplo de Sankey Chart de {Platform}
+
+El siguiente ejemplo divide un presupuesto mensual en necesidades, deseos y ahorros, y después en el destino de cada uno. Los ejes están ocultos y un `CalloutLayer` etiqueta cada nodo.
+
+<Sample src="/charts/data-chart/sankey-budget-showcase" height={600} alt="Ejemplo de Sankey Chart de {Platform}" />
+
+¿Le gusta este ejemplo? Pruebe el kit de herramientas completo de {ProductName} y empiece a crear sus propias aplicaciones. <a href="{environment:infragisticsBaseUrl}/products/{ProductSpinal}/download">Descargue la prueba gratuita.</a>
+
+## Recomendaciones para el Sankey Chart
+
+### ¿Son los Sankey Charts de {Platform} adecuados para su proyecto?
+
+Un Sankey Chart es adecuado para datos que pasan por etapas y en los que importa el tamaño de cada movimiento: el dinero que pasa de los ingresos al gasto, la energía de la fuente al uso, los visitantes de la página de aterrizaje a la conversión, o los pedidos de una región al canal de ventas. Como cada flujo conserva su ancho de principio a fin, el gráfico muestra tanto las partes como la forma en que se recombinan.
+
+### Casos de uso del Sankey Chart
+
+- Presupuestos y flujo de caja: ingresos repartidos en categorías de gasto y de ahorro.
+- Balances de energía, materiales o recursos.
+- Recorridos de clientes y embudos de conversión con rutas ramificadas.
+- Desgloses de una misma población en varias dimensiones categóricas, como región, producto y canal (un gráfico aluvial).
+
+### Cuándo no usar un Sankey Chart
+
+- Sus datos no tienen etapas ni dirección: use un [Pie Chart](pie-chart.mdx) o un [Treemap](treemap-chart.mdx) para mostrar partes de un todo.
+- Necesita comparar valores exactos: un [Bar Chart](bar-chart.mdx) o un [Column Chart](column-chart.mdx) son más fáciles de leer con precisión.
+- Hay muchos flujos pequeños de tamaño similar: las cintas se vuelven finas y difíciles de distinguir.
+
+### Estructura de datos del Sankey Chart
+
+Un Sankey Chart lee dos tipos de registro:
+
+- **Enlaces**: un registro por flujo, que indica su nodo de origen, su nodo de destino y su valor. Todo Sankey Chart necesita estos registros.
+- **Nodos**: un registro por nodo, que contiene su id, su etiqueta y la etapa (capa) a la que pertenece. Son opcionales: sin ellos, la serie deriva los nodos y sus capas a partir de los enlaces.
+
+El valor de un nodo es el mayor de sus totales de entrada y de salida, de modo que un nodo que transmite todo lo que recibe tiene exactamente la misma altura que los flujos a ambos lados. Un enlace cuyo valor no es un número finito se omite y no dibuja ninguna cinta.
+
+Las etapas se extienden a lo largo de un eje de categorías, con una categoría por etapa, y los valores de los nodos apilados se extienden a lo largo de un eje numérico.
+
+## Enlace de datos del Sankey Chart de {Platform}
+
+### Nodos y enlaces
+
+Enlace los nodos al origen de datos de la serie y los enlaces a `linkSource`. Nombre los campos de nodo con `nodeIdMemberPath`, `nodeLabelMemberPath` y `nodeLayerMemberPath`, y los campos de enlace con `linkSourceMemberPath`, `linkTargetMemberPath` y `linkValueMemberPath`. El origen y el destino de un enlace nombran los ids de nodo, y la capa de un nodo es el índice, a partir de cero, de su etapa en `CategoryXAxis`.
+
+```json-snippet source="/charts/data-chart/sankey-budget-showcase"
+{
+    "descriptions": {
+        "content": {
+            "type": "DataChart",
+            "name": "chart",
+            "axes": [
+                {
+                    "type": "CategoryXAxis",
+                    "name": "xAxis",
+                    "dataSourceRef": "SankeyHouseholdStages",
+                    "label": "Stage"
+                },
+                {
+                    "type": "NumericYAxis",
+                    "name": "yAxis"
+                }
+            ],
+            "series": [
+                {
+                    "type": "SankeySeries",
+                    "name": "sankey",
+                    "xAxisRef": "xAxis",
+                    "yAxisRef": "yAxis",
+                    "dataSourceRef": "SankeyHouseholdNodes",
+                    "nodeIdMemberPath": "Id",
+                    "nodeLabelMemberPath": "Label",
+                    "nodeLayerMemberPath": "Layer",
+                    "linkSourceRef": "SankeyHouseholdLinks",
+                    "linkSourceMemberPath": "Source",
+                    "linkTargetMemberPath": "Target",
+                    "linkValueMemberPath": "Value"
+                }
+            ]
+        }
+    }
+}
+```
+
+Establezca `linkIdMemberPath` cuando cada enlace tenga un id estable propio. La serie empareja los enlaces por id cuando cambian los datos, de modo que un enlace editado se anima desde su forma anterior hasta la nueva.
+
+### Solo enlaces
+
+Cuando la serie tiene enlaces pero no nodos, o nodos sin capa, crea los nodos a partir de los orígenes y destinos distintos y asigna una capa a cada uno. Las etiquetas de los nodos son los ids usados en los enlaces.
+
+<Sample src="/charts/data-chart/sankey-edge-list" height={600} alt="Sankey Chart de {Platform} a partir de una lista de aristas" />
+
+```json-snippet source="/charts/data-chart/sankey-edge-list"
+{
+    "descriptions": {
+        "content": {
+            "type": "DataChart",
+            "name": "chart",
+            "axes": [
+                {
+                    "type": "CategoryXAxis",
+                    "name": "xAxis",
+                    "dataSourceRef": "SankeyIncomeStages",
+                    "label": "Stage"
+                },
+                {
+                    "type": "NumericYAxis",
+                    "name": "yAxis"
+                }
+            ],
+            "series": [
+                {
+                    "type": "SankeySeries",
+                    "name": "sankey",
+                    "xAxisRef": "xAxis",
+                    "yAxisRef": "yAxis",
+                    "linkSourceRef": "SankeyIncomeFlow",
+                    "linkSourceMemberPath": "Source",
+                    "linkTargetMemberPath": "Target",
+                    "linkValueMemberPath": "Value"
+                }
+            ]
+        }
+    }
+}
+```
+
+Dos propiedades controlan cómo se deriva la disposición. Ninguna se aplica cuando los nodos tienen una capa explícita.
+
+| Propiedad | Valores | Efecto |
+|---|---|---|
+| `nodeAlignment` | `Left` (predeterminado), `Right`, `Justify`, `Center` | En qué capa se coloca un nodo. `Left` coloca cada nodo lo antes posible, `Right` lo más tarde posible, `Justify` mantiene los orígenes en la primera capa y mueve a la última todos los nodos sin enlaces de salida, y `Center` coloca cada nodo a mitad de camino entre ambos. |
+| `linkAggregation` | `Aggregate` (predeterminado), `Separate` | Si varios registros con el mismo origen y destino se convierten en una única cinta que lleva su total, o en una cinta para cada uno. |
+
+### Filas de categorías (gráfico aluvial)
+
+Para representar gráficamente una tabla en la que cada fila es una combinación de categorías y un recuento, asigne un `SankeyLayoutAdapter` a `layoutAdapter` de la serie. Establezca el origen de datos de enlaces del adaptador en la tabla, enumere en orden las columnas de categoría en `dimensionMemberPaths` y nombre la columna de recuento en `linkValueMemberPath`. Cada columna se convierte en una etapa, cada valor distinto de una columna se convierte en un nodo, y cada fila enlaza sus valores en columnas consecutivas.
+
+<Sample src="/charts/data-chart/sankey-alluvial" height={600} alt="Sankey Chart aluvial de {Platform}" />
+
+```json-snippet source="/charts/data-chart/sankey-alluvial"
+{
+    "skipAlterDataCasing": true,
+    "descriptions": {
+        "content": {
+            "type": "DataChart",
+            "name": "chart",
+            "axes": [
+                {
+                    "type": "CategoryXAxis",
+                    "name": "xAxis",
+                    "dataSourceRef": "SankeyOrderStages",
+                    "label": "Stage"
+                },
+                {
+                    "type": "NumericYAxis",
+                    "name": "yAxis"
+                }
+            ],
+            "series": [
+                {
+                    "type": "SankeySeries",
+                    "name": "sankey",
+                    "xAxisRef": "xAxis",
+                    "yAxisRef": "yAxis",
+                    "layoutAdapter": {
+                        "type": "SankeyLayoutAdapter",
+                        "linkItemsSourceRef": "SankeyOrderChannels",
+                        "dimensionMemberPaths": [ "Region", "Product", "Channel" ],
+                        "linkValueMemberPath": "Orders"
+                    }
+                }
+            ]
+        }
+    }
+}
+```
+
+Cuando se asigna un `layoutAdapter`, la serie dibuja los nodos y los enlaces del adaptador e ignora su propio origen de datos y sus enlaces de datos.
+
+## Configuración del Sankey Chart de {Platform}
+
+### Separación de nodos
+
+`nodeGap` establece el espacio entre los nodos apilados en una etapa. De forma predeterminada, la serie elige la separación a partir de los datos, de modo que las separaciones de la etapa más concurrida ocupen aproximadamente una cuarta parte del total de la etapa más grande, y ninguna separación sea más ancha que el 4 % de ese total. Para establecerla usted mismo, indíquela en las unidades del eje numérico, no en píxeles, en relación con el tamaño de sus valores; `0` apila las bandas a ras. Una etapa con más nodos tiene más separaciones, por lo que las cintas se abren más en las etapas más concurridas.
+
+```json-snippet source="/charts/data-chart/sankey-edge-list"
+{
+    "type": "DataChart",
+    "series": [
+        {
+            "type": "SankeySeries",
+            "$type": "+doc:markup",
+            "nodeGap": 250,
+            "$nodeGap": "+doc:markup"
+        }
+    ]
+}
+```
+
+### Etiquetas de los nodos
+
+Las etiquetas de los ejes nombran las etapas, no los nodos. Para etiquetar cada nodo, añada un `CalloutLayer` que apunte a la serie, active `isAutoCalloutBehaviorEnabled` y establezca `useValueForAutoCalloutLabels` en false para que cada llamada muestre la etiqueta del nodo en lugar de su valor. `useItemColorForOutline` dibuja el contorno de cada llamada con el color de su nodo. Aumente el `plotAreaMarginRight` del gráfico para dejar espacio a las etiquetas de la última etapa. La serie coloca cada etiqueta junto a su nodo, a la derecha cuando hay espacio y, si no, a la izquierda; establezca `allowedPositions` de la capa para restringir aún más las posiciones.
+
+```json-snippet source="/charts/data-chart/sankey-budget-showcase"
+{
+    "type": "DataChart",
+    "name": "chart",
+    "plotAreaMarginRight": 180,
+    "$plotAreaMarginRight": "+doc:markup",
+    "series": [
+        {
+            "type": "SankeySeries",
+            "name": "sankey"
+        },
+        {
+            "type": "CalloutLayer",
+            "$type": "+doc:markup",
+            "name": "nodeLabels",
+            "targetSeriesRef": "sankey",
+            "isAutoCalloutBehaviorEnabled": true,
+            "useValueForAutoCalloutLabels": false,
+            "useItemColorForOutline": true,
+            "calloutStrokeThickness": 2,
+            "calloutTextColor": "Black",
+            "calloutBackground": "White"
+        }
+    ]
+}
+```
+
+### Información emergente (tooltips)
+
+Añada un `DataToolTipLayer` para describir el flujo cerca del cursor. La información emergente se fija al nodo más cercano, de forma similar a como una información emergente de categoría se fija a la categoría más cercana. Su encabezado es la etiqueta del nodo y muestra una fila por cada cinta en el lado del nodo en el que está el cursor, con un total:
+
+- A la izquierda de un nodo, las filas son las cintas que fluyen hacia él, cada una nombrada por el nodo de origen.
+- A la derecha de un nodo, las filas son las cintas que salen de él, cada una nombrada por el nodo de destino.
+- Un nodo sin cintas en ese lado, como un origen a su izquierda, muestra en su lugar el otro lado.
+
+Pasado el punto medio entre dos etapas, los nodos más cercanos son los de la etapa siguiente. La información emergente se desplaza entonces a ellos y describe las mismas cintas que llegan allí.
+
+La propiedad `dataToolTipScope` de la serie cambia lo que cubre la información emergente:
+
+- `Node` (el predeterminado) describe el nodo más cercano.
+- `Stage` describe cada nodo de la etapa más cercana, cada uno como su propio grupo.
+- `Element` describe solo el nodo o la cinta bajo el cursor, o la más cercana.
+
+En el modo de agrupación individual de la capa, cada cinta de la lista tiene su propia información emergente, que apunta a la cinta. Una `DataLegend` sigue en cambio la propiedad `dataLegendScope` de la serie, que por defecto es `Stage`.
+
+```json-snippet source="/charts/data-chart/sankey-budget-showcase"
+{
+    "type": "DataChart",
+    "series": [
+        {
+            "type": "SankeySeries",
+            "$type": "+doc:markup",
+            "title": "Monthly Budget",
+            "$title": "+doc:markup"
+        },
+        {
+            "type": "DataToolTipLayer",
+            "$type": "+doc:markup",
+            "name": "tooltips"
+        }
+    ]
+}
+```
+
+### Ocultar los ejes
+
+Un Sankey Chart suele leerse mejor sin líneas de eje, líneas de cuadrícula ni etiquetas de valor. Establezca `areLabelsVisible` en false, `tickLength` en `0`, y `stroke` y `majorStroke` en `\Transparent` en ambos ejes.
+
+```json-snippet source="/charts/data-chart/sankey-budget-showcase"
+{
+    "type": "DataChart",
+    "axes": [
+        {
+            "type": "CategoryXAxis",
+            "$type": "+doc:markup",
+            "name": "xAxis",
+            "dataSourceRef": "SankeyHouseholdStages",
+            "label": "Stage",
+            "areLabelsVisible": false,
+            "tickLength": 0,
+            "stroke": "Transparent",
+            "majorStroke": "Transparent"
+        },
+        {
+            "type": "NumericYAxis",
+            "$type": "+doc:markup",
+            "name": "yAxis",
+            "areLabelsVisible": false,
+            "tickLength": 0,
+            "stroke": "Transparent",
+            "majorStroke": "Transparent"
+        }
+    ]
+}
+```
+
+## Estilo del Sankey Chart de {Platform}
+
+El siguiente ejemplo colorea tres nodos según su etiqueta y uno según su valor, dibuja las cintas con un ancho constante, redondea las esquinas de los nodos y atenúa el resto del gráfico cuando pasa el cursor sobre un nodo o una cinta.
+
+<Sample src="/charts/data-chart/sankey-styling" height={600} alt="Estilo del Sankey Chart de {Platform}" />
+
+### Colores de nodos y cintas
+
+`useItemWiseColors` da a cada nodo su propio color de la paleta del gráfico. Sin ella, todos los nodos usan `brush` y `outline` de la serie. Cada cinta se dibuja con el relleno y el contorno de su nodo de origen. `areaFillOpacity` establece la translucidez de las cintas, y `thickness` el ancho de los contornos de nodos y cintas.
+
+```json-snippet source="/charts/data-chart/sankey-budget-showcase"
+{
+    "type": "DataChart",
+    "series": [
+        {
+            "type": "SankeySeries",
+            "$type": "+doc:markup",
+            "useItemWiseColors": true,
+            "$useItemWiseColors": "+doc:markup",
+            "areaFillOpacity": 0.7,
+            "$areaFillOpacity": "+doc:markup",
+            "thickness": 0,
+            "$thickness": "+doc:markup"
+        }
+    ]
+}
+```
+
+### Asignaciones de estilo
+
+`styleMappings` colorea los nodos de forma declarativa. Cada `FlowStyleMapping` encuentra un nodo por `nodeLabel`, por un intervalo de valores desde `minimumValue` hasta `maximumValue` (ambos incluidos), o por ambos, y aplica su `fill` y su `outline`, que luego también toman las cintas salientes del nodo. La primera asignación que coincide con un nodo prevalece, y un nodo coincidente toma los colores de la asignación en lugar de su color por elemento; así puede colorear todos los nodos con la paleta y destacar algunos. Para cambiar el estilo de los elementos mediante código, gestione el evento `assigningStyle` de la serie.
+
+```json-snippet source="/charts/data-chart/sankey-styling"
+{
+    "type": "DataChart",
+    "series": [
+        {
+            "type": "SankeySeries",
+            "$type": "+doc:markup",
+            "useItemWiseColors": true,
+            "styleMappings": [
+                { "type": "FlowStyleMapping", "nodeLabel": "Savings", "fill": "#2E7D32", "outline": "#2E7D32" },
+                { "type": "FlowStyleMapping", "nodeLabel": "Housing", "fill": "#1565C0", "outline": "#1565C0" },
+                { "type": "FlowStyleMapping", "nodeLabel": "Discretionary", "fill": "#EF6C00", "outline": "#EF6C00" },
+                { "type": "FlowStyleMapping", "minimumValue": 9000, "maximumValue": 10000, "fill": "#6A1B9A", "outline": "#6A1B9A" }
+            ]
+        }
+    ]
+}
+```
+
+### Forma de las cintas y esquinas de los nodos
+
+`ribbonShape` establece la forma de las cintas. `Curved` (el predeterminado) es la curva en S clásica, cuyo ancho aparente se estrecha en una curva pronunciada. `Straightened` gira en diagonal antes y se estrecha menos, y `UniformWidth` mantiene la cinta con el mismo ancho en toda su longitud. Todas las formas llegan a los nodos en los mismos puntos, por lo que las cintas siguen alineadas con las bandas que unen. `radiusX` y `radiusY` redondean las esquinas de las bandas de nodos; ambas tienen por defecto `0`.
+
+```json-snippet source="/charts/data-chart/sankey-styling"
+{
+    "type": "DataChart",
+    "series": [
+        {
+            "type": "SankeySeries",
+            "$type": "+doc:markup",
+            "ribbonShape": "UniformWidth",
+            "$ribbonShape": "+doc:markup",
+            "radiusX": 4,
+            "$radiusX": "+doc:markup",
+            "radiusY": 4,
+            "$radiusY": "+doc:markup"
+        }
+    ]
+}
+```
+
+### Resaltado
+
+Establezca el `highlightingMode` del gráfico para resaltar lo que señala el puntero. `highlightScope` decide qué se resalta con él: `ConnectedFlow` (el predeterminado) resalta un nodo sobre el que se pasa junto con todas las cintas que entran y salen de él, y una cinta sobre la que se pasa junto con los dos nodos que une, mientras que `Element` resalta solo el nodo o la cinta sobre la que se pasa.
+
+```json-snippet source="/charts/data-chart/sankey-styling"
+{
+    "type": "DataChart",
+    "$type": "+doc:markup",
+    "highlightingMode": "FadeOthersSpecific",
+    "$highlightingMode": "+doc:markup",
+    "highlightingBehavior": "DirectlyOver",
+    "$highlightingBehavior": "+doc:markup",
+    "series": [
+        {
+            "type": "SankeySeries",
+            "$type": "+doc:markup",
+            "highlightScope": "ConnectedFlow",
+            "$highlightScope": "+doc:markup"
+        }
+    ]
+}
+```
+
+## Valores resaltados del Sankey Chart de {Platform}
+
+La superposición de valores resaltados dibuja un segundo valor para cada enlace sobre el primero, como una cinta más fina centrada dentro de la original, por ejemplo, un subconjunto filtrado comparado con el total. Nombre el segundo valor en `highlightedLinkValueMemberPath` y establezca `highlightedValuesDisplayMode` en `Overlay`. Si los segundos valores están en una colección distinta de los enlaces, enlácelos a `highlightedLinkSource`.
+
+<Sample src="/charts/data-chart/sankey-highlighted-overlay" height={600} alt="Valores resaltados del Sankey Chart de {Platform}" />
+
+```json-snippet source="/charts/data-chart/sankey-highlighted-overlay"
+{
+    "type": "DataChart",
+    "series": [
+        {
+            "type": "SankeySeries",
+            "$type": "+doc:markup",
+            "linkSourceRef": "SankeyIncomeFlow",
+            "linkSourceMemberPath": "Source",
+            "linkTargetMemberPath": "Target",
+            "linkValueMemberPath": "Value",
+            "highlightedLinkValueMemberPath": "Highlighted",
+            "$highlightedLinkValueMemberPath": "+doc:markup",
+            "highlightedValuesDisplayMode": "Overlay",
+            "$highlightedValuesDisplayMode": "+doc:markup"
+        }
+    ]
+}
+```
+
+## Animación del Sankey Chart de {Platform}
+
+Cuando cambian los flujos, la serie puede animar las cintas y los nodos antiguos hasta los nuevos. Establezca `transitionDuration` en la duración de la animación en milisegundos; por defecto es `0`, sin animación. Los cambios hechos en los datos in situ se animan entonces. Para animar también cuando asigne un `linkSource` distinto, o apunte `linkValueMemberPath` a otra columna de valores, establezca `shouldAnimateOnDataSourceSwap` en true. Establezca `linkIdMemberPath` en un campo que identifique cada enlace en todas las versiones de los datos, de modo que cada cinta se anime desde su forma anterior. Cuando los nuevos flujos cambien el rango del eje numérico, establezca `animateSeriesWhenAxisRangeChanges` del gráfico en true para que la serie también se anime durante el reescalado.
+
+El siguiente ejemplo mantiene una columna de valores por mes. Al elegir un mes en el editor, `linkValueMemberPath` se establece en la columna de ese mes, y los flujos se animan hasta los nuevos valores.
+
+<Sample src="/charts/data-chart/sankey-monthly-flow" height={650} alt="Sankey Chart de {Platform} animado por mes" />
+
+```json-snippet source="/charts/data-chart/sankey-monthly-flow"
+{
+    "skipAlterDataCasing": true,
+    "descriptions": {
+        "content": {
+            "type": "DataChart",
+            "$type": "+doc:markup",
+            "animateSeriesWhenAxisRangeChanges": true,
+            "$animateSeriesWhenAxisRangeChanges": "+doc:markup",
+            "series": [
+                {
+                    "type": "SankeySeries",
+                    "$type": "+doc:markup",
+                    "linkSourceRef": "SankeyBudgetMonths",
+                    "linkIdMemberPath": "Id",
+                    "linkSourceMemberPath": "Source",
+                    "linkTargetMemberPath": "Target",
+                    "linkValueMemberPath": "July",
+                    "shouldAnimateOnDataSourceSwap": true,
+                    "transitionDuration": 1000
+                }
+            ]
+        }
+    }
+}
+```
+
+```json-snippet source="/charts/data-chart/sankey-monthly-flow" channel="handlersImports...handler"
+{
+    "skipAlterDataCasing": true,
+    "descriptions": {
+        "editor": {
+            "type": "PropertyEditorPanel",
+            "name": "editor",
+            "targetRef": "chart",
+            "descriptionType": "DataChart",
+            "properties": [
+                {
+                    "type": "PropertyEditorPropertyDescription",
+                    "propertyPath": "MonthHandler",
+                    "name": "MonthEditor",
+                    "label": "Month",
+                    "shouldOverrideDefaultEditor": true,
+                    "valueType": "EnumValue",
+                    "dropDownNames": [ "July", "August", "September" ],
+                    "dropDownValues": [ "July", "August", "September" ],
+                    "primitiveValue": "July",
+                    "changedRef": "EditorChangeSankeyMonth",
+                    "$changedRef": "+doc:handler"
+                }
+            ]
+        },
+        "content": {
+            "type": "DataChart",
+            "name": "chart"
+        }
+    }
+}
+```
+
+## Radial Sankey Chart de {Platform}
+
+El `RadialSankeySeries` dibuja los mismos flujos alrededor de un círculo, al estilo de una rueda de dependencias: las etapas se convierten en ángulos, las bandas de nodos en arcos, y las cintas se extienden entre ellos. Recibe los mismos datos y las mismas propiedades que el `SankeySeries`, pero usa un `CategoryAngleAxis` y un `NumericRadiusAxis` en lugar de los ejes de categorías y numérico. Establezca `calloutCollisionMode` de `CalloutLayer` en `RadialOutsideEnd` para colocar las etiquetas de los nodos alrededor del exterior del anillo.
+
+<Sample src="/charts/data-chart/radial-sankey-showcase" height={700} alt="Radial Sankey Chart de {Platform}" />
+
+```json-snippet source="/charts/data-chart/radial-sankey-showcase"
+{
+    "descriptions": {
+        "content": {
+            "type": "DataChart",
+            "name": "chart",
+            "axes": [
+                {
+                    "type": "CategoryAngleAxis",
+                    "name": "angleAxis",
+                    "dataSourceRef": "SankeyIncomeStages",
+                    "label": "Stage"
+                },
+                {
+                    "type": "NumericRadiusAxis",
+                    "name": "radiusAxis"
+                }
+            ],
+            "series": [
+                {
+                    "type": "RadialSankeySeries",
+                    "name": "radialSankey",
+                    "angleAxisRef": "angleAxis",
+                    "radiusAxisRef": "radiusAxis",
+                    "linkSourceRef": "SankeyIncomeFlow",
+                    "linkSourceMemberPath": "Source",
+                    "linkTargetMemberPath": "Target",
+                    "linkValueMemberPath": "Value"
+                },
+                {
+                    "type": "CalloutLayer",
+                    "name": "nodeLabels",
+                    "targetSeriesRef": "radialSankey",
+                    "isAutoCalloutBehaviorEnabled": true,
+                    "useValueForAutoCalloutLabels": false,
+                    "calloutCollisionMode": "RadialOutsideEnd"
+                }
+            ]
+        }
+    }
+}
+```
+
+### Etapas proporcionales
+
+Con un `CategoryAngleAxis`, cada etapa recibe una parte igual del círculo. Para dimensionar las etapas de forma distinta, use un `ProportionalCategoryAngleAxis` y nombre una columna de peso en su `valueMemberPath`; la parte del círculo de cada etapa es proporcional a su peso.
+
+<Sample src="/charts/data-chart/radial-sankey-proportional-stages" height={700} alt="Radial Sankey Chart de {Platform} con etapas proporcionales" />
+
+```json-snippet source="/charts/data-chart/radial-sankey-proportional-stages"
+{
+    "type": "DataChart",
+    "axes": [
+        {
+            "type": "ProportionalCategoryAngleAxis",
+            "$type": "+doc:markup",
+            "name": "angleAxis",
+            "dataSourceRef": "SankeyIncomeStageWeights",
+            "label": "Stage",
+            "valueMemberPath": "Weight"
+        }
+    ]
+}
+```
+
+La superposición de valores resaltados funciona igual en la serie radial.
+
+<Sample src="/charts/data-chart/radial-sankey-highlighted-overlay" height={700} alt="Valores resaltados del Radial Sankey Chart de {Platform}" />
+
+## Recursos adicionales
+
+- [Anotaciones de gráficos](../features/chart-annotations.mdx)
+- [Resaltado de gráficos](../features/chart-highlighting.mdx)
+- [Radial Chart](radial-chart.mdx)
+- [Treemap](treemap-chart.mdx)
+
+## Referencias de API
+
+- `DataChart`
+- `SankeySeries`
+- `RadialSankeySeries`
+- `SankeyLayoutAdapter`
+- `FlowStyleMapping`
+- `CalloutLayer`
+- `DataToolTipLayer`
+- `DataLegend`
+- `CategoryXAxis`
+- `NumericYAxis`
+- `CategoryAngleAxis`
+- `ProportionalCategoryAngleAxis`
+- `NumericRadiusAxis`

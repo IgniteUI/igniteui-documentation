@@ -1,0 +1,311 @@
+---
+title: "{Platform} {ComponentTitle} 테마 지정 - {ProductName}"
+description: "배경색, 전경색, 강조색만으로 {ProductName} {ComponentTitle} 테마를 만들 수 있습니다. grid-theme(), Theming MCP 또는 테마 플레이그라운드로 파생된 --ig-grid-* 토큰을 생성하십시오."
+keywords: "{Platform} {ComponentTitle} 테마 지정, {Platform} {ComponentTitle} 스타일 지정, 그리드 테마, grid-theme, 파생 토큰, theming mcp, CSS 변수, {ProductName}, Infragistics"
+license: commercial
+mentionedTypes: [{ComponentApiMembers}]
+sharedComponents: ["Grid", "TreeGrid", "HierarchicalGrid", "PivotGrid"]
+namespace: Infragistics.Controls
+_canonicalLink: "{CanonicalLinkToGridTheming}"
+_language: ko
+llms:
+  description: "{ProductName} {ComponentTitle} 테마는 배경색, 전경색, 강조색으로 만들 수 있으며, 다른 모든 --ig-grid-* 색상은 여기서 파생됩니다. grid-theme()(Sass), Theming MCP 또는 테마 플레이그라운드로 파생 토큰을 생성하십시오. 이것이 없으면 각 속성은 독립적입니다."
+---
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+
+# {Platform} {ComponentTitle} 테마 지정
+
+{ComponentTitle} 테마는 **배경색**, **전경색**, **강조색**만으로 만들 수 있으며, 다른 모든 색상은 이 값에서 파생됩니다. 머리글, 행, 테두리, 요약, 도구 모음, 페이지 나누기, 필터링 팝업이 여기에 포함됩니다. 파생 색상은 직접 작성할 필요가 없으며, 다음으로 생성할 수 있습니다: <PlatformBlock for="WebComponents, React">`grid-theme()`, </PlatformBlock>[Theming MCP](../../ai/theming-mcp.mdx) 또는 [테마 플레이그라운드](#직접-사용해-보기).
+
+파생 로직은 컴포넌트가 아니라 생성된 테마에 있습니다. 기본적으로 각 `--ig-grid-*` 속성은 독립적이며 {ComponentTitle}의 자기 부분만 바꿉니다. [개별 속성 세부 조정](#개별-속성-세부-조정)을 참조하십시오.
+
+<DocsAside type="info">
+그리드마다 별도의 토큰 세트가 있는 것은 아닙니다. Grid, Tree Grid, Hierarchical Grid, Pivot Grid는 모두 같은 `--ig-grid-*` 사용자 지정 속성을 읽으므로, 같은 테마를 수정 없이 어느 것에든 적용할 수 있습니다.
+</DocsAside>
+
+## {Platform} {ComponentTitle} 테마 지정 예제
+
+아래 테마 네 개는 사용자 지정 테마입니다. 라이브러리에 기본 제공되는 것이 아니라 이 샘플을 위해 작성했습니다. 이들은 파생 토큰이 담긴 생성된 블록 하나를 공유하므로, 각 테마는 기본 토큰과 몇 가지 표면 및 테두리 색상만 설정합니다. 테마 사이를 전환해 보면, 생성된 테마에서 이 몇 가지 값이 얼마나 멀리까지 영향을 미치는지 알 수 있습니다.
+
+<ComponentBlock for="Grid">
+
+<Sample iframeOnly noBorder={false} src="/{ComponentSample}/theming" height={720} alt="{Platform} {ComponentTitle} 테마 지정 예제" />
+
+</ComponentBlock>
+<ComponentBlock for="TreeGrid">
+
+<Sample iframeOnly noBorder={false} src="/{ComponentSample}/theming" height={710} alt="{Platform} {ComponentTitle} 테마 지정 예제" />
+
+</ComponentBlock>
+<ComponentBlock for="HierarchicalGrid">
+
+<Sample iframeOnly noBorder={false} src="/{ComponentSample}/theming" height={630} alt="{Platform} {ComponentTitle} 테마 지정 예제" />
+
+</ComponentBlock>
+<ComponentBlock for="PivotGrid">
+
+<Sample iframeOnly noBorder={false} src="/{ComponentSample}/theming" height={650} alt="{Platform} {ComponentTitle} 테마 지정 예제" />
+
+</ComponentBlock>
+
+## 테마 만들기
+
+생성된 테마는 클래스에 선언된 `--ig-grid-*` 사용자 지정 속성 블록입니다. 이 블록에는 기본 토큰 세 개와, 그 값을 기준으로 한 CSS 식으로 작성된 다른 모든 토큰이 들어 있습니다:
+
+```css
+.my-grid {
+  --ig-grid-background: #08002e;
+  --ig-grid-accent-color: #ff7d52;
+  --ig-grid-foreground: hsla(from color(from var(--ig-grid-background) var(--y-contrast)) h 0 l/1);
+  --ig-grid-header-background: color-mix(in srgb, var(--ig-grid-foreground) 6%, var(--ig-grid-background));
+  --ig-grid-header-text-color: var(--ig-grid-foreground);
+  --ig-grid-row-hover-background: color-mix(in srgb, var(--ig-grid-accent-color) 8%, var(--ig-grid-row-odd-background));
+  /* … and the rest of the token set */
+}
+```
+
+도구 체계에 맞는 방식을 고르십시오. 각 방식은 같은 토큰 세트를 만들어 냅니다.
+
+<PlatformBlock for="WebComponents, React">
+
+### Sass
+
+프로젝트가 Sass를 컴파일한다면, `grid-theme()` 함수를 사용하여 테마 엔진이 토큰 세트를 대신 작성하도록 할 수 있습니다. 이를 사용하려면 먼저 테마 패키지를 설치하십시오:
+
+```bash
+npm install igniteui-theming
+```
+
+그다음 테마 함수와 `tokens()` 믹스인을 내보내는 패키지를 import하십시오:
+
+```scss
+@use "igniteui-theming" as *;
+```
+
+그다음 <ApiLink type="function-grid-theme" label="grid-theme" kind="sass" module="index.html" />로 테마를 선언하고, 영향을 주려는 요소에 포함하십시오:
+
+```scss
+.my-grid {
+  @include tokens(grid-theme(
+    $background: #08002e,
+    $accent-color: #ff7d52
+  ));
+}
+```
+
+각 매개변수는 같은 이름의 토큰에 대응합니다. 예를 들어 `$background`는 `--ig-grid-background`에, `$accent-color`는 `--ig-grid-accent-color`에 대응하며, 생략한 모든 토큰은 설정한 값을 기준으로 한 식으로 생성됩니다.
+
+</PlatformBlock>
+
+### Theming MCP
+
+[Ignite UI Theming MCP](../../ai/theming-mcp.mdx)는 AI 어시스턴트를 통해 테마를 생성합니다. CSS 출력을 요청하면 바로 사용할 수 있는 사용자 지정 속성을 반환하므로, 로컬 Sass 도구 체계가 필요하지 않습니다.
+
+<PlatformBlock for="Blazor">
+Blazor 프로젝트에 권장하는 방식입니다. 프롬프트에 플랫폼을 명시하십시오:
+
+> _"Blazor 플랫폼을 사용하여, 배경 #08002e와 강조색 #ff7d52를 가진 `.my-grid` 클래스용 CSS 그리드 테마를 만들어 주세요."_
+
+생성된 CSS를 `wwwroot/css/app.css`에 추가하십시오.
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents, React">
+> _"배경 #08002e와 강조색 #ff7d52를 가진 `.my-grid` 클래스용 CSS 그리드 테마를 만들어 주세요."_
+
+</PlatformBlock>
+
+### 테마 플레이그라운드
+
+이 항목 끝에 있는 [테마 플레이그라운드](#직접-사용해-보기)에서 선택한 색상에 대한 토큰 세트를 생성할 수 있습니다. **코드 표시**를 선택하면 완전한 CSS 블록을 복사할 수 있습니다.
+
+### 테마를 최신 상태로 유지하기
+
+생성된 CSS 블록은 생성된 시점의 라이브러리 버전에 대한 스냅숏입니다. {ProductName}를 업그레이드한 후에는 그리드 테마의 새 변경 사항을 반영하기 위해 다시 생성하십시오.<PlatformBlock for="WebComponents, React"> `grid-theme()`를 사용하는 경우, 다른 {ProductName} 패키지와 함께 `igniteui-theming`도 업그레이드하고 다시 빌드하십시오. 이는 별도의 패키지이므로, 컴포넌트만 업그레이드해서는 업데이트되지 않습니다.</PlatformBlock> Theming MCP 또는 플레이그라운드를 사용하는 경우, 같은 프롬프트나 색상을 다시 실행하고 블록을 교체하십시오.
+
+## 테마 적용하기
+
+{ComponentTitle}에 클래스를 적용하십시오:
+
+<ComponentBlock for="Grid, TreeGrid, HierarchicalGrid">
+
+<PlatformBlock for="WebComponents">
+```html
+<{ComponentSelector} class="my-grid"></{ComponentSelector}>
+```
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+<{ComponentSelector} className="my-grid"></{ComponentSelector}>
+```
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```razor
+<{ComponentSelector} Class="my-grid"></{ComponentSelector}>
+```
+</PlatformBlock>
+
+</ComponentBlock>
+<ComponentBlock for="PivotGrid">
+
+{ComponentTitle}는 자체 `class` 속성을 관리하므로, 대신 테마 클래스를 컨테이너 요소에 두십시오. 토큰은 그 안의 {ComponentTitle}에 상속됩니다:
+
+<PlatformBlock for="WebComponents">
+```html
+<div class="my-grid">
+    <{ComponentSelector}></{ComponentSelector}>
+</div>
+```
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+<div className="my-grid">
+    <{ComponentSelector}></{ComponentSelector}>
+</div>
+```
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```razor
+<div class="my-grid">
+    <{ComponentSelector}></{ComponentSelector}>
+</div>
+```
+</PlatformBlock>
+
+</ComponentBlock>
+
+클래스를 적용하면 테마가 완성됩니다. 이제 {ComponentTitle}는 강조색 코랄이 있는 짙은 남색이며, 텍스트, 머리글, 행 테두리, 마우스 오버 상태, 선택 색조, 팝업 외관이 모두 이 두 값으로부터 계산되었습니다. 이제부터는 기본 토큰만 바꾸면 됩니다.
+
+<DocsAside type="note">
+기본 토큰은 파생 토큰과 같은 요소에, 또는 그 상위 요소 중 하나에 선언하십시오. 사용자 지정 속성의 `var()` 참조는 그 속성이 선언된 요소에서 해석되므로, 그 요소의 하위 요소에 설정된 기본 토큰은 파생 블록에서 무시됩니다.
+</DocsAside>
+
+## 주요 토큰
+
+생성된 테마에서 {ComponentTitle}는 기본 토큰 세 개로 만들어지며, 다른 모든 색상은 이를 따릅니다.
+
+| 토큰 | 생성된 테마에서 제어하는 대상 |
+| -- | -- |
+| `--ig-grid-background` | 컴포넌트 전체가 바탕으로 하는 표면입니다. 다른 모든 표면과 기본 전경은 여기서 도출됩니다. |
+| `--ig-grid-foreground` | 텍스트와 아이콘. 설정하지 않으면 배경과의 대비를 기준으로 파생됩니다. |
+| `--ig-grid-accent-color` | 상호 작용 색상입니다. 정렬 표시기, 선택, 마우스 오버 색조, 포커스에 사용됩니다. |
+
+`--ig-grid-foreground`은(는) 주요 토큰으로 나열되어 있지만 설정할 필요는 드뭅니다. 그대로 두면 배경과의 대비를 기준으로 선택되므로, 어두운 배경에는 밝은 텍스트가, 밝은 배경에는 어두운 텍스트가 두 번째 선언 없이도 적용됩니다.
+
+## 도출이 작동하는 방식
+
+생성된 테마의 파생 토큰은 고정된 색상이 아닙니다. 각 토큰은 기본 토큰을 기준으로 한 CSS 식입니다:
+
+```css
+.my-grid {
+  --ig-grid-foreground: hsla(from color(from var(--ig-grid-background) var(--y-contrast)) h 0 l/1);
+  --ig-grid-header-background: color-mix(in srgb, var(--ig-grid-foreground) 6%, var(--ig-grid-background));
+  --ig-grid-row-hover-background: color-mix(in srgb, var(--ig-grid-accent-color) 8%, var(--ig-grid-row-odd-background));
+  --ig-grid-sorted-header-icon-color: hsl(from var(--ig-grid-accent-color) h s l/0.7);
+}
+```
+
+이에 따라 두 가지 결과가 나옵니다. 첫째, 기본 토큰을 바꾸면 CSS 사용자 지정 속성을 통해 런타임에도 하위의 모든 값이 다시 계산됩니다. 둘째, 어떤 값을 입력하더라도 관계가 유지되므로 테마가 서로 어긋나지 않습니다. 두 가지 모두 생성된 토큰이 선언되어 있는 동안에만 유효하며, 이를 제거하면 모든 속성이 다시 독립적인 상태가 됩니다.
+
+## 더 깊이 들어가기
+
+생성된 테마에서는 일부 토큰이 그 자체로 파생의 근원입니다. 이 토큰을 선언하면 배경에서 분리되며, 그 위에 있는 요소는 새 값을 기준으로 파생되어야 합니다.
+
+`--ig-grid-header-background`가 가장 분명한 예입니다. 그대로 두면 `--ig-grid-background`에서 혼합되며, 머리글 텍스트는 `--ig-grid-foreground`를 따릅니다. 이를 선언하면 머리글 텍스트가 머리글 배경 자체와의 대비를 기준으로 다시 파생됩니다:
+
+```css
+.my-grid {
+  --ig-grid-header-background: #ff7d52;
+  --ig-grid-header-text-color: hsla(from color(from var(--ig-grid-header-background) var(--y-contrast)) h 0 l/1);
+}
+```
+
+<DocsAside type="note">
+표면이 배경을 따르지 않도록 하고 싶을 때만 이것을 사용하십시오. 대부분의 파생 토큰은 그대로 두는 것이 좋습니다. 하나를 재정의하면, 테마의 나머지와 계속 맞춰질 수 있었던 값이 고정되어 버립니다.
+</DocsAside>
+
+## 구조
+
+테마는 색상만으로 이루어지지 않습니다. 밀도와 모서리의 둥근 정도는 그리드 토큰이 아니라 전역 디자인 시스템 토큰으로 제어되므로, 그리드 토큰과 함께 설정하십시오:
+
+```css
+.my-grid {
+  --ig-size: var(--ig-size-small);   /* small | medium | large */
+  --ig-radius-factor: 0;             /* 0 to 1 */
+}
+```
+
+그리드 선도 테마 토큰입니다. 하나를 숨기려면 제거하는 대신 그 뒤의 표면과 같은 색조로 지정하십시오. 그래야 테마마다 행의 크기가 달라지지 않습니다:
+
+```css
+.my-grid {
+  /* horizontal dividers, blended away */
+  --ig-grid-row-border-color: var(--ig-grid-background);
+  /* vertical dividers, drawn in the same color the theme derives for rows */
+  --ig-grid-body-column-border-color-odd: hsl(from color-mix(in srgb, var(--ig-grid-foreground) 16%, var(--ig-grid-background)) h s l/0.38);
+  --ig-grid-body-column-border-color-even: hsl(from color-mix(in srgb, var(--ig-grid-foreground) 16%, var(--ig-grid-background)) h s l/0.38);
+}
+```
+
+## 개별 속성 세부 조정
+
+기본적으로 모든 `--ig-grid-*` 속성은 독립적입니다. 각 속성은 기본 팔레트를 기준으로 결정되며, 예를 들어 Material 테마에서는 머리글이 `var(--ig-grid-header-background, var(--ig-gray-100))`로 설정됩니다. 따라서 하나의 재정의는 {ComponentTitle}의 해당 부분만 바꾸고 디자인의 나머지는 그대로 둡니다. 이 방식이라 대상이 명확한 조정이 안전하고 예측 가능합니다:
+
+```css
+.my-grid {
+  --ig-grid-header-background: #120b3d;
+  --ig-grid-header-text-color: #ffffff;
+}
+```
+
+기본 토큰에도 같은 독립성이 적용됩니다. 생성된 테마가 없으면 `--ig-grid-background`와 `--ig-grid-accent-color`는 일반 속성이며 {ComponentTitle}의 나머지 부분으로 **전파되지 않습니다**:
+
+```css
+/* The background changes, the header stays gray. */
+.my-grid {
+  --ig-grid-background: #08002e;
+  --ig-grid-accent-color: #ff7d52;
+}
+```
+
+몇 가지 색상으로 {ComponentTitle} 전체의 스타일을 다시 지정하려면 [테마를 만드십시오](#테마-만들기).
+
+## 직접 사용해 보기
+
+색상을 하나 바꾸고 머리글, 행, 요약, 페이지 나누기, 필터링 팝업에 반영되는지 확인하십시오. 그리드를 전환하여 같은 토큰이 모두에 쓰이는지 확인한 다음, **코드 표시**를 선택하여 기본 토큰과 모든 파생 토큰을 포함한 완전한 CSS 블록을 복사하십시오.
+
+<Sample iframeOnly fullscreenBtn noBorder={false} src="/grids/playground/grid-theme-playground" height={700} alt="{Platform} 그리드 테마 플레이그라운드" />
+
+## API 참조
+
+- <ApiLink type="{ComponentName}" />
+<PlatformBlock for="WebComponents, React">
+- <ApiLink type="function-grid-theme" label="grid-theme" kind="sass" module="index.html" />
+</PlatformBlock>
+
+## 추가 리소스
+
+<ComponentBlock for="Grid">
+- [{ComponentTitle} 개요](../data-grid.mdx)
+</ComponentBlock>
+<ComponentBlock for="TreeGrid, HierarchicalGrid, PivotGrid">
+- [{ComponentTitle} 개요](overview.mdx)
+</ComponentBlock>
+- [팔레트](../../themes/palettes.mdx)
+- [타이포그래피](../../themes/typography.mdx)
+<ComponentBlock for="Grid, TreeGrid, HierarchicalGrid">
+- [크기](size.mdx)
+- [조건부 스타일 지정](conditional-cell-styling.mdx)
+</ComponentBlock>
+
+커뮤니티는 활발하며 새로운 아이디어를 언제나 환영합니다.
+
+- [{ProductName} **포럼**]({ForumsLink})
+- [{ProductName} **GitHub**]({GithubLink})

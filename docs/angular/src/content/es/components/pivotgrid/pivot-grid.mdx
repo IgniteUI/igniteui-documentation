@@ -1,0 +1,408 @@
+---
+title: "Angular Pivot Grid y tabla – Ignite UI for Angular"
+description: "Cree cuadrículas y tablas dinámicas de Angular rápidas y responsivas con Ignite UI for Angular. Realice análisis complejos y aplique ordenación, agrupación o filtrado de datos."
+keywords: "angular pivot grid, componente angular pivot grid, angular pivot table, componente angular pivot table, angular pivot data table, Angular pivot table, angular ui components, ignite ui for angular"
+license: commercial
+_language: es
+llms:
+  description: "Ignite UI for Angular Pivot Grid es uno de nuestros mejores componentes de Angular: representa una tabla de valores agrupados y agregados que le permite organizar y resumir datos en forma tabular."
+---
+
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+
+
+# Descripción general del componente Angular Pivot Grid
+
+Ignite UI for Angular Pivot Grid es uno de nuestros mejores [componentes de Angular](https://www.infragistics.com/products/ignite-ui-angular): representa una tabla de valores agrupados y agregados que le permite organizar y resumir datos en forma tabular. Es una herramienta de resumen de datos que se usa para reorganizar y resumir columnas y filas seleccionadas de datos procedentes de una hoja de cálculo o de una tabla de base de datos, con el fin de obtener el informe deseado.
+
+## ¿Qué es Angular Pivot Grid?
+
+El componente Angular Pivot Grid presenta los datos en una tabla dinámica y ayuda a realizar análisis complejos sobre el conjunto de datos proporcionado. Este control de cuadrícula dinámica sofisticado se usa para organizar, resumir y filtrar grandes volúmenes de datos, que después se muestran en formato de tabla cruzada. Las funciones clave de una Angular Pivot Grid son las dimensiones de fila, las dimensiones de columna, las agregaciones y los filtros.
+
+El `IgxPivotGridComponent` permite a los usuarios configurar y mostrar sus datos en una estructura de tabla dinámica multidimensional.
+Las filas y columnas representan grupos de datos distintos, y los valores de las celdas de datos representan agregaciones. Esto permite realizar análisis de datos complejos a partir de un conjunto de datos plano sencillo. El `IgxPivotGridComponent` es una tabla dinámica con muchas funciones que facilita la configuración de las distintas dimensiones y valores, así como operaciones de datos adicionales sobre ellos, como el filtrado y la ordenación.
+
+## Ejemplo de Angular Pivot Grid
+
+A continuación se muestra un ejemplo de Angular Pivot Grid en combinación con el componente Angular Pivot Data Selector. De este modo, dispone de opciones de configuración en tiempo de ejecución más flexibles.
+
+<Sample src="/pivot-grid/pivot-grid-datasource" height={870} alt="Ejemplo de Angular Pivot Grid con selector de pivot" />
+
+## Primeros pasos con Ignite UI for Angular Pivot Grid
+
+Para empezar con el componente Ignite UI for Angular Pivot Grid, primero debe instalar Ignite UI for Angular. En una aplicación Angular existente, escriba el siguiente comando:
+
+```cmd
+ng add igniteui-angular
+```
+
+Para una introducción completa a Ignite UI for Angular, lea el tema [_primeros pasos_](/general/getting-started).
+
+El siguiente paso es importar `IgxPivotGridModule` en el archivo **app.module.ts**.
+
+```typescript
+// app.module.ts
+
+import { IgxPivotGridModule } from 'igniteui-angular/grids/pivot-grid';
+// import { IgxPivotGridModule } from '@infragistics/igniteui-angular'; for licensed package
+
+@NgModule({
+  imports: [
+    ...
+    IgxPivotGridModule,
+    ...
+  ]
+})
+export class AppModule {}
+```
+
+Como alternativa, a partir de `16.0.0` puede importar `IgxPivotGridComponent` como dependencia independiente, o usar el token [`IGX_PIVOT_GRID_DIRECTIVES`](https://github.com/IgniteUI/igniteui-angular/blob/master/projects/igniteui-angular/grids/pivot-grid/src/pivot-grid.module.ts) para importar el componente y todos sus componentes y directivas de apoyo.
+
+```typescript
+// home.component.ts
+
+import { IGX_PIVOT_GRID_DIRECTIVES } from 'igniteui-angular/grids/pivot-grid';
+// import { IGX_PIVOT_GRID_DIRECTIVES } from '@infragistics/igniteui-angular'; for licensed package
+
+@Component({
+  selector: 'app-home',
+  template: `
+  <igx-pivot-grid [data]="data" [pivotConfiguration]="pivotConfigHierarchy">
+  </igx-pivot-grid>
+  `,
+  styleUrls: ['home.component.scss'],
+  standalone: true,
+  imports: [IGX_PIVOT_GRID_DIRECTIVES]
+  /* or imports: [IgxPivotGridComponent] */
+})
+export class HomeComponent {
+  public data: Transaction [];
+}
+```
+
+Ahora que ha importado el módulo o las directivas de Ignite UI for Angular Pivot Grid, puede empezar a usar el componente `igx-pivot-grid`.
+
+## Uso de Angular Pivot Grid
+
+El componente Angular Pivot Grid puede configurarse mediante la propiedad <ApiLink type="PivotGrid" member="pivotConfiguration" />.
+
+```html
+<igx-pivot-grid #grid1 [data]="data" [pivotConfiguration]="pivotConfigHierarchy">
+</igx-pivot-grid>
+```
+
+Se define mediante tres dimensiones principales: `rows`, `columns` y `values`. Las `rows` y `columns` definen la estructura agrupada que se muestra en las filas y columnas de la [cuadrícula de Angular](https://www.infragistics.com/products/ignite-ui-angular/angular/components/grid/grid). Las `values` definen los campos de agregación y la agregación que se usará para calcular y mostrar los valores relacionados de los grupos.
+
+También puede definirse un filtro mediante la propiedad de configuración `filters`. Puede usarse para campos que no quiere añadir como dimensión ni como valor, pero cuyos valores de miembro desea filtrar mediante la interfaz.
+
+### Configuración de dimensiones
+
+Cada configuración de dimensión básica requiere un `memberName` que coincida con un campo de `data` proporcionado, o un `memberFunction` que extraiga un valor del registro en el caso de objetos complejos u otros escenarios personalizados.
+
+<DocsAside type="info">
+El `memberName` debe ser único. Si necesita dimensiones distintas para el mismo campo, puede definir un `memberName` único y personalizado para cada una, y extraer el valor relacionado mediante `memberFunction`.
+</DocsAside>
+
+Pueden definirse varias dimensiones hermanas, lo que crea un grupo anidado más complejo en el área de dimensiones de fila o de columna correspondiente.
+
+Las dimensiones pueden reordenarse o moverse de un área a otra mediante sus chips correspondientes, usando arrastrar y soltar.
+
+Una dimensión también puede describir una jerarquía expandible mediante la propiedad `childLevel`, por ejemplo:
+
+```typescript
+{
+  memberFunction: () => 'All',
+  memberName: 'AllProducts',
+  enabled: true,
+  childLevel: {
+    memberFunction: (data) => data.ProductCategory,
+    memberName: 'ProductCategory',
+    enabled: true
+  }
+}
+```
+
+En este caso, la dimensión renderiza un expansor en la sección correspondiente de la cuadrícula (fila o columna) y permite expandir o contraer los hijos como parte de la jerarquía. De forma predeterminada, las dimensiones de fila aparecen inicialmente expandidas. Este comportamiento puede controlarse con `defaultExpandState` `@Input` de la cuadrícula dinámica.
+
+### Dimensiones predefinidas
+
+Como parte de la cuadrícula dinámica se exponen algunas dimensiones predefinidas adicionales para facilitar la configuración:
+
+`IgxPivotDateDimension` puede usarse para campos de fecha. Describe por defecto la siguiente jerarquía:
+
+- Todos los periodos
+- Años
+- Trimestres
+- Meses
+- Fecha completa
+
+Puede establecerse para filas o columnas, por ejemplo:
+
+```typescript
+public pivotConfigHierarchy: IPivotConfiguration = {
+  rows: [
+    new IgxPivotDateDimension({ memberName: 'Date', enabled: true });
+  ]
+}
+```
+
+También permite una mayor personalización mediante el segundo parámetro de opción, para habilitar o deshabilitar una parte concreta de la jerarquía, por ejemplo:
+
+```typescript
+new IgxPivotDateDimension({ memberName: 'Date', enabled: true }, {
+  total: true,
+  years: true,
+  months: true,
+  fullDate: true,
+  quarters: false
+});
+```
+
+### Configuración de valores
+
+Una configuración de valor requiere un `member` que coincida con un campo de `data` proporcionado, o puede definirse mediante un `aggregatorName` o una función `aggregator` personalizada para escenarios más complejos.
+
+<DocsAside type="info">
+El `member` debe ser único. Si necesita agregaciones de valor distintas para el mismo campo, puede definir un `member` único y personalizado para cada una, y extraer el valor relacionado mediante la función `aggregator`.
+</DocsAside>
+
+ De serie hay 4 agregaciones predefinidas que pueden usarse según el tipo de datos del campo:
+
+- `IgxPivotNumericAggregate`: para campos numéricos.
+  Contiene las siguientes funciones de agregación: `SUM`, `AVG`, `MIN`, `MAX`, `COUNT`.
+- `IgxPivotDateAggregate`: para campos de fecha.
+  Contiene las siguientes funciones de agregación: `LATEST`, `EARLIEST`, `COUNT`.
+- `IgxPivotTimeAggregate`: para campos de hora.
+  Contiene las siguientes funciones de agregación: `LATEST`, `EARLIEST`, `COUNT`.
+- `IgxPivotAggregate`: para cualquier otro tipo de datos. Es la agregación base.
+  Contiene la siguiente función de agregación: `COUNT`.
+
+La función de agregación actual puede cambiarse en tiempo de ejecución usando el menú desplegable del chip de valor. De forma predeterminada, muestra una lista de las agregaciones disponibles según el tipo de datos del campo. También puede establecerse una lista personalizada de agregaciones mediante la propiedad `aggregateList`, por ejemplo:
+
+```typescript
+public pivotConfigHierarchy: IPivotConfiguration = {
+  values: [
+    {
+      member: 'AmountOfSale',
+      displayName: 'Amount of Sale',
+      aggregate: {
+        key: 'SUM',
+        aggregator: IgxTotalSaleAggregate.totalSale,
+        label: 'Sum of Sale'
+      },
+      aggregateList: [{
+        key: 'SUM',
+        aggregator: IgxTotalSaleAggregate.totalSale,
+        label: 'Sum of Sale'
+      }, {
+        key: 'MIN',
+        aggregator: IgxTotalSaleAggregate.totalMin,
+        label: 'Minimum of Sale'
+      }, {
+        key: 'MAX',
+        aggregator: IgxTotalSaleAggregate.totalMax,
+        label: 'Maximum of Sale'
+      }]
+    }
+  ]
+}
+
+public static totalSale: PivotAggregation = (members, data: any) =>
+  data.reduce((accumulator, value) => accumulator + value.UnitPrice * value.UnitsSold, 0);
+
+public static totalMin: PivotAggregation = (members, data: any) => {
+  return data.map(x => x.UnitPrice * x.UnitsSold).reduce((a, b) => Math.min(a, b));
+};
+
+public static totalMax: PivotAggregation = (members, data: any) => {
+  return data.map(x => x.UnitPrice * x.UnitsSold).reduce((a, b) => Math.max(a,b));
+};
+```
+
+El valor de la tabla dinámica también proporciona una propiedad `displayName`. Puede usarse para mostrar un nombre personalizado para este valor en el encabezado de la columna.
+
+<DocsAside type="info">
+Si define tanto `aggregatorName` como la función `aggregator`, `aggregatorName` tiene prioridad. Si no se establece ninguno, se produce un error.
+</DocsAside>
+
+### Propiedad enable
+
+`IPivotConfiguration` es la interfaz que describe el estado actual del componente `IgxPivotGrid`. Con ella, el desarrollador puede declarar campos de los datos como `rows`, `columns`, `filters` o `values`. La configuración permite habilitar o deshabilitar cada uno de estos elementos por separado. Solo los elementos habilitados se incluyen en el estado actual de la cuadrícula dinámica. El componente `IgxPivotDataSelector` utiliza la misma configuración y muestra una lista de todos los elementos, habilitados y deshabilitados. Para cada uno de ellos hay una casilla en el estado adecuado. Los usuarios finales pueden modificar fácilmente el estado de la tabla dinámica activando o desactivando los distintos elementos mediante estas casillas.
+La propiedad `enable` controla si un `IPivotDimension` o un `IPivotValue` determinado está activo y forma parte de la vista dinámica que renderiza la cuadrícula dinámica.
+
+### Ejemplo de configuración completa
+
+Veamos una configuración básica de tabla dinámica:
+
+```typescript
+public pivotConfigHierarchy: IPivotConfiguration = {
+  columns: [
+    {
+      memberName: 'Product',
+      memberFunction: (data) => data.Product.Name,
+      enabled: true
+    }
+  ],
+  rows: [
+    {
+      memberName: 'Seller',
+      memberFunction: (data) => data.Seller.Name,
+      enabled: true,
+    }
+  ],
+  values: [
+    {
+      member: 'NumberOfUnits',
+      aggregate: {
+        aggregator: IgxPivotNumericAggregate.sum,
+        key: 'sum',
+        label: 'Sum'
+      },
+      enabled: true
+    },
+    {
+      member: 'AmountOfSale',
+      aggregate: {
+        aggregatorName: 'SUM',
+        key: 'sum',
+        label: 'Sum'
+      },
+      enabled: true
+    }
+  ]
+};
+```
+
+Esta configuración define 1 fila, 1 columna y 1 agregación que suma los valores de cada grupo de dimensiones.
+Los miembros coinciden con los campos disponibles en el origen de datos proporcionado:
+
+```typescript
+public data = [
+[
+  {
+    Product: {
+      Name: 'Clothing',
+      UnitPrice: '12.814860936633712'
+    },
+    Seller: {
+      Name: 'Stanley Brooker',
+      City: 'Seattle'
+    },
+    Date: '2007-01-01T00:00:00',
+    Value: '94.2652032683907',
+    NumberOfUnits: '282'
+  },
+  //...
+];
+```
+
+El resultado es la siguiente vista, que agrupa las columnas únicas de categorías de producto y los nombres de los vendedores en filas únicas, y muestra las agregaciones relacionadas con el número de unidades en las celdas correspondientes:
+
+<Sample src="/pivot-grid/pivot-grid-basic" height={530} alt="Ejemplo básico de Angular Pivot Grid" />
+
+Y si quiere simplificar todo el proceso de desarrollo de aplicaciones, puede probar nuestro [WYSIWYG App Builder™](https://www.infragistics.com/products/appbuilder) para su próxima aplicación de Angular.
+
+### Generar la configuración automáticamente
+
+La propiedad `autoGenerateConfig` genera automáticamente dimensiones y valores a partir de los campos del origen de datos:
+
+- Campos numéricos:
+  - Se crea como `IPivotValue` usando el agregador `IgxPivotNumericAggregate.sum`.
+  - Se añade a la colección de valores y se habilita de forma predeterminada.
+
+- Campos no numéricos:
+  - Se crea como `IPivotDimension`.
+  - Desactivado de forma predeterminada.
+  - Se añade a la colección de columnas.
+
+- Campos de fecha (solo está habilitado el primer campo `date`; los demás campos `date` aplican la regla de campos no numéricos):
+  - Se crea como `IgxPivotDateDimension`
+  - Habilitado de forma predeterminada
+  - se añade a la colección de filas.
+
+Esta función permite a los desarrolladores crear rápidamente una vista dinámica sin especificar manualmente las dimensiones y los valores. Con un selector de pivot junto a la cuadrícula dinámica, los usuarios pueden habilitar y reordenar las dimensiones y los valores según sea necesario.
+
+## Estilos
+
+Pivot Grid puede darse estilo mediante [`Ignite UI for Angular Theme Library`](/themes/sass/component-themes). La <ApiLink kind="sass" module="themes" type="function-grid-theme" label="grid-theme" code={true} /> de la cuadrícula expone una gran variedad de propiedades que permiten personalizar todas las funciones de la cuadrícula dinámica.
+
+### Importar el tema global
+
+Para empezar a dar estilo a Pivot Grid, primero tiene que importar el archivo `index`, donde se exportan todas las funciones de tema y el mixin `tokens()`:
+
+```scss
+@use "igniteui-angular/theming" as *;
+
+// IMPORTANT: Prior to Ignite UI for Angular version 13 use:
+// @import '~igniteui-angular/lib/core/styles/themes/index';
+```
+
+### Definir un tema personalizado
+
+A continuación, tiene que crear un tema personalizado. La forma más sencilla y recomendada de dar estilo a `igx-pivot-grid` es usar <ApiLink kind="sass" module="themes" type="function-grid-theme" label="grid-theme" code={true} /> e indicar solo los tres colores principales: `background`, `foreground` y `accent-color`.
+
+<DocsAside type="info">
+No existe ninguna función específica de `sass` para el Pivot Grid.
+</DocsAside>
+
+Estas son las propiedades de tema principales. Al establecerlas, todas las partes de la cuadrícula y los componentes internos derivan sus colores de esos valores, lo que da como resultado un aspecto coherente en toda la cuadrícula. Los componentes anidados, como botones, iconos, entradas, listas desplegables, casillas, barras de desplazamiento, chips y otros componentes auxiliares, también derivan sus tokens de estilo del <ApiLink kind="sass" module="themes" type="function-grid-theme" label="grid-theme" code={true} /> principal para lograr un aspecto unificado.
+
+```scss
+$background: #292826;
+$foreground: #eeece1;
+$accent: #ffcd0f;
+
+$custom-grid: grid-theme(
+  $background: $background,
+  $foreground: $foreground,
+  $accent-color: $accent,
+);
+```
+
+<DocsAside type="info">
+En lugar de codificar los valores de color como acabamos de hacer, podemos lograr más flexibilidad con los colores usando las funciones [`palette`]({environment:sassApiUrl}/palettes#function-palette) y [`color`]({environment:sassApiUrl}/palettes#function-color). Consulte tema [`Palettes`](/themes/sass/palettes) para obtener orientación detallada sobre cómo usarlas.
+</DocsAside>
+
+### Aplicar el tema personalizado
+
+El último paso es **incluir** el tema del componente en nuestra aplicación.
+
+```scss
+igx-pivot-grid {
+  @include tokens($custom-grid);
+}
+```
+
+### Demostración
+
+<Sample src="/pivot-grid/pivot-grid-styling" height={650} alt="Demostración de estilos de Angular Pivot Grid" />
+
+Además, hay parámetros adicionales en <ApiLink kind="sass" module="themes" type="function-grid-theme" label="grid-theme" code={true} /> que puede usar si quiere personalizaciones más específicas.
+
+## Problemas conocidos y limitaciones
+
+| Limitación                                                                        | Descripción                                                                                                                                                                                                                      |
+| :-------------------------------------------------------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| No se admite establecer columnas de forma declarativa.                                   | La cuadrícula dinámica genera sus columnas a partir de la configuración de `columns`, por lo que no se admite establecerlas de forma declarativa, como en la cuadrícula base. Estas columnas se descartan.                                                 |
+| Establecer valores duplicados en las propiedades `memberName` o `member` de las dimensiones/valores. | `memberName`/`member` deben ser únicos para cada dimensión/valor. La duplicidad puede provocar pérdida de datos en el resultado final.                                                                                                   |
+| La selección de filas solo se admite en el modo `single`.                                 | Actualmente no se admite la selección múltiple.                                                                                                                                                                                   |
+| La combinación de los miembros de las dimensiones distingue mayúsculas y minúsculas                                   | La cuadrícula dinámica crea grupos y combina los valores iguales (que distinguen mayúsculas y minúsculas). Pero las dimensiones proporcionan `memberFunction` y esto puede cambiarse allí; el resultado de `memberFunction` se compara y se usa como valor mostrado. |
+
+## Referencias de API
+- <ApiLink type="PivotGrid" />
+- <ApiLink type="PivotDataSelector" />
+- <ApiLink kind="sass" module="themes" type="function-grid-theme" label="grid-theme" />
+## Recursos adicionales
+
+
+- [Funciones de Angular Pivot Grid](/pivotgrid/pivot-grid-features)
+- [Agregaciones personalizadas de Angular Pivot Grid](/pivotgrid/pivot-grid-custom)
+- [Ignite UI for Angular Skills](/ai/skills): Agent Skills para cuadrículas, operaciones de datos y temas
+
+Nuestra comunidad está activa y siempre da la bienvenida a nuevas ideas.
+
+- [Ignite UI for Angular **Foros**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

@@ -1,0 +1,229 @@
+---
+title: "Angular Grid Lite 정렬 | Ignite UI for Angular | MIT 라이선스"
+description: "정렬 작업, 정렬 사용자 지정, Angular Grid Lite의 원격 정렬로 Angular Grid Lite를 사용해 보십시오. 데모와 예제를 확인하고 다음 앱을 만들어 보십시오."
+keywords: "sorting, {Platform}, {ComponentKeywords}, {ProductName}, Infragistics"
+license: MIT
+mentionedTypes: [{ComponentApiMembers}]
+namespace: Infragistics.Controls
+_language: ko
+llms:
+  description: "The Grid Lite supports sorting operations on its data source."
+---
+
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+
+# 정렬 작업
+
+Grid Lite는 데이터 소스에 대한 정렬 작업을 지원합니다. 데이터 정렬은 열 단위로 제어되므로 정렬 가능한 열과 불가능한 열을 둘 수 있으며, 그리드 자체는 특정 정렬 동작을 제어합니다. 기본적으로 열의 정렬은 열의 `sortable` 속성으로 명시적으로 설정하지 않는 한 비활성화되어 있습니다.
+
+```html
+<igx-grid-lite-column
+  field="price"
+  sortable
+></igx-grid-lite-column>
+```
+
+`sortingCaseSensitive` 속성을 사용하여 문자열 열의 정렬 작업이 대소문자를 구분해야 하는지도 제어할 수 있습니다.
+
+```html
+<igx-grid-lite-column 
+  field="name" 
+  sortable
+  sortingCaseSensitive
+></igx-grid-lite-column>
+```
+
+사용자 지정 비교 로직을 사용하려면 `comparer` 함수를 사용하여 `sortConfiguration` 속성을 설정하십시오:
+
+```typescript
+column.sortable = true;
+column.sortConfiguration = {
+  /**
+   * Custom comparer function which will be used for sort operations for this column.
+   * In the following sample, we compare the `name` values based on their length.
+   */
+  comparer: (a, b) => a.length - b.length
+};
+```
+
+<Sample src="/grid-lite/sorting-simple" height={510} alt="Angular Grid Lite 정렬 구성" />
+
+## 단일 및 다중 정렬
+
+그리드는 단일 열 정렬과 다중 열 정렬을 모두 지원합니다. 다중 열 정렬은 기본적으로 활성화되어 있으며, 그리드의 `sortingOptions` 속성을 통해 구성할 수 있습니다. `mode` 속성은 값으로 `'single'` 또는 `'multiple'`를 받습니다.
+
+```typescript
+grid.sortingOptions = { mode: 'single' };
+```
+
+<DocsAside type="info">
+단일/다중 열 정렬 동작은 최종 사용자가 Grid Lite와 상호 작용하는 방식을 제어합니다. 단일 정렬이 활성화되어 있어도 여러 표현식을 사용하는 API를 통한 정렬은 계속 동작합니다.
+</DocsAside>
+
+### 3단계 정렬
+
+Grid Lite 컴포넌트는 3단계 정렬을 지원하며 항상 활성화되어 있습니다. 최종 사용자가 정렬 가능한 열 헤더를 클릭하면 다음 방향 상태를 순환합니다:
+
+```text
+ascending -> descending -> none -> ascending
+```
+
+여기서 `none`은(는) 데이터의 초기 상태, 즉 그리드가 정렬을 적용하지 않은 상태입니다.
+
+### 정렬 표시기
+
+다중 열 정렬이 활성화되어 있으면 열 헤더는 정렬 표시기를 표시합니다. 정렬 표시기는 정렬 작업이 적용된 순서를 나타내는 숫자입니다.
+
+다음 샘플은 그리드의 `sortingOptions` 속성과 그것이 그리드 정렬 동작을 어떻게 제어하는지 보여 줍니다.
+
+<Sample src="/grid-lite/sorting-grid-config" height={600} alt="Angular Grid Lite 정렬 구성 그리드" />
+
+## 정렬 모델
+
+Grid Lite 컴포넌트에서 정렬 작업의 기본 구성 요소는 다음 속성을 가진 `SortingExpression`입니다:
+
+```typescript
+type SortingExpression<T> = {
+  /**
+   * The `key` of the target column for the sort operation.
+   */
+  key: keyof T;
+  /**
+   * The sort direction for the operation.
+   */
+  direction: 'ascending' | 'descending' | 'none';
+  /**
+   * Should the operation be case sensitive. Applies to the default string type.
+   * If not explicitly passed, it will use the value from the target column sort configuration if applicable.
+   */
+  caseSensitive?: boolean;
+  /**
+   * Specifies a custom comparer function for the operation.
+   * Will use the value from the target column sort configuration if applicable.
+   */
+  comparer?: SortComparer<T, T[keyof T]>;
+};
+```
+
+그리드는 정렬 API 메서드와 구성에 이 표현식을 소비하며, 최종 사용자가 컴포넌트와 상호 작용할 때 이벤트와 정렬 상태를 위해 이 표현식을 생성합니다. 자세한 내용은 아래를 참조하십시오.
+
+## 정렬 API
+
+Grid Lite 컴포넌트는 API에서 정렬 작업을 적용하는 두 가지 주요 방법을 제공합니다. `sort()`/`clearSort()` 메서드를 사용하거나 `sortingExpressions` 속성을 사용하는 것입니다.
+
+`sort()` 메서드는 단일 표현식 또는 정렬 표현식의 배열을 받아, 그 표현식을 기준으로 그리드 데이터를 정렬합니다.
+
+```typescript
+// Single
+grid.sort({ key: 'price', direction: 'descending' });
+
+// Multiple
+grid.sort([
+  { key: 'price', direction: 'descending' },
+  { key: 'name', direction: 'descending' },
+]);
+```
+
+`clearSort()` 메서드는 이름에서 알 수 있듯이, 전달된 인수에 따라 단일 열 또는 그리드 컴포넌트 전체의 정렬 상태를 지웁니다.
+
+```typescript
+// Clear the sort state for the `price` column.
+grid.clearSort('price');
+
+// Clear the sort state of the grid.
+grid.clearSort();
+```
+
+### 초기 정렬 상태
+
+`sortingExpressions` 속성은 동작이 `sort()` 메서드 호출과 매우 비슷합니다. 그리드의 정렬 상태를 선언적으로 제어하는 방법을 제공하지만, 가장 유용한 점은 Grid Lite가 처음 렌더링될 때 초기 정렬 상태를 설정할 수 있다는 것입니다.
+
+예를 들면:
+
+```typescript
+protected sortState: IgxGridLiteSortingExpression<Products>[] = [
+    { key: 'price', direction: 'descending' },
+    { key: 'name', direction: 'ascending', caseSensitive: true },
+];
+```
+
+```html
+<igx-grid-lite [sortingExpressions]="sortState"></igx-grid-lite>
+```
+
+이 속성은 컴포넌트의 현재 정렬 상태를 가져오고, 애플리케이션의 다른 상태에 따라 추가 처리를 하는 데 사용할 수 있습니다.
+
+```typescript
+const state = grid.sortingExpressions;
+// Save the current sort state
+saveUserSortState(state);
+```
+
+## 이벤트
+
+UI를 통해 정렬 작업이 수행되면 컴포넌트는 사용자 지정 `sorting` 이벤트를 발생시킵니다. `detail` 속성은 Grid Lite가 적용할 정렬 표현식입니다. 이 이벤트는 취소할 수 있으며, 취소되면 현재 정렬 작업을 중지합니다.
+
+그리드가 새 정렬 상태를 적용한 후에는 `sorted` 이벤트가 발생합니다. 이 이벤트에는 마지막 정렬 작업에 사용된 표현식이 포함되며, 취소할 수 없습니다.
+
+```html
+<igx-grid-lite (sorting)="onSorting($event)" (sorted)="onSorted($event)"></igx-grid-lite>
+```
+
+```typescript
+onSorting(event: IgxSortingEvent) { ... }
+onSorted(event: IgxSortedEvent) { ... }
+```
+
+다음 샘플에서 **Name** 및 **Rating** 열을 정렬하려고 하면 작업이 취소됩니다. 아래 이벤트 로그를 보면서 실제 동작을 확인하십시오.
+
+<Sample src="/grid-lite/sorting-events" height={510} alt="Angular Grid Lite 정렬 구성 이벤트" />
+
+## 원격 정렬 작업
+
+정렬을 원격으로 수행해야 하거나 현재 상태/데이터를 어딘가의 서버에 저장하고 싶은 경우, Grid Lite는 이 동작을 구현하고 사용자 지정할 수 있는 훅을 제공합니다.
+
+<ApiLink type="GridLite" member="dataPipelineConfiguration" label="dataPipelineConfiguration" /> 속성을 사용하면 정렬 작업이 실행되기 직전마다 호출되는 사용자 지정 훅을 제공할 수 있습니다. 콜백은 **`DataPipelineParams`** 객체를 전달받습니다.
+
+```typescript
+export type DataPipelineParams<T extends object> = {
+  /**
+   * The current data state of the grid.
+   */
+  data: T[];
+  /**
+   * The grid component itself.
+   */
+  grid: GridLite<T>;
+  /**
+   * The type of data operation being performed.
+   */
+  type: 'sort' | 'filter';
+};
+```
+
+```typescript
+grid.dataPipelineConfiguration = { sort: (params: DataPipelineParams<T>) => T[] | Promise<T[]> };
+```
+
+사용자 지정 콜백은 비동기일 수 있으며, 그리드는 콜백이 해결될 때까지 기다립니다.
+
+다음 예제는 원격 정렬 작업을 모의(mock)하며, 컴포넌트의 정렬 상태를 기반으로 생성된 REST 엔드포인트를 반영합니다.
+
+<Sample src="/grid-lite/sorting-pipeline" height={510} alt="Angular Grid Lite 정렬 구성 파이프라인" />
+
+## API 참조
+
+- <ApiLink type="GridLite" />
+- <ApiLink type="GridLiteColumn" />
+
+## 추가 리소스
+
+- [열 구성](/grid-lite/column-configuration)
+- [필터링](/grid-lite/filtering)
+
+커뮤니티는 활발하며 새로운 아이디어를 언제나 환영합니다.
+
+- [Grid Lite **GitHub**](https://github.com/IgniteUI/igniteui-grid-lite)

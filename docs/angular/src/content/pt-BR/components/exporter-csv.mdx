@@ -1,0 +1,176 @@
+---
+title: "Componente Exportar para CSV/TSV - Native Angular | Ignite UI for Angular"
+description: "Os usuários podem exportar seus dados para edição ou para apresentação offline em formato CSV ou TSV, com o componente Export to CSV/TSV do Ignite UI for Angular."
+keywords: "Ignite UI for Angular, controles de UI, widgets Angular, widgets web, widgets de UI, Angular, Native Angular Components, Native Angular Components Suite, Native Angular Controls, Native Angular Components Library, Grade Angular, Grade de dados Angular, controle de grade Angular, componente de grade Angular, exportação CSV, exportação TSV"
+license: commercial
+_language: pt-BR
+llms:
+  description: "O serviço IgniteUI CSV Exporter pode exportar dados em formato de valores separados por caractere a partir de dados brutos (array) ou de um IgxGrid, IgxHierarchicalGrid e IgxTreeGrid."
+---
+
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+# Exportador CSV
+
+<div class="highlight">
+
+O serviço IgniteUI CSV Exporter pode exportar dados em formato de valores separados por caractere a partir de dados brutos (array) ou de um [**IgxGrid**](/grid/grid), [**IgxHierarchicalGrid**](/hierarchicalgrid/hierarchical-grid) e [**IgxTreeGrid**](/treegrid/tree-grid).
+A funcionalidade de exportação está encapsulada na classe <ApiLink type="CsvExporterService" />.
+</div>
+<igc-divider></igc-divider>
+
+## Exemplo de exportador CSV do Angular
+
+<Sample src="/services/export-csv" height={150} alt="Exemplo de exportador CSV do Angular" />
+
+<hr/>
+
+Para começar a usar o IgniteUI CSV Exporter, primeiro importe o <ApiLink type="CsvExporterService" /> no arquivo app.module.ts e adicione o serviço ao array `providers`:
+
+```typescript
+// app.module.ts
+
+...
+import { IgxCsvExporterService } from 'igniteui-angular/grids/core';
+// import { IgxCsvExporterService } from '@infragistics/igniteui-angular'; for licensed package
+
+@NgModule({
+  providers: [ IgxCsvExporterService ]
+})
+
+export class AppModule {}
+```
+
+<DocsAside type="info">
+Na v12.2.1 e posteriores, os serviços de exportação são fornecidos no root, o que significa que você não precisa mais declará-los nos providers do AppModule.
+</DocsAside>
+
+Para iniciar um processo de exportação, você pode usar o manipulador de um botão no template do seu componente.
+
+```html
+<button (click)="exportButtonHandler()">Export Data to CSV</button>
+```
+
+Você pode acessar o serviço de exportação definindo um argumento do tipo <ApiLink type="CsvExporterService" /> no construtor do componente, e o framework Angular fornecerá uma instância do serviço. Para exportar alguns dados no formato CSV, você precisa invocar o método <ApiLink type="CsvExporterService" member="exportdata" label="exportData" /> do serviço de exportação. Esse método aceita como primeiro argumento os dados que você quer exportar, e o segundo argumento é do tipo <ApiLink type="CsvExporterOptions" /> e permite configurar o processo de exportação.
+
+Aqui está o código que executará o processo de exportação no arquivo typescript do componente:
+
+```typescript
+// component.ts
+
+...
+import { IgxCsvExporterService, IgxCsvExporterOptions, CsvFileTypes } from 'igniteui-angular/grids/core';
+// import { IgxCsvExporterService, IgxCsvExporterOptions, CsvFileTypes } from '@infragistics/igniteui-angular'; for licensed package
+...
+
+public localData = [
+  { Name: 'Eric Ridley', Age: '26' },
+  { Name: 'Alanis Brook', Age: '22' },
+  { Name: 'Jonathan Morris', Age: '23' }
+];
+
+constructor(private csvExportService: IgxCsvExporterService) {
+}
+
+public exportButtonHandler() {
+  this.csvExportService.exportData(this.localData, new IgxCsvExporterOptions('ExportedDataFile'), CsvFileTypes.CSV);
+}
+
+```
+
+Se tudo correu bem, você deve ver um botão de exportação. Ao clicar nele, o processo de exportação será disparado e o navegador fará o download de um arquivo chamado "ExportedDataFile.csv", que contém os dados do array `localData` em formato CSV.
+
+## Exportando os dados de um IgxGrid
+
+O serviço CSV Exporter também pode exportar dados em formato CSV a partir de um [**IgxGrid**](/grid/grid). A única diferença é que você precisa invocar o método <ApiLink type="CsvExporterService" member="export" label="export" /> de <ApiLink type="CsvExporterService" /> e passar o [**IgxGrid**](/grid/grid) como primeiro argumento.
+
+Aqui está um exemplo:
+
+```html
+<igx-grid #igxGrid1 [data]="localData" [autoGenerate]="true"></igx-grid>
+<button (click)="exportButtonHandler()">Export IgxGrid</button>
+```
+
+```typescript
+// component.ts
+
+...
+import { IgxCsvExporterService, IgxCsvExporterOptions, CsvFileTypes } from 'igniteui-angular/grids/core';
+import { IgxGridComponent } from 'igniteui-angular/grids/grid';
+// import { IgxCsvExporterService, IgxCsvExporterOptions, CsvFileTypes, IgxGridComponen } from '@infragistics/igniteui-angular'; for licensed package
+...
+
+@ViewChild('igxGrid1') public igxGrid1: IgxGridComponent;
+
+public localData = [
+  { Name: 'Eric Ridley', Age: '26' },
+  { Name: 'Alanis Brook', Age: '22' },
+  { Name: 'Jonathan Morris', Age: '23' }
+];
+
+constructor(private csvExportService: IgxCsvExporterService) {
+}
+
+public exportButtonHandler() {
+  this.csvExportService.export(this.igxGrid1, new IgxCsvExporterOptions('ExportedDataFile', CsvFileTypes.CSV));
+}
+
+```
+
+<Sample src="/services/export-csv-sample-1" height={300} alt="" />
+
+## Personalizando o formato exportado
+
+O CSV Exporter oferece suporte a vários tipos de formato de exportação. O formato de exportação pode ser especificado:
+
+- como segundo argumento do construtor do objeto <ApiLink type="CsvExporterOptions" />
+- usando a propriedade <ApiLink type="CsvExporterOptions" member="filetype" label="fileType" /> do objeto <ApiLink type="CsvExporterOptions" />
+
+Formatos de exportação diferentes têm extensões de arquivo e delimitadores de valor diferentes. A tabela a seguir relaciona os formatos de exportação e suas respectivas extensões de arquivo e delimitadores:
+
+| Formato | Extensão do arquivo | Delimitador padrão |
+| :--- | :--- | :--- |
+| <ApiLink kind="enum" type="CsvFileTypes" member="CSV" /> | .csv | Vírgula |
+| <ApiLink kind="enum" type="CsvFileTypes" member="TAB" /> | .tab | Tab |
+| <ApiLink kind="enum" type="CsvFileTypes" member="TSV" /> | .tsv | Tab |
+
+<hr/>
+
+Você também pode especificar um delimitador personalizado usando a propriedade <ApiLink type="CsvExporterOptions" member="valuedelimiter" label="valueDelimiter" /> do objeto <ApiLink type="CsvExporterOptions" />.
+
+## Personalizando o conteúdo exportado
+
+Nos exemplos acima, o serviço CSV Exporter exportava todos os dados disponíveis. Há situações em que você pode querer ignorar a exportação de uma linha ou até de uma coluna inteira. Para isso, você pode se conectar aos eventos <ApiLink type="CsvExporterService" member="columnexporting" label="columnExporting" /> e/ou <ApiLink type="CsvExporterService" member="rowexporting" label="rowExporting" />, que são disparados para cada coluna e/ou para cada linha, respectivamente, e cancelar o respectivo evento definindo a propriedade <ApiLink kind="interface" type="IRowExportingEventArgs" member="cancel" /> do objeto de argumento do evento como `true`.
+
+O exemplo a seguir exclui uma coluna da exportação se o seu nome for "Age" e o seu índice for 1:
+
+```typescript
+// component.ts
+
+this.csvExportService.columnExporting.subscribe((args: IColumnExportingEventArgs) => {
+  if (args.header == 'Age' && args.columnIndex == 1) {
+      args.cancel = true;
+  }
+});
+this.csvExportService.export(this.igxGrid1, new IgxCsvExporterOptions('ExportedDataFile'));
+```
+
+Ao exportar dados de um [**IgxGrid**](/grid/grid), o processo de exportação leva em conta recursos como filtragem de linhas e ocultação de colunas, e exporta apenas os dados visíveis na grade. Você pode configurar o serviço de exportação para incluir linhas filtradas ou colunas ocultas, definindo propriedades no objeto <ApiLink type="CsvExporterOptions" />. Essas propriedades são descritas na tabela abaixo.
+
+## Referências da API
+O serviço CSV Exporter tem mais algumas APIs para explorar, listadas abaixo.
+- <ApiLink type="CsvExporterService" />
+- <ApiLink type="CsvExporterOptions" />
+Componentes adicionais que foram usados:
+- <ApiLink type="Grid" />
+- <ApiLink kind="sass" module="themes" type="function-grid-theme" label="Estilos do IgxGridComponent" />
+<igc-divider></igc-divider>
+## Recursos adicionais
+
+<hr/>
+Nossa comunidade é ativa e sempre receptiva a novas ideias.
+
+- [Ignite UI for Angular **Fóruns**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

@@ -1,0 +1,234 @@
+---
+title: "Mesclagem de células no Angular Grid - Ignite UI for Angular"
+description: "Mescle células adjacentes com valores iguais no Angular Data Grid usando o recurso de mesclagem de células do Ignite UI. Conheça a configuração, os modos de mesclagem e veja exemplos ao vivo!"
+keywords: "angular cell merging, mesclagem de células, ignite ui for angular"
+license: commercial
+_language: pt-BR
+llms:
+  description: "O {ComponentTitle} do Ignite UI for Angular oferece um recurso de mesclagem de células que combina duas ou mais células adjacentes com o mesmo valor em uma única célula maior."
+---
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+
+# Mesclagem de células no Angular
+
+O {ComponentTitle} do Ignite UI for Angular oferece um recurso de mesclagem de células que combina duas ou mais células adjacentes com o mesmo valor em uma única célula maior. A mesclagem é aplicada verticalmente dentro de uma coluna e ajuda a melhorar a legibilidade, reduzindo valores duplicados. O recurso pode ser configurado para mesclar células com base nos valores de dados correspondentes por padrão ou aplicando uma condição personalizada.
+
+## Exemplo de mesclagem de células no Angular
+
+<ComponentBlock for="Grid">
+
+<Sample src="/grid/grid-cellMerge" height={600} alt="Exemplo de mesclagem de células no Angular" />
+</ComponentBlock>
+<ComponentBlock for="HierarchicalGrid">
+
+<Sample src="/hierarchical-grid/hierarchical-grid-cell-merge" height={475} alt="Exemplo de mesclagem de células no Angular" />
+</ComponentBlock>
+<ComponentBlock for="TreeGrid">
+
+<Sample src="/tree-grid/treegrid-cell-merge" height={755} alt="Exemplo de mesclagem de células no Angular" />
+</ComponentBlock>
+
+
+## Habilitando e usando a mesclagem de células
+
+A mesclagem de células no grid é controlada em dois níveis:
+
+- Modo de mesclagem do grid – determina quando a mesclagem é aplicada.
+- Alternância de mesclagem por coluna – determina quais colunas podem mesclar células.
+
+### Modo de mesclagem do grid
+
+O grid expõe uma propriedade `cellMergeMode` que aceita valores da enumeração `GridCellMergeMode`:
+
+- `always` - Mescla quaisquer células adjacentes que atendam à condição de mesclagem, independentemente do estado de ordenação.
+- `onSort` - Mescla células adjacentes somente quando a coluna está ordenada **(valor padrão)**.
+
+```html
+<{ComponentSelector} [data]="data" [cellMergeMode]="cellMergeMode">
+    ...
+</{ComponentSelector}>
+```
+
+```ts
+protected cellMergeMode: GridCellMergeMode = 'always';
+```
+
+### Alternância de mesclagem por coluna
+
+No nível da coluna, a mesclagem pode ser habilitada ou desabilitada com a propriedade `merge`.
+
+```html
+<igx-column field="OrderID" [merge]="true"></igx-column>
+<igx-column field="ShipperName" [merge]="false"></igx-column>
+```
+
+No exemplo acima:
+
+- A coluna **OrderID** mesclará valores duplicados adjacentes.
+- A coluna **ShipperName** será renderizada normalmente, sem mesclagem.
+
+### Exemplo combinado
+
+```html
+<{ComponentSelector} [data]="data" [cellMergeMode]="cellMergeMode" [autoGenerate]="false">
+    <igx-column field="OrderID" header="Order ID" [merge]="true"></igx-column>
+    <igx-column field="ShipperName" header="Shipper Name" [merge]="true"></igx-column>
+    <igx-column field="Salesperson" header="Salesperson"></igx-column>
+</{ComponentSelector}>
+```
+
+```ts
+protected cellMergeMode: GridCellMergeMode = 'onSort';
+```
+
+Aqui, o grid está configurado para mesclar somente quando as colunas estão ordenadas, e as colunas Category e Product estão configuradas para mesclagem.
+
+## Condições de mesclagem personalizadas
+
+Além dos modos integrados `always` e `onSort`, o grid permite definir uma condição personalizada para mesclar células por meio da propriedade `mergeStrategy`. Essa estratégia controla tanto a forma como as células são comparadas quanto o cálculo dos intervalos mesclados.
+
+### Interface da estratégia de mesclagem
+
+Uma estratégia de mesclagem personalizada deve implementar a interface `IGridMergeStrategy`:
+
+```ts
+export interface IGridMergeStrategy {
+    merge: (
+        data: any[],
+        field: string,
+        comparer: (prevRecord: any, currentRecord: any, field: string) => boolean,
+        result: any[],
+        activeRowIndex?: number,
+        grid?: GridType
+    ) => any[];
+
+    comparer: (prevRecord: any, record: any, field: string) => boolean;    
+}
+```
+
+- `merge` - define como as células mescladas são produzidas.
+- `comparer` - define a condição para decidir se dois registros adjacentes devem ser mesclados.
+
+<ComponentBlock for="Grid, HierarchicalGrid">
+
+
+### Estendendo a estratégia padrão
+
+Se você quiser personalizar apenas parte do comportamento (por exemplo, a lógica do comparador), pode estender o `DefaultMergeStrategy` integrado e substituir os métodos relevantes.
+
+```ts
+export class MyCustomStrategy extends DefaultMergeStrategy {
+    /* Merge only cells within their respective projects */
+    public override comparer(prevRecord: any, record: any, field: string): boolean {
+        const a = prevRecord[field];
+        const b = record[field];
+        const projA = prevRecord['ProjectName'];
+        const projB = record['ProjectName'];
+        return a === b && projA === projB;
+    }
+}
+```
+
+</ComponentBlock>
+<ComponentBlock for="TreeGrid">
+
+
+O `IgxTreeGrid` oferece duas estratégias integradas que implementam a interface `IGridMergeStrategy`: `DefaultTreeGridMergeStrategy` e `ByLevelTreeGridMergeStrategy`. `DefaultTreeGridMergeStrategy` mescla todas as células com o mesmo valor, independentemente do seu nível hierárquico. Em contraste, `ByLevelTreeGridMergeStrategy` mescla células somente se tiverem o mesmo valor e estiverem no mesmo nível, tornando o nível uma condição obrigatória para a mesclagem.
+
+### Estendendo a estratégia padrão
+
+Se você quiser personalizar apenas parte do comportamento (por exemplo, a lógica do comparador), pode estender uma das estratégias integradas, `DefaultTreeGridMergeStrategy` ou `ByLevelTreeGridMergeStrategy`, e substituir os métodos relevantes.
+
+```ts
+export class MyCustomStrategy extends DefaultTreeGridMergeStrategy {
+    /* Merge only cells within their respective projects */
+    public override comparer(prevRecord: any, record: any, field: string): boolean {
+        const a = prevRecord[field];
+        const b = record[field];
+        const projA = prevRecord['ProjectName'];
+        const projB = record['ProjectName'];
+        return a === b && projA === projB;
+    }
+}
+```
+
+</ComponentBlock>
+
+### Aplicando uma estratégia personalizada
+
+Depois de definida, atribua a estratégia ao grid pela propriedade `mergeStrategy`:
+
+```html
+<{ComponentSelector} [data]="data" [mergeStrategy]="customStrategy">
+  <igx-column field="ActionID" [merge]="true"></igx-column>
+  <igx-column field="ProjectName" [merge]="true"></igx-column>
+</{ComponentSelector}>
+```
+
+```ts
+protected customStrategy = new MyCustomStrategy();
+```
+
+<ComponentBlock for="Grid">
+
+
+### Demonstração
+<Sample src="/grid/grid-cellMerge-custom" height={600} alt="Exemplo de mesclagem de células do Angular com condição personalizada" />
+</ComponentBlock>
+<ComponentBlock for="HierarchicalGrid">
+
+### Demonstração
+<Sample src="/hierarchical-grid/hierarchical-grid-cell-merge-custom" height={425} alt="Exemplo de mesclagem de células do Angular com condição personalizada" />
+</ComponentBlock>
+<ComponentBlock for="TreeGrid">
+
+### Demonstração
+<Sample src="/tree-grid/treegrid-cell-merge-custom" height={755} alt="Exemplo de mesclagem de células do Angular com condição personalizada" />
+</ComponentBlock>
+
+## Integração de recursos
+
+Devido ao comportamento específico das células mescladas, é preciso observar como exatamente ela se relaciona com alguns outros recursos do grid:
+<ComponentBlock for="Grid">
+
+
+- **Expandir/recolher**: se um recurso (como master-detail, agrupamento etc.) gerar uma linha que não seja de dados, a mesclagem de células é interrompida e o grupo será dividido.
+</ComponentBlock>
+- **Exportação para Excel**: as células mescladas permanecem mescladas quando exportadas para o Excel.
+- **Fixação de colunas**: as células permanecem mescladas quando uma coluna é fixada e são exibidas na área fixada.
+- **Fixação de linhas**: as células são mescladas somente dentro da sua área de contenção, ou seja, células de linhas fixadas são mescladas apenas com células de outras linhas fixadas, enquanto células de linhas não fixadas são mescladas apenas com células de linhas não fixadas.
+- **Navegação/ativação**: quando uma célula está ativa, todas as células mescladas na mesma linha se tornam células individuais, ou seja, a sequência de mesclagem é interrompida. Isso também inclui a ativação pela navegação por teclado.
+
+<DocsAside type="info">
+Se uma célula mesclada for clicada, a célula mais próxima da sequência de mesclagem se tornará ativa.
+</DocsAside>
+
+- **Atualização/edição**: como a ativação interrompe a sequência de mesclagem, apenas uma única célula ficará em modo de edição.
+- **Seleção de linhas**: se as linhas selecionadas interceptarem células mescladas, todas as células mescladas relacionadas devem ser marcadas como parte da seleção.
+
+<ComponentBlock for="Grid">
+
+
+## Limitações
+
+|Limitações conhecidas| Descrição|
+| --- | --- |
+| A mesclagem de células não é suportada em combinação com o Layout de várias linhas. | Ambos abrangem layouts complexos que não fazem sentido quando combinados. Um aviso será exibido se essa configuração inválida for detectada. |
+
+</ComponentBlock>
+
+## Referências da API
+- <ApiLink type="{ComponentApiType}" />
+- <ApiLink kind="sass" module="themes" type="function-grid-theme" label="Estilos do componente {ComponentName}" />
+## Recursos adicionais
+
+
+- [Visão geral do {ComponentTitle}](/{igPath}/{ComponentMainTopic})
+
+Nossa comunidade é ativa e sempre receptiva a novas ideias.
+
+- [Ignite UI for Angular **Fóruns**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

@@ -1,0 +1,243 @@
+---
+title: "Temas"
+description: "O tema do Ignite UI for Angular permite redefinir o estilo dos componentes com propriedades personalizadas do CSS e um mecanismo opcional de Sass, desde um único componente até toda a sua aplicação."
+keywords: "Ignite UI for Angular, controles de UI, widgets Angular, widgets web, widgets de UI, Angular, Native Angular Components Suite, Native Angular Controls, Native Angular Components Library, Native Angular Components, Angular Theming Engine, Angular Theming, variáveis CSS, temas Sass, paletas, elevações, arredondamento"
+_language: pt-BR
+llms:
+  description: "O Ignite UI for Angular permite modificar o estilo de todos os temas de componentes usando variáveis CSS, ou aprofundar-se com o seu mecanismo de temas Sass."
+last_updated: "2026-09-10"
+---
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+
+# Temas
+
+O Ignite UI for Angular permite modificar o estilo de todos os temas de componentes usando variáveis CSS, ou aprofundar-se com um poderoso mecanismo de temas Sass, que permite criar temas globais ou de componentes adaptados à sua linguagem de design específica, em todos os navegadores modernos.
+
+<DocsAside type="info">
+Este documento descreve o sistema de temas do Ignite UI for Angular a partir da versão 12. Desde a versão 12, **as variáveis CSS são a forma recomendada de modificar os temas globais e de componentes**. A biblioteca de temas Sass continua disponível e funciona junto com as variáveis CSS.
+</DocsAside>
+
+## Principais recursos
+
+| Recurso | Descrição | Benefício |
+| :------ | :----------- | :------ |
+| Temas de design system incluídos | Temas Material, Bootstrap, Fluent e Indigo, cada um com variantes claras e escuras e suporte integrado a LTR/RTL. | Obtenha uma aparência pronta para produção com uma única referência a uma folha de estilos — sem necessidade de etapa de build. |
+| Propriedades personalizadas do CSS | Todo tema expõe valores de cor, elevação, tipografia e configuração como variáveis CSS `--ig-*`. | Redefina o estilo dos componentes em tempo de execução, por aplicação ou por instância, sem recompilar o Sass. |
+| Mecanismo de temas Sass | A mesma API Sass usada internamente para criar todos os temas incluídos, exposta como mixins e funções públicas. | Gere paletas, exclua tokens de componentes não utilizados e crie temas totalmente personalizados em tempo de compilação. |
+| Variáveis globais e locais dos componentes | Cada componente expõe uma variável global (`--ig-[component]-*`) e uma local (`--*`) para a mesma propriedade. | Substitua um visual em toda a aplicação e, em seguida, substitua seletivamente instâncias individuais, sem truques extras de especificidade do CSS. |
+| Arredondamento e elevação configuráveis | Variáveis únicas `--ig-radius-factor` e `--ig-elevation-factor` dimensionam os cantos e as sombras de todos os componentes. | Altere a forma geral e a profundidade da UI sem alterar os estilos de componentes individuais. |
+
+## Temas incluídos
+
+Todos os temas vêm com variantes claras e escuras e oferecem suporte a conteúdo da esquerda para a direita (LTR) e da direita para a esquerda (RTL) por padrão. A forma mais fácil de usar um tema incluído é referenciar o seu arquivo CSS na sua configuração `angular.json`. Por exemplo, para usar o tema Material escuro:
+
+```json
+"styles": [
+  "node_modules/igniteui-angular/styles/igniteui-angular-dark.css",
+  "src/styles.css"
+]
+```
+
+<DocsAside type="info">
+Se você instalou o Ignite UI for Angular usando `ng add igniteui-angular`, o `igniteui-angular.css` já foi adicionado ao array de styles para você.
+</DocsAside>
+
+Veja a lista completa dos temas incluídos na pasta styles:
+
+| Nome do tema              | Caminho                                                                   |
+| :---------------------- | :--------------------------------------------------------------------- |
+| **Material Light**      | `node_modules/igniteui-angular/styles/igniteui-angular.css`            |
+| **Material Dark**       | `node_modules/igniteui-angular/styles/igniteui-angular-dark.css`       |
+| **Bootstrap Light**     | `node_modules/igniteui-angular/styles/igniteui-bootstrap-light.css`    |
+| **Bootstrap Dark**      | `node_modules/igniteui-angular/styles/igniteui-bootstrap-dark.css`     |
+| **Material Dark Green** | `node_modules/igniteui-angular/styles/igniteui-dark-green.css`         |
+| **Fluent Light**        | `node_modules/igniteui-angular/styles/igniteui-fluent-light.css`       |
+| **Fluent Dark**         | `node_modules/igniteui-angular/styles/igniteui-fluent-dark.css`        |
+| **Fluent Light Excel**  | `node_modules/igniteui-angular/styles/igniteui-fluent-light-excel.css` |
+| **Fluent Dark Excel**   | `node_modules/igniteui-angular/styles/igniteui-fluent-dark-excel.css`  |
+| **Fluent Light Word**   | `node_modules/igniteui-angular/styles/igniteui-fluent-light-word.css`  |
+| **Fluent Dark Word**    | `node_modules/igniteui-angular/styles/igniteui-fluent-dark-word.css`   |
+| **Indigo Light**        | `node_modules/igniteui-angular/styles/igniteui-indigo-light.css`       |
+| **Indigo Dark**         | `node_modules/igniteui-angular/styles/igniteui-indigo-dark.css`        |
+
+Todos os temas incluídos são compilados a partir da mesma fonte Sass, usando as APIs públicas `mixins` e `functions` do mecanismo de temas. Se Sass não for a sua praia, tudo bem: cada tema compilado também expõe os seus valores como [propriedades personalizadas do CSS](https://developer.mozilla.org/en-US/docs/Web/CSS/Using_CSS_custom_properties), para que você possa redefinir o estilo sem uma etapa de build com Sass. Você também pode combinar as duas abordagens no mesmo projeto.
+
+## Personalizando com variáveis CSS
+
+Cada tema CSS incluído declara as suas variáveis no escopo `:root`, cobrindo `colors`, `shadows`, `typography` e `configuration`. Alterar qualquer uma delas atualiza os estilos correspondentes dos componentes em toda a sua aplicação.
+
+### Cores da paleta
+
+Para alterar as cores primária, secundária e de superfície, defina as variáveis correspondentes no seu arquivo `styles.css`:
+
+```css
+/* styles.css */
+:root {
+  --ig-primary-500: #09f;
+  --ig-secondary-500: red;
+  --ig-surface-base: rgb(221 211 211);
+}
+```
+
+O prefixo `ig` identifica a variável como parte de um tema do Ignite UI for Angular, `primary` nomeia a variável de cor, e `500` é a variante da cor. O Ignite UI for Angular traz várias variáveis de cor base (`primary`, `secondary`, `surface`, `success`, `info` e outras), cada uma com um conjunto de variantes. Nos temas incluídos, as variantes são derivadas do valor `500` (principal) em tempo de execução; por isso, alterar a variante `500` regenera o restante da paleta dessa cor. As paletas que você gera com a função `palette()` do Sass usam por padrão o gerador `fitted`, que emite cores fixas; portanto, substituir `500` ali altera apenas essa variante. A cor `surface` é composta por camadas nomeadas em vez de variantes numeradas: desde o Ignite UI for Angular 22.3.0, os componentes leem `--ig-surface-base` em vez de `--ig-surface-500`; por isso, defina `--ig-surface-base` para alterar a superfície. Veja [Paletas](/themes/palettes) para a lista completa de variantes e camadas de superfície, e [Geração de paletas](/themes/palette-generation) para saber como os geradores diferem.
+
+<DocsAside type="warning">
+Alguns componentes não usam cores das paletas. Nesses casos, direcione as variáveis CSS do próprio componente para modificar as suas cores. Para descobrir quais cores da paleta um componente usa, veja a <ApiLink kind="sass" module="themes" label="Referência da API de temas Sass" />.
+</DocsAside>
+
+### Elevações
+
+As elevações (sombras) funcionam da mesma forma, em 25 níveis (0–24):
+
+```css
+/* styles.css */
+:root {
+  --ig-elevation-0: none;
+  --ig-elevation-1: 0 1px 3px 0 rgba(0, 0, 0, 0.26),
+                    0 1px 1px 0 rgba(0, 0, 0, 0.12),
+                    0 2px 1px -1px rgba(0, 0, 0, 0.08);
+  /* ... */
+  --ig-elevation-24: 0 11px 15px -7px rgba(0, 0, 0, 0.26),
+                  0 24px 38px 3px rgba(0, 0, 0, 0.12),
+                  0 9px 46px 8px rgba(0, 0, 0, 0.08);
+}
+```
+
+Cada variável é uma declaração [`box-shadow`](https://developer.mozilla.org/en-US/docs/Web/CSS/box-shadow) de CSS em camadas; você pode substituir qualquer uma delas por outro valor `box-shadow` válido. Quanto maior o nível de elevação, maior a sombra. Componentes diferentes usam níveis de elevação diferentes por padrão — veja [Elevações](/themes/elevations) para o detalhamento completo e a <ApiLink kind="sass" module="themes" label="Referência da API de temas Sass" /> para saber qual nível cada componente usa.
+
+### Fator de arredondamento e de elevação
+
+Duas variáveis configuram a forma e a profundidade dos componentes globalmente:
+
+- `--ig-radius-factor` define o fator de raio de todos os componentes. O padrão é `1`. Defina-o como `0` para deixar os cantos de todos os componentes quadrados:
+
+  ```css
+  /* Makes all components appear blocky in shape */
+  :root {
+    --ig-radius-factor: 0;
+  }
+  ```
+
+- `--ig-elevation-factor` define o fator de elevação (sombra) de todos os componentes. O padrão é `1`. Defina-o como `0` para remover completamente as sombras:
+
+  ```css
+  /* Makes all components appear flat (no shadows) */
+  :root {
+    --ig-elevation-factor: 0;
+  }
+  ```
+
+Veja [Arredondamento](/themes/roundness) para restringir `--ig-radius-factor` a componentes individuais, em vez de toda a aplicação.
+
+### Variáveis de componentes
+
+Cada componente expõe duas variáveis para cada propriedade temável: uma variável **global** (com o prefixo `--ig-[component-name]-`) e uma variável **local** (`--*`). Ambas modificam a mesma propriedade; a diferença é o escopo. As variáveis globais se aplicam, a partir de qualquer seletor pai, a todas as instâncias de um componente. As variáveis locais se aplicam somente às instâncias correspondidas pelo seletor que as define e sempre têm prioridade sobre a variável global.
+
+Por exemplo, o componente avatar procura `--ig-avatar-background` (global) e `--background` (local):
+
+```css
+/* styles.css */
+:root {
+  --ig-avatar-background: black;
+}
+
+igx-avatar {
+  --background: orange;
+}
+```
+
+Isso define o fundo de todos os avatares como laranja, porque a variável local `--background` substitui a global onde quer que ela esteja definida diretamente em `igx-avatar`. Veja como o avatar implementa isso internamente:
+
+```css
+igx-avatar {
+  --background: var(--ig-avatar-background, var(--ig-gray-400));
+  background: var(--background);
+}
+```
+
+Use a variável global para redefinir o estilo de todas as instâncias de um componente de uma vez; use a variável local para direcionar instâncias específicas. Por exemplo:
+
+```html
+{/* app.component.html */}
+<igx-avatar>AB</igx-avatar>
+<igx-avatar>CD</igx-avatar>
+<app-contacts></app-contacts>
+```
+
+```html
+{/* contacts.component.html */}
+<igx-avatar>EF</igx-avatar>
+<igx-avatar>GH</igx-avatar>
+```
+
+```css
+/* styles.css */
+:root {
+  --ig-avatar-background: lavender;
+}
+```
+
+```css
+/* contacts.component.css */
+igx-avatar {
+  --background: purple;
+}
+```
+
+Os avatares `AB` e `CD` usam o fundo _lavanda_ definido globalmente, enquanto os avatares `EF` e `GH` — com escopo sob `contacts.component.css` — usam _roxo_.
+
+**Cada componente documenta as suas próprias propriedades de tema na seção de estilização do seu tópico.**
+
+## Mecanismo de temas Sass
+
+Se as variáveis CSS não derem controle suficiente — por exemplo, se você precisar de várias variantes de tema reutilizáveis do mesmo componente, ou se quiser eliminar do CSS gerado tudo o que não for usado, deixando apenas os componentes que utiliza —, use diretamente o mecanismo de temas Sass. Ele expõe as mesmas APIs `palette`, `core` e `theme` usadas para criar todos os temas incluídos:
+
+```scss
+// Import the theming module
+@use "igniteui-angular/theming" as *;
+
+$my-color-palette: palette(
+  $primary: #2ab759,
+  $secondary: #f96a88,
+  $surface: #e5e5e5
+);
+
+// IMPORTANT: Always include core() first — it provides the base
+// definitions theme() depends on.
+@include core();
+@include theme($my-color-palette);
+```
+
+Veja [Temas com Sass](/themes/sass) para o detalhamento completo dos conceitos — paletas, esquemas, tipografia, arredondamento, elevações e animações — e como criar temas globais ou com escopo de componente usando essa ferramenta.
+
+## Acessibilidade
+
+As cores da paleta e as suas cores de texto de contraste são geradas juntas: cada variante de cor de uma paleta tem uma variante `-contrast` correspondente (preta ou branca), escolhida para garantir contraste legível em relação a ela, que pode ser obtida com a função `contrast-color` do Sass — veja [Cores de texto de contraste](/themes/sass/palettes#cores-de-texto-de-contraste). Os temas compilados também expõem cada uma delas como uma variável CSS `--ig-*-contrast`; veja [Paletas](/themes/palettes).
+
+O mixin Sass `core()` aceita um argumento `$enhanced-accessibility` (padrão `false`). Ativá-lo troca os pincéis de cor dos gráficos por uma paleta adequada para daltonismo, em vez da paleta regular:
+
+```scss
+@include core($enhanced-accessibility: true);
+```
+
+## Referências da API
+
+- <ApiLink kind="sass" module="themes" label="Referência da API de temas Sass" />
+
+## Próximos passos
+
+- [Paletas](/themes/palettes)
+- [Elevações](/themes/elevations)
+- [Tipografia](/themes/typography)
+- [Arredondamento](/themes/roundness)
+- [Espaçamento](/themes/spacing)
+- [Tematização com Sass](/themes/sass)
+
+## Recursos adicionais
+
+Nossa comunidade é ativa e sempre receptiva a novas ideias.
+
+- [Ignite UI for Angular **Fóruns**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

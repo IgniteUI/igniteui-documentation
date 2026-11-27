@@ -1,0 +1,384 @@
+---
+title: "Bootstrap 테마 적용"
+description:
+keywords: "Ignite UI for Angular, UI 컨트롤, Angular 위젯, 웹 위젯, UI 위젯, Angular, Native Angular Components Suite, Native Angular Controls, Native Angular Components Library, 테마 적용, bootstrap"
+_language: ko
+llms:
+  description: "Ignite UI for Angular 테마 엔진은 Bootstrap의 마크업과 CSS를 기반으로 한 인기 있는 NG Bootstrap 같은 다른 컴포넌트 라이브러리와 함께 사용할 수 있는 기회를 제공합니다."
+---
+
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+import { Image } from 'astro:assets';
+import igxCards from '../../../images/igx-cards.png';
+import igxDialog from '../../../images/igx-dialog.png';
+import ngbAccordion from '../../../images/ngb-accordion.png';
+import darkVariant from '../../../images/dark-variant.png';
+
+# Bootstrap 테마 적용
+
+<div class="highlight">
+
+Ignite UI for Angular 테마 엔진은 Bootstrap의 마크업과 CSS를 기반으로 한 인기 있는 [`NG Bootstrap`](https://ng-bootstrap.github.io/) 같은 다른 컴포넌트 라이브러리와 함께 사용할 수 있는 기회를 제공합니다.
+</div>
+<hr/>
+
+## 개요
+
+Ignite UI for Angular는 Material 기반 UI 위젯, 컴포넌트, Figma UI 키트와 지원 디렉티브를 완전하게 갖춘 Angular용 세트로, 개발자가 최신 고성능 앱을 만들 수 있도록 합니다. 우리의 테마 엔진은 사용하기 쉬우며, 단일 컴포넌트, 여러 컴포넌트 또는 전체 제품군 등 여러 수준에서 세밀한 테마 적용을 가능하게 합니다. 따라서 일부 사용자는 Ignite UI 컴포넌트뿐 아니라 다른 라이브러리와 함께 이를 활용하고 싶어 합니다. 이 문서에서는 Ignite UI를 Ng Bootstrap 컴포넌트와 함께 사용하는 방법을 살펴보겠습니다.
+
+## 데모
+
+<Sample src="/theming/bootstrap-sample" height={1000} alt="" />
+
+<hr/>
+
+## 기본 사용법
+
+### NG Bootstrap 추가하기
+
+Angular CLI를 사용하고 있고 기존 Angular 프로젝트가 있다면, 아래 명령으로 NG Bootstrap을 설치할 수 있습니다:
+
+```cmd
+ng add @ng-bootstrap/ng-bootstrap
+```
+
+설치한 후에는 NG Bootstrap 기본 모듈을 _app.module.ts_ 파일로 가져와야 합니다:
+
+```ts
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+
+@NgModule({
+    imports: [
+        ...,
+        NgbModule,
+        ...
+    ]
+)}
+```
+
+이 시점에 애플리케이션은 NG Bootstrap 컴포넌트를 사용할 준비가 되었습니다. Bootstrap 라이브러리 사용에 대한 자세한 정보는 [`official documentation`](https://ng-bootstrap.github.io/#/getting-started)에서 찾을 수 있습니다.
+
+### Ignite UI for Angular 추가하기
+
+Ignite UI for Angular 패키지를 모든 종속성, 글꼴 가져오기, 스타일 참조와 함께 설치하려면 프로젝트에서 다음 명령을 실행하십시오:
+
+```cmd
+ng add igniteui-angular
+```
+
+그다음 _app.module.ts_ 파일에서 해당 모듈을 가져와 Ignite UI 컴포넌트를 사용할 수 있습니다:
+
+```ts
+// manually addition of the Igx Avatar component 
+import { IgxAvatarModule } from 'igniteui-angular/avatar';
+// import { IgxAvatarModule } from '@infragistics/igniteui-angular'; for licensed package
+
+@NgModule({
+    imports: [
+        ...,
+        IgxAvatarModule,
+        ...
+    ]
+)}
+```
+
+기존 프로젝트에서 Ignite UI for Angular를 사용하는 것에 대한 전체 소개는 [`Getting Started`](/general/getting-started) 주제를 따르십시오. 각 컴포넌트를 가져오고 사용하는 방법에 대한 자세한 정보와 안내 예제는 컴포넌트 문서에서 찾을 수 있습니다.
+
+## 컴포넌트
+
+데모 샘플이 어떻게 만들어졌는지 살펴보겠습니다. 이는 Ignite UI 및 NG Bootstrap 컴포넌트를 혼합하고, 하나의 애플리케이션에 잘 어울리도록 스타일을 지정한 것입니다. 예제의 탐색은 bootstrap [`navbar`](https://getbootstrap.com/docs/4.0/components/navbar/)과 <ApiLink type="ButtonDirective" label="igx-buttons" /> 및 <ApiLink type="Avatar" label="igx-avatar" />를 함께 사용하여 만들어집니다. Campaigns 버튼 아래의 [`dropdown`](https://ng-bootstrap.github.io/#/components/dropdown/examples)도 bootstrap 라이브러리에서 가져온 것입니다. 탐색 아래에는 일부 통계를 표시하기 위해 <ApiLink type="Card" label="igx-card" /> 컴포넌트를 사용합니다. 카드 안에는 여러 항목을 배치했습니다 - <ApiLink type="Avatar" label="igx-avatars" />과(와) <ApiLink type="Icon" label="igx-icons" />, 그리고 bootstrap [`buttons`](https://getbootstrap.com/docs/4.0/components/buttons/)과(와) [`ngb-ratings`](https://ng-bootstrap.github.io/#/components/rating/examples).
+
+<Image src={igxCards} alt="Ignite UI for Angular 카드" />
+
+`More` 버튼을 클릭하면 <ApiLink type="Dialog" label="igx-dialog" />이(가) 나타납니다:
+
+<Image src={igxDialog} alt="Ignite UI for Angular 대화 상자" />
+
+다음으로 신용카드 정보를 보여 주는 [`ngb-accordion`](https://ng-bootstrap.github.io/#/components/accordion/examples)을(를) 추가했습니다. 그 콘텐츠 안에는 <ApiLink type="List" label="igx-list" />과(와) `igx-button`가 있습니다.
+
+<Image src={ngbAccordion} alt="NG Bootstrap Accordion" />
+마지막으로 오른쪽 위 모서리에 앱 전체의 테마를 바꾸는 Ignite UI for Angular `icon button`을(를) 넣었습니다:  
+
+<Image src={darkVariant} alt="어두운 변형 테마" />
+
+## 스타일링
+
+Ignite UI 테마 엔진을 사용하여 컴포넌트의 스타일을 지정하기 시작하려면, 원하는 이름의 scss 파일을 만들어 전역 테마의 기반 파일로 사용하십시오. 이 파일을 `_variables.scss`이라고 부르겠습니다. 다음으로 모든 테마 함수와 `tokens()` 믹스인이 내보내진 `index` 파일을 가져와야 합니다:
+
+```scss
+// _variables.scss
+@use "igniteui-angular/theming" as *;
+
+// IMPORTANT: Prior to Ignite UI for Angular version 13 use:
+// @import '~igniteui-angular/lib/core/styles/themes/index';
+```
+
+### 팔레트
+
+Bootstrap 라이브러리는 여덟 가지 색상으로 구성된 팔레트를 제공하기 위해 [`$theme-colors`](https://getbootstrap.com/docs/4.0/getting-started/theming/#theme-colors)이라는 Sass 맵을 사용합니다:
+
+```scss
+$theme-colors: (
+    "primary":    $primary,
+    "secondary":  $secondary,
+    "success":    $success,
+    "info":       $info,
+    "warning":    $warning,
+    "danger":     $danger,
+    "light":      $light,
+    "dark":       $dark
+);
+```
+
+Ignite UI for Angular의 <ApiLink kind="sass" module="palettes" type="function-palette" label="palette" code={true} /> 함수는 `primary`, `secondary`, `gray`, `info`, `success`, `warn` 및 `error` 색상과 그 색상 변형을 포함하는 색상 팔레트 맵을 생성합니다. 미리 정의된 bootstrap 팔레트는 다시 일곱 가지 색상으로 구성됩니다:
+
+```scss
+$bootstrap-palette: palette(
+    $primary: #0d6efd,
+    $secondary: #6c757d,
+    $info: #0dcaf0,
+    $success: #198754,
+    $warn: #ffc107,
+    $error: #dc3545,
+    $surface: #f8f9fa
+);
+```
+
+보시다시피 Bootstrap 팔레트의 대부분의 색상은 Ignite UI for Angular의 Bootstrap 팔레트에 정의된 색상과 겹칩니다. 따라서 Bootstrap 테마 색상을 밝은 또는 어두운 bootstrap 팔레트 색상에 간단히 대응시킬 수 있습니다.
+
+먼저 <ApiLink kind="sass" module="palettes" type="variable-light-bootstrap-palette" label="$light-bootstrap-palette" code={true} />에서 값을 추출하는 Sass 변수를 정의하겠습니다:
+
+```scss
+// Colors from the Ignite UI light bootstrap color palette
+$light-primary: color($light-bootstrap-palette, "primary");
+$light-secondary: color($light-bootstrap-palette, "secondary");
+$light-success: color($light-bootstrap-palette, "success");
+$light-info: color($light-bootstrap-palette, "info");
+$light-warning: color($light-bootstrap-palette, "warn");
+$light-danger: color($light-bootstrap-palette, "error");
+```
+
+그다음 샘플의 어두운 모드에 사용될 새 색상 팔레트를 만들겠습니다:
+
+```scss
+// Defining custom color palette
+$custom-dark-palette: palette(
+    $primary: #ecaa53,
+    $secondary: #011627,
+    $gray: #fff,
+    $surface: #222
+);
+
+// Creating Sass variables for primary and secondary colors
+$dark-primary: color($custom-dark-palette, "primary");
+$dark-secondary: color($custom-dark-palette, "secondary");
+```
+
+<DocsAside type="info">
+Ignite UI for Angular가 제공하는 팔레트에 대해 더 알아보고 새 팔레트를 만드는 방법을 배우려면 [`palettes with Sass`](/themes/sass/palettes) 섹션을 방문하십시오.
+</DocsAside>
+
+### 테마
+
+`light` 모드와 `dark` 모드를 전환하기 위해, 버튼 클릭 시 바뀌는 사용자 지정 클래스를 `host` 요소에 추가하겠습니다. 스타일시트 파일에는 각 클래스에 범위가 지정된 서로 다른 색상 팔레트를 포함하겠습니다.
+
+#### 밝은 모드
+
+Ignite UI for Angular에는 [Bootstrap 4](https://getbootstrap.com/) 라이브러리에서 영감을 받은 미리 정의된 테마가 포함되어 있습니다. 이를 사용하려면 먼저 우리의 `core` 믹스인을 포함한 다음, 내장 테마 믹스인인 <ApiLink kind="sass" module="themes" type="mixin-bootstrap-light-theme" label="bootstrap-light-theme" />을(를) 포함해야 합니다. 또한 미리 정의된 bootstrap 팔레트인 <ApiLink kind="sass" module="palettes" type="variable-light-bootstrap-palette" label="$light-bootstrap-palette" />도 사용하겠습니다.
+
+애플리케이션의 배경색은 호스트 요소에 명시적으로 설정해야 합니다. 샘플에서는 전달된 팔레트의 `surface` 색상을 사용하려고 합니다.
+
+이제 앞서 만든 Sass 변수로 Bootstrap `$theme-colors` 맵을 수정해야 합니다:
+
+```scss
+// Make sure you always include thecore mixin first
+@include core();
+
+:host {
+    &.light {
+        // The background color of the application in light mode
+        background: color($light-bootstrap-palette, 'surface');
+
+        ::ng-deep {
+            // Applying the igx predefined light bootstrap palette and theme
+            @include bootstrap-light-theme($light-bootstrap-palette);
+
+            $theme-colors: (
+                "primary": $light-primary,
+                "secondary": $light-secondary,
+                "success": $light-success,
+                "info": $light-info,
+                "warning": $light-warning,
+                "danger": $light-danger
+            );
+        }
+    }
+}
+```
+
+`$theme-colors` 맵의 `light` 및 `dark` 색상 중 Ignite UI 팔레트에 대응하는 값이 없는 것들은 우리의 판단에 따라 다른 값으로 바꿀 수도 있습니다. 예를 들어:
+
+```scss
+$custom-light: color($light-bootstrap-palette, "gray", 100);
+$custom-dark: color($light-bootstrap-palette, "gray", 800);
+
+:host {
+    &.light {
+        ::ng-deep {
+            $theme-colors: (
+                "light": $custom-light,
+                "dark": $custom-dark,
+            );
+        }
+    }
+}
+```
+
+#### 어두운 모드
+
+어두운 변형에는 새로 만든 `$custom-dark-palette`을(를) 사용하겠습니다. 이를 `dark` 클래스 스타일에 포함해야 하며, `$theme-colors` 맵도 새 값으로 수정해야 합니다.
+
+Ignite UI for Angular의 모든 컴포넌트는 전달된 팔레트의 색상을 사용하므로, 추가 조정 없이도 어두운 모드에 잘 맞습니다. 하지만 ng-bootstrap 컴포넌트에는 몇 가지 스타일 변경을 더 해야 합니다:
+
+```scss
+:host {
+    &.dark {
+        // The background color of the application in dark mode
+        background: color($custom-dark-palette, 'surface');
+
+        ::ng-deep {
+            // Applying our custom dark palette 
+            @include bootstrap-dark-theme($custom-dark-palette);
+
+            // Overriding bootstrap button colors with colors from the custom dark palette
+            .igx-card-actions .btn-primary {
+                background-color: $dark-primary;
+                border-color: $dark-primary;
+
+                &:hover {
+                    background-color: color($custom-dark-palette, 'primary', 600);
+                }
+            }
+
+            // Overriding ngb-accordion colors with colors from the custom dark palette
+            .accordion {
+                .accordion-header,
+                .accordion-button {
+                    background-color: color($custom-dark-palette, 'gray', 200);
+                    color: color($custom-dark-palette, 'gray', 900);
+                }
+
+                .accordion-item {
+                    background-color: color($custom-dark-palette, 'surface');
+                    border-color: color($custom-dark-palette, 'gray', 300);
+                }
+            }
+
+            // Overriding bootstrap dropdown colors with colors from the custom dark palette
+            .dropdown .dropdown-menu {
+                background-color: color($custom-dark-palette, 'surface');
+                border-color: color($custom-dark-palette, 'gray', 300);
+
+                .dropdown-item {
+                    color: color($custom-dark-palette, 'gray', 800);
+
+                    &:hover {
+                        background-color: color($custom-dark-palette, 'gray', 200);
+                    }
+                }
+            }
+            
+            // Modifying the bootstrap color map
+            $theme-colors: (
+                "primary": $dark-primary,
+                "secondary": $dark-secondary
+            );
+        }
+    }
+}
+```
+
+마지막으로 Bootstrap 라이브러리를 가져와야 합니다 - _반드시 맨 마지막에 가져오십시오!_
+
+```scss
+:host {
+    ::ng-deep {
+        // Importing Bootstrap .scss file
+        // Make sure you always import it last
+        @import "~bootstrap/scss/bootstrap";
+    }
+}
+```
+
+`$theme-colors` 맵 수정을 마치면, 밝은 모드에서는 bootstrap 컴포넌트가 이미 igx `$light-bootstrap-palette`의 색상을 사용하고, 어두운 모드에서는 `$custom-dark-palette`의 색상을 사용하게 됩니다.
+
+<DocsAside type="warning">
+위 코드는 반드시 `::ng-deep` 선택기 안에 넣어 [`Emulated`](/themes/sass/component-themes#뷰-캡슐화) ViewEncapsulation을 `penetrate`하십시오.
+</DocsAside>
+
+### 클래스 생성
+
+bootstrap `navbar`은(는) 배경색에 CSS 클래스를 사용합니다. 샘플에서는 이 색상이 선택된 테마에 따라 바뀌기를 원하므로 `color-classes` 믹스인을 사용하겠습니다. 이 믹스인은 주어진 속성과 색상 팔레트에 대해 모든 색상의 CSS 클래스 이름을 생성하며, 클래스 이름에는 선택적으로 접두사와 접미사를 붙일 수 있습니다. 데모에서는 믹스인을 두 번 포함하겠습니다. 한 번은 첫 번째 값으로 해당 `$light-bootstrap-palette`을(를) 넣어 밝은 모드용으로, 또 한 번은 `$custom-dark-palette`를 넣어 어두운 모드용으로 포함합니다:
+
+```scss
+:host {
+    &.light {
+        @include color-classes(
+            $palette: $light-bootstrap-palette,
+            $prop: 'background',
+            $prefix: 'bg'
+        );
+    }
+
+    &.dark {
+        @include color-classes(
+            $palette: $custom-dark-palette,
+            $prop: 'background',
+            $prefix: 'bg'
+        );
+    }
+}
+```
+
+그다음 navbar 컴포넌트에 "bg - 팔레트의 색상 - 색상 변형" 패턴에 따라 CSS 클래스를 추가하십시오. 샘플 앱에서는 `bg-gray-200`을(를) 사용합니다.
+
+### 타이포그래피
+
+Ignite UI for Angular는 각 테마마다 네 가지 기본 타입 스케일을 노출하며, 이는 애플리케이션의 전역 타이포그래피 스타일을 정의하기 위해 <ApiLink kind="sass" module="typography" type="mixin-typography" label="typography" code={true} /> 믹스인 안에서 사용할 수 있습니다. 예제에서는 미리 정의된 bootstrap `typeface`과(와) `type-scale`을(를) 적용하겠지만, 원한다면 사용자 지정 스케일을 만들 수도 있습니다.
+
+```scss
+:host {
+    @include typography($font-family: $bootstrap-typeface, $type-scale: $bootstrap-type-scale);
+}
+```
+
+## API 참조
+
+- <ApiLink kind="sass" module="palettes" type="variable-light-bootstrap-palette" label="밝은 Bootstrap 팔레트" />
+- <ApiLink kind="sass" module="palettes" type="variable-dark-bootstrap-palette" label="어두운 Bootstrap 팔레트" />
+- <ApiLink kind="sass" module="themes" type="mixin-bootstrap-light-theme" label="밝은 Bootstrap 테마" />
+- <ApiLink kind="sass" module="themes" type="mixin-bootstrap-dark-theme" label="어두운 Bootstrap 테마" />
+- <ApiLink kind="sass" module="palettes" type="function-palette" label="팔레트 함수" />
+- <ApiLink kind="sass" module="typography" type="mixin-typography" label="타이포그래피 믹스인" />
+
+## 관련 주제
+
+- [팔레트](/themes/sass/palettes)
+- [컴포넌트 테마](/themes/sass/component-themes)
+- [타이포그래피](/themes/sass/typography)
+- [Avatar 컴포넌트](../../layouts/avatar.mdx)
+- [Button 컴포넌트](inputs/button)
+- [Dialog 컴포넌트](/dialog)
+- [Icon 컴포넌트](/layouts/icon)
+- [List 컴포넌트](/list)
+
+## 추가 리소스
+
+<hr/>
+
+커뮤니티는 활발하며 새로운 아이디어를 언제나 환영합니다.
+
+- [Ignite UI for Angular **포럼**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

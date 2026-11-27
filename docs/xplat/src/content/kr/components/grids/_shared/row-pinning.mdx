@@ -1,0 +1,749 @@
+---
+title: "{Platform} {ComponentTitle}의 행 고정 - {ProductName}"
+description: "풍부하고 사용하기 쉬운 API로 행을 잠그려면 {Platform} 행 고정 기능을 사용하십시오. 사용자가 특정 순서로 행을 고정하거나, 특별한 영역에 행을 복제하도록 할 수 있습니다."
+keywords: "{Platform}, {ComponentKeywords}, {ProductName}, Infragistics"
+license: commercial
+mentionedTypes: [{ComponentApiMembers}]
+sharedComponents: ["Grid", "TreeGrid", "HierarchicalGrid"]
+namespace: Infragistics.Controls
+_canonicalLink: "{CanonicalLinkToGridRowPinning}"
+_language: ko
+llms:
+  description: "{Platform} {ComponentTitle}의 {ProductName} 행 고정 기능을 사용하면 하나 또는 여러 행을 그리드의 위쪽 또는 아래쪽에 고정할 수 있습니다."
+---
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+
+# {Platform} {ComponentTitle} 행 고정
+
+{Platform} {ComponentTitle}의 {ProductName} 행 고정 기능을 사용하면 하나 또는 여러 행을 그리드의 위쪽 또는 아래쪽에 고정할 수 있습니다. 행 고정을 사용하면 최종 사용자가 특정 순서로 행을 고정할 수 있으며, 사용자가 <ApiLink type="{ComponentName}" />를 세로로 스크롤해도 항상 보이는 특별한 영역에 행을 복제합니다. {Platform} {ComponentTitle}에는 내장된 행 고정 UI가 있으며, {ComponentTitle}의 컨텍스트에서 <ApiLink type="ActionStrip" /> 컴포넌트를 초기화하면 이 UI가 활성화됩니다. 또한 사용자 지정 UI를 정의하고 행 고정 API로 행의 고정 상태를 바꿀 수도 있습니다.
+
+## {Platform} {ComponentTitle} 행 고정 예제
+
+<Sample src="/{ComponentSample}/row-pinning-options" height={600} alt="{Platform} {ComponentTitle} 행 고정 예제" />
+
+## 행 고정 UI
+
+내장 행 고정 UI는 <ApiLink type="GridPinningActions" /> 컴포넌트와 함께 <ApiLink type="ActionStrip" /> 컴포넌트를 추가하여 활성화합니다. Action strip은 행 위에 마우스를 올리면 자동으로 표시되며, 그 행의 상태에 따라 고정 또는 고정 해제 버튼 아이콘을 보여 줍니다. 고정된 각 행에는 고정된 행의 복사본을 화면에 보이도록 스크롤하는 추가 작업도 표시됩니다.
+
+<PlatformBlock for="Angular">
+```html
+<{ComponentSelector} [data]="data" [autoGenerate]="false">
+    <igx-column *ngFor="let c of columns" [field]="c.field" [header]="c.field">
+    </igx-column>
+    <igx-action-strip #actionStrip>
+        <igx-grid-pinning-actions></igx-grid-pinning-actions>
+        <igx-grid-editing-actions></igx-grid-editing-actions>
+    </igx-action-strip>
+</{ComponentSelector}>
+```
+</PlatformBlock>
+<ComponentBlock for="Grid, HierarchicalGrid, TreeGrid">
+<PlatformBlock for="Blazor">
+```razor
+    <{ComponentSelector} Width="100%"  
+             Height="100%"
+             PrimaryKey="Key"
+             AutoGenerate=true
+             Data=northwindEmployees
+             RowEditable=true>
+        <IgbColumn Field="ID" Editable=false></IgbColumn>
+        <IgbColumn Field="ContactName"></IgbColumn>
+        <IgbColumn Field="ContactTitle"></IgbColumn>
+        <IgbColumn Field="City" Sortable=true></IgbColumn>
+        <IgbColumn Field="CompanyName" Sortable=true></IgbColumn>
+        <IgbColumn Field="Fax" Sortable=true></IgbColumn>
+        <IgbColumn Field="Address" Sortable=true></IgbColumn>
+        <IgbColumn Field="PostalCode" Sortable=true></IgbColumn>
+        <IgbColumn Field="Country" Sortable=true></IgbColumn>
+        <IgbColumn Field="Phone" Sortable=true></IgbColumn>
+        <IgbActionStrip>
+            <IgbGridPinningActions></IgbGridPinningActions>
+            <IgbGridEditingActions></IgbGridEditingActions>
+        </IgbActionStrip>
+    </{ComponentSelector}>
+```
+</PlatformBlock>
+</ComponentBlock>
+
+<PlatformBlock for="WebComponents">
+<ComponentBlock for="Grid, HierarchicalGrid, TreeGrid">
+```html
+<{ComponentSelector} auto-generate="false">
+    <igc-column field="Name" header="Full Name"></igc-column>
+    <igc-action-strip>
+        <igc-grid-pinning-actions></igc-grid-pinning-actions>
+        <igc-grid-editing-actions></igc-grid-editing-actions>
+    </igc-action-strip>
+</{ComponentSelector}>
+```
+</ComponentBlock>
+</PlatformBlock>
+
+<ComponentBlock for="Grid, HierarchicalGrid, TreeGrid">
+<PlatformBlock for="React">
+```tsx
+<{ComponentSelector}>
+    <IgrColumn field="Country" header="Country"> </IgrColumn>
+    <IgrActionStrip>
+        <IgrGridPinningActions></IgrGridPinningActions>
+        <IgrGridEditingActions></IgrGridEditingActions>
+    </IgrActionStrip>
+</{ComponentSelector}>
+```
+</PlatformBlock>
+</ComponentBlock>
+
+## 행 고정 API
+
+행 고정은 `Row`의 <ApiLink type="RowDirective" member="pinned" /> 입력을 통해 제어됩니다. 고정된 행은 기본적으로 <ApiLink type="{ComponentName}" />의 위쪽에 렌더링되며, <ApiLink type="{ComponentName}" /> 본문에서 고정되지 않은 행을 세로로 스크롤해도 고정된 상태를 유지합니다.
+
+<PlatformBlock for="Angular, WebComponents">
+```typescript
+this.grid.getRowByIndex(0).pinned = true;
+```
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+gridRef.current.getRowByIndex(0).pinned = true;
+```
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```csharp
+this.Grid.PinRowAsync("ALFKI", 0);
+```
+</PlatformBlock>
+
+ID로 레코드를 고정하거나 고정 해제하려면 <ApiLink type="{ComponentName}" />의 <ApiLink type="{ComponentName}" member="pinRow" label="PinRow" /> 또는 <ApiLink type="{ComponentName}" member="unpinRow" label="UnpinRow" /> 메서드를 사용할 수도 있습니다:
+
+<PlatformBlock for="Angular, WebComponents">
+```typescript
+this.grid.pinRow('ALFKI');
+this.grid.unpinRow('ALFKI');
+```
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+gridRef.current.pinRow('ALFKI');
+gridRef.current.unpinRow('ALFKI');
+```
+</PlatformBlock>
+<PlatformBlock for="Blazor">
+```csharp
+this.Grid.PinRowAsync("ALFKI", 0);
+this.Grid.UnpinRowAsync("ALFKI");
+```
+</PlatformBlock>
+
+행 ID는 그리드의 <ApiLink type="{ComponentName}" member="primaryKey" />로 정의된 기본 키 값이거나 레코드 인스턴스 자체라는 점에 유의하십시오. 두 메서드 모두 각 작업의 성공 여부를 나타내는 불리언 값을 반환합니다. 보통 실패하는 이유는 해당 행이 이미 원하는 상태이기 때문입니다.
+
+행은 마지막으로 고정된 행 아래에 고정됩니다. 고정된 행의 순서를 바꾸려면 <ApiLink type="{ComponentName}" member="rowPinning" /> 이벤트를 구독하고, 이벤트 인수의 <ApiLink type="PinRowEventArgs" /> 속성을 원하는 위치 인덱스로 바꾸면 됩니다.
+
+<PlatformBlock for="Angular">
+```html
+<{ComponentSelector} #grid1 [data]="data" [autoGenerate]="true" (rowPinning)="rowPinning($event)">
+</{ComponentSelector}>
+```
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+```html
+<{ComponentSelector} id="grid" auto-generate="true">
+</{ComponentSelector}>
+```
+
+```typescript
+constructor() {
+    var grid1 = document.getElementById('grid1') as {ComponentName}Component;
+    grid1.data = this.data;
+    grid1.addEventListener("rowPinning", this.rowPinning);
+}
+
+public rowPinning(event) {
+    event.detail.insertAtIndex = 0;
+}
+```
+
+</PlatformBlock>
+
+<ComponentBlock for="Grid, HierarchicalGrid, TreeGrid">
+<PlatformBlock for="React">
+```tsx
+const rowPinning = (event: IgrPinRowEventArgs) => {
+    event.detail.insertAtIndex = 0;
+}
+
+<{ComponentSelector} autoGenerate={true} onRowPinning={rowPinning}>
+</{ComponentSelector}>
+
+```
+</PlatformBlock>
+</ComponentBlock>
+
+<PlatformBlock for="Blazor">
+```razor
+<{ComponentSelector} Width="100%"
+             Id="grid"
+             RowPinningScript="rowPinningHandler"
+             Height="100%"
+             PrimaryKey="Key"
+             AutoGenerate="true"
+             Data="northwindEmployees">
+</{ComponentSelector}>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```javascript
+// In JavaScript
+function rowPinningHandler(event) {
+    event.detail.insertAtIndex = 0;
+}
+
+igRegisterScript("rowPinningHandler", rowPinningHandler, false);
+
+```
+
+</PlatformBlock>
+
+## 고정 위치
+
+<ApiLink type="{ComponentName}" member="pinning" /> 구성 옵션을 통해 행 고정 위치를 바꿀 수 있습니다. 이를 통해 고정 영역의 위치를 Top 또는 Bottom으로 설정할 수 있습니다.
+Bottom으로 설정하면 고정된 행은 고정되지 않은 행 다음에 그리드의 아래쪽에 렌더링됩니다. 고정되지 않은 행은 세로로 스크롤할 수 있고, 고정된 행은 아래쪽에 고정된 상태를 유지합니다.
+
+<PlatformBlock for="Angular">
+```html
+<{ComponentSelector} [data]="data" [autoGenerate]="true" [pinning]="pinningConfig"></{ComponentSelector}>
+```
+
+```typescript
+public pinningConfig: IPinningConfig = { rows: RowPinningPosition.Bottom };
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+```html
+<{ComponentSelector} id="dataGrid" auto-generate="true"></{ComponentSelector}>
+```
+
+```typescript
+var grid = document.getElementById('dataGrid') as {ComponentName}Component;
+grid.pinning = { rows: RowPinningPosition.Bottom };
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```razor
+    <{ComponentSelector} Id="grid"
+            Width="100%"
+            Height="100%"
+            Pinning=PinningConfig
+            PrimaryKey="Key"
+            AutoGenerate=true
+            Data=northwindEmployees>
+    </{ComponentSelector}>
+    @code {
+        public string Key = "ID";
+        private Northwind.EmployeesType[] northwindEmployees = Array.Empty<Northwind.EmployeesType>();
+        public IgbPinningConfig PinningConfig = new IgbPinningConfig()
+        {
+            Rows = RowPinningPosition.Bottom
+        };
+        protected override async Task OnInitializedAsync()
+        {
+            northwindEmployees = await this.northwindService.GetEmployees() ?? northwindEmployees;
+        }
+    }
+```
+</PlatformBlock>
+
+<ComponentBlock for="Grid, TreeGrid, HierarchicalGrid">
+<PlatformBlock for="React">
+```tsx
+const pinning: IgrPinningConfig = { rows : RowPinningPosition.Bottom };
+
+<{ComponentSelector} ref={gridRef} autoGenerate={true} pinning={pinning}>
+</{ComponentSelector}>
+
+```
+</PlatformBlock>
+</ComponentBlock>
+
+## 사용자 지정 행 고정 UI
+
+사용자 지정 UI를 정의하고 관련 API를 통해 행의 고정 상태를 바꿀 수 있습니다.
+
+### 아이콘이 있는 추가 열을 통해
+
+작업 strip 대신, 최종 사용자가 클릭하여 특정 행의 고정 상태를 바꿀 수 있는 고정 아이콘을 모든 행에 표시하고 싶다고 해 보겠습니다.
+이는 사용자 지정 아이콘이 들어 있는 셀 템플릿을 가진 추가 열을 추가하여 할 수 있습니다.
+
+<ComponentBlock for="Grid, TreeGrid">
+<PlatformBlock for="Blazor">
+```razor
+<IgbColumn Width="70px" BodyTemplateScript="WebGridRowPinCellTemplate"/>
+
+```
+
+```javascript
+// In Javascript
+
+igRegisterScript("WebGridRowPinCellTemplate", (ctx) => {
+    var html = window.igTemplating.html;
+    window.toggleRowPin = function toggleRowPin(index) {
+        var grid = document.getElementsByTagName("igc-grid")[0];
+        grid.getRowByIndex(index).pinned = !grid.getRowByIndex(index).pinned;
+    }
+    const index = ctx.cell.id.rowIndex;
+    return html`<div>
+    <span onpointerdown='toggleRowPin("${index}")'>📌</span>
+</div>`;
+}, false);
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+```html
+<{ComponentSelector} [data]="data" [primaryKey]="'ID'" [autoGenerate]="false">
+    <igx-column width="70px">
+        <ng-template igxCell let-cell="cell" let-val>
+            <igx-icon class="pin-icon" (mousedown)="togglePinning(cell.row, $event)">
+                {{cell.row.pinned ? 'lock' : 'lock_open'}}
+            </igx-icon>
+        </ng-template>
+    </igx-column>
+    <igx-column *ngFor="let c of columns" [field]="c.field" [header]="c.field">
+    </igx-column>
+</{ComponentSelector}>
+```
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+```typescript
+public togglePinning(row: IgxGridRow, event) {
+    event.preventDefault();
+    if (row.pinned) {
+        row.unpin();
+    } else {
+        row.pin();
+    }
+}
+```
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+```html
+<{ComponentSelector} id="grid" primary-key="ID" auto-generate="false">
+    <igc-column id="column1" name="column1"></igc-column>
+</{ComponentSelector}>
+```
+
+```typescript
+constructor() {
+    var grid = document.getElementById('grid') as {ComponentName}Component;
+    var column = document.getElementById('column1') as IgcColumnComponent;
+
+    grid.data = this.data;
+    column.bodyTemplate = this.pinCellTemplate;
+}
+
+public pinCellTemplate = (ctx: IgcCellTemplateContext) => {
+   const index = ctx.cell.id.rowIndex;
+    return html`<span @pointerdown=${(e: any) => this.togglePinning(index)}>📌</span>`;
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+const cellPinCellTemplate = (ctx: IgrCellTemplateContext) => {
+    const index = ctx.cell.row.index;
+    return (
+        <>
+            <span onPointerDown={(e: any) => toggleRowPin(index)}>📌</span>
+        </>
+    );
+}
+
+<{ComponentSelector} primaryKey="ID" autoGenerate={false}>
+    <IgrColumn width="70px" bodyTemplate={cellPinCellTemplate}>
+    </IgrColumn>
+</{ComponentSelector}>
+
+```
+</PlatformBlock>
+
+</ComponentBlock>
+
+<ComponentBlock for="HierarchicalGrid">
+<PlatformBlock for="Blazor">
+```razor
+<IgbColumn Width="70px" BodyTemplateScript="WebHierarchicalGridRowPinCellTemplate"/>
+
+```
+
+```javascript
+// In Javascript
+
+igRegisterScript("WebHierarchicalGridRowPinCellTemplate", (ctx) => {
+    var html = window.igTemplating.html;
+    window.toggleRowPin = function toggleRowPin(row) {
+        row.pinned = !row.pinned;
+    }
+    const row = ctx.cell.row;
+    return html`<div>
+    <span onpointerdown='toggleRowPin("${row}")'>📌</span>
+</div>`;
+}, false);
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+```html
+<{ComponentSelector} [data]="data" [primaryKey]="'ID'" [autoGenerate]="false">
+    <igx-column width="70px">
+        <ng-template igxCell let-cell="cell" let-val>
+            <igx-icon class="pin-icon" (mousedown)="togglePinning(cell.row, $event)">
+                {{cell.row.pinned ? 'lock' : 'lock_open'}}
+            </igx-icon>
+        </ng-template>
+    </igx-column>
+    <igx-column *ngFor="let c of columns" [field]="c.field" [header]="c.field">
+    </igx-column>
+    <igx-row-island [key]="'Orders'" [autoGenerate]="true">
+    </igx-row-island>
+</{ComponentSelector}>
+```
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+```typescript
+public togglePinning(row: IgxGridRow, event) {
+    event.preventDefault();
+    if (row.pinned) {
+        row.unpin();
+    } else {
+        row.pin();
+    }
+}
+```
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+```html
+<{ComponentSelector} id="grid" primary-key="ID" auto-generate="false">
+    <igc-column id="column1" name="column1"></igc-column>
+     <igc-row-island child-data-key="Orders" auto-generate="true">
+    </igc-row-island>
+</{ComponentSelector}>
+```
+
+```typescript
+constructor() {
+    var grid = document.getElementById('grid') as {ComponentName}Component;
+    var column = document.getElementById('column1') as IgcColumnComponent;
+
+    grid.data = this.data;
+    column.bodyTemplate = this.pinCellTemplate;
+}
+
+public pinCellTemplate = (ctx: IgcCellTemplateContext) => {
+   const row = ctx.cell.row;
+    return html`<span @pointerdown=${(e: any) => this.togglePinning(row)}>📌</span>`;
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+const cellPinCellTemplate = (ctx: IgrCellTemplateContext) => {
+    const row = ctx.cell.row;
+    return (
+        <>
+            <span onPointerDown={(e: any) => toggleRowPin(row)}>📌</span>
+        </>
+    );
+}
+
+<{ComponentSelector} primaryKey="ID" autoGenerate={false}>
+    <IgrColumn width="70px" bodyTemplate={cellPinCellTemplate}>
+    </IgrColumn>
+    <IgrRowIsland childDataKey="Orders" autoGenerate={true}></IgrRowIsland>
+</{ComponentSelector}>
+
+```
+</PlatformBlock>
+</ComponentBlock>
+
+
+<ComponentBlock for="Grid, TreeGrid">
+사용자 지정 아이콘을 클릭하면 행의 API 메서드를 사용하여 관련 행의 고정 상태를 바꿀 수 있습니다.
+<PlatformBlock for="Angular, WebComponents">
+```typescript
+public togglePinning(index: number) {
+    var grid = document.getElementsByTagName("{ComponentSelector}")[0] as {ComponentName}Component;
+    grid.getRowByIndex(index).pinned = !grid.getRowByIndex(index).pinned;
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+const toggleRowPin = (index: number) => {
+  const grid = grid1Ref.current;
+  grid.getRowByIndex(index).pinned = !grid.getRowByIndex(index).pinned;
+}
+```
+</PlatformBlock>
+</ComponentBlock>
+
+<ComponentBlock for="HierarchicalGrid">
+사용자 지정 아이콘을 클릭하면 행의 API 메서드를 사용하여 관련 행의 고정 상태를 바꿀 수 있습니다.
+<PlatformBlock for="WebComponents">
+```typescript
+public togglePinning(row: IgcRowType) {
+    row.pinned = !row.pinned;
+}
+```
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+const toggleRowPin = (row: IgrRowType) => {
+  row.pinned = !row.pinned;
+}
+```
+</PlatformBlock>
+</ComponentBlock>
+
+#### 데모
+
+<Sample src="/{ComponentSample}/row-pinning-extra-column" height={600} alt="{Platform} {ComponentTitle} 행 고정 추가 열 예제" />
+
+<ComponentBlock for="Grid">
+<PlatformBlock for="Angular">
+### 행 끌기로
+
+고정된 행과 고정되지 않은 행 사이에서 행을 직접 끌어서 놓아 고정 상태를 바꿀 수 있도록 하고 싶다고 해 보겠습니다.
+이는 행 끌기 기능을 활성화하고, 드롭할 때 API로 행을 고정하거나 고정 해제하여 달성할 수 있습니다.
+
+먼저 `igxDrop` 디렉티브를 사용하여 그리드를 드롭 영역으로 표시하고, `rowDraggable` 옵션을 통해 행 끌기 기능을 활성화해야 합니다.
+
+```html
+<igx-grid [data]="data" [autoGenerate]="true" [rowDraggable]="true"
+    [primaryKey]="'ID'" igxDrop (dropped)="onDropAllowed($event)">
+</igx-grid>
+```
+
+그다음 `dropped` 이벤트를 사용하여 재정렬과 고정/고정 해제 로직을 처리할 수 있습니다.
+
+```typescript
+public onDropAllowed(args) {
+    const event = args.originalEvent;
+    let currRowPinnedIndex;
+    const currRowIndex = this.getCurrentRowIndex(this.grid.rowList.toArray(),
+        { x: event.clientX, y: event.clientY });
+    if (currRowIndex === -1) { return; }
+
+    const currRowID = this.getCurrentRowID(this.grid.rowList.toArray(),
+        { x: event.clientX, y: event.clientY });
+
+    const currentRow = this.grid.rowList.toArray().find((r) => r.rowID === currRowID);
+    if (currentRow.pinned) {
+        currRowPinnedIndex = this.grid.pinnedRows.indexOf(this.grid.pinnedRows.find((r) => r.rowID === currRowID));
+    }
+    // remove the row that was dragged and place it onto its new location
+    this.grid.deleteRow(args.dragData.key);
+    this.data.splice(currRowIndex, 0, args.dragData.data);
+    if (currentRow.pinned && !args.dragData.pinned) {
+        this.grid.pinRow(args.dragData.key, currRowPinnedIndex);
+    } else if (!currentRow.pinned && args.dragData.pinned) {
+        this.grid.unpinRow(args.dragData.key);
+    } else if (currentRow.pinned && args.dragData.pinned) {
+        this.grid.unpinRow(args.dragData.key);
+        this.grid.pinRow(args.dragData.key, currRowPinnedIndex);
+    }
+}
+```
+
+이렇게 하면 행의 순서를 바꾸고, 행을 고정된 행 컬렉션과 고정되지 않은 행 컬렉션 사이에서 옮길 수 있습니다.
+
+#### 데모
+
+<Sample src="/{ComponentSample}/row-pinning-drag" height={510} alt="{Platform} {ComponentTitle} 행 고정 끌기 예제" />
+
+</PlatformBlock>
+
+</ComponentBlock>
+
+## 행 고정 제한 사항
+
+- 데이터 소스에 존재하는 레코드만 고정할 수 있습니다.
+- 행 고정 상태는 Excel로 내보내지지 않습니다. 그리드는 행 고정이 적용되지 않은 것처럼 내보내집니다.
+- 그리드의 스크롤 가능한 영역에 있는 고정된 행의 복사본은, 고정된 행이 있을 때 다른 그리드 기능이 동작하는 방식의 필수적인 부분이므로, 그 생성은 비활성화할 수 없고 제거할 수도 없습니다.
+- 행 선택은 전적으로 행 ID를 기준으로 작동하므로, 고정된 행을 선택하면 그 복사본도 함께 선택됩니다(그 반대도 마찬가지입니다). 또한 고정 영역 안에서 범위 선택(예: <kbd>SHIFT</kbd> + 클릭)을 하면, 스크롤 가능한 영역에서 행 범위를 선택하는 것과 같은 방식으로 동작합니다. 그 결과 선택에는 현재 고정되어 있지 않더라도 그 사이에 있는 모든 행이 포함됩니다. API로 선택된 행을 가져오면 선택된 각 레코드의 인스턴스는 하나씩만 반환됩니다.
+
+<PlatformBlock for="Angular">
+- 고정된 행은 그리드의 고정 영역과 고정되지 않은 영역 모두에 나타날 수 있도록 내부적으로 저장되는 방식 때문에, 그리드의 레코드를 요청 시 원격 엔드포인트에서 가져올 때(원격 가상화) 행 고정은 지원되지 않습니다.
+- 그리드에 <ApiLink type="{ComponentName}" member="primaryKey" />이(가) 설정되어 있지 않고 원격 데이터 시나리오가 활성화되어 있으면(페이징, 정렬, 필터링, 스크롤이 표시할 데이터를 가져오기 위해 원격 서버에 요청을 트리거할 때), 데이터 요청이 완료된 후 행은 다음 상태를 잃게 됩니다:
+  - 행 선택
+  - 행 펼치기/접기
+  - 행 편집
+  - 행 고정
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents, Blazor, React">
+## 스타일링
+
+기본 제공 테마 외에도, 사용 가능한 CSS 속성 몇 가지를 설정하여 그리드를 더 사용자 지정할 수 있습니다. 몇 가지 색상만으로 완전한 테마를 만드는 방법은 [테마 지정 항목](theming.mdx)을 참조하십시오.
+일부 색상을 바꾸려면 먼저 그리드에 클래스를 설정해야 합니다:
+
+<PlatformBlock for="WebComponents">
+```html
+<{ComponentSelector} class="grid"></{ComponentSelector}>
+```
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```razor
+<{ComponentSelector} class="grid"></{ComponentSelector}>
+```
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+<{ComponentSelector} className="grid"></{ComponentSelector}>
+```
+</PlatformBlock>
+
+그다음 해당 클래스에 관련 CSS 속성을 설정하십시오:
+
+```css
+.grid {
+    --ig-grid-pinned-border-width: 5px;
+    --ig-grid-pinned-border-style: double;
+    --ig-grid-pinned-border-color: #FFCD0F;
+    --ig-grid-cell-active-border-color: #FFCD0F;
+}
+```
+
+### 데모
+
+<Sample src="/{ComponentSample}/row-pinning-style" height={540} alt="{Platform} {ComponentTitle} 행 고정 스타일 지정 예제" />
+
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+## 스타일링
+
+<ApiLink type="{ComponentName}" />는 [{ProductName} 테마 라이브러리](../themes/styles.mdx)를 통한 스타일 지정을 지원합니다. {ComponentTitle}의 <ApiLink type="function-grid-theme" label="theme" kind="sass" module="index.html" />는 다양한 속성을 노출하며, 이를 통해 {ComponentTitle}의 모든 기능을 사용자 지정할 수 있습니다.
+
+아래에서는 {ComponentTitle}의 행 고정 스타일을 사용자 지정하는 단계를 살펴보겠습니다.
+
+### 스타일 라이브러리 가져오기
+
+행 고정 기능의 사용자 지정을 시작하려면 모든 스타일 함수와 믹스인이 있는 `index` 파일을 가져와야 합니다.
+
+```scss
+@use "igniteui-{Platform}/theming" as *;
+
+// IMPORTANT: Prior to {ProductName} version 13 use:
+// @import '~igniteui-{Platform}/lib/core/styles/themes/index';
+```
+
+### 테마 정의하기
+
+다음으로 <ApiLink type="function-grid-theme" label="grid-theme" kind="sass" module="index.html" />을(를) 확장하고 행 고정 기능을 원하는 대로 사용자 지정하는 데 필요한 매개변수를 받는 새 테마를 만듭니다.
+
+```scss
+$custom-grid-theme: grid-theme(
+    /* Pinning properties that affect styling */
+    $pinned-border-width: 5px,
+    $pinned-border-style: double,
+    $pinned-border-color: #FFCD0F,
+    $cell-active-border-color: #FFCD0F
+    /* add other features properties here... */
+);
+```
+
+### CSS 변수 사용하기
+
+마지막 단계는 사용자 지정 그리드 테마를 전달하는 것입니다:
+
+```scss
+@include tokens($custom-grid-theme);
+```
+
+### 믹스인 사용하기
+
+Internet Explorer 11용으로 컴포넌트의 스타일을 지정하려면, CSS 변수를 지원하지 않으므로 다른 방식을 사용해야 합니다.
+
+컴포넌트가 [Emulated](../themes/styles.mdx#view-encapsulation) ViewEncapsulation을 사용한다면, `::ng-deep`를 사용하여 이 캡슐화를 `penetrate`해야 합니다. 다만 사용자 지정 테마가 다른 컴포넌트로 새어 나가지 않도록, `::ng-deep` 앞에 `:host` 선택자를 반드시 포함하십시오:
+
+```scss
+:host {
+    ::ng-deep {
+        // Pass the custom grid theme to the `igx-grid` mixin
+        @include grid($custom-grid-theme);
+    }
+}
+```
+
+### 데모
+
+
+<Sample src="/{ComponentSample}/row-pinning-style" height={540} alt="{Platform} {ComponentTitle} 행 고정 스타일 지정 예제" />
+
+
+
+<DocsAside type="info">
+이 샘플은 **테마 변경**에서 선택한 전역 테마의 영향을 받지 않습니다.
+</DocsAside>
+
+</PlatformBlock>
+
+## API 참조
+
+<ApiLink type="{ComponentName}" /><br />
+<PlatformBlock for="Angular,React,WebComponents">
+  <ApiLink type="GridRowComponent" />
+</PlatformBlock>
+<PlatformBlock for="Blazor">
+  <ApiLink type="GridRow" />
+</PlatformBlock><br />
+<ApiLink type="RowType" /><br />
+
+## 추가 리소스
+
+<ComponentBlock for="Grid">
+- [가상화와 성능](virtualization.mdx)
+- [페이징](paging.mdx)
+- [필터링](filtering.mdx)
+- [정렬](sorting.mdx)
+- [요약](summaries.mdx)
+- [열 이동](column-moving.mdx)
+- [열 크기 조정](column-resizing.mdx)
+- [선택](selection.mdx)
+</ComponentBlock>
+
+커뮤니티는 활발하며 새로운 아이디어를 언제나 환영합니다.
+
+- [{ProductName} **포럼**]({ForumsLink})
+- [{ProductName} **GitHub**]({GithubLink})

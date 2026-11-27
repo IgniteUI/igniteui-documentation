@@ -1,0 +1,263 @@
+---
+title: "Estilo y temas de {Platform} | Paletas de {Platform} | Infragistics"
+description: "Las paletas de {ProductName} son conjuntos de variables CSS, generadas a partir de colores semilla, que dan a cada componente sus colores y pueden sobrescribirse en tiempo de ejecución."
+keywords: "{ProductName}, Infragistics, paletas, estilo, variables CSS, variables de color, roles de superficie, colores de contraste"
+license: MIT
+mentionedTypes: []
+_language: es
+llms:
+  description: "Las paletas de {ProductName} son conjuntos de variables CSS --ig-*, generadas a partir de colores semilla, que aportan los colores de cada tema de componente."
+last_updated: "2026-10-14"
+---
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+
+
+# Paletas en {ProductName}
+
+Las paletas de {ProductName} son conjuntos de variables CSS `--ig-*`, generadas a partir de colores semilla, que aportan los colores de cada tema de componente.
+
+## Descripción general
+
+Una paleta de {ProductName} tiene ocho familias de color: `primary`, `secondary`, `gray`, `surface`, `info`, `success`, `warn` y `error`. Cada familia expone sus tonos como variables CSS con nombres `--ig-<family>-<variant>`, por ejemplo `--ig-primary-500`.
+
+| Familia | Variantes |
+|---|---|
+| `primary`, `secondary`, `info`, `success`, `warn`, `error` | `50`, `100`, `200`, `300`, `400`, `500`, `600`, `700`, `800`, `900`, `A100`, `A200`, `A400`, `A700`, `seed` |
+| `gray` | `50`–`900`, `seed` |
+| `surface` | `base`, `sunken`, `raised`, `overlay`, `container`, `seed` |
+
+Los tonos numerados van desde `50`, el más claro, hasta `900`, el más oscuro. Los tonos de acento `A100`–`A700` son variantes vivas para resaltar. La familia `surface` describe capas en lugar de tonos: `base` es el fondo de la página y de los componentes, `sunken`, `raised` y `overlay` son capas relativas a él, y `container` es un relleno translúcido. Las paletas también incluyen tonos `surface` numerados por compatibilidad, pero están obsoletos a favor de los roles, que leen los temas de componente.
+
+Cada variante tiene una variable `-contrast` correspondiente, como `--ig-primary-500-contrast`, que se resuelve en negro o en blanco, el que se lea mejor sobre ese tono con el nivel WCAG configurado.
+
+<DocsAside type="info">
+Los colores de contraste son colores relativos CSS que calcula el navegador a partir de su tono, así que sobrescribir un tono actualiza también su color de contraste. La excepción es el `container` translúcido: su color de contraste se calcula a partir del contenedor colocado sobre `base`, que es frente a lo que se lee el texto que contiene, así que sigue los cambios de cualquiera de los dos.
+</DocsAside>
+
+Este es un extracto de la familia `primary` en la paleta Material clara:
+
+```css
+:root {
+  --ig-primary-500: #09f;
+  --ig-primary-500-contrast: hsla(from color(from var(--ig-primary-500) var(--y-contrast)) h 0 l / 1);
+  --ig-primary-600: hsl(from var(--ig-primary-500) h calc(s * 1.26) calc(l * 0.89));
+  --ig-primary-600-contrast: hsla(from color(from var(--ig-primary-600) var(--y-contrast)) h 0 l / 1);
+  --ig-primary-seed: #09f;
+  /* ... */
+  --ig-wcag-a: 0.31;
+  --ig-wcag-aa: 0.185;
+  --ig-wcag-aaa: 0.178;
+  --ig-contrast-level: var(--ig-wcag-aa);
+  --y: clamp(0, (y / var(--ig-contrast-level) - 1) * -infinity, 1);
+  --y-contrast: xyz-d65 var(--y) var(--y) var(--y);
+}
+```
+
+Cada familia también expone una variable `seed` que guarda el color del que se generó la paleta, sin cambios. En los temas prediseñados, la semilla de `primary`, `secondary` y de las demás familias de color coincide con su variante `500`. En el caso de `gray` no ocurre: `--ig-gray-seed` guarda el color del que se derivó la escala de grises, negro o blanco elegido según la luminosidad del color de superficie, mientras que `--ig-gray-500` es un tono medio generado.
+
+<DocsAside type="info">
+El umbral de contraste se guarda en `--ig-contrast-level`, que por defecto es `var(--ig-wcag-aa)`. Sobrescríbalo en cualquier ámbito para cambiar a `var(--ig-wcag-a)` o a `var(--ig-wcag-aaa)`.<PlatformBlock for="React, WebComponents, Blazor"> Si compila los temas desde Sass en lugar de usar el CSS prediseñado, los mixins `palette` y `adaptive-contrast` aceptan directamente `a`, `aa` o `aaa`; consulte [Accessibility](accessibility.mdx).</PlatformBlock>
+</DocsAside>
+
+<PlatformBlock for="Angular">
+
+En Sass, los mixins `palette()` y `adaptive-contrast()` aceptan directamente `'a'`, `'aa'` o `'aaa'`:
+
+```scss
+@include palette($palette, $contrast-level: 'aaa');
+```
+
+</PlatformBlock>
+
+## Cómo se generan las paletas
+
+Cada paleta de {ProductName}, incluidas las de los temas CSS prediseñados, la genera la función `palette()` de la biblioteca de Sass `igniteui-theming`.<PlatformBlock for="React, WebComponents, Blazor"> No necesita Sass para usar las paletas prediseñadas, pero saber cómo se construyen explica cómo se comportan las variables.</PlatformBlock> La función tiene dos generadores, y producen variables CSS que se comportan de forma distinta en tiempo de ejecución:
+
+| Generador | Los tonos se emiten como | Se usa en |
+|---|---|---|
+| `legacy` | Colores relativos CSS de `500`. Sobrescribir `--ig-primary-500` actualiza en el navegador cada tono primario. | Todos los temas CSS prediseñados y las paletas de Sass predefinidas. |
+| `fitted` | Colores fijos calculados para objetivos de contraste. Sobrescribir una variable cambia solo ese tono. | Las paletas que genera con `palette()` en Sass, de forma predeterminada. |
+
+El generador `legacy` multiplica la saturación y la luminosidad del tono `500` por valores fijos, así que la calidad de sus tonos depende de lo claro u oscuro que sea el color `500`. Un `500` muy oscuro o muy pálido produce tonos que se agrupan o que se resuelven en blanco. Si su color de marca es muy oscuro o muy pálido, genere la paleta en Sass con el generador `fitted`: construye cada familia según una escala de contraste, así que estas semillas siguen produciendo diez tonos distintos. [Palette Generation](palette-generation.mdx) explica ambos generadores y muestra cómo generar una paleta.<PlatformBlock for="Angular"> [Palettes with Sass](sass/palettes.mdx) cubre cada flujo de trabajo en detalle.</PlatformBlock>
+
+<Sample src="/themes/palettes/shades" wc fitContent iframeOnly alt="Paletas de {Platform}: las familias de una paleta prediseñada a través de los generadores heredado y ajustado" />
+
+El resto de este tema describe las sobrescrituras en tiempo de ejecución, que derivan tonos nuevos solo en las paletas construidas con el generador `legacy`, como los temas prediseñados.
+
+## Definir paletas
+
+Para cambiar una familia de color, sobrescriba su variante `500`. Cada otro tono numerado y de acento de la familia es un color relativo de `500`, así que se actualiza con ella:
+
+```css
+:root {
+  --ig-primary-500: #09f;
+}
+```
+
+Los tonos derivados conservan el matiz de `500` y cambian solo su saturación y su luminosidad, así que cada familia es monocromática:
+
+```css
+:root {
+  --ig-primary-600: hsl(from var(--ig-primary-500) h calc(s * 1.26) calc(l * 0.89));
+}
+```
+
+La variable `seed` no se deriva de `500`; guarda el color a partir del que se construyó la paleta. Sobrescriba los tonos que usa, no `seed`.
+
+## Ámbito
+
+Sobrescriba las variables de paleta en `:root` dentro de la hoja de estilos global de su aplicación para cambiar la paleta global. Vale cualquier sintaxis de color CSS:
+
+```css
+:root {
+  --ig-primary-500: #9f349c;
+}
+```
+
+Limite las sobrescrituras a otros selectores para usar varias paletas a la vez. Por ejemplo, defina una paleta azul y otra roja en clases:
+
+```css
+/* styles.css */
+
+.blue-theme {
+  --ig-primary-500: #0008ff;
+}
+
+.red-theme {
+  --ig-primary-500: #ff0400;
+}
+```
+
+<PlatformBlock for="Angular">
+
+```html
+<app-component class="blue-theme"></app-component>
+```
+
+</PlatformBlock>
+
+Cambie la clase de `blue-theme` a `red-theme` para cambiar la paleta de todo lo que hay dentro del elemento.
+
+El mismo enfoque cambia un color de paleta para un único componente. El avatar de Material, por ejemplo, toma su fondo del tono `gray` `400`, así que sobrescribir ese tono en el avatar cambia su fondo sin tocar el resto de la paleta:
+
+<PlatformBlock for="Angular">
+
+```css
+igx-avatar {
+  --ig-gray-400: #efefef;
+}
+```
+
+</PlatformBlock>
+<PlatformBlock for="React, WebComponents, Blazor">
+
+```css
+igc-avatar {
+  --ig-gray-400: #efefef;
+}
+```
+
+</PlatformBlock>
+
+## Capas de superficie
+
+La familia `surface` es un conjunto de capas con nombre en lugar de tonos numerados. Los componentes leen estas capas, empezando por `--ig-surface-base`:
+
+| Variable | Se usa para |
+| --- | --- |
+| `--ig-surface-base` | El fondo de la página |
+| `--ig-surface-sunken` | Áreas empotradas |
+| `--ig-surface-raised` | Tarjetas y paneles situados sobre la página |
+| `--ig-surface-overlay` | Menús, diálogos y popovers |
+| `--ig-surface-container` | Una capa translúcida sobre una superficie: negra sobre una superficie clara, blanca sobre una oscura |
+
+Cada capa tiene una variable `-contrast` correspondiente, como `--ig-surface-base-contrast`, para el color del primer plano sobre esa capa.
+
+Una capa que no tiene espacio para su paso completo se resuelve en `base`. Sobre el blanco y otras superficies claras cercanas, por ejemplo, `raised` y `overlay` pueden coincidir con el color base, así que use bordes o [elevaciones](elevations.mdx) para separarlas de la página. [Palette Generation](palette-generation.mdx#roles-de-superficie) explica cómo se generan las capas.
+
+## Oscuro frente a claro
+
+Las familias `gray` y `surface` deciden si una paleta {ProductName} es clara u oscura. Las paletas claras emparejan una superficie clara con grises construidos a partir de un color oscuro; las paletas oscuras emparejan una superficie oscura con grises construidos a partir del blanco. El texto, los bordes y los iconos toman sus colores de los grises, así que ambas familias deben mantenerse en los extremos opuestos de la escala de grises.
+
+Los fondos de los componentes leen los roles `surface`, así que sobrescriba los roles para cambiar la superficie en tiempo de ejecución. Los roles son colores fijos con ambos generadores, y no se derivan de `--ig-surface-500`:
+
+**Material Light:**
+
+```css
+:root {
+  /* the surface roles are light */
+  --ig-surface-base: #fff;
+  --ig-surface-raised: #fff;
+  --ig-surface-overlay: #fff;
+  --ig-surface-sunken: #f7f7f7;
+  /* grays are built from a dark color to contrast the surface */
+  --ig-gray-500: hsl(0, 0%, 62%);
+}
+```
+
+**Material Dark:**
+
+```css
+:root {
+  /* the surface roles are dark */
+  --ig-surface-base: #222;
+  --ig-surface-raised: #282828;
+  --ig-surface-overlay: #2f2f2f;
+  --ig-surface-sunken: #1c1c1c;
+  /* grays are built from white to contrast the surface */
+  --ig-gray-500: hsl(0, 0%, 74%);
+}
+```
+
+<PlatformBlock for="Angular">
+
+Los componentes leen los roles de superficie desde {ProductName} 22.3.0. Las versiones anteriores leían `--ig-surface-500` para su fondo, así que en esas versiones sobrescriba `--ig-surface-500` junto con `--ig-surface-base`.
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+Los componentes leen los roles de superficie desde Ignite UI for Web Components 7.5.0. Las versiones anteriores leían `--ig-surface-500` para su fondo, así que en esas versiones sobrescriba `--ig-surface-500` junto con `--ig-surface-base`.
+
+</PlatformBlock>
+
+<PlatformBlock for="React, Blazor">
+
+Los componentes de las versiones anteriores a los roles de superficie leen `--ig-surface-500` para su fondo. Si usa una versión así, o no está seguro, sobrescriba `--ig-surface-500` junto con `--ig-surface-base`; la variable adicional no causa daño una vez que los componentes leen los roles.
+
+</PlatformBlock>
+
+Cambie `gray` y `surface` con cuidado: la mayoría de los componentes los usan, y tienen el mayor efecto en el aspecto general de un tema.
+
+## Otros colores
+
+Las familias `info`, `success`, `warn` y `error` colorean estados, como los estados de validación de <PlatformBlock for="Angular">`igx-input-group`</PlatformBlock><PlatformBlock for="React, WebComponents, Blazor">`igc-input`</PlatformBlock>. Sobrescriba sus variantes `500` para cambiarlos, y el resto de cada familia se ajusta:
+
+```css
+:root {
+  --ig-info-500: #1377d5;
+  --ig-success-500: #4eb862;
+  --ig-warn-500: #faa419;
+  --ig-error-500: #ff134a;
+}
+```
+
+## Recursos adicionales
+
+- [Generación de paletas](palette-generation.mdx)
+- [Accesibilidad](accessibility.mdx)
+
+<PlatformBlock for="Angular">
+
+- [Paletas con Sass](sass/palettes.mdx)
+- [{ProductName} **Foros**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [{ProductName} **GitHub**](https://github.com/IgniteUI/igniteui-angular)
+
+</PlatformBlock>
+<PlatformBlock for="React, WebComponents, Blazor">
+
+- [Themes Overview](overview.mdx)
+
+</PlatformBlock>

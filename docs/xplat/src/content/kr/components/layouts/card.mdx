@@ -1,0 +1,1343 @@
+---
+title: "{Platform} Card 컴포넌트"
+description: "{Platform} Card는 관련된 미디어, 텍스트 및 작업을 하나의 유연한 콘텐츠 컨테이너에 정리합니다."
+keywords: "{Platform} Card, card 컴포넌트, 콘텐츠 컨테이너, 미디어 카드, {ProductName}, Infragistics"
+license: MIT
+last_updated: "2026-07-30"
+mentionedTypes: ["Card", "CardActions", "CardContent", "CardHeader", "CardMedia", "Avatar", "Button", "Icon", "IconButton", "Ripple"]
+relatedComponents: ["Grid", "List"]
+_language: ko
+llms:
+  description: "{ProductName} Card는 관련된 미디어, 텍스트 및 작업을 하나의 유연한 콘텐츠 컨테이너에 정리합니다."
+---
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+import Anatomy from 'igniteui-astro-components/components/mdx/Anatomy.astro';
+import Faq from 'igniteui-astro-components/components/mdx/Faq.astro';
+import FaqItem from 'igniteui-astro-components/components/mdx/FaqItem.astro';
+import { Image } from 'astro:assets';
+import cardAnatomy from '@xplat-images/anatomy-frame-light/Card-lt.png';
+import cardDo from '@xplat-images/card/card-do.png';
+import cardDoNot from '@xplat-images/card/card-do-not.png';
+
+# Card
+
+{ProductName} Card는 관련된 미디어, 텍스트 및 작업을 하나의 유연한 콘텐츠 컨테이너에 정리합니다.
+
+제품, 문서, 연락처, 위치 또는 대시보드 항목처럼 하나의 주제에 대한 콘텐츠를 묶으려면 카드를 사용하십시오.
+
+## 라이브 데모
+
+<PlatformBlock for="WebComponents, React, Blazor">
+
+<Sample src="/layouts/card/overview" showThemePicker height={640} noBorder={false} spacing="md" alt="{Platform} Card 개요 예제" />
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+<Sample src="/layouts/card-overview" showThemePicker height={640} noBorder={false} spacing="md" alt="{Platform} Card 개요 예제" />
+
+</PlatformBlock>
+
+## 구조
+
+카드는 헤더, 미디어, 콘텐츠 및 작업이 기본 구성 블록인 컨테이너입니다.
+
+<Anatomy
+  class="card-anatomy"
+  name="{Platform} Card 구성 요소"
+  description="카드 구성 요소 다이어그램은 헤더, 미디어, 콘텐츠 및 작업 영역에 레이블을 표시합니다."
+  src={cardAnatomy.src}
+  alt="{Platform} Card 구성 요소: 헤더, 미디어, 콘텐츠 및 작업 영역"
+/>
+
+<div class="card-anatomy-legend ig-typography__body-2">
+  <div>
+    <strong>A - 미디어 컨테이너</strong>
+    <span>1. 이미지(선택 사항)</span>
+  </div>
+  <div>
+    <strong>B - 카드 헤더</strong>
+    <span>2. 제목</span>
+    <span>3. 아바타(선택 사항)</span>
+    <span>4. 부제목</span>
+  </div>
+  <div>
+    <strong>C - 콘텐츠 영역</strong>
+    <span>5. 단락</span>
+  </div>
+  <div>
+    <strong>D - 카드 푸터</strong>
+    <span>6. 작업 버튼, 아이콘 버튼</span>
+  </div>
+</div>
+
+<style>{`
+  .card-anatomy {
+    --igd-anatomy-padding: 8px;
+  }
+
+  .card-anatomy .igd-anatomy__image {
+    max-width: 800px;
+  }
+
+  .card-anatomy-legend {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    column-gap: 48px;
+    margin-bottom: 24px;
+  }
+
+  .card-anatomy-legend div {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .card-anatomy-legend strong {
+    margin-bottom: 12px;
+  }
+
+  .card-anatomy-legend span {
+    display: block;
+  }
+
+  @media (max-width: 768px) {
+    .card-anatomy-legend {
+      grid-template-columns: 1fr 1fr;
+      row-gap: 24px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .card-anatomy-legend {
+      grid-template-columns: 1fr;
+    }
+  }
+`}</style>
+
+<PlatformBlock for="WebComponents, React, Blazor">
+
+```text
+igc-card                         // host - groups related content
+├─ igc-card-media                 // optional media region
+│  └─ default slot                // image, video, or other media content
+├─ igc-card-header                // optional header region
+│  ├─ [slot="thumbnail"]          // optional avatar, icon, or small image
+│  ├─ [slot="title"]              // card title
+│  ├─ [slot="subtitle"]           // optional card subtitle
+│  └─ default slot                // optional additional header content
+├─ igc-card-content               // optional body region
+│  └─ default slot                // text, lists, or custom content
+└─ igc-card-actions               // optional action region
+   ├─ [slot="start"]              // leading actions
+   ├─ default slot                // centered actions
+   └─ [slot="end"]                // trailing actions
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+```text
+igx-card                         // host - groups related content
+|- igx-card-media                 // optional media region
+|  `- default content             // image, video, or other media content
+|- igx-card-header                // optional header region
+|  |- [igxCardThumbnail]          // optional avatar, icon, or small image
+|  |- [igxCardHeaderTitle]        // card title
+|  `- [igxCardHeaderSubtitle]     // optional card subtitle
+|- igx-card-content               // optional body region
+|  `- default content             // text, lists, or custom content
+`- igx-card-actions               // optional action region
+   |- [igxStart]                  // leading actions
+   `- [igxEnd]                    // trailing actions
+```
+
+</PlatformBlock>
+
+## 시작하기
+
+{Platform} Card를 사용하려면  <PlatformBlock for="Angular">[{ProductName} 시작하기](../general/getting-started.mdx)</PlatformBlock><PlatformBlock for="React,WebComponents,Blazor">[{ProductName} 시작하기](../general-getting-started.mdx)</PlatformBlock> 기본 프로젝트 설정 항목을 참조한 다음, 대상 플랫폼에 맞게 컴포넌트를 등록하십시오.
+
+<PlatformBlock for="React,WebComponents">
+
+**{PackageCommon}** 패키지를 사용하는 {Platform}의 경우, 패키지를 설치하십시오:
+
+```cmd
+npm install {PackageCommon}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+그다음 <ApiLink pkg="core" type="Card" />, 테마 CSS를 import하고 컴포넌트를 등록해야 합니다. 예:
+
+```ts
+import { defineComponents, IgcCardComponent } from 'igniteui-webcomponents';
+import 'igniteui-webcomponents/themes/light/bootstrap.css';
+
+defineComponents(IgcCardComponent);
+```
+
+카드를 등록하면 카드 헤더, 미디어, 콘텐츠 및 작업 하위 컴포넌트도 함께 등록됩니다. 아바타, 버튼, 아이콘 버튼처럼 카드 콘텐츠에서 사용하는 다른 컴포넌트도 등록하십시오:
+
+```ts
+import {
+  defineComponents,
+  IgcAvatarComponent,
+  IgcButtonComponent,
+  IgcCardComponent,
+  IgcIconButtonComponent,
+} from 'igniteui-webcomponents';
+
+defineComponents(IgcCardComponent, IgcAvatarComponent, IgcButtonComponent, IgcIconButtonComponent);
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+그다음 다음과 같이 Card 래퍼와 테마 CSS를 가져와야 합니다:
+
+```tsx
+import {
+  IgrCard,
+  IgrCardActions,
+  IgrCardContent,
+  IgrCardHeader,
+  IgrCardMedia,
+} from 'igniteui-react';
+import 'igniteui-webcomponents/themes/light/bootstrap.css';
+```
+
+`IgrAvatar`, `IgrButton`, `IgrIconButton`처럼 카드 콘텐츠에서 사용하는 다른 래퍼도 가져오십시오.
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+{ProductName} 서비스를 등록합니다:
+
+```csharp
+// in Program.cs file
+
+builder.Services.AddIgniteUIBlazor();
+```
+
+<ApiLink pkg="core" type="Card" />의 클라이언트 리소스 모듈인 <ApiLink pkg="core" type="CardModule" /> 등록은 **선택 사항**입니다. 컴포넌트는 처음 렌더링될 때 리소스를 로드합니다. `builder.Services.AddIgniteUIBlazor(typeof(IgbCardModule))`에 나열하면 리소스를 미리 로드하거나 클라이언트에서만 생성되는 요소를 지원할 수 있습니다([컴포넌트 모듈](../general-getting-started.mdx#컴포넌트-모듈) 참조).
+
+<ApiLink pkg="core" type="Card" /> 컴포넌트에 스타일을 적용하려면 추가 CSS 파일도 연결해야 합니다. 다음 내용을 애플리케이션의 호스트 페이지에 넣어야 합니다(독립 실행형 Blazor WebAssembly 또는 Blazor Hybrid 앱에서는 **wwwroot/index.html**, Blazor Server 앱에서는 **Pages/_Host.cshtml**, Blazor Web App에서는 **Components/App.razor**):
+
+```razor
+<link href="_content/IgniteUI.Blazor/themes/light/bootstrap.css" rel="stylesheet" />
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+**igniteui-angular** 패키지를 사용하는 Angular의 경우, 패키지를 설치하십시오:
+
+```cmd
+npm install igniteui-angular
+```
+
+그다음 컴포넌트 `imports` 컬렉션에서 `IGX_CARD_DIRECTIVES` 토큰을 가져오십시오. 이 토큰은 카드를 모든 지원 컴포넌트 및 디렉티브와 함께 가져옵니다.
+
+```ts
+import { IGX_CARD_DIRECTIVES } from 'igniteui-angular/card';
+```
+
+카드 콘텐츠에서 사용하는 다른 디렉티브(예: `IgxButtonDirective`, `IgxIconButtonDirective`, `IgxIconComponent`, `IgxRippleDirective`)은 `igniteui-angular`에서 가져오십시오.
+
+</PlatformBlock>
+
+<ApiLink pkg="core" type="Card" />를 사용하기 시작하는 가장 간단한 방법은 다음과 같습니다:
+
+<PlatformBlock for="Angular">
+
+```html
+<igx-card>
+  <igx-card-header>
+    <h3 igxCardHeaderTitle>Title</h3>
+  </igx-card-header>
+  <igx-card-content>
+    <p>Content</p>
+  </igx-card-content>
+</igx-card>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-card>
+  <igc-card-header>
+    <h3 slot="title">Title</h3>
+  </igc-card-header>
+  <igc-card-content>
+    <p>Content</p>
+  </igc-card-content>
+</igc-card>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrCard>
+  <IgrCardHeader>
+    <h3 slot="title">Title</h3>
+  </IgrCardHeader>
+  <IgrCardContent>
+    <p>Content</p>
+  </IgrCardContent>
+</IgrCard>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbCard>
+  <IgbCardHeader>
+    <h3 slot="title">Title</h3>
+  </IgbCardHeader>
+  <IgbCardContent>
+    <p>Content</p>
+  </IgbCardContent>
+</IgbCard>
+```
+
+</PlatformBlock>
+
+## 사용법
+
+카드 컨테이너와 콘텐츠에 필요한 하위 컴포넌트를 조합하여 카드를 구성하십시오.
+
+### 미디어
+
+사용 <PlatformBlock for="WebComponents, React, Blazor"><ApiLink pkg="core" type="CardMedia" /></PlatformBlock><PlatformBlock for="Angular"><ApiLink type="CardMediaDirective" /></PlatformBlock> 카드에 이미지, 동영상 또는 기타 미디어 콘텐츠를 배치하려면 사용하십시오.
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-card-media>
+  <img src="https://images.unsplash.com/photo-1518235506717-e1ed3306a89b?ixlib=rb-1.2.1&auto=format&fit=crop&w=640&q=50" alt="New York city skyline" />
+</igc-card-media>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+```html
+<igx-card-media height="196px">
+  <img src="https://images.unsplash.com/photo-1518235506717-e1ed3306a89b?ixlib=rb-1.2.1&auto=format&fit=crop&w=640&q=50" alt="New York city skyline" />
+</igx-card-media>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrCardMedia>
+  <img src="https://images.unsplash.com/photo-1518235506717-e1ed3306a89b?ixlib=rb-1.2.1&auto=format&fit=crop&w=640&q=50" alt="New York city skyline" />
+</IgrCardMedia>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbCardMedia>
+  <img src="https://images.unsplash.com/photo-1518235506717-e1ed3306a89b?ixlib=rb-1.2.1&auto=format&fit=crop&w=640&q=50" alt="New York city skyline" />
+</IgbCardMedia>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents, React, Blazor">
+
+<Sample src="/layouts/card/media" showThemePicker height={400} noBorder={false} spacing="md" alt="{Platform} Card 미디어 예제" />
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+<Sample src="/layouts/card-media" showThemePicker height={400} noBorder={false} spacing="md" alt="{Platform} Card 미디어 예제" />
+
+</PlatformBlock>
+
+### 위치
+
+미디어를 헤더 위 또는 아래에 배치하십시오. 카드는 영역을 추가한 순서대로 렌더링하므로, 마크업의 요소 순서가 미디어 위치를 결정합니다.
+
+<PlatformBlock for="WebComponents, React, Blazor">
+
+<Sample src="/layouts/card/position" showThemePicker height={400} noBorder={false} spacing="md" alt="헤더 앞뒤에 미디어를 배치한 {Platform} Card 예제" />
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+<Sample src="/layouts/card-position" showThemePicker height={400} noBorder={false} spacing="md" alt="헤더 앞뒤에 미디어를 배치한 {Platform} Card 예제" />
+
+</PlatformBlock>
+
+### 헤더 슬롯
+
+헤더 슬롯을 사용하여 썸네일, 제목, 부제목 및 추가 헤더 콘텐츠를 정의하십시오.
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-card-header>
+  <igc-avatar slot="thumbnail" initials="TS"></igc-avatar>
+  <h3 slot="title">Title</h3>
+  <span slot="subtitle">Subtitle</span>
+</igc-card-header>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+```html
+<igx-card-header>
+  <div igxCardThumbnail>
+    <igx-icon>place</igx-icon>
+  </div>
+  <h3 igxCardHeaderTitle>Title</h3>
+  <span igxCardHeaderSubtitle>Subtitle</span>
+</igx-card-header>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrCardHeader>
+  <IgrAvatar slot="thumbnail" initials="TS" />
+  <h3 slot="title">Title</h3>
+  <span slot="subtitle">Subtitle</span>
+</IgrCardHeader>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbCardHeader>
+  <IgbAvatar slot="thumbnail" Initials="TS" />
+  <h3 slot="title">Title</h3>
+  <span slot="subtitle">Subtitle</span>
+</IgbCardHeader>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents, React, Blazor">
+
+카드가 문서 개요에서 올바른 위치를 차지하도록 `title` 슬롯에 `<h3>` 같은 제목 요소를 전달하고, `subtitle`에는 `<span>` 같은 중립적인 인라인 요소를 사용하십시오. 헤더는 슬롯 콘텐츠의 여백과 글꼴을 재설정하므로 제목도 카드의 타이포그래피를 유지합니다.
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+카드가 문서 개요에서 올바른 위치를 차지하도록 `<h3>` 같은 제목 요소에 `igxCardHeaderTitle`을(를) 적용하고, `<span>` 같은 중립적인 인라인 요소에 `igxCardHeaderSubtitle`을(를) 적용하십시오.
+
+</PlatformBlock>
+
+### 콘텐츠
+
+사용 <PlatformBlock for="WebComponents, React, Blazor"><ApiLink pkg="core" type="CardContent" /></PlatformBlock><PlatformBlock for="Angular"><ApiLink type="CardContentDirective" /></PlatformBlock> 카드 본문 텍스트, 목록 또는 사용자 지정 콘텐츠에 사용하십시오.
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-card-content>
+  <p>New York City comprises five boroughs where the Hudson River meets the Atlantic Ocean.</p>
+</igc-card-content>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+```html
+<igx-card-content>
+  <p>New York City comprises five boroughs where the Hudson River meets the Atlantic Ocean.</p>
+</igx-card-content>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrCardContent>
+  <p>New York City comprises five boroughs where the Hudson River meets the Atlantic Ocean.</p>
+</IgrCardContent>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbCardContent>
+  <p>New York City comprises five boroughs where the Hudson River meets the Atlantic Ocean.</p>
+</IgbCardContent>
+```
+
+</PlatformBlock>
+
+### 높임
+
+카드에 높임 시각 처리를 적용해야 할 때는 <ApiLink pkg="core" type="Card" member="elevated" label="elevated" />을(를) 설정하십시오.
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-card elevated>
+  ...
+</igc-card>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+```html
+<igx-card elevated>
+  ...
+</igx-card>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrCard elevated={true}>
+  ...
+</IgrCard>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbCard Elevated=true>
+  ...
+</IgbCard>
+```
+
+</PlatformBlock>
+
+### 작업 슬롯
+
+작업 슬롯을 사용하여 <ApiLink pkg="core" type="CardActions" />에 시작, 가운데 및 끝 작업을 배치하십시오.
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-card-actions>
+  <igc-button slot="start">Like</igc-button>
+  <igc-button>Comment</igc-button>
+  <igc-icon-button slot="end" name="more_vert"></igc-icon-button>
+</igc-card-actions>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+```html
+<igx-card-actions>
+  <button igxButton igxStart>Like</button>
+  <button igxButton>Comment</button>
+  <button igxIconButton="flat" igxEnd>
+    <igx-icon>more_vert</igx-icon>
+  </button>
+</igx-card-actions>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrCardActions>
+  <IgrButton slot="start">Like</IgrButton>
+  <IgrButton>Comment</IgrButton>
+  <IgrIconButton slot="end" name="more_vert" />
+</IgrCardActions>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbCardActions>
+  <IgbButton slot="start">Like</IgbButton>
+  <IgbButton>Comment</IgbButton>
+  <IgbIconButton slot="end" IconName="more_vert" />
+</IgbCardActions>
+```
+
+</PlatformBlock>
+
+### 작업 방향
+
+<PlatformBlock for="WebComponents, React, Blazor">
+
+<ApiLink pkg="core" type="CardActions" member="orientation" label="orientation" /> 속성을 사용하여 <ApiLink pkg="core" type="CardActions" /> 콘텐츠를 가로 또는 세로로 배치하십시오. 작업은 기본적으로 가로로 배치되므로, 세로로 쌓으려면 `orientation`을(를) `vertical`(으)로 설정하십시오.
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+작업을 세로로 배치해야 할 때는 `igx-card-actions`에 `vertical`을(를) 설정하십시오.
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-card-actions orientation="vertical">
+  <igc-button slot="start">Like</igc-button>
+  <igc-button slot="start">Share</igc-button>
+  <igc-icon-button slot="end" name="more_vert"></igc-icon-button>
+</igc-card-actions>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+```html
+<igx-card-actions [vertical]="true">
+  <button igxButton>Like</button>
+  <button igxButton>Share</button>
+  <button igxIconButton="flat">
+    <igx-icon>more_vert</igx-icon>
+  </button>
+</igx-card-actions>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrCardActions orientation="vertical">
+  <IgrButton slot="start">Like</IgrButton>
+  <IgrButton slot="start">Share</IgrButton>
+  <IgrIconButton slot="end" name="more_vert" />
+</IgrCardActions>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbCardActions Orientation="@ContentOrientation.Vertical">
+  <IgbButton slot="start">Like</IgbButton>
+  <IgbButton slot="start">Share</IgbButton>
+  <IgbIconButton slot="end" IconName="more_vert" />
+</IgbCardActions>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents, React, Blazor">
+
+<Sample src="/layouts/card/actions" showThemePicker height={400} noBorder={false} spacing="md" alt="{Platform} Card 작업 예제" />
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+<Sample src="/layouts/card-actions" showThemePicker height={400} noBorder={false} spacing="md" alt="{Platform} Card 작업 예제" />
+
+</PlatformBlock>
+
+### 레이아웃
+
+카드 섹션을 가로로 배치하거나 미디어와 콘텐츠 영역으로 나눠야 할 때는 레이아웃 래퍼를 사용하십시오.
+
+가로형 카드를 만들려면 헤더와 콘텐츠를 하나의 래퍼로 묶고, 작업을 그 래퍼 옆에 추가한 다음 카드 콘텐츠에 flex 행을 적용하십시오.
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-card>
+  <div class="card-horizontal">
+    <div>
+      <igc-card-header>
+        <img src="https://dl.infragistics.com/x/img/music/rozes.jpg" slot="thumbnail" alt="Rozes album cover" />
+        <span slot="title">Rozes</span>
+        <span slot="subtitle">Under the Grave (2016)</span>
+      </igc-card-header>
+      <igc-card-content>
+        <p>As I have always said: I write what's real and what's true, even if it means throwing myself under the bus.</p>
+      </igc-card-content>
+    </div>
+    <div class="divider"></div>
+    <igc-card-actions>
+      <igc-icon-button variant="flat" name="skip_previous" aria-label="Previous track"></igc-icon-button>
+      <igc-icon-button variant="flat" name="play_arrow" aria-label="Play"></igc-icon-button>
+      <igc-icon-button variant="flat" name="skip_next" aria-label="Next track"></igc-icon-button>
+    </igc-card-actions>
+  </div>
+</igc-card>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+```html
+<igx-card [horizontal]="true">
+  <div igxLayout igxLayoutDir="column" igxFlex [igxFlexGrow]="1">
+    <igx-card-header>
+      <h5 igxCardHeaderTitle>Rozes</h5>
+      <h5 igxCardHeaderSubtitle>Under the Grave (2016)</h5>
+      <igx-card-media width="64px" height="64px">
+        <img src="https://dl.infragistics.com/x/img/music/rozes.jpg" alt="Rozes album cover" />
+      </igx-card-media>
+    </igx-card-header>
+    <igx-card-content>
+      <p>As I have always said: I write what's real and what's true, even if it means throwing myself under the bus.</p>
+    </igx-card-content>
+  </div>
+  <igx-divider [vertical]="true"></igx-divider>
+  <igx-card-actions layout="justify">
+    <button igxIconButton="flat" igxRipple [igxRippleCentered]="true" igxEnd aria-label="Previous track">
+      <igx-icon>skip_previous</igx-icon>
+    </button>
+    <button igxIconButton="flat" igxRipple [igxRippleCentered]="true" igxEnd aria-label="Play">
+      <igx-icon>play_arrow</igx-icon>
+    </button>
+    <button igxIconButton="flat" igxRipple [igxRippleCentered]="true" igxEnd aria-label="Next track">
+      <igx-icon>skip_next</igx-icon>
+    </button>
+  </igx-card-actions>
+</igx-card>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrCard>
+  <div className="card-horizontal">
+    <div>
+      <IgrCardHeader>
+        <img src="https://dl.infragistics.com/x/img/music/rozes.jpg" slot="thumbnail" alt="Rozes album cover" />
+        <span slot="title">Rozes</span>
+        <span slot="subtitle">Under the Grave (2016)</span>
+      </IgrCardHeader>
+      <IgrCardContent>
+        <p>As I have always said: I write what's real and what's true, even if it means throwing myself under the bus.</p>
+      </IgrCardContent>
+    </div>
+    <div className="divider"></div>
+    <IgrCardActions>
+      <IgrIconButton variant="flat" name="skip_previous" aria-label="Previous track" />
+      <IgrIconButton variant="flat" name="play_arrow" aria-label="Play" />
+      <IgrIconButton variant="flat" name="skip_next" aria-label="Next track" />
+    </IgrCardActions>
+  </div>
+</IgrCard>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbCard>
+    <div class="card-horizontal">
+        <div>
+            <IgbCardHeader>
+                <img slot="thumbnail" src="https://dl.infragistics.com/x/img/music/rozes.jpg" alt="Rozes album cover" />
+                <span slot="title">Rozes</span>
+                <span slot="subtitle">Under the Grave (2016)</span>
+            </IgbCardHeader>
+            <IgbCardContent>
+                <p>As I have always said: I write what's real and what's true, even if it means throwing myself under the bus.</p>
+            </IgbCardContent>
+        </div>
+        <div class="divider"></div>
+        <IgbCardActions>
+            <IgbIconButton Variant="IconButtonVariant.Flat" IconName="skip_previous" aria-label="Previous track" />
+            <IgbIconButton Variant="IconButtonVariant.Flat" IconName="play_arrow" aria-label="Play" />
+            <IgbIconButton Variant="IconButtonVariant.Flat" IconName="skip_next" aria-label="Next track" />
+        </IgbCardActions>
+    </div>
+</IgbCard>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents, React, Blazor">
+
+```css
+.card-horizontal {
+  display: flex;
+  flex-direction: row;
+  flex: 1 1 0%;
+}
+
+.card-horizontal igc-card-actions {
+  justify-content: center;
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+```css
+.card-wrapper {
+  max-width: 400px;
+  min-width: 250px;
+}
+```
+
+</PlatformBlock>
+
+반가로형 카드를 만들려면 헤더, 콘텐츠 및 작업을 하나의 열에 세로로 쌓고, 그 열 옆에 미디어 섹션을 배치하십시오.
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-card>
+  <div class="semi-horizontal">
+    <div>
+      <igc-card-header>
+        <igc-avatar src="https://dl.infragistics.com/x/img/music/singer_with_mic.jpg" slot="thumbnail"></igc-avatar>
+        <span slot="title">HERE</span>
+        <span slot="subtitle">by Mellow D</span>
+      </igc-card-header>
+      <igc-card-content>
+        <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
+      </igc-card-content>
+      <igc-card-actions>
+        <igc-button>Play Album</igc-button>
+      </igc-card-actions>
+    </div>
+    <igc-card-media class="card-media">
+      <img src="https://dl.infragistics.com/x/img/music/singer_female.jpg" alt="Singer" />
+    </igc-card-media>
+  </div>
+</igc-card>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+```html
+<igx-card [horizontal]="true" elevated>
+  <div igxLayout igxLayoutDir="column" igxFlex [igxFlexGrow]="1">
+    <igx-card-header>
+      <igx-avatar src="https://dl.infragistics.com/x/img/music/singer_with_mic.jpg"></igx-avatar>
+      <h5 igxCardHeaderTitle>HERE</h5>
+      <h5 igxCardHeaderSubtitle>by Mellow D</h5>
+    </igx-card-header>
+    <igx-card-content>
+      <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
+    </igx-card-content>
+    <igx-card-actions [vertical]="false">
+      <button igxButton="flat" igxRipple igxStart>Play Album</button>
+    </igx-card-actions>
+  </div>
+  <igx-card-media width="96px">
+    <img src="https://dl.infragistics.com/x/img/music/singer_female.jpg" alt="Singer" />
+  </igx-card-media>
+</igx-card>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrCard>
+  <div className="semi-horizontal">
+    <div>
+      <IgrCardHeader>
+        <IgrAvatar src="https://dl.infragistics.com/x/img/music/singer_with_mic.jpg" slot="thumbnail" />
+        <span slot="title">HERE</span>
+        <span slot="subtitle">by Mellow D</span>
+      </IgrCardHeader>
+      <IgrCardContent>
+        <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
+      </IgrCardContent>
+      <IgrCardActions>
+        <IgrButton>Play Album</IgrButton>
+      </IgrCardActions>
+    </div>
+    <IgrCardMedia className="card-media">
+      <img src="https://dl.infragistics.com/x/img/music/singer_female.jpg" alt="Singer" />
+    </IgrCardMedia>
+  </div>
+</IgrCard>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbCard>
+    <div class="semi-horizontal">
+        <div>
+            <IgbCardHeader>
+                <IgbAvatar Src="https://dl.infragistics.com/x/img/music/singer_with_mic.jpg" slot="thumbnail" />
+                <span slot="title">HERE</span>
+                <span slot="subtitle">by Mellow D</span>
+            </IgbCardHeader>
+            <IgbCardContent>
+                <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
+            </IgbCardContent>
+            <IgbCardActions>
+                <IgbButton>Play Album</IgbButton>
+            </IgbCardActions>
+        </div>
+        <IgbCardMedia class="card-media">
+            <img src="https://dl.infragistics.com/x/img/music/singer_female.jpg" alt="Singer" />
+        </IgbCardMedia>
+    </div>
+</IgbCard>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents, React, Blazor">
+
+```css
+.semi-horizontal {
+  display: flex;
+  flex-direction: row;
+  flex-grow: 1;
+}
+
+.card-media {
+  width: 96px;
+  min-width: 96px;
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+```css
+.card-wrapper {
+  max-width: 400px;
+  min-width: 250px;
+}
+```
+
+</PlatformBlock>
+
+### 사용 여부
+
+카드는 대개 개요 UI 역할을 하며 더 자세한 정보로 들어가는 진입점입니다. 너무 많은 정보로 채우지 말고, 카드로 대시보드를 만들 때는 카드 간 가로 및 세로 간격을 동일하게 유지하는 레이아웃 그리드를 형성하도록 카드 크기와 배치를 일관되게 맞추십시오.
+
+<div class="card-guidance">
+  <figure class="card-guidance__item">
+    <Image src={cardDo} format="png" quality={100} alt="{Platform} Card 권장 사항: 카드 콘텐츠의 짧은 요약과 작업 하나" class="responsive-img" />
+    <figcaption>
+      <span class="card-guidance__do">사용</span>
+      <span class="card-guidance__text">빠르게 읽을 수 있도록 본문 텍스트는 간결하게 작성하고 핵심 정보에 집중하십시오.</span>
+    </figcaption>
+  </figure>
+  <figure class="card-guidance__item">
+    <Image src={cardDoNot} format="png" quality={100} alt="{Platform} Card 비권장 사항: 카드 콘텐츠를 채우는 긴 글" class="responsive-img" />
+    <figcaption>
+      <span class="card-guidance__not">사용하지 않음</span>
+      <span class="card-guidance__text">긴 단락이나 불필요한 세부 정보로 카드 본문을 과도하게 채우지 마십시오.</span>
+    </figcaption>
+  </figure>
+</div>
+
+<style>{`
+  .card-guidance {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 24px;
+    margin-bottom: 24px;
+  }
+
+  .card-guidance__item {
+    margin: 0;
+  }
+
+  .card-guidance__item img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border: 1px solid #d3d3d3;
+  }
+
+  .card-guidance figcaption {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+    margin-top: 12px;
+    text-align: start;
+    font: inherit;
+    color: inherit;
+  }
+
+  .card-guidance__do,
+  .card-guidance__not {
+    font-size: 18px;
+    font-weight: 600;
+  }
+
+  .card-guidance__do {
+    color: #0f8a3d;
+  }
+
+  .card-guidance__not {
+    color: #d0273c;
+  }
+
+  @media (max-width: 600px) {
+    .card-guidance {
+      grid-template-columns: 1fr;
+    }
+  }
+`}</style>
+
+## 속성
+
+<PlatformBlock for="WebComponents, React, Blazor">
+
+카드 API는 컨테이너 모양과 작업 레이아웃 컨트롤을 제공합니다.
+
+| 이름 | 타입 | 기본값 | 설명 |
+| -- | -- | -- | -- |
+| <ApiLink pkg="core" type="Card" member="elevated" label="elevated" /> | `boolean` | `false` | 카드를 그림자가 있는 높임 모양으로 설정합니다. |
+| <ApiLink pkg="core" type="CardActions" member="orientation" label="orientation" /> | `"horizontal" \| "vertical"` | `"horizontal"` | <ApiLink pkg="core" type="CardActions" />의 레이아웃 방향을 설정합니다. |
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+카드 API는 컨테이너 모양, 작업 레이아웃 및 미디어 크기 조정 컨트롤을 제공합니다.
+
+| 이름 | 타입 | 기본값 | 설명 |
+| -- | -- | -- | -- |
+| <ApiLink pkg="core" type="Card" member="elevated" label="elevated" /> | `boolean` | `false` | 카드를 그림자가 있는 높임 모양으로 설정합니다. |
+| <ApiLink pkg="core" type="Card" member="horizontal" label="horizontal" /> | `boolean` | `false` | 카드 섹션을 가로로 정렬합니다. |
+| <ApiLink pkg="core" type="CardActions" member="vertical" label="vertical" /> | `boolean` | 카드 `horizontal` 입력의 값입니다. | 작업을 세로로 정렬합니다. 설정하지 않으면 상위 카드의 `horizontal` 입력을 따릅니다. |
+| <ApiLink pkg="core" type="CardActions" member="layout" label="layout" /> | `"start" \| "justify"` | `"start"` | 작업을 배분하는 방식을 설정합니다. `justify`은(는) 작업 축을 따라 균등하게 간격을 둡니다. |
+| <ApiLink type="CardMediaDirective" member="width" label="width" /> | `string` | `"auto"` | 미디어 컨테이너의 `width`과(와) `min-width`을(를) 설정합니다. |
+| <ApiLink type="CardMediaDirective" member="height" label="height" /> | `string` | `"auto"` | 미디어 컨테이너의 `height`을(를) 설정합니다. |
+
+</PlatformBlock>
+
+## 스타일링
+
+카드 모양은 테마 변수로 제어됩니다.
+
+| 변수 | 변경되는 내용 |
+| -- | -- |
+| `--ig-card-background` | 카드 배경색입니다. |
+| `--ig-card-outline-color` | 카드 윤곽선 색입니다. |
+| `--ig-card-header-text-color` | 카드 제목 텍스트 색입니다. |
+| `--ig-card-subtitle-text-color` | 카드 부제목 텍스트 색입니다. |
+| `--ig-card-content-text-color` | 카드 콘텐츠 텍스트 색입니다. |
+| `--ig-card-actions-text-color` | 카드 작업 텍스트 색입니다. |
+| `--ig-card-resting-shadow` | 기본 상태의 카드 그림자입니다. |
+| `--ig-card-hover-shadow` | 마우스를 올렸을 때의 카드 그림자입니다. |
+| `--ig-card-border-radius` | 카드 테두리 반경입니다. |
+
+<PlatformBlock for="WebComponents, React, Blazor">
+
+카드 헤더는 텍스트 컨테이너용 CSS 파트도 노출합니다.
+
+| CSS 파트 | 설명 |
+| -- | -- |
+| `header` | 카드 헤더 텍스트 컨테이너입니다. |
+| `title` | 제목 슬롯 래퍼입니다. |
+| `subtitle` | 부제목 슬롯 래퍼입니다. |
+
+</PlatformBlock>
+
+### Sass 테마 지정
+
+컴포넌트 템플릿에 간단한 포함 버튼을 추가하려면 <PlatformBlock for="Angular"><ApiLink kind="sass" module="themes" type="function-card-theme" label="card-theme" code={true} /></PlatformBlock><PlatformBlock for="React,WebComponents,Blazor">`card-theme`</PlatformBlock> 애플리케이션이 Sass를 통해 Ignite UI 테마를 사용자 지정하는 경우 사용하는 함수입니다.
+
+```scss
+@use "igniteui-theming/sass/themes" as *;
+
+$custom-card-theme: card-theme(
+  $background: #1f2937,
+  $border-radius: 12px,
+  $header-text-color: #ffffff,
+  $content-text-color: #e5e7eb
+);
+
+:root {
+  @include tokens($custom-card-theme);
+}
+```
+
+### CSS 변수
+
+Sass 빌드 단계 없이 로컬 스타일이 필요하면 컴포넌트 CSS 변수를 직접 설정하십시오.
+
+<PlatformBlock for="WebComponents, React, Blazor">
+
+```css
+igc-card {
+  --ig-card-background: var(--ig-secondary-900);
+  --ig-card-header-text-color: var(--ig-secondary-900-contrast);
+  --ig-card-content-text-color: var(--ig-secondary-900-contrast);
+}
+
+igc-card-header::part(subtitle) {
+  color: var(--ig-warn-500);
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+```css
+igx-card {
+  --background: var(--ig-secondary-900);
+  --header-text-color: var(--ig-secondary-900-contrast);
+  --content-text-color: var(--ig-secondary-900-contrast);
+}
+
+igx-card-header {
+  --subtitle-text-color: var(--ig-warn-500);
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents, React, Blazor">
+
+<Sample src="/layouts/card/styling" height={400} noBorder={false} noBackground={false} spacing="md" alt="{Platform} Card 스타일 지정 예제" />
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+<Sample src="/layouts/card-styling" height={400} noBorder={false} noBackground={false} spacing="md" alt="{Platform} Card 스타일 지정 예제" />
+
+</PlatformBlock>
+
+### Tailwind로 스타일링하기
+
+<PlatformBlock for="WebComponents, React, Blazor">
+
+애플리케이션에서 이미 Tailwind를 사용 중이고 카드 레이아웃과 로컬 색상 선택을 컴포넌트 마크업 안에 유지하려면 Tailwind 유틸리티 클래스를 사용하십시오.
+
+<Sample src="/layouts/card/tailwind-styling" height={560} noBorder={false} noBackground={false} spacing="md" alt="{Platform} Card Tailwind 스타일 지정 예제" />
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+Angular 애플리케이션이 이미 Tailwind로 Ignite UI 컴포넌트를 스타일링하고 있다면 Tailwind 유틸리티 클래스를 사용하십시오.
+
+<Sample src="/layouts/card-tailwind-styling" height={560} noBorder={false} noBackground={false} spacing="md" alt="{Platform} Card Tailwind 스타일 지정 예제" />
+
+</PlatformBlock>
+
+## 접근성
+
+카드는 컨테이너입니다. 그룹화와 미디어 시맨틱은 카드 영역에서 오며, 키보드 조작 가능성과 접근 가능한 이름은 그 안에 배치하는 콘텐츠에서 나옵니다.
+
+### 키보드 상호 작용
+
+카드와 헤더, 미디어, 콘텐츠 및 작업 영역은 키 핸들러를 선언하지 않으며 탭 순서에도 포함되지 않습니다. 포커스는 DOM 순서에 따라 그 안에 배치한 포커스 가능한 콘텐츠를 통해 이동합니다.
+
+| 키 | 동작 |
+| -- | -- |
+| <kbd>탭</kbd> | 콘텐츠 또는 작업 영역의 버튼이나 링크처럼 카드 안의 다음 포커스 가능한 요소로 포커스를 이동합니다. |
+| <kbd>Shift</kbd> + <kbd>Tab</kbd> | 카드 안의 이전 포커스 가능한 요소로 포커스를 이동합니다. |
+
+작업 영역은 항상 시작 영역, 가운데 콘텐츠, 끝 영역 순으로 렌더링됩니다. 작업을 세로 레이아웃으로 전환해도 DOM 순서는 바뀌지 않고 스타일만 달라지므로, 키보드와 스크린 리더의 순서는 그대로 유지됩니다.
+
+### 화면 읽기 프로그램 / ARIA
+
+<PlatformBlock for="Angular">
+
+- 카드 호스트는 `role="group"`과(와) 생성된 `id`을(를) `igx-card-1` 형태로 렌더링합니다. 정보 구조에 다른 그룹화 역할이 더 적합하다면 `role` 입력을 설정하고, 그룹이 접근 가능한 이름을 갖도록 `aria-labelledby`로 카드 제목을 참조하십시오.
+- `igx-card-media`은(는) 미디어 영역 전체를 하나의 이미지로 노출하고 하위 요소를 프레젠테이션 요소로 만드는 `role="img"`을(를) 렌더링하므로, 내부 이미지의 `alt` 속성으로는 이름을 붙일 수 없습니다. 영역 자체에 `aria-label` 또는 `aria-labelledby`로 이름을 붙이거나, 미디어가 장식용이라면 `role` 입력을 `presentation`(으)로 설정하십시오.
+- 헤더, 제목, 부제목, 콘텐츠 및 작업 구성원은 스타일 클래스만 추가합니다. 역할이나 `aria-*` 속성은 추가하지 않습니다.
+- 작업 영역의 아이콘 전용 버튼에는 접근 가능한 이름을 제공하십시오. 아이콘만으로는 이름이 제공되지 않습니다.
+- 카드 전체가 하나의 작업을 실행하는 경우에는 컨테이너에 클릭 핸들러를 붙이지 말고 단일 대화형 요소를 사용하십시오. 그래야 작업이 역할과 이름을 유지합니다.
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents, React, Blazor">
+
+- 카드와 모든 카드 영역은 일반 슬롯을 렌더링하며 `role` 또는 `aria-*` 속성을 설정하지 않습니다. 헤더 안의 래퍼 요소에는 접근 가능한 이름이 없고 랜드마크를 만들지도 않습니다. 정보 구조에 필요하다면 카드 호스트에 직접 역할과 접근 가능한 이름을 추가하십시오.
+- `title` 및 `subtitle` 슬롯은 전달한 요소를 그대로 렌더링하며 제목 수준을 강제하지 않습니다.
+- 미디어 영역의 이미지에 `alt` 텍스트를 추가하십시오.
+- 작업 영역의 아이콘 전용 버튼에는 접근 가능한 이름을 제공하십시오. 아이콘만으로는 이름이 제공되지 않습니다.
+- 카드 전체가 하나의 작업을 실행하는 경우에는 컨테이너에 클릭 핸들러를 붙이지 말고 단일 대화형 요소를 사용하십시오. 그래야 작업이 역할과 이름을 유지합니다.
+
+</PlatformBlock>
+
+### 접근성 준수
+
+Infragistics는 [접근성 준수](../interactivity/accessibility-compliance.mdx) 항목에서 Section 508 및 WCAG 2.1 지침 영역에 대한 {ProductName} 접근성 지원을 문서화합니다.
+
+<PlatformBlock for="Angular">
+
+| 기준 | 컴포넌트가 준수하는 방식 |
+| -- | -- |
+| [1.3.1 정보와 관계](https://www.w3.org/WAI/WCAG21/Understanding/info-and-relationships.html) | 카드는 호스트를 그룹으로 노출하며 카드 영역은 콘텐츠를 다시 작성하지 않고 프로젝션하므로, 제목, 텍스트, 목록, 미디어 및 컨트롤은 원래의 시맨틱을 유지합니다. |
+| [2.1.1 키보드](https://www.w3.org/WAI/WCAG21/Understanding/keyboard.html) | 카드는 자체 키 처리나 포커스 트랩을 추가하지 않으므로, 카드 안의 키보드로 조작 가능한 콘텐츠는 계속 조작할 수 있습니다. |
+| [2.4.3 포커스 순서](https://www.w3.org/WAI/WCAG21/Understanding/focus-order.html) | 작업 영역은 시작, 가운데 및 끝 영역을 세로 레이아웃에서도 바뀌지 않는 고정된 DOM 순서로 렌더링합니다. |
+| [4.1.2 이름, 역할, 값](https://www.w3.org/WAI/WCAG21/Understanding/name-role-value.html) | 카드 호스트는 `role="group"`을(를) 노출하고 미디어 영역은 `role="img"`을(를) 노출합니다. 둘 중 어느 것도 접근 가능한 이름을 설정하지 않으므로, 제목을 가리키는 `aria-labelledby`으로 카드에 이름을 붙이고, 미디어 영역은 `aria-label` 또는 `aria-labelledby`로 이름을 붙이거나, 장식용일 때는 `role`을(를) `presentation`(으)로 설정하십시오. |
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents, React, Blazor">
+
+| 기준 | 컴포넌트가 준수하는 방식 |
+| -- | -- |
+| [1.3.1 정보와 관계](https://www.w3.org/WAI/WCAG21/Understanding/info-and-relationships.html) | 카드 영역은 슬롯 콘텐츠를 다시 작성하지 않고 프로젝션하므로, 제목, 텍스트, 목록, 미디어 및 컨트롤은 원래의 시맨틱을 유지합니다. |
+| [2.1.1 키보드](https://www.w3.org/WAI/WCAG21/Understanding/keyboard.html) | 카드는 자체 키 처리나 포커스 트랩을 추가하지 않으므로, 카드 안의 키보드로 조작 가능한 콘텐츠는 계속 조작할 수 있습니다. |
+| [2.4.3 포커스 순서](https://www.w3.org/WAI/WCAG21/Understanding/focus-order.html) | 작업 영역은 `start` 슬롯, 기본 슬롯 및 `end` 슬롯을 세로 방향에서도 바뀌지 않는 고정된 DOM 순서로 렌더링합니다. |
+| [4.1.2 이름, 역할, 값](https://www.w3.org/WAI/WCAG21/Understanding/name-role-value.html) | 카드는 암시적 역할을 설정하지 않으므로, 각 컨트롤의 이름, 역할 및 값은 제공한 콘텐츠에 따라 결정됩니다. |
+
+</PlatformBlock>
+
+사용자의 책임:
+
+- 카드가 문서 개요에서 올바른 위치를 차지하도록 제목에 실제 제목 요소를 전달하고, 부제목은 일반 텍스트로 유지하십시오.
+- 의미 있는 미디어에는 대체 텍스트를 제공하고, 미디어 영역이 이미지로 노출되는 곳에서는 접근 가능한 이름을 부여하십시오.
+- 아이콘 전용 작업 버튼에는 접근 가능한 이름을 제공하십시오.
+- CSS로 가로 또는 분할 카드 레이아웃을 만들 때는 DOM 순서와 시각적 순서를 일치시키십시오.
+- 카드 색상을 재정의할 때는 충분한 명암비를 유지하십시오.
+
+## API 참조
+
+카드, 카드 섹션 및 지원 컴포넌트 API 전체 범위는 다음 API 참조를 사용하십시오.
+
+<PlatformBlock for="WebComponents, React, Blazor">
+
+<ApiLink pkg="core" type="Card" />
+<ApiLink pkg="core" type="CardActions" />
+<ApiLink pkg="core" type="CardContent" />
+<ApiLink pkg="core" type="CardHeader" />
+<ApiLink pkg="core" type="CardMedia" />
+<ApiLink pkg="core" type="Avatar" />
+<ApiLink pkg="core" type="Button" />
+<ApiLink pkg="core" type="IconButton" />
+<ApiLink pkg="core" type="Icon" />
+<ApiLink pkg="core" type="Ripple" />
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+<ApiLink pkg="core" type="Card" />
+<ApiLink pkg="core" type="CardActions" />
+<ApiLink type="CardContentDirective" />
+<ApiLink pkg="core" type="CardHeader" />
+<ApiLink type="CardMediaDirective" />
+<ApiLink pkg="core" type="Avatar" />
+<ApiLink type="ButtonDirective" />
+<ApiLink type="IconButtonDirective" />
+<ApiLink pkg="core" type="Icon" />
+<ApiLink type="RippleDirective" />
+
+</PlatformBlock>
+
+## 종속성
+
+카드는 자체 헤더, 미디어, 콘텐츠 및 작업 하위 컴포넌트를 사용합니다. 썸네일, 작업, 아이콘 또는 물결 효과를 포함하는 카드는 해당하는 <PlatformBlock for="WebComponents, React, Blazor"><ApiLink pkg="core" type="Avatar" />, <ApiLink pkg="core" type="Button" />, <ApiLink pkg="core" type="IconButton" />, <ApiLink pkg="core" type="Icon" />, <ApiLink pkg="core" type="Ripple" /> 컴포넌트에도 의존합니다</PlatformBlock><PlatformBlock for="Angular"><ApiLink pkg="core" type="Avatar" />, <ApiLink type="ButtonDirective" />, <ApiLink type="IconButtonDirective" />, <ApiLink pkg="core" type="Icon" />, <ApiLink type="RippleDirective" /> 컴포넌트 및 디렉티브에도 의존합니다</PlatformBlock>.
+
+<PlatformBlock for="WebComponents">
+
+카드 컴포넌트와 카드 콘텐츠에서 사용하는 지원 컴포넌트를 등록하십시오.
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+카드 래퍼와 카드 콘텐츠에서 사용하는 지원 래퍼를 가져오십시오. 애플리케이션에 {ProductName} 테마 스타일시트를 한 번 포함하십시오.
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+카드 모듈과 카드 콘텐츠에서 사용하는 지원 모듈을 등록하십시오. 애플리케이션에 {ProductName} 테마 스타일시트를 한 번 포함하십시오.
+
+</PlatformBlock>
+
+## 추가 리소스
+
+이 리소스를 사용하여 {ProductName} Card 지원, 소스 및 관련 레이아웃 지침을 계속 확인하십시오.
+
+- [{ProductName} **포럼**]({ForumsLink})
+- [{ProductName} **GitHub**]({GithubLink})
+
+## 관련 컴포넌트
+
+<PlatformBlock for="WebComponents, React, Blazor">
+
+사용자에게 정렬, 필터링 및 열 단위 상호 작용이 있는 밀도 높은 표 형식 데이터가 필요하면 [그리드](../grids/data-grid.mdx)를 사용하십시오. 반복되는 항목을 간결하게 유지하고 주로 세로로 배치해야 하면 [목록](../grids/list.mdx)을 사용하십시오.
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+사용자에게 정렬, 필터링 및 열 단위 상호 작용이 있는 밀도 높은 표 형식 데이터가 필요하면 [그리드](../grid/grid.mdx)를 사용하십시오. 반복되는 항목을 간결하게 유지하고 주로 세로로 배치해야 하면 [목록](../list.mdx)을 사용하십시오.
+
+</PlatformBlock>
+
+## FAQ
+
+<Faq>
+  <FaqItem question="스크린 리더를 깨뜨리지 않고 카드 전체를 클릭할 수 있게 하려면 어떻게 합니까?" indicatorPosition="end">
+    카드는 단순한 컨테이너이며 대화형 동작을 추가하지 않습니다. 따라서 카드 전체를 링크로 감싸는 방법은 흔하지만 해로운 지름길입니다. 그러면 그 링크의 접근 가능한 이름이 카드 안의 모든 텍스트가 되기 때문입니다. 대신 카드 제목에 실제 링크나 버튼을 두고, 카드 상자를 덮는 절대 위치 가상 요소로 카드 전체까지 확장하십시오. 그러면 제목이 접근 가능한 이름으로 유지되고, 사각형 전체가 클릭 가능하며, 텍스트 선택과 가운데 클릭도 계속 작동합니다.
+  </FaqItem>
+  <FaqItem question="한 행 또는 그리드의 카드 높이를 같게 하려면 어떻게 합니까?" indicatorPosition="end">
+    카드는 자체 콘텐츠에 따라 크기가 정해지며 형제 카드 사이에서 높이를 맞추지 않습니다. 각 카드가 행 높이까지 늘어나도록 카드를 CSS 그리드 또는 flex 행에 배치하고, 미디어 영역에는 고정 높이 또는 `aspect-ratio`을(를) 지정하며, `-webkit-line-clamp`로 제목과 본문을 지정한 줄 수로 제한하십시오. 카드 높이가 들쭉날쭉한 경우는 거의 항상 각 이미지와 각 단락이 자체 높이를 결정하도록 두었기 때문입니다.
+  </FaqItem>
+  <FaqItem question="카드 이미지가 잘리는 이유는 무엇이며, 크기는 어떻게 제어합니까?" indicatorPosition="end">
+    <PlatformBlock for="WebComponents, React, Blazor">카드 미디어 영역은 콘텐츠를 영역의 전체 너비와 높이에 맞추고 `object-fit: cover`을(를) 적용하므로, 이미지는 왜곡되지 않고 잘립니다. 미디어 영역 자체의 크기는 CSS `height` 또는 `aspect-ratio`로 조정하십시오. 안쪽 이미지의 크기를 바꾸는 것은 효과가 없습니다.</PlatformBlock><PlatformBlock for="Angular">카드 미디어 영역은 포함된 미디어의 크기를 제어하므로 이미지가 아니라 영역의 크기를 조정하십시오. `igx-card-media`에서 `height` 및 `width` 입력을 설정하고, 카드 행이 정렬된 상태를 유지하도록 카드마다 일관된 가로세로 비율을 사용하십시오.</PlatformBlock>
+  </FaqItem>
+  <FaqItem question="카드 작업이 제가 배치한 영역이 아닌 다른 영역에 표시되는 이유는 무엇입니까?" indicatorPosition="end">
+    <PlatformBlock for="Angular">카드 작업 영역은 작성 순서가 아니라 선택기로 콘텐츠를 프로젝션합니다. `igxButton`이(가) 있고 `igxEnd`이(가) 없는 요소는 시작 영역으로 가고, `igxIconButton`이(가) 있거나 `igx-icon`이지만 `igxStart`이(가) 없는 요소는 끝 영역으로 갑니다. 두 선택기 중 어디에도 맞지 않는 콘텐츠만 가운데에 남습니다. 작업을 원하는 위치에 두려면 `igxStart` 또는 `igxEnd`을(를) 명시적으로 설정하십시오.</PlatformBlock><PlatformBlock for="WebComponents, React, Blazor">카드 작업의 `end` 슬롯에 있는 콘텐츠는 작업 영역의 반대쪽 가장자리에 맞추기 위해 자동 시작 여백을 가집니다. 이 때문에 끝 작업이 하나뿐이면 나머지 작업과 떨어져 보일 수 있습니다. 다른 작업과 함께 있어야 한다면 요소를 `start` 슬롯이나 기본 슬롯으로 옮기십시오. 세 영역은 방향과 관계없이 항상 `start`, 기본, `end` 순서로 렌더링됩니다.</PlatformBlock>
+  </FaqItem>
+  <FaqItem question="카드 대신 그리드 또는 목록을 언제 사용해야 합니까?" indicatorPosition="end">
+    데이터가 밀도 높은 표 형식이고 독자가 열 전체를 훑거나 정렬하거나 비교해야 할 때는 그리드를 사용하십시오. 짧고 균일한 많은 행을 작은 공간에 넣어야 할 때는 목록을 사용하십시오. 각 항목이 고유한 미디어, 더 긴 텍스트 및 고유한 작업을 가져야 할 때는 카드를 사용하십시오. 카드가 길게 이어진다면 대개 목록을 가장한 것입니다.
+  </FaqItem>
+</Faq>

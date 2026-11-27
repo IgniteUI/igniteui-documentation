@@ -1,0 +1,405 @@
+---
+title: "Componente Angular Snackbar - Licencia MIT" 
+description: "Integre fácilmente un mensaje breve de una sola línea en sus aplicaciones de escritorio y móviles con el componente Snackbar de Ignite UI for Angular."
+keywords: "componente Angular Snackbar, control Angular Snackbar, Ignite UI for Angular, controles de interfaz, widgets de Angular, widgets web, widgets de interfaz, Angular, Native Angular Components Suite, componentes de interfaz de Angular, Native Angular Components Library"
+license: MIT
+_language: es
+llms:
+  description: "El componente Snackbar de Ignite UI for Angular ofrece información sobre una operación con un mensaje de una sola línea, que puede incluir una acción."
+---
+
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+# Descripción general del componente Angular Snackbar
+
+<div class="highlight">
+El componente Snackbar de Ignite UI for Angular ofrece información sobre una operación con un mensaje de una sola línea, que puede incluir una acción. El mensaje del Snackbar aparece por encima de todos los demás elementos y se posiciona en el centro inferior de la pantalla.
+</div>
+
+## Ejemplo de Angular Snackbar
+
+<hr/>
+
+<Sample src="/notifications/snackbar-sample-1" height={140} alt="Ejemplo de Angular Snackbar" />
+
+<hr/>
+
+## Primeros pasos con Ignite UI for Angular Snackbar
+
+Para empezar con el componente Ignite UI for Angular Snackbar, primero debe instalar Ignite UI for Angular. En una aplicación Angular existente, escriba el siguiente comando:
+
+```cmd
+ng add igniteui-angular
+```
+
+Para una introducción completa a Ignite UI for Angular, lea el tema [_primeros pasos_](./general/getting-started.mdx).
+
+El siguiente paso es importar `IgxSnackbarModule` en el archivo **app.module.ts**.
+
+```typescript
+// app.module.ts
+
+...
+import { IgxSnackbarModule } from 'igniteui-angular/snackbar';
+// import { IgxSnackbarModule } from '@infragistics/igniteui-angular'; for licensed package
+
+@NgModule({
+    ...
+    imports: [..., IgxSnackbarModule],
+    ...
+})
+export class AppModule {}
+```
+
+Como alternativa, a partir de `16.0.0` puede importar `IgxSnackbarComponent` como dependencia independiente.
+
+```typescript
+// home.component.ts
+
+import { IgxSnackbarComponent } from 'igniteui-angular/snackbar';
+import { IgxButtonDirective } from 'igniteui-angular/directives';
+// import { IgxSnackbarComponent, IgxButtonDirective } from '@infragistics/igniteui-angular'; for licensed package
+
+@Component({
+    selector: 'app-home',
+    template: `
+    <button igxButton="contained" (click)="snackbar.open()">Delete Message</button>
+    <div>
+        <igx-snackbar #snackbar>Message deleted</igx-snackbar>
+    
+</div>
+    `,
+    styleUrls: ['home.component.scss'],
+    standalone: true,
+    imports: [IgxSnackbarComponent, IgxButtonDirective]
+})
+export class HomeComponent {}
+```
+
+Ahora que ha importado el módulo o el componente de Ignite UI for Angular Snackbar, puede empezar a usar el componente `igx-snackbar`.
+
+## Uso de Angular Snackbar
+
+### Mostrar Snackbar
+
+Para mostrar el componente snackbar, use su método <ApiLink type="Snackbar" member="open" label="open()" /> y llámelo al hacer clic en un botón.
+
+```html
+{/*sample.component.html*/}
+
+<button igxButton="contained" (click)="snackbar.open()">Delete Message</button>
+<div>
+    <igx-snackbar #snackbar>Message deleted</igx-snackbar>
+</div>
+```
+
+Si el ejemplo está configurado correctamente, debería ver la demostración. Al hacer clic en el botón aparece un snackbar que muestra un mensaje de texto.
+Como puede ver en el fragmento de código anterior, una forma de establecer el mensaje que se muestra en el snackbar es usar la proyección de contenido. Pero si necesita cambiar el valor mediante programación según alguna lógica personalizada, simplemente puede pasar el valor como parámetro al método <ApiLink type="Snackbar" member="open" label="open()" />.
+
+```html
+{/*sample.component.html*/}
+
+<button igxButton="contained" (click)="snackbar.open('Message deleted')">Delete Message</button>
+<button igxButton="contained" (click)="snackbar.open('Message deletion was not successful. Please try again')">Delete Message</button>
+<div>
+    <igx-snackbar #snackbar></igx-snackbar>
+</div>
+```
+
+### Ocultar / ocultar automáticamente
+
+Una vez abierto, el snackbar desaparece tras un periodo especificado por la entrada <ApiLink type="Snackbar" member="displayTime" label="displayTime" />, que inicialmente está establecida en 4000 milisegundos. Este comportamiento está habilitado de forma predeterminada, pero puede cambiarlo estableciendo <ApiLink type="Snackbar" member="autoHide" label="autoHide" /> en **false**. De este modo, el snackbar permanecerá visible. Usando el método <ApiLink type="Snackbar" member="close" label="close()" /> del snackbar, puede cerrar el componente desde el código.
+
+```html
+{/*sample.component.html*/}
+
+<button igxButton="contained" (click)="snackbar.open()">Send message</button>
+<div>
+  <igx-snackbar #snackbar [autoHide]="false" actionText="CLOSE" (clicked)="close(snackbar)">Message sent</igx-snackbar>
+</div>
+```
+
+```typescript
+// sample.component.ts
+
+public close(element) {
+    element.close();
+}
+```
+
+Si el ejemplo está configurado correctamente, el primer snackbar aparece al hacer clic en el botón y muestra tanto el _mensaje_ como el _botón de acción_. La función de ocultación automática está desactivada y el snackbar desaparece al hacer clic en el botón 'CLOSE'. Otro snackbar pasa un mensaje distinto mediante el método <ApiLink type="Snackbar" member="open" label="open()" /> y se oculta cuando expira el _tiempo de visualización_. El tercer componente pasa un mensaje como parámetro al método <ApiLink type="Snackbar" member="open" label="open()" /> y añade un icono mediante la proyección de contenido.
+
+<Sample src="/notifications/snackbar-sample-2" height={230} alt="" />
+
+### Tiempo de visualización
+
+Use <ApiLink type="Snackbar" member="displayTime" label="displayTime" /> y establézcalo en un intervalo en milisegundos para configurar cuánto tiempo es visible el componente snackbar. De forma predeterminada, como hemos dicho, está inicialmente establecido en 4000 milisegundos.
+
+### Personalizar Snackbar
+
+También podemos personalizar el contenido del Snackbar para mostrar elementos más complejos que un mensaje y un botón. Si queremos mostrar el snackbar mientras se carga un archivo, por ejemplo, podría añadirse a su contenido una animación de carga.
+
+```html
+{/*sample.component.html*/}
+<button igxButton="contained" (click)="snackbar.open()">Load file</button>
+<div>
+  <igx-snackbar #snackbar displayTime="5000">File loading
+    <svg id="dots" height="20px">
+        <g id="dots" fill="#FFFFFF">
+            <circle id="dot1" cx="5" cy="18" r="2"></circle>
+            <circle id="dot2" cx="15" cy="18" r="2"></circle>
+            <circle id="dot3" cx="25" cy="18" r="2"></circle>
+        </g>
+    </svg>
+  </igx-snackbar>
+</div>
+```
+
+```scss
+//sample.component.scss
+#dots #dot1 {
+    animation: load 1s infinite;
+}
+
+#dots #dot2 {
+    animation: load 1s infinite;
+    animation-delay: 0.2s;
+}
+
+#dots #dot3 {
+    animation: load 1s infinite;
+    animation-delay: 0.4s;
+}
+
+@keyframes load {
+    0% {
+      opacity: 0;
+    }
+    50% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+    }
+}
+```
+
+Como resultado, aparecen en el snackbar un mensaje y tres puntos de carga.
+
+<Sample src="/notifications/snackbar-sample-5" height={170} alt="" />
+
+### Snackbar en una lista
+
+Una vez cubiertas todas las funciones principales del snackbar, podemos integrar este componente en un escenario más interesante. Podemos usar el snackbar para proporcionar una notificación y la posibilidad de deshacer acciones.
+
+Creemos una lista de contactos que puedan eliminarse. Cuando se elimina un elemento, se muestra un snackbar que contiene un mensaje y un botón para deshacer la acción.
+
+```html
+{/*sample.component.html*/}
+<igx-list>
+    <igx-list-item [isHeader]="true">Contacts</igx-list-item>
+
+    <igx-list-item igxRipple="pink" igxRippleTarget=".igx-list__item" *ngFor="let item of navItems">
+        <div class="item-container">
+
+            <div class="contact">
+
+                <igx-avatar [src]="item.avatar" shape="circle"></igx-avatar>
+                <div class="contact__info">
+
+                    <span class="name">{{item.text}}</span>
+                
+</div>
+            
+</div>
+            <span igxIconButton="flat" igxRipple igxRippleCentered="true" (click)="delete(item)">
+                <igx-icon [style.color]="'#ff5252'">delete</igx-icon>
+            </span>
+        
+</div>
+
+    </igx-list-item>
+
+    <igx-snackbar actionText="Undo" (clicked)="restore()">Contact deleted</igx-snackbar>
+</igx-list>
+```
+
+<DocsAside type="info">
+Este componente usa Material Icons. Añada el siguiente enlace a su `index.html`: `<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">`
+</DocsAside>
+
+```typescript
+//sample.component.ts
+
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { IgxSnackbarComponent } from 'igniteui-angular/snackbar';
+// import { IgxSnackbarComponent } from '@infragistics/igniteui-angular'; for licensed package
+...
+@ViewChild(IgxSnackbarComponent)
+public snackbar: IgxSnackbarComponent;
+public navItems: any[];
+public deletedItems = [];
+
+constructor() { }
+
+public ngOnInit() {
+    this.navItems = [
+        { avatar: 'assets/images/avatar/2.jpg', text: 'Richard Mahoney'},
+        { avatar: 'assets/images/avatar/4.jpg', text: 'Lisa Landers' },
+        { avatar: 'assets/images/avatar/14.jpg', text: 'Marianne Taylor' },
+        { avatar: 'assets/images/avatar/17.jpg', text: 'Ward Riley' }
+    ];
+}
+
+public delete(item) {
+    this.deletedItems.push([item, this.navItems.indexOf(item)]);
+    this.navItems.splice(this.navItems.indexOf(item), 1);
+    this.snackbar.open();
+}
+
+public restore() {
+    const [item, index] = this.deletedItems.pop();
+    this.navItems.splice(index, 0, item);
+    this.snackbar.close();
+}
+```
+
+<Sample src="/notifications/snackbar-sample-4" height={350} alt="" />
+
+### Posicionamiento
+
+Use la propiedad <ApiLink type="Snackbar" member="positionSettings" label="positionSettings" /> para configurar dónde aparece el snackbar. De forma predeterminada, se muestra en la parte inferior de la página. En el siguiente ejemplo, configuramos la notificación para que aparezca en la posición superior.
+
+```html
+{/*sample.component.html*/}
+<button igxButton="contained" (click)="open(snackbar)">Show notification on top</button>
+<igx-snackbar #snackbar>Notification displayed</igx-snackbar>
+```
+
+```typescript
+// sample.component.ts
+import { VerticalAlignment, HorizontalAlignment } from 'igniteui-angular/core';
+// import { VerticalAlignment, HorizontalAlignment } from '@infragistics/igniteui-angular'; for licensed package
+...
+public open(snackbar) {
+    snackbar.positionSettings.verticalDirection = VerticalAlignment.Top;
+    snackbar.positionSettings.horizontalDirection = HorizontalAlignment.Right;
+    snackbar.open();
+}
+...
+```
+
+## Estilos
+
+### Mapa de propiedades del tema de Snackbar
+
+Al modificar una propiedad principal, todas las propiedades dependientes relacionadas se actualizan automáticamente para reflejar el cambio:
+
+<table>
+    <thead>
+        <tr>
+        <th>Propiedad principal</th>
+        <th>Propiedad dependiente</th>
+        <th>Descripción</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr class="primary">
+        <td><strong>$background</strong></td>
+        <td>$text-color</td>
+        <td>El color del texto usado en el snackbar</td>
+        </tr>
+        <tr class="dependent"><td></td><td>$button-color</td><td>El color del botón usado en el snackbar</td></tr>
+    </tbody>
+</table>
+
+Para empezar a dar estilo al snackbar, tenemos que importar el archivo index, donde se exportan todas las funciones de tema y el mixin `tokens()`:
+
+```scss
+@use "igniteui-angular/theming" as *;
+
+// IMPORTANT: Prior to Ignite UI for Angular version 13 use:
+// @import '~igniteui-angular/lib/core/styles/themes/index';
+```
+
+Siguiendo el enfoque más sencillo, creamos un tema nuevo que extiende <ApiLink kind="sass" module="themes" type="function-snackbar-theme" label="snackbar-theme" code={true} /> y acepta los parámetros `$text-color`, `$background`, `$button-color` y `$border-radius`.
+
+```scss
+$dark-snackbar: snackbar-theme(
+  $text-color: #ffcd0f,
+  $background: #292826,
+  $button-color: #ffcd0f,
+  $border-radius: 12px
+);
+```
+
+<DocsAside type="info">
+En lugar de codificar los valores de color como acabamos de hacer, podemos lograr más flexibilidad con los colores usando las funciones <ApiLink kind="sass" module="palettes" type="function-palette" label="palette" code={true} /> y <ApiLink kind="sass" module="palettes" type="function-color" label="color" code={true} />. Consulte el tema [`Palettes`](./themes/sass/palettes.mdx) para obtener orientación detallada sobre cómo usarlas.
+</DocsAside>
+
+El último paso es **incluir** el tema del componente en nuestra aplicación.
+
+```scss
+:host {
+    @include tokens($dark-snackbar);
+}
+```
+
+### Demostración
+
+<Sample src="/notifications/snackbar-style" height={150} alt="" />
+
+<hr/>
+
+### Dar estilo con Tailwind
+
+Puede dar estilo al snackbar usando nuestras clases de utilidad personalizadas de Tailwind. Asegúrese de [configurar Tailwind](./themes/tailwind.mdx) primero.
+
+Junto con la importación de tailwind en su hoja de estilos global, puede aplicar las utilidades de tema deseadas de la siguiente manera:
+
+```scss
+@import "tailwindcss";
+...
+@use 'igniteui-theming/tailwind/utilities/material.css';
+```
+
+El archivo de utilidades incluye las variantes de tema `light` y `dark`.
+
+- Use las clases `light-*` para el tema claro.
+- Use las clases `dark-*` para el tema oscuro.
+- Añada el nombre del componente después del prefijo, por ejemplo, `light-snackbar`, `dark-snackbar`.
+
+Una vez aplicadas, estas clases habilitan los cálculos dinámicos del tema. A partir de ahí, puede sobrescribir las variables CSS generadas usando `arbitrary properties`. Después de los dos puntos, indique cualquier formato de color CSS válido (HEX, variable CSS, RGB, etc.).
+
+Puede encontrar la lista completa de propiedades en <ApiLink kind="sass" module="themes" type="function-snackbar-theme" label="snackbar-theme" />. La sintaxis es la siguiente:
+
+```html
+<igx-snackbar
+  class="!light-snackbar ![--background:#7B9E89]
+  ![--button-color:#DD0D4B]">
+  ...
+</igx-snackbar>
+```
+
+<DocsAside type="info">
+El signo de exclamación (`!`) es obligatorio para asegurar que la clase de utilidad tenga prioridad. Tailwind aplica los estilos por capas y, si no se marcan estos estilos como importantes, los sobrescribirá el tema predeterminado del componente.
+</DocsAside>
+
+Al final, su snackbar debería tener este aspecto:
+
+<Sample src="/notifications/snackbar-tailwind-style/" height={150} iframeOnly />
+
+## Referencias de API
+En este artículo hemos aprendido a usar y configurar el <ApiLink type="Snackbar" />. Para más detalles sobre su API, consulte los enlaces siguientes:
+- <ApiLink type="Snackbar" />
+Estilos:
+- <ApiLink kind="sass" module="themes" type="function-snackbar-theme" label="Estilos de IgxSnackbarComponent" code={true} />
+## Recursos adicionales
+
+<hr/>
+Nuestra comunidad está activa y siempre da la bienvenida a nuevas ideas.
+
+- [Ignite UI for Angular **Foros**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

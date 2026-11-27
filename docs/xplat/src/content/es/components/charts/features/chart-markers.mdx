@@ -1,0 +1,132 @@
+---
+title: "Marcadores de gráficos de {Platform} | Visualización de datos | Infragistics"
+description: "Marcadores de gráficos de {Platform} de Infragistics"
+keywords: "Gráficos {Platform}, marcadores, tamaño de marcador, Infragistics"
+license: commercial
+mentionedTypes: ["CategoryChart", "CategoryChartType", "MarkerType", "MarkerSeries", "ScatterLineSeries", "ScatterSplineSeries", "ScatterSeries", "LineSeries", "SplineSeries", "MarkerAutomaticBehavior", "SeriesViewer"]
+namespace: Infragistics.Controls.Charts
+_language: es
+llms:
+  description: "En {ProductName}, los marcadores son elementos visuales que muestran los valores de los puntos de datos en el área de trazado del gráfico."
+platformType: xplat
+---
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+
+
+# Marcadores de gráficos de {Platform}
+
+En {ProductName}, los marcadores son elementos visuales que muestran los valores de los puntos de datos en el área de trazado del gráfico. Los marcadores ayudan a los usuarios finales a identificar de inmediato el valor de un punto de datos, incluso si el valor cae entre las líneas de cuadrícula principales o secundarias.
+
+## Ejemplo de marcadores de gráficos de {Platform}
+
+En el siguiente ejemplo, el [gráfico de líneas](../types/line-chart.mdx) compara la generación de electricidad renovable de Europa, China y Estados Unidos entre los años 2009 y 2019, con los marcadores habilitados al establecer la propiedad `markerTypes` en el valor de enumeración `MarkerType.Circle`.
+
+Los colores de los marcadores también se gestionan estableciendo las propiedades `markerBrushes` y `markerOutlines` en el siguiente ejemplo. Los marcadores y `chartType` también pueden configurarse en este ejemplo mediante los desplegables.
+
+<Sample src="/charts/category-chart/marker-options" height={500} alt="Ejemplo de opciones de configuración de {Platform}" />
+
+
+
+## Tamaño de marcador de gráficos de {Platform}
+
+Puede controlar las dimensiones exactas en píxeles independientes del dispositivo de los marcadores de puntos de datos estableciendo la propiedad `MarkerSize` en cualquier serie que admita marcadores. Esto le da un control preciso del tamaño que tienen los marcadores en pantalla, con independencia de la plantilla o del estilo de marcador que se use.
+
+De forma predeterminada, el tamaño de los marcadores lo determina la plantilla de marcador de la serie. Cuando establece `MarkerSize` en un valor numérico concreto, todos los marcadores de esa serie se representan con ese ancho y alto exactos en píxeles independientes del dispositivo. Si vuelve a establecer `MarkerSize` en `\\NaN`, se restaura el tamaño predeterminado definido por la plantilla.
+
+La propiedad `MarkerSize` está disponible en todos los tipos de serie que derivan de `MarkerSeries`, incluidos `LineSeries`, `SplineSeries`, `AreaSeries`, `ColumnSeries`, `ScatterSeries`, `ScatterLineSeries`, `ScatterSplineSeries` y los tipos de series polares y radiales.
+
+Los siguientes ejemplos de código muestran cómo establecer `MarkerSize` en 30 píxeles independientes del dispositivo en un `ScatterLineSeries` del control `DataChart`:
+
+```json-snippet
+{
+    "type": "DataChart",
+    "$styleOptions": { "preferNameBindings": true },
+    "axes": [
+        { "type": "NumericXAxis", "name": "xAxis" },
+        { "type": "NumericYAxis", "name": "yAxis" }
+    ],
+    "series": [
+        {
+            "type": "ScatterLineSeries",
+            "name": "scatterLineSeries",
+            "xAxisRef": "xAxis",
+            "yAxisRef": "yAxis",
+            "xMemberPath": "X",
+            "yMemberPath": "Y",
+            "markerType": "Circle",
+            "markerSize": 30
+        }
+    ]
+}
+```
+
+
+Para restablecer los marcadores a su tamaño predeterminado definido por la plantilla, establezca `MarkerSize` en `\\NaN` (o elimine el atributo en el marcado):
+
+```json-snippet
+{
+    "type": "DataChart",
+    "axes": [
+        { "type": "CategoryXAxis", "name": "xAxis", "dataSourceRef": "CountryRenewableElectricity", "label": "Year" },
+        { "type": "NumericYAxis", "name": "yAxis" }
+    ],
+    "series": [
+        {
+            "type": "LineSeries",
+            "$type": "+doc:markup",
+            "$markerType": "+doc:markup",
+            "$markerSize": "+doc:markup",
+            "xAxisRef": "xAxis",
+            "yAxisRef": "yAxis",
+            "dataSourceRef": "CountryRenewableElectricity",
+            "valueMemberPath": "America",
+            "markerType": "Circle",
+            "markerSize": null
+        }
+    ]
+}
+```
+
+
+El siguiente ejemplo muestra `MarkerSize` en series de dispersión con un editor interactivo:
+
+<Sample src="/charts/data-chart/scatter-marker-options" height={500} alt="Ejemplo de tamaño de marcador de gráficos de {Platform}" />
+
+<DocsAside type="note">
+En `BubbleSeries`, la propiedad `MarkerSize` no anula el radio de la burbuja, que se controla mediante la columna de datos de radio y `RadiusScale`. Los tamaños de las burbujas siguen dependiendo totalmente de los datos y de la configuración de escala.
+</DocsAside>
+
+## Tipo de marcador de marca de verificación de gráficos de {Platform}
+
+Los gráficos {ProductName} incluyen una opción `MarkerType.Checkmark`. Este marcador dibuja un icono de marca de verificación en forma de V dentro de un círculo en los puntos de datos del gráfico.
+
+Puede aplicar el tipo de marcador `Checkmark` a una serie concreta estableciendo su propiedad `MarkerType` en `MarkerType.Checkmark`. Para usar la forma de marca de verificación en todas las series del gráfico a la vez, establezca la propiedad `MarkerAutomaticBehavior` del gráfico en `MarkerAutomaticBehavior.Checkmark`.
+
+<PlatformBlock for="WPF">
+
+La propiedad `SeriesViewer.CheckmarkMarkerTemplate` define la plantilla de marcador usada para las series con tipo de marcador de marca de verificación, y puede usarse para personalizar su aspecto en todo el gráfico.
+
+</PlatformBlock>
+
+## Plantillas de marcadores de gráficos de {Platform}
+
+Además de las propiedades de marcador, puede implementar su propio marcador estableciendo una función en la propiedad `markerTemplate` de una serie representada en el control `CategoryChart`, como se muestra en el ejemplo siguiente.
+
+<Sample src="/charts/category-chart/marker-templates" height={600} alt="Plantillas de marcadores de gráficos de {Platform}" />
+
+
+
+
+## Recursos adicionales
+
+Puede encontrar más información sobre características relacionadas de los gráficos en estos temas:
+
+- [Anotaciones de gráficos](chart-annotations.mdx)
+- [Resaltado de gráficos](chart-highlighting.mdx)
+
+
+## Referencias de API
+`CategoryChart`

@@ -1,0 +1,243 @@
+---
+title: "Enlace de datos de {Platform} {GridLiteTitle} - {ProductName} | Licencia MIT"
+description: "Enlace de datos para {GridLiteTitle}. Cree aplicaciones con nuestros {Platform} {GridLiteTitle} de código abierto. Es ligero y está lleno de funciones esenciales. Pruébelo ahora."
+keywords: "enlace de datos, {Platform}, {ComponentKeywords}, {ProductName}, Infragistics"
+mentionedTypes: [{ComponentApiMembers}]
+namespace: Infragistics.Controls
+license: MIT
+_language: es
+llms:
+  description: "{GridLiteTitle} acepta un array de objetos simples como origen de datos."
+---
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+
+# Enlace de datos de {Platform} {GridLiteTitle}
+
+
+<PlatformBlock for="React, WebComponents">
+
+
+{GridLiteTitle} acepta un array de objetos simples como origen de datos. Cada fila de la cuadrícula es la representación renderizada de un registro de datos del array, y las celdas de la fila se controlan mediante la configuración de columnas.
+
+</PlatformBlock>
+
+
+
+<PlatformBlock for="Blazor">
+
+
+{GridLiteTitle} acepta un `IEnumerable<TItem>`, como un `List<TItem>`, como origen de datos, donde `TItem` representa su modelo. Cada fila de la cuadrícula es la representación renderizada de un registro de datos de la colección, y las celdas de la fila se controlan mediante la configuración de columnas.
+
+</PlatformBlock>
+
+
+Al aplicar transformaciones de datos, como la ordenación y el filtrado, la cuadrícula no modifica la referencia de los datos originales. Es decir, las transformaciones de datos no se reflejarán en el origen original. La cuadrícula no hace un seguimiento de los cambios en los objetos del array de datos, por lo que la modificación directa de los objetos de datos no se reflejará.
+
+## Cambiar el origen de datos en tiempo de ejecución
+
+El componente admite cambiar su origen de datos en tiempo de ejecución. Si el nuevo origen tiene una "forma" distinta a la del anterior, asegúrese de actualizar también la configuración de columnas.
+
+
+<PlatformBlock for="WebComponents">
+
+
+```typescript
+grid.data = [...{
+  /** records follow */
+}];
+```
+
+```html
+<igc-grid-lite>
+    <!-- Update column configuration, add or remove columns as needed to represent the new data. -->
+    <igc-grid-lite-column field="id"></igc-grid-lite-column>
+</igc-grid-lite>
+```
+
+</PlatformBlock>
+
+
+<PlatformBlock for="React">
+
+```tsx
+/* First we set the initial data */
+const [data, setData] = React.useState([/* initial data */]);
+
+/* Then inside an event handler or a useEffect we update the data via setData */
+const updateData = () => {
+  setData([]);
+};
+
+return (
+    <>
+        <IgrButton onClick={updateData}>Update Data</IgrButton>
+        <IgrGridLite data={data}>
+            {/* Update column configuration, add or remove columns as needed to represent the new data. */}
+            <IgrGridLiteColumn field="id"></IgrGridLiteColumn>
+        </IgrGridLite>
+    </>
+);
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbGridLite Data="data">
+    <!-- Update column configuration, add or remove columns as needed to represent the new data. -->
+    <IgbGridLiteColumn Field="Id" />
+</IgbGridLite>
+
+@code {
+    private List<Product> data = new();
+
+    private void UpdateData()
+    {
+        // Assign a new collection
+        data = new List<Product>
+        {
+            // records follow
+        };
+    }
+}
+```
+
+</PlatformBlock>
+
+
+<PlatformBlock for="React, WebComponents">
+
+
+Si la cuadrícula tiene habilitado `autoGenerate`, "_inferirá_" automáticamente la nueva configuración de columnas cuando cambien los datos.
+
+</PlatformBlock>
+
+
+
+<PlatformBlock for="Blazor">
+
+
+Si la cuadrícula tiene habilitado `AutoGenerate`, "_inferirá_" automáticamente la nueva configuración de columnas cuando cambien los datos.
+
+</PlatformBlock>
+
+
+
+<PlatformBlock for="WebComponents">
+
+
+```typescript
+grid.autoGenerate = true;
+
+/** After the new binding the grid will infer the column collection from the bound data. */
+grid.data = [];
+```
+
+</PlatformBlock>
+
+
+<PlatformBlock for="React">
+
+
+```tsx
+const [data, setData] = React.useState([/* initial data */]);
+
+
+/** After the new binding the grid will infer the column collection from the bound data. */
+const updateData = () => {
+  setData([/* new data */]);
+};
+
+return (
+    <>
+        <IgrButton onClick={updateData}>Update Data</IgrButton>
+        <IgrGridLite id="grid-lite" data={data} autoGenerate={true} />
+    </>
+);
+```
+
+</PlatformBlock>
+
+
+
+<PlatformBlock for="Blazor">
+
+
+```razor
+<IgbGridLite Data="data" AutoGenerate="true" />
+
+@code {
+    private List<Product> data = new();
+
+    private void UpdateData()
+    {
+        // After the new binding the grid will infer the column collection from the bound data.
+        data = new List<Product>();
+    }
+}
+```
+
+</PlatformBlock>
+
+
+<PlatformBlock for="React, WebComponents">
+
+
+<DocsAside type="info">
+Los estados de ordenación y filtrado de {GridLiteTitle} se conservan al cambiar el origen de datos de esta manera.
+</DocsAside>
+Normalmente querrá restablecerlos llamando a `clearSort()` y/o a `clearFilter()`.
+
+</PlatformBlock>
+
+
+
+<PlatformBlock for="Blazor">
+
+
+<DocsAside type="info">
+Los estados de ordenación y filtrado de {GridLiteTitle} se conservan al cambiar el origen de datos de esta manera.
+</DocsAside>
+Normalmente querrá restablecerlos llamando a `ClearSortAsync()` y/o a `ClearFilterAsync()`.
+
+</PlatformBlock>
+
+
+En el ejemplo siguiente, la cuadrícula tiene habilitada la generación automática de columnas. Al hacer clic en el botón de cambiar datos,
+la colección de columnas se restablece y se enlaza un nuevo origen de datos a la cuadrícula.
+
+<Sample src="/{GridLiteSample}/data-binding" height={600} alt="Enlace de datos de {Platform} {GridLiteTitle}" />
+
+
+<PlatformBlock for="WebComponents, Blazor">
+
+## Referencias de API
+
+<PlatformBlock for="WebComponents">
+<ApiLink type="GridLite" /><br />
+<ApiLink type="GridLiteColumn" /><br />
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+<ApiLink type="GridLite<TItem>" /><br />
+<ApiLink type="GridLiteColumn" /><br />
+
+</PlatformBlock>
+
+</PlatformBlock>
+
+## Recursos adicionales
+
+- [Configuración de columnas](./column-configuration.mdx)
+- [Ordenación](./sorting.mdx)
+- [Filtrado](./filtering.mdx)
+- [Temas y estilos](./theming.mdx)
+
+Nuestra comunidad está activa y siempre da la bienvenida a nuevas ideas.
+
+- [{GridLiteTitle} **GitHub**]({GithubLinkLite})

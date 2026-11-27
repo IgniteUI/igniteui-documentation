@@ -1,0 +1,329 @@
+---
+title: "Edición por lotes en Angular | CRUD de Angular | Ignite UI for Angular | Infragistics"
+description: "Cómo configurar la edición por lotes para los componentes de Ignite UI for Angular y ejecutar operaciones CRUD sobre ellos, usando el servicio Transaction."
+keywords: "edición por lotes, igniteui for angular, infragistics"
+_language: es
+llms:
+  description: "Puede aprovechar el servicio Transaction al usar cualquier componente que necesite conservar el estado de su origen de datos y confirmar muchas transacciones de una vez."
+---
+
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+# Cómo usar el servicio Transaction
+
+Puede aprovechar <ApiLink kind="interface" type="TransactionService" label="Servicio Transaction" /> al usar cualquier componente que necesite conservar el estado de su origen de datos y confirmar muchas transacciones de una vez.
+
+Al trabajar con los componentes de grid de Ignite UI for Angular, puede usar <ApiLink type="TransactionService" /> y <ApiLink type="HierarchicalTransactionService" />, que están integrados con los grids y ofrecen edición por lotes desde el primer momento. Sin embargo, si necesita usar transacciones con cualquier otro componente de Ignite UI for Angular o personalizado, puede volver a usar <ApiLink type="TransactionService" /> e implementar un comportamiento similar.
+
+## Ejemplo de Angular: cómo usar el servicio Transaction
+
+En este tema usaremos el componente <ApiLink type="List" label="igxList" /> para demostrar cómo habilitar las transacciones. Mostraremos cómo añadir transacciones, cómo transformar los datos mediante un [pipe](https://angular.io/guide/pipes) y cómo actualizar visualmente la vista para que el usuario vea los cambios que están a punto de confirmarse.
+
+<Sample src="/services/transaction-base" height={550} alt="Ejemplo de Angular: cómo usar el servicio Transaction" />
+
+<hr/>
+
+## Incluir el servicio Transaction
+
+### Incluir el servicio Transaction en el proyecto
+
+Tenemos dos opciones para incluir `IgxTransactionService` en nuestra aplicación. La primera es añadirlo a `AppModule` u otro módulo padre de la aplicación, como se hace en la demostración anterior:
+
+```typescript
+@NgModule({
+    ...
+    providers: [
+        IgxTransactionService
+    ]
+})
+export class AppModule { }
+```
+
+La otra opción es proporcionarlo en el componente donde se usa el servicio de transacciones:
+
+```typescript
+@Component({
+    selector: 'transaction-base',
+    styleUrls: ['./transaction-base.component.scss'],
+    templateUrl: 'transaction-base.component.html',
+    providers: [IgxTransactionService]
+})
+export class TransactionBaseComponent { }
+```
+
+### Inyectar el servicio Transaction en el componente
+
+En nuestro archivo `ts`, debemos importar <ApiLink type="TransactionService" /> desde la biblioteca `igniteui-angular`, así como las interfaces <ApiLink type="State" kind="interface" /> y <ApiLink type="Transaction" kind="interface" /> y la enumeración <ApiLink pkg="core" type="TransactionType" kind="enum" />, que necesitará nuestra aplicación:
+
+```typescript
+import { IgxTransactionService, State, Transaction, TransactionType } from 'igniteui-angular/core';
+// import { IgxTransactionService, State, Transaction, TransactionType } from '@infragistics/igniteui-angular'; for licensed package
+```
+
+Después, el servicio Transaction debe importarse en el constructor:
+
+```typescript
+constructor(private _transactions: IgxTransactionService<Transaction, State>) { ... }
+```
+
+## Definir igxList
+
+En nuestra plantilla html, definimos un componente <ApiLink type="List" label="igxList" /> con las acciones **editar**, **eliminar** y **añadir**, que modifican la lista y sus elementos:
+
+```html
+<igx-list>
+    <igx-list-item [isHeader]="true">Wishlist</igx-list-item>
+    <igx-list-item *ngFor="let item of this.wishlist | transactionBasePipe"
+        [ngClass]="{ deleted: isDeleted(item.id), edited: isEdited(item.id) }">
+        <p igxListLineTitle>{{item.name}}</p>
+        <p igxListLineSubTitle>Costs: {{item.price}}</p>
+        @if (item.id === 1 && item.price !== '$999') {
+            <igx-icon igxListAction (click)="onEdit()">edit</igx-icon>
+        }
+        @if (item.id === 2 && !isDeleted(item.id)) {
+            <igx-icon igxListAction (click)="onDelete()">delete</igx-icon>
+        }
+    </igx-list-item>
+    <button igxButton (click)="onAdd()" [disabled]="itemAdded(4)">Add New</button>
+</igx-list>
+```
+
+
+<DocsAside type="info">
+Este ejemplo usa `igx-icon` con la familia predeterminada de Material Icons. Añada el siguiente enlace a su `index.html`: `<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">`
+</DocsAside>
+
+## Pipe para los cambios pendientes
+
+El componente de lista anterior usa `transactionBasePipe` para mostrar los cambios en los elementos de la lista de deseos sin afectar a los datos originales. Así es como se ve el pipe:
+
+```typescript
+@Pipe({
+    name: 'transactionBasePipe',
+    pure: false
+})
+export class TransactionBasePipe implements PipeTransform {
+    /**
+     * @param transactions Injected Transaction Service.
+     */
+    constructor(public transactions: IgxTransactionService<Transaction, State>) { }
+
+    public transform(data: WishlistItem[]) {
+        // the pipe should NOT operate on the original dataset
+        // we create a copy of the original data and then use it for visualization only
+        const _data = [...data];
+        const pendingStates = this.transactions.getAggregatedChanges(false);
+
+        for (const state of pendingStates) {
+            switch (state.type) {
+                case TransactionType.ADD:
+                    // push the newValue property of the current `ADD` state
+                    _data.push(state.newValue);
+                    break;
+                case TransactionType.DELETE:
+                    // pipe doesn't delete items because the demo displays them with a different style
+                    // the record will be deleted once the state is committed
+                    break;
+                case TransactionType.UPDATE:
+                    const index = _data.findIndex(x => x.id === state.id);
+                    // merge changes with the item into a new object
+                    // to avoid modifying the original data item
+                    _data[index] = Object.assign({}, _data[index], state.newValue);
+                    break;
+                default:
+                    return _data;
+            }
+        }
+
+        return _data;
+    }
+}
+```
+
+## Funcionalidad de editar, eliminar y añadir
+
+### Definir la función de editar
+
+El segundo elemento de la lista contiene un botón de editar, que actualiza los datos del elemento.
+
+```html
+@if (item.id === 1 && item.price !== '$999') {
+    <igx-icon igxListAction (click)="onEdit()">edit</igx-icon>
+}
+```
+
+Al pulsar el botón, dentro del controlador del evento `onEdit`, se crea una transacción 'UPDATE':
+
+```typescript
+public onEdit(): void {
+    const newPrice = "$999";
+    // there can be multiple `UPDATE` transactions for the same item `id`
+    // the `newValue` property should hold only the changed properties
+    const editTransaction: Transaction = {
+        id: this.wishlist[0].id,
+        type: TransactionType.UPDATE,
+        newValue: { price: newPrice }
+    };
+    // provide the first wishlist item as a `recordRef` argument
+    this.transactions.add(editTransaction, this.wishlist[0]);
+}
+```
+
+Además, hay una función que comprueba si los elementos tienen ediciones sin guardar:
+
+```typescript
+public isEdited(id): boolean {
+    const state = this.transactions.getState(id);
+    return state && state.type === TransactionType.UPDATE;
+}
+```
+
+### Definir la función de eliminar
+
+El tercer elemento de la lista contiene un botón de eliminar, que borra los datos del elemento.
+
+```html
+@if (item.id === 2 && !isDeleted(item.id)) {
+    <igx-icon igxListAction (click)="onDelete()">delete</igx-icon>
+}
+```
+
+Al pulsar el botón, dentro del controlador del evento `onDelete`, se crea una transacción 'DELETE':
+
+```typescript
+public onDelete(): void {
+    // after a `DELETE` transaction, no further changes should be made for the same `id`
+    // the `newValue` property should be set to `null` since we do not change any values,
+    const deleteTransaction: Transaction = {
+        id: this.wishlist[1].id,
+        type: TransactionType.DELETE,
+        newValue: null
+    };
+    // provide the second wishlist item as a `recordRef` argument
+    this.transactions.add(deleteTransaction, this.wishlist[1]);
+}
+```
+
+Además, hay una función que comprueba si los elementos tienen eliminaciones sin guardar:
+
+```typescript
+public isDeleted(id): boolean {
+    const state = this.transactions.getState(id);
+    return state && state.type === TransactionType.DELETE;
+}
+```
+
+### Definir la función de añadir
+
+Al final de la lista se añade un botón ADD, que añade un nuevo elemento a la lista.
+
+```html
+<button igxButton (click)="onAdd()" [disabled]="itemAdded(4)">Add New</button>```
+```
+
+Al pulsar el botón, dentro del controlador del evento `onAdd`, se crea una transacción 'ADD':
+
+```typescript
+public onAdd(): void {
+    // it must have a unique 'id' property
+    const item: WishlistItem = { id: 4, name: 'Yacht', price: 'A lot!' };
+
+    // in an `ADD` transaction you do not need to provide a `recordRef` argument,
+    // since there is nothing to refer to yet
+    this.transactions.add({ id: 4, type: TransactionType.ADD, newValue: item });
+}
+```
+
+Además, hay una función que comprueba si los elementos tienen adiciones sin guardar:
+
+```typescript
+public itemAdded(id: number): boolean {
+    const found = this.transactions.getState(id) || this.wishlist.find(x => x.id === 4);
+    return !!found;
+}
+```
+
+## Registro de transacciones
+
+La demostración muestra las transacciones pendientes dentro de un registro:
+
+```html
+<div>
+    <h5>Transaction Log</h5>
+    <div *ngFor="let transaction of this.getTransactionLog()">
+        {{transaction.type.toUpperCase()}} -> {{transaction.name}} Costs: {{transaction.price}}
+    
+</div>
+</div>
+```
+
+```typescript
+public getTransactionLog(): any[] {
+    return this.transactions.getTransactionLog().map(transaction => {
+        const item = this.wishlist.find(x => x.id === transaction.id);
+        return Object.assign({ type: transaction.type }, item, transaction.newValue);
+    });
+}
+```
+
+También añadiremos una representación del estado actual de nuestra lista. Mostrará cómo se ven los datos antes de que se confirmen las transacciones pendientes:
+
+```html
+<div>
+    <h5>Data Items</h5>
+    <div *ngFor="let item of this.wishlist">
+        <div>{{item.name}} - {{item.price}}
+</div>
+    
+</div>
+</div>
+```
+
+## Confirmar las transacciones pendientes
+
+Cuando hayamos terminado con todos nuestros cambios, podemos confirmarlos todos de una vez usando el método <ApiLink type="TransactionService" member="commit" label="commit" /> de <ApiLink type="TransactionService" />. Aplica todas las transacciones sobre los datos proporcionados:
+
+```html
+<button igxButton="contained" (click)="onCommit()" [disabled]="this.getTransactionLog().length === 0">Commit Transactions</button>
+```
+
+```typescript
+public onCommit(): void {
+    // the `commit` function expects the original data array as its parameter
+    this.transactions.commit(this.wishlist);
+}
+
+```
+
+Si estamos usando <ApiLink type="HierarchicalTransactionService" kind="interface" />, también podemos usar una sobrecarga del método <ApiLink type="TransactionService" member="commit" label="commit" /> que espera primaryKey y childDataKey como argumentos.
+
+```typescript
+public onCommit(): void {
+    this.transactions.commit(this.wishlist, primaryKey, childDataKey);
+}
+```
+
+## Borrar las transacciones pendientes
+
+En cualquier momento de nuestra interacción con la lista, podemos borrar el registro de transacciones usando el método <ApiLink type="TransactionService" member="clear" label="clear" />.
+
+```html
+<button igxButton="contained" (click)="onClear()" [disabled]="this.getTransactionLog().length === 0">Clear Transactions</button>
+```
+
+```typescript
+public onClear(): void {
+    this.transactions.clear();
+}
+
+```
+
+## Recursos adicionales
+
+<hr/>
+
+- <ApiLink kind="interface" type="TransactionService" label="API del servicio Transaction" />
+- [Servicio Transaction](/transaction)
+- [Jerarquía de clases del servicio Transaction](/transaction-classes)

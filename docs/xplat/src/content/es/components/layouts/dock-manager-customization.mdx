@@ -1,0 +1,206 @@
+---
+title: "{Platform} Dock Manager | Personalización | Infragistics"
+description: "Use el componente dock manager {Platform} de Infragistics para gestionar el diseño mediante paneles, con la posibilidad de personalizarlo. ¡Consulte los tutoriales de dock manager de {ProductName}!"
+keywords: "dock manager, diseño, personalización, {ProductName}"
+license: commercial
+mentionedTypes: ["DockManager", "ContentPane"]
+_language: es
+llms:
+  description: "El componente Dock Manager de Infragistics {Platform} le proporciona las propiedades necesarias para personalizar aún más el diseño según los requisitos específicos de su aplicación."
+---
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+
+## Personalizar {Platform} Dock Manager
+
+El componente Dock Manager de Infragistics {Platform} le proporciona las propiedades necesarias para personalizar aún más el diseño según los requisitos específicos de su aplicación.
+Veamos cómo {Platform} DockManager le permite crear interfaces de usuario excepcionales y mejorar la productividad de sus aplicaciones.
+
+## Acoplamiento por proximidad
+
+En este modo, los indicadores de joystick están ocultos y el acoplamiento se realiza arrastrando un panel cerca del borde de otro panel. Mientras arrastra un panel, cuando el cursor del ratón llega a la zona correspondiente a la posición de acoplamiento, se muestra una vista previa del acoplamiento. Al soltar el ratón, el panel arrastrado se acopla en la ubicación mostrada en la vista previa. Para habilitar el acoplamiento por proximidad, basta con establecer la propiedad `proximityDock` en **true**.
+
+```ts
+this.dockManager.proximityDock = true;
+```
+
+### Acoplamiento interior
+
+Para acoplar a la derecha un panel 1 arrastrado dentro del panel 2, el cursor debe estar en la zona definida por el borde derecho del panel 2 y el borde derecho desplazado hacia la izquierda. La distancia de desplazamiento se especifica como umbral de acoplamiento por proximidad y se establece en 50 px. Cuando hay un splitter, el acoplamiento puede realizarse desde ambos lados del splitter.
+
+### Acoplamiento exterior
+Para realizar un acoplamiento exterior, primero debe cumplir criterios concretos. En Dock Manager, el acoplamiento exterior solo se permite dentro de un host de documento, es decir, acoplará el panel de destino a las regiones exteriores del host de documento.
+
+Para realizar, por ejemplo, un acoplamiento exterior superior, el cursor debe caer dentro de la región definida por el borde superior del host de documento y mantenerse dentro del desplazamiento del borde superior. La distancia de desplazamiento se especifica como umbral de acoplamiento exterior por proximidad y se establece explícitamente en 25 px. El valor del umbral de acoplamiento por proximidad, 50 px, no cambia, lo que significa que en este escenario solo hay un área de 25 px disponible para el acoplamiento interior. Cuando hay un splitter dentro del host de documento, el acoplamiento exterior puede realizarse desde ambos lados del splitter.
+
+> NOTA: Cuando el acoplamiento por proximidad está habilitado, los usuarios no podrán realizar un acoplamiento exterior hacia la izquierda y hacia la derecha, ni hacia arriba y hacia abajo, desde un único panel. Por ejemplo, en un escenario con dos paneles divididos y un splitter entre ellos, los usuarios solo podrán realizar un acoplamiento exterior hacia la izquierda cuando el panel arrastrado esté sobre el panel izquierdo dividido, y viceversa.
+
+Pruébelo usted mismo en el siguiente ejemplo:
+
+<Sample src="/layouts/dock-manager/proximity-dock" height={600} alt="Ejemplo de acoplamiento por proximidad de {Platform} Dock Manager" />
+
+
+## Dar el foco a los paneles mediante programación
+
+El método `focusPane` permite a los desarrolladores dar el foco dinámicamente y mediante programación a un panel concreto del diseño, indicando el `contentId` del panel deseado.
+
+```ts
+this.dockManager.focusPane('content1');
+```
+
+Al usar el método `focusPane`, el comportamiento varía según el estado del panel de destino. Así funciona:
+
+1. **Paneles flotantes**: si el panel está flotando, al invocar `focusPane` se le dará el foco, se establecerá como activePane y se asegurará de que aparezca por encima de cualquier otro panel flotante.
+
+2. **Paneles desanclados**: cuando el panel de destino está desanclado, `focusPane` desplegará el panel en su estado abierto.
+
+3. **Paneles anclados normales**: para los paneles anclados normales, `focusPane` establecerá el panel como `activePane`.
+
+
+Gracias a este método, los desarrolladores pueden controlar sin esfuerzo la visibilidad y la posición de los paneles según la interacción del usuario o los eventos de la aplicación.
+
+Pruébelo usted mismo en el siguiente ejemplo:
+
+<Sample src="/layouts/dock-manager/focus-panes" height={600} alt="Ejemplo de {Platform} Dock Manager: dar el foco a los paneles mediante programación" />
+
+
+
+## Ocultar automáticamente los encabezados de los paneles
+
+Con la propiedad `showPaneHeaders` de DockManager, los desarrolladores pueden controlar con flexibilidad la visibilidad de los encabezados de los paneles dentro de `layout`. De forma predeterminada, `showPaneHeaders` está establecida en `always`, lo que garantiza que los encabezados de los paneles estén siempre visibles. Cuando se establece en `onHoverOnly`, todos los encabezados de los paneles se ocultan hasta que pasa el ratón por el borde superior de un panel de contenido. El encabezado correspondiente aparece y se oculta suavemente cuando el ratón se aleja. Vea el siguiente ejemplo:
+
+<Sample src="/layouts/dock-manager/hide-pane-headers" height={600} alt="Ejemplo de encabezados de paneles con ocultación automática en {Platform} Dock Manager" />
+
+
+## Controlar el acoplamiento interior
+De forma predeterminada, Dock Manager permite a los usuarios arrastrar y acoplar paneles unos dentro de otros, creando pestañas. Para ofrecer un control mayor sobre esta función, hemos introducido dos propiedades: `allowInnerDock` y `acceptsInnerDock`.
+
+Al establecer la propiedad `acceptsInnerDock` de un <ApiLink type="IgcContentPane" />, los desarrolladores pueden controlar el acoplamiento dentro de paneles de contenido concretos. Cuando esta propiedad se establece en false, se impide a los usuarios realizar el acoplamiento interior en el panel indicado.
+
+
+<PlatformBlock for="WebComponents">
+
+```ts
+{
+    type: IgcDockManagerPaneType.contentPane,
+    header: 'Floating 1',
+    contentId: 'content3',
+    acceptsInnerDock: false
+}
+```
+
+</PlatformBlock>
+
+Si desea deshabilitar el acoplamiento interior en todo el DockManager, basta con establecer `allowInnerDock` en **false**. Esta propiedad determina si el usuario final puede acoplar paneles dentro de otros.
+
+
+```ts
+this.dockManager.allowInnerDock = false;
+```
+
+<Sample src="/layouts/dock-manager/toggle-inner-dock" height={600} alt="Ejemplo de alternar el acoplamiento interior en {Platform} Dock Manager" />
+
+
+## Controlar el arrastre de paneles
+
+Con la propiedad `containedInBoundaries`, los desarrolladores pueden controlar si los lados de los paneles flotantes permanecen siempre dentro de DockManager. Cuando se establece en **true**, el arrastre del panel se detiene en cuanto alguno de sus lados intenta salir de los límites de DockManager.
+
+
+Pruébelo en el siguiente ejemplo:
+
+<Sample src="/layouts/dock-manager/contained-in-boundaries" height={600} alt="Ejemplo de paneles contenidos dentro de los límites en {Platform} Dock Manager" />
+
+
+## Resaltar los paneles que se redimensionan
+
+Cuando los usuarios redimensionan paneles arrastrando un splitter, no siempre resulta obvio qué paneles se ven afectados, sobre todo en diseños más complejos. Para que esta interacción sea más clara, Dock Manager puede dibujar un borde alrededor de los paneles que se están redimensionando en ese momento. Esta señal visual ayuda a los usuarios a entender de inmediato qué partes del diseño crecerán o se reducirán al mover el splitter.
+
+Puede habilitar y dar estilo a este comportamiento configurando las siguientes propiedades personalizadas de CSS en el elemento host de Dock Manager (o en un elemento padre):
+
+- `--igc-resize-target-border-color`: controla el color del borde del objetivo de redimensionado.
+- `--igc-resize-target-border-width`: controla el grosor del borde (por ejemplo, `2px`).
+- `--igc-resize-target-border-style`: controla el estilo del borde (por ejemplo, `solid`, `dashed`).
+
+```css
+igc-dockmanager {
+    --igc-resize-target-border-color: #0078d4;
+    --igc-resize-target-border-width: 2px;
+    --igc-resize-target-border-style: solid;
+}
+```
+
+Una vez establecidas estas variables, cualquier panel afectado por el arrastre de un splitter se envolverá con el borde configurado durante toda la operación de redimensionado, ofreciendo al usuario una respuesta clara e inmediata sobre qué paneles se están ajustando.
+
+## Modo de tamaño fijo para paneles divididos
+
+De forma predeterminada, cada panel de un diseño dividido recibe un tamaño relativo respecto a sus hermanos, y ese tamaño predeterminado es 100. Por ejemplo, si tiene dos paneles hermanos en los que el primero tiene el tamaño 400 y el segundo 200, el primero será el doble de grande que el segundo, y entre los dos ocuparán todo el espacio disponible.
+
+Si para determinados paneles quiere un dimensionado explícito en píxeles en lugar de un dimensionado relativo, puede activar el modo de tamaño fijo estableciendo la propiedad `useFixedSize` del panel dividido padre en **true**. Cuando esta propiedad está habilitada, todos los hijos se dimensionan en píxeles según su propiedad `size`. En el ejemplo anterior, el primer panel ocupará 400 píxeles y el segundo 200 píxeles. Al redimensionar mediante el splitter, solo cambia el tamaño del panel con el que se interactúa, sin redistribuir el espacio entre sus hermanos.
+
+En cuanto la suma de los tamaños de los paneles hijos supera el tamaño disponible del padre, el panel dividido pasa a ser desplazable. Dock Manager también ofrece ahora un desplazamiento automático integrado para mantener al usuario centrado en su contenido:
+
+- Cuando los usuarios **arrastran paneles hacia los bordes** de un panel raíz de tamaño fijo, el contenedor se desplaza en la dirección del arrastre para que puedan llegar fácilmente a zonas que quedan fuera de la pantalla.
+- Cuando los usuarios **redimensionan paneles mediante el splitter**, el contenedor se desplaza según sea necesario para mostrar el contenido recién ampliado.
+
+En un panel dividido **horizontal**, el desplazamiento automático se produce hacia la **izquierda** o la **derecha**; en un panel dividido **vertical**, se produce hacia **arriba** o **abajo**, según la dirección del arrastre o del redimensionado.
+
+
+<PlatformBlock for="WebComponents">
+
+```ts
+const splitPaneRelativeSize: IgcSplitPane = {
+    type: IgcDockManagerPaneType.splitPane,
+    orientation: IgcSplitPaneOrientation.horizontal,
+    panes: [
+        {
+            type: IgcDockManagerPaneType.contentPane,
+            contentId: 'content1',
+            header: 'Pane 1',
+            size: 400 // Size will be relative to siblings
+        },
+        {
+            type: IgcDockManagerPaneType.contentPane,
+            contentId: 'content2',
+            header: 'Pane 2',
+            size: 200 // Size will be relative to siblings
+        }
+    ]
+}
+
+const splitPaneFixedSize: IgcSplitPane = {
+    type: IgcDockManagerPaneType.splitPane,
+    orientation: IgcSplitPaneOrientation.horizontal,
+    useFixedSize: true,
+    panes: [
+        {
+            type: IgcDockManagerPaneType.contentPane,
+            contentId: 'content3',
+            header: 'Pane 3',
+            size: 400 // Size will be applied in pixels
+        },
+        {
+            type: IgcDockManagerPaneType.contentPane,
+            contentId: 'content4',
+            header: 'Pane 4',
+            size: 200 // Size will be applied in pixels
+        }
+    ]
+}
+```
+
+</PlatformBlock>
+
+Tenga en cuenta que, cuando acopla un panel dentro de un panel dividido que tiene `useFixedSize` establecido en **true**, el panel acoplado tendrá el mismo ancho o alto (según la orientación del panel dividido) que el panel flotante.
+
+Pruébelo usted mismo en el siguiente ejemplo:
+
+<Sample src="/layouts/dock-manager/split-pane-fixed-size" height={600} alt="Ejemplo de panel dividido de tamaño fijo en {Platform} Dock Manager" />
+
+
+## Referencias de API
+
+
+<ApiLink type="DockManager" /><br />
+<ApiLink type="ContentPane" /><br />

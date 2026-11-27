@@ -1,0 +1,256 @@
+---
+title: "{Platform} 접근성 준수 | {ProductName} | Infragistics"
+description: "{ProductName}의 접근성 지원 — 목표로 하는 표준, 컴포넌트별 키보드 및 화면 읽기 프로그램 상태, 접근성 문제를 보고하는 방법."
+keywords: "{ProductName}, Infragistics, 접근성, WCAG, Section 508, EN 301 549, ARIA, 키보드"
+license: MIT
+last_updated: "2026-08-27"
+mentionedTypes: []
+_language: ko
+llms:
+  description: "{ProductName}의 접근성 지원 — 목표로 하는 적합성 표준, 컴포넌트별 키보드 및 화면 읽기 프로그램 문서 색인, 필요한 구성, 접근성 문제를 보고하는 채널."
+---
+
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import Faq from 'igniteui-astro-components/components/mdx/Faq.astro';
+import FaqItem from 'igniteui-astro-components/components/mdx/FaqItem.astro';
+
+# 접근성 준수
+
+이 페이지는 {ProductName}가 목표로 하는 접근성 표준, 각 컴포넌트 자체 문서가 현재 다루는 내용, 접근성 문제를 보고하는 방법을 기록합니다.
+
+접근성 지원은 두 계층, 즉 컴포넌트 자체와 이를 스타일링하는 테마 엔진에서 제공됩니다. 특정 컴포넌트의 상태를 찾으려면 이 페이지를 사용하고, 대비, 텍스트 크기 조정, 차트 색상 동작은 [테마 접근성](../themes/accessibility.mdx)을 사용하십시오.
+
+<DocsAside type="note">
+**이 페이지의 범위.** 아래 정보는 **기본 테마**와 각 컴포넌트의 현재 문서화된 동작을 반영합니다. 이는 공식 적합성 선언이 아니라 지원 요약입니다. 사용자 지정 테마, 타이포그래피 변경, 애니메이션이나 색상 재정의는 결과를 바꿀 수 있습니다.
+</DocsAside>
+
+## 목표로 하는 표준
+
+| 표준 | 지역 | 요구 사항 |
+|---|---|---|
+| <a href="https://www.w3.org/WAI/WCAG21/quickref/" target="_blank" rel="noopener noreferrer">WCAG 2.1 Level AA</a> | 국제 | 아래 나열된 성공 기준입니다. 다른 두 표준이 참조하는 기준선입니다. |
+| <a href="https://www.section508.gov/" target="_blank" rel="noopener noreferrer">Section 508 (개정판)</a> | 미국 | 연방 조달에 적용됩니다. 개정된 Section 508 표준(2017년 발행, 준수 기한 2018년 1월)부터는 WCAG 2.0 Level AA를 참조로 포함하므로, 같은 작업으로 충족됩니다. |
+| <a href="https://www.etsi.org/deliver/etsi_en/301500_301599/301549/" target="_blank" rel="noopener noreferrer">EN 301 549</a> | 유럽 | WCAG를 기반으로 하는 ICT 접근성의 유럽 표준입니다. 이를 바탕으로 하는 유럽 접근성법(European Accessibility Act)은 2025년 6월 28일부터 적용됩니다. |
+
+<DocsAside type="note">
+Section 508은 이전에 §1194.22 아래 자체 16개 규칙을 정의했습니다. 그 규칙들은 WCAG를 직접 채택한 개정 표준으로 대체되었습니다. 따라서 WCAG 2.1 Level AA를 목표로 하면 위의 세 프레임워크를 모두 다룹니다.
+</DocsAside>
+
+### UI 컴포넌트에 적용되는 성공 기준
+
+WCAG 적합성은 더 넓은 지침이 아니라 개별 **성공 기준**을 기준으로 주장합니다. 다음은 UI 컴포넌트 라이브러리가 영향을 줄 수 있는 기준입니다:
+
+| 기준 | 수준 | 컴포넌트에 대한 의미 |
+|---|:--:|---|
+| <a href="https://www.w3.org/WAI/WCAG21/Understanding/non-text-content.html" target="_blank" rel="noopener noreferrer">1.1.1 비텍스트 콘텐츠</a> | A | 아이콘과 이미지에는 텍스트 대체 수단이 있습니다. |
+| <a href="https://www.w3.org/WAI/WCAG21/Understanding/info-and-relationships.html" target="_blank" rel="noopener noreferrer">1.3.1 정보와 관계</a> | A | 시각적으로 전달되는 구조는 마크업에서도 전달됩니다. |
+| <a href="https://www.w3.org/WAI/WCAG21/Understanding/meaningful-sequence.html" target="_blank" rel="noopener noreferrer">1.3.2 의미 있는 순서</a> | A | 읽기 순서가 시각적 순서와 일치합니다. |
+| <a href="https://www.w3.org/WAI/WCAG21/Understanding/contrast-minimum.html" target="_blank" rel="noopener noreferrer">1.4.3 대비(최소)</a> | AA | 텍스트는 배경 대비 4.5:1을 충족합니다. |
+| <a href="https://www.w3.org/WAI/WCAG21/Understanding/resize-text.html" target="_blank" rel="noopener noreferrer">1.4.4 텍스트 크기 조정</a> | AA | 텍스트는 콘텐츠 손실 없이 200%까지 크기가 조정됩니다. |
+| <a href="https://www.w3.org/WAI/WCAG21/Understanding/non-text-contrast.html" target="_blank" rel="noopener noreferrer">1.4.11 비텍스트 대비</a> | AA | 컨트롤의 경계와 상태가 3:1을 충족합니다. |
+| <a href="https://www.w3.org/WAI/WCAG21/Understanding/content-on-hover-or-focus.html" target="_blank" rel="noopener noreferrer">1.4.13 마우스 오버 또는 포커스 시 콘텐츠</a> | AA | 툴팁과 팝오버는 닫을 수 있고 지속적입니다. |
+| <a href="https://www.w3.org/WAI/WCAG21/Understanding/keyboard.html" target="_blank" rel="noopener noreferrer">2.1.1 키보드</a> | A | 모든 기능에 키보드로 도달할 수 있습니다. |
+| <a href="https://www.w3.org/WAI/WCAG21/Understanding/no-keyboard-trap.html" target="_blank" rel="noopener noreferrer">2.1.2 키보드 트랩 없음</a> | A | 포커스는 언제나 다시 빠져나갈 수 있습니다. |
+| <a href="https://www.w3.org/WAI/WCAG21/Understanding/focus-order.html" target="_blank" rel="noopener noreferrer">2.4.3 포커스 순서</a> | A | Tab 순서는 의미 있는 순서를 따릅니다. |
+| <a href="https://www.w3.org/WAI/WCAG21/Understanding/focus-visible.html" target="_blank" rel="noopener noreferrer">2.4.7 포커스 표시</a> | AA | 포커스된 컨트롤이 눈에 보이게 표시됩니다. |
+| <a href="https://www.w3.org/WAI/WCAG21/Understanding/label-in-name.html" target="_blank" rel="noopener noreferrer">2.5.3 이름의 레이블</a> | A | 접근 가능한 이름에 보이는 레이블이 포함됩니다. |
+| <a href="https://www.w3.org/WAI/WCAG21/Understanding/on-focus.html" target="_blank" rel="noopener noreferrer">3.2.1 포커스 시</a> | A | 포커스만으로는 맥락의 변경이 일어나지 않습니다. |
+| <a href="https://www.w3.org/WAI/WCAG21/Understanding/on-input.html" target="_blank" rel="noopener noreferrer">3.2.2 입력 시</a> | A | 값을 바꾸는 것만으로는 맥락의 변경이 일어나지 않습니다. |
+| <a href="https://www.w3.org/WAI/WCAG21/Understanding/labels-or-instructions.html" target="_blank" rel="noopener noreferrer">3.3.2 레이블 또는 지침</a> | A | 입력에는 레이블이나 지침이 있습니다. |
+| <a href="https://www.w3.org/WAI/WCAG21/Understanding/name-role-value.html" target="_blank" rel="noopener noreferrer">4.1.2 이름, 역할, 값</a> | A | 모든 컨트롤은 이름, 역할, 현재 상태를 노출합니다. |
+
+## 접근성이 제공되는 방식
+
+| 계층 | 담당 | 문서화된 위치 |
+|---|---|---|
+| **컴포넌트 라이브러리** (Angular에서는 `igniteui-angular`) | 키보드 조작 가능성, 포커스 이동, ARIA 역할과 상태, 화면 읽기 프로그램 안내. | 아래 색인과 각 컴포넌트 항목. |
+| **테마 엔진** (`igniteui-theming`) | 색상 대비, 텍스트 크기, 차트 색상 팔레트, 사용자 지정 컨트롤을 위한 스타일 유틸리티. | [테마 접근성](../themes/accessibility.mdx) |
+
+## 컴포넌트 지원
+
+이 색인은 각 컴포넌트의 문서가 현재 다루는 내용을 기록합니다. **아직 문서화되지 않음**은 컴포넌트 자체 문서가 이 동작을 설명하지 않는다는 뜻입니다. 이는 문서에 대한 진술이지, 컴포넌트에 대한 진술이 아닙니다.
+
+| 상태 | 의미 |
+|---|---|
+| **문서화됨** | 이 동작은 해당 행에 연결된 컴포넌트 자체 문서에 설명되어 있습니다. |
+| **구성 필요** | [구성 필요](#구성-필요)에 명시된 설정을 적용하면 사용할 수 있습니다. |
+| **아직 문서화되지 않음** | 컴포넌트 문서가 아직 이 동작을 설명하지 않습니다. |
+
+<PlatformBlock for="Angular">
+
+| 컴포넌트 | 키보드 상호 작용 | 화면 읽기 프로그램 / ARIA | 참조 |
+|---|---|---|---|
+| [Grid](../grid/grid.mdx#keyboard-navigation) | 문서화됨 | 아직 문서화되지 않음 | [키보드 탐색](../grid/keyboard-navigation.mdx) |
+| [Hierarchical Grid](../hierarchicalgrid/hierarchical-grid.mdx) | 문서화됨 | 아직 문서화되지 않음 | [키보드 탐색](../hierarchicalgrid/keyboard-navigation.mdx) |
+| [Tree Grid](../treegrid/tree-grid.mdx) | 문서화됨 | 아직 문서화되지 않음 | [키보드 탐색](../treegrid/keyboard-navigation.mdx) |
+| [아바타](../layouts/avatar.mdx#접근성) | 문서화됨 | 문서화됨 | [접근성](../layouts/avatar.mdx#접근성) |
+| [배지](../inputs/badge.mdx#접근성) | 문서화됨 | 문서화됨 | [접근성](../inputs/badge.mdx#접근성) |
+| [Banner](../banner.mdx) | 아직 문서화되지 않음 | 아직 문서화되지 않음 | — |
+| [Bottom Navigation](../tabbar.mdx) | 아직 문서화되지 않음 | 아직 문서화되지 않음 | — |
+| [Button](../inputs/button.mdx) | 아직 문서화되지 않음 | 아직 문서화되지 않음 | — |
+| [Button Group](../inputs/button-group.mdx) | 아직 문서화되지 않음 | 아직 문서화되지 않음 | — |
+| [Calendar](../calendar.mdx#keyboard-navigation) | 문서화됨 | 아직 문서화되지 않음 | [키보드 탐색](../calendar.mdx#keyboard-navigation) |
+| [Card](../layouts/card.mdx) | 아직 문서화되지 않음 | 아직 문서화되지 않음 | — |
+| [Carousel](../layouts/carousel.mdx#접근성) | 문서화됨 | 문서화됨 | [접근성](../layouts/carousel.mdx#접근성) |
+| [체크박스](../inputs/checkbox.mdx) | 아직 문서화되지 않음 | 아직 문서화되지 않음 | — |
+| [Chip](../inputs/chip.mdx#접근성) | 문서화됨 | 문서화됨 | [접근성](../inputs/chip.mdx#접근성) |
+| [원형 진행률](../circular-progress.mdx) | 아직 문서화되지 않음 | 아직 문서화되지 않음 | — |
+| [Combo](../inputs/combo/overview.mdx#접근성) | 문서화됨 | 문서화됨 | [접근성](../inputs/combo/overview.mdx#접근성) |
+| [콤보 단일 선택](../inputs/combo/single-selection.mdx#접근성) | 문서화됨 | 문서화됨 | [접근성](../inputs/combo/single-selection.mdx#접근성) |
+| [Date Time Editor](../date-time-editor.mdx#keyboard-navigation) | 문서화됨 | 아직 문서화되지 않음 | [키보드 탐색](../date-time-editor.mdx#keyboard-navigation) |
+| [Date Picker](../date-picker.mdx#keyboard-navigation) | 문서화됨 | 아직 문서화되지 않음 | [키보드 탐색](../date-picker.mdx#keyboard-navigation) |
+| [Dialog](../dialog.mdx) | 아직 문서화되지 않음 | 아직 문서화되지 않음 | — |
+| [Divider](../divider.mdx) | 아직 문서화되지 않음 | 아직 문서화되지 않음 | — |
+| [드롭다운](../drop-down.mdx) | 아직 문서화되지 않음 | 아직 문서화되지 않음 | — |
+| [Expansion Panel](../expansion-panel.mdx) | 아직 문서화되지 않음 | 아직 문서화되지 않음 | — |
+| [아이콘](../layouts/icon.mdx#접근성) | 문서화됨 | 문서화됨 | [접근성](../layouts/icon.mdx#접근성) |
+| [Input Group](../input-group.mdx) | 아직 문서화되지 않음 | 아직 문서화되지 않음 | — |
+| [Label](../label-input.mdx) | 아직 문서화되지 않음 | 아직 문서화되지 않음 | — |
+| [선형 진행률 막대](../linear-progress.mdx) | 아직 문서화되지 않음 | 아직 문서화되지 않음 | — |
+| [List](../list.mdx) | 아직 문서화되지 않음 | 아직 문서화되지 않음 | — |
+| [Month Picker](../month-picker.mdx#keyboard-navigation) | 문서화됨 | 아직 문서화되지 않음 | [키보드 탐색](../month-picker.mdx#keyboard-navigation) |
+| [Navbar](../navbar.mdx) | 아직 문서화되지 않음 | 아직 문서화되지 않음 | — |
+| [탐색 서랍](../navdrawer.mdx) | 아직 문서화되지 않음 | 아직 문서화되지 않음 | — |
+| [Radio](../inputs/radio.mdx#접근성) | 문서화됨 | 문서화됨 | [접근성](../inputs/radio.mdx#접근성) |
+| [Rating](../inputs/rating.mdx#접근성) | 문서화됨 | 문서화됨 | [접근성](../inputs/rating.mdx#접근성) |
+| [Select](../select.mdx#keyboard-navigation) | 문서화됨 | 아직 문서화되지 않음 | [키보드 탐색](../select.mdx#keyboard-navigation) |
+| [Slider](../slider/slider.mdx) | 아직 문서화되지 않음 | 아직 문서화되지 않음 | — |
+| [Snackbar](../snackbar.mdx) | 아직 문서화되지 않음 | 아직 문서화되지 않음 | — |
+| [스위치](../inputs/switch.mdx) | 아직 문서화되지 않음 | 아직 문서화되지 않음 | — |
+| [Tabs](../layouts/tabs.mdx#접근성) | 문서화됨 | 문서화됨 | [접근성](../layouts/tabs.mdx#접근성) |
+| [Time Picker](../time-picker.mdx#keyboard-navigation) | 문서화됨 | 아직 문서화되지 않음 | [키보드 탐색](../time-picker.mdx#keyboard-navigation) |
+| [Toast](../toast.mdx) | 아직 문서화되지 않음 | 아직 문서화되지 않음 | — |
+| [Tooltip](../tooltip.mdx#accessibility) | 문서화됨 | 아직 문서화되지 않음 | [접근성](../tooltip.mdx#accessibility) |
+
+</PlatformBlock>
+
+<PlatformBlock for="React, WebComponents, Blazor">
+
+| 컴포넌트 | 키보드 상호 작용 | 화면 읽기 프로그램 / ARIA | 참조 |
+|---|---|---|---|
+| [Grid](../grids/data-grid.mdx#키보드-탐색) | 문서화됨 | 아직 문서화되지 않음 | [키보드 탐색](../grids/data-grid.mdx#키보드-탐색) |
+| [Hierarchical Grid](../grids/hierarchical-grid/overview.mdx) | 문서화됨 | 아직 문서화되지 않음 | [키보드 탐색](../grids/data-grid.mdx#키보드-탐색) |
+| [Tree Grid](../grids/tree-grid/overview.mdx) | 문서화됨 | 아직 문서화되지 않음 | [키보드 탐색](../grids/data-grid.mdx#키보드-탐색) |
+| [Tree](../grids/tree.mdx#키보드-탐색) | 문서화됨 | 아직 문서화되지 않음 | [키보드 탐색](../grids/tree.mdx#키보드-탐색) |
+| [List](../grids/list.mdx) | 아직 문서화되지 않음 | 아직 문서화되지 않음 | — |
+| [아바타](../layouts/avatar.mdx#접근성) | 문서화됨 | 문서화됨 | [접근성](../layouts/avatar.mdx#접근성) |
+| [배지](../inputs/badge.mdx#접근성) | 문서화됨 | 문서화됨 | [접근성](../inputs/badge.mdx#접근성) |
+| [Banner](../notifications/banner.mdx) | 아직 문서화되지 않음 | 아직 문서화되지 않음 | — |
+| [Button](../inputs/button.mdx) | 아직 문서화되지 않음 | 아직 문서화되지 않음 | — |
+| [Button Group](../inputs/button-group.mdx) | 아직 문서화되지 않음 | 아직 문서화되지 않음 | — |
+| [Calendar](../scheduling/calendar.mdx#키보드-탐색) | 문서화됨 | 아직 문서화되지 않음 | [키보드 탐색](../scheduling/calendar.mdx#키보드-탐색) |
+| [Card](../layouts/card.mdx) | 아직 문서화되지 않음 | 아직 문서화되지 않음 | — |
+| [Carousel](../layouts/carousel.mdx#접근성) | 문서화됨 | 문서화됨 | [접근성](../layouts/carousel.mdx#접근성) |
+| [체크박스](../inputs/checkbox.mdx) | 아직 문서화되지 않음 | 아직 문서화되지 않음 | — |
+| [Chip](../inputs/chip.mdx#접근성) | 문서화됨 | 문서화됨 | [접근성](../inputs/chip.mdx#접근성) |
+| [원형 진행률](../inputs/circular-progress.mdx) | 아직 문서화되지 않음 | 아직 문서화되지 않음 | — |
+| [Combo](../inputs/combo/overview.mdx#접근성) | 문서화됨 | 문서화됨 | [접근성](../inputs/combo/overview.mdx#접근성) |
+| [콤보 단일 선택](../inputs/combo/single-selection.mdx#접근성) | 문서화됨 | 문서화됨 | [접근성](../inputs/combo/single-selection.mdx#접근성) |
+| [Date Time Input](../inputs/date-time-input.mdx#키보드-탐색) | 문서화됨 | 아직 문서화되지 않음 | [키보드 탐색](../inputs/date-time-input.mdx#키보드-탐색) |
+| [Date Picker](../scheduling/date-picker.mdx#키보드-탐색) | 문서화됨 | 아직 문서화되지 않음 | [키보드 탐색](../scheduling/date-picker.mdx#키보드-탐색) |
+| [Dialog](../notifications/dialog.mdx) | 아직 문서화되지 않음 | 아직 문서화되지 않음 | — |
+| [Divider](../layouts/divider.mdx) | 아직 문서화되지 않음 | 아직 문서화되지 않음 | — |
+| [Dock Manager](../layouts/dock-manager.mdx#키보드-탐색) | 문서화됨 | 아직 문서화되지 않음 | [키보드 탐색](../layouts/dock-manager.mdx#키보드-탐색) |
+| [드롭다운](../inputs/dropdown.mdx) | 아직 문서화되지 않음 | 아직 문서화되지 않음 | — |
+| [Expansion Panel](../layouts/expansion-panel.mdx#키보드-탐색) | 문서화됨 | 아직 문서화되지 않음 | [키보드 탐색](../layouts/expansion-panel.mdx#키보드-탐색) |
+<PlatformBlock for="WebComponents">| [File Input](../inputs/file-input.mdx#접근성-및-aria-지원) | 문서화됨 | 문서화됨 | [접근성](../inputs/file-input.mdx#접근성-및-aria-지원) |
+</PlatformBlock>| [아이콘](../layouts/icon.mdx#접근성) | 문서화됨 | 문서화됨 | [접근성](../layouts/icon.mdx#접근성) |
+| [Icon Button](../inputs/icon-button.mdx) | 아직 문서화되지 않음 | 아직 문서화되지 않음 | — |
+| [입력](../inputs/input.mdx) | 아직 문서화되지 않음 | 아직 문서화되지 않음 | — |
+| [선형 진행률 막대](../inputs/linear-progress.mdx) | 아직 문서화되지 않음 | 아직 문서화되지 않음 | — |
+| [Navbar](../menus/navbar.mdx) | 아직 문서화되지 않음 | 아직 문서화되지 않음 | — |
+| [탐색 서랍](../menus/navigation-drawer.mdx) | 아직 문서화되지 않음 | 아직 문서화되지 않음 | — |
+| [Radio](../inputs/radio.mdx#접근성) | 문서화됨 | 문서화됨 | [접근성](../inputs/radio.mdx#접근성) |
+| [Rating](../inputs/rating.mdx#접근성) | 문서화됨 | 문서화됨 | [접근성](../inputs/rating.mdx#접근성) |
+| [Select](../inputs/select.mdx#키보드-탐색) | 문서화됨 | 아직 문서화되지 않음 | [키보드 탐색](../inputs/select.mdx#키보드-탐색) |
+| [Slider](../inputs/slider.mdx) | 아직 문서화되지 않음 | 아직 문서화되지 않음 | — |
+| [Snackbar](../notifications/snackbar.mdx) | 아직 문서화되지 않음 | 아직 문서화되지 않음 | — |
+| [Stepper](../layouts/stepper.mdx#키보드-탐색) | 문서화됨 | 아직 문서화되지 않음 | [키보드 탐색](../layouts/stepper.mdx#키보드-탐색) |
+| [스위치](../inputs/switch.mdx) | 아직 문서화되지 않음 | 아직 문서화되지 않음 | — |
+| [Tabs](../layouts/tabs.mdx#접근성) | 문서화됨 | 문서화됨 | [접근성](../layouts/tabs.mdx#접근성) |
+| [Text Area](../inputs/text-area.mdx) | 아직 문서화되지 않음 | 아직 문서화되지 않음 | — |
+| [Toast](../notifications/toast.mdx) | 아직 문서화되지 않음 | 아직 문서화되지 않음 | — |
+| [Tooltip](../inputs/tooltip.mdx#접근성-및-aria-지원) | 문서화됨 | 문서화됨 | [접근성](../inputs/tooltip.mdx#접근성-및-aria-지원) |
+
+</PlatformBlock>
+
+<DocsAside type="warning">
+**아직 문서화되지 않음**으로 표시된 행은 이 문서의 공백이며, 알려진 결함이 아닙니다. 다음 검토 주기 전에 특정 컴포넌트의 적합성 답변이 필요하면 [이슈를 열고](#접근성-문제-보고하기) 문의하십시오.
+</DocsAside>
+
+## 구성 필요
+
+일부 접근성 결과는 컴포넌트 자체만이 아니라 애플리케이션을 어떻게 구성하느냐에 따라 달라집니다.
+
+<PlatformBlock for="Angular">
+
+| 담당 영역 | 기준 | 구성할 항목 |
+|---|---|---|
+| 애니메이션과 움직임 | <a href="https://www.w3.org/WAI/WCAG21/Understanding/three-flashes-or-below-threshold.html" target="_blank" rel="noopener noreferrer">2.3.1 초당 세 번 이하 깜박임</a> | 애플리케이션 전체에서 Angular 애니메이션을 끄려면 `BrowserAnimationsModule` 대신 `@angular/platform-browser/animations`에서 `NoopAnimationsModule`를 제공하십시오. |
+
+</PlatformBlock>
+
+<PlatformBlock for="React, WebComponents, Blazor">
+
+| 담당 영역 | 기준 | 구성할 항목 |
+|---|---|---|
+| 애니메이션과 움직임 | <a href="https://www.w3.org/WAI/WCAG21/Understanding/three-flashes-or-below-threshold.html" target="_blank" rel="noopener noreferrer">2.3.1 초당 세 번 이하 깜박임</a> | 구성이 필요하지 않습니다. 애니메이션 플레이어는 운영 체제의 `prefers-reduced-motion: reduce` 설정을 읽고, 설정되었을 때는 `0`의 지속 시간으로 애니메이션을 재생합니다. |
+
+</PlatformBlock>
+
+나머지 항목은 모든 플랫폼에 적용됩니다.
+
+| 담당 영역 | 기준 | 구성할 항목 |
+|---|---|---|
+| 잠깐 표시되는 메시지의 시간 제한 | <a href="https://www.w3.org/WAI/WCAG21/Understanding/timing-adjustable.html" target="_blank" rel="noopener noreferrer">2.2.1 시간 조정 가능</a> | Snackbar와 Toast처럼 자동으로 사라지는 컴포넌트는 표시 시간 설정을 노출합니다. 사용자가 메시지를 읽을 시간이 있도록 이를 늘리거나 자동 닫힘을 끄십시오. |
+| 테마 적용 후의 색상 대비 | <a href="https://www.w3.org/WAI/WCAG21/Understanding/contrast-minimum.html" target="_blank" rel="noopener noreferrer">1.4.3 대비(최소)</a> | 고정된 값이 아니라 `contrast-color()` 또는 `adaptive-contrast()`로 전경색을 설정하십시오. [테마 접근성](../themes/accessibility.mdx)을 참조하십시오. |
+| 아이콘만 있는 컨트롤의 접근 가능한 이름 | <a href="https://www.w3.org/WAI/WCAG21/Understanding/name-role-value.html" target="_blank" rel="noopener noreferrer">4.1.2 이름, 역할, 값</a> | 자신의 마크업에서 접근 가능한 이름을 제공하십시오. 아이콘만 보여 주는 컨트롤은 이름을 주기 전까지 이름이 없습니다. |
+
+## 공식 적합성 문서
+
+이 페이지는 문서 색인이지 적합성 주장이 아닙니다. 우리 문서가 다루는 내용을 기록할 뿐이며, 어떤 컴포넌트도 표준에 대해 인증하지 않습니다.
+
+조달, 계약, 감사 목적으로 기준별로 추적 가능한 적합성 진술이 필요하다면, 담당 계정 관리자나 Infragistics 지원을 통해 현재 접근성 적합성 보고서(VPAT)를 요청하십시오. 제품, 버전, 그리고 보고서가 다뤄야 하는 표준(WCAG 2.1 Level AA, Section 508, 또는 EN 301 549)을 명시하십시오.
+
+<DocsAside type="note">
+이 페이지의 이전 개정본에는 컴포넌트별 적합성 표가 있었습니다. 그 표들은 기준별로 추적 가능한 평가로 뒷받침되지 않은 적합성 수준을 주장했으므로, 다시 기술하는 대신 제거되었습니다. 적합성 보고서가 그 정보에 대한 권위 있는 출처입니다.
+</DocsAside>
+
+## 접근성 문제 보고하기
+
+컴포넌트에서 접근성 문제를 발견하면 <a href="{GithubLink}/issues" target="_blank" rel="noopener noreferrer">{ProductName} 이슈 트래커</a>에 보고하십시오.
+
+컴포넌트, 사용한 보조 기술과 브라우저, 기대한 동작, 영향을 받는다고 생각하는 WCAG 성공 기준을 포함하십시오. 접근성 보고서는 위에 나열된 기준에 따라 분류됩니다.
+
+## 추가 리소스
+
+- [테마 접근성](../themes/accessibility.mdx) — 대비, 텍스트 크기 조정, 차트 팔레트.
+- <a href="https://www.w3.org/WAI/WCAG21/quickref/" target="_blank" rel="noopener noreferrer">WCAG 2.1 빠른 참조</a> — 기법과 함께 모든 성공 기준.
+- <a href="https://www.w3.org/WAI/ARIA/apg/patterns/" target="_blank" rel="noopener noreferrer">WAI-ARIA 작성 관행</a> — 상호 작용 패턴별 기대되는 키보드 및 ARIA 동작.
+- <a href="https://www.section508.gov/" target="_blank" rel="noopener noreferrer">Section 508</a> — 미국 연방 조달 요구 사항.
+- [공식 적합성 문서](#공식-적합성-문서) — 조달을 위해 적합성 보고서(VPAT)를 요청하는 방법.
+
+## FAQ
+
+<Faq>
+  <FaqItem question="{ProductName}는 WCAG를 준수합니까?" indicatorPosition="end">
+    적합성은 컴포넌트 라이브러리 단독이 아니라 완성된 애플리케이션의 속성입니다. {ProductName}는 WCAG 2.1 Level AA를 목표로 하며 위 색인에 컴포넌트별 동작을 문서화하지만, 추가하는 마크업, 콘텐츠, 구성이 결과를 결정합니다. 위 색인을 사용하여 의존하는 컴포넌트를 확인하고, 문서와 다르게 동작하는 것이 있으면 보고하십시오.
+  </FaqItem>
+
+  <FaqItem question="일부 컴포넌트에 ”아직 문서화되지 않음”이라고 표시되는 이유는 무엇입니까?" indicatorPosition="end">
+    그 상태는 컴포넌트 자체 문서가 아직 해당 동작을 설명하지 않는다는 뜻입니다. 컴포넌트가 기준에 실패한다는 진술이 아닙니다. 문서가 무엇을 다루는지를 기록하므로, 문서화된 동작과 문서화되지 않은 동작을 구별할 수 있습니다.
+  </FaqItem>
+
+  <FaqItem question="Section 508에는 아직 별도의 규칙이 있습니까?" indicatorPosition="end">
+    아니요. 개정된 Section 508 표준(2017년 발행, 준수 기한 2018년 1월)이 이전 §1194.22 규칙을 대체했으며, WCAG Level AA를 참조로 채택하므로, WCAG를 충족하면 Section 508도 다뤄집니다.
+  </FaqItem>
+
+  <FaqItem question="적합성 정보는 사용자 지정 테마에도 적용됩니까?" indicatorPosition="end">
+    부분적으로만 적용됩니다. 키보드와 ARIA 동작은 테마 적용의 영향을 받지 않습니다. 하지만 색상 대비는 그렇지 않습니다. 색상을 재정의하면 텍스트가 요구되는 비율 아래로 내려갈 수 있습니다. 테마 접근성에 설명된 대로 사용자 지정 팔레트를 검증하십시오.
+  </FaqItem>
+
+  <FaqItem question="컴포넌트의 키보드 단축키는 어디에서 찾나요?" indicatorPosition="end">
+    위 참조 열에서 연결된 컴포넌트 자체 항목에 있습니다. 그리드 계열은 전용 키보드 탐색 항목을 공유합니다.
+  </FaqItem>
+</Faq>

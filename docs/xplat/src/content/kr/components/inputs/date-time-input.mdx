@@ -1,0 +1,409 @@
+---
+title: "{Platform} DateTimeInput | Infragistics"
+description: "Infragistics {Platform} DateTimeInput은 사용자가 입력 요소에서 날짜와 시간을 편집할 수 있게 합니다"
+keywords: "{Platform} 입력, {ProductName}, Infragistics"
+license: MIT
+mentionedTypes: ["DateTimeInput"]
+_language: ko
+llms:
+  description: "{ProductName} 날짜 시간 입력은 사용자가 선택한 입력 요소에서 날짜와 시간을 설정하고 편집할 수 있게 합니다."
+---
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+
+# {Platform} 날짜 시간 입력 개요
+
+{ProductName} 날짜 시간 입력은 사용자가 선택한 입력 요소에서 날짜와 시간을 설정하고 편집할 수 있게 합니다. 사용자는 편집 가능한 마스크 입력으로 날짜와 시간 부분을 모두 편집할 수 있습니다. 또한 원하는 표시 형식과 입력 형식, 그리고 유효성 검사를 위한 최솟값과 최댓값을 지정할 수 있습니다.
+
+<Sample src="/inputs/date-time-input/overview" height={150} alt="{Platform} 날짜 시간 입력 개요 예제" />
+
+
+## 사용법
+
+
+<PlatformBlock for="WebComponents">
+
+
+먼저 다음 명령을 실행하여 {ProductName}를 설치해야 합니다:
+
+```cmd
+npm install {PackageWebComponents}
+```
+
+그다음 다음과 같이 <ApiLink pkg="core" type="DateTimeInput" />, 필요한 CSS를 import하고 모듈을 등록해야 합니다:
+
+```ts
+import { defineComponents, IgcDateTimeInput } from 'igniteui-webcomponents';
+import 'igniteui-webcomponents/themes/light/bootstrap.css';
+
+defineComponents(IgcDateTimeInput);
+```
+
+{ProductName}에 대한 전체 소개는 [**시작하기**](../general-getting-started.mdx) 항목을 읽어 보십시오.
+
+
+</PlatformBlock>
+
+
+
+<PlatformBlock for="React">
+
+
+
+먼저 다음 명령을 실행하여 해당 {ProductName} npm 패키지를 설치해야 합니다:
+
+```cmd
+npm install igniteui-react
+```
+
+그다음 다음과 같이 <ApiLink pkg="core" type="DateTimeInput" />와 필요한 CSS를 import해야 합니다:
+
+```tsx
+import { IgrDateTimeInput } from 'igniteui-react';
+import 'igniteui-webcomponents/themes/light/bootstrap.css';
+```
+
+
+</PlatformBlock>
+
+
+
+<PlatformBlock for="Blazor">
+
+
+
+{ProductName} 서비스를 등록합니다:
+
+```csharp
+// in Program.cs file
+
+builder.Services.AddIgniteUIBlazor();
+```
+
+<ApiLink pkg="core" type="DateTimeInput" />의 클라이언트 리소스 모듈인 <ApiLink pkg="core" type="DateTimeInputModule" /> 등록은 **선택 사항**입니다. 컴포넌트는 처음 렌더링될 때 리소스를 로드합니다. `builder.Services.AddIgniteUIBlazor(typeof(IgbDateTimeInputModule))`에 나열하면 리소스를 미리 로드하거나 클라이언트에서만 생성되는 요소를 지원할 수 있습니다([컴포넌트 모듈](../general-getting-started.mdx#컴포넌트-모듈) 참조).
+
+<ApiLink pkg="core" type="DateTimeInput" /> 컴포넌트에 스타일을 적용하려면 추가 CSS 파일도 연결해야 합니다. 다음 내용을 애플리케이션의 호스트 페이지에 넣어야 합니다(독립 실행형 Blazor WebAssembly 또는 Blazor Hybrid 앱에서는 **wwwroot/index.html**, Blazor Server 앱에서는 **Pages/_Host.cshtml**, Blazor Web App에서는 **Components/App.razor**):
+
+```razor
+<link href="_content/IgniteUI.Blazor/themes/light/bootstrap.css" rel="stylesheet" />
+```
+
+
+</PlatformBlock>
+
+
+### 값 바인딩
+<ApiLink pkg="core" type="DateTimeInput" /> 컴포넌트의 값을 설정하는 가장 쉬운 방법은 Date 객체를 <ApiLink pkg="core" type="DateTimeInput" member="value" label="Value" /> 속성에 전달하는 것입니다:
+
+<PlatformBlock for="WebComponents">
+
+```typescript
+const input = document.querySelector('igc-date-time-input') as IgcDateTimeInputComponent;
+const date = new Date();
+
+input.value = date;
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrDateTimeInput value={someValue}></IgrDateTimeInput>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbDateTimeInput @ref="DateTimeInputRef" Value="@Date">
+    <IgbIcon IconName="clear" Collection="myIcons" slot="prefix" @onclick="OnClear"></IgbIcon>
+</IgbDateTimeInput>
+```
+
+</PlatformBlock>
+
+
+<PlatformBlock for="WebComponents, React">
+
+
+
+<ApiLink pkg="core" type="DateTimeInput" />는 [ISO 8601](https://tc39.es/ecma262/#sec-date-time-string-format) 문자열도 받습니다.
+
+문자열은 전체 `ISO` 문자열일 수 있으며, 형식은 `YYYY-MM-DDTHH:mm:ss.sssZ`입니다. 또는 날짜만 있는 부분과 시간만 있는 부분으로 나뉠 수도 있습니다.
+
+#### 날짜만
+날짜만 있는 문자열을 컴포넌트의 <ApiLink pkg="core" type="DateTimeInput" member="value" label="Value" /> 속성에 바인딩하려면 `YYYY-MM-DD` 형식이어야 합니다. 입력란에 값을 입력할 때는 여전히 <ApiLink pkg="core" type="DateTimeInput" member="inputFormat" label="InputFormat" />가 사용되며, 두 형식이 같을 필요는 없습니다. 또한 날짜만 있는 문자열을 바인딩하면, 디렉티브는 시간을 `T00:00:00`로 강제하여 시간 이동을 막습니다.
+
+#### 시간만
+시간만 있는 문자열은 보통 `ECMA` 명세에 정의되어 있지 않지만, 시간만 필요한 시나리오에 디렉티브를 통합할 수 있도록 24시간 형식인 `HH:mm:ss`를 지원합니다. 12시간 형식은 지원되지 않습니다.
+
+#### 전체 ISO 문자열
+완전한 `ISO` 문자열이 바인딩되면, 디렉티브는 [Date.parse](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/parse#date_time_string_format)에 필요한 모든 요소가 제공된 경우에만 이를 파싱합니다.
+
+`InvalidDate`를 포함한 모든 falsy 값은 `null`로 파싱됩니다. 날짜만 있거나, 시간만 있거나, 불완전한 전체 `ISO` 문자열은 `InvalidDate`로 파싱됩니다.
+
+
+</PlatformBlock>
+
+
+### 키보드 탐색
+
+<ApiLink pkg="core" type="DateTimeInput" />에는 직관적인 키보드 탐색이 있어, 마우스를 사용하지 않고도 값을 증가, 감소시키거나 다른 `DateParts` 사이를 쉽게 이동할 수 있습니다.
+
+|키|설명|
+|----|-----------|
+| <kbd>←</kbd> | 한 글자 앞으로 이동 |
+| <kbd>→</kbd> | 한 글자 뒤로 이동 |
+| <kbd>HOME</kbd> | 처음으로 이동 |
+| <kbd>END</kbd> | 끝으로 이동 |
+| <kbd>CTRL</kbd> / <kbd>CMD</kbd> + <kbd>←</kbd> | 날짜/시간 구역의 시작으로 이동 - 현재 구역 또는 왼쪽 구역 |
+| <kbd>CTRL</kbd> / <kbd>CMD</kbd> + <kbd>→</kbd> | 날짜/시간 구역의 끝으로 이동 - 현재 구역 또는 오른쪽 구역 |
+| 날짜/시간 부분에 포커스 + <kbd>↓</kbd> | 날짜/시간 부분을 감소시킵니다 |
+| 날짜/시간 부분에 포커스 + <kbd>↑</kbd> | 날짜/시간 부분을 증가시킵니다 |
+| <kbd>CTRL</kbd> / <kbd>CMD</kbd> + <kbd>;</kbd> | 현재 날짜/시간을 편집기의 값으로 설정합니다 |
+
+## 형식 설정
+
+<ApiLink pkg="core" type="DateTimeInput" />은(는) 서로 다른 표시 및 입력 형식을 지원합니다.
+
+[Intl.DateTimeFormat](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/DateTimeFormat)을 사용하므로, `long`와 `short`, `medium`와 `full` 같은 미리 정의된 형식 옵션을 지원합니다. 또한 `dd-MM-yy` 같이 지원되는 문자로 구성된 사용자 지정 문자열도 받을 수 있습니다. 또한 <ApiLink pkg="core" type="DateTimeInput" member="displayFormat" label="DisplayFormat" />가 제공되지 않으면, 컴포넌트는 <ApiLink pkg="core" type="DateTimeInput" member="inputFormat" label="InputFormat" />를 그대로 사용합니다.
+
+### 입력 형식
+아래 표는 컴포넌트의 <ApiLink pkg="core" type="DateTimeInput" member="inputFormat" label="InputFormat" />가 지원하는 형식을 보여 줍니다:
+
+|형식|설명|
+|-------|----------|
+| `d` | 날짜. 편집 중에는 앞에 0이 붙습니다. |
+| `dd` | 앞에 0이 명시적으로 설정된 날짜. |
+| `M` | 월. 편집 중에는 앞에 0이 붙습니다. |
+| `MM` | 앞에 0이 명시적으로 설정된 월. |
+| `yy` | 짧은 연도 형식. |
+| `yyyy` | 전체 연도 형식. |
+| `h` | 12시간 형식의 시. 편집 중에는 앞에 0이 붙습니다. |
+| `hh` | 앞에 0이 명시적으로 설정된 12시간 형식의 시. |
+| `H` | 24시간 형식의 시. 편집 중에는 앞에 0이 붙습니다. |
+| `HH` | 앞에 0이 명시적으로 설정된 24시간 형식의 시. |
+| `m` | 분. 편집 중에는 앞에 0이 붙습니다. |
+| `mm` | 앞에 0이 명시적으로 설정된 분. |
+| `tt` | 12시간 형식의 AM/PM 구역. |
+
+특정 입력 형식을 설정하려면 문자열로 <ApiLink pkg="core" type="DateTimeInput" />에 전달하십시오. 이는 예상되는 사용자 입력 형식과 `mask`를 모두 설정합니다. 또한 <ApiLink pkg="core" type="DateTimeInput" member="inputFormat" label="InputFormat" />는 로캘 기반이므로, 아무것도 제공되지 않으면 편집기는 `dd/MM/yyyy`를 기본값으로 사용합니다.
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-date-time-input input-format="dd-MM-yy" display-format="medium"/>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrDateTimeInput inputFormat="dd-MM-yy" displayFormat="medium"></IgrDateTimeInput>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbDateTimeInput @ref="DateTimeInputRef" InputFormat="dd-MM-yy" DisplayFormat="medium">
+    <IgbIcon IconName="clear" Collection="myIcons" slot="prefix" @onclick="OnClear"></IgbIcon>
+</IgbDateTimeInput>
+```
+
+</PlatformBlock>
+
+모든 것이 잘 되었다면 브라우저에서 다음을 볼 수 있을 것입니다:
+
+<Sample src="/inputs/date-time-input/input-format-display-format" height={150} alt="{Platform} 날짜 시간 입력 입력 형식 표시 형식 예제" />
+
+
+
+
+### 표시 형식
+날짜 시간 입력은 다양한 방식으로 날짜/시간을 표시하기 위한 미리 정의된 형식을 노출합니다. 아래 예는 모두 en-US 로캘로 제공됩니다.
+
+| 옵션 | 예제 |
+|:-------:|:-----------|
+| `short` | 7/17/22, 12:00 AM |
+| `medium` | Jul 17, 2022, 12:00:00 AM |
+| `long` | 2022년 7월 17일 오전 12:00:00 GMT+3 |
+| `full` | 2022년 7월 17일 일요일 오전 12:00:00 동유럽 하계 표준시 |
+| `shortDate` | 7/17/22 |
+| `mediumDate` | Jul 17, 2022 |
+| `longDate` | July 17, 2022 |
+| `fullDate` | Sunday, July 17, 2022 |
+| `shortTime` | 12:00 AM |
+| `mediumTime` | 12:00:00 AM |
+| `longTime` | 12:00:00 AM GMT+3 |
+| `fullTime` | 오전 12:00:00 동유럽 하계 표준시 |
+
+또한 사용자는 다음 표에 설명된 지원 기호를 사용하여 displayFormat 문자열을 구성할 수 있습니다.
+<br />
+
+| 타입 | 형식 | 설명 | 예제 |
+|:---|-------:|:-----------|:--------|
+| 일 | `d` | 최소 자릿수. | 7, 17 |
+|   | `dd` | 0으로 채움. | 07, 17 |
+| 월 | `M` | 최소 자릿수. | 3, 10 |
+|   | `MM` | 0으로 채움. | 03, 10 |
+|   | `MMM` | 축약형 | Oct |
+|   | `MMMM` | 전체 | October |
+|   | `MMMMM` | 좁음 | O |
+| 연도 | `y` | 숫자 | 2022 |
+|   | `yy` | 두 자리 | 22
+|   | `yyy` | 숫자 | 2022
+|   | `yyyy` |  숫자  | 2022
+| 시 1-12 | `h` | 최소 자릿수 | 1, 12 |
+|   | `hh` | 0으로 채움 | 01, 12
+| 시간 1-24 | `H` | 최소 자릿수 | 1, 23 |
+|   | `HH` | 0으로 채움 | 01, 23 |
+| 분 | `m` | 최소 자릿수 | 1, 59 |
+|   | `mm` | 0으로 채움 | 01, 59 |
+| 초 |  `s` | 최소 자릿수 | 1, 59 |
+|   | `ss` | 0으로 채움 | 01, 59 |
+| 오전/오후 표시 | `t` | 축약형 | AM, PM |
+|   | `tt` | 축약형 | AM, PM |
+|   | `ttt` | 짧게 | 정오 |
+|   | `tttt` | 길게 | 정오 |
+|   | `ttttt` | 좁음 | n |
+
+<DocsAside type="info">
+형식과 관계없이 많은 로캘이 같은 시간대 문자열을 사용합니다. 또한 12시간제를 사용할 때만 효과가 있습니다.
+</DocsAside>
+
+## 최솟값/최댓값
+
+입력을 제한하고 컴포넌트의 유효성을 제어하기 위해 <ApiLink pkg="core" type="DateTimeInput" member="min" label="Min" /> 및 <ApiLink pkg="core" type="DateTimeInput" member="max" label="Max" /> 속성을 지정할 수 있습니다. <ApiLink pkg="core" type="DateTimeInput" member="value" label="Value" /> 속성과 마찬가지로, 이들도 `string` 타입일 수 있습니다.
+
+<PlatformBlock for="WebComponents">
+
+```ts
+const input = document.querySelector('igc-date-time-input') as IgcDateTimeInputComponent;
+
+input.min = new Date(2021, 0, 1);
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-date-time-input max="2022-01-01T21:00:00.000Z"></igc-date-time-input>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+ <IgrDateTimeInput min={minDate} max={maxDate}></IgrDateTimeInput>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbDateTimeInput @ref="DateTimeInputRef" Min="@MinDate" Max="@MaxDate">
+    <IgbIcon IconName="clear" Collection="myIcons" slot="prefix" @onclick="OnClear"></IgbIcon>
+</IgbDateTimeInput>
+```
+
+</PlatformBlock>
+
+모든 것이 제대로 작동하면, 값이 주어진 날짜보다 크거나 작으면 컴포넌트는 `invalid` 상태가 됩니다. 아래 예제를 확인하십시오:
+
+<Sample src="/inputs/date-time-input/min-max-value" height={150} alt="{Platform} 날짜 시간 입력 최솟값 최댓값 예제" />
+
+
+## 증가/감소
+
+<ApiLink pkg="core" type="DateTimeInput" />는 공개 <ApiLink pkg="core" type="DateTimeInput" member="stepUp" label="StepUp" /> 및 <ApiLink pkg="core" type="DateTimeInput" member="stepDown" label="StepDown" /> 메서드를 노출합니다. 이 메서드들은 현재 설정된 날짜와 시간의 특정 <ApiLink pkg="core" type="DatePart" />를 증가시키거나 감소시키며, 몇 가지 방식으로 사용할 수 있습니다.
+
+첫 번째 시나리오에서 메서드에 특정 DatePart가 전달되지 않으면, 지정된 <ApiLink pkg="core" type="DateTimeInput" member="inputFormat" label="InputFormat" />와 컴포넌트 내부 구현을 기준으로 기본 DatePart가 증가하거나 감소합니다. 두 번째 시나리오에서는 요구 사항에 맞게 조작할 DatePart를 명시적으로 지정할 수 있습니다. 또한 두 메서드 모두 stepUp/stepDown 단계를 설정하는 데 사용할 수 있는 숫자 타입의 선택적 `delta` 매개변수를 받습니다.
+
+
+<PlatformBlock for="WebComponents, Blazor">
+
+
+
+또한 <ApiLink pkg="core" type="DateTimeInput" member="spinDelta" label="SpinDelta" />는 각 날짜 시간 구간에 서로 다른 변화량을 적용하는 데 사용할 수 있는 속성입니다. 키보드, 마우스 휠로 값을 돌리거나 <ApiLink pkg="core" type="DateTimeInput" member="stepUp" label="StepUp" /> 및 <ApiLink pkg="core" type="DateTimeInput" member="stepDown" label="StepDown" /> 메서드를 사용할 때 적용되며, 이 메서드들에 delta 매개변수가 전달되지 않은 경우에 한합니다. 전달되면 <ApiLink pkg="core" type="DateTimeInput" member="spinDelta" label="SpinDelta" />보다 우선하기 때문입니다.
+
+
+</PlatformBlock>
+
+
+<PlatformBlock for="WebComponents">
+
+```ts
+const input = document.getElementById('dateTimeInput') as IgcDateTimeInputComponent;
+
+const spinDelta: DatePartDeltas = {
+  date: 2,
+  month: 3,
+  year: 10,
+};
+
+input.spinDelta = spinDelta;
+```
+
+</PlatformBlock>
+
+아래 예제에서 직접 시도해 보십시오:
+
+<Sample src="/inputs/date-time-input/step-up-down" height={150} alt="{Platform} 날짜 시간 입력 증가/감소 예제" />
+
+
+## 스타일링
+
+<ApiLink pkg="core" type="DateTimeInput" /> 컴포넌트는 거의 모든 내부 요소에 대한 CSS 파트를 노출합니다. 아래 표는 노출된 모든 CSS 파트를 나열합니다:
+
+|이름|설명|
+|--|--|
+| `container` | 모든 주요 입력 요소를 담는 기본 래퍼입니다. |
+| `input` | 네이티브 input 요소입니다. |
+| `label` | 네이티브 label 요소입니다. |
+| `prefix` | 접두사 래퍼입니다. |
+| `suffix` | 접미사 래퍼입니다. |
+| `helper-text` | 도움말 텍스트 래퍼입니다. |
+
+```css
+igc-date-time-input {
+    --_background: var(--ig-primary-200);
+    --_foreground: var(--ig-gray-900);
+
+    --input-prefix-color: var(--_foreground);
+    --input-suffix-color: var(--_foreground);
+    --input-prefix-color--filled: var(--_foreground);
+    --input-suffix-color--filled: var(--_foreground);
+    --input-prefix-background: var(--_background);
+    --input-suffix-background: var(--_background);
+    --input-prefix-background--filled: var(--_background);
+    --input-suffix-background--filled: var(--_background);
+    --input-prefix-color--focused: var(--_foreground);
+    --input-suffix-color--focused: var(--_foreground);
+    --input-prefix-background--focused: var(--_background);
+    --input-suffix-background--focused: var(--_background);
+}
+```
+
+<Sample src="/inputs/date-time-input/styling" height={150} alt="{Platform} 날짜 시간 입력 스타일 지정" />
+
+
+## API 참조
+<ApiLink pkg="core" type="Input" />
+<ApiLink pkg="core" type="MaskInput" />
+<ApiLink pkg="core" type="Icon" />
+<ApiLink pkg="core" type="DateTimeInput" />
+## 추가 리소스
+
+- [{ProductName} **포럼**]({ForumsLink})
+- [{ProductName} **GitHub**]({GithubLink})

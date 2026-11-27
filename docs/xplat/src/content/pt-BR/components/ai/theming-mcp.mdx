@@ -1,0 +1,445 @@
+---
+title: "Theming MCP de {Platform} | Infragistics"
+description: "Use o servidor Ignite UI Theming MCP para gerar paletas, temas, tipografia e substituições de design tokens de {ProductName} por meio do seu assistente de IA."
+keywords: "{ProductName} controles, {Platform} widgets, widgets web, widgets de UI, Components Suite, Inteligência Artificial, IA, MCP, Model Context Protocol, Temas, Temas personalizados, Paletas, Tipografia, Elevações"
+license: MIT
+mentionedTypes: []
+_language: pt-BR
+llms:
+  description: "O Ignite UI Theming MCP é um servidor do Model Context Protocol (MCP) que permite que assistentes de IA gerem código de tema pronto para produção para aplicativos Ignite UI."
+---
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+
+# Ignite UI Theming MCP
+
+<p class="highlight">O Ignite UI Theming MCP é um servidor do <a href="https://modelcontextprotocol.io/" target="_blank">Model Context Protocol</a> (MCP) que permite que assistentes de IA gerem código de tema pronto para produção para aplicativos Ignite UI. O MCP é um padrão aberto que permite que assistentes de IA chamem ferramentas especializadas fornecidas por servidores externos. Conecte o Ignite UI Theming MCP ao seu editor ou cliente de IA para desktop e descreva o tema, a paleta ou as substituições de componentes que você quer gerar.</p>
+
+<igc-divider></igc-divider>
+
+## Visão geral
+
+O servidor Ignite UI Theming MCP dá aos assistentes de IA o conhecimento e as ferramentas para produzir código de tema preciso, incluindo paletas com geração adequada de tons, tipografia, elevações, substituições de design tokens de componentes e muito mais.
+
+O servidor oferece suporte a todos os quatro sistemas de design do Ignite UI (**Material**, **Bootstrap**, **Fluent** e **Indigo**), nas variantes claras e escuras. Embora este guia se concentre em {Platform}, o servidor MCP também funciona com todas as bibliotecas de componentes Ignite UI da Infragistics. A ferramenta `detect_platform` identifica o framework do projeto e seleciona automaticamente os caminhos de importação e seletores corretos. Para projetos Blazor, que não têm `package.json`, ela retorna `generic` - diga explicitamente à IA: _"Use a plataforma Blazor."_
+
+A maioria das ferramentas pode gerar saída em **Sass** ou **CSS**. A saída em Sass é o padrão e se integra ao módulo Sass `igniteui-theming`. A saída em CSS gera propriedades personalizadas CSS prontas para uso e pode ser usada **sem um toolchain Sass local** - o servidor a compila para você.
+
+O Ignite UI Theming MCP funciona junto com o Ignite UI CLI MCP. Na prática, o Theming MCP cuida de paletas, temas, tokens, tipografia, elevações e fluxos de estilização, enquanto o CLI MCP cuida da criação de projetos, da modificação de projetos, dos fluxos de componentes e das tarefas voltadas à documentação. A maioria das equipes vai querer os dois servidores conectados no mesmo cliente de IA.
+
+<PlatformBlock for="React, WebComponents">
+Para um fluxo de trabalho combinado completo após a configuração, consulte [Crie um aplicativo de ponta a ponta com o Ignite UI CLI MCP e o Ignite UI Theming MCP](../general-how-to-mcp-e2e.mdx).
+</PlatformBlock>
+
+**Exemplos de prompts para testar depois de conectar:**
+
+> _"Crie um tema escuro completo do Material Design para meu aplicativo {Platform} com primária #2563eb e secundária coral #f97316."_
+
+> _"Quais design tokens estão disponíveis para o componente botão? Personalize-o com a minha cor roxa da marca #8b5cf6."_
+
+> _"Minhas diretrizes de marca especificam valores hexadecimais exatos para cada tom primário - crie uma paleta personalizada com esses valores explícitos."_
+
+> _"Faça o componente calendário usar um espaçamento menor."_
+
+## Pré-requisitos
+
+Antes de configurar o servidor MCP, certifique-se de que você tem:
+
+- **Node.js** (v18 ou posterior) instalado - ele fornece o comando `npx` usado para iniciar o servidor.
+
+<PlatformBlock for="Angular, React, WebComponents">
+- Um projeto com um **pacote Ignite UI** listado como dependência em `package.json`.
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+- Um projeto com o pacote NuGet **`IgniteUI.Blazor`** instalado.
+</PlatformBlock>
+
+- Um **cliente de IA com suporte a MCP** - por exemplo, VS Code com GitHub Copilot, Cursor, Claude Desktop, Claude Code ou um IDE JetBrains com o plugin AI Assistant.
+
+<PlatformBlock for="Angular, React, WebComponents">
+Se você ainda não tem o Ignite UI Theming instalado, execute:
+
+```bash
+npm install igniteui-theming
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+<DocsAside type="info">
+O servidor Theming MCP é um pacote npm iniciado diretamente por meio de `npx` - não é necessário instalar o npm localmente no seu projeto Blazor. `npx -y` o baixa do registro npm no primeiro uso e o armazena em cache automaticamente.
+</DocsAside>
+</PlatformBlock>
+
+## Configuração
+
+<PlatformBlock for="Angular, React, WebComponents">
+O servidor MCP vem incluído no pacote npm `igniteui-theming` e é iniciado por meio de `npx`. Não é necessária nenhuma instalação separada, além de já ter um pacote Ignite UI no seu projeto.
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+O servidor MCP é iniciado por meio de `npx` diretamente do registro npm. Ele não vem incluído no pacote NuGet `IgniteUI.Blazor` - `npx -y` o baixa e o armazena em cache automaticamente no primeiro uso.
+</PlatformBlock>
+
+O comando de inicialização padrão é:
+
+```bash
+npx -y igniteui-theming igniteui-theming-mcp
+```
+
+<DocsAside type="info">
+A opção `-y` instrui o `npx` a confirmar automaticamente o pedido de download do pacote, para que o servidor possa iniciar sem intervenção manual.
+</DocsAside>
+
+<PlatformBlock for="Angular">
+### Como funciona a resolução de versão
+
+Como `igniteui-theming` é uma dependência de `igniteui-angular`, ele já está presente no seu `node_modules` depois de `npm install`. Quando você executa o comando de inicialização acima, o `npx` detecta a cópia instalada localmente e a executa diretamente. Nenhuma requisição de rede é feita. Isso significa que a versão do servidor MCP sempre fica sincronizada com os demais pacotes Ignite UI.
+
+Se você executar o comando fora de um projeto (ou antes de executar `npm install`), o `npx -y` baixa a versão **mais recente** do npm para um cache temporário. O servidor ainda vai iniciar, mas `detect_platform` vai retornar `generic`, já que não há `package.json` para inspecionar.
+
+Escolha o seu cliente de IA abaixo para ver as etapas específicas de configuração.
+</PlatformBlock>
+
+### VS Code
+
+O GitHub Copilot no VS Code oferece suporte a servidores MCP por meio de um arquivo de configuração no nível do workspace. Crie ou edite `.vscode/mcp.json` na raiz do seu projeto:
+
+```json
+{
+  "servers": {
+    "igniteui-theming": {
+      "command": "npx",
+      "args": ["-y", "igniteui-theming", "igniteui-theming-mcp"]
+    }
+  }
+}
+```
+
+Depois de salvar, abra o painel de chat do GitHub Copilot, mude para o modo **Agent** e as ferramentas do Ignite UI Theming ficarão disponíveis.
+
+<DocsAside type="info">
+O suporte a MCP no VS Code exige o GitHub Copilot e o VS Code 1.99 ou posterior.
+</DocsAside>
+
+### Cursor
+
+O Cursor oferece suporte à configuração MCP com escopo de projeto. Crie ou edite `.cursor/mcp.json` na raiz do seu projeto:
+
+```json
+{
+  "mcpServers": {
+    "igniteui-theming": {
+      "command": "npx",
+      "args": ["-y", "igniteui-theming", "igniteui-theming-mcp"]
+    }
+  }
+}
+```
+
+O servidor será detectado automaticamente quando você abrir uma nova sessão de chat no Cursor.
+
+<DocsAside type="info">
+Você também pode configurar os servidores MCP globalmente em **Configurações → MCP** no Cursor.
+</DocsAside>
+
+### Claude Desktop
+
+Adicione o servidor ao arquivo de configuração do Claude Desktop:
+
+- **macOS**: `~/Library/Application Support/Claude/claude_desktop_config.json`
+- **Windows**: `%APPDATA%\Claude\claude_desktop_config.json`
+
+```json
+{
+  "mcpServers": {
+    "igniteui-theming": {
+      "command": "npx",
+      "args": ["-y", "igniteui-theming", "igniteui-theming-mcp"]
+    }
+  }
+}
+```
+
+Reinicie o Claude Desktop depois de salvar. Você verá um indicador de servidor MCP (ícone de controle deslizante) na área de entrada do chat, confirmando que as ferramentas MCP estão ativas.
+
+### Claude Code
+
+O Claude Code oferece suporte a servidores MCP por meio da sua CLI e de um arquivo `.mcp.json` com escopo de projeto. Para compartilhar a configuração com sua equipe, crie ou edite `.mcp.json` na raiz do seu projeto:
+
+```json
+{
+  "mcpServers": {
+    "igniteui-theming": {
+      "command": "npx",
+      "args": ["-y", "igniteui-theming", "igniteui-theming-mcp"]
+    }
+  }
+}
+```
+
+Como alternativa, você pode adicionar o servidor pela linha de comando, apenas para o seu ambiente local:
+
+```bash
+claude mcp add igniteui-theming -- npx -y igniteui-theming igniteui-theming-mcp
+```
+
+Use o comando `/mcp` dentro do Claude Code para verificar se o servidor está conectado.
+
+### IDEs JetBrains
+
+O JetBrains AI Assistant oferece suporte a servidores MCP pelas configurações da IDE:
+
+1. Abra **Configurações** (ou **Preferências** no macOS).
+2. Vá para **Ferramentas → AI Assistant → Model Context Protocol (MCP)**.
+3. Clique em **+ Adicionar** e escolha **Como JSON**, ou use os campos do formulário.
+4. Informe a seguinte configuração:
+
+    ```json
+    {
+      "mcpServers": {
+        "igniteui-theming": {
+          "command": "npx",
+          "args": ["-y", "igniteui-theming", "igniteui-theming-mcp"]
+        }
+      }
+    }
+    ```
+
+5. Clique em **OK** e reinicie o AI Assistant.
+
+<DocsAside type="info">
+O suporte a MCP exige que o plugin AI Assistant esteja instalado e ativado na sua IDE JetBrains.
+</DocsAside>
+
+### Outros clientes MCP
+
+Para qualquer outro cliente compatível com MCP, use o transporte STDIO com este comando de inicialização:
+
+```bash
+npx -y igniteui-theming igniteui-theming-mcp
+```
+
+## Personalize o comportamento da IA com regras do projeto
+
+Esta seção é opcional. Ela é voltada a equipes que querem ajustar _como_ a IA gera código de tema para combinar com as convenções da base de código existente.
+
+Editores como VS Code e Cursor permitem fornecer arquivos de instruções no nível do projeto que definem como a IA se comporta. O servidor MCP já ensina à IA _quais ferramentas chamar e em que ordem_ - você não precisa repetir isso. Em vez disso, use esses arquivos de instruções para registrar as **decisões de design, convenções de código e organização de arquivos do seu projeto**, para que a IA produza código que se encaixe na sua base de código logo na primeira tentativa.
+
+### VS Code (`.github/copilot-instructions.md`)
+
+```markdown
+## Theming Conventions
+
+### Sass Code Style
+- Use `@use` / `@forward` — never `@import`.
+- Extract repeated color values into Sass variables (e.g., `$brand-hover: #a78bfa`).
+- Prefer setting primary design tokens over overriding many dependent tokens.
+  For example, setting `$foreground` on a flat button automatically derives
+  `$hover-background`, `$focus-background`, and `$active-background`.
+- Keep component overrides scoped — use the component's default selector
+  (e.g., `.igx-button--flat`) unless a narrower scope is needed.
+```
+
+### Cursor (`.cursor/rules/theming.mdc`)
+
+```markdown
+---
+description: Ignite UI for {Platform} theming conventions
+globs: ["**/*.scss", "**/styles/**"]
+---
+
+## Project Theming Rules
+
+### Code conventions
+- `@use` / `@forward` only — no `@import`.
+- Extract shared colors into variables; do not repeat hex literals.
+- Prefer primary tokens — let dependent tokens derive automatically.
+- One component override per file. Name the file after the component.
+- Comment every override with the design rationale.
+- Never hard-code gray shades for text — use palette grays so dark mode works.
+- For dark mode, only the palette changes. Component overrides stay the same.
+```
+
+<DocsAside type="info">
+Os dois arquivos são versionados no controle de código-fonte, para que todos os membros da equipe tenham o mesmo comportamento de IA sem configuração manual. Adapte as cores da marca, o design system e os caminhos de arquivo para combinar com o seu projeto.
+</DocsAside>
+
+## Ferramentas disponíveis
+
+O servidor MCP expõe um conjunto de ferramentas que a IA usa automaticamente com base nos seus prompts. Você nunca precisa chamá-las diretamente - basta descrever o que quer.
+
+Para ver a lista completa atual de ferramentas e seus parâmetros a qualquer momento, pergunte ao seu assistente de IA:
+
+> _"Quais ferramentas o Ignite UI Theming MCP oferece?"_
+
+Aqui está uma breve visão geral de cada ferramenta:
+
+<DocsAside type="info">
+Ao gerar uma paleta, o servidor verifica a razão de contraste entre a sua cor de superfície e as cores de cinza em relação aos limiares WCAG e avisa quando a combinação fica abaixo do mínimo. Veja [Acessibilidade](../themes/accessibility.mdx) para o comportamento de contraste integrado ao próprio mecanismo de tema.
+</DocsAside>
+
+| Ferramenta | Descrição |
+|------|-------------|
+| `detect_platform` | Identifica o framework do projeto e seleciona os caminhos de importação e os seletores corretos. Para projetos Angular, React e Web Components, lê `package.json`. Para projetos Blazor, que não têm `package.json`, retorna `generic` - informe à IA explicitamente: _"Use a plataforma Blazor."_ |
+| `create_palette` | Gera uma paleta de cores com variantes de tons automáticas (50–900, A100–A700) a partir das suas cores de marca base. Aceita um parâmetro `output` (`sass` ou `css`) e um `designSystem` para selecionar o schema. |
+| `create_custom_palette` | Criação detalhada de paletas - especifique valores hexadecimais exatos para cada tom quando a geração automática não for adequada. |
+| `create_typography` | Configura uma família tipográfica e uma escala de tipos para um determinado design system. |
+| `create_elevations` | Configura níveis de elevação com box-shadow (0–24) para os sistemas de design Material ou Indigo. |
+| `create_theme` | Tema completo em uma única chamada: paleta + tipografia + elevações, pronto para incluir no seu `styles.scss`. Aceita um `designSystem` (`material`, `bootstrap`, `fluent`, ou `indigo`) e `variant` (`light` ou `dark`). |
+| `set_size` | Define `--ig-size` globalmente ou para um componente específico (`small`, `medium` ou `large`). |
+| `set_spacing` | Define `--ig-spacing` (e, opcionalmente, substituições inline/block) globalmente ou por componente. |
+| `set_roundness` | Define `--ig-radius-factor` (0 = quadrado, 1 = totalmente arredondado) globalmente ou por componente. |
+| `get_component_design_tokens` | Retorna todos os design tokens disponíveis para um componente - sempre chame isto antes de `create_component_theme`. |
+| `create_component_theme` | Gera Sass ou CSS para personalizar os tokens de um componente (cores, bordas etc.). Aceita um `variant` (`light` ou `dark`) para selecionar o schema correto. |
+| `get_color` | Retorna uma referência de variável CSS para uma cor da paleta, por exemplo, `var(--ig-primary-500)`. Oferece suporte a parâmetros opcionais de contraste e opacidade. |
+| `read_resource` | Lê os recursos de referência integrados, organizados em quatro categorias: configurações de plataforma (6), predefinições de paleta/tipografia/elevação (5), orientações sobre cores (7) e documentação de layout e espaçamento (8). |
+
+<DocsAside type="info">
+Para componentes compostos (por exemplo, `combo`, `select`, `grid`), `get_component_design_tokens` retorna uma lista de temas filhos relacionados, em vez de uma lista plana de tokens. Por exemplo, ao consultar `grid`, podem ser retornados temas filhos como `grid`, `grid-toolbar`, `grid-filtering` e `paginator`. A IA vai gerar uma chamada `create_component_theme` separada para cada tema filho, usando o seletor com escopo adequado.
+</DocsAside>
+
+<PlatformBlock for="Angular">
+<DocsAside type="info">
+Se o seu projeto usa o pacote licenciado `@infragistics/igniteui-angular`, informe isso à IA para que ela possa definir o parâmetro `licensed` nas ferramentas de paleta, tema e componentes. Isso ajusta os caminhos de importação gerados de acordo.
+</DocsAside>
+</PlatformBlock>
+
+## Fluxos de trabalho comuns
+
+Os cenários a seguir mostram o que você pode pedir à IA quando o servidor MCP estiver conectado.
+
+### Tema para um novo projeto
+
+> _"Estou começando um novo projeto {Platform} com Ignite UI. Crie um tema claro completo do Material Design com primária #2563eb, secundária #f97316 e fonte Roboto."_
+
+A IA vai chamar `create_theme` e retornar um arquivo `styles.scss` pronto para uso. A saída gerada será parecida com esta:
+
+<PlatformBlock for="Angular">
+```scss
+/* styles.scss */
+@use 'igniteui-angular/theming' as *;
+
+$my-palette: palette(
+  $primary: #2563eb,
+  $secondary: #f97316,
+  $surface: #fff,
+  $gray: #9e9e9e,
+);
+
+$my-typography: typography(
+  $font-family: 'Roboto, sans-serif',
+);
+
+@include core();
+@include typography($my-typography);
+@include theme($my-palette, $schema: $light-material-schema);
+
+```
+</PlatformBlock>
+
+<PlatformBlock for="React, WebComponents">
+```scss
+/* styles.scss */
+@use 'igniteui-theming' as *;
+@use 'igniteui-theming/sass/typography/presets' as *;
+@use 'igniteui-theming/sass/elevations/presets' as *;
+
+$my-palette: palette(
+  $primary: #2563eb,
+  $secondary: #f97316,
+  $surface: #fff,
+);
+
+@include elevations($material-elevations);
+@include palette($light-material-palette);
+@include typography(
+  $font-family: "Titillium Web, sans-serif",
+  $type-scale: $material-type-scale
+);
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+O Theming MCP gera **propriedades personalizadas CSS** para projetos Blazor. Diga explicitamente à IA para usar a plataforma Blazor e solicitar saída em CSS:
+
+> _"Crie um tema claro completo do Material Design para meu aplicativo Blazor com primária #2563eb e secundária #f97316. Use a plataforma Blazor e gere saída em CSS."_
+
+Aplique o CSS gerado no seu `wwwroot/css/app.css`.
+</PlatformBlock>
+
+### Variante de modo escuro
+
+> _"Preciso de uma versão em modo escuro do meu tema existente. Mantenha o mesmo azul primário, mas use uma superfície escura #121212."_
+
+### Tons de cor exatos da marca
+
+> _"O nosso design system especifica valores hexadecimais exatos para todos os 14 tons do nosso verde primário. Vou colar os valores - crie uma paleta personalizada."_
+
+A IA vai chamar `create_custom_palette` com `mode: "explicit"` para a cor primária e gerar automaticamente o restante.<PlatformBlock for="Angular"> Consulte [Paletas](https://www.infragistics.com/products/ignite-ui-angular/angular/components/themes/sass/palettes) para mais detalhes sobre a geração de tons.</PlatformBlock>
+
+### Personalização no nível do componente
+
+> _"Estilize o botão flat com fundo roxo #8b5cf6 e texto branco, com um roxo mais claro #a78bfa ao passar o mouse."_
+
+A IA vai chamar `get_component_design_tokens` primeiro para descobrir os nomes de tokens válidos e depois chamar `create_component_theme` com os valores corretos.
+
+### Ajustes de layout
+
+> _"O calendário está carregado demais - reduza o espaçamento dele e deixe todos os componentes um pouco menores."_
+
+A IA vai chamar `set_spacing` com escopo no componente calendário e `set_size` no nível `:root`.
+
+## Solução de problemas
+
+**Plataforma não detectada**
+
+<PlatformBlock for="Angular, React, WebComponents">
+Se `detect_platform` retornar `null` ou `generic`, certifique-se de que o seu `package.json` lista um pacote Ignite UI (por exemplo, `{PackageCommon}`) como dependência.
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+Projetos Blazor não têm `package.json`, então `detect_platform` sempre vai retornar `generic`. Diga explicitamente à IA: _"Use a plataforma Blazor."_
+</PlatformBlock>
+
+<PlatformBlock for="Angular, React, WebComponents">
+Você também pode dizer explicitamente à IA: _"Use a plataforma {Platform}."_
+</PlatformBlock>
+
+**Aviso de luminância nas cores**
+
+Se a IA avisar sobre a luminância da cor, significa que a cor escolhida está clara ou escura demais para que a geração automática de tons funcione bem. Escolha uma cor de tom intermediário ou peça à IA para usar `create_custom_palette` com valores de tom explícitos.
+
+**Cor de superfície incompatível**
+
+Para temas claros, use uma superfície clara (por exemplo, `#fafafa`). Para temas escuros, use uma superfície escura (por exemplo, `#121212`). Cores de superfície incompatíveis fazem a IA emitir um aviso.
+
+<PlatformBlock for="Angular">
+**O Sass gerado não compila**
+
+Certifique-se de que `igniteui-angular` e `igniteui-theming` estão instalados:
+
+```bash
+ng add igniteui-angular
+```
+
+Confirme também que `core()` é chamado antes de qualquer outro mixin de tema no seu `styles.scss`. Veja [Tema com Sass](https://www.infragistics.com/products/ignite-ui-angular/angular/components/themes/sass/index) para a configuração correta dos arquivos.
+</PlatformBlock>
+
+## Recursos adicionais
+
+<PlatformBlock for="React, WebComponents">
+- [Crie um aplicativo de ponta a ponta com o Ignite UI CLI MCP e o Ignite UI Theming MCP](../general-how-to-mcp-e2e.mdx)
+</PlatformBlock>
+- [Desenvolvimento assistido por IA com Ignite UI](./ai-assisted-development-overview.mdx)
+- [Skills {ProductName}](./skills.mdx)
+- [Ignite UI CLI MCP](./cli-mcp.mdx)
+- [MAKER Framework](./maker-framework.mdx)
+
+
+Nossa comunidade é ativa e sempre receptiva a novas ideias.
+
+- [{ProductName} **Fóruns**]({ForumsLink})
+- [{ProductName} **GitHub**]({GithubLink})

@@ -1,0 +1,452 @@
+---
+title: "Servicio de iconos de Angular – Ignite UI for Angular | Infragistics | Licencia MIT"
+description: "Los desarrolladores pueden unificar y usar de forma intercambiable distintos conjuntos de iconos y fuentes, con colores personalizados y más, gracias al servicio de iconos de Ignite UI for Angular." 
+keywords: "Ignite UI for Angular, controles de interfaz, widgets de Angular, widgets web, widgets de interfaz, Angular, Native Angular Components Suite, Native Angular Controls, Native Angular Components Library, componentes de iconos de Angular, controles de iconos de Angular, servicio de iconos de Angular"
+license: MIT
+_language: es
+llms:
+  description: "El servicio de iconos de Ignite UI for Angular permite a los desarrolladores añadir iconos nuevos de distintas fuentes a sus interfaces."
+---
+
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+# Descripción general del servicio de iconos de Angular
+
+<div class="highlight">
+El servicio de iconos de Ignite UI for Angular permite a los desarrolladores añadir iconos nuevos de distintas fuentes a sus interfaces.
+</div>
+
+## Introducción
+
+El servicio de iconos de Ignite UI for Angular proporciona varios métodos que permiten crear y gestionar familias de iconos.
+
+El servicio de iconos puede importarse directamente desde el paquete de Ignite UI for Angular.
+
+```ts
+import { IgxIconComponent } from 'igniteui-angular/icon';
+import { IgxIconService } from 'igniteui-angular/core';
+
+@Component({
+    selector: 'app-root',
+    standalone: true,
+    imports: [ IgxIconComponent ]
+})
+export class AppComponent implements OnInit {
+    constructor(public iconService: IgxIconService) {}
+}
+```
+
+<Sample src="/data-display/icon-service" height={180} alt="Ejemplo del servicio de iconos" />
+
+### Añadir familias de iconos
+
+De forma predeterminada, el servicio de iconos establece su familia predeterminada en `material`.
+
+Añadir nuevas familias de iconos se hace con el método `setFamily` del servicio de iconos. Crea una entrada de familia con algunos metadatos que indican al componente `igx-icon` qué icono o iconos debe renderizar.
+
+Veamos un ejemplo práctico para explicar cómo funciona el método `setFamily`:
+
+```ts
+/** 
+* The icon service associates a given family name (provided by the user) 
+* with a specific CSS class (as documented in the providing icon font) 
+* and corresponding icon name (documented in the icon font).
+* NOTE: Material is already the default family.
+*/ 
+iconService.setFamily('material', { className: 'material-icons', type: 'liga' });
+iconService.setFamily('fa-solid', { className: 'fas', type: 'font', prefix: 'fa' });
+```
+
+El ejemplo anterior crea dos familias de iconos: 'material' y 'fa-solid'. Sus tipos son distintos: la familia `material` se registra como `liga`, mientras que la familia `fa-solid` se registra como `font`. La diferencia entre ambas está en cómo el componente `igx-icon` las renderiza. Normalmente, [Font Awesome](https://fontawesome.com/) usa nombres de clase para indicar puntos de código a una familia de **fuentes**, y por eso establecemos su tipo en `font`. Siempre que tengamos que depender de puntos de código para renderizar iconos, debemos establecer el tipo en `font`. La familia [Material Icons](https://material.io/icons) también es una familia de fuentes, pero la forma estándar de mostrar un icono es indicar un nombre de `ligature`, en lugar de un nombre de clase que apunte a un punto de código concreto. Por eso, tenemos que establecer el tipo en `liga`. Existe un tercer tipo de familia, `svg`, reservado para las familias de iconos formadas por SVG que se registran mediante el servicio de iconos.
+
+Una vez registradas las dos familias de fuentes anteriores, ya podemos usar sus iconos de forma estandarizada mediante el componente `igx-icon`:
+
+```html
+<igx-icon family="material" name="home"></igx-icon>
+<igx-icon family="fa-solid" name="car"></igx-icon>
+```
+
+
+<DocsAside type="info">
+Para renderizar iconos de la familia `material` predeterminada con `igx-icon`, añada el siguiente enlace a su `index.html`: `<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">`
+</DocsAside>
+
+Quizá haya notado que, para la familia `material`, usamos la ligadura `name` como nombre, mientras que para la familia `fa-solid` especificamos el `className` como nombre, que es `fa-car`, pero sin el prefijo `fa-`, ya que se especificó al registrar la familia de iconos en el paso anterior.
+
+### Añadir iconos SVG
+
+El servicio de iconos de Ignite UI for Angular nos permite asociar imágenes SVG a familias y asignarles nombres para que puedan incluirse mediante el componente `igx-icon` de la misma forma que los iconos basados en fuentes. Los SVG deben resolverse mediante cadenas o mediante un URI absoluto al recurso SVG.
+
+```ts
+// Add a new 'material' icon called 'my-icon' from an SVG file
+iconService.addSvgIcon('my-icon', 'my-icon.svg', 'material');
+
+// Add a new 'fa-solid' icon called 'my-icon' from string 
+iconService.addSvgIconFromText('my-icon', '<svg>...</svg>', 'fa-solid');
+```
+
+Más adelante, en el marcado:
+
+```html
+<igx-icon family="material" name="my-icon"></igx-icon>
+<igx-icon family="fa-solid" name="my-icon"></igx-icon>
+```
+
+Tenga en cuenta que estamos añadiendo iconos SVG personalizados a familias de tipo `liga` y `font`. Esto es posible porque los métodos `addSvgIcon` y `addSvgIconFromText` registran los iconos implícitamente como tipo `svg`, lo que permite que el componente `igx-icon` renderice correctamente el SVG.
+
+## Metafamilias
+
+El servicio de iconos de Ignite UI for Angular nos permite crear mapas de familias pseudo que combinan iconos añadidos mediante la definición de una familia de iconos de fuente o mediante la adición de SVG bajo un nombre común, para que sea más fácil referenciarlos.
+
+```ts
+// The `setIconRef` sets an icon reference in the icon map,
+// assuming material and fa-solid have been added as families,
+iconService.setIconRef('home', 'my-family', { family: 'material', name: 'home' });
+iconService.setIconRef('home-alt', 'my-family', { family: 'fa-solid', name: 'home' });
+iconService.setIconRef('car', 'my-family', { family: 'fa-solid', name: 'car' });
+```
+
+Más adelante, en el marcado:
+
+```html
+<igx-icon family="my-family" name="home"></igx-icon>
+<igx-icon family="my-family" name="home-alt"></igx-icon>
+<igx-icon family="my-family" name="car"></igx-icon>
+```
+
+## Recuperación de iconos
+
+Es posible obtener un icono para una `family` y un icono `name` concretos, para leer el `type`, `name`, `family` y `className` originales del icono.
+
+```ts
+const { family, className, name, type } = iconService.getIcon('my-family', 'car');
+
+console.log(family); // -> 'fa-solid'
+console.log(className); // -> 'fas'
+console.log(name); // -> 'fa-car'
+console.log(type); // -> 'font'
+```
+
+## Uso interno
+
+A partir de la versión 18.1.0 de Ignite UI for Angular, añadimos un nuevo método `setFamily` que permite crear familias nuevas de iconos en el servicio de iconos y asociarlas con clases CSS, tipos e incluso prefijos. Además, los iconos usados internamente se declaran ahora por referencia en una nueva familia `default` con nombres alias (véase la tabla siguiente).
+
+| Alias                            | Icono de destino           | Familia de destino |
+| :------------------------------- | :-------------------- | :------------ |
+| **add**                          | add                   | material      |
+| **add_child**                    | add-child             | imx-icons     |
+| **add_row**                      | add-row               | imx-icons     |
+| **arrow_back**                   | arrow_back            | material      |
+| **arrow_drop_down**              | arrow_drop_up         | material      |
+| **arrow_forward**                | arrow_forward         | material      |
+| **arrow_next**                   | chevron_right         | material      |
+| **arrow_prev**                   | chevron_left          | material      |
+| **case_sensitive**               | case-sensitive        | imx-icons     |
+| **carousel_next**                | arrow_forward         | material      |
+| **carousel_prev**                | arrow_back            | material      |
+| **chevron_left**                 | chevron_left          | material      |
+| **chevron_right**                | chevron_right         | material      |
+| **clock**                        | access_time           | material      |
+| **close**                        | close                 | material      |
+| **collapse**                     | expand_less           | material      |
+| **confirm**                      | check                 | material      |
+| **date_range**                   | date_range            | material      |
+| **delete**                       | delete                | material      |
+| **drag_indicator**               | drag_indicator        | material      |
+| **edit**                         | edit                  | material      |
+| **error**                        | error                 | material      |
+| **expand**                       | expand_more           | material      |
+| **expand_more**                  | expand_more           | material      |
+| **file_download**                | file_download         | material      |
+| **filter_all**                   | select-all            | imx-icons     |
+| **filter_before**                | is-before             | imx-icons     |
+| **filter_contains**              | contains              | imx-icons     |
+| **filter_does_not_contain**      | does-not-contain      | imx-icons     |
+| **filter_empty**                 | is-empty              | imx-icons     |
+| **filter_equal**                 | equals                | imx-icons     |
+| **filter_false**                 | is-false              | imx-icons     |
+| **filter_greater_than**          | greater-than          | imx-icons     |
+| **filter_greater_than_or_equal** | greater-than-or-equal | imx-icons     |
+| **filter_in**                    | is-in                 | imx-icons     |
+| **filter_last_month**            | last-month            | imx-icons     |
+| **filter_last_year**             | last-year             | imx-icons     |
+| **filter_less_than**             | less-than             | imx-icons     |
+| **filter_less_than_or_equal**    | less-than-or-equal    | imx-icons     |
+| **filter_next_month**            | next-month            | imx-icons     |
+| **filter_next_year**             | next-year             | imx-icons     |
+| **filter_not_empty**             | not-empty             | imx-icons     |
+| **filter_not_equal**             | not-equal             | imx-icons     |
+| **filter_not_null**              | is-not-null           | imx-icons     |
+| **filter_null**                  | is-null               | imx-icons     |
+| **filter_starts_with**           | starts-with           | imx-icons     |
+| **filter_this_month**            | this-month            | imx-icons     |
+| **filter_this_year**             | this-year             | imx-icons     |
+| **filter_today**                 | today                 | imx-icons     |
+| **filter_true**                  | is-true               | imx-icons     |
+| **filter_yesterday**             | yesterday             | imx-icons     |
+| **first_page**                   | first_page            | material      |
+| **group_work**                   | group_work            | material      |
+| **hide**                         | visibility_off        | material      |
+| **import_export**                | import_export         | material      |
+| **input_collapse**               | arrow_drop_up         | material      |
+| **input_clear**                  | clear                 | material      |
+| **input_expand**                 | arrow_drop_down       | material      |
+| **jump_down**                    | jump-down             | imx-icons     |
+| **jump_up**                      | jump-up               | imx-icons     |
+| **last_page**                    | last_page             | material      |
+| **more_vert**                    | more_vert             | material      |
+| **next**                         | navigate_next         | material      |
+| **pin**                          | pin-left              | imx-icons     |
+| **prev**                         | navigate_before       | material      |
+| **refresh**                      | refresh               | material      |
+| **remove**                       | cancel                | material      |
+| **search**                       | search                | material      |
+| **selected**                     | done                  | material      |
+| **show**                         | visibility            | material      |
+| **sort_asc**                     | arrow_upward          | material      |
+| **sort_desc**                    | arrow_downward        | material      |
+| **functions**                    | functions             | material      |
+| **table_rows**                   | table_rows            | material      |
+| **today**                        | calendar_today        | material      |
+| **tree_collapse**                | expand_more           | material      |
+| **tree_expand**                  | chevron_right         | material      |
+| **unfold_less**                  | unfold_less           | material      |
+| **unfold_more**                  | unfold_more           | material      |
+| **unpin**                        | unpin-left            | imx-icons     |
+| **view_column**                  | view_column           | material      |
+
+Para aprovechar el cambio de los iconos internos por referencia, en lugar de crear plantillas personalizadas, puede hacer lo siguiente para sustituir los iconos de expandir/contraer en los componentes combo y select:
+
+```ts
+iconService.setIconRef('input_expand', 'default', {
+    name: 'arrow_downward',
+    family: 'material',
+});
+
+iconService.setIconRef('input_collapse', 'default', {
+    name: 'arrow_upward',
+    family: 'material',
+});
+```
+
+Esto establecerá los iconos de expandir y contraer en las ligaduras `arrow_downward` y `arrow_upward`, respectivamente, de la familia de fuentes `material` para todos los componentes combo y select.
+
+Este es el desglose de todos los iconos que usa cada componente:
+
+<style dangerouslySetInnerHTML={{__html: `
+.table-responsive tbody tr td:first-of-type {
+    width: 25%;
+    min-width: fit-content;
+}
+`}} />
+
+### Action Strip
+
+| Icon          | Descripción             |
+| :------------ | :---------------------- |
+| **add_child** | Lo usa el menú emergente. |
+| **add_row**   | Lo usa el menú emergente. |
+| **more_vert** | Lo usa el menú emergente. |
+
+### Calendar
+
+| Icon           | Descripción                                             |
+| :------------- | :------------------------------------------------------ |
+| **arrow_prev** | Lo usa el encabezado para desplazarse entre meses y años. |
+| **arrow_next** | Lo usa el encabezado para desplazarse entre meses y años. |
+
+### Carousel
+
+| Icon              | Descripción                         |
+| :---------------- | :---------------------------------- |
+| **carousel_prev** | Se usa para desplazarse entre diapositivas. |
+| **carousel_next** | Se usa para desplazarse entre diapositivas. |
+
+### Chip
+
+| Icon         | Descripción                               |
+| :----------- | :---------------------------------------- |
+| **selected** | Se usa para indicar que un chip está seleccionado. |
+| **remove**   | Se usa para el botón de eliminar.               |
+
+### Combo (incl. Simple Combo)
+
+| Icon               | Descripción                                                  |
+| :----------------- | :----------------------------------------------------------- |
+| **case_sensitive** | Se usa para indicar y alternar el filtrado que distingue mayúsculas y minúsculas.        |
+| **input_clear**    | Se usa para el botón de borrar.                                   |
+| **input_expand**   | Se usa para el botón de alternancia cuando el menú del combo está contraído. |
+| **input_collapse** | Se usa para el botón de alternancia cuando el menú del combo está expandido.  |
+
+### Date Picker
+
+| Icon            | Descripción                                          |
+| :-------------- | :--------------------------------------------------- |
+| **today**       | Se usa para el botón de alternancia que activa el selector. |
+| **input_clear** | Se usa para el botón de borrar.                           |
+
+### Date Range Picker
+
+| Icon           | Descripción                                          |
+| :------------- | :--------------------------------------------------- |
+| **date_range** | Se usa para el botón de alternancia que activa el selector. |
+
+### Expansion Panel
+
+| Icon         | Descripción                                                   |
+| :----------- | :------------------------------------------------------------ |
+| **expand**   | Se usa para el botón de alternancia que activa el estado expandido.  |
+| **collapse** | Se usa para el botón de alternancia que activa el estado contraído. |
+
+### Grid
+
+| Icon                | Descripción                                                                |
+| :------------------ | :------------------------------------------------------------------------- |
+| **add**             | Se usa en el menú de filtro de estilo Excel para añadir una entrada de filtro.                             |
+| **arrow_back**      | Se usa en varios elementos de la interfaz para mover una columna hacia atrás.                 |
+| **arrow_drop_down** | Se usa en varios botones para indicar menús conmutables.                      |
+| **arrow_forward**   | Se usa en varios elementos de la interfaz para mover una columna hacia delante.                  |
+| **cancel**          | Se usa en varios elementos de la interfaz para cancelar operaciones.                      |
+| **chevron_right**   | Se usa para indicar menús expandibles, como en el filtrado de estilo Excel.      |
+| **close**           | Se usa para cerrar un menú expandido.                                            |
+| **confirm**         | Se usa para confirmar una operación.                                              |
+| **drag_indicator**  | Se usa para mostrar un tirador que indica que un elemento puede arrastrarse.                  |
+| **error**           | Se usa en las celdas editables para indicar una entrada de datos errónea.                   |
+| **expand_more**     | Lo usa el menú de filtrado de estilo Excel para indicar la adición de más filtros. |
+| **file_download**   | Lo usa el exportador de filtros de estilo Excel.                                         |
+| **filter_***        | Se usa para varios operandos de filtrado.                                       |
+| **group_work**      | Lo usa el área de colocación de la agrupación.                                            |
+| **hide**            | Lo usan varios elementos de la interfaz para ocultar columnas.                            |
+| **import_export**   | Lo usa el selector de datos de pivot para mover elementos.                                |
+| **input_clear**     | Lo usan los campos de entrada para borrar los datos introducidos.                              |
+| **next**            | Lo usa el menú de la fila de filtrado para navegar entre los chips.                  |
+| **pin**             | Lo usan varios elementos de la interfaz para anclar columnas.                            |
+| **prev**            | Lo usa el menú de la fila de filtrado para navegar entre los chips.                  |
+| **remove**          | Lo usan varios elementos de la interfaz como indicador de eliminación.                        |
+| **refresh**         | Lo usa el menú de la fila de filtrado para volver a cargar los filtros.                      |
+| **selected**        | Lo usan varios elementos de la interfaz para indicar la selección activa.                 |
+| **show**            | Lo usan varios elementos de la interfaz para mostrar columnas.                           |
+| **sort_asc**        | Lo usan varios elementos de la interfaz para indicar la dirección de ordenación.                 |
+| **sort_desc**       | Lo usan varios elementos de la interfaz para indicar la dirección de ordenación.                 |
+| **functions**       | Lo usan la cuadrícula dinámica y los selectores de datos.                                 |
+| **table_rows**      | Lo usa el selector de datos de la cuadrícula dinámica.                                      |
+| **tree_collapse**   | Lo usa la estructura de tipo árbol para mostrar menos detalles.                          |
+| **tree_expand**     | Lo usa la estructura de tipo árbol para mostrar más detalles.                          |
+| **unpin**           | Lo usan varios elementos de la interfaz para anclar columnas.                            |
+| **unfold_less**     | Lo usa la cuadrícula jerárquica para contraer todas las filas.                        |
+| **unfold_more**     | Lo usa la cuadrícula jerárquica para expandir todas las filas.                          |
+| **view_column**     | Lo usa el selector de datos de pivot.                                           |
+
+### Input Group
+
+| Icon            | Descripción                |
+| :-------------- | :------------------------- |
+| **input_clear** | Se usa para el botón de borrar. |
+
+### Paginator
+
+| Icon           | Descripción                                                  |
+| :------------- | :----------------------------------------------------------- |
+| **first_page** | Lo usa el botón para ir a la primera página.    |
+| **last_page**  | Lo usa el botón para ir a la última página.     |
+| **prev**       | Lo usa el botón para ir a la página anterior. |
+| **next**       | Lo usa el botón para ir a la página siguiente.     |
+
+### Query Builder
+
+| Icon         | Descripción                                              |
+| :----------- | :------------------------------------------------------- |
+| **add**      | Lo usa el botón para añadir nuevas entradas de filtro.        |
+| **close**    | Lo usa el botón que cierra el menú contextual.      |
+| **edit**     | Lo usa el botón para editar entradas de filtro.           |
+| **confirm**  | Lo usa el botón para confirmar la adición de nuevas entradas de filtro. |
+| **ungroup**  | Lo usa el botón para desagrupar entradas de filtro.            |
+| **delete**   | Lo usa el botón para eliminar entradas de filtro.             |
+| **filter_*** | Se usa para varios operandos de filtrado.                     |
+
+
+### Select
+
+| Icon               | Descripción                                                   |
+| :----------------- | :------------------------------------------------------------ |
+| **input_expand**   | Se usa para el botón de alternancia cuando el menú del select está contraído. |
+| **input_collapse** | Se usa para el botón de alternancia cuando el menú del select está expandido.  |
+
+### Tabs
+
+| Icon     | Descripción                                                 |
+| :------- | :---------------------------------------------------------- |
+| **prev** | Lo usa el botón para ir a la pestaña anterior. |
+| **next** | Lo usa el botón para ir a la pestaña siguiente.     |
+
+
+### Time Picker
+
+| Icon      | Descripción                                          |
+| :-------- | :--------------------------------------------------- |
+| **clock** | Se usa para el botón de alternancia que activa el selector. |
+
+### Tree
+
+| Icon              | Descripción                                          |
+| :---------------- | :--------------------------------------------------- |
+| **tree_expand**   | Se usa para el botón de alternancia que activa el selector. |
+| **tree_collapse** | Se usa para el botón de alternancia que activa el selector. |
+
+## API
+
+Este es un breve resumen de todos los métodos disponibles mediante el servicio de iconos de Ignite UI for Angular.
+
+### Añadir familia
+
+```ts
+setFamily(name: string, meta: IconFamilyMeta): IgxIconService;
+```
+
+### Referencias de iconos
+
+Establecer SOLO si aún no está presente en el mapa de iconos:
+
+```ts
+addIconRef(name: string, family: string, icon: IconMeta): void;
+```
+
+Establecer una referencia de icono en el mapa de iconos (se sobrescribe si ya existe):
+
+```ts
+setIconRef(name: string, family: string, icon: IconMeta): void;
+```
+
+Obtener una referencia de icono
+
+```ts
+getIconRef(family: string, name: string): IconReference;
+```
+
+### Iconos SVG
+
+Desde URI:
+
+```ts
+addSvgIcon(name: string, url: string, family: string, stripMeta = false): void;
+```
+
+Desde cadena:
+
+```ts
+addSvgIconFromText(name: string, iconText: string, family: string, stripMeta = false): void;
+```
+
+## Referencias de API
+<hr/>
+- <ApiLink type="IconService" />
+## Recursos adicionales
+
+<hr/>
+
+Nuestra comunidad está activa y siempre da la bienvenida a nuevas ideas.
+
+- [Ignite UI for Angular **Foros**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

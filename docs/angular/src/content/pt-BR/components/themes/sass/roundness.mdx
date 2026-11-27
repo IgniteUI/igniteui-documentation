@@ -1,0 +1,117 @@
+---
+title: "Arredondamento em Sass"
+description: "O Ignite UI for Angular permite alterar a forma dos componentes alterando o seu border-radius."
+keywords: "Ignite UI for Angular, controles de UI, widgets Angular, widgets web, widgets de UI, Angular, Native Angular Components Suite, Native Angular Controls, Native Angular Components Library" 
+_language: pt-BR
+llms:
+  description: "O Ignite UI for Angular permite alterar a forma dos componentes definindo o seu arredondamento com um valor entre 0 e 1."
+---
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+# Arredondamento
+
+<div class="highlight">
+O Ignite UI for Angular permite alterar a forma dos componentes definindo o seu arredondamento com um valor entre 0 e 1.
+</div>
+<igc-divider></igc-divider>
+
+## Visão geral
+
+O border radius é definido no [esquema de tema](https://github.com/IgniteUI/igniteui-theming/blob/18f878033898e1b6a3bb0ed28993e9a4037d1a80/sass/themes/schemas/components/light/_toast.scss#L44) do componente (veja o exemplo abaixo). O border radius de qualquer componente definido dessa forma pode ser controlado pelo parâmetro `$roundness` do mixin <ApiLink kind="sass" module="themes" type="mixin-theme" label="theme" /> ou por uma única variável CSS chamada `--ig-radius-factor`.
+
+```scss
+$light-toast: extend(
+    $default-elevation-toast,
+    (
+        ...,
+        border-radius: (
+            border-radius: (
+                rem(26px),
+                rem(0),
+                rem(26px),
+            ),
+        ),
+    )
+);
+```
+
+Como você pode ver no exemplo, o esquema de componente para o <ApiLink kind="sass" module="themes" type="function-toast-theme" label="Toast" /> define o border radius como uma lista de três valores. O primeiro valor é o border radius padrão (ou seja, quando `$roundness` ou `--ig-radius-factor` não é declarado). O segundo valor indica o border radius mínimo permitido (ou seja, quando `$roundness` ou `--ig-radius-factor` é definido como `0`). E o terceiro valor indica o border radius máximo permitido (ou seja, quando `$roundness` ou `--ig-radius-factor` é definido como `1`). No componente toast, os valores padrão e máximo coincidem. Qualquer valor entre 0 e 1 atribuído a `$roundness` ou `--ig-radius factor` definirá o border radius do toast como uma porcentagem do valor máximo. Por exemplo, definir o valor como `.5` fará com que o border radius do componente Toast seja 50% do seu border radius máximo permitido, que é de 13 pixels.
+
+```scss
+// Make all components sharp by setting the roundness parameter to 0.
+@include theme(
+    ...,
+    $roundness: 0
+);
+```
+
+### Como usar?
+
+Vamos ver como podemos alterar os valores padrão do toast do exemplo acima.
+
+Se você quiser que o toast continue sendo afetado pela variável `$roundness` ou `--ig-radius-factor` no tema resultante, use a função `border-radius` fornecida pelo pacote Ignite UI for Angular.
+
+```scss
+// Change the default, min and max values,
+// while preserving customization via $roundness or --ig-radius-factor.
+igx-toast {
+  --border-radius: #{border-radius(rem(4px), rem(4px), rem(16px))};
+}
+```
+
+Se você quiser que o border-radius seja um valor constante, não afetado por mudanças em `--ig-radius-factor`, basta passá-lo diretamente para o parâmetro de border-radius.
+
+```scss
+// Will be unaffected by changes to $roundess or --ig-radius-factor.
+igx-toast {
+  --border-radius: rem(4px);
+}
+```
+
+Também podemos usar o mixin `border-radius` para atribuir diretamente a propriedade border-radius a elementos.
+
+```scss
+button {
+    @include border-radius(rem(4px), rem(4px), rem(16px));
+}
+```
+
+Agora, o `border-radius` do botão será afetado pelas variáveis `$roundness` e `--ig-radius-factor`.
+
+<hr/>
+
+### Valores base de border radius
+
+A tabela abaixo mostra um trecho de alguns valores de border radius de componentes, conforme definidos no esquema Material.
+
+| **Componente**         | **Raio mín./máx.** | **Raio padrão** |
+| :-------------------- | :----------------- | :----------------- |
+| **Button (Flat)**      |  0 / 20px          | 4px                |
+| **Button (Contained)** |  0 / 20px          | 4px                |
+| **button (Fab)**       |  12px / 28px       | 28px               |
+| **button (Icon)**      |  0 / 18px          | 18px               |
+| **Button-group**      |  0 / 20px          | 4px                |
+| **Chip**              |  0 / 20px          | 4px                |
+| **Card**              |  0 / 24px          | 4px                |
+| **Carousel**          |  0 / 36px          | 0                  |
+| **Dialog**            |  0 / 36px          | 4px                |
+| **Drop-down**         |  0 / 20px          | 4px                |
+| **Expansion panel**   |  0 / 16px          | 0                  |
+| **input (Border)**     |  0 / 20px          | 4px                |
+| **input (Box)**        |  0 / 20px          | 4px 4px 0 0        |
+| **input (Search)**     |  0 / 20px          | 4px                |
+| **List**              |  0 / 24px          | 0                  |
+| **List item**         |  0 / 24px          | 0                  |
+| **Navdrawer**         |  0 / 36px          | 0                  |
+| **Snackbar**          |  0 / 24px          | 4px                |
+| **Tooltip**           |  0 / 16px          | 4px                |
+| **Toast**             |  0 / 26px          | 26px               |
+
+Consulte a documentação de <ApiLink kind="sass" module="schemas" label="Schema" /> de cada componente para descobrir quais são os valores de raio padrão e mínimo/máximo de cada tema.
+
+<hr/>
+
+Nossa comunidade é ativa e sempre receptiva a novas ideias.
+
+- [Ignite UI for Angular **Fóruns**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

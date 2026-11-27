@@ -1,0 +1,187 @@
+---
+title: "{Platform} Dock Manager | Integración con el escritorio | Infragistics"
+description: "Use el componente dock manager {Platform} de Infragistics para gestionar el diseño de una aplicación de escritorio Electron con varias ventanas. ¡Consulte los tutoriales de dock manager de {ProductName}!"
+keywords: "dock manager, diseño, {ProductName}, Infragistics"
+license: commercial
+mentionedTypes: ["DockManager", "DocumentHost", "DockManagerLayout", "DockManagerPaneType", "ContentPane", "SplitPane", "TabGroupPane", "PinnedLocation", "PaneHeaderElement"]
+_language: es
+llms:
+  description: "El componente Dock Manager de Infragistics {Platform} puede usarse en una aplicación de escritorio Electron con varias ventanas para gestionar el diseño de cada ventana, arrastrar paneles fuera de una ventana para crear una nueva y arrastrar y soltar paneles de una ventana a otra."
+---
+
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+import { Image } from 'astro:assets';
+import dockmanagerElectronApp from '@xplat-images/dockmanager-electron-app.gif';
+
+
+# Integración de escritorio de {Platform} Dock Manager
+
+El componente Dock Manager de Infragistics {Platform} puede usarse en una aplicación de escritorio [Electron](https://www.electronjs.org/) con varias ventanas para gestionar el diseño de cada ventana, arrastrar paneles fuera de una ventana para crear una nueva y arrastrar y soltar paneles de una ventana a otra. Puede encontrar una implementación de ejemplo de esta aplicación en el siguiente repositorio https://github.com/IgniteUI/dock-manager-electron-app.
+
+{/*TODO: Add a gif of the application and a link to download the exe*/}
+<Image src={dockmanagerElectronApp} alt="Integración de escritorio con Dock Manager de {Platform}" class="responsive-img" />
+
+## Implementación
+
+Repasemos las partes más importantes de la implementación de esta aplicación.
+
+### Estructura del proyecto
+
+Hemos utilizado la herramienta CLI [Electron Forge](https://www.electronforge.io/) y su plantilla [Typescript + Webpack](https://www.electronforge.io/templates/typescript-+-webpack-template) para crear una aplicación Electron. Electron tiene dos tipos de procesos: Main y Renderer.
+- El proceso principal crea páginas web mediante instancias de **BrowserWindow**. Cada instancia de **BrowserWindow** ejecuta la página web en su proceso de renderizado.
+- El proceso de renderizado gestiona solo la página web correspondiente.
+
+El script **index.ts** especifica el punto de entrada de la aplicación Electron que ejecuta el proceso principal. La mayor parte del código de nuestra aplicación está en el archivo **renderer.ts**, que se ejecuta en el proceso de renderizado. El archivo **index.html** representa el contenido de la página web. Los estilos de la página web se alojan en el archivo **index.css**.
+
+### Configuración de Dock Manager
+
+Después de instalar el paquete de Dock Manager, hemos registrado el componente Dock Manager con **defineCustomElements()** en el archivo **renderer.ts**. Esto permite añadir **`<igc-dockmanager>`** en el archivo **index.html**.
+
+Para el contenido de los paneles de Dock Manager hemos usado elementos **iframe** que alojan distintas URL. En nuestro caso, estas URL apuntan a ejemplos de [Ignite UI for Angular](https://www.infragistics.com/products/ignite-ui-angular). Como los elementos **iframe** son autocontenidos, moverlos de una ventana a otra resulta sencillo.
+
+### Arrastrar y soltar
+
+Para permitir arrastrar paneles fuera de la ventana de la aplicación, hemos sustituido el arrastre y soltar integrado, que crea paneles flotantes dentro de la aplicación, por una implementación personalizada basada en la [API HTML de arrastrar y soltar](https://developer.mozilla.org/en-US/docs/Web/API/HTML_Drag_and_Drop_API). Nos hemos suscrito a los eventos `PaneHeaderConnected` y `TabHeaderConnected`, que se disparan cuando un elemento de encabezado se conecta al DOM. Cuando un encabezado se conecta, restablecemos el <ApiLink type="PaneHeaderElement" member="dragService" label="DragService" /> integrado y añadimos los manejadores de eventos `DragStart` y `DragEnd`.
+
+<PlatformBlock for="WebComponents">
+
+```ts
+const paneHeaderConnected = (event: CustomEvent<IgcPaneHeaderConnectionEventArgs>) => {
+    const element = event.detail.element;
+    element.dragService.destroy();
+    element.dragService = null;
+    element.draggable = true;
+    element.ondragstart = ev => {
+        paneHeaderDragStart(event.detail.pane, ev);
+    };
+    element.ondragend = ev => {
+        paneHeaderDragEnd(ev);
+    };
+}
+
+dockManager.addEventListener('paneHeaderConnected', paneHeaderConnected);
+```
+
+</PlatformBlock>
+
+
+En la función `PaneHeaderDragStart` establecemos la propiedad <ApiLink type="DockManager" member="draggedPane" label="DraggedPane" /> del componente Dock Manager, que le notifica que ha comenzado una operación de arrastre.
+
+<PlatformBlock for="WebComponents">
+
+```ts
+const paneHeaderDragStart = async (pane: IgcContentPane, event: DragEvent) => {
+    event.dataTransfer.dropEffect = 'move';
+    dockManager.draggedPane = pane;
+    // ...
+}
+```
+
+</PlatformBlock>
+
+Nos hemos suscrito a los eventos `DragOver` y `drop` del elemento `document`. En el manejador `DragOver` notificamos a Dock Manager que el ratón se está arrastrando sobre él, estableciendo su propiedad <ApiLink type="DockManager" member="dropPosition" label="DropPosition" />. Esto obliga a Dock Manager a mostrar sus indicadores de acoplamiento.
+
+```ts
+const handleDocumentDragOver = (event: DragEvent) => {
+    event.preventDefault();
+    event.dataTransfer.dropEffect = 'move';
+    dockManager.dropPosition = {
+      x: event.clientX,
+      y: event.clientY
+    };
+}
+
+document.addEventListener('dragover', handleDocumentDragOver);
+document.addEventListener('drop', handleDocumentDrop);
+```
+
+En la función `paneHeaderDragEnd` detectamos si el panel se ha soltado fuera de la ventana de la aplicación y llamamos a la función `droppedOutOfWindow`.
+
+```ts
+const paneHeaderDragEnd = async (event: DragEvent) => {
+    event.preventDefault();
+    // ...
+
+    // dropped outside of the application
+    if (event.dataTransfer.dropEffect === 'none') {
+        await droppedOutOfWindow(event);
+    }
+    // ...
+}
+```
+
+Cuando el encabezado del panel se suelta dentro de un documento, llamamos al método `DropPane`, que notifica a Dock Manager que el panel arrastrado se ha soltado. Si el panel se soltó sobre un indicador de acoplamiento, el método devuelve **true**. Si el panel se soltó en la misma ventana desde la que se arrastró, el panel se acoplará automáticamente en su nueva posición. Sin embargo, si se soltó en otra ventana, llamamos a la función `droppedInAnotherWindow`, que primero elimina el panel del Dock Manager de origen y después lo añade al nuevo.
+
+<PlatformBlock for="WebComponents">
+
+```ts
+const handleDocumentDrop = async (event: DragEvent) => {
+    const contentId = (dockManager.draggedPane as IgcContentPane).contentId;
+
+    const docked = await dockManager.dropPane();
+
+    if (docked) {
+        const contentElement = dockManager.querySelector('[slot=' + contentId + ']');
+
+        // if the content element is missing from the current dock manager it means it comes from another window
+        if (!contentElement) {
+            await droppedInAnotherWindow();
+        }
+    }
+}
+```
+
+</PlatformBlock>
+
+Cuando un panel se suelta fuera de su ventana actual, debemos eliminar el <ApiLink type="DockManager" member="draggedPane" label="DraggedPane" /> de su componente Dock Manager y actualizar el diseño.
+
+<PlatformBlock for="WebComponents">
+
+```ts
+const draggedPane = dockManager.draggedPane as IgcContentPane;
+await dockManager.removePane(draggedPane);
+dockManager.layout = { ...dockManager.layout };
+```
+
+</PlatformBlock>
+
+A continuación, debemos mover el elemento de contenido del panel a su nueva ventana. Para ello usamos el método [document.adoptNode()](https://developer.mozilla.org/en-US/docs/Web/API/Document/adoptNode), que nos permite transferir el nodo del elemento de contenido al nuevo documento y, por último, añadirlo como hijo del nuevo componente Dock Manager.
+
+<PlatformBlock for="WebComponents">
+
+```ts
+const contentElement = dockManager.querySelector('[slot=' + draggedPane.contentId + ']');
+const newDocument = childWindow.document;
+const newDockManager = newDocument.getElementById('dockManager') as IgcDockManagerComponent;
+const adoptedNode = newDocument.adoptNode(contentElement);
+newDockManager.appendChild(adoptedNode);
+```
+
+</PlatformBlock>
+
+### Gestión de ventanas
+
+Usamos el método nativo [window.open()](https://developer.mozilla.org/en-US/docs/Web/API/Window/open) para abrir una nueva ventana en el proceso de renderizado. Establecemos la opción `nativeWindowOpen` en **true** al crear `BrowserWindow` en **index.ts**. Así obtenemos acceso directo al objeto `Window` hijo y a su `document`. Puede leer más sobre la apertura de ventanas desde el proceso de renderizado en este [tema](https://www.electronjs.org/docs/api/window-open) de Electron. Tenga en cuenta que la opción `nativeWindowOpen` sigue siendo experimental.
+
+```ts
+mainWindow = new BrowserWindow({
+    height: 800,
+    width: 1000,
+    webPreferences: {
+        nativeWindowOpen: true
+    }
+});
+```
+
+En esta aplicación hemos implementado un tipo `IDockManagerWindow` que puede ser una ventana principal (`IMainDockManagerWindow`) o una ventana secundaria (`IChildDockManagerWindow`). La ventana principal es la que se crea al iniciar la aplicación, y contiene referencias a todas sus ventanas secundarias. Una ventana secundaria se crea cuando un panel se suelta fuera de una ventana y tiene una referencia a la ventana principal de la aplicación.
+
+Para ver el código fuente completo, clone el [repositorio](https://github.com/IgniteUI/dock-manager-electron-app).
+
+
+## Referencias de API
+
+<ApiLink type="DockManager" /><br />
+<ApiLink type="DocumentHost" /><br />
+<ApiLink type="DockManagerLayout" /><br />
+<ApiLink type="ContentPane" /><br />

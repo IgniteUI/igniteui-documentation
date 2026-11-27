@@ -1,0 +1,278 @@
+---
+title: "Angular Grid와 Angular 앱 개발에 대한 완벽 가이드"
+description: "최신 데이터 그리드와 차트는 복잡할 수 있으며 다양한 기능을 포함합니다. 완벽 가이드로 Angular Grid와 Angular 앱 개발에 대해 알아보십시오!"
+keywords: "angular, angular 앱 개발, infragistics"
+license: commercial 
+_language: ko
+llms:
+  description: "Grid 개요 항목의 유익한 섹션을 확인하여 Angular Data Grid를 알아보고 사용 방법을 익히십시오."
+---
+
+import { Image } from 'astro:assets';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import scrolling from '../../images/general/scrolling.gif';
+
+
+# Angular Grid와 Angular 앱 개발에 대한 완벽 가이드
+
+_Grid 개요 항목의 [이 유익한 섹션을 확인하여](/grids-and-lists#angular-데이터-그리드란-무엇입니까) Angular Data Grid를 알아보고 사용 방법을 익히십시오._
+
+## Ignite UI - Angular 앱 개발을 위한 프레임워크
+
+Ignite UI for Angular는 Infragistics의 고급 도구 세트로, 데이터 그리드를 비롯해 차트, 데이터 시각화 지도, 편집기 등을 포함하는 기능이 풍부하고 고성능인 UI 컴포넌트를 제공합니다.
+
+Ignite UI Angular 데이터 그리드는 업계에서 가장 빠른 축에 속하며, 여러 선도적인 금융 및 보험 회사에서 사용하고 있습니다.
+
+Google의 Angular 프레임워크를 기반으로 하는 Ignite UI는 50개 이상의 UI 컴포넌트와 Material 기반 컴포넌트, 그리고 금융 차트를 포함한 50개 이상의 차트 유형을 제공합니다.
+
+많은 장점 중에서도 Ignite UI for Angular는 쉬운 통합, 빠른 개발과 디자인, 반응형이며 여러 브라우저에서 호환되는 동작을 제공합니다.
+
+## 설치 및 프로젝트 생성
+
+Ignite UI for Angular는 Angular CLI 또는 [Ignite UI CLI](/general/cli/getting-started-with-cli)로 설치할 수 있습니다. Angular CLI로 빠르게 시작하려면 다음 명령을 실행하십시오:
+
+`ng add igniteui-angular`
+
+이것은 Ignite UI for Angular를 [기존 Angular 애플리케이션](/general/getting-started#ignite-ui-for-angular-설치하기)에 추가해야 할 때 선호되는 옵션입니다.
+
+처음부터 새 애플리케이션을 만드는 경우에는 다음 방법을 권장합니다:
+
+`npm install –g igniteui-cli`
+
+igniteui cli가 설치되면, [Ignite UI CLI를 사용하는 안내형 과정](/general/cli/step-by-step-guide-using-cli) 또는 [Ignite UI for Angular Schematics](/general/cli/step-by-step-guide-using-angular-schematics)를 따라 애플리케이션을 쉽게 부트스트랩할 수 있습니다. 이 방법은 최종 사용자가 단일 명령으로 실행할 수 있도록 구성된 앱을 만듭니다:
+
+`ig`
+
+Ignite UI 프로젝트를 생성하고 새 컴포넌트를 추가하며 전체 애플리케이션을 빌드하고 제공하는 등 다른 기능을 수행하려면 이 풍부한 cli 명령 집합을 사용하십시오.
+
+## 종속성 가져오기
+
+제품 종속성을 가져올 때는 Ignite UI CLI를 사용하는 것을 강력히 권장합니다. `ng add igniteui-angular`을(를) 사용하기만 하면 Ignite UI for Angular 패키지와 모든 종속성, 글꼴 가져오기, 스타일 설정 등을 프로젝트에 설치할 수 있습니다.
+
+Ignite UI CLI 없이 Ignite UI for Angular 컴포넌트를 사용하려면 필요한 모든 종속성을 구성하고 프로젝트를 올바르게 설정했는지 확인하십시오. 이를 수동으로 하는 방법은 [시작하기](/general/getting-started) 항목에서 확인할 수 있습니다.
+
+## 템플릿에 컴포넌트 추가하기
+
+개발 환경 설정을 마쳤으면 다른 Ignite UI 컴포넌트를 계속 추가하고 구성할 수 있습니다. 다음은 [schematics](/general/cli-overview)를 사용하여 기본 구성이 있는 그리드를 추가하고 일부 열에 템플릿을 추가하는 방법입니다.
+
+```html
+<igx-grid #grid1 [data]="localData" height="600px" (selected)="cellSelection($event)">
+    <igx-column header="Rank" headerClasses="myClass" width="115px" field="Id" sortable="true" [filterable]="false"></igx-column>
+    <igx-column field="Name" header="Athlete" width="280"></igx-column>
+    <igx-column field="Speed" header="Speed" [width]="'190px'" [filterable]="false"></igx-column>
+    <igx-column field="TrackProgress" sortable="true" header="Track Progress" [filterable]="false">
+        <ng-template igxCell let-val>
+            <div class="linear-bar-container">
+
+                <igx-linear-bar [textVisibility]="false" class="cell__inner_2" [value]="val"></igx-linear-bar>
+            
+</div>
+        </ng-template>
+    </igx-column>
+    <igx-paginator [perPage]="10">
+    </igx-paginator>
+</igx-grid>
+```
+
+그리드 자체는 열 컬렉션을 정의하고 열마다 정렬 및 페이징과 같은 기능을 활성화하는 데 사용되는 IgxColumnComponent와 같은 여러 컴포넌트로 구성됩니다.
+
+그리드의 각 열은 개별적으로 템플릿으로 만들 수 있습니다. 열은 그리드 모듈 디렉티브 중 하나로 표시된 ng-template 태그를 기대합니다.
+
+## 컴포넌트 구성하기
+
+이제 그리드에 열을 정의했으니 다음과 같이 셀, 헤더, 푸터 템플릿을 설정할 수 있습니다:
+
+- IgxHeader 디렉티브는 열 헤더를 대상으로 하며, 열 객체 자체를 컨텍스트로 제공합니다.
+
+ ```html
+ <igx-column field="Name">
+    <ng-template igxHeader let-column>
+        {{ column.field | uppercase }}
+    </ng-template>
+</igx-column>
+ ```
+
+- igxCell은 제공된 템플릿을 열의 모든 셀에 적용합니다. 템플릿에서 제공되는 컨텍스트 객체는 암시적으로 제공되는 셀 값과 셀 객체 자체로 구성됩니다.
+
+- 열은 셀이 편집 모드에 있을 때 사용되는 마지막 템플릿도 받습니다. 다른 열 템플릿과 마찬가지로 제공되는 컨텍스트 객체는 셀 값과 셀 객체 자체입니다
+
+```html
+ <igx-column field="Price" [dataType]="'number'" editable="true">
+    <ng-template igxCellEditor let-cell="cell">
+        <label for="price">
+            Enter the new price tag
+        </label>
+        <input name="price" type="number" [(ngModel)]="cell.editValue" />
+    </ng-template>
+</igx-column>
+```
+
+## 표와 차트에 데이터 추가하기
+
+정적 데이터를 사용하는 Angular 앱도 있지만, 오늘날 대부분의 앱 개발은 데이터베이스에 저장된 데이터를 사용합니다. 앱 UI와 표시하는 데이터 사이의 연결을 설정하는 과정인 Angular 데이터 바인딩은 동적 표를 허용하도록 쉽게 구현할 수 있습니다. 그리드를 원격 데이터 서비스에 바인딩하도록 설정할 수 있으며, 이는 대규모 애플리케이션에서 흔한 시나리오입니다. 데이터를 가져오는 모든 관련 로직을 별도의 데이터 서비스로 분리하는 것이 좋은 방법입니다. 다음은 서버에서 데이터 가져오기를 처리하는 서비스를 만드는 방법입니다:
+
+서비스 자체는 하나의 메서드로 간단합니다. 즉, `Observable<NorthwindRecord[]>`을(를) 반환하는 fetchData입니다.
+
+```typescript
+
+@Injectable()
+export class NorthwindService {
+    private url = 'http://services.odata.org/V4/Northwind/Northwind.svc/Alphabetical_list_of_products';
+
+    constructor(private http: HttpClient) {}
+
+    public fetchData(): Observable<NorthwindRecord[]> {
+        return this.http
+            .get(this.url)
+            .pipe(
+                map(response => response['value']),
+                catchError(
+                    this.errorHandler('Error loading northwind data', [])
+                )
+            );
+    }
+
+    private errorHandler<T>(message: string, result: T) {
+        return (error: any): Observable<any> => {
+            console.error(`${message}: ${error.message}`);
+            return of(result as T);
+        };
+    }
+}
+```
+
+서비스를 구현한 후에는 컴포넌트의 생성자에 주입하여 데이터를 가져오는 데 사용해야 합니다. ngOnInit 수명 주기 훅은 초기 요청을 보내기에 좋은 위치입니다
+
+```typescript
+
+@Component({
+    ...
+})
+export class MyComponent implements OnInit {
+
+    public records: NorthwindRecord[];
+
+    constructor(private northwindService: NorthwindService) {}
+
+    ngOnInit() {
+        this.records = [];
+        this.northwindService.fetchData().subscribe((records) => this.records = records);
+    }
+}
+```
+
+```html
+<igx-grid [data]="records">
+    <igx-column field="ProductId"></igx-column>
+    {/* rest of the column definitions */}
+    ...
+</igx-grid>
+```
+
+더 자세한 정보는 [데이터 바인딩 항목](/grid/grid#angular-그리드-데이터-바인딩)을 확인하십시오.
+
+같은 데이터 바인딩 기법은 igxDataChart와 같은 다른 Ignite UI 컴포넌트에도 적용할 수 있습니다.
+
+```html
+ <igx-data-chart [dataSource]="data"
+                 width="700px"
+                 height="500px">
+    <igx-numeric-x-axis name="xAxis" isLogarithmic="true" ></igx-numeric-x-axis>
+    <igx-numeric-y-axis name="yAxis" isLogarithmic="true" ></igx-numeric-y-axis>
+    <igx-bubble-series
+        name="series1"
+        [xAxis]="xAxis"
+        [yAxis]="yAxis"
+        xMemberPath="population"
+        yMemberPath="gdpTotal"
+        radiusMemberPath="gdpPerCapita"
+        [dataSource]="data"  ></igx-bubble-series>
+ </igx-data-chart>
+```
+
+차트 컴포넌트에 데이터 소스를 설정하면 모든 시리즈에 적용되지만, Data Chart에 추가된 각 시리즈에 서로 다른 데이터 소스를 설정할 수도 있습니다.
+
+## 정렬, 필터링 및 페이징
+
+Angular 데이터 그리드는 쉬운 정렬, 필터링 및 페이징을 지원합니다. 풍부한 API와 직관적인 기능 설정 덕분에 Ignite UI for Angular 컴포넌트를 사용하는 것이 그 어느 때보다 쉬워졌습니다.
+
+```html
+<igx-grid #grid1 (sortingDone)="removeSorting($event)"
+        [data]="data"
+        [allowFiltering]="true">   
+    <igx-column field="OrderID" header="Order ID">
+    </igx-column>
+    <igx-column field="CategoryName" header="Category Name" [dataType]="'string'" sortable="true">
+    </igx-column>
+    <igx-paginator [perPage]="10">
+    </igx-paginator>
+</igx-grid>
+```
+
+그리드는 사용자 지정 필터링 조건을 갖춘 세 가지 유형의 필터링을 제공합니다:
+
+- 기본 제공 필터링 전략과 모든 표준 필터링 조건을 갖춘 열별 [필터 행](/grid/filtering)입니다.
+
+- [Excel 스타일 필터링](/grid/excel-style-filtering)으로, 정렬, 이동, 고정, 숨기기 같은 기능의 구성 가능한 메뉴를 제공합니다.
+
+- 모든 열에 걸쳐 필터링 조건이 있는 그룹을 만들 수 있는 대화 상자를 제공하는 [고급 필터링](/grid/advanced-filtering)입니다.
+
+[Angular 9 릴리스](https://www.infragistics.com/community/blogs/b/infragistics/posts/ignite-ui-for-angular-9-0-0-release "Ignite UI for Angular 9.0.0 Release")에는 데이터 분석부터 풍부한 시각화, 그리드 상태 유지, 테마 위젯에 이르기까지 많은 새로운 핵심 기능이 포함되어 있습니다.
+
+## 컴포넌트 스타일링
+
+Ignite UI는 주요 Angular 프레임워크 중에서 가장 표현력이 풍부한 스타일링 기능을 갖추고 있습니다.
+
+몇 줄의 코드만으로 컴포넌트의 테마를 쉽게 바꿀 수 있습니다. SASS로 개발된 API는 쉽고, 단일 컴포넌트, 여러 컴포넌트 또는 전체 제품군 등 다양한 수준에서 세밀한 테마 설정을 허용합니다.
+
+```scss
+@use "igniteui-angular/theming" as *;
+
+// IMPORTANT: Prior to Ignite UI for Angular version 13 use:
+// @import '~igniteui-angular/lib/core/styles/themes/index';
+
+$primary-color: #2ab759; // Some green shade I like
+$secondary-color: #f96a88; // Watermelon pink
+
+$my-color-palette: palette(
+    $primary: $primary-color,
+    $secondary: $secondary-color
+);
+
+// IMPORTANT: Make sure you always includecore first!
+@include core();
+// Pass the color palette we generated to thetheme mixin
+@include theme($my-color-palette);
+```
+
+Ignite UI for Angular는 컴포넌트 디자인을 [Material Design 원칙](https://material.io/guidelines/material-design/introduction.html "Introduction to Material Design")에 기반하므로, 색상, 크기, 타이포그래피 및 전반적인 모양과 느낌을 Google이 만든 것에 가능한 한 가깝게 맞추고 있습니다. 예:
+
+
+<Sample crm src="" height={477} alt="Angular CRM 데모 예제" iframeOnly fullscreenBtn />
+<p style="margin: 0;padding-top: 0.5rem">이 샘플이 마음에 드신다면 완전한 Angular 툴킷에 접근하여 몇 분 안에 자신만의 앱을 만들기 시작하십시오. <a class="no-external-icon mchNoDecorate trackCTA" target="_blank" href="https://www.infragistics.com/products/ignite-ui-angular/download" data-xd-ga-action="Download" data-xd-ga-label="Ignite UI for Angular">무료로 다운로드하십시오.</a></p>
+
+## Ignite UI를 이용한 데이터 분석
+
+Ignite Angular UI 도구 세트에는 [데이터 분석 기능](/general/data-analysis)도 포함되어 있습니다. 고객에게 훌륭한 경험을 제공하는 데 필요한 모든 비즈니스 기능을 제공하고자 합니다. 그래서 이제 더 Excel과 같은 경험을 제공하는 디렉티브를 제공합니다. 예를 들어 데이터의 일부를 선택하면 버튼을 클릭하여 해당 데이터 하위 집합에 대한 빠른 데이터 분석을 수행할 수 있습니다.
+
+<Sample src="/grid-dynamic-chart-data/data-analysis" height={750} lob iframeOnly fullscreenBtn />
+
+## 코드 생성 및 디자인 도구
+
+Ignite UI for Angular는 [Indigo.Design System](https://www.infragistics.com/products/indigo-design/help/video-tutorials.html "Indigo Design System")의 일부이며, 이를 통해 [Indigo.Design UI Kit](https://www.infragistics.com/products/indigo-design/help/creating-an-artboard.html "Indigo Design Creating an artboard")로 Figma에서 만든 디자인으로부터 [네이티브 Angular 코드를 생성](https://www.infragistics.com/products/indigo-design/help/codegen/vscode-plugin.html "Visual Studio Plugin")할 수 있습니다. 다양한 편집 및 필터링 모드를 지원하는 모바일 친화적이거나 데이터 밀도가 높은 그리드를 생성할 수 있으며, 정렬, 페이징, 요약, 그룹화 같은 여러 인기 그리드 기능도 사용할 수 있습니다. 또한 모든 열에서 이동, 크기 조정, 숨기기, 고정 같은 다양한 작업을 지정하여 디자인 단계에서 가장 정교한 데이터 조작 시나리오를 구현할 수 있고, 몇 분 안에 픽셀 단위로 완벽한 사용자 인터페이스를 실행할 수 있습니다.
+
+## 성능 벤치마크
+
+그리드 컴포넌트는 일반적으로 대량의 표 형식 데이터를 시각화하도록 설계되었습니다. 성능 측면에서 우리 그리드는 로드 시간, 실행 시간, 그리고 체감 성능(soft performance)에서 뛰어납니다.  
+
+웹 애플리케이션의 로드 시간과 실행 시간 성능 요구 사항을 충족하려면, 렌더링되는 DOM 요소를 가상화하고 사용자가 컴포넌트 컨테이너에서 세로 및 가로로 스크롤할 때 DOM 요소를 교체하거나 재사용하는 것이 중요합니다. igxGrid는 화면 끊김 없이 뛰어난 실행 시간 스크롤 성능을 제공하며, 체감 성능(소프트웨어의 일반적인 사용성으로 정의됨)도 우수합니다. 다음은 스크롤 성능을 보여 주는 GIF 예제입니다:
+
+<div>
+<Image src={scrolling} alt="스크롤 성능" class="b-lazy responsive-img" style="-webkit-box-shadow: 8px 9px 9px 5px #ccc; -moz-box-shadow: 8px 9px 9px 5px #ccc; box-shadow: 8px 9px 9px 5px #ccc;" />
+</div>
+
+<hr/>
+
+그리드를 살펴보고 사용하려는 기능을 얼마나 쉽게 찾아 이동할 수 있는지, 또는 애플리케이션에서 그 모양과 느낌이 얼마나 매력적인지 확인해 보십시오.
+
+이에 대해서는 [Medium Software Performance (Web) 글](https://medium.com/ignite-ui/software-performance-web-61158c8583d "Web Software Performance")에서 더 알아볼 수 있습니다.

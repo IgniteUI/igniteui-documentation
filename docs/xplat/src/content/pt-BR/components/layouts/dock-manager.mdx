@@ -1,0 +1,1085 @@
+---
+title: "{Platform} Dock Manager | Controles de layout | Infragistics"
+description: "Use o componente dock manager {Platform} da Infragistics para gerenciar o layout por meio de painéis, com a possibilidade de personalizá-lo fixando, redimensionando, movendo e ocultando painéis. Confira os tutoriais do dock manager do {ProductName}!"
+keywords: dock manager, layout, {ProductName}, Infragistics
+license: commercial
+mentionedTypes: ["DockManager", "DocumentHost", "DockManagerLayout", "DockManagerPaneType", "ContentPane", "SplitPane", "TabGroupPane", "PinnedLocation", "PaneHeaderElement"]
+_language: pt-BR
+llms:
+  description: "O Dock Manager do {Platform} da Infragistics oferece um meio de gerenciar o layout da sua aplicação por meio de painéis, permitindo que os usuários finais o personalizem ainda mais, fixando, redimensionando, movendo, maximizando e ocultando painéis."
+---
+
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+import { Image } from 'astro:assets';
+import dockmanagerRootDocking from '@xplat-images/dockmanager-root-docking.jpg';
+import dockmanagerPaneDocking from '@xplat-images/dockmanager-pane-docking.jpg';
+import dockmanagerDocumentHostDocking from '@xplat-images/dockmanager-document-host-docking.jpg';
+import dockmanagerSplitterDocking from '@xplat-images/dockmanager-splitter-docking.jpg';
+import dockmanagerEdgeDocking from '@xplat-images/dockmanager-edge-docking.jpg';
+
+
+# Visão geral do {Platform} Dock Manager
+
+O Dock Manager do {Platform} da Infragistics oferece um meio de gerenciar o layout da sua aplicação por meio de painéis, permitindo que os usuários finais o personalizem ainda mais, fixando, redimensionando, movendo, maximizando e ocultando painéis.
+
+## Exemplo do {Platform} Dock Manager
+
+Este exemplo mostra a maioria das funcionalidades e das opções de encaixe do <ApiLink type="DockManager" /> que você pode usar na sua aplicação.
+
+<Sample src="/layouts/dock-manager/overview" height={600} alt="Exemplo do {Platform} Dock Manager" />
+
+
+
+
+<PlatformBlock for="Angular, React, WebComponents">
+
+
+Para instalar o pacote Dock Manager, execute o seguinte comando:
+
+```cmd
+npm install --save {PackageDockManager}
+```
+
+</PlatformBlock>
+
+
+<PlatformBlock for="Angular, WebComponents">
+Em seguida, é preciso importar e chamar a função **defineComponents()**:
+
+<PlatformBlock for="WebComponents">
+
+```ts
+import { defineComponents, IgcDockManagerComponent } from 'igniteui-dockmanager';
+
+defineComponents(IgcDockManagerComponent);
+```
+
+</PlatformBlock>
+</PlatformBlock>
+
+
+<PlatformBlock for="React, WebComponents">
+
+
+
+## Uso
+
+Depois de importar o Dock Manager, você pode adicioná-lo à página:
+
+<PlatformBlock for="WebComponents">
+```html
+<igc-dockmanager id="dockManager">
+</igc-dockmanager>
+```
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+<IgrDockManager id="dockManager">
+</IgrDockManager>
+```
+</PlatformBlock>
+
+<DocsAside type="info">
+Como o componente Dock Manager usa ShadowDOM e slots, ele não é compatível com navegadores antigos, como o Internet Explorer 11 e o Edge 18 e versões anteriores (versões não baseadas em Chromium).
+</DocsAside>
+
+O Dock Manager tem uma propriedade <ApiLink type="DockManager" member="layout" label="Layout" />, que descreve o layout dos painéis. Para começar a definir um layout, você deve definir a propriedade <ApiLink type="DocumentHost" member="rootPane" label="RootPane" /> e adicionar painéis filhos. Veja como definir um layout com um único painel de conteúdo:
+
+<PlatformBlock for="WebComponents">
+```ts
+import { IgcDockManagerPaneType, IgcSplitPaneOrientation, IgcDockManagerComponent } from 'igniteui-dockmanager';
+
+// ...
+
+this.dockManager = document.getElementById("dockManager") as IgcDockManagerComponent;
+this.dockManager.layout = {
+    rootPane: {
+        type: IgcDockManagerPaneType.splitPane,
+        orientation: IgcSplitPaneOrientation.horizontal,
+        panes: [
+            {
+                type: IgcDockManagerPaneType.contentPane,
+                contentId: 'content1',
+                header: 'Pane 1'
+            }
+        ]
+    }
+};
+
+```
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+import {  IgrDockManager, IgrDockManagerPaneType, IgrSplitPaneOrientation } from 'igniteui-react-dockmanager';
+
+// ...
+
+this.dockManager = document.getElementById("dockManager") as IgrDockManager;
+this.dockManager.layout = {
+    rootPane: {
+        type: IgrDockManagerPaneType.splitPane,
+        orientation: IgrSplitPaneOrientation.horizontal,
+        panes: [
+            {
+                type: IgrDockManagerPaneType.contentPane,
+                contentId: 'content1',
+                header: 'Pane 1'
+            }
+        ]
+    }
+};
+```
+
+</PlatformBlock>
+
+Para carregar o conteúdo dos painéis, o Dock Manager usa [slots](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/slot). O atributo [slot](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/slot) do elemento de conteúdo deve corresponder ao <ApiLink type="ContentPane" member="contentId" label="ContentId" /> do painel de conteúdo na configuração do layout. É altamente recomendável definir a largura e a altura dos elementos de conteúdo como **100%**, para um comportamento previsível quando o usuário final redimensiona os painéis.
+
+<PlatformBlock for="WebComponents">
+```html
+<igc-dockmanager id="dockManager">
+    <div slot="content1" style="width: 100%; height: 100%;">Content 1</div>
+</igc-dockmanager>
+```
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+<IgrDockManager id="dockManager">
+    <div slot="content1" style={{ width: '100%', height: '100%' }}>Content 1</div>
+</IgrDockManager>
+```
+</PlatformBlock>
+
+O Dock Manager define vários tipos de painel:
+- <ApiLink type="ContentPane" />
+- <ApiLink type="SplitPane" />
+- <ApiLink type="TabGroupPane" />
+- <ApiLink type="DocumentHost" />
+
+Cada tipo de painel tem uma propriedade <ApiLink type="DocumentHost" member="size" label="Size" />. Dependendo da orientação do pai, o tamanho pode afetar a largura ou a altura do painel. Por padrão, o tamanho de um painel é relativo aos tamanhos dos seus painéis irmãos e assume 100 como padrão. Se você tiver dois painéis irmãos, em que o primeiro tem tamanho 200 e o segundo tem tamanho 100, o primeiro terá o dobro do tamanho do segundo, e os dois preencherão todo o espaço disponível. Se o tamanho absoluto do pai for 900px, eles terão, respectivamente, 600px e 300px. Se, para determinados painéis, você quiser especificar os tamanhos em pixels, em vez de depender da distribuição relativa de todo o espaço disponível, deve definir o `useFixedSize` do painel dividido pai.
+
+<PlatformBlock for="WebComponents">
+ Para mais informações sobre isso, consulte o tópico [Modo de tamanho fixo em painéis divididos](./dock-manager-customization.mdx#modo-de-tamanho-fixo-em-painéis-divididos).
+ </PlatformBlock>
+
+O usuário final pode realizar as seguintes ações para personalizar o layout em tempo de execução:
+- Fixar/desafixar um painel
+- Redimensionar um painel
+- Fechar um painel
+- Arrastar um painel para torná-lo flutuante
+- Mover um painel flutuante
+- Encaixar um painel flutuante
+- Maximizar um painel
+
+Todas essas ações são refletidas na propriedade <ApiLink type="DockManager" member="layout" label="Layout" /> do Dock Manager.
+
+### Painel de conteúdo
+
+O <ApiLink type="ContentPane" /> representa um painel com cabeçalho e conteúdo. Ele pode ser hospedado dentro de um Split Pane ou de um Tab Group Pane. Veja como um painel de conteúdo é definido:
+
+<PlatformBlock for="WebComponents">
+```ts
+const contentPane: IgcContentPane = {
+    type: IgcDockManagerPaneType.contentPane,
+    contentId: 'content1',
+    header: 'Pane 1'
+}
+```
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+const contentPane: IgrContentPane = {
+    type: IgrDockManagerPaneType.contentPane,
+    contentId: 'content1',
+    header: 'Pane 1'
+}
+```
+</PlatformBlock>
+
+A propriedade <ApiLink type="ContentPane" member="header" label="Header" /> é usada para fornecer um cabeçalho de texto para o painel de conteúdo. Esse texto é exibido em vários lugares: no cabeçalho superior do painel de conteúdo, no cabeçalho da aba, se o painel estiver em um grupo de abas, e no cabeçalho desafixado, se o painel estiver desafixado. Você pode fornecer um conteúdo de slot personalizado para cada um desses locais, respectivamente, usando as propriedades <ApiLink type="ContentPane" member="headerId" label="HeaderId" />, <ApiLink type="ContentPane" member="tabHeaderId" label="TabHeaderId" /> e <ApiLink type="ContentPane" member="unpinnedHeaderId" label="UnpinnedHeaderId" />. Se qualquer uma dessas propriedades não estiver definida, é usado o texto de <ApiLink type="ContentPane" member="header" label="Header" />. Veja como fornecer conteúdo de slot para o cabeçalho da aba:
+
+<PlatformBlock for="WebComponents">
+```html
+<igc-dockmanager id="dockManager">
+    <div slot="content1" style="width: 100%; height: 100%;">Content 1</div>
+    <span slot="tabHeader1">Pane 1 Tab</span>
+</igc-dockmanager>
+```
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+```ts
+const contentPane: IgcContentPane = {
+    type: IgcDockManagerPaneType.contentPane,
+    contentId: 'content1',
+    header: 'Pane 1',
+    tabHeaderId: 'tabHeader1'
+}
+```
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+<IgrDockManager id="dockManager">
+    <div slot="content1" style={{ width: '100%', height: '100%' }}>Content 1</div>
+    <span slot="tabHeader1">Pane 1 Tab</span>
+</IgrDockManager>
+```
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+const contentPane: IgrContentPane = {
+    type: IgrDockManagerPaneType.contentPane,
+    contentId: 'content1',
+    header: 'Pane 1',
+    tabHeaderId: 'tabHeader1'
+}
+```
+</PlatformBlock>
+
+Quando um painel é desafixado, ele aparece como um cabeçalho de aba em uma das bordas do Dock Manager. Se o usuário final o selecionar, o conteúdo aparece sobre os painéis fixados encaixados. Para desafixar um painel de conteúdo, defina a propriedade <ApiLink type="ContentPane" member="isPinned" label="IsPinned" /> como **false**.
+
+<PlatformBlock for="WebComponents">
+```ts
+const contentPane = {
+    type: IgcDockManagerPaneType.contentPane,
+    contentId: 'content1',
+    header: 'Pane 1',
+    isPinned: false
+}
+```
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+const contentPane = {
+    type: IgrDockManagerPaneType.contentPane,
+    contentId: 'content1',
+    header: 'Pane 1',
+    isPinned: false
+}
+```
+</PlatformBlock>
+
+A propriedade <ApiLink type="ContentPane" member="isPinned" label="IsPinned" /> afeta somente os painéis de conteúdo encaixados fora de um host de documento. Além disso, painéis de conteúdo hospedados em um painel flutuante não podem ser desafixados.
+
+Por padrão, o destino do desafixamento de um painel de conteúdo é calculado automaticamente com base na localização do painel em relação ao host de documento. Quando há mais de um host de documento definido, é usado o mais próximo na hierarquia de pais do painel de conteúdo desafixado. Se não houver nenhum host de documento definido, é usado o local padrão - `Left`. Também é possível definir o destino desejado do painel desafixado usando a propriedade <ApiLink type="ContentPane" member="unpinnedLocation" label="UnpinnedLocation" />.
+
+Você pode configurar quais operações do usuário final são permitidas para um painel de conteúdo usando suas propriedades <ApiLink type="ContentPane" member="allowClose" label="AllowClose" />, <ApiLink type="ContentPane" member="allowPinning" label="AllowPinning" />, <ApiLink type="ContentPane" member="allowDocking" label="AllowDocking" /> e <ApiLink type="ContentPane" member="allowFloating" label="AllowFloating" />.
+
+Ao definir um painel de conteúdo, você pode definir a propriedade <ApiLink type="ContentPane" member="documentOnly" label="DocumentOnly" /> como true para que o painel só possa ser encaixado em um host de documento.
+
+Para restringir a interação do usuário com o painel de conteúdo e com o seu conteúdo, você pode definir a propriedade <ApiLink type="ContentPane" member="disabled" label="Disabled" /> como true. Isso impedirá todas as interações do usuário com o painel, a menos que ele seja um painel flutuante único. Este último pode ser movido, maximizado ou fechado (de acordo com as configurações do painel para maximização e fechamento), então o usuário pode ver os elementos abaixo dele, mas não poderá interagir com o seu conteúdo.
+
+Por padrão, quando você fecha um painel, ele é removido do objeto <ApiLink type="DockManager" member="layout" label="Layout" />. No entanto, em alguns casos, você pode querer ocultar temporariamente o painel e mostrá-lo novamente depois. Para fazer isso sem alterar o objeto <ApiLink type="DockManager" member="layout" label="Layout" />, você pode usar a propriedade <ApiLink type="ContentPane" member="hidden" label="Hidden" /> do painel de conteúdo. Definir a propriedade como **true** o ocultará da interface, mas ele permanecerá no objeto <ApiLink type="DockManager" member="layout" label="Layout" />. Para substituir o comportamento padrão de fechamento, você pode assinar o evento `PaneClose` desta forma:
+
+<PlatformBlock for="WebComponents">
+```ts
+this.dockManager.addEventListener('paneClose', ev => {
+    for (const pane of ev.detail.panes) {
+        pane.hidden = true;
+    }
+    ev.preventDefault();
+});
+```
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+this.dockManager.addEventListener('paneClose', ev => {
+    for (const pane of ev.detail.panes) {
+        pane.hidden = true;
+    }
+    ev.preventDefault();
+});
+```
+</PlatformBlock>
+
+### Split Pane
+
+O <ApiLink type="SplitPane" /> é um painel contêiner que empilha todos os seus <ApiLink type="SplitPane" member="panes" label="Panes" /> filhos na horizontal ou na vertical, com base na propriedade <ApiLink type="SplitPane" member="orientation" label="Orientation" />. Veja como um split pane horizontal com dois painéis de conteúdo filhos é definido:
+
+<PlatformBlock for="WebComponents">
+```ts
+const splitPane: IgcSplitPane = {
+    type: IgcDockManagerPaneType.splitPane,
+    orientation: IgcSplitPaneOrientation.horizontal,
+    panes: [
+        {
+            type: IgcDockManagerPaneType.contentPane,
+            contentId: 'content1',
+            header: 'Pane 1'
+        },
+        {
+            type: IgcDockManagerPaneType.contentPane,
+            contentId: 'content2',
+            header: 'Pane 2'
+        }
+    ]
+}
+```
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+const splitPane: IgrSplitPane = {
+    type: IgrDockManagerPaneType.splitPane,
+    orientation: IgrSplitPaneOrientation.horizontal,
+    panes: [
+        {
+            type: IgrDockManagerPaneType.contentPane,
+            contentId: 'content1',
+            header: 'Pane 1'
+        },
+        {
+            type: IgrDockManagerPaneType.contentPane,
+            contentId: 'content2',
+            header: 'Pane 2'
+        }
+    ]
+}
+```
+</PlatformBlock>
+
+O split pane pode conter painéis filhos de todos os tipos, incluindo outros split panes.
+
+Por padrão, se o split pane estiver vazio, ele não é exibido. No entanto, se você quiser mudar esse comportamento, pode definir a propriedade <ApiLink type="SplitPane" member="allowEmpty" label="AllowEmpty" /> como true, e o split pane será exibido na interface mesmo sem painéis dentro dele.
+
+### Tab Group Pane
+
+O <ApiLink type="TabGroupPane" /> exibe seus <ApiLink type="SplitPane" member="panes" label="Panes" /> filhos como as abas de um componente de abas. Veja como um tab group pane com um painel de conteúdo para cada uma de suas duas abas é definido:
+
+<PlatformBlock for="WebComponents">
+```ts
+const tabGroupPane: IgcTabGroupPane = {
+    type: IgcDockManagerPaneType.tabGroupPane,
+    panes: [
+        {
+            type: IgcDockManagerPaneType.contentPane,
+            contentId: 'content1',
+            header: 'Pane 1'
+        },
+        {
+            type: IgcDockManagerPaneType.contentPane,
+            contentId: 'content2',
+            header: 'Pane 2'
+        }
+    ]
+}
+```
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+const tabGroupPane: IgrTabGroupPane = {
+    type: IgrDockManagerPaneType.tabGroupPane,
+    panes: [
+        {
+            type: IgrDockManagerPaneType.contentPane,
+            contentId: 'content1',
+            header: 'Pane 1'
+        },
+        {
+            type: IgrDockManagerPaneType.contentPane,
+            contentId: 'content2',
+            header: 'Pane 2'
+        }
+    ]
+}
+```
+</PlatformBlock>
+
+Se não houver espaço suficiente para exibir todos os cabeçalhos de aba, o grupo de abas mostra o menu **Mais abas**, que contém as abas não visíveis. Se você clicar em um item de aba nesse menu, a aba será selecionada e movida para a primeira posição.
+
+As abas também podem ser reordenadas sem serem separadas do grupo de abas em que estão. Você pode clicar em uma aba de sua escolha e arrastá-la para a esquerda ou para a direita, até a posição desejada. Se você arrastar a aba selecionada para fora da área de abas, ela será separada em um painel flutuante.
+
+Caso você queira que o tab group pane seja exibido na interface quando não tiver abas, pode definir a propriedade <ApiLink type="SplitPane" member="allowEmpty" label="AllowEmpty" /> como true.
+
+### Document Host
+
+O <ApiLink type="DocumentHost" /> é uma área de abas para documentos, semelhante à do Visual Studio para edição de código e visualização de design. Veja como definir um host de documento com duas abas de documento:
+
+<PlatformBlock for="WebComponents">
+```ts
+const docHost: IgcDocumentHost = {
+    type: IgcDockManagerPaneType.documentHost,
+    rootPane: {
+        type: IgcDockManagerPaneType.splitPane,
+        orientation: IgcSplitPaneOrientation.horizontal,
+        panes: [
+            {
+                type: IgcDockManagerPaneType.tabGroupPane,
+                panes: [
+                    {
+                        type: IgcDockManagerPaneType.contentPane,
+                        contentId: 'content1',
+                        header: 'Grid'
+                    },
+                    {
+                        type: IgcDockManagerPaneType.contentPane,
+                        contentId: 'content4',
+                        header: "List"
+                    }
+                ]
+            }
+        ]
+    }
+}
+```
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+const docHost: IgrDocumentHost = {
+    type: IgrDockManagerPaneType.documentHost,
+    rootPane: {
+        type: IgrDockManagerPaneType.splitPane,
+        orientation: IgrSplitPaneOrientation.horizontal,
+        panes: [
+            {
+                type: IgrDockManagerPaneType.tabGroupPane,
+                panes: [
+                    {
+                        type: IgrDockManagerPaneType.contentPane,
+                        contentId: 'content1',
+                        header: 'Grid'
+                    },
+                    {
+                        type: IgrDockManagerPaneType.contentPane,
+                        contentId: 'content4',
+                        header: "List"
+                    }
+                ]
+            }
+        ]
+    }
+}
+```
+</PlatformBlock>
+
+### Floating Pane
+
+O painel flutuante é um split pane renderizado acima de todos os outros, em uma janela flutuante. As definições dos painéis flutuantes são armazenadas na propriedade <ApiLink type="DockManagerLayout" member="floatingPanes" label="FloatingPanes" /> do <ApiLink type="DockManager" member="layout" label="Layout" />. Veja como adicionar um painel flutuante com um único painel de conteúdo dentro:
+
+<PlatformBlock for="WebComponents">
+```ts
+const layout: IgcDockManagerLayout = {
+    rootPane: {
+        // ...
+    },
+    floatingPanes: [
+        {
+            type: IgcDockManagerPaneType.splitPane,
+            orientation: IgcSplitPaneOrientation.horizontal,
+            floatingLocation: { x: 80, y: 80 },
+            floatingWidth: 200,
+            floatingHeight: 150,
+            floatingResizable: true,
+            panes: [
+                {
+                    type: IgcDockManagerPaneType.contentPane,
+                    contentId: 'content1',
+                    header: 'Floating Pane 1'
+                }
+            ]
+        }
+    ]
+};
+```
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+const layout: IgrDockManagerLayout = {
+    rootPane: {
+        // ...
+    },
+    floatingPanes: [
+        {
+            type: IgrDockManagerPaneType.splitPane,
+            orientation: IgrSplitPaneOrientation.horizontal,
+            floatingLocation: { x: 80, y: 80 },
+            floatingWidth: 200,
+            floatingHeight: 150,
+            floatingResizable: true,
+            panes: [
+                {
+                    type: IgrDockManagerPaneType.contentPane,
+                    contentId: 'content1',
+                    header: 'Floating Pane 1'
+                }
+            ]
+        }
+    ]
+};
+```
+</PlatformBlock>
+
+As propriedades <ApiLink type="SplitPane" member="floatingLocation" label="FloatingLocation" />, <ApiLink type="SplitPane" member="floatingWidth" label="FloatingWidth" /> e <ApiLink type="SplitPane" member="floatingHeight" label="FloatingHeight" /> representam dimensões absolutas em pixels. Observe que essas propriedades são aplicadas somente aos split panes no array <ApiLink type="DockManagerLayout" member="floatingPanes" label="FloatingPanes" />.
+
+Com <ApiLink type="SplitPane" member="floatingResizable" label="FloatingResizable" /> e
+<ApiLink type="DockManager" member="allowFloatingPanesResize" label="AllowFloatingPanesResize" /> você pode definir se o redimensionamento dos painéis flutuantes é permitido. A propriedade `allowFloatingPanesResize` é uma propriedade do **IgcDockManagerComponent**; portanto, se o valor for definido como **false**, nenhum dos painéis flutuantes poderá ser redimensionado. A propriedade `floatingResizable` pode ser aplicada separadamente em cada split pane no array `floatingPanes`, e, se o valor da propriedade não for definido, o padrão será o valor da propriedade `allowFloatingPanesResize`. Se a propriedade `floatingResizable` estiver definida para um painel específico, seu valor prevalece sobre o valor da propriedade `allowFloatingPanesResize`.
+
+### Painel ativo
+
+O componente Dock Manager destaca o painel de conteúdo que contém o foco e o expõe na sua propriedade <ApiLink type="Spreadsheet" member="activePane" label="ActivePane" />. Você pode alterar programaticamente o painel ativo definindo a propriedade. Também é possível observar as mudanças da propriedade <ApiLink type="Spreadsheet" member="activePane" label="ActivePane" /> assinando o evento `ActivePaneChanged`:
+
+<PlatformBlock for="WebComponents">
+```ts
+this.dockManager.addEventListener('activePaneChanged', ev => {
+    console.log(ev.detail.oldPane);
+    console.log(ev.detail.newPane);
+});
+```
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+this.dockManager.addEventListener('activePaneChanged', ev => {
+    console.log(ev.detail.oldPane);
+    console.log(ev.detail.newPane);
+});
+```
+</PlatformBlock>
+
+### Redimensionar painéis
+
+Os usuários finais redimensionam os painéis arrastando o splitter entre eles. Enquanto o splitter é arrastado, uma sombra acompanha o ponteiro, e os painéis são redimensionados quando o ponteiro é solto.
+
+Os usuários finais também podem redimensionar os painéis em ambas as direções ao mesmo tempo. Onde dois splitters se encontram, por exemplo quando um splitter termina sobre outro e forma um T, passar o ponteiro sobre o ponto de encontro muda o cursor para o de movimento. Arrastar a partir desse ponto move os dois splitters juntos e redimensiona os painéis dos dois lados de cada splitter.
+
+Pressionar o ponto de encontro destaca os dois splitters, que permanecem destacados até o foco ir para outro lugar. Enquanto estiverem destacados, as teclas de seta movem os dois, conforme descrito em [Navegação pelo teclado](#navegação-pelo-teclado).
+
+Quando os dois splitters são arrastados juntos, o Dock Manager dispara os eventos `splitterResizeStart` e `splitterResizeEnd` para cada um deles. Cancelar `splitterResizeStart` para qualquer um dos splitters cancela o redimensionamento dos dois.
+
+### Encaixe
+
+Quando você começa a arrastar um painel flutuante, diferentes indicadores de encaixe aparecem conforme a posição do painel arrastado. Há quatro tipos principais de encaixe: encaixe na raiz, encaixe em painel, encaixe em host de documento e encaixe em splitter. O encaixe pela borda está disponível como comportamento adicional quando o encaixe na raiz está desativado e funciona na orientação do split pane raiz.
+
+#### Encaixe na raiz
+
+Nesse tipo de encaixe, ao arrastar um painel, quatro indicadores de encaixe em forma de seta aparecem próximos às quatro bordas do dock manager. Ao soltar, o painel arrastado se torna um filho direto do <ApiLink type="DocumentHost" member="rootPane" label="RootPane" /> do Dock Manager. Visualmente, o painel recém-encaixado se ajusta à respectiva borda e ocupa até metade da largura ou da altura do dock manager, deslocando todo o restante do conteúdo para a outra metade.
+
+<Image src={dockmanagerRootDocking} alt="dockmanager-root-docking" class="responsive-img" />
+
+#### Encaixe em painel
+
+Indicadores de encaixe aparecem no centro de um painel de conteúdo ou de um tab group pane quando o painel flutuante é arrastado sobre ele. Ao soltar, o painel arrastado se ajusta a qualquer lado do painel de destino ou é agrupado com ele, criando um layout com abas. Dependendo da combinação do layout inicial e da posição de encaixe, a operação pode criar dinamicamente um novo split ou tab group pane, que se tornará o novo pai dos painéis arrastado e de destino.
+
+<Image src={dockmanagerPaneDocking} alt="dockmanager-pane-docking" class="responsive-img" />
+
+#### Encaixe em host de documento
+
+Se o painel arrastado estiver sobre um host de documento, aparecem indicadores de encaixe adicionais que permitem o encaixe em relação ao painel de destino ou a todo o host de documento.
+
+<Image src={dockmanagerDocumentHostDocking} alt="dockmanager-document-host-docking" class="responsive-img" />
+
+#### Encaixe em splitter
+
+O encaixe em splitter permite que os usuários finais posicionem os painéis com precisão dentro de um layout dividido existente. Ao arrastar um painel flutuante, se o cursor se aproximar de qualquer splitter entre dois painéis, um indicador de encaixe aparecerá sobre esse splitter.
+
+Quando o usuário solta o painel sobre esse indicador, o dock manager insere o painel no split pane que contém o splitter alvo, ajustando os painéis vizinhos para abrir espaço. Isso facilita o refinamento de layouts complexos, inserindo novas ferramentas ou visões exatamente entre dois painéis existentes, sem precisar reestruturar todo o layout.
+
+Se o seu cenário exigir uma experiência mais simples, sem esse nível de precisão, o encaixe em splitter pode ser desativado definindo a propriedade `allowSplitterDock` do Dock Manager como **false**.
+
+<Image src={dockmanagerSplitterDocking} alt="dockmanager-splitter-docking" class="responsive-img" />
+
+#### Encaixe pela borda
+
+O encaixe pela borda oferece aos usuários finais uma forma simples de adicionar painéis importantes no início ou no fim do layout principal, sem precisar mirar em um splitter ou painel específico. Quando o encaixe na raiz é desativado, definindo a propriedade `allowRootDock` como **false**, o dock manager ativa automaticamente os indicadores de encaixe pela borda nas primeiras e últimas posições do split pane raiz. Como o split pane raiz é horizontal ou vertical, o encaixe pela borda fica disponível apenas nessa única direção (esquerda/direita para uma raiz horizontal ou topo/base para uma raiz vertical).
+
+Esse comportamento é especialmente útil quando o painel raiz é rolável (quando sua propriedade `useFixedSize` é definida como **true** e o conteúdo se estende além da área visível). Nesses cenários, os usuários podem:
+
+- Para um split pane raiz **horizontal**, arrastar qualquer painel em direção à borda **esquerda** para encaixá-lo como o primeiro item, ou em direção à borda **direita** para encaixá-lo como o último item.
+- Para um split pane raiz **vertical**, arrastar qualquer painel em direção à borda **superior** para encaixá-lo como o primeiro item, ou em direção à borda **inferior** para encaixá-lo como o último item.
+
+Quando o usuário solta o painel sobre o indicador de encaixe pela borda, o dock manager insere o painel na borda escolhida e o rola automaticamente para ficar visível. Isso garante que novas janelas de ferramentas ou painéis sejam imediatamente visíveis, mesmo em layouts complexos e roláveis.
+
+<Image src={dockmanagerEdgeDocking} alt="dockmanager-edge-docking" class="responsive-img" />
+
+### Atualizar o layout
+
+Em alguns cenários, pode ser necessário personalizar o layout do Dock Manager adicionando ou removendo um painel, alterando a orientação etc., por exemplo:
+
+<PlatformBlock for="WebComponents">
+```ts
+const splitPane = this.dockManager.layout.rootPane.panes[0] as IgcSplitPane;
+const contentPane = splitPane.panes[0] as IgcContentPane;
+this.dockManager.removePane(contentPane);
+```
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+const splitPane = this.dockManager.layout.rootPane.panes[0] as IgrSplitPane;
+const contentPane = splitPane.panes[0] as IgrContentPane;
+this.dockManager.removePane(contentPane);
+```
+</PlatformBlock>
+
+Isso atualiza apenas o objeto de layout. Para disparar uma atualização do Dock Manager, de modo que as alterações sejam refletidas na interface, o objeto de layout deve ser atribuído novamente:
+
+<PlatformBlock for="WebComponents">
+```ts
+this.dockManager.layout = { ...this.dockManager.layout };
+```
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+this.dockManager.layout = { ...this.dockManager.layout };
+```
+</PlatformBlock>
+
+### Salvar/carregar layout
+
+Para restaurar ou persistir um layout, basta obter/definir o valor da propriedade <ApiLink type="DockManager" member="layout" label="Layout" />. Veja como salvar o layout como JSON serializado:
+
+<PlatformBlock for="WebComponents">
+```ts
+private savedLayout: string;
+
+private saveLayout() {
+    this.savedLayout = JSON.stringify(this.dockManager.layout);
+}
+
+private loadLayout() {
+    this.dockManager.layout = JSON.parse(this.savedLayout);
+}
+
+```
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+private savedLayout: string;
+
+private saveLayout() {
+    this.savedLayout = JSON.stringify(this.dockManager.layout);
+}
+
+private loadLayout() {
+    this.dockManager.layout = JSON.parse(this.savedLayout);
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+### Adicionar painéis em tempo de execução
+
+Conteúdos e painéis podem ser adicionados ao <ApiLink type="DockManager" member="layout" label="Layout" /> em tempo de execução. No exemplo abaixo, você pode ver como adicionar painéis de conteúdo, de documento e flutuantes.
+
+
+<Sample src="/layouts/dock-manager/add-content-runtime" height={700} alt="Exemplo de adição de conteúdo em tempo de execução no {Platform} Dock Manager" />
+
+
+</PlatformBlock>
+
+### Eventos
+
+O componente Dock Manager dispara eventos quando ações específicas do usuário final são realizadas, por exemplo, fechar, fixar, redimensionar e arrastar um painel. Você pode encontrar a lista completa de eventos do Dock Manager neste [tópico]({environment:infragisticsBaseUrl}/products/ignite-ui/dock-manager/docs/typescript/latest/interfaces/igcdockmanagereventmap.html).
+
+
+</PlatformBlock>
+
+
+
+<PlatformBlock for="WebComponents, React, Angular">
+
+
+ Veja como adicionar um listener de evento para o evento `PaneClose`:
+
+<PlatformBlock for="WebComponents">
+```ts
+this.dockManager.addEventListener('paneClose', ev => console.log(ev.detail));
+```
+</PlatformBlock>
+
+</PlatformBlock>
+
+
+
+<PlatformBlock for="WebComponents">
+
+
+<Sample src="/layouts/dock-manager/hiding-panes" height={700} alt="Exemplo de fechamento de painel no {Platform} Dock Manager" />
+
+
+
+
+</PlatformBlock>
+
+
+## Personalização
+
+O componente Dock Manager permite personalizar todos os botões usando slots e partes. Para alterar qualquer um dos botões, basta definir seu próprio elemento dentro do Dock Manager e definir o atributo slot com o identificador correspondente.
+
+Vamos usar esses slots e partes para criar um layout personalizado do Dock Manager. Primeiro, forneceremos nossos próprios ícones, usando os slots `closeButton`, `maximizeButton`, `minimizeButton`, `pinButton` e `unpinButton`:
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-dockmanager id="dockManager">
+    <div slot="content1" class="dockManagerContent">Content 1</div>
+    <div slot="content2" class="dockManagerContent">Content 2</div>
+    <div slot="content3" class="dockManagerContent">Content 3</div>
+    <!-- ... -->
+
+    <button slot="closeButton">x</button>
+
+    <button slot="maximizeButton">
+        <img src="https://www.svgrepo.com/show/419558/arrow-top-chevron-chevron-top.svg" alt="arrow-top-chevron-chevron-top" />
+    </button>
+
+    <button slot="minimizeButton">
+        <img src="https://www.svgrepo.com/show/419557/bottom-chevron-chevron-down.svg" alt="bottom-chevron-chevron-down" />
+    </button>
+
+    <button slot="pinButton">
+        <img src="https://www.svgrepo.com/show/154123/pin.svg" alt="pin" />
+    </button>
+
+    <button slot="unpinButton">
+        <img src="https://www.svgrepo.com/show/154123/pin.svg" alt="pin" />
+    </button>
+</igc-dockmanager>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrDockManager id="dockManager">
+    <div slot="content1" className="dockManagerContent">Content 1</div>
+    <div slot="content2" className="dockManagerContent">Content 2</div>
+    <div slot="content3" className="dockManagerContent">Content 3</div>
+    {/* ... */}
+
+    <button slot="closeButton">x</button>
+
+    <button slot="maximizeButton">
+        <img src="https://www.svgrepo.com/show/419558/arrow-top-chevron-chevron-top.svg" alt="arrow-top-chevron-chevron-top" />
+    </button>
+
+    <button slot="minimizeButton">
+        <img src="https://www.svgrepo.com/show/419557/bottom-chevron-chevron-down.svg" alt="bottom-chevron-chevron-down" />
+    </button>
+
+    <button slot="pinButton">
+        <img src="https://www.svgrepo.com/show/154123/pin.svg" alt="pin" />
+    </button>
+
+    <button slot="unpinButton">
+        <img src="https://www.svgrepo.com/show/154123/pin.svg" alt="pin" />
+    </button>
+</IgrDockManager>
+```
+
+</PlatformBlock>
+
+Em seguida, usaremos as partes expostas na nossa folha de estilo. Assim, teremos controle total sobre a estilização do componente:
+
+```css
+igc-dockmanager::part(unpinned-tab-area) {
+    background: #bee9ec;
+}
+
+igc-dockmanager::part(unpinned-tab-area--left) {
+    border-right: 1px dashed #004d7a;
+}
+
+igc-dockmanager::part(unpinned-tab-area--bottom) {
+    border-top: 1px dashed #004d7a;
+}
+
+igc-dockmanager::part(tab-header-close-button),
+igc-dockmanager::part(pane-header-close-button) {
+    background-color: #e73c7e;
+}
+
+igc-dockmanager::part(pane-header-pin-button),
+igc-dockmanager::part(pane-header-unpin-button) {
+  background: rgb(218, 218, 218);
+  border: none;
+  width: 24px;
+  height: 24px;
+  color: #fff;
+}
+
+igc-dockmanager::part(tabs-maximize-button),
+igc-dockmanager::part(tabs-minimize-button),
+igc-dockmanager::part(pane-header-minimize-button),
+igc-dockmanager::part(pane-header-maximize-button) {
+  width: 24px;
+  height: 24px;
+  border: none;
+  transition: opacity 250ms ease-in-out;
+  opacity: 0.3;
+  margin-right: 15px;
+  margin-top: -5px;
+  margin-left: 0px;
+}
+```
+
+Se tudo correu bem, agora devemos ter um DockManager com ícones e área de abas personalizados. Veja como ficou:
+
+<Sample src="/layouts/dock-manager/customize-buttons" height={700} alt="Exemplo de personalização de botões do {Platform} Dock Manager" />
+
+
+Abaixo você encontra uma lista com os nomes dos slots de todos os botões, bem como da alça do splitter:
+
+| Nome do slot | Descrição |
+| ----------|------------ |
+| `closeButton` | Os botões de fechar. |
+| `paneHeaderCloseButton` | Os botões de fechar dos cabeçalhos dos painéis. |
+| `tabHeaderCloseButton` | Os botões de fechar dos cabeçalhos das abas. |
+| `moreTabsButton` | Os botões de mais abas. |
+| `moreOptionsButton` | Os botões de mais opções. |
+| `maximizeButton` | Os botões de maximizar. |
+| `minimizeButton` | Os botões de minimizar. |
+| `pinButton` | Os botões de fixar. |
+| `unpinButton` | Os botões de desafixar. |
+| `splitterHandle` | A alça do splitter. |
+
+Você encontra a parte correspondente de cada slot em **Partes CSS**, na seção **Estilização** desta página.
+
+### Variáveis CSS
+
+A tabela a seguir descreve todas as variáveis CSS usadas para estilizar o componente dock-manager:
+
+| Variável CSS         | Descrição                                                                     |
+| -------------------- | ------------------------------------------------------------------------------- |
+| `--igc-background-color`               | A cor de fundo do cabeçalho dentro do componente de navegação de painéis. |
+| `--igc-accent-color`                   | A cor de fundo dos botões dentro da parte de ações do cabeçalho do painel, quando em foco. |
+| `--igc-active-color`                   | A cor do texto e da sombra usada pelos componentes em estado ativo. |
+| `--igc-border-color`                   | A cor da borda inferior do componente de cabeçalho do painel. |
+| `--igc-font-family`                    | A font-family do componente dock-manager. |
+| `--igc-dock-background`                | A cor de fundo dos componentes dock-manager, de aba e de painel flutuante. |
+| `--igc-dock-text`                      | A cor do texto dos componentes dock-manager e de painel flutuante. |
+| `--igc-pane-header-background`         | A cor de fundo do componente de cabeçalho do painel. |
+| `--igc-pane-header-text`               | A cor do texto do componente de cabeçalho do painel. |
+| `--igc-pane-content-background`        | A cor de fundo do conteúdo dentro dos componentes dock-manager e de painel de abas. |
+| `--igc-pane-content-text`              | A cor do texto do conteúdo dentro dos componentes dock-manager e de painel de abas. |
+| `--igc-tab-text`                       | A cor do texto do componente de cabeçalho da aba. |
+| `--igc-tab-background`                 | A cor de fundo do componente de cabeçalho da aba. |
+| `--igc-tab-border-color`               | A cor da borda do componente de cabeçalho da aba. |
+| `--igc-tab-text-active`                | A cor do texto do componente de cabeçalho da aba selecionada. |
+| `--igc-tab-background-active`          | A cor de fundo do componente de cabeçalho da aba selecionada. |
+| `--igc-tab-border-color-active`        | A cor da borda do componente de cabeçalho da aba selecionada. |
+| `--igc-unpinned-header-background`     | A cor de fundo do componente de cabeçalho do painel desafixado. |
+| `--igc-unpinned-header-text`           | A cor do texto do componente de cabeçalho do painel desafixado. |
+| `--igc-splitter-background`            | A cor de fundo do componente splitter. |
+| `--igc-splitter-handle`                | A cor de fundo da alça do splitter. |
+| `--igc-button-text`                    | A cor dos botões dentro da parte de ações do cabeçalho do painel. |
+| `--igc-flyout-shadow-color`            | A cor da sombra do componente de painel de conteúdo. |
+| `--igc-joystick-background`            | A cor de fundo dos componentes joystick e do indicador de encaixe na raiz. |
+| `--igc-joystick-border-color`          | A cor da borda dos componentes joystick e do indicador de encaixe na raiz. |
+| `--igc-joystick-icon-color`            | A cor do ícone dos componentes joystick e do indicador de encaixe na raiz. |
+| `--igc-joystick-background-active`     | A cor de fundo em hover dos componentes joystick e do indicador de encaixe na raiz. |
+| `--igc-joystick-icon-color-active`     | A cor do ícone em hover dos componentes joystick e do indicador de encaixe na raiz. |
+| `--igc-floating-pane-border-color`     | A cor da borda dos painéis flutuantes. |
+| `--igc-context-menu-background`        | A cor de fundo dos itens do menu de contexto. |
+| `--igc-context-menu-background-active` | A cor de fundo dos itens do menu de contexto em hover e foco. |
+| `--igc-context-menu-color`             | A cor do texto dos itens do menu de contexto. |
+| `--igc-context-menu-color-active`      | A cor do texto dos itens do menu de contexto em hover e foco. |
+| `--igc-drop-shadow-background`         | A cor de fundo da sombra projetada. |
+| `--igc-disabled-color`                 | A cor do texto dos componentes em estado desabilitado. |
+
+## Navegação pelo teclado
+
+A navegação pelo teclado aumenta a acessibilidade do **Dock Manager** e oferece ao usuário final uma grande variedade de interações, como navegar por todos os painéis, dividir a visão em várias direções ao encaixar o painel ativo, entre outras.
+
+
+Os atalhos são os seguintes:
+
+### Encaixe
+
+- <kbd>CMD/CTRL</kbd> + <kbd>SHIFT</kbd> + <kbd>↑</kbd> Encaixa no topo global
+- <kbd>CMD/CTRL</kbd> + <kbd>SHIFT</kbd> + <kbd>↓</kbd> Encaixa na base global
+- <kbd>CMD/CTRL</kbd> + <kbd>SHIFT</kbd> + <kbd>→</kbd> Encaixa à direita global
+- <kbd>CMD/CTRL</kbd> + <kbd>SHIFT</kbd> + <kbd>←</kbd> Encaixa à esquerda global
+- <kbd>SHIFT</kbd> + <kbd>↑</kbd> Com várias abas em um grupo de abas, divide a visão e encaixa a aba em foco acima
+- <kbd>SHIFT</kbd> + <kbd>↓</kbd> Com várias abas em um grupo de abas, divide a visão e encaixa a aba em foco abaixo
+- <kbd>SHIFT</kbd> + <kbd>→</kbd> Com várias abas em um grupo de abas, divide a visão e encaixa a aba em foco à direita
+- <kbd>SHIFT</kbd> + <kbd>←</kbd> Com várias abas em um grupo de abas, divide a visão e encaixa a aba em foco à esquerda
+
+### Navegação
+- <kbd>CMD/CTRL</kbd> + <kbd>F6</kbd> ou <kbd>CMD/CTRL</kbd> + <kbd>→</kbd> Foca a próxima aba no host de documento
+- <kbd>CMD/CTRL</kbd> + <kbd>SHIFT</kbd> + <kbd>F6</kbd> ou <kbd>CMD/CTRL</kbd> + <kbd>←</kbd> Foca a aba anterior no host de documento
+- <kbd>ALT</kbd> + <kbd>F6</kbd> Foca o próximo painel de conteúdo
+- <kbd>ALT</kbd> + <kbd>SHIFT</kbd> + <kbd>F6</kbd> Foca o painel de conteúdo anterior
+
+### Navegador de painéis
+
+Os atalhos de teclado a seguir exibem um navegador por meio do qual você pode percorrer painéis e documentos.
+
+- <kbd>CMD/CTRL</kbd> + <kbd>F7</kbd> ou <kbd>CMD/CTRL</kbd> + <kbd>F8</kbd>  Começa pelo primeiro documento, avançando
+- <kbd>ALT</kbd> + <kbd>F7</kbd> ou <kbd>ALT</kbd> + <kbd>F8</kbd> Começa pelo primeiro painel, avançando
+- <kbd>CMD/CTRL</kbd> + <kbd>SHIFT</kbd> + <kbd>F7</kbd> ou <kbd>CMD/CTRL</kbd> + <kbd>SHIFT</kbd> + <kbd>F8</kbd> Começa pelo último documento, retrocedendo
+- <kbd>ALT</kbd> + <kbd>SHIFT</kbd> + <kbd>F7</kbd> ou <kbd>ALT</kbd> + <kbd>SHIFT</kbd> + <kbd>F8</kbd> Começa pelo último painel, retrocedendo
+
+### Redimensionamento
+- <kbd>←</kbd> / <kbd>→</kbd> Move o splitter vertical em foco para a esquerda ou para a direita em 10 pixels
+- <kbd>↑</kbd> / <kbd>↓</kbd> Move o splitter horizontal em foco para cima ou para baixo em 10 pixels
+- <kbd>←</kbd> / <kbd>→</kbd> e <kbd>↑</kbd> / <kbd>↓</kbd> Depois de pressionar o ponto onde dois splitters se encontram, move, respectivamente, o splitter vertical e o horizontal em 10 pixels
+
+### Outros
+- <kbd>ALT</kbd> + <kbd>F3</kbd> Fecha o painel ativo
+
+Pratique todas as ações mencionadas acima no [demo](./dock-manager.mdx#exemplo-do-{PlatformLower}-dock-manager) de exemplo.
+
+## Estilização
+
+O Dock Manager usa um shadow DOM para encapsular seus estilos e comportamentos. Por isso, não é possível direcionar seus elementos internos simplesmente com os seletores CSS usuais. Por esse motivo, expomos **partes** do componente que podem ser direcionadas com o seletor CSS **::part**.
+
+```css
+igc-dockmanager::part(content-pane) {
+  border-radius: 10px;
+}
+```
+
+No exemplo a seguir, demonstramos a possibilidade de personalizar o Dock Manager por meio de algumas das partes CSS que expomos.
+
+<Sample src="/layouts/dock-manager/styling" height={700} alt="Exemplo de estilização do {Platform} Dock Manager" />
+
+
+
+
+### Partes CSS
+
+| Nome da parte | Descrição |
+| ---------|------------ |
+| `content-pane` | O componente de painel de conteúdo. |
+| `pane-header`  | O componente de cabeçalho do painel de conteúdo. |
+| `pane-header-content` | A área de conteúdo do cabeçalho do painel de conteúdo. |
+| `pane-header-actions` | A área de ações do cabeçalho do painel de conteúdo. |
+| `active` | Indica um estado ativo. Aplica-se a `pane-header`, `pane-header-content`, `pane-header-actions`, `tab-header`. |
+| `floating`  | Indica a posição de um painel flutuante. Aplica-se a `pane-header`, `pane-header-content`, `pane-header-actions`. |
+| `window` | Indica a posição de uma janela flutuante. Aplica-se a `pane-header`, `pane-header-content`, `pane-header-actions`. |
+| `split-pane` | O componente de split pane. |
+| `splitter` | O componente de splitter de redimensionamento. |
+| `splitter-base` | O elemento base do componente de splitter. |
+| `splitter-ghost`| O elemento fantasma do componente de splitter. Também se aplica às sombras exibidas quando dois splitters são arrastados juntos. |
+| `splitter-junction` | A alça no ponto onde dois splitters se encontram, que redimensiona os painéis nas duas direções. |
+| `unpinned-pane-header` | O componente de cabeçalho do painel desafixado. |
+| `tab-header` | O componente de cabeçalho da aba. |
+| `tab-header-more-options-button` | O botão de mais opções no cabeçalho da aba. |
+| `tab-header-close-button` | O botão de fechar no cabeçalho da aba. |
+| `selected` | Indica um estado selecionado. Aplica-se a `tab-header` e `tab-header-close-button`. |
+| `hovered` | Indica um estado em hover. Aplica-se a `tab-header-close-button`. |
+| `header-title` | O título de texto do cabeçalho da aba. |
+| `tab-strip-area` | A área da faixa de abas que contém os cabeçalhos das abas. |
+| `tab-strip-actions` | A área da faixa de abas que contém as ações das abas. |
+| `top` | Indica uma posição de abas no topo. Aplica-se a `tab-header`, `tab-strip-area`, `tab-strip-actions`. |
+| `bottom` | Indica uma posição de abas na base. Aplica-se a `tab-header`, `tab-strip-area`, `tab-strip-actions`. |
+| `context-menu` | O componente de menu de contexto. |
+| `context-menu-item` | Um item no componente de menu de contexto. |
+| `docking-preview` | A área de prévia do encaixe. |
+| `docking-indicator` | O indicador de encaixe que não é de raiz. |
+| `root-docking-indicator` | O indicador de encaixe na raiz. |
+| `splitter-docking-indicator` | O indicador de encaixe em splitter. |
+| `pane-navigator` | O componente de navegação de painéis. |
+| `pane-navigator-header` | A área de cabeçalho do navegador de painéis. |
+| `pane-navigator-body` | A área do corpo do navegador de painéis. |
+| `pane-navigator-items-group` | Um grupo de itens no componente de navegação de painéis. |
+| `pane-navigator-items-group-title` | O elemento de título de um grupo de itens no navegador de painéis. |
+| `pane-navigator-item` | Um item no navegador de painéis. |
+| `pane-header-close-button` | O botão de fechar no cabeçalho do painel. |
+| `pane-header-maximize-button` | O botão de maximizar no cabeçalho do painel. |
+| `pane-header-minimize-button` | O botão de minimizar no cabeçalho do painel. |
+| `pane-header-pin-button` | O botão de fixar no cabeçalho do painel. |
+| `pane-header-unpin-button` | O botão de desafixar no cabeçalho do painel. |
+| `tabs-maximize-button` | O botão de maximizar das abas. |
+| `tabs-minimize-button` | O botão de minimizar das abas. |
+| `tabs-more-button` | O botão de mais abas. |
+| `context-menu-unpin-button` | O botão de desafixar no menu de contexto. |
+| `context-menu-close-button` | O botão de fechar no menu de contexto. |
+| `splitter-handle` | A alça do splitter. |
+| `horizontal` | Indica uma posição horizontal. Aplica-se a `splitter-handle`. |
+| `vertical` | Indica uma posição vertical. Aplica-se a `splitter-handle`. |
+
+
+<PlatformBlock for="React, WebComponents">
+
+
+
+### Temas
+
+O Dock Manager vem com um tema claro e um tema escuro. O tema claro é o padrão. Para mudar para o escuro, basta importar o arquivo **igc.themes.css** no seu CSS e adicionar a classe **dark-theme** ao Dock Manager ou a qualquer um dos seus pais:
+
+<PlatformBlock for="WebComponents">
+```scss
+@import '~igniteui-dockmanager/dist/collection/styles/igc.themes';
+```
+
+```html
+<igc-dockmanager class="dark-theme"></igc-dockmanager>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```scss
+@import 'igniteui-dockmanager/dist/collection/styles/igc.themes';
+```
+
+```tsx
+<IgrDockManager className="dark-theme"></IgrDockManager>
+```
+
+</PlatformBlock>
+
+
+## Localização
+
+O Dock Manager permite localizar as strings usadas em menus de contexto, dicas de ferramenta e atributos ARIA. Por padrão, ele lê o atributo [lang](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/lang) do elemento `<html>` raiz para determinar qual idioma usar. Se o atributo [lang](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/lang) estiver ausente ou definido com um valor não suportado, o Dock Manager usa [inglês (en)]({environment:infragisticsBaseUrl}/products/ignite-ui/dock-manager/docs/typescript/latest/index.html#IgcDockManagerResourceStringsEN).
+
+<PlatformBlock for="WebComponents">
+Strings de recursos prontas para uso do Dock Manager em espanhol (`es`), japonês (`ja`) e coreano (`ko`) são fornecidas pela dependência peer `igniteui-i18n-resources`. Para usar um desses idiomas, instale `igniteui-i18n-resources` e registre o pacote correspondente com `igniteui-i18n-core`:
+
+```ts
+import { registerI18n } from 'igniteui-i18n-core';
+import { DockManagerResourceStringsES } from 'igniteui-i18n-resources';
+
+registerI18n(DockManagerResourceStringsES, 'es');
+```
+
+Se precisar oferecer suporte a outro idioma, use o método [addResourceStrings]({environment:infragisticsBaseUrl}/products/ignite-ui/dock-manager/docs/typescript/latest/index.html#addResourceStrings) para fornecer suas próprias strings traduzidas:
+
+```ts
+import { addResourceStrings } from 'igniteui-dockmanager';
+
+const dockManagerStringsFr: IgcDockManagerResourceStrings = {
+  close: 'Fermer',
+  // ...
+};
+
+addResourceStrings('fr', dockManagerStringsFr);
+```
+
+</PlatformBlock>
+
+O Dock Manager também expõe uma propriedade <ApiLink type="DockManager" member="resourceStrings" label="ResourceStrings" /> que você pode usar para modificar strings individuais diretamente. Quando você define a propriedade <ApiLink type="DockManager" member="resourceStrings" label="ResourceStrings" />, o Dock Manager usa as strings fornecidas, independentemente do atributo [lang](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/lang) da página.
+
+
+</PlatformBlock>
+
+
+## Referências da API
+
+
+<ApiLink type="DockManager" /><br />
+<ApiLink type="DocumentHost" /><br />
+<ApiLink type="DockManagerLayout" /><br />
+<ApiLink type="ContentPane" /><br />
+<ApiLink type="SplitPane" /><br />
+<ApiLink type="TabGroupPane" /><br />

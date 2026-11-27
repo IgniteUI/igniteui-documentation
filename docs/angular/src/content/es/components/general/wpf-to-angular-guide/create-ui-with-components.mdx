@@ -1,0 +1,103 @@
+---
+title: "Crear una interfaz de usuario con componentes de Angular | Guía de WPF a Angular | Infragistics"
+description: "Aprenda a crear una interfaz de usuario en una aplicación Angular con un componente de Angular. Vea cómo se traducen en Angular los componentes WPF equivalentes."
+keywords: "crear interfaz de usuario con un componente de angular, ignite ui for angular, infragistics"
+_language: es
+llms:
+  description: "Para crear la interfaz de usuario de una aplicación Angular puede usar un componente de Angular, que facilita el proceso."
+---
+
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import { Image } from 'astro:assets';
+import componentStructure from '../../../images/general/component_structure.png';
+import componentCodeBehind from '../../../images/general/component_code_behind.png';
+import sampleComponent from '../../../images/general/sample_component.png';
+
+# Crear una interfaz de usuario con un componente de Angular
+
+<iframe width="100%" height="600" src="https://www.youtube.com/embed/z1SZUezpRXY">
+</iframe>
+
+Para crear la interfaz de usuario de una aplicación Angular puede usar un componente de Angular, que facilita el proceso.
+
+Crear una interfaz en Angular es muy parecido a crearla en WPF. Normalmente usamos controles de usuario, representados por la clase UserControl. Un `UserControl` agrupa el marcado y el código en un contenedor reutilizable, lo que permite usar la misma interfaz y funcionalidad en varios lugares distintos. Este control de usuario tendrá un archivo .xaml para el marcado de la interfaz y un archivo C# para la lógica, e incluso puede tener un diccionario de recursos con cualquier tipo de información de estilo para este control. En Angular usamos lo que se llama un `Component`. Un componente tiene un archivo html, que se usa para el marcado de la interfaz; un archivo typescript, que se usa para sus propiedades y su lógica, y un archivo CSS para toda su información de estilo. Veamos lo parecidos que son estos dos.
+
+<Image src={componentStructure} alt="Estructura del componente" class="responsive-img" />
+
+A la izquierda tenemos una aplicación WPF, con un control de usuario llamado `Sample`. También tiene un diccionario de recursos llamado `SampleResources` que contiene información de estilo.
+A la derecha tenemos una aplicación Angular con un `AppComponent`. Comparemos el componente de la aplicación Angular con el control de usuario de ejemplo de la aplicación WPF.
+
+Empiece abriendo el archivo typescript del componente de la aplicación. Podemos considerar este archivo como el code-behind del componente, y la razón es que si vamos a WPF y abrimos Sample.xaml.cs, el code-behind del control de usuario `Sample`, veremos muchas similitudes.
+
+<Image src={componentCodeBehind} alt="Code-behind del componente" class="responsive-img" />
+
+Primero vemos que tenemos una clase que exportamos llamada `AppComponent`. Esta AppComponent también tiene una propiedad llamada title. Así que dentro de esta clase vamos a definir todas las propiedades, métodos y eventos que necesita nuestro componente para ejecutarse. Es muy parecido, si no idéntico, a un control de usuario. Vemos que tenemos una clase, en este caso llamada `Sample`, y dentro de ella vamos a definir todas las propiedades, métodos y eventos que necesita el control de usuario para funcionar.
+
+A continuación, subamos unas líneas en el archivo typescript y veamos esa sintaxis un tanto extraña con el símbolo `@` seguido de Component. Esto se llama decorador. Este decorador indica a Angular cómo debe tratar la clase que estamos exportando. En este caso, la tratamos como un componente y, como es un componente, tenemos que proporcionar cierta información en el decorador. Antes de llegar a esa información, fijémonos en la primera línea del archivo typescript: `import { Component } from '@angular/core'`. Puede pensar en ella como una instrucción using. Básicamente, estamos importando los objetos necesarios para que este componente funcione. En este caso, importamos `Component` desde el módulo `@angular/core`, para poder usar el decorador de este componente. Es muy parecido a una instrucción using dentro del code-behind de nuestro control de usuario. En C# usamos instrucciones `using` para localizar y usar los objetos de nuestra clase que necesita el control de usuario para funcionar.
+
+Ahora volvamos dentro del decorador del componente.
+
+- La línea de código de la línea 4 se llama selector. El selector nos ayuda a determinar cómo definiremos estos elementos en html. Este selector se llama `app-root`, así que si abrimos index.html, veremos dentro del body un elemento llamado `app-root`. Ese elemento usa el selector definido en el decorador del componente para definir una instancia de este componente.
+- Después, en la línea 5, tenemos lo que se llama templateUrl. Apunta a un archivo llamado `app.component.html`, el archivo html que representa la presentación visual de este componente. Es muy parecido al archivo `Sample.xaml` del control de usuario en WPF, donde el xaml es el marcado que representa cómo se renderiza el control.
+- En la línea 6 vemos styleUrls. Este apunta a un archivo CSS, que representa la información de estilo del componente. Si abrimos el archivo `app.component.css`, veremos que no tiene información de estilo, pero podemos pensar en el archivo CSS como una correspondencia directa con un diccionario de recursos. El diccionario de recursos en XAML contiene toda la información de estilo del control de usuario o de sus elementos, para que se renderice según nuestro diseño. Exactamente eso es lo que se haría en CSS.
+
+## Generar un componente
+
+Ahora que hemos visto lo parecido que es un componente de Angular a un control de usuario de WPF, creemos un componente nuevo y añádalo a nuestra aplicación. Si es desarrollador de escritorio, en WPF, cuando quiere añadir un control de usuario nuevo, simplemente hace clic derecho en el proyecto y selecciona **Add > User Control**. Por supuesto, si intenta hacer lo mismo en Visual Studio Code, no tiene esa opción. Solo tiene new file y new folder. Eso significa que tenemos que abrir el terminal y usar Angular CLI para generar el componente. Así que abramos un terminal escribiendo `Control + Backtick`. En el terminal escribimos **NG G** de generate, **C** de component, y después indicamos un nombre para el componente, por ejemplo `sample`.
+
+```cmd
+ng g c sample
+```
+
+Cuando termina el comando, verá que han pasado varias cosas. Primero, tenemos una carpeta nueva con el mismo nombre que le dimos al componente. También tenemos cuatro archivos nuevos: un archivo html, un archivo SPEC, un archivo typescript y un archivo CSS. Además, hemos actualizado el archivo `app.module.ts`.
+
+<Image src={sampleComponent} alt="Componente de ejemplo" class="responsive-img" />
+
+Mire la carpeta `sample`, que contiene el componente recién creado. Vemos que están los tres archivos necesarios para un componente, además de este archivo SPEC adicional. Se trata de un archivo de prueba que no necesitamos para este artículo, así que no nos ocuparemos de él ahora. También hemos modificado app.module.ts, donde se ha añadido el componente de ejemplo a la sección `declarations` de nuestro NgModule.
+<DocsAside type="info">
+Esto es importante: cada vez que se crea un componente nuevo, debe declararse en la sección declarations del módulo NG. Esta sección indica básicamente qué componentes pertenecen a este módulo.
+</DocsAside>
+
+Volvamos al archivo `sample.component.ts`. Se parece mucho al archivo `app.component.ts` que vimos antes. En este caso tenemos la instrucción import, donde importamos nuestro componente. Tenemos el decorador del componente, donde definimos el selector como `app-sample`. Tenemos la URL de la plantilla como `sample.component.html` y la URL de los estilos `sample.component.css`.
+
+Abramos el archivo html, donde podemos ver un párrafo que dice `sample works!`. Queremos verlo al iniciar la aplicación, así que vayamos a app.component.html. Eliminaremos la mayor parte del marcado inicial, excepto el título, y añadiremos solo `<app-sample></app-sample>`.
+
+```html
+<div style="text-align:center">
+  <h1>
+    Welcome to {{ title }}!
+  </h1>
+  <app-sample></app-sample>
+</div>
+```
+
+## Ejecutar la aplicación
+
+Al escribir `npm start` en el terminal, se compilará la aplicación y se iniciará en el navegador. Si todo ha ido bien, la aplicación debería estar ejecutándose en el navegador. Tenemos `welcome to app`, que es el marcado del componente de la aplicación, y después `sample works!`, que es el marcado del componente de ejemplo que acabamos de añadir.
+Ahora cambiemos un poco el componente de ejemplo, modificando el texto por 'This sample works very well!'.
+
+```html
+  This sample works very well!
+```
+
+Al guardar y revisar el navegador, veremos que efectivamente estamos editando el html que se encarga de renderizar el componente de ejemplo.
+Si queremos dar estilo a nuestro componente, debemos revisar la URL de estilos. Así que abramos el archivo `sample.component.css` y hagamos que la etiqueta de párrafo sea de color rojo.
+
+```css
+p {
+    color: red;
+}
+```
+
+Al guardar eso y abrir el navegador, debería ver que los estilos del archivo CSS se han aplicado a nuestro componente de ejemplo.
+
+## Recursos adicionales
+
+- [De escritorio a web: cree su interfaz con componentes de Angular](https://www.youtube.com/watch?v=z1SZUezpRXY&t)
+- [Introducción a los componentes de Angular](https://angular.io/guide/architecture-components)
+
+<hr/>
+Nuestra comunidad está activa y siempre da la bienvenida a nuevas ideas.
+
+- [Ignite UI for Angular **Foros**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

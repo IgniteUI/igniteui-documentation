@@ -1,0 +1,269 @@
+---
+title: "Gráficos verticales de {Platform} | Visualización de datos | Infragistics"
+description: "Las series de categorías verticales de {Platform} dibujan gráficos de líneas, splines, puntos, escalonados, áreas y cascadas, con las categorías recorriendo el gráfico de arriba abajo y los valores de lado a lado."
+keywords: "Gráficos {Platform}, Vertical Line Chart, Vertical Area Chart, Vertical Spline Chart, Vertical Step Chart, Vertical Point Chart, Vertical Waterfall Chart, Infragistics"
+license: commercial
+mentionedTypes: ["DataChart", "VerticalLineSeries", "VerticalSplineSeries", "VerticalPointSeries", "VerticalStepLineSeries", "VerticalAreaSeries", "VerticalSplineAreaSeries", "VerticalStepAreaSeries", "VerticalWaterfallSeries", "BarSeries", "CategoryYAxis", "NumericXAxis", "DataToolTipLayer", "Legend"]
+namespace: Infragistics.Controls.Charts
+_language: es
+llms:
+  description: "Las series de categorías verticales de {ProductName} son las series de líneas, splines, puntos, escalonadas, de áreas y de cascada giradas de lado: las categorías recorren un CategoryYAxis de arriba abajo y los valores recorren un NumericXAxis de lado a lado, como en un gráfico de barras."
+platformType: xplat
+---
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+
+# Gráficos verticales de {Platform}
+
+Las series de categorías verticales de {ProductName} dibujan los conocidos gráficos de líneas, splines, puntos, escalonados, de áreas y de cascada girados de lado. Las categorías recorren el gráfico de arriba abajo en un `CategoryYAxis`, y los valores recorren el gráfico de lado a lado en un `NumericXAxis`, la misma disposición que un [Bar Chart](bar-chart.mdx). Cada serie es la contrapartida vertical de una serie horizontal que quizá ya use, y comparte sus opciones: `VerticalLineSeries` refleja `LineSeries`, `VerticalAreaSeries` refleja `AreaSeries`, y así sucesivamente.
+
+## Ejemplo de gráfico vertical de {Platform}
+
+El siguiente ejemplo representa la temperatura del mar frente a la profundidad, con la superficie en la parte superior, para un día de verano y un día de invierno.
+
+<Sample src="/charts/data-chart/vertical-line-chart" height={600} alt="Ejemplo de gráfico de líneas vertical de {Platform}" />
+
+¿Le gusta este ejemplo? Pruebe el kit de herramientas completo de {ProductName} y empiece a crear sus propias aplicaciones. <a href="{environment:infragisticsBaseUrl}/products/{ProductSpinal}/download">Descargue la prueba gratuita.</a>
+
+## Recomendaciones para los gráficos verticales
+
+### ¿Son los gráficos verticales de {Platform} adecuados para su proyecto?
+
+Gire un gráfico de lado cuando las categorías se lean mejor de arriba abajo que de izquierda a derecha:
+
+- Las categorías son una dimensión vertical física, como la profundidad, la altitud o los pisos de un edificio.
+- Las etiquetas de las categorías son largas, como preguntas de encuestas, características de productos o nombres de cuentas. Al recorrer el gráfico de arriba abajo, cada etiqueta dispone de todo el ancho del eje en lugar de girarse o cortarse.
+- Hay muchas categorías, como las horas de un día, y el gráfico tiene más espacio en vertical que en horizontal.
+- El gráfico se coloca junto a un gráfico de barras o una tabla cuyas filas debe alinear.
+
+### Casos de uso de los gráficos verticales
+
+- Perfiles de océano, suelo o atmósfera, donde el valor cambia con la profundidad o la altitud.
+- Resultados de encuestas y clasificaciones con nombres de categoría largos.
+- Líneas de tiempo que se leen de arriba abajo, como las horas de un día o los meses de un año.
+- Puentes de beneficios y otros gráficos de cascada con nombres de paso largos.
+- Gráficos de barras con un objetivo o una media dibujados sobre las barras.
+
+### Cuándo no usar un gráfico vertical
+
+- Las categorías son una serie temporal que los lectores esperan que vaya de izquierda a derecha, como los precios de las acciones. Use el [Line Chart](line-chart.mdx) o el [Area Chart](area-chart.mdx) horizontales.
+- Necesita comparar las magnitudes de categorías separadas. Un [Bar Chart](bar-chart.mdx) muestra cada valor como la longitud de una barra, lo que es más fácil de comparar que la posición de un punto.
+
+### Estructura de datos de los gráficos verticales
+
+- El origen de datos debe ser un array o una lista de elementos de datos.
+- Cada elemento debe tener una categoría, como una cadena o una fecha, que rotule su fila en el `CategoryYAxis`.
+- Cada serie lee un campo numérico a través de su `valueMemberPath`.
+
+## Ejes de los gráficos verticales de {Platform}
+
+Una serie vertical usa un `CategoryYAxis` para sus categorías y un `NumericXAxis` para sus valores. Enlace el eje de categorías a los mismos datos que la serie y nombre el campo de categoría con `label`. Establezca `isInverted` en el eje de categorías para que las categorías vayan de arriba abajo; sin esta opción, el primer elemento queda abajo, lo que encaja con la altitud, pero no con la profundidad.
+
+```json-snippet source="/charts/data-chart/vertical-line-chart"
+{
+    "descriptions": {
+        "content": {
+            "type": "DataChart",
+            "name": "chart",
+            "axes": [
+                {
+                    "type": "CategoryYAxis",
+                    "name": "yAxis",
+                    "label": "Depth",
+                    "dataSourceRef": "OceanTemperatureByDepth",
+                    "interval": 1,
+                    "isInverted": true
+                },
+                {
+                    "type": "NumericXAxis",
+                    "name": "xAxis",
+                    "title": "Temperature (°C)"
+                }
+            ],
+            "series": [
+                {
+                    "type": "VerticalLineSeries",
+                    "name": "VerticalLineSeries1",
+                    "title": "Summer",
+                    "xAxisRef": "xAxis",
+                    "yAxisRef": "yAxis",
+                    "dataSourceRef": "OceanTemperatureByDepth",
+                    "valueMemberPath": "Summer",
+                    "markerType": "Circle",
+                    "thickness": 2
+                }
+            ]
+        }
+    }
+}
+```
+
+## Gráfico de líneas vertical de {Platform}
+
+El `VerticalLineSeries` une los valores de categorías vecinas con líneas rectas, como en el [ejemplo anterior](#ejemplo-de-gráfico-vertical-de-{PlatformLower}). Admite las mismas opciones de marcador, grosor y pincel que el `LineSeries`.
+
+## Gráfico spline vertical de {Platform}
+
+El `VerticalSplineSeries` une los valores con curvas suaves. El siguiente ejemplo representa la temperatura del aire frente a la altitud, con el suelo en la parte inferior, por lo que el eje de categorías no está invertido.
+
+<Sample src="/charts/data-chart/vertical-spline-chart" height={600} alt="Gráfico spline vertical de {Platform}" />
+
+```json-snippet source="/charts/data-chart/vertical-spline-chart"
+{
+    "type": "DataChart",
+    "series": [
+        {
+            "type": "VerticalSplineSeries",
+            "$type": "+doc:markup",
+            "title": "Standard Atmosphere",
+            "valueMemberPath": "Standard",
+            "markerType": "Circle",
+            "$markerType": "+doc:markup"
+        }
+    ]
+}
+```
+
+## Gráfico de puntos vertical de {Platform}
+
+El `VerticalPointSeries` dibuja un marcador para cada valor sin unirlos, lo que encaja con categorías que no tienen orden, como las características de la encuesta siguiente. Dos series de puntos colocadas una junto a otra comparan dos conjuntos de resultados, fila por fila.
+
+<Sample src="/charts/data-chart/vertical-point-chart" height={600} alt="Gráfico de puntos vertical de {Platform}" />
+
+## Gráfico de líneas escalonadas vertical de {Platform}
+
+El `VerticalStepLineSeries` mantiene cada valor hasta la siguiente categoría y después salta al siguiente valor, lo que encaja con valores que cambian en momentos fijos y se mantienen entre ellos, como los tipos de interés.
+
+<Sample src="/charts/data-chart/vertical-step-line-chart" height={600} alt="Gráfico de líneas escalonadas vertical de {Platform}" />
+
+## Gráfico de áreas vertical de {Platform}
+
+El `VerticalAreaSeries` rellena el espacio entre la línea y el eje de valores. Reduzca `areaFillOpacity` cuando las áreas se solapen, para que la serie situada detrás siga visible.
+
+<Sample src="/charts/data-chart/vertical-area-chart" height={600} alt="Gráfico de áreas vertical de {Platform}" />
+
+```json-snippet source="/charts/data-chart/vertical-area-chart"
+{
+    "type": "DataChart",
+    "series": [
+        {
+            "type": "VerticalAreaSeries",
+            "$type": "+doc:markup",
+            "title": "1990",
+            "valueMemberPath": "Year1990",
+            "areaFillOpacity": 0.5,
+            "$areaFillOpacity": "+doc:markup"
+        }
+    ]
+}
+```
+
+## Gráfico de áreas spline vertical de {Platform}
+
+El `VerticalSplineAreaSeries` rellena el espacio bajo una curva suave. El siguiente ejemplo muestra las visitas a un sitio web a lo largo del día, desde medianoche en la parte superior.
+
+<Sample src="/charts/data-chart/vertical-spline-area-chart" height={600} alt="Gráfico de áreas spline vertical de {Platform}" />
+
+## Gráfico de áreas escalonadas vertical de {Platform}
+
+El `VerticalStepAreaSeries` rellena el espacio bajo una línea escalonada, de modo que cada categoría se lee como una banda sólida.
+
+<Sample src="/charts/data-chart/vertical-step-area-chart" height={600} alt="Gráfico de áreas escalonadas vertical de {Platform}" />
+
+## Gráfico de cascada vertical de {Platform}
+
+El `VerticalWaterfallSeries` dibuja cada categoría como una barra desde el valor anterior hasta el suyo, de modo que un total acumulado se lee como una serie de ganancias y pérdidas. Cada valor es el total acumulado tras ese paso, no la variación. Las barras que bajan desde el valor anterior usan `negativeBrush` y `negativeOutline`.
+
+<Sample src="/charts/data-chart/vertical-waterfall-chart" height={600} alt="Gráfico de cascada vertical de {Platform}" />
+
+```json-snippet source="/charts/data-chart/vertical-waterfall-chart"
+{
+    "type": "DataChart",
+    "series": [
+        {
+            "type": "VerticalWaterfallSeries",
+            "$type": "+doc:markup",
+            "valueMemberPath": "Total",
+            "brush": "#2E7D32",
+            "$brush": "+doc:markup",
+            "outline": "#2E7D32",
+            "$outline": "+doc:markup",
+            "negativeBrush": "#C62828",
+            "$negativeBrush": "+doc:markup",
+            "negativeOutline": "#C62828",
+            "$negativeOutline": "+doc:markup"
+        }
+    ]
+}
+```
+
+## {Platform} Combinación de series verticales con series de barras
+
+Las series verticales comparten sus ejes con `BarSeries`, por lo que pueden dibujarse sobre barras en el mismo gráfico. El siguiente ejemplo dibuja el objetivo de ventas de cada región como una `VerticalLineSeries` sobre una `BarSeries` con las ventas reales.
+
+<Sample src="/charts/data-chart/vertical-chart-combined" height={600} alt="Serie de líneas vertical de {Platform} sobre una serie de barras" />
+
+```json-snippet source="/charts/data-chart/vertical-chart-combined"
+{
+    "type": "DataChart",
+    "series": [
+        {
+            "type": "BarSeries",
+            "$type": "+doc:markup",
+            "title": "Actual",
+            "valueMemberPath": "Actual"
+        },
+        {
+            "type": "VerticalLineSeries",
+            "$type": "+doc:markup",
+            "title": "Target",
+            "valueMemberPath": "Target",
+            "markerType": "Diamond"
+        }
+    ]
+}
+```
+
+## Información emergente de los gráficos verticales de {Platform}
+
+Añada una `DataToolTipLayer` para describir la categoría situada bajo el cursor. De forma predeterminada, la información emergente termina con un total de los valores de las series, lo cual es útil cuando las series se suman, como las visitas de escritorio y móviles, pero no cuando son mediciones separadas, como las temperaturas de verano e invierno. Establezca `summaryType` en `None` para omitirlo.
+
+```json-snippet source="/charts/data-chart/vertical-line-chart"
+{
+    "type": "DataChart",
+    "series": [
+        {
+            "type": "DataToolTipLayer",
+            "$type": "+doc:markup",
+            "summaryType": "None",
+            "$summaryType": "+doc:markup"
+        }
+    ]
+}
+```
+
+## Recursos adicionales
+
+Puede encontrar más información sobre tipos de gráfico relacionados en estos temas:
+
+- [Bar Chart](bar-chart.mdx)
+- [Line Chart](line-chart.mdx)
+- [Area Chart](area-chart.mdx)
+- [Spline Chart](spline-chart.mdx)
+- [Step Chart](step-chart.mdx)
+- [Point Chart](point-chart.mdx)
+
+## Referencias de API
+
+- `DataChart`
+- `VerticalLineSeries`
+- `VerticalSplineSeries`
+- `VerticalPointSeries`
+- `VerticalStepLineSeries`
+- `VerticalAreaSeries`
+- `VerticalSplineAreaSeries`
+- `VerticalStepAreaSeries`
+- `VerticalWaterfallSeries`
+- `BarSeries`
+- `CategoryYAxis`
+- `NumericXAxis`
+- `DataToolTipLayer`

@@ -1,0 +1,145 @@
+---
+title: "Angular Pivot Grid 사용자 지정 원격 | 피벗 테이블 | Infragistics"
+description: "Ignite UI for Angular로 빠르고 반응성이 뛰어난 Angular 피벗 그리드와 테이블을 만드십시오. 피벗 데이터를 통해 복잡한 데이터 분석을 수행하십시오."
+keywords: angular pivot grid, Angular pivot table, ignite ui for angular, pivot grid customization, pivot grid remote, pivot remote
+license: commercial
+_language: ko
+llms:
+  description: "피벗 데이터가 원격 서비스에서 이미 그룹화되고 집계되어 있고 클라이언트에서 추가 처리가 필요 없는 경우, 피벗 그리드를 사용자 지정 빈 전략을 사용하도록 구성할 수 있습니다. 이 전략은 클라이언트에서 데이터 처리를 건너뛰고 데이터를 있는 그대로 직접 표시할 수 있게 합니다."
+---
+
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+
+# Angular Pivot Grid 원격 작업
+
+피벗 데이터가 원격 서비스에서 이미 그룹화되고 집계되어 있고 클라이언트에서 추가 처리가 필요 없는 경우, 피벗 그리드를 사용자 지정 빈 전략을 사용하도록 구성할 수 있습니다. 이 전략은 클라이언트에서 데이터 처리를 건너뛰고 데이터를 다음과 같이 직접 표시할 수 있게 합니다:
+
+```typescript
+public pivotConfigHierarchy: IPivotConfiguration = {
+    columnStrategy: NoopPivotDimensionsStrategy.instance(),
+    rowStrategy: NoopPivotDimensionsStrategy.instance(),
+}
+```
+
+다음 예제는 데이터가 이미 집계되어 있는 경우를 처리하는 방법과 그 데이터의 구조가 어떠해야 하는지 보여 줍니다:
+<Sample src="/pivot-grid/pivot-grid-noop" height={530} alt="Angular Pivot Grid 사용자 지정 사전 정의 집계 예제" />
+
+사용자는 이미 집계된 데이터를 피벗 그리드에 제공하여 특정 시나리오를 구현할 수 있습니다.
+데이터의 모양과 피벗 보기의 계층 구조에 관한 몇 가지 요구 사항이 있습니다. 예를 들어 `rows` 차원에서 계층을 선언하려면:
+
+```typescript
+rows: [
+    {
+        memberName: 'AllProducts',
+        memberFunction: () => 'All Products',
+        enabled: true,
+        childLevel: {
+            memberName: 'ProductCategory',
+            enabled: true
+        }
+    }
+]
+```
+
+집계된 데이터의 예는 다음과 같습니다:
+
+```typescript
+public aggregatedData = [
+    {
+        ProductCategory: 'All', AllProducts: 'All Products', All: 1000, 'All-Bulgaria': 774, 'All-USA': 829, 'All-Uruguay': 524, AllProducts_records: [
+            { ProductCategory: 'Clothing', 'All-Bulgaria': 774, 'All-USA': 296, 'All-Uruguay': 456 },
+            { ProductCategory: 'Bikes', 'All-Uruguay': 68 },
+            { ProductCategory: 'Accessories', 'All-USA': 293 },
+            { ProductCategory: 'Components', 'All-USA': 240 }
+        ]
+    }
+];
+```
+
+Pivot grid는 피벗 계산에 사용하는 객체 키 필드를 제공합니다.
+
+- `children` - 계층 구조를 만들기 위해 하위 항목을 저장하는 필드입니다. 그룹화된 값과 해당 값을 기반으로 하는 모든 pivotGridRecord의 맵을 나타냅니다. 계층을 만드는 동안 무언가를 해야 하는 매우 특정한 시나리오에서만 사용할 수 있습니다. 일반적인 사용에서는 변경할 필요가 없습니다.
+- `records` - 원본 데이터 레코드에 대한 참조를 저장하는 필드입니다. 위 예제에서 확인할 수 있습니다 - `AllProducts_records`. 데이터에 이 속성과 같은 이름의 필드를 설정하지 마십시오. 데이터 레코드에 `records` 속성이 있다면, `pivotKeys`을(를) 사용하여 고유한 다른 값을 지정할 수 있습니다.
+- `aggregations` - 집계 값을 저장하는 필드입니다. 계층을 만드는 동안 적용되며, 일반적인 시나리오에서는 변경하지 않아야 합니다.
+- `level` - 계층 구조에 따른 차원 수준을 저장하는 필드입니다. 데이터에 이 속성과 같은 이름의 필드를 설정하지 마십시오. 데이터 레코드에 `level` 속성이 있다면, `pivotKeys`을(를) 사용하여 고유한 다른 값을 지정할 수 있습니다.
+- `columnDimensionSeparator` - 고유한 열 필드 값을 생성할 때 사용하는 구분자입니다. 위 예제의 대시(`-`)입니다 - `All-Bulgaria`.
+- `rowDimensionSeparator` - 고유한 행 필드 값을 생성할 때 사용하는 구분자입니다. 위 예제의 밑줄(`_`)입니다 - `AllProducts_records`. `records` 및 `level` 필드를 만들 때 사용됩니다.
+
+이 모든 값은 기본 피벗 키를 변경하는 데 사용할 수 있는 `PivotConfiguration`의 일부인 `pivotKeys` 속성에 저장됩니다.
+기본값은 다음과 같습니다:
+
+```typescript
+export const DEFAULT_PIVOT_KEYS = {
+    aggregations: 'aggregations', records: 'records', children: 'children', level: 'level',
+    rowDimensionSeparator: '_', columnDimensionSeparator: '-'
+};
+```
+
+`columnStrategy`과(와) `rowStrategy`에 `NoopPivotDimensionsStrategy`을(를) 설정하면 데이터 파이프가 수행하는 데이터 그룹화와 집계를 건너뜁니다. 그래도 피벗 보기를 예상대로 렌더링하려면 피벗 그리드에 행, 열, 값 및 필터에 대한 선언이 여전히 필요합니다:
+
+```typescript
+public pivotConfig: IPivotConfiguration = {
+    rows: [
+        {
+            memberName: 'AllProducts',
+            memberFunction: () => 'All Products',
+            enabled: true,
+            childLevel: {
+                memberName: 'ProductCategory',
+                enabled: true
+            }
+        }
+    ],
+    columns: [
+        {
+            memberName: 'All',
+            enabled: true,
+            childLevel: {
+                memberName: 'Country',
+                enabled: true
+            }
+        }
+    ],
+    values: [
+        {
+            member: 'UnitsSold',
+            aggregate: {
+                aggregator: IgxPivotNumericAggregate.sum,
+                key: 'sum',
+                label: 'Sum'
+            },
+            enabled: true
+        },
+    ]
+}
+```
+
+데이터가 구성과 일치하는 것이 중요합니다. 최상의 결과를 얻으려면 집계된 데이터에 추가 필드가 포함되지 않아야 하며, 제공된 데이터의 필드 중 행이나 열로 선언되지 않은 필드가 남아 있지 않아야 합니다. `IgxPivotGrid` 컴포넌트는 `PivotConfiguration`을(를) 기반으로 데이터를 구성하므로, 구성과 집계된 데이터가 그에 맞게 일치해야 합니다.
+
+정렬 및 필터링과 같은 다른 원격 데이터 작업도 마찬가지로, 관련 빈 전략을 설정하여 데이터 처리를 건너뛸 수 있습니다 - `filterStrategy`, `sortStrategy`:
+
+```html
+<igx-pivot-grid [filterStrategy]="noopFilterStrategy" [sortStrategy]="noopSortStrategy" ...>
+</igx-pivot-grid>
+```
+
+```typescript
+public noopFilterStrategy = NoopFilteringStrategy.instance();
+public noopSortStrategy = NoopSortingStrategy.instance();
+```
+
+## API 참조
+- <ApiLink type="PivotGrid" />
+- <ApiLink type="PivotDataSelector" />
+## 추가 리소스
+
+
+- [Angular Pivot Grid 기능](/pivotgrid/pivot-grid-features)
+- [Angular Pivot Grid 개요](/pivotgrid/pivot-grid)
+
+커뮤니티는 활발하며 새로운 아이디어를 언제나 환영합니다.
+
+- [Ignite UI for Angular **포럼**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

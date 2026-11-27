@@ -1,0 +1,325 @@
+---
+title: "Blazor Webassembly | Blazor Excel 라이브러리 | Infragistics"
+description: "Infragistics Blazor Webassembly - 서버 부하를 줄이기 위해 Excel 파일을 읽고 쓰는 방법"
+keywords: "Blazor Webassembly, excel 라이브러리, Excel 파일 읽기 및 쓰기, {ProductName}, Infragistics"
+license: commercial
+mentionedTypes: []
+_language: ko
+llms:
+  description: "Blazor WebAssembly 애플리케이션이 Infragistics Excel 라이브러리를 사용하여 로컬에서 Excel 파일을 읽고 쓰는 방법을 설명하여 서버 처리를 줄입니다."
+---
+
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import { Image } from 'astro:assets';
+import blazorExcel from '@xplat-images/general/blazor-excel.png';
+import lazyLoadingOfAssembly from '@xplat-images/general/lazy-loading-of-assembly.png';
+
+
+# Blazor Webassembly: 서버 부하를 줄이기 위해 Excel 파일을 읽고 쓰는 방법
+
+[Infragistics Blazor Excel 라이브러리](https://www.infragistics.com/products/ignite-ui-blazor/blazor/components/excel-library)는 Blazor 내보내기 및 Excel 작업을 쉽게 처리하고, 앱 데이터를 Excel 스프레드시트로 표현하며, Excel에서 앱으로 데이터를 전송하고, Workbook, Worksheet, Cell, Formula 등 Microsoft® Excel과 유사한 스프레드시트 기능과 객체로 스프레드시트 데이터를 관리할 수 있도록 합니다.
+
+[Blazor WebAssembly 애플리케이션](./general-getting-started.mdx#standalone-blazor-webassembly-apps)에서 Infragistics Blazor Excel 라이브러리를 사용하면 웹 브라우저에서 Excel 형식 파일(.xlsx)을 쉽게 생성하고 다운로드할 수 있습니다. 이 방식으로 Excel 파일을 생성하면 Excel 생성 프로세스의 부하가 웹 서버 측에 집중되지 않습니다. 대신 처리는 웹 브라우저에서 이루어집니다.
+
+이 글에서는 Blazor Excel 라이브러리를 구현하는 가장 쉬운 방법을 안내하고, 샘플 애플리케이션을 만들어 작동 방식을 보여 드립니다.
+
+다룰 내용:
+- Blazor란 무엇입니까?
+- Blazor WebAssembly 샘플 앱 만들기
+- 구현 단계 및 프로젝트 구조 개요
+  - NuGet 패키지 추가
+  - JavaScript 파일에 대한 참조 추가
+  - Workbook.InProcessRuntime - 정적 속성 설정
+  - Workbook 클래스를 사용하여 Excel 파일 읽기 및 쓰기
+- 처리에 너무 오래 걸리는 경우 대처 방법
+- "어셈블리 지연 로드"가 초기 앱 속도를 어떻게 개선하는지
+- 요약
+
+## Blazor 요약: WebAssembly와 Blazor Server 이해하기
+
+간단히 말해, [Blazor](https://www.infragistics.com/products/ignite-ui-blazor/blazor/components/general-getting-started)는 Microsoft가 개발한 오픈 소스 UI 프레임워크입니다. JavaScript 대신 .NET과 C#으로 단일 페이지 웹 앱을 구축하는 데 사용됩니다. 웹 애플리케이션을 호스팅하는 방법은 두 가지입니다: [Blazor Server와 Blazor WebAssembly](https://www.infragistics.com/community/blogs/b/jason_beres/posts/blazor-server-vs-blazor-webassembly).
+
+WASM이라고도 알려진 Blazor WebAssembly는 웹 브라우저에서 실행되는 소프트웨어를 만들기 위해 [W3C](https://www.computerhope.com/jargon/w/w3c.htm)에서 개발한 표준입니다. 컴파일된 소프트웨어이며 CPU에서 거의 네이티브 속도로 실행됩니다.
+
+반면 Blazor Server는 표준 ASP.NET Core 애플리케이션을 사용하여 서버에서 클라이언트 로직을 실행합니다. 이 앱은 SignalR을 사용하는 지속적인 연결을 통해 브라우저와 통신합니다.
+
+## Ignite UI for Blazor로 Blazor WebAssembly 앱 만들기
+
+이 모든 작동 방식을 보여 주기 위해, [일본 기상청의 XML 형식 데이터](https://www-data-go-jp.translate.goog/data/dataset/mlit_20170902_0034/resource/de72cea0-a658-4c64-987c-38effeca3eb8?_x_tr_sl=ja&_x_tr_tl=en&_x_tr_hl=ja&_x_tr_pto=wapp)를 가져오는 Blazor WebAssembly 애플리케이션을 만들겠습니다. 이 글을 위해 다운로드한 Excel 파일에 7일 동안 발생한 일일 지진 횟수를 담은 막대형 차트를 포함했습니다.
+
+<Image src={blazorExcel} alt="blazor-excel.png" />
+
+이 샘플 애플리케이션의 소스 코드는 [이 GitHub 저장소](https://github-com.translate.goog/igjp-sample/IgbExcelDemo?_x_tr_sl=ja&_x_tr_tl=en&_x_tr_hl=ja&_x_tr_pto=wapp)에 게시되어 있습니다.
+
+## 구현 단계 및 프로젝트 구조 개요
+
+CORS(Cross-Origin Resource Sharing) 때문에, 독립형 Blazor WebAssembly 프로젝트 대신 ASP.NET Core 서버에 호스팅된 Blazor WebAssembly 프로젝트를 사용하여 전체 데이터를 가져옵니다.
+
+하지만 앞서 언급했듯이 Excel 파일 생성은 웹 브라우저에서 완료되고 처리됩니다. ASP.NET Core 서버 측은 JMA 재난 예방 정보 XML을 가져와 처리한 다음, 웹 브라우저에서 실행되는 Blazor WebAssembly 프로그램에 JSON 형식으로 데이터를 제공하는 역할만 필요합니다.
+또한 코드에서 완전히 새로운 Excel 파일을 생성할 필요는 없습니다. 미리 구성된 막대형 차트가 있는 Excel 파일(.xlsx)을 웹 서버에 두기만 하면 됩니다. 이 파일을 "템플릿"으로 사용하고, Blazor WebAssembly 앱의 HttpClient를 사용하여 Excel 파일의 각 셀에 날짜와 지진 횟수를 채웁니다.
+
+최근 7일간의 일일 지진 발생 횟수를 구현한 후, 모든 데이터가 Ignite UI for Blazor 그리드에 표시됩니다. 다음으로 아래 단계에 따라 Excel 파일 생성을 진행하십시오.
+
+### NuGet 패키지 추가
+
+Blazor Excel 라이브러리를 사용하려면 NuGet에서 **IgniteUI.Blazor.Documents.Excel** 패키지를 설치하고, 애플리케이션에 다음 네임스페이스를 추가해야 합니다:
+
+<PlatformBlock for="Blazor">
+
+```razor
+@using Infragistics.Documents.Excel
+```
+
+</PlatformBlock>
+
+Visual Studio를 사용하는 경우 NuGet 패키지 관리자를 통해 Blazor WebAssembly 프로젝트에 "IgniteUI.Blazor.Documents.Excel" NuGet 패키지를 추가할 수 있습니다.
+
+뒤에서 설명할 코드의 네임스페이스 표기를 간단히 하기 위해, Infragistics Blazor Excel 라이브러리의 Infragistics.Documents.Excel 네임스페이스를 미리 _Imports.razor에서 여십시오.
+
+<PlatformBlock for="Blazor">
+
+```razor
+@* _Imports.razor *@
+@using System.Net.Http
+@using Infragistics.Documents.Excel @* 👈 Add this line *@
+```
+
+</PlatformBlock>
+
+### JavaScript 파일에 대한 참조 추가
+
+다음으로, Blazor WebAssembly에서 Infragistics Blazor Excel 라이브러리가 Excel 파일을 다룰 수 있도록 "IgniteUI.Blazor.Documents.Excel" NuGet 패키지가 제공하는 JavaScript 파일을 웹 페이지에 로드해야 합니다.
+
+wwwroot/index.html 파일(Blazor WebAssembly 프로젝트의 폴백 페이지)에 다음과 같이 `<script>` 태그를 추가합니다:
+
+<PlatformBlock for="Blazor">
+
+```razor
+<html>
+<body>
+<script src="_content/IgniteUI.Blazor/app.bundle.js"></script>
+<!-- Add this line -->
+<script src="_content/IgniteUI.Blazor.Documents.Excel/excel.js"></script>
+<script src="_framework/blazor.webassembly.js"></script>
+</body>
+</html>
+```
+
+</PlatformBlock>
+
+### Workbook.InProcessRuntime - 정적 속성 설정
+
+이제 Infragistics Blazor Excel 라이브러리를 사용할 준비가 되었습니다. Infragistics.Documents.Excel 네임스페이스의 Workbook 클래스를 사용하여 Excel 파일을 읽고 씁니다. Blazor WebAssembly에서 Workbook 클래스로 Excel 파일을 처리하기 전에, Workbook.InProcessRuntime 정적 속성을 IJSInProcessRuntime 인터페이스를 가진 JavaScript 런타임 객체로 설정해야 한다는 점을 기억하십시오.
+
+이는 다음 코드를 사용하여 수행할 수 있습니다:
+
+<PlatformBlock for="Blazor">
+
+```razor
+@inject IJSRuntime JSRuntime
+@* ... *@
+@code {
+    // ...
+    // ⚠️ Note-To use the Excel library on Blazor WebAssembly,
+    // you need to initialize the Workbook.InProcessRuntime static property.
+    if (Workbook.InProcessRuntime == null)
+        Workbook.InProcessRuntime = this .JSRuntime as IJSInProcessRuntime;
+    // ...
+```
+
+</PlatformBlock>
+
+### Workbook 클래스를 사용하여 Excel 파일 읽기 및 쓰기
+
+준비가 되면 Workbook 클래스의 Load() 정적 메서드로 Excel 파일을 로드하고, 반환된 Workbook 객체로 시트와 셀 객체를 참조하여 값을 채울 수 있습니다. Excel 테이블을 만든 후에는 객체의 메서드를 사용하여 최종적으로 Excel 파일로 내용을 쓸 수 있습니다. Workbook 객체의 Save() 메서드를 사용하여 Excel 파일의 내용을 Stream에 씁니다. .NET MemoryStream에 내용을 써서 바이트 배열을 얻으면, 이를 브라우저를 통해 다운로드할 수 있습니다.
+
+참고로 Blazor 애플리케이션의 다운로드 트리거 처리에는 MIT 라이선스의 오픈 소스 라이브러리가 사용되었습니다.
+
+<PlatformBlock for="Blazor">
+
+```razor
+@inject HttpClient HttpClient
+@inject IJSRuntime JSRuntime
+@* ... *@
+@code
+{
+    // ...
+    private IEnumerable <EarthquakeCountParDay>? _EarthquakeCountParDays;
+
+    // <summary>
+    // Called when the [Download] button is clicked, the data of the number of earthquake occurrences per day in the last week is stored in an Excel file and downloaded.
+    // </summary>
+    private async Task OnClickedDownloadAsync()
+    {
+        // ⚠️ Note-To use the Excel library on Blazor WebAssembly, you need to initialize the Workbook.InProcessRuntime static property.
+        if (Workbook.InProcessRuntime == null) Workbook.InProcessRuntime = this .JSRuntime as IJSInProcessRuntime;
+
+        // Get the template Excel file from the server and load it into the Workbook object.
+        await using var templateStream = await this .HttpClient.GetStreamAsync ("./TemplateBook.xlsx");
+
+        var workBook = Workbook.Load(templateStream);
+        await templateStream.DisposeAsync();
+
+        // Post the date and number of earthquakes to the contents (cells) of the sheet.
+        var sheet = workBook.Worksheets[0];
+        var row = 2;
+        foreach (var item in this._EarthquakeCountParDays)
+        {
+            sheet.GetCell($"A{row}").Value = item.Date;
+            sheet.GetCell($"B{row}").Value = item.Count;
+            row++;
+        }
+
+        // Export the completed Workbook object to a .xlsx file format and have it downloaded by your browser.
+        await using var memStream = new MemoryStream();
+        workBook.Save(memStream);
+        await this.JSRuntime.InvokeDownloadAsync("Book.xlsx", "application / octet-stream" ,memStream.ToArray());
+    }
+    // ...
+```
+
+</PlatformBlock>
+
+보시다시피 Excel 파일의 전체 처리는 웹 브라우저에서 수행되며 웹 서버 측에서는 아무 일도 일어나지 않습니다. 따라서 여러 클라이언트가 동시에 Excel 파일 생성을 실행하더라도 웹 서버 측 부하가 급격히 증가하지 않습니다.
+
+## 처리에 너무 오래 걸리면 어떻게 해야 합니까?
+
+Excel 파일 처리는 다음 요소에 따라 상당한 시간이 걸릴 수 있습니다:
+
+- 콘텐츠
+- 처리할 데이터의 규모
+- 셀의 개수 등
+
+.NET 코드가 해석 방식으로 처리되는 Blazor WebAssembly 애플리케이션에서는 처리 성능이 크게 저하됩니다. 이러한 경우 처리 속도를 개선하는 데 도움이 되는 몇 가지 유용한 방법은 다음과 같습니다.
+
+### 팁과 요령 #1 - 수식의 자동 계산 일시 중지
+
+Infragistics Blazor Excel 라이브러리를 사용하면 Blazor WebAssembly 애플리케이션에서 Excel 파일의 셀을 탐색하거나 다시 쓸 때 처리 속도를 높이기 위해 수식의 자동 계산을 일시 중지할 수 있습니다. 자세한 내용은 [이 문서 항목](blazor-excel-library-temporarily-stop-automatic-calculation-of-formulas-to-speed-up-processing.mdx)을 참조하십시오.
+
+### 팁과 요령 #2 - AOT(Ahead-Of-Time) 컴파일 사용
+
+.NET 6부터는 "AOT(Ahead-Of-Time) 컴파일"이라는 기법을 사용하여 Blazor WebAssembly 앱을 빌드할 수 있습니다. 이 기법을 사용하면 Blazor 앱을 게시할 때 .NET 코드를 WebAssembly로 직접 컴파일하여 처리 속도를 높일 수 있습니다. AOT 컴파일에 대한 자세한 내용은 아래 링크된 Microsoft 공식 문서 사이트를 참조하십시오.
+
+### 팁과 요령 #3 - 서버 측에서 실행
+
+.NET 코드가 해석 방식으로 순차 처리되는 Blazor WebAssembly와 달리, Infragistics Blazor Excel 라이브러리는 JIT(Just-in-time) 컴파일러를 사용하여 Blazor Server 또는 ASP.NET Core 서버에서 CPU 네이티브 속도로 실행됩니다. 이를 통해 처리 속도가 크게 향상됩니다.
+
+물론 전체 애플리케이션을 Blazor WebAssembly에서 Blazor Server로 다시 작성할 수도 있고, Blazor WebAssembly 애플리케이션은 그대로 둔 채 Excel 파일 생성 처리 부분만 ASP.NET Core 서버의 Web API로 대체할 수도 있습니다.
+
+## "어셈블리 지연 로드"가 애플리케이션의 초기 속도를 개선하는 방법
+
+Infragistics Blazor Excel 라이브러리가 제공하는 어셈블리 파일(.dll)의 크기는 약 5MB입니다. 첫 실행 시 콘텐츠 크기가 커지면 콘텐츠 로딩 시간이 길어지고, Blazor WebAssembly 애플리케이션이 작동을 시작할 때까지의 초기 속도도 느려질 수 있습니다.
+
+<Image src={lazyLoadingOfAssembly} alt="lazy-loading-of-assembly" />
+
+그래서 "어셈블리 지연 로드" 기법(.NET 5 이상)을 사용하는 것을 권장합니다. 애플리케이션 어셈블리를 필요할 때까지 로드하지 않고 기다리게 하면 Blazor WebAssembly 애플리케이션의 실행 성능을 개선할 수 있습니다. 이를 "지연 로드"라고 합니다.
+
+## 지연 로드 설정
+
+### 프로젝트 파일에서 지연 로드할 어셈블리 지정
+
+먼저 Blazor WebAssembly 프로젝트 파일(.csproj)에서 `<ItemGroup>` 요소 안에 `<BlazorWebAssemblyLazyLoad>` 요소를 배치하고, 지연 로드하려는 어셈블리 파일(.dll)의 이름을 나열합니다.
+
+<PlatformBlock for="Blazor">
+
+```razor
+<!-- Blazor WebAssembly project file (.csproj) -->
+<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly" >
+
+  <!-- Specify the file name of the assembly file (.dll) that you want to lazy load in the BlazorWebAssemblyLazyLoad element. -->
+  <ItemGroup>
+    <BlazorWebAssemblyLazyLoad Include="IgniteUI.Blazor.Documents.Core.dll" />
+    <BlazorWebAssemblyLazyLoad Include="IgniteUI.Blazor.Documents.Excel.dll" />
+  </ItemGroup>
+
+</Project>
+```
+
+</PlatformBlock>
+
+### LazyAssemblyLoader를 사용하여 어셈블리 로드
+
+다음으로 "지연 로드"로 지정한 어셈블리가 필요할 때 자동으로 로드되도록 구현합니다. 어셈블리를 로드하려면 DI 컨테이너에서 Blazor WebAssembly에 기본으로 포함된 LazyAssemblyLoader 클래스의 서비스를 주입하고 LoadAssembliesAsync()를 호출합니다.
+
+
+이 샘플 애플리케이션에서는 Excel 파일의 다운로드 버튼을 클릭할 때 Infragistics Blazor Excel 라이브러리의 어셈블리 파일이 로드됩니다.
+
+<PlatformBlock for="Blazor">
+
+```razor
+@using Microsoft.AspNetCore.Components.WebAssembly.Services
+@inject LazyAssemblyLoader AssemblyLoader
+@* ... *@
+@code {
+    // ...
+    // <summary>
+    // Called when the [Download] button is clicked, the data of the number of earthquake occurrences per day in the last week is stored in an Excel    file and downloaded.
+    // </summary>
+    private async Task OnClickedDownloadAsync()
+    {
+        // The assembly file (.dll) for which lazy loading was specified in the project file (IgbExcelDemo.Client.csproj) is now loaded using AssemblyLoader.
+        // (Supplement: It's okay to call it over and over again, only .dlls that haven't been loaded yet will be loaded)
+        await this.AssemblyLoader.LoadAssembliesAsync(new [])
+        {
+            "IgniteUI.Blazor.Documents.Core.dll",
+            "IgniteUI.Blazor.Documents.Excel.dll"
+        });
+    // ...
+```
+
+</PlatformBlock>
+
+### 지연 로드된 어셈블리의 처리를 별도의 범위로 분리
+
+이제 이 샘플 애플리케이션을 그대로 실행하면 페이지가 처음 표시될 때 Infragistics Blazor Excel 라이브러리의 어셈블리 파일이 예상대로 로드되지 않는 것을 확인할 수 있습니다. 또한 콘텐츠 크기가 약 5MB 줄어듭니다.
+
+<Image src={lazyLoadingOfAssembly} alt="lazy-loading-of-assembly" />
+
+하지만 다운로드 버튼을 클릭하면 "System.IO.FileNotFoundException: Could not load file or assembly" 예외가 발생합니다.
+
+이 예외는 지연 로드되는 어셈블리에 존재하는 타입을 참조하는 메서드가, 지연 로드를 수행하는 같은 메서드 범위에서 타입을 해석하려고 하는데 해당 어셈블리가 아직 로드되지 않은 경우에 발생합니다. 이 문제를 해결하려면 지연 로드되는 어셈블리의 타입(이 샘플 애플리케이션의 Workbook 클래스 등)을 참조하는 처리를 별도의 독립된 메서드로 분리한 후 호출해야 합니다(아래 참조):
+
+<PlatformBlock for="Blazor">
+
+```razor
+@* ... *@
+@code {
+    // ...
+    // <summary>
+    // Called when the [Download] button is clicked, the data of the number of earthquake occurrences per day in the last week is stored in an Excel file and downloaded.
+    // </summary>
+    private async Task OnClickedDownloadAsync()
+    {
+        // ...
+        await this .AssemblyLoader.LoadAssembliesAsync ( new [] )
+        {
+            "IgniteUI.Blazor.Documents.Core.dll",
+            "IgniteUI.Blazor.Documents.Excel.dll"
+        });
+        // Lazy load the assembly, then call the method that uses the features in the lazy loaded assembly.
+        // (If you refer to a function in a lazy-loaded assembly directly in a method that lazy-loads an assembly,
+        // System.IO.FileNotFoundException: Could not load file or assembly exception will occur.)
+        Await this.DownloadAsExcelAsync();
+    }
+    // <summary>
+    // Cut out the code that uses the Excel library into a separate method to enable lazy loading of the assembly.
+    // </summary>
+    private async ValueTask DownloadAsExcelAsync ()
+    {
+        // Read and write Excel files using the Workbook class in this method
+    }
+    // ...
+```
+
+</PlatformBlock>
+
+## 요약 및 핵심 내용 정리
+
+Blazor WebAssembly 애플리케이션에서 Infragistics Blazor Excel 라이브러리를 사용하는 것은 웹 브라우저에서 Excel 파일을 완전히 읽고 쓰는 가장 쉽고 간단한 방법입니다. 더 나아가 이를 통해 웹 서버의 로드 시간을 줄이는 방법도 보여 드렸습니다.
+
+이 글에서는 다음 방법으로 처리 속도를 개선하는 여러 옵션도 다루었습니다:
+
+- 수식의 자동 계산 일시 중지.
+- AOT(Ahead-Of-Time) 컴파일 사용.
+- 서버 측에서 실행.
+- "어셈블리 지연 로드" 지정.

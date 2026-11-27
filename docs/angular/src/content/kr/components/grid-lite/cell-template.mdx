@@ -1,0 +1,170 @@
+---
+title: "Angular Grid Lite 셀 템플릿 | Ignite UI for Angular | MIT 라이선스"
+description: "사용자 지정 Grid Lite 셀 렌더러를 구성하고 사용자 지정하십시오. 오픈 소스 Angular Grid Lite로 앱을 만들어 보십시오. 지금 사용해 보십시오."
+keywords: "cell template, Infragistics"
+license: MIT
+mentionedTypes: [{ComponentApiMembers}]
+namespace: Infragistics.Controls
+_language: ko
+llms:
+  description: "기본적으로 그리드는 열의 필드를 사용해 셀 안에 값을 문자열로 렌더링합니다."
+---
+
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+
+# 열 셀 템플릿
+
+기본적으로 그리드는 열의 필드를 사용해 셀 안에 값을 문자열로 렌더링합니다. 기본적인 시나리오에는 이것으로 충분하지만, 렌더링되는 출력을 사용자 지정하고 싶거나 최종 출력이 여러 데이터 필드의 조합이라면 셀 템플릿을 사용자 지정할 수 있습니다.
+
+이를 위해 콘텐츠를 템플릿으로 만들고 싶은 열의 `<igx-grid-lite-column>...</igx-grid-lite-column>` 안에 **`<ng-template>`**을 사용하십시오.
+
+```html
+<igx-grid-lite-column field="avatar" header="Avatar">
+    <ng-template igxGridLiteCell let-value>
+        <igx-avatar shape="circle" alt="User avatar" [src]="value">
+        </igx-avatar>
+    </ng-template>
+</igx-grid-lite-column>
+```
+
+또한 <ApiLink type="GridLiteCellTemplateDirective" />을(를) import해야 합니다
+
+```typescript
+import { IgxGridLiteComponent, IgxGridLiteColumnComponent, IgxGridLiteCellTemplateDirective } from 'igniteui-angular/grids/lite';
+```
+
+그리고 `imports` 배열에 추가하십시오
+
+```typescript
+imports: [ IgxGridLiteCellTemplateDirective ]
+```
+
+## 서식 지정 함수로 사용하기
+
+서식 지정이 필요한 간단한 시나리오에서는 서식이 지정된 값을 반환하기만 하면 됩니다. 다음은 숫자 값을 로캘 통화 형식으로 표시하는 예입니다:
+
+```typescript
+public formatter = new Intl.NumberFormat('en-150', {
+  style: 'currency',
+  currency: 'EUR'
+});
+
+/** Return the custom currency format for a value `value = 123456.789` */
+protected formatCurrency = (value: number) => {
+  return this.formatter.format(value); // => "€123,456.79"
+};
+```
+
+데이터 소스의 여러 다른 필드 값을 결합할 수도 있습니다.
+{/*TODO:
+Refer to the API documentation for **`GridLiteCellContext`** for more information.*/}
+
+```typescript
+public formatter = new Intl.NumberFormat('en-150', {
+  style: 'currency',
+  currency: 'EUR'
+});
+
+/** Return the total earned money from a product in custom currency */
+protected formatCurrency = (value: number, unitsSold: number) => {
+  return this.formatter.format(value * unitsSold);
+};
+```
+
+```html
+<igx-grid-lite-column field="price" header="Price" dataType="number">
+    <ng-template igxGridLiteCell let-value let-row="row">
+        {{formatCurrency(value, row.data.sold)}}
+    </ng-template>
+</igx-grid-lite-column>
+```
+
+## 사용자 지정 DOM 템플릿
+
+**`<ng-template>`** 안에서 **`igniteui-angular`**의 컴포넌트를 사용하는 것 외에도, 셀 컨테이너 안에 렌더링될 자체 DOM 템플릿을 만들 수도 있습니다.
+
+표준 DOM 요소뿐 아니라 다른 라이브러리의 웹 컴포넌트도 템플릿으로 만들 수 있습니다. 예를 들어 다음 코드 스니펫에서는 **`igniteui-webcomponents`**의 rating 컴포넌트를 사용합니다. 이를 올바르게 사용하려면 아래 설명하는 몇 가지 단계를 거쳐야 합니다.
+
+```typescript
+// Import external components for the custom template
+import {
+    defineComponents,
+    IgcRatingComponent
+} from 'igniteui-webcomponents';
+
+// Define them so that we can use them in our sample
+defineComponents(
+    IgcRatingComponent
+);
+```
+
+```html
+{/* Use the rating component from Web Components in your template */}
+<igx-grid-lite-column field="rating" header="Customer Rating" dataType="number">
+    <ng-template igxGridLiteCell let-value>
+        <igc-rating
+            [value]="value"
+            readonly
+            min="0"
+            max="5">
+        </igc-rating>
+    </ng-template>
+</igx-grid-lite-column>
+```
+
+<DocsAside type="info">
+템플릿이 복잡하고 관여도가 높을수록 성능 비용이 커진다는 점을 기억하십시오. 성능이 중요하다면 복잡한 DOM 구조는 피하십시오.
+</DocsAside>
+
+## 셀 컨텍스트 객체
+
+사용자 지정 셀 렌더러는 다음 속성을 가진 <ApiLink type="GridLiteCellTemplateContext" /> 객체를 매개변수로 받습니다:
+
+
+```typescript
+/**
+ * Context object for the row cell template callback.
+ */
+export interface IgxGridLiteCellTemplateContext<T extends object> {
+  /**
+   * The cell element parent of the template.
+   */
+  parent: GridLiteCell<T>;
+  /**
+   * The row element containing the cell.
+   */
+  row: GridLiteRow<T>;
+  /**
+   * The current configuration for the column.
+   */
+  column: ColumnConfiguration<T, K>;
+  /**
+   * The value from the data source for this cell.
+   */
+  value: PropertyType<T, K>;
+  
+  $implicit: PropertyType<T, K>;
+}
+```
+
+<Sample src="/grid-lite/column-config-simple" height={510} alt="Angular Grid Lite 열 구성 기본" />
+
+## API 참조
+
+- <ApiLink type="GridLite" />
+- <ApiLink type="GridLiteColumn" />
+- <ApiLink type="GridLiteCellTemplateDirective" />
+
+## 추가 리소스
+
+- [열 구성](/grid-lite/column-configuration)
+- [정렬](/grid-lite/sorting)
+- [필터링](/grid-lite/filtering)
+- [테마 및 스타일링](/grid-lite/theming)
+
+커뮤니티는 활발하며 새로운 아이디어를 언제나 환영합니다.
+
+- [Grid Lite **GitHub**](https://github.com/IgniteUI/igniteui-grid-lite)

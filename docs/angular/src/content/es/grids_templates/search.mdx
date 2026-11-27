@@ -1,0 +1,450 @@
+<ComponentBlock for="Grid">
+
+---
+title: "Filtro de búsqueda en Angular Grid: Ignite UI for Angular"
+description: "Realice búsquedas rápidas en la cuadrícula con Ignite UI for Angular Data Grid. Permite la búsqueda instantánea de contenido en los datos virtualizados de la cuadrícula, ofreciendo al mismo tiempo una mejor experiencia de usuario."
+keywords: "búsqueda de contenido, ignite ui for angular, infragistics"
+license: commercial
+_language: es
+llms:
+  description: "La búsqueda de {ComponentTitle} en Angular permite el proceso de encontrar valores en la colección de datos."
+---
+
+</ComponentBlock>
+<ComponentBlock for="TreeGrid">
+
+---
+title: "Filtro de búsqueda en Angular Tree Grid: Ignite UI for Angular"
+description: "Realice búsquedas rápidas en la cuadrícula con Ignite UI for Angular Tree Grid. Permite la búsqueda instantánea de contenido en los datos virtualizados de la cuadrícula, ofreciendo al mismo tiempo una mejor experiencia de usuario."
+keywords: "búsqueda de contenido, ignite ui for angular, infragistics"
+license: commercial
+_canonicalLink: grid/search
+_language: es
+llms:
+  description: "La búsqueda de {ComponentTitle} en Angular permite el proceso de encontrar valores en la colección de datos."
+---
+
+</ComponentBlock>
+<ComponentBlock for="HierarchicalGrid">
+
+---
+title: "Filtro de búsqueda en Angular Hierarchical Grid: Ignite UI for Angular"
+description: "Realice búsquedas rápidas en la cuadrícula con Ignite UI for Angular Hierarchical Grid. Permite la búsqueda instantánea de contenido en los datos virtualizados de la cuadrícula, ofreciendo al mismo tiempo una mejor experiencia de usuario."
+keywords: "búsqueda de contenido, ignite ui for angular, infragistics"
+license: commercial
+_canonicalLink: grid/search
+_language: es
+llms:
+  description: "La búsqueda de {ComponentTitle} en Angular permite el proceso de encontrar valores en la colección de datos."
+---
+
+</ComponentBlock>
+
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+# Filtro de búsqueda de {ComponentTitle} en Angular
+
+La búsqueda de {ComponentTitle} en Angular permite el proceso de encontrar valores en la colección de datos. Facilitamos la configuración de esta función, que puede implementarse con un cuadro de búsqueda, botones, navegación por teclado y otras funciones útiles para ofrecer una experiencia de usuario aún mejor. Aunque los navegadores ofrecen de forma nativa la función de búsqueda de contenido, la mayoría de las veces {ComponentTitle} virtualiza sus columnas y filas que quedan fuera de la vista. En estos casos, la búsqueda nativa del navegador no puede buscar datos en las celdas virtualizadas, ya que no forman parte del DOM. Hemos ampliado el grid basado en tablas de Ignite UI for Angular con una **API de búsqueda** que le permite buscar en el **contenido virtualizado** de {ComponentTitle}.
+
+## Ejemplo de búsqueda en Angular
+
+El ejemplo siguiente muestra {ComponentTitle} con un cuadro de búsqueda que permite buscar en todas las columnas y filas, así como opciones de filtrado específicas para cada columna.
+
+<ComponentBlock for="Grid">
+
+<Sample src="/grid/grid-search-sample" height={600} alt="Ejemplo de búsqueda en Angular" />
+
+</ComponentBlock>
+<ComponentBlock for="TreeGrid">
+
+<Sample src="/tree-grid/treegrid-search" height={600} alt="Ejemplo de búsqueda en Angular" />
+
+</ComponentBlock>
+<ComponentBlock for="HierarchicalGrid">
+
+{/*TODO*/}
+</ComponentBlock>
+
+## Uso de la búsqueda en Angular
+
+### Configuración del grid
+
+Empecemos creando nuestro grid y enlazándolo a nuestros datos. ¡También añadiremos algunos estilos personalizados para los componentes que vamos a usar!
+
+<ComponentBlock for="Grid">
+
+```html
+<!--searchgrid.component.html-->
+
+<igx-grid #grid1 id="grid1" [data]="data" [autoGenerate]="false" [allowFiltering]="true">
+    <igx-column [field]="'IndustrySector'" dataType="string" [sortable]="true"></igx-column>
+    <igx-column [field]="'IndustryGroup'" dataType="string" [sortable]="true"></igx-column>
+    <igx-column [field]="'SectorType'" dataType="string" [sortable]="true"></igx-column>
+    <igx-column [field]="'KRD'" dataType="number" [sortable]="true"></igx-column>
+    <igx-column [field]="'MarketNotion'" dataType="number" [sortable]="true"></igx-column>
+    <igx-column [field]="'Date'" dataType="date" [sortable]="true"></igx-column>
+</igx-grid>
+```
+
+</ComponentBlock>
+<ComponentBlock for="TreeGrid">
+
+```html
+<!--searchgrid.component.html-->
+
+<igx-tree-grid #treeGrid1 [data]="data" [autoGenerate]="false" primaryKey="ID" foreignKey="ParentID" [allowFiltering]="true">
+    <igx-column [field]="'Name'" dataType="string" [sortable]="true"></igx-column>
+    <igx-column [field]="'ID'" dataType="number" [sortable]="true"></igx-column>
+    <igx-column [field]="'Title'" dataType="string" [sortable]="true"></igx-column>
+    <igx-column [field]="'Age'" dataType="number" [sortable]="true"></igx-column>
+    <igx-column [field]="'HireDate'" dataType="date" [sortable]="true"></igx-column>
+</igx-tree-grid>
+```
+
+</ComponentBlock>
+<ComponentBlock for="HierarchicalGrid">
+
+{/*TODO*/}
+</ComponentBlock>
+
+<ComponentBlock for="Grid, TreeGrid">
+
+```css
+/* searchgrid.component.css */
+
+.grid__wrapper {
+    margin: 15px;
+}
+
+.offset {
+    margin-bottom: 15px;
+}
+
+.resultsText {
+    font-size: 0.875rem;
+}
+
+.chips {
+    margin-left: 5px;
+}
+
+.searchButtons {
+    margin-left: 5px;
+}
+```
+
+</ComponentBlock>
+<ComponentBlock for="HierarchicalGrid">
+
+{/*TODO*/}
+</ComponentBlock>
+
+¡Muy bien! Ahora preparemos la API de búsqueda de nuestro {ComponentTitle}. Podemos crear algunas propiedades que sirvan para almacenar el texto buscado actualmente y para indicar si la búsqueda distingue mayúsculas y minúsculas o si debe coincidir exactamente.
+
+```typescript
+// searchgrid.component.ts
+
+public searchText: string = '';
+public caseSensitive: boolean = false;
+public exactMatch: boolean = false;
+```
+
+### Entrada del cuadro de búsqueda de Angular
+
+¡Ahora creemos nuestro campo de búsqueda! Al enlazar nuestro **searchText** como ngModel al nuevo campo y suscribirnos al evento ngModelChange, podemos detectar cada modificación de **searchText** hecha por el usuario. Esto nos permitirá usar los métodos <ApiLink type="{ComponentApiType}" member="findNext" label="findNext" /> y <ApiLink type="{ComponentApiType}" member="findPrev" label="findPrev" /> de {ComponentTitle} para resaltar todas las apariciones de **searchText** y desplazarnos a la siguiente o a la anterior (según el método que hayamos invocado).
+
+Los métodos <ApiLink type="{ComponentApiType}" member="findNext" label="findNext" /> y <ApiLink type="{ComponentApiType}" member="findPrev" label="findPrev" /> tienen tres argumentos:
+
+- `text`: **string** (el texto que buscamos)
+- (opcional) `caseSensitive`: **boolean** (indica si la búsqueda distingue mayúsculas y minúsculas; el valor predeterminado es false)
+- (opcional) `exactMatch`: **boolean** (indica si la búsqueda debe ser una coincidencia exacta o no; el valor predeterminado es false)
+
+Al buscar por coincidencia exacta, la API de búsqueda resaltará como resultados solo los valores de celda que coincidan por completo con **searchText**, teniendo también en cuenta la distinción entre mayúsculas y minúsculas. Por ejemplo, las cadenas '_software_' y '_Software_' son coincidencias exactas si se ignora la distinción entre mayúsculas y minúsculas.
+
+Los métodos anteriores devuelven un valor **number** (el número de veces que {ComponentTitle} contiene la cadena indicada).
+
+```html
+<!--searchgrid.component.html-->
+
+<input #search1 id="search1" placeholder="Search" [(ngModel)]="searchText" (ngModelChange)="{ComponentObjectRef}.findNext(searchText, caseSensitive, exactMatch)" />
+```
+
+### Mostrar el número de resultados
+
+¡Mostremos también la posición de la aparición actual, junto con el número total de resultados! Podemos hacerlo usando la propiedad `lastSearchInfo` de la cuadrícula. Esta propiedad se actualiza automáticamente al usar los métodos **find**.
+
+- El valor `{ComponentObjectRef}.lastSearchInfo.matchInfoCache.length` nos dará el número total de resultados.
+- El valor `{ComponentObjectRef}.lastSearchInfo.activeMatchIndex` nos dará la posición de índice de la aparición actual (coincidencia).
+
+```html
+<!--searchgrid.component.html-->
+
+@if ({ComponentObjectRef}.lastSearchInfo) {
+    <div class="resultsText">
+        @if ({ComponentObjectRef}.lastSearchInfo.matchInfoCache.length > 0) {
+            <span>
+                {{ {ComponentObjectRef}.lastSearchInfo.activeMatchIndex + 1 }} of {{ {ComponentObjectRef}.lastSearchInfo.matchInfoCache.length }} results
+            </span>
+        }
+        @if ({ComponentObjectRef}.lastSearchInfo.matchInfoCache.length == 0) {
+            <span>
+                No results
+            </span>
+        }
+    </div>
+}
+```
+
+### Añadir botones de búsqueda
+
+Para buscar y navegar libremente entre los resultados de búsqueda, creemos un par de botones invocando los métodos <ApiLink type="{ComponentApiType}" member="findNext" label="findNext" /> y <ApiLink type="{ComponentApiType}" member="findPrev" label="findPrev" /> dentro de los controladores de clic de cada botón.
+
+```html
+<!--searchgrid.component.html-->
+
+<div class="searchButtons">
+    <input type="button" value="Previous" (click)="{ComponentObjectRef}.findPrev(searchText, caseSensitive, exactMatch)" />
+    <input type="button" value="Next" (click)="{ComponentObjectRef}.findNext(searchText, caseSensitive, exactMatch)" />
+</div>
+```
+
+### Añadir búsqueda con el teclado
+
+También podemos permitir que los usuarios naveguen por los resultados usando las teclas de flecha del teclado y la tecla Enter. Para lograrlo, podemos gestionar el evento **keydown** de nuestro campo de búsqueda, impidiendo el movimiento predeterminado del cursor de la entrada con el método preventDefault() e invocando los métodos <ApiLink type="{ComponentApiType}" member="findNext" label="findNext" />/<ApiLink type="{ComponentApiType}" member="findPrev" label="findPrev" /> según la tecla que pulse el usuario.
+
+```html
+<!--searchgrid.component.html-->
+
+<input #search1 id="search1" placeholder="Search" [(ngModel)]="searchText" (ngModelChange)="{ComponentObjectRef}.findNext(searchText, caseSensitive, exactMatch)"
+       (keydown)="searchKeyDown($event)" />
+```
+
+```typescript
+// searchgrid.component.ts
+
+public searchKeyDown(ev) {
+    if (ev.key === 'Enter' || ev.key === 'ArrowDown' || ev.key === 'ArrowRight') {
+        ev.preventDefault();
+        this.{ComponentObjectRef}.findNext(this.searchText, this.caseSensitive, this.exactMatch);
+    } else if (ev.key === 'ArrowUp' || ev.key === 'ArrowLeft') {
+        ev.preventDefault();
+        this.{ComponentObjectRef}.findPrev(this.searchText, this.caseSensitive, this.exactMatch);
+    }
+}
+```
+
+### Distinguir mayúsculas y minúsculas y coincidencia exacta
+
+Ahora permitamos que el usuario elija si la búsqueda debe distinguir mayúsculas y minúsculas o debe ser una coincidencia exacta, o ambas cosas. Para ello podemos usar casillas sencillas, enlazando nuestras propiedades **caseSensitive** y **exactMatch** a las propiedades **checked** de las casillas respectivamente, y gestionando sus eventos **change** alternando nuestras propiedades e invocando el método <ApiLink type="{ComponentApiType}" member="findNext" label="findNext" />.
+
+```html
+<!--searchgrid.component.html-->
+
+<span>Case sensitive</span>
+<input type="checkbox" [checked]="caseSensitive" (change)="updateSearch()">
+
+<span>Exact match</span>
+<input type="checkbox" [checked]="exactMatch" (change)="updateExactSearch()">
+```
+
+```typescript
+// searchgrid.component.ts
+
+public updateSearch() {
+    this.caseSensitive = !this.caseSensitive;
+    this.{ComponentObjectRef}.findNext(this.searchText, this.caseSensitive, this.exactMatch);
+}
+
+public updateExactSearch() {
+    this.exactMatch = !this.exactMatch;
+    this.{ComponentObjectRef}.findNext(this.searchText, this.caseSensitive, this.exactMatch);
+}
+```
+
+### Persistencia
+
+¿Y si quisiéramos filtrar y ordenar nuestros {ComponentTitle}, o incluso añadir y eliminar registros? Después de estas operaciones, los resaltados de nuestra búsqueda actual se actualizan automáticamente y se mantienen sobre cualquier texto que coincida con **searchText**. Además, la búsqueda funcionará con la paginación y mantendrá los resaltados al cambiar la propiedad <ApiLink type="Paginator" member="perPage" label="perPage" /> de {ComponentTitle}.
+
+### Añadir iconos
+
+Usando algunos de nuestros otros componentes, podemos crear una interfaz de usuario más rica y mejorar el diseño general de toda la barra de búsqueda. Podemos tener un icono de búsqueda o de borrado a la izquierda del campo de búsqueda, un par de chips para nuestras opciones de búsqueda e iconos de Material Design combinados con botones con efecto ripple para nuestra navegación a la derecha. Podemos envolver estos componentes dentro de un grupo de entrada para un diseño más refinado.
+Para ello, vamos a incorporar los módulos [**IgxInputGroup**](/input-group), [**IgxIcon**](/layouts/icon), [**IgxRipple**](/ripple), [**IgxButton**](inputs/button) e [**IgxChip**](/inputs/chip).
+
+```typescript
+// app.module.ts
+
+...
+
+    {ComponentName}Module,
+    IgxInputGroupModule,
+    IgxIconModule,
+    IgxRippleModule,
+    IgxButtonModule,
+    IgxChipsModule
+} from 'igniteui-angular';
+// import { 
+//    IgxInputGroupModule,
+//    IgxIconModule,
+//    IgxRippleModule,
+//    IgxButtonModule,
+//    IgxChipsModule
+// } from '@infragistics/igniteui-angular'; for licensed package
+
+@NgModule({
+    ...
+    imports: [..., IgxInputGroupModule, IgxIconModule, IgxRippleModule, IgxButtonModule, IgxChipsModule],
+})
+export class AppModule {}
+```
+
+Por último, actualicemos nuestra plantilla con los nuevos componentes.
+
+Envolveremos todos nuestros componentes dentro de un [**IgxInputGroup**](../input-group.mdx). A la izquierda alternaremos entre un icono de búsqueda y un icono de borrado/limpieza (según si el campo de búsqueda está vacío o no). En el centro colocaremos el propio campo de entrada. Además, cada vez que se haga clic en el icono de borrado, actualizaremos nuestro **searchText** e invocaremos el método {ComponentTitle} de <ApiLink type="{ComponentApiType}" member="clearSearch" label="clearSearch" /> para borrar los resaltados.
+
+```html
+<!--searchgrid.component.html-->
+
+<igx-input-group type="search" class="offset">
+    <igx-prefix>
+        @if (searchText.length == 0) {
+            <igx-icon>search</igx-icon>
+        }
+        @if (searchText.length > 0) {
+            <igx-icon (click)="clearSearch()">clear</igx-icon>
+        }
+    </igx-prefix>
+
+    <input #search1 id="search1" igxInput placeholder="Search" [(ngModel)]="searchText" (ngModelChange)="{ComponentObjectRef}.findNext(searchText, caseSensitive, exactMatch)"
+        (keydown)="searchKeyDown($event)" />
+
+    @if (searchText.length > 0) {
+        <igx-suffix>
+            ...
+        </igx-suffix>
+    }
+</igx-input-group>
+```
+
+```typescript
+// searchgrid.component.ts
+
+public clearSearch() {
+    this.searchText = '';
+    this.{ComponentObjectRef}.clearSearch();
+}
+```
+
+A la derecha de nuestro grupo de entrada, creemos tres contenedores separados con las siguientes finalidades:
+
+- Para mostrar los resultados de la búsqueda.
+
+```html
+<!--searchgrid.component.html-->
+
+@if (searchText.length > 0) {
+    <igx-suffix>
+        @if ({ComponentObjectRef}.lastSearchInfo) {
+            <div class="resultsText">
+                @if ({ComponentObjectRef}.lastSearchInfo.matchInfoCache.length > 0) {
+                    <span>
+                        {{ {ComponentObjectRef}.lastSearchInfo.activeMatchIndex + 1 }} of {{ {ComponentObjectRef}.lastSearchInfo.matchInfoCache.length }} results
+                    </span>
+                }
+                @if ({ComponentObjectRef}.lastSearchInfo.matchInfoCache.length == 0) {
+                    <span>
+                        No results
+                    </span>
+                }
+            </div>
+        }
+    </igx-suffix>
+}
+```
+
+- Para mostrar un par de chips que alternan las propiedades **caseSensitive** y **exactMatch**. Hemos sustituido las casillas por dos chips con estilo que cambian de color según estas propiedades. Cada vez que se hace clic en un chip, invocamos su controlador correspondiente: **updateSearch** o **updateExactSearch**, según el chip en el que se haya hecho clic.
+
+```html
+<!--searchgrid.component.html-->
+
+    ...
+    <div class="chips">
+        <igx-chips-area>
+            <igx-chip (click)="updateSearch()" [color]="caseSensitive? 'lightgrey' : 'rgba(0, 0, 0, .04)'">
+                <span>Case Sensitive</span>
+            </igx-chip>
+            <igx-chip (click)="updateExactSearch()" [color]="exactMatch? 'lightgrey' : 'rgba(0, 0, 0, .04)'">
+                <span>Exact Match</span>
+            </igx-chip>
+        </igx-chips-area>
+    </div>
+    ...
+```
+
+- Para los botones de navegación de la búsqueda, hemos transformado nuestros campos de entrada en botones con efecto ripple y iconos de Material. Los controladores de los eventos de clic siguen siendo los mismos: invocar los métodos <ApiLink type="{ComponentApiType}" member="findNext" label="findNext" />/<ApiLink type="{ComponentApiType}" member="findPrev" label="findPrev" />.
+
+```html
+<!--searchgrid.component.html-->
+
+<igx-suffix>
+    <div class="searchButtons">
+        <button igxIconButton="flat" igxRipple igxRippleCentered="true" (click)="{ComponentObjectRef}.findPrev(searchText, caseSensitive, exactMatch)">
+            <igx-icon fontSet="material">navigate_before</igx-icon>
+        </button>
+        <button igxIconButton="flat" igxRipple igxRippleCentered="true" (click)="{ComponentObjectRef}.findNext(searchText, caseSensitive, exactMatch)">
+            <igx-icon fontSet="material">navigate_next</igx-icon>
+        </button>
+    </div>
+</igx-suffix>
+```
+
+## Limitaciones conocidas
+
+|Limitación|Descripción|
+|--- |--- |
+|Buscar en celdas con plantilla|Los resaltados de la función de búsqueda solo funcionan con las plantillas de celda predeterminadas. Si tiene una columna con una plantilla de celda personalizada, los resaltados no funcionarán; en ese caso debe usar enfoques alternativos, como un formateador de columna, o establecer en false la propiedad <ApiLink type="Column" member="searchable" label="searchable" /> de la columna.|
+|Virtualización remota| La búsqueda no funcionará correctamente con la virtualización remota|
+|Celdas con texto cortado| Cuando el texto de la celda es demasiado grande para caber y el texto que buscamos queda cortado por los puntos suspensivos, seguiremos desplazándonos hasta la celda y la incluiremos en el recuento de coincidencias, pero no se resaltará nada |
+
+## Referencias de API
+En este artículo hemos implementado nuestra propia barra de búsqueda para {ComponentTitle}, con algunas funciones adicionales para navegar entre los resultados de búsqueda. También hemos usado otros componentes de Ignite UI for Angular, como iconos, chips y campos de entrada. La API de búsqueda se enumera a continuación.
+Métodos de <ApiLink type="{ComponentApiType}" />:
+- <ApiLink type="{ComponentApiType}" member="findNext" label="findNext" />
+- <ApiLink type="{ComponentApiType}" member="findPrev" label="findPrev" />
+- <ApiLink type="{ComponentApiType}" member="clearSearch" label="clearSearch" />
+- <ApiLink type="{ComponentApiType}" member="refreshSearch" label="refreshSearch" />
+Métodos de <ApiLink type="GridCell" />:
+Propiedades de <ApiLink type="Column" />:
+- <ApiLink type="Column" member="searchable" label="searchable" />
+<ApiLink type="ISearchInfo" kind="interface" />
+Componentes y/o directivas adicionales con API relacionadas que se han usado:
+- <ApiLink type="InputGroup" />
+- <ApiLink type="Icon" />
+- <ApiLink type="RippleDirective" />
+- <ApiLink type="ButtonDirective" />
+- <ApiLink type="Chip" />
+Estilos:
+- <ApiLink kind="sass" module="themes" type="function-grid-theme" label="Estilos de {ComponentName}Component" />
+- <ApiLink kind="sass" module="themes" type="function-input-group-theme" label="Estilos de IgxInputGroupComponent" />
+- <ApiLink kind="sass" module="themes" type="function-icon-theme" label="Estilos de IgxIconComponent" />
+- <ApiLink kind="sass" module="themes" type="function-ripple-theme" label="Estilos de IgxRippleDirective" />
+- <ApiLink kind="sass" module="themes" type="function-button-theme" label="Estilos de IgxButtonDirective" />
+- <ApiLink kind="sass" module="themes" type="function-chip-theme" label="Estilos de IgxChipComponent" />
+## Recursos adicionales
+
+
+- [Descripción general de {ComponentTitle}](/{igPath}/{ComponentMainTopic})
+- [Virtualización y rendimiento](/{igPath}/virtualization)
+- [Filtrado](/{igPath}/filtering)
+- [Paginación](/{igPath}/paging)
+- [Ordenación](/{igPath}/sorting)
+- [Resúmenes](/{igPath}/summaries)
+- [Movimiento de columnas](/{igPath}/column-moving)
+- [Anclaje de columnas](/{igPath}/column-pinning)
+- [Redimensionado de columnas](/{igPath}/column-resizing)
+- [Selección](/{igPath}/selection)
+
+Nuestra comunidad está activa y siempre da la bienvenida a nuevas ideas.
+
+- [Ignite UI for Angular **Foros**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

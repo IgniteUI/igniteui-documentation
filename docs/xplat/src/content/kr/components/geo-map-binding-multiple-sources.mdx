@@ -1,0 +1,300 @@
+---
+title: "{Platform} 지도 | 데이터 시각화 도구 | 여러 데이터 소스 바인딩 | Infragistics"
+description: "Infragistics의 {Platform} 지도를 사용하면 지리 공간 데이터로 사용자 지정 데이터 소스를 겹쳐 놓기 위해 여러 지리 시리즈 객체를 추가할 수 있습니다. {ProductName} 지도 튜토리얼을 확인하십시오!"
+keywords: "{Platform} 지도, 지리 시리즈, {ProductName}, Infragistics, 데이터 바인딩"
+license: commercial
+mentionedTypes: ["GeographicMap", "SeriesViewer", "Series", "GeographicShapeSeriesBase"]
+_language: ko
+llms:
+  description: "{ProductName} 지도에서는 지리 공간 데이터로 사용자 지정 데이터 소스를 겹쳐 놓기 위해 여러 지리 시리즈 객체를 추가할 수 있습니다."
+platformType: xplat
+---
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+# {Platform} 여러 데이터 소스 바인딩
+
+{ProductName} 지도에서는 지리 공간 데이터로 사용자 지정 데이터 소스를 겹쳐 놓기 위해 여러 지리 시리즈 객체를 추가할 수 있습니다. 예를 들어 공항의 지리적 위치를 플롯하는 `GeographicSymbolSeries`, 공항 사이의 항공편을 플롯하는 `GeographicPolylineSeries`, 주요 지리 좌표의 격자선을 플롯하는 두 번째 `GeographicPolylineSeries`를 사용할 수 있습니다.
+
+
+## {Platform} 여러 데이터 소스 바인딩 예제
+
+
+<Sample src="/maps/geo-map/binding-multiple-sources" height={500} alt="{Platform} 여러 데이터 소스 바인딩 예제" />
+
+
+
+
+이 항목은 다음 지리 공간 데이터를 플롯하는 여러 지리 시리즈를 표시하는 과정을 단계별로 안내합니다:
+
+- `GeographicSymbolSeries` - 주요 공항의 위치를 표시합니다
+- `GeographicPolylineSeries` - 공항 사이의 항공편을 표시합니다
+- `GeographicPolylineSeries` - 주요 좌표의 격자선을 표시합니다
+
+이 조합이나 다른 조합으로 지리 시리즈를 사용하여 원하는 데이터를 플롯할 수 있습니다.
+
+## 데이터 소스 만들기
+
+{ProductName} 지도에 표시하려는 모든 지리 시리즈의 데이터 소스를 만드십시오. 예를 들어 [WorldConnections](./geo-map-resources-world-connections.mdx) 스크립트를 사용할 수 있습니다.
+
+
+```json-snippet source="/maps/geo-map/binding-multiple-sources" channel="auto"
+{
+    "type": "GeographicMap",
+    "name": "geoMap",
+    "$type": ["+doc:markup", "+doc:bindingCode"],
+    "$series": "-doc:markup",
+    "height": "100%",
+    "width": "100%",
+    "zoomable": true,
+    "series": [
+        {
+            "type": "GeographicPolylineSeries",
+            "name": "lineSeries",
+            "dataSourceRef": "WorldFlights",
+            "shapeMemberPath": "Points",
+            "shapeStroke": "rgba(196, 14, 14, 0.05)",
+            "shapeStrokeThickness": 4
+        },
+        {
+            "type": "GeographicPolylineSeries",
+            "name": "gridSeries",
+            "dataSourceRef": "WorldGridlines",
+            "shapeMemberPath": "Points",
+            "shapeStroke": "Gray",
+            "shapeStrokeThickness": 1
+        },
+        {
+            "type": "GeographicSymbolSeries",
+            "name": "symbolSeries",
+            "dataSourceRef": "WorldAirports",
+            "latitudeMemberPath": "Lat",
+            "longitudeMemberPath": "Lon",
+            "markerType": "Circle",
+            "markerBrush": "#aad3df",
+            "markerOutline": "rgb(73, 73, 73)",
+            "thickness": 1
+        }
+    ]
+}
+```
+
+## 항공편 겹쳐 놓기
+
+먼저 주요 공항 사이의 항공편 연결을 가진 `GeographicPolylineSeries` 객체를 만들고, 이를 {ProductName} 지도의 Series 컬렉션에 추가하십시오.
+
+```json-snippet source="/maps/geo-map/binding-multiple-sources" code="allCode"
+{
+    "type": "GeographicMap",
+    "name": "geoMap",
+    "height": "100%",
+    "width": "100%",
+    "zoomable": true,
+    "series": [
+        {
+            "type": "GeographicPolylineSeries",
+            "name": "lineSeries",
+            "$type": "+doc:markup",
+            "dataSourceRef": "WorldFlights",
+            "shapeMemberPath": "Points",
+            "shapeStroke": "rgba(196, 14, 14, 0.05)",
+            "shapeStrokeThickness": 4
+        },
+        {
+            "type": "GeographicPolylineSeries",
+            "name": "gridSeries",
+            "dataSourceRef": "WorldGridlines",
+            "shapeMemberPath": "Points",
+            "shapeStroke": "Gray",
+            "shapeStrokeThickness": 1
+        },
+        {
+            "type": "GeographicSymbolSeries",
+            "name": "symbolSeries",
+            "dataSourceRef": "WorldAirports",
+            "latitudeMemberPath": "Lat",
+            "longitudeMemberPath": "Lon",
+            "markerType": "Circle",
+            "markerBrush": "#aad3df",
+            "markerOutline": "rgb(73, 73, 73)",
+            "thickness": 1
+        }
+    ]
+}
+```
+
+## 격자선 겹쳐 놓기
+
+지리 격자선을 가진 두 번째 `GeographicPolylineSeries` 객체를 만들고, 이를 {ProductName} 지도의 Series 컬렉션에 추가하십시오.
+
+```json-snippet source="/maps/geo-map/binding-multiple-sources" code="allCode"
+{
+    "type": "GeographicMap",
+    "name": "geoMap",
+    "height": "100%",
+    "width": "100%",
+    "zoomable": true,
+    "series": [
+        {
+            "type": "GeographicPolylineSeries",
+            "name": "lineSeries",
+            "dataSourceRef": "WorldFlights",
+            "shapeMemberPath": "Points",
+            "shapeStroke": "rgba(196, 14, 14, 0.05)",
+            "shapeStrokeThickness": 4
+        },
+        {
+            "type": "GeographicPolylineSeries",
+            "name": "gridSeries",
+            "$type": "+doc:markup",
+            "dataSourceRef": "WorldGridlines",
+            "shapeMemberPath": "Points",
+            "shapeStroke": "Gray",
+            "shapeStrokeThickness": 1
+        },
+        {
+            "type": "GeographicSymbolSeries",
+            "name": "symbolSeries",
+            "dataSourceRef": "WorldAirports",
+            "latitudeMemberPath": "Lat",
+            "longitudeMemberPath": "Lon",
+            "markerType": "Circle",
+            "markerBrush": "#aad3df",
+            "markerOutline": "rgb(73, 73, 73)",
+            "thickness": 1
+        }
+    ]
+}
+```
+
+## 공항 겹쳐 놓기
+
+공항 지점이 있는 `GeographicSymbolSeries` 객체를 만들고, 이를 지리 {ProductName} 지도의 Series 컬렉션에 추가하십시오.
+
+```json-snippet source="/maps/geo-map/binding-multiple-sources" code="allCode"
+{
+    "type": "GeographicMap",
+    "name": "geoMap",
+    "height": "100%",
+    "width": "100%",
+    "zoomable": true,
+    "series": [
+        {
+            "type": "GeographicPolylineSeries",
+            "name": "lineSeries",
+            "dataSourceRef": "WorldFlights",
+            "shapeMemberPath": "Points",
+            "shapeStroke": "rgba(196, 14, 14, 0.05)",
+            "shapeStrokeThickness": 4
+        },
+        {
+            "type": "GeographicPolylineSeries",
+            "name": "gridSeries",
+            "dataSourceRef": "WorldGridlines",
+            "shapeMemberPath": "Points",
+            "shapeStroke": "Gray",
+            "shapeStrokeThickness": 1
+        },
+        {
+            "type": "GeographicSymbolSeries",
+            "name": "symbolSeries",
+            "$type": "+doc:markup",
+            "dataSourceRef": "WorldAirports",
+            "latitudeMemberPath": "Lat",
+            "longitudeMemberPath": "Lon",
+            "markerType": "Circle",
+            "markerBrush": "#aad3df",
+            "markerOutline": "rgb(73, 73, 73)",
+            "thickness": 1
+        }
+    ]
+}
+```
+
+## 요약
+
+편의를 위해 위의 모든 코드 조각을 하나의 코드 블록으로 합쳤으며, 프로젝트에 쉽게 복사할 수 있습니다.
+
+```json-snippet source="/maps/geo-map/binding-multiple-sources" channel="bindingImports" exclude="Blazor,Xaml"
+{
+    "type": "GeographicMap",
+    "name": "geoMap",
+    "height": "100%",
+    "width": "100%",
+    "zoomable": true,
+    "series": [
+        {
+            "type": "GeographicPolylineSeries",
+            "name": "lineSeries",
+            "dataSourceRef": "WorldFlights",
+            "shapeMemberPath": "Points",
+            "shapeStroke": "rgba(196, 14, 14, 0.05)",
+            "shapeStrokeThickness": 4
+        },
+        {
+            "type": "GeographicPolylineSeries",
+            "name": "gridSeries",
+            "dataSourceRef": "WorldGridlines",
+            "shapeMemberPath": "Points",
+            "shapeStroke": "Gray",
+            "shapeStrokeThickness": 1
+        },
+        {
+            "type": "GeographicSymbolSeries",
+            "name": "symbolSeries",
+            "dataSourceRef": "WorldAirports",
+            "latitudeMemberPath": "Lat",
+            "longitudeMemberPath": "Lon",
+            "markerType": "Circle",
+            "markerBrush": "#aad3df",
+            "markerOutline": "rgb(73, 73, 73)",
+            "thickness": 1
+        }
+    ]
+}
+```
+
+```json-snippet source="/maps/geo-map/binding-multiple-sources" code="allCode"
+{
+    "type": "GeographicMap",
+    "name": "geoMap",
+    "height": "100%",
+    "width": "100%",
+    "zoomable": true,
+    "series": [
+        {
+            "type": "GeographicPolylineSeries",
+            "name": "lineSeries",
+            "dataSourceRef": "WorldFlights",
+            "shapeMemberPath": "Points",
+            "shapeStroke": "rgba(196, 14, 14, 0.05)",
+            "shapeStrokeThickness": 4
+        },
+        {
+            "type": "GeographicPolylineSeries",
+            "name": "gridSeries",
+            "dataSourceRef": "WorldGridlines",
+            "shapeMemberPath": "Points",
+            "shapeStroke": "Gray",
+            "shapeStrokeThickness": 1
+        },
+        {
+            "type": "GeographicSymbolSeries",
+            "name": "symbolSeries",
+            "dataSourceRef": "WorldAirports",
+            "latitudeMemberPath": "Lat",
+            "longitudeMemberPath": "Lon",
+            "markerType": "Circle",
+            "markerBrush": "#aad3df",
+            "markerOutline": "rgb(73, 73, 73)",
+            "thickness": 1
+        }
+    ]
+}
+```
+
+
+## API 참조
+`GeographicPolylineSeries`
+`GeographicSymbolSeries`

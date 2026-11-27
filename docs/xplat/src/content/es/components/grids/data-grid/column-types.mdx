@@ -1,0 +1,172 @@
+---
+title: "Cuadrícula de datos {Platform} | Tipos de columna | Infragistics"
+description: "Aprenda cómo la tabla y cuadrícula de datos {ProductName} de Infragistics admite cuatro tipos de columna para mostrar su contenido, como imagen, texto, numérico, fecha y hora, o columna de plantilla. ¡Vea los tutoriales de {ProductName}!"
+keywords: "Tabla {Platform}, cuadrícula de datos, tipos de columna, {ProductName}, Infragistics"
+license: commercial
+mentionedTypes: ["DataGrid", "CellInfo", "TemplateCellInfo", "DataGridColumn"]
+namespace: Infragistics.Controls.Grids.Implementation
+_canonicalLink: "{CanonicalLinkToGridColumnTypes}"
+_language: es
+llms:
+  description: "La tabla / cuadrícula de datos {ProductName} admite 5 tipos de columna, además de un tipo de columna de plantilla, lo que le ofrece total flexibilidad sobre la forma en que se muestran sus datos en la cuadrícula de datos {Platform}."
+platformType: xplat
+---
+
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+
+# Tipos de columna de {Platform}
+
+La tabla / cuadrícula de datos {ProductName} admite 5 tipos de columna, además de un tipo de columna de plantilla, lo que le ofrece total flexibilidad sobre la forma en que se muestran sus datos en la cuadrícula de datos {Platform}. Los tipos de columna admitidos son columna de texto, columna numérica, columna de fecha y hora, columna de imagen, ComboBox y plantilla.
+
+Cada columna se enlaza a los datos estableciendo la propiedad `Field` con el nombre de la propiedad correspondiente en los elementos de su origen de datos subyacente enlazado a la cuadrícula de datos {Platform}.
+
+## Ejemplo de tipos de columna de {Platform}
+
+
+<Sample src="/grids/data-grid/column-types" height={600} alt="Ejemplo de tipos de columna de {Platform}" />
+
+
+
+<div class="divider--half"></div>
+
+## Columna de texto
+
+La cuadrícula de datos {Platform} se usa para mostrar texto con formato en sus celdas asociadas. Este es el tipo de columna predeterminado para mostrar datos de tipo cadena.
+
+## Columna numérica
+
+La `NumericColumn` se usa para mostrar un valor numérico con formato en sus celdas asociadas, y permite controlar la posición de los decimales dentro de las celdas y mostrar los dígitos fraccionarios.
+
+## Columna de fecha y hora
+
+La `DateTimeColumn` se usa para mostrar objetos Date en sus celdas asociadas, y permite controlar el formato de los objetos Date como considere oportuno.
+
+## Columna de imagen
+
+La `ImageColumn` se usa para mostrar una imagen dentro de una celda, y expone opciones para personalizar el estiramiento de la imagen en las celdas mediante su opción `ImageStretchOption`.
+
+También puede elegir el tipo de recurso de su imagen estableciendo la opción `ImageResourceType`.
+
+## Columna ComboBox
+
+La `ComboBoxColumn` se usa para mostrar una lista desplegable desde la que los usuarios finales pueden seleccionar un único elemento.
+
+El enlace de datos puede lograrse mediante una matriz de objetos complejos a través de la propiedad `DataSource` de la columna.
+
+La propiedad `TextField` determina qué valor se muestra cuando los usuarios realizan una selección.
+
+La propiedad `ValueField` determina el valor enlazado del elemento de datos subyacente seleccionado. Esto es necesario si su lista de objetos tiene varias propiedades.
+
+## Columna de plantilla
+
+La `TemplateColumn` se usa junto con una plantilla de celda. Le permite aplicar una plantilla personalizada a la celda de la columna. Esto se hace gestionando el evento `CellUpdating` de la columna de plantilla.
+
+Los argumentos del evento `CellUpdating` exponen el `TemplateColumn` que dispara el evento, así como un parámetro `TemplateCellUpdatingEventArgs`. Este parámetro de argumentos del evento expone una propiedad `Content`: el contenedor nativo que se colocará dentro de la celda asociada de la columna, cuyo tipo depende de la plataforma. Después puede actualizar o añadir contenido a este contenedor.
+
+La `TemplateCellUpdatingEventArgs` también expone una propiedad `CellInfo` que puede usar para obtener un objeto `TemplateCellInfo`. Este objeto expone información sobre la celda y la fila, como el índice, el elemento de datos subyacente y el aspecto de la celda.
+
+<PlatformBlock for="Web">
+
+## Columna de sparkline
+
+Puede incrustar componentes Sparkline en `TemplateColumn` para mostrar estructuras de datos más complejas.
+Consulte el tema [Column Sparkline](type-sparkline-table.mdx) para saber cómo hacerlo.
+
+</PlatformBlock>
+
+## Fragmento de código
+
+A continuación se muestra la implementación de cada una de las columnas descritas en este tema:
+
+```json-snippet source="/grids/data-grid/column-types"
+{
+    "skipAlterDataCasing": true,
+    "descriptions": {
+        "content": {
+            "type": "DataGrid",
+            "name": "grid",
+            "dataSourceRef": "EmployeesSalesData",
+            "autoGenerateColumns": false,
+            "defaultColumnMinWidth": 120,
+            "height": "100%",
+            "width": "100%",
+            "columns": [
+                {
+                    "type": "TextColumn",
+                    "field": "FirstName",
+                    "headerText": "First Name"
+                },
+                {
+                    "type": "TextColumn",
+                    "field": "LastName",
+                    "headerText": "Last Name"
+                },
+                {
+                    "type": "ComboBoxColumn",
+                    "field": "Country",
+                    "headerText": "Country",
+                    "dataSourceRef": "CountryNames",
+                    "textField": "Name",
+                    "valueField": "Name"
+                },
+                {
+                    "type": "TemplateColumn",
+                    "field": "Address",
+                    "headerText": "Address",
+                    "cellUpdatingRef": "DataGridAddressLinesTemplate"
+                },
+                {
+                    "type": "ImageColumn",
+                    "field": "Photo",
+                    "headerText": "Photo",
+                    "isEditable": false
+                },
+                {
+                    "type": "NumericColumn",
+                    "field": "Salary",
+                    "positivePrefix": "$",
+                    "showGroupingSeparator": true,
+                    "maxFractionDigits": 0,
+                    "minFractionDigits": 0
+                },
+                {
+                    "type": "NumericColumn",
+                    "field": "Age",
+                    "headerText": "Age"
+                },
+                {
+                    "type": "DateTimeColumn",
+                    "field": "Birthday",
+                    "headerText": "Date of Birth"
+                }
+            ],
+            "$setInCode": {
+                "dataSourceRef": [
+                    "webComponents"
+                ]
+            }
+        }
+    }
+}
+```
+
+## Referencias de API
+
+- `DataGrid`
+- `CellInfo`
+- `CellUpdating`
+- `ComboBoxColumn`
+- `Content`
+- `DataSource`
+- `DateTimeColumn`
+- `Field`
+- `ImageColumn`
+- `ImageResourceType`
+- `ImageStretchOption`
+- `NumericColumn`
+- `TemplateCellInfo`
+- `TemplateCellUpdatingEventArgs`
+- `TemplateColumn`
+- `TextField`
+- `ValueField`

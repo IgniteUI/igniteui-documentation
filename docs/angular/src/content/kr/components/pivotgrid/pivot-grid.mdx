@@ -1,0 +1,408 @@
+---
+title: Angular Pivot Grid & Table – Ignite UI for Angular
+description: "Ignite UI for Angular로 빠르고 반응성이 뛰어난 Angular 피벗 그리드와 테이블을 만드십시오. 복잡한 분석을 수행하고 데이터 정렬, 그룹화 또는 필터링을 적용하십시오."
+keywords: angular pivot grid, angular pivot grid component, angular pivot table, angular pivot table component, angular pivot data table, Angular pivot table, angular ui components, ignite ui for angular
+license: commercial
+_language: ko
+llms:
+  description: "Ignite UI for Angular Pivot Grid는 가장 뛰어난 Angular 컴포넌트 중 하나로, 그룹화된 값과 집계를 표 형식으로 보여 주며 데이터를 체계화하고 요약할 수 있게 합니다."
+---
+
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+
+
+# Angular Pivot Grid 컴포넌트 개요
+
+Ignite UI for Angular Pivot Grid는 가장 뛰어난 [Angular 컴포넌트](https://www.infragistics.com/products/ignite-ui-angular) 중 하나로, 그룹화된 값과 집계를 표 형식으로 보여 주며 데이터를 체계화하고 요약할 수 있게 합니다. 이는 스프레드시트나 데이터베이스 테이블에서 가져온 선택된 열과 행의 데이터를 재구성하고 요약하여 원하는 보고서를 얻는 데 쓰이는 데이터 요약 도구입니다.
+
+## Angular Pivot Grid란 무엇입니까?
+
+Angular Pivot Grid 컴포넌트는 데이터를 피벗 테이블로 표시하고, 제공된 데이터 세트에 대한 복잡한 분석을 수행하도록 돕습니다. 이 정교한 Pivot Grid 컨트롤은 대량의 데이터를 체계화, 요약 및 필터링하는 데 사용되며, 이후 교차 표 형식으로 표시됩니다. Angular Pivot Grid의 주요 기능은 행 차원, 열 차원, 집계 및 필터입니다.
+
+`IgxPivotGridComponent`은(는) 사용자가 다차원 피벗 테이블 구조로 데이터를 구성하고 표시할 수 있게 합니다.
+행과 열은 서로 다른 데이터 그룹을 나타내고, 데이터 셀 값은 집계를 나타냅니다. 이를 통해 단순한 평면 데이터 세트를 기반으로 복잡한 데이터 분석을 할 수 있습니다. `IgxPivotGridComponent`은(는) 다양한 차원과 값을 쉽게 구성할 수 있고, 필터링과 정렬 같은 추가 데이터 작업도 제공하는 기능이 풍부한 피벗 테이블입니다.
+
+## Angular Pivot Grid 예제
+
+다음은 Angular Pivot Data Selector 컴포넌트와 함께 사용하는 Angular Pivot Grid 예제입니다. 이렇게 하면 더 유연한 런타임 구성 옵션을 사용할 수 있습니다.
+
+<Sample src="/pivot-grid/pivot-grid-datasource" height={870} alt="Angular Pivot Grid와 Pivot Selector 예제" />
+
+## Ignite UI for Angular Pivot Grid 시작하기
+
+Ignite UI for Angular Pivot Grid 컴포넌트를 시작하려면 먼저 Ignite UI for Angular를 설치해야 합니다. 기존 Angular 애플리케이션에서 다음 명령을 입력하십시오:
+
+```cmd
+ng add igniteui-angular
+```
+
+Ignite UI for Angular에 대한 전체 소개는 [_시작하기_](/general/getting-started) 항목을 읽어 보십시오.
+
+다음 단계는 **app.module.ts** 파일에서 `IgxPivotGridModule`을 가져오는 것입니다.
+
+```typescript
+// app.module.ts
+
+import { IgxPivotGridModule } from 'igniteui-angular/grids/pivot-grid';
+// import { IgxPivotGridModule } from '@infragistics/igniteui-angular'; for licensed package
+
+@NgModule({
+  imports: [
+    ...
+    IgxPivotGridModule,
+    ...
+  ]
+})
+export class AppModule {}
+```
+
+또는 `16.0.0` 버전부터는 `IgxPivotGridComponent`을 독립형(standalone) 종속성으로 가져올 수 있으며, [`IGX_PIVOT_GRID_DIRECTIVES`](https://github.com/IgniteUI/igniteui-angular/blob/master/projects/igniteui-angular/grids/pivot-grid/src/pivot-grid.module.ts) 토큰을 사용하여 컴포넌트와 모든 지원 컴포넌트 및 디렉티브를 가져올 수도 있습니다.
+
+```typescript
+// home.component.ts
+
+import { IGX_PIVOT_GRID_DIRECTIVES } from 'igniteui-angular/grids/pivot-grid';
+// import { IGX_PIVOT_GRID_DIRECTIVES } from '@infragistics/igniteui-angular'; for licensed package
+
+@Component({
+  selector: 'app-home',
+  template: `
+  <igx-pivot-grid [data]="data" [pivotConfiguration]="pivotConfigHierarchy">
+  </igx-pivot-grid>
+  `,
+  styleUrls: ['home.component.scss'],
+  standalone: true,
+  imports: [IGX_PIVOT_GRID_DIRECTIVES]
+  /* or imports: [IgxPivotGridComponent] */
+})
+export class HomeComponent {
+  public data: Transaction [];
+}
+```
+
+이제 Ignite UI for Angular Pivot Grid 모듈 또는 디렉티브를 가져왔으므로 `igx-pivot-grid` 컴포넌트를 사용할 수 있습니다.
+
+## Angular Pivot Grid 사용하기
+
+Angular Pivot Grid 컴포넌트는 <ApiLink type="PivotGrid" member="pivotConfiguration" /> 속성을 통해 구성할 수 있습니다.
+
+```html
+<igx-pivot-grid #grid1 [data]="data" [pivotConfiguration]="pivotConfigHierarchy">
+</igx-pivot-grid>
+```
+
+세 가지 주요 차원으로 정의됩니다: `rows`, `columns`, `values`. `rows`과(와) `columns`은(는) [Angular 그리드](https://www.infragistics.com/products/ignite-ui-angular/angular/components/grid/grid)의 행과 열에 표시되는 그룹화된 구조를 정의합니다. `values`은(는) 그룹의 관련 값을 계산하고 표시하는 데 사용되는 집계 필드와 집계를 정의합니다.
+
+`filters` 구성 속성을 통해 필터를 정의할 수도 있습니다. 차원이나 값으로 추가하고 싶지는 않지만 UI를 통해 관련 멤버 값을 필터링하고 싶은 필드에 사용할 수 있습니다.
+
+### 차원 구성
+
+각 기본 차원 구성에는 제공된 `data`의 필드와 일치하는 `memberName`이(가) 필요하거나, 복잡한 객체나 기타 사용자 지정 시나리오의 경우 레코드에서 값을 추출하는 `memberFunction`이(가) 필요합니다.
+
+<DocsAside type="info">
+`memberName`은(는) 고유해야 합니다. 같은 필드에 대해 서로 다른 차원이 필요하다면, 각 차원에 대해 사용자 지정 고유 `memberName`을(를) 정의하고 `memberFunction`을(를) 통해 관련 값을 추출할 수 있습니다.
+</DocsAside>
+
+여러 개의 형제 차원을 정의할 수 있으며, 이는 관련 행 또는 열 차원 영역에 더 복잡한 중첩 그룹을 만듭니다.
+
+차원은 해당 칩을 끌어서 놓기로 순서를 바꾸거나 한 영역에서 다른 영역으로 옮길 수 있습니다.
+
+차원은 `childLevel` 속성을 통해 확장 가능한 계층을 설명할 수도 있습니다. 예를 들어:
+
+```typescript
+{
+  memberFunction: () => 'All',
+  memberName: 'AllProducts',
+  enabled: true,
+  childLevel: {
+    memberFunction: (data) => data.ProductCategory,
+    memberName: 'ProductCategory',
+    enabled: true
+  }
+}
+```
+
+이 경우 차원은 그리드의 관련 영역(행 또는 열)에 확장 버튼을 렌더링하며, 하위 항목을 계층의 일부로 펼치거나 접을 수 있게 합니다. 기본적으로 행 차원은 처음에 펼쳐져 있습니다. 이 동작은 피벗 그리드의 `defaultExpandState` `@Input`로 제어할 수 있습니다.
+
+### 사전 정의된 차원
+
+구성을 쉽게 하기 위해 피벗 그리드의 일부로 추가 사전 정의 차원이 제공됩니다:
+
+`IgxPivotDateDimension`은(는) 날짜 필드에 사용할 수 있습니다. 기본적으로 다음 계층을 설명합니다:
+
+- 모든 기간
+- 연도
+- 분기
+- 월
+- 전체 날짜
+
+행이나 열에 설정할 수 있습니다. 예를 들어:
+
+```typescript
+public pivotConfigHierarchy: IPivotConfiguration = {
+  rows: [
+    new IgxPivotDateDimension({ memberName: 'Date', enabled: true });
+  ]
+}
+```
+
+두 번째 옵션 매개변수를 통해 추가로 사용자 지정할 수도 있어, 계층의 특정 부분을 활성화하거나 비활성화할 수 있습니다. 예를 들어:
+
+```typescript
+new IgxPivotDateDimension({ memberName: 'Date', enabled: true }, {
+  total: true,
+  years: true,
+  months: true,
+  fullDate: true,
+  quarters: false
+});
+```
+
+### 값 구성
+
+값 구성에는 제공된 `data`의 필드와 일치하는 `member`이(가) 필요하거나, 더 복잡한 시나리오의 경우 `aggregatorName` 또는 사용자 지정 `aggregator` 함수를 통해 정의할 수 있습니다.
+
+<DocsAside type="info">
+`member`은(는) 고유해야 합니다. 같은 필드에 대해 서로 다른 값 집계가 필요하다면, 각각에 대해 사용자 지정 고유 `member`을(를) 정의하고 `aggregator` 함수를 통해 관련 값을 추출할 수 있습니다.
+</DocsAside>
+
+ 기본으로 4가지 사전 정의 집계를 사용할 수 있으며, 데이터 필드의 데이터 유형에 따라 사용할 수 있습니다:
+
+- `IgxPivotNumericAggregate` - 숫자 필드용입니다.
+  다음 집계 함수를 포함합니다: `SUM`, `AVG`, `MIN`, `MAX`, `COUNT`.
+- `IgxPivotDateAggregate` - 날짜 필드용입니다.
+  다음 집계 함수를 포함합니다: `LATEST`, `EARLIEST`, `COUNT`.
+- `IgxPivotTimeAggregate` - 시간 필드용입니다.
+  다음 집계 함수를 포함합니다: `LATEST`, `EARLIEST`, `COUNT`.
+- `IgxPivotAggregate` - 그 밖의 모든 데이터 유형용입니다. 기본 집계입니다.
+  다음 집계 함수를 포함합니다: `COUNT`.
+
+현재 집계 함수는 값 칩의 드롭다운을 사용하여 실행 중에 바꿀 수 있습니다. 기본적으로 필드의 데이터 유형에 따라 사용 가능한 집계 목록을 표시합니다. `aggregateList` 속성으로 사용자 지정 집계 목록을 설정할 수도 있습니다. 예를 들어:
+
+```typescript
+public pivotConfigHierarchy: IPivotConfiguration = {
+  values: [
+    {
+      member: 'AmountOfSale',
+      displayName: 'Amount of Sale',
+      aggregate: {
+        key: 'SUM',
+        aggregator: IgxTotalSaleAggregate.totalSale,
+        label: 'Sum of Sale'
+      },
+      aggregateList: [{
+        key: 'SUM',
+        aggregator: IgxTotalSaleAggregate.totalSale,
+        label: 'Sum of Sale'
+      }, {
+        key: 'MIN',
+        aggregator: IgxTotalSaleAggregate.totalMin,
+        label: 'Minimum of Sale'
+      }, {
+        key: 'MAX',
+        aggregator: IgxTotalSaleAggregate.totalMax,
+        label: 'Maximum of Sale'
+      }]
+    }
+  ]
+}
+
+public static totalSale: PivotAggregation = (members, data: any) =>
+  data.reduce((accumulator, value) => accumulator + value.UnitPrice * value.UnitsSold, 0);
+
+public static totalMin: PivotAggregation = (members, data: any) => {
+  return data.map(x => x.UnitPrice * x.UnitsSold).reduce((a, b) => Math.min(a, b));
+};
+
+public static totalMax: PivotAggregation = (members, data: any) => {
+  return data.map(x => x.UnitPrice * x.UnitsSold).reduce((a, b) => Math.max(a,b));
+};
+```
+
+피벗 값에는 `displayName` 속성도 있습니다. 이는 열 머리글에 이 값의 사용자 지정 이름을 표시하는 데 사용할 수 있습니다.
+
+<DocsAside type="info">
+`aggregatorName`과(와) `aggregator` 함수를 모두 정의하면 `aggregatorName`이(가) 우선합니다. 둘 다 설정되지 않으면 오류가 발생합니다.
+</DocsAside>
+
+### 활성화 속성
+
+`IPivotConfiguration`은(는) `IgxPivotGrid` 컴포넌트의 현재 상태를 설명하는 인터페이스입니다. 이를 통해 개발자는 데이터의 필드를 `rows`, `columns`, `filters` 또는 `values`로 선언할 수 있습니다. 구성을 통해 이러한 각 요소를 개별적으로 활성화하거나 비활성화할 수 있습니다. 활성화된 요소만 피벗 그리드의 현재 상태에 포함됩니다. `IgxPivotDataSelector` 컴포넌트도 같은 구성을 사용하며, 활성화된 것과 비활성화된 것을 포함한 모든 요소의 목록을 보여 줍니다. 각 요소에는 적절한 상태의 체크박스가 있습니다. 최종 사용자는 이 체크박스로 다양한 요소를 켜고 끄면서 피벗 상태를 쉽게 조정할 수 있습니다.
+`enable` 속성은 주어진 `IPivotDimension` 또는 `IPivotValue`이(가) 활성 상태인지 제어하며, 피벗 그리드가 렌더링하는 피벗 보기에 포함될지를 결정합니다.
+
+### 전체 구성 예제
+
+기본 피벗 구성을 살펴보겠습니다:
+
+```typescript
+public pivotConfigHierarchy: IPivotConfiguration = {
+  columns: [
+    {
+      memberName: 'Product',
+      memberFunction: (data) => data.Product.Name,
+      enabled: true
+    }
+  ],
+  rows: [
+    {
+      memberName: 'Seller',
+      memberFunction: (data) => data.Seller.Name,
+      enabled: true,
+    }
+  ],
+  values: [
+    {
+      member: 'NumberOfUnits',
+      aggregate: {
+        aggregator: IgxPivotNumericAggregate.sum,
+        key: 'sum',
+        label: 'Sum'
+      },
+      enabled: true
+    },
+    {
+      member: 'AmountOfSale',
+      aggregate: {
+        aggregatorName: 'SUM',
+        key: 'sum',
+        label: 'Sum'
+      },
+      enabled: true
+    }
+  ]
+};
+```
+
+이 구성은 행 1개, 열 1개, 그리고 각 차원 그룹의 값을 합산하는 집계 1개를 정의합니다.
+멤버는 제공된 데이터 소스에서 사용할 수 있는 필드와 일치합니다:
+
+```typescript
+public data = [
+[
+  {
+    Product: {
+      Name: 'Clothing',
+      UnitPrice: '12.814860936633712'
+    },
+    Seller: {
+      Name: 'Stanley Brooker',
+      City: 'Seattle'
+    },
+    Date: '2007-01-01T00:00:00',
+    Value: '94.2652032683907',
+    NumberOfUnits: '282'
+  },
+  //...
+];
+```
+
+그 결과 다음과 같은 보기가 나타납니다. 제품 범주의 고유한 열을 묶고, 판매자 이름을 고유한 행으로 묶으며, 관련 셀에 판매 단위 수에 대한 해당 집계를 표시합니다:
+
+<Sample src="/pivot-grid/pivot-grid-basic" height={530} alt="Angular Pivot Grid 기본 예제" />
+
+앱 개발 전체 과정을 간소화하고 싶다면, 다음 Angular 앱을 위해 [WYSIWYG App Builder™](https://www.infragistics.com/products/appbuilder)를 사용해 보십시오.
+
+### 구성 자동 생성
+
+`autoGenerateConfig` 속성은 데이터 소스 필드를 기반으로 차원과 값을 자동으로 생성합니다:
+
+- 숫자 필드:
+  - `IgxPivotNumericAggregate.sum` 집계기를 사용하여 `IPivotValue`(으)로 생성됩니다.
+  - 값 컬렉션에 추가되며 기본적으로 활성화됩니다.
+
+- 숫자가 아닌 필드:
+  - `IPivotDimension`(으)로 생성됩니다.
+  - 기본적으로 비활성화되어 있습니다.
+  - 열 컬렉션에 추가됩니다.
+
+- 날짜 필드(첫 번째 `date` 필드만 활성화되고, 다른 `date` 필드는 숫자가 아닌 필드 규칙을 적용합니다):
+  - `IgxPivotDateDimension`(으)로 생성됩니다
+  - 기본적으로 활성화됩니다
+  - 행 컬렉션에 추가됩니다.
+
+이 기능을 사용하면 개발자는 차원과 값을 수동으로 지정하지 않고도 피벗 보기를 빠르게 만들 수 있습니다. 피벗 그리드 옆의 피벗 선택기를 사용하면 사용자가 필요에 따라 차원과 값을 활성화하고 순서를 바꿀 수 있습니다.
+
+## 스타일링
+
+Pivot Grid는 [`Ignite UI for Angular Theme Library`](/themes/sass/component-themes)을(를) 통해 스타일을 지정할 수 있습니다. 그리드의 <ApiLink kind="sass" module="themes" type="function-grid-theme" label="grid-theme" code={true} />은(는) 매우 다양한 속성을 제공하여 Pivot Grid의 모든 기능을 사용자 지정할 수 있게 합니다.
+
+### 전역 테마 가져오기
+
+Pivot Grid의 스타일 지정을 시작하려면 먼저 모든 테마 함수와 `tokens()` 믹스인이 내보내진 `index` 파일을 가져와야 합니다:
+
+```scss
+@use "igniteui-angular/theming" as *;
+
+// IMPORTANT: Prior to Ignite UI for Angular version 13 use:
+// @import '~igniteui-angular/lib/core/styles/themes/index';
+```
+
+### 사용자 지정 테마 정의하기
+
+다음으로 사용자 지정 테마를 만들어야 합니다. `igx-pivot-grid`의 스타일을 지정하는 가장 쉽고 권장되는 방법은 <ApiLink kind="sass" module="themes" type="function-grid-theme" label="grid-theme" code={true} />을(를) 사용하고 세 가지 주요 색상인 `background`, `foreground`, `accent-color`만 제공하는 것입니다.
+
+<DocsAside type="info">
+피벗 그리드 전용 `sass` 함수는 없습니다.
+</DocsAside>
+
+이것들은 핵심 테마 속성입니다. 이를 설정하면 모든 그리드 부분과 내부 컴포넌트가 그 값에서 색상을 파생하므로, 그리드 전체에 걸쳐 일관된 모양을 얻습니다. 버튼, 아이콘, 입력, 드롭다운, 체크박스, 스크롤바, 칩 및 기타 보조 컴포넌트 같은 중첩 컴포넌트도 통일된 모양을 위해 주요 <ApiLink kind="sass" module="themes" type="function-grid-theme" label="grid-theme" code={true} />에서 스타일 토큰을 파생합니다.
+
+```scss
+$background: #292826;
+$foreground: #eeece1;
+$accent: #ffcd0f;
+
+$custom-grid: grid-theme(
+  $background: $background,
+  $foreground: $foreground,
+  $accent-color: $accent,
+);
+```
+
+<DocsAside type="info">
+방금 한 것처럼 색상 값을 하드코딩하는 대신, [`palette`]({environment:sassApiUrl}/palettes#function-palette) 및 [`color`]({environment:sassApiUrl}/palettes#function-color) 함수를 사용하면 색상을 더 유연하게 다룰 수 있습니다. 사용 방법에 대한 자세한 안내는 [`Palettes`](/themes/sass/palettes) 주제를 참조하십시오.
+</DocsAside>
+
+### 사용자 지정 테마 적용하기
+
+마지막 단계는 애플리케이션에 컴포넌트 테마를 **포함**하는 것입니다.
+
+```scss
+igx-pivot-grid {
+  @include tokens($custom-grid);
+}
+```
+
+### 데모
+
+<Sample src="/pivot-grid/pivot-grid-styling" height={650} alt="Angular 피벗 그리드 스타일 지정 데모" />
+
+보다 구체적인 사용자 지정이 필요하다면 <ApiLink kind="sass" module="themes" type="function-grid-theme" label="grid-theme" code={true} />에서 사용할 수 있는 추가 매개변수도 있습니다.
+
+## 알려진 문제와 제한 사항
+
+| 제한 사항                                                                        | 설명                                                                                                                                                                                                                      |
+| :-------------------------------------------------------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 열을 선언적으로 설정하는 것은 지원되지 않습니다.                                   | Pivot grid는 `columns` 구성을 기반으로 열을 생성하므로, 기본 그리드처럼 선언적으로 설정하는 것은 지원되지 않습니다. 이러한 열은 무시됩니다.                                                 |
+| 차원/값에 중복된 `memberName` 또는 `member` 속성 값을 설정하는 경우. | 각 차원/값마다 `memberName`/`member`은(는) 고유해야 합니다. 중복되면 최종 결과에서 데이터가 손실될 수 있습니다.                                                                                                   |
+| 행 선택은 `single` 모드에서만 지원됩니다.                                 | 다중 선택은 현재 지원되지 않습니다.                                                                                                                                                                                   |
+| 차원 멤버 병합은 대소문자를 구분합니다                                   | Pivot grid는 그룹을 만들고 같은 값(대소문자 구분)을 병합합니다. 하지만 차원이 `memberFunction`을(를) 제공하며 이를 그곳에서 변경할 수 있고, `memberFunction`의 결과가 비교되어 표시 값으로 사용됩니다. |
+
+## API 참조
+- <ApiLink type="PivotGrid" />
+- <ApiLink type="PivotDataSelector" />
+- <ApiLink kind="sass" module="themes" type="function-grid-theme" label="grid-theme" />
+## 추가 리소스
+
+
+- [Angular Pivot Grid 기능](/pivotgrid/pivot-grid-features)
+- [Angular Pivot Grid 사용자 지정 집계](/pivotgrid/pivot-grid-custom)
+- [Ignite UI for Angular Skills](/ai/skills) — 그리드, 데이터 작업, 테마를 위한 Agent Skills
+
+커뮤니티는 활발하며 새로운 아이디어를 언제나 환영합니다.
+
+- [Ignite UI for Angular **포럼**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

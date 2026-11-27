@@ -1,0 +1,91 @@
+---
+title: "Tree Grid 필요 시 로드 - Native Angular | Ignite UI for Angular"
+description: "Ignite UI for Angular Tree Grid는 상위 행을 펼칠 때 자식 데이터를 필요 시 로드하는 데 필요한 도구를 제공합니다. 이렇게 하면 데이터 양을 크게 줄일 수 있으며, 사용자가 필요로 할 때만 가져올 수 있습니다."
+keywords: "Ignite UI for Angular, UI 컨트롤, Angular 위젯, 웹 위젯, UI 위젯, Angular, Native Angular Components Suite, Native Angular Controls, Native Angular Components Library, Angular Tree Grid 컴포넌트, Angular Tree Table 컴포넌트, Angular Tree Grid 컨트롤, Angular Tree Table 컨트롤, Angular 고성능 Tree Grid, Angular 고성능 Tree Table, Tree Grid, Tree Table"
+license: commercial
+_language: ko
+llms:
+  description: "Ignite UI for Angular TreeGrid는 사용자가 가능한 한 빨리 볼 수 있도록, 서버에서 최소한의 데이터만 가져오는 방식으로 렌더링할 수 있습니다."
+---
+
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+
+# Tree Grid 필요 시 로드
+
+Ignite UI for Angular <ApiLink type="TreeGrid" />은(는) 사용자가 가능한 한 빨리 볼 수 있도록, 서버에서 최소한의 데이터만 가져오는 방식으로 렌더링할 수 있습니다. 그런 다음 사용자가 행을 펼친 후에만 해당 상위 행의 자식이 로드됩니다. 필요 시 로드(Load on Demand)라고도 알려진 이 메커니즘은 어떤 원격 데이터와도 쉽게 작동하도록 구성할 수 있습니다.
+
+## Angular Tree Grid 필요 시 로드 예제
+
+
+<Sample src="/tree-grid/treegrid-load-on-demand" height={450} alt="Angular Tree Grid 필요 시 로드 예제" />
+
+
+### 사용법
+
+필요 시 로드 기능은 두 가지 Tree Grid 데이터 소스 유형 - [`primary and foreign keys`](/treegrid/tree-grid#기본-키-및-외래-키) 또는 [`child collection`](/treegrid/tree-grid#자식-컬렉션) - 모두와 호환됩니다. Tree Grid에는 루트 수준 데이터만 로드하고, 데이터 소스 유형 중 하나에 필요한 키를 지정하면 됩니다. 사용자가 행을 펼칠 때 자식 행을 로드하기 위해 Tree Grid는 콜백 입력 속성 <ApiLink type="TreeGrid" member="loadChildrenOnDemand" label="loadChildrenOnDemand" />을(를) 제공합니다.
+
+```html
+<igx-tree-grid #treeGrid [data]="data" primaryKey="ID" foreignKey="ParentID"
+        [loadChildrenOnDemand]="loadChildren">
+        ...
+</igx-tree-grid>
+```
+
+
+<ApiLink type="TreeGrid" member="loadChildrenOnDemand" label="loadChildrenOnDemand" /> 콜백은 두 개의 매개변수를 제공합니다:
+
+- parentID - 펼쳐지고 있는 상위 행의 ID입니다.
+- done - 서버에서 자식이 가져와졌을 때 자식과 함께 호출해야 하는 콜백입니다.
+
+```typescript
+public loadChildren = (parentID: any, done: (children: any[]) => void) => {
+    this.dataService.getData(parentID, (children) => done(children));
+}
+```
+
+사용자가 펼치기 아이콘을 클릭하면 그 아이콘은 로딩 표시기로 바뀝니다. `done` 콜백이 호출되면 로딩 표시기가 사라지고 자식이 로드됩니다. Tree Grid는 자식을 기본 데이터 소스에 추가하고 필요한 키를 자동으로 채웁니다.
+
+펼치기 전에 행에 자식이 있는지 알 수 있는 정보를 제공할 방법이 있다면 <ApiLink type="TreeGrid" member="hasChildrenKey" label="hasChildrenKey" /> 입력 속성을 사용할 수 있습니다. 이렇게 하면 펼치기 표시기를 표시할지 여부를 나타내는 불리언 속성을 데이터 객체에서 제공할 수 있습니다.
+
+```html
+<igx-tree-grid #treeGrid [data]="data" primaryKey="ID" foreignKey="ParentID"
+        [loadChildrenOnDemand]="loadChildren" hasChildrenKey="hasEmployees">
+        ...
+</igx-tree-grid>
+```
+
+<ApiLink type="TreeGrid" member="hasChildrenKey" label="hasChildrenKey" /> 속성을 설정할 필요는 없다는 점에 유의하십시오. 제공하지 않으면 각 행에 펼치기 표시기가 표시됩니다. 자식이 없는 행을 펼친 후에도 undefined 또는 빈 배열과 함께 `done` 콜백을 호출해야 합니다. 이 경우 로딩 표시기가 사라진 후 펼치기 표시기는 나타나지 않습니다.
+
+자신만의 사용자 지정 로딩 표시기를 제공하려면 ng-template을 만들고 `igxRowLoadingIndicator` 디렉티브로 표시하면 됩니다. 다음 코드 조각은 그러한 사용자 지정 템플릿을 정의하는 방법을 보여 줍니다:
+
+```html
+<igx-tree-grid ...>
+
+    ...
+
+    <ng-template igxRowLoadingIndicator>
+        <igx-icon fontSet="material">loop</igx-icon>
+    </ng-template>
+</igx-tree-grid>
+```
+
+<DocsAside type="info">
+이 컴포넌트는 Material Icons를 사용합니다. 다음 링크를 `index.html`에 추가하십시오: `<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">`
+</DocsAside>
+
+## API 참조
+- <ApiLink type="TreeGrid" />
+- <ApiLink kind="sass" module="themes" type="function-grid-theme" label="IgxGridComponent 스타일" />
+## 추가 리소스
+
+
+- [Tree Grid 개요](/treegrid/tree-grid)
+- [Tree Grid 가상화 및 성능](/treegrid/virtualization)
+
+커뮤니티는 활발하며 새로운 아이디어를 언제나 환영합니다.
+
+- [Ignite UI for Angular **포럼**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

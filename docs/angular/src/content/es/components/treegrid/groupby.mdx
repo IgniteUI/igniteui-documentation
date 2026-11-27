@@ -1,0 +1,194 @@
+---
+title: "Angular Tree Grid: agrupar por | Agrupar por varios campos | Infragistics"
+description: "Configure una agrupación de Angular que permite visualizar los registros de datos en una tabla de Angular y mostrar los datos agrupados en un grupo de columnas separado y cómodo."
+keywords: "agrupación de angular, igniteui for angular, infragistics"
+license: commercial
+_language: es
+llms:
+  description: "Si tiene datos no jerárquicos y quiere agrupar por una o más columnas y rellenar las filas padre con valores agregados, puede usar TreeGrid junto con el pipe treeGridGrouping y el componente de interfaz con el selector igx-tree-grid-group-by-area."
+---
+
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+
+
+# Angular Tree Grid: agrupar por
+
+Si tiene datos no jerárquicos y quiere **agrupar por** una o más columnas y rellenar las filas padre con **valores agregados**, puede usar <ApiLink type="TreeGrid" /> junto con el pipe `treeGridGrouping` y el componente de interfaz con el selector `igx-tree-grid-group-by-area`.
+
+El pipe `treeGridGrouping` agrupa los datos según los parámetros proporcionados, y la jerarquía resultante se muestra en una columna aparte. El pipe también puede calcular valores agregados para las filas padre generadas si se proporcionan agregaciones. Este es un ejemplo de cómo usar el pipe en la plantilla:
+
+```html
+<igx-tree-grid #grid 
+               [data]="data | treeGridGrouping:groupingExpressions:groupKey:childDataKey:grid:aggregations"
+               [childDataKey]="childDataKey"
+               [sortStrategy]="sorting">
+</igx-tree-grid>
+```
+
+Los argumentos del pipe son los siguientes:
+
+- groupingExpressions: un array de objetos <ApiLink kind="interface" type="IGroupingExpression" /> que contiene información sobre los campos usados para generar la jerarquía y los detalles de ordenación de cada grupo
+- groupKey: un valor de cadena con el nombre de la columna de jerarquía generada
+- childDataKey: un valor de cadena con el campo donde se almacena la colección hija de las filas padre generadas
+- grid: `IgxTreeGridComponent` que se usa para la agrupación
+- aggregations (opcional): un array de objetos `ITreeGridAggregation` que contiene información sobre las funciones de agregación
+
+El componente de interfaz con el selector `igx-tree-grid-group-by-area` gestiona las interacciones de la interfaz relacionadas con las columnas usadas para la agrupación. Este es un ejemplo de cómo usar el componente en la plantilla:
+
+```html
+<igx-tree-grid-group-by-area
+    [grid]='grid'
+    [(expressions)]='groupingExpressions'
+    [hideGroupedColumns]='true'>
+</igx-tree-grid-group-by-area>
+```
+
+Las entradas del componente son las siguientes:
+
+- grid: `IgxTreeGridComponent` que se usa para la agrupación
+- expressions: un array de objetos <ApiLink kind="interface" type="IGroupingExpression" /> que contiene los campos usados para generar la jerarquía
+- hideGroupedColumns: un valor booleano que indica si se ocultan las columnas por las que se ha realizado la agrupación
+- dropAreaTemplate: una plantilla para el área de colocación que puede usarse para sustituir la plantilla predeterminada del área de colocación
+- dropAreaMessage: una cadena que puede usarse para sustituir el mensaje predeterminado de la plantilla de área de colocación predeterminada
+
+<DocsAside type="info">
+Para que la ordenación funcione correctamente, debe establecer la propiedad `sortStrategy` de `IgxTreeGridComponent` en una instancia de `IgxGroupedTreeGridSorting`.
+</DocsAside>
+
+## Ejemplo de Angular Tree Grid: agrupar por
+
+<Sample lob src="/treegrid-finjs" height={850} alt="Ejemplo de Angular Tree Grid: agrupar por" />
+
+
+### Implementación
+
+En este ejemplo usamos el pipe `treeGridGrouping` y el componente de interfaz con el selector `igx-tree-grid-group-by-area` para la agrupación. Los datos se agrupan por los campos **"category"**, **"type"** y **"contract"**. La jerarquía resultante se muestra en la columna **"categories"**, recién creada. El pipe también calcula valores agregados para las filas padre generadas en las columnas **"price"**, **"change"** y **"changeP"**.
+
+```html
+<igx-tree-grid #grid1
+    [data]="data$ | async | treeGridGrouping:groupingExpressions:groupColumnKey:childDataKey:grid1:aggregations"
+    [childDataKey]="childDataKey"
+    [sortStrategy]="sorting">
+    <igx-tree-grid-group-by-area
+        [grid]="grid1"
+        [(expressions)]="groupingExpressions"
+        [hideGroupedColumns]="true">
+    </igx-tree-grid-group-by-area>
+    <igx-column [field]="groupColumnKey"></igx-column>
+</igx-tree-grid>
+```
+
+Aquí puede ver cómo se definen las expresiones de agrupación y las agregaciones:
+
+```typescript
+public groupingExpressions: IGroupingExpression[] = [
+    { fieldName: 'category', dir: 2, ignoreCase: true, strategy: DefaultSortingStrategy.instance() },
+    { fieldName: 'type', dir: 1, ignoreCase: true, strategy: DefaultSortingStrategy.instance() },
+    { fieldName: 'contract', dir: 1, ignoreCase: true, strategy: DefaultSortingStrategy.instance() }
+];
+public aggregations: ITreeGridAggregation[] = [
+    {
+        aggregate: (parent: any, data: any[]) => data.map((r) => r.change).reduce((ty, u) => ty + u, 0),
+        field: 'change'
+    },
+    {
+        aggregate: (parent: any, data: any[]) => data.map((r) => r.price).reduce((ty, u) => ty + u, 0),
+        field: 'price'
+    },
+    {
+        aggregate: (parent: any, data: any[]) => parent.change / (parent.price - parent.change) * 100,
+        field: 'changeP'
+    }
+];
+public childDataKey = 'children';
+public groupColumnKey = 'categories';
+public sorting = IgxGroupedTreeGridSorting.instance();
+```
+
+## Ejemplo de Angular Tree Grid: agrupar por con carga a demanda
+
+<Sample src="/tree-grid/treegrid-group-by-load-on-demand" height={850} alt="Ejemplo de Angular Tree Grid: agrupar por con carga a demanda" />
+
+
+### Implementación
+
+En este ejemplo, los datos se cargan por partes. Al principio solo se muestran las categorías de nivel superior, y después se sirven los datos hijos cuando se expande una fila padre. Para más información sobre este enfoque, consulte el tema [Carga a demanda de Tree Grid](/treegrid/load-on-demand). Los datos se agrupan por los campos **"ShipCountry"**, **"ShipCity"** y **"Discontinued"**, y la jerarquía resultante se muestra en una columna aparte. La agrupación se realiza en un servicio remoto: los datos se modifican y se asignan las claves hijo y padre correspondientes, que se usan para mostrar los datos finales en una vista jerárquica. Para más información sobre cómo funciona este servicio, puede consultar la clase `TreeGridGroupingLoadOnDemandService` del archivo `remoteService.ts`.
+
+Este es un ejemplo de cómo usar la carga a demanda:
+
+```html
+    <igx-tree-grid #treeGrid
+        [data]="data"
+        [loadChildrenOnDemand]="loadChildren"
+        [primaryKey]="primaryKey"
+        [foreignKey]="foreignKey"
+        [hasChildrenKey]="hasChildrenKey">
+        <igx-tree-grid-group-by-area
+            [grid]="treeGrid"
+            [(expressions)]="groupingExpressions"
+            (expressionsChange)="onExpressionsChange($event)"
+            [hideGroupedColumns]="true">
+        </igx-tree-grid-group-by-area>
+        <igx-column [field]="groupColumnKey"></igx-column>
+</igx-tree-grid>
+```
+
+Para cargar las filas hijas cuando el usuario expande una fila, el Tree Grid proporciona la propiedad de entrada de callback <ApiLink type="TreeGrid" member="loadChildrenOnDemand" />: los datos hijos se obtienen del servidor y se asignan a la fila padre solicitada según los parámetros de agrupación.
+
+```typescript
+public groupingExpressions: IGroupingExpression[] = [
+    { fieldName: 'ShipCountry', dir: 2, ignoreCase: true, strategy: DefaultSortingStrategy.instance() },
+    { fieldName: 'ShipCity', dir: 1, ignoreCase: true, strategy: DefaultSortingStrategy.instance() },
+    { fieldName: 'Discontinued', dir: 1, ignoreCase: true, strategy: DefaultSortingStrategy.instance() }
+];
+public primaryKey = 'id';
+public foreignKey = 'parentId';
+public hasChildrenKey = 'children';
+public groupColumnKey = '';
+
+private dataService = new TreeGridGroupingLoadOnDemandService();
+
+public ngOnInit() {
+    this.reloadData();
+}
+
+public loadChildren = (parentID: any, done: (children: any[]) => void) => {
+    const groupingParameters = this.assembleGroupingParameters();
+    this.dataService.getData(parentID, this.hasChildrenKey, groupingParameters, (children) => done(children));
+};
+
+private reloadData() {
+    this.treeGrid.isLoading = true;
+    this.treeGrid.expansionStates.clear();
+    const groupingParameters = this.assembleGroupingParameters();
+    this.dataService.getData(null, this.hasChildrenKey, groupingParameters, (children) => {
+        this.data = children;
+        this.treeGrid.isLoading = false;
+        this.treeGrid.reflow();
+    });
+}
+```
+
+## Limitaciones conocidas
+
+| Limitación                                 | Descripción                                                                                                                                                                                                                                          |
+| :----------------------------------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| La agrupación no se actualiza con la edición por lotes | Cuando se usa Tree Grid Group By con la edición por lotes habilitada (`batchEditing=true`), la agrupación no se actualiza automáticamente al editar valores de columna usados para la agrupación. La agrupación solo se actualizará después de confirmar la transacción. |
+
+## Referencias de API
+- <ApiLink type="TreeGrid" />
+- <ApiLink kind="sass" module="themes" type="function-grid-theme" label="Estilos de IgxGridComponent" />
+## Recursos adicionales
+
+
+- [Descripción general de TreeGrid](/treegrid/tree-grid)
+- [Resúmenes de TreeGrid](/treegrid/summaries)
+- [Resúmenes de Grid](/grid/summaries)
+
+Nuestra comunidad está activa y siempre da la bienvenida a nuevas ideas.
+
+- [Ignite UI for Angular **Foros**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

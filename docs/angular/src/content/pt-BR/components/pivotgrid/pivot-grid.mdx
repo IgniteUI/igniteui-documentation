@@ -1,0 +1,408 @@
+---
+title: "Angular Pivot Grid e Tabela – Ignite UI for Angular"
+description: "Crie pivot grids e tabelas dinâmicas Angular rápidos e responsivos com o Ignite UI for Angular. Realize análises complexas e aplique ordenação, agrupamento ou filtragem de dados."
+keywords: "angular pivot grid, componente angular pivot grid, tabela dinâmica angular, componente de tabela dinâmica angular, tabela de dados dinâmica angular, tabela dinâmica Angular, componentes de ui angular, ignite ui for angular"
+license: commercial
+_language: pt-BR
+llms:
+  description: "O Ignite UI for Angular Pivot Grid é um dos nossos melhores componentes Angular, representando uma tabela de valores agrupados e agregados que permite organizar e resumir dados em forma tabular."
+---
+
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+
+
+# Visão geral do componente Angular Pivot Grid
+
+O Ignite UI for Angular Pivot Grid é um dos nossos melhores [componentes Angular](https://www.infragistics.com/products/ignite-ui-angular), representando uma tabela de valores agrupados e agregados que permite organizar e resumir dados em forma tabular. É uma ferramenta de sumarização de dados usada para reorganizar e resumir colunas e linhas selecionadas de dados provenientes de uma planilha ou de uma tabela de banco de dados, a fim de obter o relatório desejado.
+
+## O que é o Angular Pivot Grid?
+
+O componente Angular Pivot Grid apresenta dados em uma tabela dinâmica e ajuda a realizar análises complexas sobre o conjunto de dados fornecido. Este controle sofisticado de Pivot Grid é usado para organizar, resumir e filtrar grandes volumes de dados, que são exibidos posteriormente em formato de tabela cruzada. Os principais recursos de um Angular Pivot Grid são as dimensões de linha, as dimensões de coluna, as agregações e os filtros.
+
+O `IgxPivotGridComponent` permite que os usuários configurem e exibam os seus dados em uma estrutura de tabela dinâmica multidimensional.
+As linhas e colunas representam grupos de dados distintos, e os valores das células representam agregações. Isso permite análises complexas com base em um conjunto de dados simples e plano. O `IgxPivotGridComponent` é uma tabela dinâmica rica em recursos, que oferece configuração fácil das diferentes dimensões e valores, além de operações adicionais sobre eles, como filtragem e ordenação.
+
+## Exemplo de Angular Pivot Grid
+
+A seguir, um exemplo do Angular Pivot Grid em combinação com o componente Angular Pivot Data Selector. Assim, você pode ter opções de configuração mais flexíveis em tempo de execução.
+
+<Sample src="/pivot-grid/pivot-grid-datasource" height={870} alt="Exemplo de Angular Pivot Grid com Pivot Selector" />
+
+## Primeiros passos com o Ignite UI for Angular Pivot Grid
+
+Para começar com o componente Ignite UI for Angular Pivot Grid, primeiro é preciso instalar o Ignite UI for Angular. Em um aplicativo Angular existente, digite o seguinte comando:
+
+```cmd
+ng add igniteui-angular
+```
+
+Para uma introdução completa ao Ignite UI for Angular, leia o tópico [_primeiros passos_](/general/getting-started).
+
+O próximo passo é importar o `IgxPivotGridModule` no arquivo **app.module.ts**.
+
+```typescript
+// app.module.ts
+
+import { IgxPivotGridModule } from 'igniteui-angular/grids/pivot-grid';
+// import { IgxPivotGridModule } from '@infragistics/igniteui-angular'; for licensed package
+
+@NgModule({
+  imports: [
+    ...
+    IgxPivotGridModule,
+    ...
+  ]
+})
+export class AppModule {}
+```
+
+Alternativamente, a partir de `16.0.0` você pode importar o `IgxPivotGridComponent` como uma dependência independente, ou usar o token [`IGX_PIVOT_GRID_DIRECTIVES`](https://github.com/IgniteUI/igniteui-angular/blob/master/projects/igniteui-angular/grids/pivot-grid/src/pivot-grid.module.ts) para importar o componente e todos os seus componentes e diretivas de apoio.
+
+```typescript
+// home.component.ts
+
+import { IGX_PIVOT_GRID_DIRECTIVES } from 'igniteui-angular/grids/pivot-grid';
+// import { IGX_PIVOT_GRID_DIRECTIVES } from '@infragistics/igniteui-angular'; for licensed package
+
+@Component({
+  selector: 'app-home',
+  template: `
+  <igx-pivot-grid [data]="data" [pivotConfiguration]="pivotConfigHierarchy">
+  </igx-pivot-grid>
+  `,
+  styleUrls: ['home.component.scss'],
+  standalone: true,
+  imports: [IGX_PIVOT_GRID_DIRECTIVES]
+  /* or imports: [IgxPivotGridComponent] */
+})
+export class HomeComponent {
+  public data: Transaction [];
+}
+```
+
+Agora que você importou o módulo ou as diretivas do Ignite UI for Angular Pivot Grid, pode começar a usar o componente `igx-pivot-grid`.
+
+## Usando o Angular Pivot Grid
+
+O componente Angular Pivot Grid pode ser configurado pela propriedade <ApiLink type="PivotGrid" member="pivotConfiguration" />.
+
+```html
+<igx-pivot-grid #grid1 [data]="data" [pivotConfiguration]="pivotConfigHierarchy">
+</igx-pivot-grid>
+```
+
+Ele é definido por três dimensões principais: `rows`, `columns` e `values`. As `rows` e `columns` definem a estrutura agrupada exibida nas linhas e colunas do [grid Angular](https://www.infragistics.com/products/ignite-ui-angular/angular/components/grid/grid). As `values` definem os campos de agregação e a agregação que será usada para calcular e exibir os valores relacionados aos grupos.
+
+Um filtro também pode ser definido pela propriedade de configuração `filters`. Ele pode ser usado para campos que você não quer adicionar como dimensão ou valor, mas cujos valores de membros relacionados você gostaria de filtrar pela UI.
+
+### Configuração de dimensões
+
+Cada configuração básica de dimensão exige um `memberName` que corresponda a um campo dos dados fornecidos em `data`, ou um `memberFunction` que extraia um valor do registro, no caso de objetos complexos ou outros cenários personalizados.
+
+<DocsAside type="info">
+O `memberName` precisa ser exclusivo. Caso você precise de dimensões diferentes para o mesmo campo, pode definir um `memberName` exclusivo e personalizado para cada uma, e extrair o valor correspondente por meio de `memberFunction`.
+</DocsAside>
+
+Podem ser definidas várias dimensões irmãs, o que cria um grupo aninhado mais complexo na área de dimensão de linha ou coluna correspondente.
+
+As dimensões podem ser reordenadas ou movidas de uma área para outra, por meio dos chips correspondentes, usando arrastar e soltar.
+
+Uma dimensão também pode descrever uma hierarquia expansível pela propriedade `childLevel`, por exemplo:
+
+```typescript
+{
+  memberFunction: () => 'All',
+  memberName: 'AllProducts',
+  enabled: true,
+  childLevel: {
+    memberFunction: (data) => data.ProductCategory,
+    memberName: 'ProductCategory',
+    enabled: true
+  }
+}
+```
+
+Nesse caso, a dimensão renderiza um expansor na seção correspondente do grid (linha ou coluna) e permite que os filhos sejam expandidos ou recolhidos como parte da hierarquia. Por padrão, as dimensões de linha começam expandidas. Esse comportamento pode ser controlado com `defaultExpandState` `@Input` do pivot grid.
+
+### Dimensões predefinidas
+
+Como parte do pivot grid, algumas dimensões predefinidas adicionais são expostas para facilitar a configuração:
+
+`IgxPivotDateDimension` pode ser usado para campos de data. Descreve a seguinte hierarquia por padrão:
+
+- Todos os períodos
+- Anos
+- Trimestres
+- Meses
+- Data completa
+
+Pode ser definido para linhas ou colunas, por exemplo:
+
+```typescript
+public pivotConfigHierarchy: IPivotConfiguration = {
+  rows: [
+    new IgxPivotDateDimension({ memberName: 'Date', enabled: true });
+  ]
+}
+```
+
+Também permite uma personalização adicional pelo segundo parâmetro de opção, para ativar ou desativar uma parte específica da hierarquia, por exemplo:
+
+```typescript
+new IgxPivotDateDimension({ memberName: 'Date', enabled: true }, {
+  total: true,
+  years: true,
+  months: true,
+  fullDate: true,
+  quarters: false
+});
+```
+
+### Configuração de valores
+
+Uma configuração de valor exige um `member` que corresponda a um campo dos dados fornecidos em `data`, ou ela pode ser definida por meio de um `aggregatorName` ou de uma função `aggregator` personalizada, para cenários mais complexos.
+
+<DocsAside type="info">
+O `member` precisa ser exclusivo. Caso você precise de agregações de valor diferentes para o mesmo campo, pode definir um `member` exclusivo e personalizado para cada uma, e extrair o valor correspondente pela função `aggregator`.
+</DocsAside>
+
+ De fábrica, existem 4 agregações predefinidas que podem ser usadas, dependendo do tipo de dado do campo:
+
+- `IgxPivotNumericAggregate` - para campos numéricos.
+  Contém as seguintes funções de agregação: `SUM`, `AVG`, `MIN`, `MAX`, `COUNT`.
+- `IgxPivotDateAggregate` - para campos de data.
+  Contém as seguintes funções de agregação: `LATEST`, `EARLIEST`, `COUNT`.
+- `IgxPivotTimeAggregate` - para campos de hora.
+  Contém as seguintes funções de agregação: `LATEST`, `EARLIEST`, `COUNT`.
+- `IgxPivotAggregate` - para quaisquer outros tipos de dados. Esta é a agregação base.
+  Contém as seguintes funções de agregação: `COUNT`.
+
+A função de agregação atual pode ser alterada em tempo de execução pelo menu suspenso do chip de valor. Por padrão, ele exibe uma lista das agregações disponíveis com base no tipo de dado do campo. Uma lista personalizada de agregações também pode ser definida pela propriedade `aggregateList`, por exemplo:
+
+```typescript
+public pivotConfigHierarchy: IPivotConfiguration = {
+  values: [
+    {
+      member: 'AmountOfSale',
+      displayName: 'Amount of Sale',
+      aggregate: {
+        key: 'SUM',
+        aggregator: IgxTotalSaleAggregate.totalSale,
+        label: 'Sum of Sale'
+      },
+      aggregateList: [{
+        key: 'SUM',
+        aggregator: IgxTotalSaleAggregate.totalSale,
+        label: 'Sum of Sale'
+      }, {
+        key: 'MIN',
+        aggregator: IgxTotalSaleAggregate.totalMin,
+        label: 'Minimum of Sale'
+      }, {
+        key: 'MAX',
+        aggregator: IgxTotalSaleAggregate.totalMax,
+        label: 'Maximum of Sale'
+      }]
+    }
+  ]
+}
+
+public static totalSale: PivotAggregation = (members, data: any) =>
+  data.reduce((accumulator, value) => accumulator + value.UnitPrice * value.UnitsSold, 0);
+
+public static totalMin: PivotAggregation = (members, data: any) => {
+  return data.map(x => x.UnitPrice * x.UnitsSold).reduce((a, b) => Math.min(a, b));
+};
+
+public static totalMax: PivotAggregation = (members, data: any) => {
+  return data.map(x => x.UnitPrice * x.UnitsSold).reduce((a, b) => Math.max(a,b));
+};
+```
+
+O valor dinâmico também oferece a propriedade `displayName`. Ela pode ser usada para exibir um nome personalizado para esse valor no cabeçalho da coluna.
+
+<DocsAside type="info">
+Se você definir `aggregatorName` e a função `aggregator`, `aggregatorName` terá precedência. Se nenhum for definido, um erro será gerado.
+</DocsAside>
+
+### Propriedade Enable
+
+`IPivotConfiguration` é a interface que descreve o estado atual do componente `IgxPivotGrid`. Com ela, o desenvolvedor pode declarar campos dos dados como `rows`, `columns`, `filters` ou `values`. A configuração permite ativar ou desativar cada um desses elementos separadamente. Somente os elementos ativados são incluídos no estado atual do pivot grid. O componente `IgxPivotDataSelector` usa a mesma configuração e mostra uma lista de todos os elementos - ativados e desativados. Para cada um deles há uma caixa de seleção no estado apropriado. Os usuários finais podem ajustar facilmente o estado da tabela dinâmica alternando os diferentes elementos por essas caixas de seleção.
+A propriedade `enable` controla se um determinado `IPivotDimension` ou `IPivotValue` está ativo e participa da visualização dinâmica renderizada pelo pivot grid.
+
+### Exemplo de configuração completa
+
+Vamos ver uma configuração básica de tabela dinâmica:
+
+```typescript
+public pivotConfigHierarchy: IPivotConfiguration = {
+  columns: [
+    {
+      memberName: 'Product',
+      memberFunction: (data) => data.Product.Name,
+      enabled: true
+    }
+  ],
+  rows: [
+    {
+      memberName: 'Seller',
+      memberFunction: (data) => data.Seller.Name,
+      enabled: true,
+    }
+  ],
+  values: [
+    {
+      member: 'NumberOfUnits',
+      aggregate: {
+        aggregator: IgxPivotNumericAggregate.sum,
+        key: 'sum',
+        label: 'Sum'
+      },
+      enabled: true
+    },
+    {
+      member: 'AmountOfSale',
+      aggregate: {
+        aggregatorName: 'SUM',
+        key: 'sum',
+        label: 'Sum'
+      },
+      enabled: true
+    }
+  ]
+};
+```
+
+Esta configuração define 1 linha, 1 coluna e 1 agregação que soma os valores de cada grupo de dimensão.
+Os membros correspondem aos campos disponíveis na fonte de dados fornecida:
+
+```typescript
+public data = [
+[
+  {
+    Product: {
+      Name: 'Clothing',
+      UnitPrice: '12.814860936633712'
+    },
+    Seller: {
+      Name: 'Stanley Brooker',
+      City: 'Seattle'
+    },
+    Date: '2007-01-01T00:00:00',
+    Value: '94.2652032683907',
+    NumberOfUnits: '282'
+  },
+  //...
+];
+```
+
+O resultado é a seguinte visualização, que agrupa as colunas únicas de Categorias de Produtos, os nomes dos Vendedores em linhas únicas e exibe as agregações correspondentes para a quantidade de unidades nas células relacionadas:
+
+<Sample src="/pivot-grid/pivot-grid-basic" height={530} alt="Exemplo básico do Angular Pivot Grid" />
+
+E, se quiser agilizar todo o processo de desenvolvimento da aplicação, você pode experimentar o nosso [WYSIWYG App Builder™](https://www.infragistics.com/products/appbuilder) para o seu próximo app Angular.
+
+### Geração automática de configuração
+
+A propriedade `autoGenerateConfig` gera automaticamente dimensões e valores com base nos campos da fonte de dados:
+
+- Campos numéricos:
+  - Criado como `IPivotValue` usando o agregador `IgxPivotNumericAggregate.sum`.
+  - Adicionado à coleção de valores e ativado por padrão.
+
+- Campos não numéricos:
+  - Criado como `IPivotDimension`.
+  - Desativado por padrão.
+  - Adicionado à coleção de colunas.
+
+- Campos de data (somente o primeiro campo `date` é ativado; os demais campos `date` seguem a regra de campos não numéricos):
+  - Criado como `IgxPivotDateDimension`
+  - Ativado por padrão
+  - adicionado à coleção de linhas.
+
+Este recurso permite que os desenvolvedores criem rapidamente uma visualização dinâmica sem especificar manualmente dimensões e valores. Com um seletor de tabela dinâmica ao lado do pivot grid, os usuários podem ativar e reordenar dimensões e valores conforme necessário.
+
+## Estilização
+
+O Pivot Grid pode ser estilizado por meio de [`Ignite UI for Angular Theme Library`](/themes/sass/component-themes). A propriedade <ApiLink kind="sass" module="themes" type="function-grid-theme" label="grid-theme" code={true} /> do grid expõe uma grande variedade de propriedades, que permitem personalizar todos os recursos do pivot grid.
+
+### Importando o tema global
+
+Para começar a estilizar o Pivot Grid, primeiro é preciso importar o arquivo `index`, onde são exportadas todas as funções de tema e o mixin `tokens()`:
+
+```scss
+@use "igniteui-angular/theming" as *;
+
+// IMPORTANT: Prior to Ignite UI for Angular version 13 use:
+// @import '~igniteui-angular/lib/core/styles/themes/index';
+```
+
+### Definindo um tema personalizado
+
+Em seguida, é preciso criar um tema personalizado. A forma mais fácil e recomendada de estilizar o `igx-pivot-grid` é usar <ApiLink kind="sass" module="themes" type="function-grid-theme" label="grid-theme" code={true} /> e informar apenas as três cores principais: `background`, `foreground` e `accent-color`.
+
+<DocsAside type="info">
+Não há uma função específica de pivot grid em `sass`.
+</DocsAside>
+
+Estas são as propriedades principais do tema. Quando você as define, todas as partes da grade e os componentes internos derivam suas cores desses valores, resultando em uma aparência consistente em toda a grade. Componentes aninhados, como botões, ícones, entradas, drop-downs, caixas de seleção, barras de rolagem, chips e outros componentes auxiliares também derivam seus tokens de estilo do <ApiLink kind="sass" module="themes" type="function-grid-theme" label="grid-theme" code={true} /> principal, para uma aparência unificada.
+
+```scss
+$background: #292826;
+$foreground: #eeece1;
+$accent: #ffcd0f;
+
+$custom-grid: grid-theme(
+  $background: $background,
+  $foreground: $foreground,
+  $accent-color: $accent,
+);
+```
+
+<DocsAside type="info">
+Em vez de codificar as cores diretamente, como fizemos acima, podemos obter maior flexibilidade com as cores usando as funções [`palette`]({environment:sassApiUrl}/palettes#function-palette) e [`color`]({environment:sassApiUrl}/palettes#function-color). Consulte o tópico [`Palettes`](/themes/sass/palettes) para orientações detalhadas sobre como usá-las.
+</DocsAside>
+
+### Aplicando o tema personalizado
+
+O último passo é **incluir** o tema do componente no nosso aplicativo.
+
+```scss
+igx-pivot-grid {
+  @include tokens($custom-grid);
+}
+```
+
+### Demonstração
+
+<Sample src="/pivot-grid/pivot-grid-styling" height={650} alt="Demonstração de estilização do Angular pivot grid" />
+
+Também há parâmetros adicionais em <ApiLink kind="sass" module="themes" type="function-grid-theme" label="grid-theme" code={true} /> que você pode usar se quiser personalizações mais específicas.
+
+## Problemas conhecidos e limitações
+
+| Limitação                                                                        | Descrição                                                                                                                                                                                                                      |
+| :-------------------------------------------------------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Definir colunas de forma declarativa não é suportado.                                   | O Pivot grid gera as suas colunas com base na configuração de `columns`; por isso, defini-las de forma declarativa, como no grid base, não é suportado. Essas colunas são desconsideradas.                                                 |
+| Definir valores duplicados de `memberName` ou `member` para dimensões/valores. | `memberName`/`member` devem ser exclusivos para cada dimensão/valor. A duplicação pode resultar em perda de dados no resultado final.                                                                                                   |
+| A seleção de linhas é suportada apenas no modo `single`.                                 | A seleção múltipla não é suportada no momento.                                                                                                                                                                                   |
+| A mesclagem dos membros da dimensão diferencia maiúsculas de minúsculas                                   | O pivot grid cria grupos e mescla valores iguais (diferenciando maiúsculas de minúsculas). Mas as dimensões fornecem `memberFunction`, e isso pode ser alterado ali; o resultado de `memberFunction` é comparado e usado como valor de exibição. |
+
+## Referências da API
+- <ApiLink type="PivotGrid" />
+- <ApiLink type="PivotDataSelector" />
+- <ApiLink kind="sass" module="themes" type="function-grid-theme" label="grid-theme" />
+## Recursos adicionais
+
+
+- [Recursos do Angular Pivot Grid](/pivotgrid/pivot-grid-features)
+- [Agregações personalizadas do Angular Pivot Grid](/pivotgrid/pivot-grid-custom)
+- [Skills do Ignite UI for Angular](/ai/skills) — Agent Skills para grades, operações de dados e temas
+
+Nossa comunidade é ativa e sempre receptiva a novas ideias.
+
+- [Ignite UI for Angular **Fóruns**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

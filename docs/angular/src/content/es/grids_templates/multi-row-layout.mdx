@@ -1,0 +1,211 @@
+---
+title: "Diseño de varias filas de Angular Grid - Ignite UI for Angular"
+description: "Posicione y dimensione las columnas de una forma más potente mediante la funcionalidad de diseño de varias filas del Angular Data Grid de Ignite UI for Angular. ¡Consulte ejemplos y demostraciones!"
+keywords: "diseño de varias filas de angular, diseño de filas de material, ignite ui for angular"
+license: commercial
+_language: es
+llms:
+  description: "El diseño de varias filas amplía las capacidades de representación de igxGridComponent."
+---
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+import { Image } from 'astro:assets';
+import multiRowLayout1 from '../../images/multi-row-layout-1.png';
+
+# Diseño de varias filas de Angular
+
+El diseño de varias filas amplía las capacidades de representación de `igxGridComponent`. La función permite dividir un único registro de datos en varias filas visibles.
+
+## Ejemplo de diseño de varias filas de Angular
+
+<Sample src="/grid/grid-multi-row-layout" height={755} alt="Ejemplo de diseño de varias filas de Angular" />
+
+La declaración del diseño de varias filas se logra mediante el componente <ApiLink type="ColumnLayout" label="igx-column-layout" />. Cada componente `igx-column-layout` debe considerarse como un bloque que contiene uno o varios componentes `igx-column`. Algunas funciones de la cuadrícula funcionan a nivel de bloque (se enumeran en la sección "Feature Integration" más abajo). Por ejemplo, la virtualización usará el bloque para determinar los fragmentos virtuales, así que, para mejorar el rendimiento, divida las columnas en más bloques `igx-column-layout` si el diseño lo permite. No debe haber columnas fuera de esos bloques ni usar `IgxColumnGroupComponent` al configurar un diseño de varias filas. El diseño de varias filas se implementa sobre la especificación de [grid layout](https://www.w3.org/TR/css-grid-1/) y debe cumplir sus requisitos.
+
+`IgxColumnComponent` expone cuatro propiedades de `@Input` para determinar la ubicación y la extensión de cada celda:
+
+- <ApiLink type="Column" member="colStart" label="colStart" />: índice de columna desde el que empieza el campo. Esta propiedad es **obligatoria**.
+- <ApiLink type="Column" member="rowStart" label="rowStart" />: índice de fila desde el que empieza el campo. Esta propiedad es **obligatoria**.
+- <ApiLink type="Column" member="colEnd" label="colEnd" />: índice de columna donde debe terminar el campo actual. La cantidad de columnas entre colStart y colEnd determinará la cantidad de columnas que abarca ese campo. Esta propiedad es **opcional**. Si no se establece, el valor predeterminado es `colStart + 1`.
+- <ApiLink type="Column" member="rowEnd" label="rowEnd" />: índice de fila donde debe terminar el campo actual. La cantidad de filas entre rowStart y rowEnd determinará la cantidad de filas que abarca ese campo. Esta propiedad es **opcional**. Si no se establece, el valor predeterminado es `rowStart + 1`.
+
+```html
+<igx-column-layout>
+ <igx-column [rowStart]="1" [colStart]="1" [rowEnd]="3" field="ID"></igx-column>
+</igx-column-layout>
+<igx-column-layout>
+ <igx-column [rowStart]="1" [colStart]="1" [colEnd]="3" field="CompanyName"></igx-column>
+ <igx-column [rowStart]="2" [colStart]="1" [colEnd]="2" field="ContactName"></igx-column>
+ <igx-column [rowStart]="2" [colStart]="2" [colEnd]="3" field="ContactTitle"></igx-column>
+</igx-column-layout>
+<igx-column-layout>
+ <igx-column [rowStart]="1" [colStart]="1" [colEnd]="3" field="Country"></igx-column>
+ <igx-column [rowStart]="1" [colStart]="3" [colEnd]="5" field="Region"></igx-column>
+ <igx-column [rowStart]="1" [colStart]="5" [colEnd]="7" field="PostalCode"></igx-column>
+ <igx-column [rowStart]="2" [colStart]="1" [colEnd]="4" field="City"></igx-column>
+ <igx-column [rowStart]="2" [colStart]="4" [colEnd]="7" field="Address"></igx-column>
+</igx-column-layout>
+<igx-column-layout>
+    <igx-column [rowStart]="1" [colStart]="1" field="Phone"></igx-column>
+    <igx-column [rowStart]="2" [colStart]="1" field="Fax"></igx-column>
+</igx-column-layout>
+```
+
+El resultado de la configuración anterior se puede ver en la captura de pantalla siguiente:
+
+<Image src={multiRowLayout1} alt="Ejemplo de diseño de varias filas" style="width: 100%" />
+
+<DocsAside type="info">
+Las propiedades <ApiLink type="Column" member="rowStart" label="rowStart" /> y <ApiLink type="Column" member="colStart" label="colStart" /> deben establecerse para cada `igx-column` en `igx-column-layout`. El componente `igxColumnLayout` no verifica si el diseño es correcto ni genera errores o advertencias al respecto. Los desarrolladores deben asegurarse de que la declaración de su diseño sea correcta y completa; de lo contrario, podrían obtener un diseño roto con desalineaciones, superposiciones e inconsistencias entre navegadores.
+</DocsAside>
+
+## Integración de funciones
+
+Debido al enfoque de representación completamente diferente del diseño de varias filas, algunas de las funciones de columna solo funcionarán en el componente `igx-column-layout`. Estas funciones son el anclaje y la ocultación de columnas. Otras, como la ordenación y la agrupación, funcionarán de la misma manera, en el componente `igx-column`.
+
+- Filtrado: solo se admite el filtrado al estilo de Excel. Establecer `filterMode` explícitamente en `FilterMode.quickFilter` no tiene ningún efecto.
+- Paginación: funciona sobre registros, no sobre filas visuales.
+- Group By: la opción `hideGroupedColumns` no tiene ningún efecto en el diseño de varias filas. Las columnas agrupadas siempre están visibles.
+
+Las siguientes funciones **no** se admiten actualmente:
+
+- Movimiento de columnas
+- Encabezados de varias columnas
+- Exportar a Excel
+- Resúmenes
+
+## Navegación por teclado
+
+IgxGridComponent con diseños de varias filas ofrece navegación con el teclado integrada.
+
+### Navegación horizontal
+
+- <kbd>Flecha izquierda</kbd> o <kbd>Flecha derecha</kbd>: se desplaza a la celda adyacente de la izquierda o la derecha dentro de la fila actual, sin verse afectada por los diseños de columna definidos. Si la celda actual abarca más de una fila, <kbd>Flecha izquierda</kbd> y <kbd>Flecha derecha</kbd> deben navegar a la primera celda de la izquierda y de la derecha con el mismo `rowStart`, a menos que haya navegado antes a alguna otra celda adyacente. La navegación almacena la celda de inicio de la navegación y se desplaza a las celdas con el mismo `rowStart` si es posible.
+- <kbd>Ctrl</kbd> + <kbd>Flecha izquierda</kbd> (<kbd>INICIO</kbd>) o <kbd>Ctrl</kbd> + <kbd>Flecha derecha</kbd> (<kbd>FIN</kbd>): navega al inicio o al final de la fila y selecciona la celda de acuerdo con la celda de inicio de la navegación.
+
+### Navegación vertical
+
+- <kbd>Flecha arriba</kbd> o <kbd>Flecha abajo</kbd>: se desplaza a la celda superior o inferior en relación con una posición de inicio y no se ve afectada por las filas. Si la celda actual abarca más de una columna, la siguiente celda activa se seleccionará de acuerdo con la celda de inicio de la navegación.
+- <kbd>Ctrl</kbd> + <kbd>Flecha arriba</kbd> o <kbd>Ctrl</kbd> + <kbd>Flecha abajo</kbd>: navega y aplica el foco en la misma columna de la primera o de la última fila.
+- <kbd>Ctrl</kbd> + <kbd>Inicio</kbd> o <kbd>Ctrl</kbd> + <kbd>Fin</kbd>: navega a la primera fila y da el foco a la primera celda, o navega a la última fila y da el foco a la última celda.
+
+<DocsAside type="info">
+La navegación por celdas que abarcan varias filas o columnas se realiza de acuerdo con la celda de navegación inicial, y permite volver a la celda inicial usando la tecla de la dirección opuesta. Se usa el mismo enfoque al navegar por las filas de grupo.
+</DocsAside>
+
+<DocsAside type="info">
+La selección y la selección de varias celdas funcionan sobre el diseño, lo que significa que, cuando una celda está activa, se selecciona su diseño. Además, todas las funciones de selección múltiple, como la selección por arrastre, son aplicables y funcionan por diseño y no por celda.
+</DocsAside>
+
+### Navegación por teclado personalizada
+
+La cuadrícula permite personalizar el comportamiento de navegación predeterminado cuando se pulsa una tecla determinada. Acciones como `going to the next cell` o `cell below` se pueden gestionar fácilmente con la potente API de navegación con el teclado:
+
+- Se expone <ApiLink type="Grid" member="gridKeydown" label="gridKeydown" />. El evento emitirá <ApiLink type="IGridKeydownEventArgs" kind="interface" />. Este evento solo está disponible mediante las combinaciones de teclas mencionadas anteriormente; para el resto de las acciones de teclado puede usar el evento `keydown` `(keydown)="onKeydown($event)"`
+- <ApiLink type="Grid" member="navigateTo" label="navigateTo" />: este método permite desplazarse a una posición según el `rowindex` y el `visibleColumnIndex` indicados
+
+La siguiente demostración agrega navegación adicional hacia abajo y hacia arriba mediante las teclas <kbd>Enter</kbd> y <kbd>Shift</kbd> + <kbd>Enter</kbd>, de forma similar al comportamiento observado en Excel.
+
+### Demostración
+
+<Sample src="/grid/grid-mrl-custom-navigation" height={605} alt="" />
+
+## Configurador de diseño
+
+A veces, al configurar un diseño de columnas, puede ser difícil calcular y establecer los valores adecuados de <ApiLink type="Column" member="colStart" label="colStart" /> y <ApiLink type="Column" member="colEnd" label="colEnd" />, o de <ApiLink type="Column" member="rowStart" label="rowStart" /> y <ApiLink type="Column" member="rowEnd" label="rowEnd" />, especialmente cuando hay muchas columnas en un único diseño. Por eso hemos creado un pequeño configurador, para que pueda hacerlo fácilmente y tener una vista previa similar de cómo se vería dentro de igxGrid una vez aplicado. Con él puede realizar las siguientes interacciones:
+
+- Establezca el número de filas para toda la configuración. Todos los diseños deben tener la misma cantidad de filas.
+- Agregue o quite diseños de columnas haciendo clic en el chip `Add Layout`, o reordénelos arrastrando un chip de diseño hacia la izquierda o la derecha.
+- Establezca ajustes específicos para cada diseño, como el número de columnas y su anchura. Los ajustes se refieren al diseño seleccionado actualmente.
+- Redimensione las celdas de columna en la vista previa del diseño para que puedan abarcar más columnas o filas, o límpielas con el botón `Delete`.
+- Coloque las columnas en la vista previa arrastrando un chip de columna al lugar donde desee que esté.
+- Agregue o quite nuevas columnas mediante el chip `Add Column`.
+- Obtenga el resultado de plantilla de toda la configuración, listo para colocarse dentro de un igxGrid, o la representación JSON que también se puede usar y analizar en su plantilla mediante [`NgForOf`](https://angular.io/api/common/NgForOf), por ejemplo.
+
+De forma predeterminada, hemos establecido las mismas columnas que en el ejemplo anterior, pero pueden borrarse y configurarse para que coincidan con la configuración deseada.
+
+<Sample src="/grid/grid-multi-row-layout-configuration" height={500} iframeOnly />
+
+## Estilos
+
+igxGrid permite aplicar estilos mediante [`Ignite UI for Angular Theme Library`](/themes/sass/component-themes). <ApiLink kind="sass" module="themes" type="function-grid-theme" label="grid-theme" code={true} /> expone una amplia variedad de propiedades que permiten personalizar todas las funciones de la cuadrícula.
+
+En los pasos siguientes, repasamos cómo personalizar el estilo del diseño de varias filas de la cuadrícula.
+
+### Importar el tema global
+
+Para empezar a personalizar la función de diseño de varias filas, debe importar el archivo `index`, donde se encuentran todas las funciones de estilo y mixins.
+
+```scss
+@use "igniteui-angular/theming" as *;
+
+// IMPORTANT: Prior to Ignite UI for Angular version 13 use:
+// @import '~igniteui-angular/lib/core/styles/themes/index';
+```
+
+### Definir un tema personalizado
+
+A continuación, cree un tema nuevo que extienda <ApiLink kind="sass" module="themes" type="function-grid-theme" label="grid-theme" code={true} /> y acepte los parámetros necesarios para personalizar el diseño de la función como desee.
+
+```scss
+$custom-theme: grid-theme(
+  $cell-active-border-color: #ffcd0f,
+  $cell-selected-background: #6f6f6f,
+  $cell-selected-text-color: #ffcd0f,
+  $row-hover-background: #fde069,
+  $row-selected-background: #8d8d8d,
+  $header-background: #494949,
+  $header-text-color: #fff,
+  $sorted-header-icon-color: #ffcd0f,
+  $sortable-header-icon-hover-color: #e9bd0d
+);
+```
+
+<DocsAside type="info">
+En lugar de codificar los valores de color como acabamos de hacer, podemos lograr más flexibilidad con los colores usando las funciones <ApiLink kind="sass" module="palettes" type="function-palette" label="palette" code={true} /> y <ApiLink kind="sass" module="palettes" type="function-color" label="color" code={true} />. Consulte el tema [`Palettes`](/themes/sass/palettes) para obtener orientación detallada sobre cómo usarlas.
+</DocsAside>
+
+### Aplicar el tema personalizado
+
+La forma más sencilla de aplicar su tema es con una sentencia `sass` `@include` en el archivo de estilos global:  
+
+```scss
+:host {
+  @include tokens($custom-theme);
+}
+```
+
+Para que el tema personalizado afecte solo a un componente específico, puede mover todos los estilos que acaba de definir desde el archivo de estilos globales al archivo de estilos del componente personalizado (incluida la importación del archivo `index`).
+
+De este modo, gracias al [ViewEncapsulation](https://angular.io/api/core/Component#encapsulation) de Angular, sus estilos se aplicarán solo a su componente personalizado.
+
+### Demostración
+
+<Sample src="/grid/grid-multi-row-layout-styling" height={755} alt="" />
+
+<DocsAside type="info">
+El ejemplo no se verá afectado por el tema global seleccionado en `Change Theme`.
+</DocsAside>
+
+## Referencias de API
+- <ApiLink type="{ComponentApiType}" />
+- <ApiLink kind="sass" module="themes" type="function-grid-theme" label="Estilos de {ComponentName}Component" />
+- <ApiLink type="ColumnLayout" />
+- <ApiLink type="Column" />
+## Recursos adicionales
+
+
+- [Descripción general de {ComponentTitle}](/{igPath}/{ComponentMainTopic})
+- [Paginación](/{igPath}/paging)
+<ComponentBlock for="Grid, TreeGrid, HierarchicalGrid">
+- [Virtualización y rendimiento](/{igPath}/virtualization)
+- [Ordenación](/{igPath}/sorting)
+- [Redimensionado de columnas](/{igPath}/column-resizing)
+- [Selección](/{igPath}/selection)
+</ComponentBlock>
+
+Nuestra comunidad está activa y siempre da la bienvenida a nuevas ideas.
+
+- [Ignite UI for Angular **Foros**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

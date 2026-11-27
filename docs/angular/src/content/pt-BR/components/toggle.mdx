@@ -1,0 +1,248 @@
+---
+title: "Componente Angular Toggle | Ignite UI for Angular | Licença MIT" 
+description: "A diretiva Toggle do Ignite UI for Angular permite que os usuários abram, interajam com, apliquem animações a e fechem um contêiner de alternância." 
+keywords: "diretiva Angular Toggle, controle Angular Toggle, componente Angular Toggle, Ignite UI for Angular, controles de UI, widgets Angular, widgets web, widgets de UI, Angular, Native Angular Components Suite, componentes de UI Angular, Native Angular Components Library, Native Angular Components"
+license: MIT
+_language: pt-BR
+llms:
+  description: "A diretiva Toggle do Ignite UI for Angular permite tornar um contêiner no DOM alternável por meio da interação do usuário."
+---
+
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+# Visão geral da diretiva Angular Toggle
+
+<div class="highlight">
+A diretiva Toggle do Ignite UI for Angular permite tornar um contêiner no DOM alternável por meio da interação do usuário.
+</div>
+
+## Exemplo do Angular Toggle
+
+<Sample src="/interactions/toggle-sample-1" height={370} alt="Exemplo do Angular Toggle" />
+
+## Primeiros passos com o Ignite UI for Angular Toggle
+
+Para começar com a diretiva Toggle do Ignite UI for Angular, primeiro é preciso instalar o Ignite UI for Angular. Em um aplicativo Angular existente, digite o seguinte comando:
+
+```cmd
+ng add igniteui-angular
+```
+
+Para uma introdução completa ao Ignite UI for Angular, leia o tópico [_primeiros passos_](/general/getting-started).
+
+O próximo passo é importar o `IgxToggleModule` no arquivo **app.module.ts**.
+
+```typescript
+// app.module.ts
+
+...
+import { IgxToggleModule } from 'igniteui-angular/directives';
+// import { IgxToggleModule } from '@infragistics/igniteui-angular'; for licensed package
+
+@NgModule({
+    ...
+    imports: [..., IgxToggleModule]
+    ...
+})
+export class AppModule {}
+```
+
+Como alternativa, a partir de `16.0.0` você pode importar o `IgxToggleDirective` como uma dependência independente.
+
+```typescript
+// home.component.ts
+
+import { IgxToggleDirective, IgxButtonDirective } from 'igniteui-angular/directives';
+
+// import { IgxToggleDirective, IgxButtonDirective } from '@infragistics/igniteui-angular'; for licensed package
+
+@Component({
+    selector: 'app-home',
+    template: `
+    <button class="toggle-button" igxButton="contained" (click)="toggleContent()">Toggle</button>
+    <div class="toggle-content" igxToggle>
+        <section class="toggle-section">
+            <img src="assets/images/toggle/nature.jpg" alt="Nature" />
+        </section>
+    
+</div>
+    `,
+    styleUrls: ['home.component.scss'],
+    standalone: true,
+    imports: [IgxToggleDirective, IgxButtonDirective]
+})
+export class HomeComponent {}
+```
+
+Agora que você importou o módulo ou a diretiva Toggle do Ignite UI for Angular, pode começar a usar a diretiva `igxToggle`.
+
+## Usando a diretiva Angular Toggle
+
+### Exibindo o toggle
+
+Para mostrar e ocultar o conteúdo do toggle, use os seus métodos <ApiLink type="ToggleDirective" member="open" label="open" /> e <ApiLink type="ToggleDirective" member="close" label="close" />:
+
+```typescript
+import { IgxToggleDirective } from 'igniteui-angular/directives'
+// import { IgxToggleDirective } from '@infragistics/igniteui-angular'; for licensed package
+...
+
+export class Class {
+    @ViewChild(IgxToggleDirective) toggle: IgxToggleDirective;
+
+    toggleContent() {
+        if (this.toggle.collapsed) {
+            this.toggle.open();
+        } else {
+            this.toggle.close();
+        }
+    }
+}
+```
+
+Depois, no template do nosso componente, podemos aplicar a diretiva no elemento que queremos tornar alternável:
+
+```html
+{/*template.component.html*/}
+<button class="toggle-button" igxButton="contained" (click)="toggleContent()">Toggle</button>
+<div class="toggle-content" igxToggle>
+    <section class="toggle-section">
+        <img src="assets/images/toggle/nature.jpg"/>
+    </section>
+</div>
+```
+
+## Exemplos
+
+### Alterando a posição
+
+No próximo exemplo, usaremos uma estratégia de posicionamento diferente, para que o conteúdo seja exibido abaixo do botão.
+
+A diretiva `igxToggle` usa o provider <ApiLink type="OverlayService" />. Os métodos `open`, `close` e `toggle` aceitam configurações de overlay opcionais, que controlam como o conteúdo é exibido. Se omitidas, são usadas as configurações padrão do overlay, como no exemplo anterior.
+
+<DocsAside type="info">
+Por padrão, a propriedade <ApiLink kind="interface" type="OverlaySettings" member="closeOnOutsideClick" /> é definida como `true`. Para desativar esse recurso, a propriedade precisa ser definida como `false`. Além disso, a propriedade <ApiLink kind="interface" type="OverlaySettings" member="closeOnEscape" /> tem como padrão `false`; por isso, para usá-la, precisamos defini-la como `true`.
+</DocsAside>
+
+```typescript
+// template.component.ts
+
+...
+    @ViewChild(IgxToggleDirective) public igxToggle: IgxToggleDirective;
+    @ViewChild('button') public igxButton: ElementRef;
+
+    public _positionSettings = {
+        horizontalStartPoint: HorizontalAlignment.Left,
+        verticalStartPoint: VerticalAlignment.Bottom
+    };
+
+    public _overlaySettings = {
+        target: this.igxButton.nativeElement,
+        closeOnOutsideClick: false,
+        closeOnEscape: true,
+        positionStrategy: new ConnectedPositioningStrategy(this._positionSettings)
+    };
+
+    public toggle() {
+        this.igxToggle.toggle(this._overlaySettings);
+    }
+```
+
+Agora, o seu toggle deve ficar assim:
+
+<Sample src="/interactions/toggle" height={370} alt="" />
+
+### Ações automáticas do toggle
+
+Para evitar o uso dos métodos `open` e `close`, podemos usar uma diretiva, que tem um manipulador `onClick` e altera automaticamente o estado do toggle a que se refere.
+
+Se quisermos aproveitar essa funcionalidade, precisamos usar a `IgxToggleActionDirective` de `IgxToggleModule` e atribuir a `IgxToggleDirective` a ela.
+
+<DocsAside type="info">
+A <ApiLink type="ToggleActionDirective" /> deve ser declarada no elemento que pretendemos usar como gatilho (toggle).
+</DocsAside>
+
+```html
+{/*template.component.html*/}
+<button class="toggle-button"  igxButton="contained" [igxToggleAction]="toggleRef">Toggle</button>
+<div class="toggle-content" igxToggle #toggleRef="toggle">
+    <section class="toggle-section">
+        <h6>Automatic toggle actions</h6>
+    </section>
+</div>
+```
+
+Depois dessas alterações, o toggle deve funcionar exatamente da mesma forma.
+
+<Sample src="/interactions/toggle-sample-2" height={370} alt="" />
+
+<DocsAside type="info">
+Por padrão, `IgxToggleActionDirective` exclui o seu elemento host da propriedade <ApiLink kind="interface" type="OverlaySettings" member="closeOnOutsideClick" />. Por isso, clicar no elemento host não dispara nenhum evento. Além disso, essa diretiva define o seu elemento host como a <ApiLink kind="interface" type="OverlaySettings" member="target" /> das configurações do overlay.
+</DocsAside>
+
+### Provider de serviço de toggle automático
+
+Há uma forma prática de manter o estado da diretiva `igxToggle` e controlá-la pelo provider <ApiLink type="NavigationService" />. Basta definir um identificador para o seu elemento `igxToggle`, que será usado para registrar o toggle no serviço. Se quisermos controlar o estado dele automaticamente, precisamos passar esse identificador para `igxToggleActionDirective`.
+
+```html
+{/*template.component.html*/}
+<button igxToggleAction="toggleId" class="toggle-button" igxButton="contained">Toggle</button>
+<div igxToggle id="toggleId" class="toggle-content">
+    <section class="toggle-section">
+        <h6>Toggled by the service provider</h6>
+    </section>
+</div>
+```
+
+Se tudo correu bem, ficará assim:
+
+<Sample src="/interactions/toggle-sample-3" height={370} alt="" />
+
+### Deslocando o contêiner do toggle
+
+Podemos alterar a posição do contêiner do toggle ao longo do eixo correspondente em um valor informado. O método `setOffset` também aceita um parâmetro `offsetMode` opcional, que determina se os valores de deslocamento atuais devem ser somados ou definidos como um valor específico.
+
+```typescript
+// deltaX and deltaY determine by how much the container will be offset compared to its' previous position
+// Using OffsetMode.Add to add the values (default behavior)
+public offsetToggleAdd() {
+    const deltaX = 30;
+    const deltaY = 30;
+    this.toggle.setOffset(deltaX, deltaY, OffsetMode.Add);
+}
+```
+
+```typescript
+// deltaX and deltaY determine the exact position to set the container to, relative to its target element.
+// Using OffsetMode.Set to set the offset to specific values
+public offsetToggleSet() {
+    const deltaX = 30;
+    const deltaY = 30;
+    this.toggle.setOffset(deltaX, deltaY, OffsetMode.Set);
+}
+```
+
+<Sample src="/interactions/toggle-sample-4" height={370} alt="" />
+
+## Referências da API
+<igc-divider></igc-divider>
+- <ApiLink type="ToggleDirective" />
+- <ApiLink type="ToggleActionDirective" />
+Componentes e/ou diretivas adicionais com APIs relacionadas que foram usados:
+- <ApiLink type="OverlayOutletDirective" />
+- <ApiLink type="OverlayService" />
+- <ApiLink type="NavigationService" />
+## Dependências de tema
+
+- <ApiLink kind="sass" module="themes" type="function-overlay-theme" label="Tema do IgxOverlay" />
+
+## Recursos adicionais
+
+<hr/>
+
+Nossa comunidade é ativa e sempre receptiva a novas ideias.
+
+- [Ignite UI for Angular **Fóruns**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

@@ -1,0 +1,591 @@
+---
+title: "지역화(i18n) | {ProductName} | Infragistics"
+description: "Infragistics의 {Platform} 지역화 기능을 사용하면 Infragistics의 {Platform} 컴포넌트를 쉽게 번역하고 완전히 지역화할 수 있습니다."
+keywords: "{ProductName}, Infragistics, 지역화, 국제화, i18n"
+mentionedTypes: ["Grid"]
+_language: ko
+llms:
+  description: "새 지역화 기능은 사용 가능한 모든 로캘에 대해 지역화 문자열과 서식 지정 요구 사항을 줄이면서 더 많은 기능을 제공합니다."
+---
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+
+# {Platform} 지역화(i18n)
+
+새 지역화 기능은 사용 가능한 모든 로캘에 대해 지역화 문자열과 서식 지정 요구 사항을 줄이면서 더 많은 기능을 제공합니다. 서식 지정은 `Intl` API에서 도입된 표준을 기반으로 합니다.
+
+현재 {ProductName}은(는) 다음 언어의 리소스 문자열과 함께 제공됩니다: `Bulgarian`, `Czech`, `Danish`, `Dutch`, `English`, `French`, `German`, `Hungarian`, `Italian`, `Japanese`, `Korean`, `Norwegian`, `Polish`, `Portuguese`, `Romanian`, `Spanish`, `Swedish`, `Turkish`, `Traditional Chinese (zh-Hant)` 및 `Simplified Chinese (zh-Hans)`. 영어는 기본 지역화로 제공되므로, 이 문자열은 `igniteui-i18n-resources` 패키지를 통해 사용할 수 있습니다.
+
+## {Platform} 지역화 예제
+
+<Sample src="/{GridSample}/localization" height={605} alt="{Platform} {GridTitle} 지역화 예제" />
+
+
+<DocsAside type="info">
+샘플에 포함된 힌디어(HI)는 사용자 지정 지역화 객체를 전달할 수 있음을 보여 주기 위한 예시일 뿐입니다. 이 샘플에는 요약에 필요한 일부 지역화 문자열만 들어 있습니다. 자세한 내용은 아래의 [사용자 지정 지역화 리소스 문자열](#사용자-지정-지역화-리소스-문자열) 섹션을 참조하십시오.
+</DocsAside>
+
+## 로캘
+
+**로캘**은 서로 다른 언어와 지역을 정의하는 일반 문자열을 뜻합니다. 이는 [BCP 47](https://developer.mozilla.org/en-US/docs/Glossary/BCP_47_language_tag) 태그 정의를 기반으로 합니다. 대부분의 기본 항목은 [IANA Language Subtag Registry](https://www.iana.org/assignments/language-subtag-registry/language-subtag-registry)에 설명되어 있습니다. 언어 목록은 [ISO 639 언어 표준](https://www.loc.gov/standards/iso639-2/)을 참조하십시오.
+
+로캘은 날짜와 숫자의 서식 지정과 {ProductName} 컴포넌트가 사용하는 지역화 리소스 문자열 모두에 영향을 줍니다. {ProductName}의 기본 로캘은 `en-US`입니다.
+
+로캘은 여러 방식으로 설정할 수 있으며, 전역으로 또는 컴포넌트별로 설정할 수 있습니다.
+
+### 전역 API
+
+
+<PlatformBlock for="WebComponents">
+
+
+
+[`igniteui-webcomponents`](https://www.npmjs.com/package/igniteui-webcomponents) 또는 [`igniteui-webcomponents-grids`](https://www.npmjs.com/package/igniteui-webcomponents-grids) 패키지에서 제공하는 <ApiLink pkg="core" type="setCurrentI18n" /> 메서드를 사용하여 전역으로 사용할 로캘을 설정할 수 있습니다. 모든 타입과 API는 두 패키지 중 어느 쪽에서든 가져올 수 있습니다. 이는 모든 컴포넌트에서 사용되는 서식 지정과 등록된 리소스 문자열 모두에 영향을 줍니다. 리소스 문자열에 대한 자세한 내용은 [지역화된 리소스 문자열](#지역화된-리소스-문자열)을 참조하십시오.
+
+
+</PlatformBlock>
+
+
+
+<PlatformBlock for="React">
+
+
+
+[`igniteui-react`](https://www.npmjs.com/package/igniteui-react) 또는 [`igniteui-react-grids`](http://npmjs.com/package/igniteui-react-grids) 패키지에서 제공하는 <ApiLink pkg="core" type="setCurrentI18n" /> 메서드를 사용하여 전역으로 사용할 로캘을 설정할 수 있습니다. 모든 타입과 API는 두 패키지 중 어느 쪽에서든 가져올 수 있습니다. 이는 모든 컴포넌트에서 사용되는 서식 지정과 등록된 리소스 문자열 모두에 영향을 줍니다. 리소스 문자열에 대한 자세한 내용은 [지역화된 리소스 문자열](#지역화된-리소스-문자열)을 참조하십시오.
+
+
+</PlatformBlock>
+
+
+
+<PlatformBlock for="Blazor">
+
+
+
+`I18nManager`에서 제공하는 `SetCurrentI18n` 메서드를 사용하여 전역으로 사용할 로캘을 설정할 수 있습니다. 이는 모든 컴포넌트에서 사용되는 서식 지정과 등록된 리소스 문자열 모두에 영향을 줍니다. 리소스 문자열에 대한 자세한 내용은 [지역화된 리소스 문자열](#localized-resource-strings)을 참조하십시오. 앞서 언급했듯이 `IgniteUII18nManager`을(를) 먼저 가져와야 합니다:
+
+```razor
+@inject IIgniteUII18nManager I18nManager;
+
+I18nManager.SetCurrentI18nAsync("de");
+```
+
+
+</PlatformBlock>
+
+
+```ts
+setCurrentI18n('de');
+```
+
+{ProductName}은(는) `Intl`이(가) 지원하는 전체 로캘 범위를 지원합니다. 제공된 로캘이 유효하지 않거나 지원되지 않으면, 유효한 로캘이 설정될 때까지 기본 `en-US` 로캘이 사용됩니다.
+
+일반적으로 컴포넌트가 올바르게 지역화되도록 리소스는 사용할 태그의 언어, 지역 및 스크립트에 따라 등록해야 합니다. 자세한 내용은 [지역 및 스크립트](#지역과-스크립트) 섹션을 참조하십시오.
+
+### `lang` 속성
+
+이 방식을 사용하면 `HTML` 태그의 `lang` 전역 속성으로 지역화를 설정할 수 있습니다. 이 속성은 관찰되며, 변경되면 렌더링된 모든 컴포넌트가 현재 설정된 언어로 리소스 문자열을 업데이트합니다. 사용된 태그에 관한 위의 모든 규칙이 그대로 적용됩니다.
+
+<DocsAside type="info">
+이 방식은 루트 수준에서만 동작하며, 페이지의 내부 요소에는 적용되지 않습니다.
+</DocsAside>
+
+
+<PlatformBlock for="WebComponents, Blazor">
+
+
+
+```html
+<html lang="ja">
+    <head>
+        <title>My app</title>
+    </head>
+    <body></body>
+</html>
+```
+
+
+</PlatformBlock>
+
+
+<PlatformBlock for="React">
+
+```tsx
+<html lang="ja">
+    <head>
+        <title>My app</title>
+    </head>
+    <body></body>
+</html>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<html lang="ja">
+    <head>
+        <title>My app</title>
+    </head>
+    <body></body>
+</html>
+```
+
+</PlatformBlock>
+
+### 컴포넌트별
+
+각 컴포넌트에는 자체 `locale` 속성도 있습니다. 이를 지정하면 컴포넌트는 전역 로캘의 영향을 받지 않습니다.
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-grid locale="ja">
+    <igc-column field="ProductName" header="Product Name" groupable="true"></igc-column>
+    <igc-column field="QuantityPerUnit" header="Quantity Per Unit" groupable="true"></igc-column>
+</igc-grid>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrGrid data={data} locale="ja">
+    <IgrColumn field="ProductName" header="Product Name" groupable={true}></IgrColumn>
+    <IgrColumn field="QuantityPerUnit" header="Quantity Per Unit" groupable={true}></IgrColumn>
+</IgrGrid>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbGrid Data="@data" Locale="ja">
+    <IgbColumn Field="ProductName" Header="Product Name" Groupable="true"></IgbColumn>
+    <IgbColumn Field="QuantityPerUnit" Header="Quantity Per Unit" Groupable="true"></IgbColumn>
+</IgbGrid>
+```
+
+</PlatformBlock>
+
+## 형식 지정
+
+앞서 말했듯이 로캘은 날짜, 숫자 및 관련 문자열을 렌더링하는 모든 {ProductName} 컴포넌트의 서식에 영향을 주며, `Intl` API를 기반으로 합니다. 기본적으로 활성화되어 있습니다.
+
+### 날짜 형식
+
+Grid나 DatePicker 같은 컴포넌트는 날짜 형식을 지정할 수 있습니다(grid의 경우 열별로 지정). 아래 표에는 설정하거나 사용자 지정 형식을 만드는 데 쓸 수 있는 옵션이 나와 있습니다.
+
+사용 가능한 사전 정의 형식 옵션:
+
+| 옵션 | 동등한 형식 | 예시(en-US 로캘 기준) |
+| ------ | --------------| --------------------------------|
+| 'short' | 'M/d/yy, h:mm a' | 6/15/15, 9:03 AM |
+| 'medium' | 'MMM d, y, h:mm:ss a' | Jun 15, 2015, 9:03:01 AM |
+| 'long' | 'MMMM d, y, h:mm:ss a z' | 2015년 6월 15일 오전 9:03:01 GMT+1 |
+| 'full' | 'EEEE, MMMM d, y, h:mm:ss a zzzz' | 2015년 6월 15일 월요일 오전 9:03:01 GMT+01:00 |
+| 'shortDate' | 'M/d/yy' | 6/15/15 |
+| 'mediumDate' | 'MMM d, y' | Jun 15, 2015 |
+| 'longDate' | 'MMMM d, y' | June 15, 2015 |
+| 'fullDate' | 'EEEE, MMMM d, y' | Monday, June 15, 2015 |
+| 'shortTime' | 'h:mm a' | 9:03 AM |
+| 'mediumTime' | 'h:mm:ss a' | 9:03:01 AM |
+| 'longTime' | 'h:mm:ss a z' | 9:03:01 AM GMT+1 |
+| 'fullTime' | 'h:mm:ss a zzzz' | 9:03:01 AM GMT+01:00 |
+
+사용자 지정 형식 옵션:
+
+| 날짜 필드 | 값 | 설명 | 예제 |
+|-|-|-|-|
+| 요일 | c, cc, ccc, E, EE, EEE | 요일의 짧은 버전 | Tue |
+| | cccc, EEEE | 요일의 긴 버전 | Tuesday |
+| | ccccc, EEEEE | 요일의 좁은 버전 | T |
+| 일| d | 숫자 표시(가능하면 한 자리) | 1, 10 |
+| | dd | 항상 두 자리(0으로 채움) | 01, 10 |
+| 월 | M, L | 숫자 표시(가능하면 한 자리) | 8, 12 |
+| | MM, LL | 항상 두 자리(0으로 채움) | 08, 12 |
+| | MMM, LLL | 월 이름의 짧은 버전 | Oct |
+| | MMMM, LLLL | 월 이름의 긴 버전 | October |
+| | MMMMM, LLLLL | 월 이름의 좁은 버전 | O |
+| 연도 | y, yyy, yyyy | 숫자 표시 | 1, 24, 632, 2025 |
+| | yy | 두 자리 표시(가능하면 0으로 채움) | 01, 24, 32, 25 |
+| ISO 8601 연도  | Y, YYY, YYYY | 숫자 표시 | 1, 24, 632, 2025 |
+| | YY | 두 자리 표시(가능하면 0으로 채움) | 01, 24, 32, 25 |
+| 시대 | G, GG, GGG | 짧은 표시 | AD, BC |
+| | GGGG | 긴 표시 |  서기, 기원전|
+| | GGGGG | 좁은 표시 | A, B |
+| 분 | m | 숫자(가능하면 한 자리) | 1, 5, 22 |
+| | mm | 두 자리 표시(0으로 채움)| 01, 05, 22 |
+| 시 1-12 | h | 숫자(가능하면 한 자리) | 8, 12 |
+| | hh | 두 자리(0으로 채움) | 08, 13 |
+| 시 0-23 | H | 숫자(가능하면 한 자리) | 8, 21 |
+| | HH | 두 자리(0으로 채움)| 08, 21 |
+| 시 0-11 | K | 숫자(가능하면 한 자리) | 0, 11 |
+| | KK | 두 자리(0으로 채움) | 00, 11 |
+| 초 | s | 숫자(가능하면 한 자리) | 0...59 |
+| | ss | 두 자리(0으로 채움) | 00...59 |
+| 소수 초 | S | 한 자리 숫자 | 0...9 |
+| | SS | 두 자리 숫자 | 00...99 |
+| | SSS | 세 자리 숫자 | 000...999 |
+| 오전/오후 - 축약형 | a, t | 항상 소문자 | am, pm |
+| | aa, aaa, tt, ttt | 항상 대문자 | AM, PM |
+| | aaaa, tttt | 로캘에 따른 대소문자 | am, pm, AM, PM |
+| | aaaaa, ttttt | 좁은 소문자 항상 | a, p |
+| 확장된 시간대 구간 | b, bb, bbb, B, BB, BBB | 짧은 표시. `Intl` 로캘 기준 | en-GB: 밤에 |
+| | bbbb, BBBB | 긴 표시. `Intl` 로캘 기준| en-GB: 밤에 |
+| | bbbbb, BBBBB | 좁은 표시. `Intl` 로캘 기준 | en-GB: 밤에 |
+| 시간대 | z, zz, zzz, Z, ZZ, ZZZ, O, OO, OOO | 짧은 표시 | GMT+4 |
+| | zzzz, ZZZZ, OOOO | 긴 표시 | GMT+0430 |
+
+## 지역화된 리소스 문자열
+
+모든 {ProductName} 컴포넌트는 기본적으로 영어로 렌더링되며, 나열된 언어 중 어느 것으로도 렌더링할 수 있습니다. 이를 전역으로 구현하는 방법은 세 가지이고, 컴포넌트별로 구현하는 방법은 한 가지입니다. 현재 사용할 수 없는 언어에는 API를 통해 사용할 수 있는 각 리소스 문자열에 대해 사용자 지정 번역을 제공할 수 있습니다.
+
+컴포넌트 문자열의 번역은 리소스 문자열에 저장되며, 컴포넌트가 사용하기 전에 지역화 시스템에 등록해야 합니다.
+
+
+<PlatformBlock for="WebComponents, React">
+
+
+
+이를 위해 먼저 모든 언어의 지역화 리소스 문자열이 들어 있는 [`igniteui-i18n-resources`](https://www.npmjs.com/package/igniteui-i18n-resources) 패키지를 설치해야 합니다:
+
+```
+npm install igniteui-i18n-resources --save-dev
+```
+
+그다음 사용할 수 있게 할 각 언어를 등록하십시오. 예를 들어 독일어와 일본어는 다음과 같습니다:
+
+```ts
+import { ResourceStringsDE, ResourceStringsJA } from 'igniteui-i18n-resources';
+
+registerI18n(ResourceStringsDE, 'de');
+registerI18n(ResourceStringsJA, 'ja');
+```
+
+
+</PlatformBlock>
+
+
+
+<PlatformBlock for="Blazor">
+
+
+
+이를 위해 먼저 모든 언어의 지역화 리소스 문자열이 들어 있는 [`IgniteUI.Blazor.I18n.Resources`] NuGet 패키지를 설치하십시오:
+
+```
+nuget install IgnieteUI.Blazor.I18n.Resources
+```
+
+```razor
+I18nManager.RegisterI18nAsync(new IgbResourceStringsBG(), "bg");
+```
+
+
+</PlatformBlock>
+
+
+또한 리소스 문자열이 적용될 로캘을 지정해야 합니다. 잘못된 태그를 제공하면 리소스는 기본 `en-US` 로캘에 설정됩니다.
+
+### 지역과 스크립트
+
+리소스를 등록하는 데 사용하는 로캘의 `language + region` 또는 `language + script` 부분이 고려됩니다. 가장 일반적으로 사용되는 조합이기 때문입니다. 지역과 스크립트는 `-`로 구분되며 보통 두 번째 또는 세 번째 위치에 정의됩니다. 예를 들면 `en-US`, `en-GB` 또는 `en-Latn`입니다.
+
+지역도 스크립트도 지정하지 않으면, 등록된 리소스는 그 기본 언어를 사용하는 모든 로캘(예: `en`)에 적용됩니다. 다만 특정 지역이나 스크립트에 대한 리소스도 정의되어 있다면, 자체 리소스가 정의되지 않은 로캘만 기본 언어 리소스로 대체됩니다.
+
+리소스를 등록할 때 스크립트는 지역보다 높은 우선순위를 가집니다. 지역과 스크립트를 동시에 섞지 말고 둘 중 하나만 사용하는 것이 좋습니다. 그래야 주어진 로캘에 사용할 수 있는 리소스를 쉽게 관리하고 식별할 수 있습니다.
+
+지역과 스크립트를 모두 사용하는 경우, `GB` 지역과 `Latn` 스크립트를 가진 `en` 언어를 예로 들어 보겠습니다. `en-GB`와 `en-Latn`에 대한 리소스가 모두 정의되어 있고 로캘을 나중에 `en-Latn-GB`(지역과 스크립트를 모두 지정)로 설정하면 스크립트 리소스가 우선합니다. 스크립트 리소스가 없으면 지역 리소스가 사용됩니다. 지역 리소스와 스크립트 리소스가 모두 등록되어 있지 않으면, 사용 가능한 경우 기본 `en` 리소스가 사용됩니다.
+
+
+<PlatformBlock for="Angular">
+
+
+
+## 컴포넌트 사용자 지정하기
+
+앱의 특정 컴포넌트가 이미 등록된 리소스를 전역으로 사용하되 다른 지역화를 적용하고 싶다면 다음과 같이 하십시오.
+
+### 로캘
+
+특정 컴포넌트에만 전역 지역화 로캘과 다른 로캘을 설정하려면 `locale` 속성을 설정하십시오. 리소스 문자열의 언어와 서식은 서로 연결되어 있으므로, 두 가지가 함께 적용됩니다.
+
+이 방식을 사용하려면 사용 가능한 리소스 문자열이 이미 전역으로 등록되어 있어야 합니다:
+
+```ts
+import { ResourceStringsJA } from 'igniteui-i18n-resources';
+
+registerI18n(ResourceStringsJA, 'ja');
+```
+
+컴포넌트의 `locale` 속성을 설정하면 현재 사용 중인 전역 로캘을 재정의합니다:
+
+<PlatformBlock for="WebComponents">
+```html
+<igc-grid locale="ja">
+    <igc-column field="ProductName" header="Product Name" groupable="true"></igc-column>
+    <igc-column field="QuantityPerUnit" header="Quantity Per Unit" groupable="true"></igc-column>
+</igc-grid>
+```
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+<IgrGrid data={data} locale="ja">
+    <IgrColumn field="ProductName" header="Product Name" groupable={true}></IgrColumn>
+    <IgrColumn field="QuantityPerUnit" header="Quantity Per Unit" groupable={true}></IgrColumn>
+</IgrGrid>
+```
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```razor
+<IgbGrid Data="@data" Locale="ja">
+    <IgbColumn Field="ProductName" Header="Product Name" Groupable="true"></IgbColumn>
+    <IgbColumn Field="QuantityPerUnit" Header="Quantity Per Unit" Groupable="true"></IgbColumn>
+</IgbGrid>
+```
+</PlatformBlock>
+
+#### 언어만 변경
+
+로캘은 변경하지 않고 컴포넌트의 언어만 바꾸고 싶다면, `resourceStrings` 속성을 사용하여 각 컴포넌트의 리소스 문자열을 설정할 수도 있습니다. 이는 전역으로 사용되는 것을 재정의합니다:
+
+<PlatformBlock for="WebComponents">
+```html
+<igc-grid>
+    <igc-column field="ProductName" header="Product Name" groupable="true"></igc-column>
+    <igc-column field="QuantityPerUnit" header="Quantity Per Unit" groupable="true"></igc-column>
+</igc-grid>
+```
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+<IgrGrid data={data} resourceStrings={resourcesDE}>
+    <IgrColumn field="ProductName" header="Product Name" groupable={true}></IgrColumn>
+    <IgrColumn field="QuantityPerUnit" header="Quantity Per Unit" groupable={true}></IgrColumn>
+</IgrGrid>
+```
+</PlatformBlock>
+
+재정의하는 데 사용하는 컴포넌트에 맞는 올바른 리소스 문자열 타입을 사용해야 합니다. 각 컴포넌트는 자체 리소스 문자열 집합을 가지고 있습니다. 이 경우 독일어로 된 그리드 예제입니다:
+
+```ts
+import { GridResourceStringsDE } from 'igniteui-i18n-resources';
+
+// Inside App Component:
+public resourcesDE = GridResourceStringsDE;
+```
+
+</PlatformBlock>
+
+
+## 사용자 지정 지역화 리소스 문자열
+
+{ProductName}이(가) 필요한 언어의 리소스 문자열을 제공하지 않으면, 언제든지 사용자 지정 리소스 문자열을 제공할 수 있습니다.
+
+<DocsAside type="info">
+추가 언어를 포함한 [`igniteui-i18n-resources`](https://github.com/IgniteUI/igniteui-i18n/tree/master/projects/igniteui-i18n-resources) GitHub 저장소에 기여해 주시면 환영합니다.
+</DocsAside>
+
+
+<PlatformBlock for="WebComponents">
+
+
+모든 컴포넌트에 대해 제공되는 <ApiLink type="IResourceStrings" /> 타입을 사용하면 사용되는 리소스 문자열의 타이핑을 얻을 수 있습니다:
+
+```ts
+import { IResourceStrings } from 'igniteui-webcomponents';
+
+export const customResourcesForAll: IResourceStrings = {
+    //...
+};
+registerI18n(customResourcesForAll, 'custom');
+```
+
+</PlatformBlock>
+
+
+
+<PlatformBlock for="React">
+
+
+모든 컴포넌트에 대해 제공되는 <ApiLink type="IResourceStrings" /> 타입을 사용하면 사용되는 리소스 문자열의 타이핑을 얻을 수 있습니다:
+
+```tsx
+import { IResourceStrings } from 'igniteui-react';
+
+export const customResourcesForAll: IResourceStrings = {
+    //...
+};
+registerI18n(customResourcesForAll, 'custom');
+```
+
+</PlatformBlock>
+
+
+
+<PlatformBlock for="Blazor">
+
+
+모든 컴포넌트에 대해 제공되는 `IgbResourceStrings` 클래스를 사용하면 사용되는 리소스 문자열의 타이핑을 얻을 수 있습니다:
+
+```razor
+IgbResourceStrings customResourcesAll = new IgbResourceStrings()
+{
+    //...
+};
+
+I18nManager.RegisterI18nAsync(customResourcesAll, "de");
+```
+
+</PlatformBlock>
+
+
+또는 특정 컴포넌트에 대해 따로, 이 경우 그리드에 대해 사용할 수 있습니다:
+
+
+<PlatformBlock for="WebComponents">
+
+
+```ts
+import { IGridResourceStrings } from 'igniteui-webcomponents';
+
+export const customGridResources: IGridResourceStrings = {
+    grid_summary_count: 'गणना',
+    grid_summary_min: 'न्यून',
+    grid_summary_max: 'अधिक',
+    grid_summary_sum: 'योग',
+    grid_summary_average: 'औसत'
+};
+
+```
+
+</PlatformBlock>
+
+
+
+<PlatformBlock for="React">
+
+
+```tsx
+import { IGridResourceStrings } from 'igniteui-react';
+
+export const customGridResources: IGridResourceStrings = {
+    grid_summary_count: 'गणना',
+    grid_summary_min: 'न्यून',
+    grid_summary_max: 'अधिक',
+    grid_summary_sum: 'योग',
+    grid_summary_average: 'औसत'
+};
+
+```
+
+</PlatformBlock>
+
+
+
+<PlatformBlock for="Blazor">
+
+
+```razor
+IgbGridResourceStrings gridRes = new IgbGridResourceStrings()
+{
+    GridSummaryCount: 'गणना',
+    GridSummaryMin: 'न्यून',
+    GridSummaryMax: 'अधिक',
+    GridSummarySum: 'योग',
+    GridSummaryAverage: 'औसत'
+};
+```
+
+</PlatformBlock>
+
+
+
+<PlatformBlock for="WebComponents">
+
+
+기본 영어를 포함하여 기존 리소스 문자열은 어떤 조합으로든 사용자 지정 문자열과 섞어 쓸 수 있습니다:
+
+```ts
+import { IResourceStrings, CalendarResourceStringsEN, DatePickerResourceStringsEN } from 'igniteui-webcomponents';
+
+export const customResources: IResourceStrings = Object.assign(
+    {},
+    CalendarResourceStringsEN,
+    DatePickerResourceStringsEN,
+    {
+        grid_summary_count: 'Custom count',
+        grid_summary_min: 'Minium',
+        grid_summary_max: 'Maximum',
+        grid_summary_sum: 'Custom summary'
+    }
+);
+registerI18n(customResources, 'en');
+
+```
+
+</PlatformBlock>
+
+
+
+<PlatformBlock for="React">
+
+
+기본 영어를 포함하여 기존 리소스 문자열은 어떤 조합으로든 사용자 지정 문자열과 섞어 쓸 수 있습니다:
+
+```tsx
+import { IResourceStrings, CalendarResourceStringsEN, DatePickerResourceStringsEN } from 'igniteui-react';
+
+export const customResources: IResourceStrings = Object.assign(
+    {},
+    CalendarResourceStringsEN,
+    DatePickerResourceStringsEN,
+    {
+        grid_summary_count: 'Custom count',
+        grid_summary_min: 'Minium',
+        grid_summary_max: 'Maximum',
+        grid_summary_sum: 'Custom summary'
+    }
+);
+registerI18n(customResources, 'en');
+
+```
+
+</PlatformBlock>
+
+
+<DocsAside type="info">
+마지막 예제들은 특정 리소스 문자열만 설정합니다. 나머지 문자열은 사용 중인 컴포넌트에 사용할 수 없으면 기본적으로 영어를 사용합니다.
+</DocsAside>
+
+## 사용 가능한 리소스 문자열
+
+- [ResourceStringsBG](https://github.com/IgniteUI/igniteui-i18n/tree/master/projects/igniteui-i18n-resources/src/i18n/BG/resources.ts)
+- [ResourceStringsCS](https://github.com/IgniteUI/igniteui-i18n/tree/master/projects/igniteui-i18n-resources/src/i18n/CS/resources.ts)
+- [ResourceStringsDA](https://github.com/IgniteUI/igniteui-i18n/tree/master/projects/igniteui-i18n-resources/src/i18n/DA/resources.ts)
+- [ResourceStringsDE](https://github.com/IgniteUI/igniteui-i18n/tree/master/projects/igniteui-i18n-resources/src/i18n/DE/resources.ts)
+- [ResourceStringsES](https://github.com/IgniteUI/igniteui-i18n/tree/master/projects/igniteui-i18n-resources/src/i18n/ES/resources.ts)
+- [ResourceStringsFR](https://github.com/IgniteUI/igniteui-i18n/tree/master/projects/igniteui-i18n-resources/src/i18n/FR/resources.ts)
+- [ResourceStringsHU](https://github.com/IgniteUI/igniteui-i18n/tree/master/projects/igniteui-i18n-resources/src/i18n/HU/resources.ts)
+- [ResourceStringsIT](https://github.com/IgniteUI/igniteui-i18n/tree/master/projects/igniteui-i18n-resources/src/i18n/IT/resources.ts)
+- [ResourceStringsJA](https://github.com/IgniteUI/igniteui-i18n/tree/master/projects/igniteui-i18n-resources/src/i18n/JA/resources.ts)
+- [ResourceStringsKO](https://github.com/IgniteUI/igniteui-i18n/tree/master/projects/igniteui-i18n-resources/src/i18n/KO/resources.ts)
+- [ResourceStringsNB](https://github.com/IgniteUI/igniteui-i18n/tree/master/projects/igniteui-i18n-resources/src/i18n/NB/resources.ts)
+- [ResourceStringsNL](https://github.com/IgniteUI/igniteui-i18n/tree/master/projects/igniteui-i18n-resources/src/i18n/NL/resources.ts)
+- [ResourceStringsPL](https://github.com/IgniteUI/igniteui-i18n/tree/master/projects/igniteui-i18n-resources/src/i18n/PL/resources.ts)
+- [ResourceStringsPT](https://github.com/IgniteUI/igniteui-i18n/tree/master/projects/igniteui-i18n-resources/src/i18n/PT/resources.ts)
+- [ResourceStringsRO](https://github.com/IgniteUI/igniteui-i18n/tree/master/projects/igniteui-i18n-resources/src/i18n/RO/resources.ts)
+- [ResourceStringsSV](https://github.com/IgniteUI/igniteui-i18n/tree/master/projects/igniteui-i18n-resources/src/i18n/SV/resources.ts)
+- [ResourceStringsTR](https://github.com/IgniteUI/igniteui-i18n/tree/master/projects/igniteui-i18n-resources/src/i18n/TR/resources.ts)
+- [ResourceStringsZHHANS](https://github.com/IgniteUI/igniteui-i18n/tree/master/projects/igniteui-i18n-resources/src/i18n/ZH-HANS/resources.ts)
+- [ResourceStringsZHHANT](https://github.com/IgniteUI/igniteui-i18n/tree/master/projects/igniteui-i18n-resources/src/i18n/ZH-HANT/resources.ts)

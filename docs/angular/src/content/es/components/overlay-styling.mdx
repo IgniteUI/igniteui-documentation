@@ -1,0 +1,134 @@
+---
+title: "Estilos de superposición de Angular | Licencia MIT"
+description: "Un recorrido detallado que explica cómo aplicar correctamente los estilos a los elementos que se muestran mediante el servicio de superposición de IgniteUI for Angular, y cómo acotarlos."
+keywords: "Ignite UI for Angular, Angular Overlay Service, controles de interfaz de Angular, Overlay Service, ejemplo de encapsulado de vista, estilos acotados de Sass en Angular, widgets web, widgets de interfaz, Angular, Native Angular Components Suite, Native Angular Controls, Native Angular Components Library"
+license: MIT
+_language: es
+llms:
+  description: "IgxOverlayService se usa para mostrar contenido encima del contenido de la página."
+---
+
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+
+
+# Estilos de superposición
+
+<div class="highlight">
+
+
+[`IgxOverlayService`](/overlay) se usa para mostrar contenido encima del contenido de la página. Muchos componentes de Ignite UI for Angular usan la superposición ([Drop Down](/drop-down), [Combo](/inputs/combo/overview), [Date Picker](/date-picker) y otros), así que es importante entender cómo muestra el contenido la superposición.
+Para mostrar el contenido por encima de otros elementos, el servicio lo mueve a un contenedor de outlet especial (adjunto al final del body del documento, de forma predeterminada). Este comportamiento puede afectar a los estilos [acotados a un contenedor concreto](#estilos-de-superposición-con-ámbito).
+</div>
+<hr/>
+
+## Dar estilo a los componentes de superposición
+
+Un tema emitido desde la hoja de estilos global puede afectar al contenido de cualquier outlet de superposición. Por ejemplo, el siguiente tema de [Drop Down](/drop-down#estilos) emite sobrescrituras de tokens universales en la raíz de Sass, donde están disponibles para el contenido de la lista desplegable adjunto al body del documento:
+
+```html
+{/* overlay-styling.component.html */}
+<igx-drop-down #customDropDown height="350px">
+    <igx-drop-down-item *ngFor="let item of items" [value]="item.id">
+        {{ item.name }}
+    </igx-drop-down-item>
+</igx-drop-down>
+```
+
+```scss
+// styles.scss
+@use "igniteui-angular/theming" as *;
+
+$my-drop-down-theme: drop-down-theme(
+  $background-color: #efefef
+);
+
+@include tokens($my-drop-down-theme);
+```
+
+Como estas sobrescrituras universales son globales, el contenido de la lista desplegable puede usarlas después de que el servicio de superposición lo mueva a un outlet.
+
+## Estilos de componente con ámbito
+
+Un tema local solo puede afectar al contenido de la superposición que hereda de su contenedor o que coincide con sus selectores generados. El contenido adjunto al outlet predeterminado al final de `body` no es descendiente del componente que lo abrió.
+
+Por ejemplo, el elemento `igx-combo` [usa](/inputs/combo/overview#styling) el tema de la lista desplegable. Este tema local del componente surte efecto después de que el outlet del combo se mueva debajo del host:
+
+```scss
+// overlay-styling.component.scss
+
+:host {
+  @include tokens($my-drop-down-theme);
+}
+```
+
+<DocsAside type="warning">
+`::ng-deep` no hace que los tokens se hereden en un outlet separado. Emita el tema de la superposición globalmente o mueva el outlet debajo del contenedor con tema. Si una personalización especial usa el modo con ámbito y sus selectores generados aún no pueden coincidir con el contenido de la superposición anidada, puede ser necesario también `::ng-deep` después de mover el outlet.
+</DocsAside>
+
+Use la propiedad <ApiLink kind="interface" type="OverlaySettings" member="outlet" /> para controlar dónde se renderiza el contenedor de la superposición.
+
+Aquí podemos pasar una referencia al elemento en el que queremos que esté nuestro contenedor:
+
+```html
+<igx-combo [data]="items" valueKey="name" displayKey="name" [overlaySettings]="{ outlet: element, modal: true }">
+</igx-combo>
+```
+
+```typescript
+export class OverlayStylingComponent {
+  ...
+  constructor(public element: ElementRef) {
+  }
+}
+```
+
+Ahora, la lista de elementos del combo se renderiza correctamente **dentro** del host de nuestro componente, lo que significa que nuestro tema personalizado surtirá efecto:
+
+
+<Sample src="/interactions/overlay-styling-simple" height={400} alt="" />
+
+
+## Dar estilo a la superposición
+
+Ahora que hemos visto cómo funciona `ViewEncapsulation` junto con la propiedad `outlet` de la superposición, podemos ver cómo dar estilo al propio contenedor de la superposición.
+El <ApiLink kind="sass" module="themes" type="function-overlay-theme" label="overlay-theme" code={true} /> expone una única propiedad, `$background-color`, que afecta al color del fondo cuando la superposición está configurada como `modal: true`.
+
+### Estilos globales
+
+La forma más sencilla de dar estilo a la superposición modal es incluir su tema en los estilos globales de nuestra aplicación:
+
+```scss
+// styles.scss
+$my-overlay-theme: overlay-theme(
+  $background-color: rgba(0, 153, 255, 0.3)
+);
+
+@include tokens($my-overlay-theme);
+```
+
+Ahora **todas** las superposiciones modales tendrán un tinte morado. Como este tema se emite globalmente, no intervienen el encapsulado de vista de Angular ni `::ng-deep`.
+
+### Estilos de superposición con ámbito
+
+Para dar a una superposición un fondo concreto solo debajo de determinado contenedor, mueva su outlet debajo de ese contenedor y acote allí el tema. Los outlets personalizados tienen algunas [limitaciones](/overlay#supuestos-y-limitaciones); para reducir los problemas de recorte por desbordamiento, apilamiento y ventana gráfica, úselos en componentes de nivel superior:
+
+```scss
+// styles.scss
+...
+.purple {
+  @include tokens($my-overlay-theme);
+}
+```
+
+## Referencias de API
+- [IgniteUI for Angular - Biblioteca de temas](/themes)
+- <ApiLink kind="sass" module="themes" type="function-overlay-theme" label="Estilos de IgxOverlay" />
+## Recursos adicionales
+
+- [IgniteUI for Angular - Biblioteca de temas](/themes)
+- [Tema principal de superposiciones](/overlay)
+- [Estrategias de posicionamiento](/overlay-position)
+- [Estrategias de desplazamiento](/overlay-scroll)

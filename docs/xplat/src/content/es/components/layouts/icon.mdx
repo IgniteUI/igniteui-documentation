@@ -1,0 +1,1096 @@
+---
+title: "Componente {Platform} Icon"
+description: "El {ProductName} Icon renderiza iconos con nombre de conjuntos de iconos registrados, incluidos iconos SVG personalizados, con tamaños basados en el tema y colores personalizados."
+keywords: "{Platform} Icon, {ProductName}, icono SVG, conjunto de iconos"
+license: MIT
+last_updated: "2026-10-06"
+relatedComponents: ["IconButton"]
+mentionedTypes: ["Icon"]
+_language: es
+llms:
+  description: "El {ProductName} Icon es un componente que renderiza un icono con nombre de un conjunto de iconos registrado, como una colección de iconos SVG personalizados."
+---
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+import Anatomy from 'igniteui-astro-components/components/mdx/Anatomy.astro';
+import Faq from 'igniteui-astro-components/components/mdx/Faq.astro';
+import FaqItem from 'igniteui-astro-components/components/mdx/FaqItem.astro';
+import { Image } from 'astro:assets';
+import iconAnatomy from '@xplat-images/anatomy-content-light/icon-lt-a.png';
+import iconDo from '@xplat-images/icon/icon-do.png';
+import iconDoNot from '@xplat-images/icon/icon-do-not.png';
+
+# Icon
+
+El {ProductName} Icon es un componente que renderiza un icono con nombre de un conjunto de iconos registrado, como una colección de iconos SVG personalizados.
+
+<PlatformBlock for="Angular">
+
+De forma predeterminada, el Icon de Angular renderiza los ligaduras de Material Icons. Registre iconos SVG y otras fuentes de iconos con `IgxIconService` para usarlos de la misma manera.
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+Registre los iconos SVG por nombre en una colección y, después, muestre cada icono con un tamaño basado en el tema y en el color del texto que lo rodea.
+
+</PlatformBlock>
+
+## Demostración en vivo
+
+<PlatformBlock for="Angular">
+
+<Sample src="/data-display/icon-overview" showThemePicker height={400} noBorder={false} spacing="md" alt="Ejemplo de {Platform} Icon en un menú de navegación con los elementos Home, Inbox, Reports, Settings y Support" />
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+<Sample src="/layouts/icon/overview" showThemePicker height={400} noBorder={false} spacing="md" alt="Ejemplo de {Platform} Icon en un menú de navegación con los elementos Home, Inbox, Reports, Settings y Support" />
+
+</PlatformBlock>
+
+## Anatomía
+
+Un icono es un símbolo que representa un comando, un dispositivo, un directorio o una acción habitual.
+
+<Anatomy
+  class="icon-anatomy"
+  name="Icon"
+  description="El componente Icon dibuja un glifo de un conjunto de iconos registrado."
+  src={iconAnatomy.src}
+  alt="Anatomía del icono que muestra el glifo del icono"
+/>
+
+<style>{`
+  .icon-anatomy {
+    --igd-anatomy-padding: 64px 32px;
+  }
+
+  .icon-anatomy .igd-anatomy__image {
+    max-width: 94.5px;
+  }
+`}</style>
+
+<span class="ig-typography__body-2" style="display: block; margin-bottom: 24px;"><strong>1. Icono:</strong> un símbolo visual que se usa para representar acciones, objetos o ideas</span>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+El {Platform} Icon renderiza un elemento `igc-icon`, que dibuja el SVG registrado en su shadow root y no expone partes CSS:
+
+```text
+igc-icon                 // host - inline box sized by --size
+└─ #shadow-root
+   └─ svg                // the registered SVG, 1em × 1em, filled with the current color
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+El elemento `igx-icon` renderiza uno de los siguientes, según el tipo de su familia de iconos:
+
+```text
+igx-icon.igx-icon[aria-hidden="true"]   // host - also carries the family class, e.g. .material-icons
+├─ ligature text                        // `liga` family - the icon name, e.g. home
+├─ div > svg                            // SVG icon registered with IgxIconService
+└─ ng-content                           // projected ligature text when `name` isn't set
+```
+
+Para una familia `font`, las clases del host dibujan el glifo y el elemento no tiene contenido.
+
+</PlatformBlock>
+
+## Primeros pasos
+
+Para usar el {Platform} Icon, siga el tema <PlatformBlock for="Angular">[{ProductName} Primeros pasos](../general/getting-started.mdx)</PlatformBlock><PlatformBlock for="React,WebComponents,Blazor">[{ProductName} Primeros pasos](../general-getting-started.mdx)</PlatformBlock> para la configuración básica del proyecto y, después, añada el componente para su plataforma de destino.
+
+<PlatformBlock for="WebComponents">
+
+Instale el paquete **{PackageCommon}**:
+
+```cmd
+npm install {PackageCommon}
+```
+
+A continuación, importe <ApiLink pkg="core" type="Icon" />, su CSS de tema y registre el componente:
+
+```ts
+import { defineComponents, IgcIconComponent } from 'igniteui-webcomponents';
+import 'igniteui-webcomponents/themes/light/bootstrap.css';
+
+defineComponents(IgcIconComponent);
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+Instale el paquete **{PackageCommon}**:
+
+```cmd
+npm install {PackageCommon}
+```
+
+Después, importe el wrapper <ApiLink pkg="core" type="Icon" /> y el CSS del tema:
+
+```tsx
+import { IgrIcon } from 'igniteui-react';
+import 'igniteui-webcomponents/themes/light/bootstrap.css';
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+Registre los servicios de {ProductName}:
+
+```csharp
+// in Program.cs file
+
+builder.Services.AddIgniteUIBlazor();
+```
+
+Registrar <ApiLink pkg="core" type="IconModule" />, el módulo de recursos de cliente de <ApiLink pkg="core" type="Icon" />, es **opcional**: el componente carga sus recursos la primera vez que se muestra. Incluirlo en `builder.Services.AddIgniteUIBlazor(typeof(IgbIconModule))` sirve para precargar recursos o para admitir elementos creados solo en el cliente (véase [Módulos de componentes](../general-getting-started.mdx#módulos-de-componentes)).
+
+A continuación, enlace el archivo CSS del tema en la página host de la aplicación (**wwwroot/index.html** en una aplicación Blazor WebAssembly independiente o Blazor Hybrid, **Pages/_Host.cshtml** en una aplicación Blazor Server, **Components/App.razor** en una aplicación Blazor Web App):
+
+```razor
+<link href="_content/IgniteUI.Blazor/themes/light/bootstrap.css" rel="stylesheet" />
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+Si su proyecto todavía no usa {ProductName}, ejecute `ng add igniteui-angular`. Después importe el <ApiLink pkg="core" type="Icon" /> independiente y añádalo a `imports` de su componente:
+
+```ts
+import { Component } from '@angular/core';
+import { IgxIconComponent } from 'igniteui-angular/icon';
+
+@Component({
+    selector: 'app-home',
+    template: '<igx-icon name="home"></igx-icon>',
+    imports: [IgxIconComponent]
+})
+export class HomeComponent {}
+```
+
+El nombre `home` es una ligadura de Material Icons, así que el icono aparece en cuanto se carga la fuente de Material Icons.
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+Después del registro, renderice el <ApiLink pkg="core" type="Icon" /> con un nombre de icono y una colección:
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-icon name="search" collection="material"></igc-icon>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrIcon name="search" collection="material" />
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbIcon IconName="search" Collection="material" />
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+El icono permanece vacío hasta que registre un icono SVG con el mismo nombre y la misma colección, como se describe en [Nombre y colección](#nombre-y-colección).
+
+</PlatformBlock>
+
+## Uso
+
+Use el {Platform} Icon para añadir un símbolo reconocible a etiquetas, botones, elementos de lista y navegación, o para mostrar un estado de un vistazo.
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+### Nombre y colección
+
+El {Platform} Icon dibuja el SVG registrado con su nombre en su colección. La colección predeterminada es `default`. Todos los iconos de la página comparten un único registro, así que un icono que registre una vez está disponible para todos los Icon, y un Icon que se renderiza antes de que su SVG esté registrado se actualiza en cuanto lo registra.
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+Registre el marcado SVG con <ApiLink pkg="core" type="registerIconFromText" kind="function" label="registerIconFromText" />, o recupere un archivo SVG desde una URL con <ApiLink pkg="core" type="registerIcon" kind="function" label="registerIcon" />:
+
+```ts
+import { registerIcon, registerIconFromText } from 'igniteui-webcomponents';
+
+const searchIcon =
+  '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>';
+
+registerIconFromText('search', searchIcon, 'material');
+registerIcon('build', '/icons/build.svg', 'material');
+```
+
+A continuación, establezca el mismo nombre y la misma colección en cada icono:
+
+```html
+<igc-icon name="search" collection="material"></igc-icon>
+<igc-icon name="build" collection="material"></igc-icon>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+Registre el marcado SVG con <ApiLink pkg="core" type="registerIconFromText" kind="function" label="registerIconFromText" />, o recupere un archivo SVG desde una URL con <ApiLink pkg="core" type="registerIcon" kind="function" label="registerIcon" />. Después establezca el mismo nombre y la misma colección en cada icono:
+
+```tsx
+import { useEffect } from 'react';
+import { IgrIcon, registerIcon, registerIconFromText } from 'igniteui-react';
+
+const searchIcon =
+  '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>';
+
+export default function SearchToolbar() {
+  useEffect(() => {
+    registerIconFromText('search', searchIcon, 'material');
+    registerIcon('build', '/icons/build.svg', 'material');
+  }, []);
+
+  return (
+    <>
+      <IgrIcon name="search" collection="material" />
+      <IgrIcon name="build" collection="material" />
+    </>
+  );
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+Registre el marcado SVG con el método <ApiLink pkg="core" type="Icon" member="RegisterIconFromTextAsync" label="RegisterIconFromTextAsync" />, o recupere un archivo SVG desde una URL con <ApiLink pkg="core" type="Icon" member="RegisterIconAsync" label="RegisterIconAsync" />. Llámelos sobre un `IgbIcon` referenciado cuando esté listo, y después establezca el mismo `IconName` y `Collection` en cada icono:
+
+```razor
+<IgbIcon @ref="SearchIcon" IconName="search" Collection="material" />
+<IgbIcon IconName="build" Collection="material" />
+
+@code {
+    private IgbIcon SearchIcon { get; set; }
+
+    private const string SearchSvg = "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z'/></svg>";
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender && SearchIcon != null)
+        {
+            await SearchIcon.EnsureReady();
+            await SearchIcon.RegisterIconFromTextAsync("search", SearchSvg, "material");
+            await SearchIcon.RegisterIconAsync("build", "/icons/build.svg", "material");
+        }
+    }
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+### Nombre y familia
+
+El Icon de Angular busca su <ApiLink pkg="core" type="Icon" member="name" label="name" /> en su <ApiLink pkg="core" type="Icon" member="family" label="family" />. La familia `material` predeterminada renderiza ligaduras de Material Icons, así que el nombre es la ligadura, como `home` o `favorite`:
+
+```html
+<igx-icon name="home"></igx-icon>
+<igx-icon name="favorite"></igx-icon>
+```
+
+También puede proyectar la ligadura como contenido:
+
+```html
+<igx-icon>bluetooth</igx-icon>
+```
+
+### Iconos SVG
+
+Registre los iconos SVG con <ApiLink pkg="core" type="IconService" /> y establezca después su nombre y su familia en el icono. El método <ApiLink pkg="core" type="IconService" member="addSvgIcon" label="addSvgIcon" /> recupera un archivo SVG desde una URL, y <ApiLink pkg="core" type="IconService" member="addSvgIconFromText" label="addSvgIconFromText" /> registra el marcado SVG:
+
+```ts
+import { Component, OnInit, inject } from '@angular/core';
+import { IgxIconComponent, IgxIconService } from 'igniteui-angular/icon';
+
+const searchIcon =
+    '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>';
+
+@Component({
+    selector: 'app-filter-icons',
+    template: `
+        <igx-icon name="contains" family="filter-icons"></igx-icon>
+        <igx-icon name="search" family="filter-icons"></igx-icon>
+    `,
+    imports: [IgxIconComponent]
+})
+export class FilterIconsComponent implements OnInit {
+    private iconService = inject(IgxIconService);
+
+    public ngOnInit() {
+        this.iconService.addSvgIcon('contains', 'assets/images/svg/contains.svg', 'filter-icons');
+        this.iconService.addSvgIconFromText('search', searchIcon, 'filter-icons');
+    }
+}
+```
+
+Cuando un icono SVG y una ligadura comparten el mismo nombre y la misma familia, el icono renderiza el SVG.
+
+### Familias de fuentes
+
+Use <ApiLink pkg="core" type="IconService" member="setFamily" label="setFamily" /> para añadir otra fuente de iconos, como [Material Symbols](https://fonts.google.com/icons), como familia. Cargue primero la hoja de estilos de la fuente:
+
+```html
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet" />
+```
+
+Asigne el nombre de la familia a la clase CSS de la fuente y establezca su tipo en `liga`:
+
+```ts
+this.iconService.setFamily('material-symbols', { className: 'material-symbols-outlined', type: 'liga' });
+```
+
+A continuación, establezca la familia en el icono. Material Symbols es una fuente variable, así que puede ajustar opciones como el relleno y el grosor:
+
+```html
+<igx-icon family="material-symbols" name="diamond" class="custom-icon"></igx-icon>
+```
+
+```scss
+.custom-icon {
+  font-variation-settings: "FILL" 0, "wght" 200, "GRAD" 0, "opsz" 40;
+}
+```
+
+El tema [Icon Service](../icon-service.mdx) cubre las familias del tipo `font`, los prefijos de nombre y las referencias de iconos.
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+### Referencias de iconos
+
+Una referencia de icono apunta un nombre de icono a otro icono registrado. Componentes como Combo y Date Picker renderizan sus iconos integrados mediante referencias en la colección `default`, y una referencia que usted establezca tiene prioridad sobre ellas. Por ejemplo, apunte la referencia `input_clear` a su propio icono para sustituir el icono de borrado de estos dos componentes:
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```ts
+import { registerIconFromText, setIconRef } from 'igniteui-webcomponents';
+
+const closeIcon =
+  '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>';
+
+registerIconFromText('close', closeIcon, 'my-icons');
+setIconRef('input_clear', 'default', { name: 'close', collection: 'my-icons' });
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+import { registerIconFromText, setIconRef } from 'igniteui-react';
+
+const closeIcon =
+  '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>';
+
+registerIconFromText('close', closeIcon, 'my-icons');
+setIconRef('input_clear', 'default', { name: 'close', collection: 'my-icons' });
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbIcon @ref="CloseIcon" IconName="close" Collection="my-icons" />
+
+@code {
+    private IgbIcon CloseIcon { get; set; }
+
+    private const string CloseSvg = "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z'/></svg>";
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender && CloseIcon != null)
+        {
+            await CloseIcon.EnsureReady();
+            await CloseIcon.RegisterIconFromTextAsync("close", CloseSvg, "my-icons");
+            await CloseIcon.SetIconRefAsync("input_clear", "default", new IgbIconMeta()
+            {
+                Name = "close",
+                Collection = "my-icons",
+            });
+        }
+    }
+}
+```
+
+</PlatformBlock>
+
+### Tamaño
+
+El {Platform} Icon admite los presets de tamaño pequeño, mediano y grande del tema, y usa de forma predeterminada el preset grande. Establezca la variable CSS `--ig-size` en `--ig-size-small`, `--ig-size-medium` o `--ig-size-large` para elegir un preset:
+
+```css
+.small {
+  --ig-size: var(--ig-size-small);
+}
+
+.medium {
+  --ig-size: var(--ig-size-medium);
+}
+```
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-icon class="small" name="build" collection="material"></igc-icon>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrIcon className="small" name="build" collection="material" />
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbIcon Class="small" IconName="build" Collection="material" />
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+```html
+<igx-icon class="small" name="build"></igx-icon>
+```
+
+</PlatformBlock>
+
+Para un tamaño que no esté entre los presets, establezca `--size` en el icono. Para redimensionar todos los iconos dentro de un contenedor, establezca `--ig-icon-size` en el contenedor:
+
+```css
+.custom-size {
+  --size: 56px;
+}
+
+.toolbar {
+  --ig-icon-size: 2rem;
+}
+```
+
+<PlatformBlock for="Angular">
+
+<Sample src="/data-display/icon-size" showThemePicker height={200} noBorder={false} spacing="md" alt="Ejemplo de tamaño de {Platform} Icon" />
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+<Sample src="/layouts/icon/size" showThemePicker height={200} noBorder={false} spacing="md" alt="Ejemplo de tamaño de {Platform} Icon" />
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+### Reflejado
+
+Establezca <ApiLink pkg="core" type="Icon" member="mirrored" label="mirrored" /> para invertir el icono horizontalmente. Úselo en iconos direccionales, como las flechas, en diseños de derecha a izquierda.
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-icon name="arrow_forward" collection="material" mirrored></igc-icon>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrIcon name="arrow_forward" collection="material" mirrored={true} />
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbIcon IconName="arrow_forward" Collection="material" Mirrored="true" />
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+### Activo
+
+Establezca <ApiLink pkg="core" type="Icon" member="active" label="active" /> en `false` para mostrar el icono como inactivo. Un icono inactivo usa el color deshabilitado del tema con una opacidad reducida:
+
+```html
+<igx-icon name="volume_off" [active]="false"></igx-icon>
+```
+
+</PlatformBlock>
+
+### Nombre accesible
+
+Oculte a la tecnología de asistencia un icono decorativo, y dé a un icono que transmite significado por sí solo un nombre accesible que describa ese significado.
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+Establezca `aria-label` en el icono para ponerle nombre. El elemento `<title>` de un SVG registrado también nombra el icono. Establezca `aria-hidden="true"` en un icono decorativo junto a texto visible:
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-icon name="warning" collection="material" aria-label="Warning"></igc-icon>
+
+<span>
+  <igc-icon name="search" collection="material" aria-hidden="true"></igc-icon>
+  Search
+</span>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrIcon name="warning" collection="material" aria-label="Warning" />
+
+<span>
+  <IgrIcon name="search" collection="material" aria-hidden="true" />
+  Search
+</span>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbIcon IconName="warning" Collection="material" aria-label="Warning" />
+
+<span>
+    <IgbIcon IconName="search" Collection="material" aria-hidden="true" />
+    Search
+</span>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+El Icon de Angular está oculto para la tecnología de asistencia de forma predeterminada, porque su entrada <ApiLink pkg="core" type="Icon" member="ariaHidden" label="ariaHidden" /> establece `aria-hidden="true"`. Para exponer un icono que transmite significado, establezca `ariaHidden` en `false` y añada el rol `img` y un `aria-label`:
+
+```html
+<igx-icon name="warning" [ariaHidden]="false" role="img" aria-label="Warning"></igx-icon>
+```
+
+</PlatformBlock>
+
+### Qué hacer y qué no
+
+Elija con cuidado el color del Icon para garantizar un buen contraste con el fondo, y evite en cualquier caso tonos parecidos del mismo color o combinaciones que generen aberraciones cromáticas.
+
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin: 24px 0 16px;">
+  <Image src={iconDo} alt="Iconos de campana blanca y de engranaje naranja con un contraste fuerte sobre un fondo azul" class="responsive-img" style="display: block; width: 100%; height: auto;" />
+  <Image src={iconDoNot} alt="Iconos de campana azul claro y de engranaje naranja oscuro con un contraste débil sobre un fondo azul" class="responsive-img" style="display: block; width: 100%; height: auto;" />
+</div>
+
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin-bottom: 32px;">
+  <div>
+    <p style="color: #258b3b; font-weight: 600; margin: 0 0 8px;">Hacer</p>
+    <p style="margin: 0;">Elija colores de icono con un contraste fuerte respecto al fondo.</p>
+  </div>
+  <div>
+    <p style="color: #e40046; font-weight: 600; margin: 0 0 8px;">No hacer</p>
+    <p style="margin: 0;">Evite tonos parecidos al fondo y combinaciones de colores que provoquen aberración cromática.</p>
+  </div>
+</div>
+
+## Propiedades
+
+El {Platform} Icon expone las siguientes propiedades. Consulte la referencia de la API para ver las definiciones de tipos completas.
+
+<PlatformBlock for="React,WebComponents">
+
+| Nombre | Tipo | Valor predeterminado | Descripción |
+| --- | --- | --- | --- |
+| <ApiLink pkg="core" type="Icon" member="name" label="name" /> | `string` | — | El nombre del icono que se va a dibujar. |
+| <ApiLink pkg="core" type="Icon" member="collection" label="collection" /> | `string` | `default` | La colección registrada en la que se busca el nombre del icono. |
+| <ApiLink pkg="core" type="Icon" member="mirrored" label="mirrored" /> | `boolean` | `false` | Indica si el icono está volteado horizontalmente. |
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+| Nombre | Tipo | Valor predeterminado | Descripción |
+| --- | --- | --- | --- |
+| <ApiLink pkg="core" type="Icon" member="IconName" label="IconName" /> | `string` | — | El nombre del icono que se va a dibujar. |
+| <ApiLink pkg="core" type="Icon" member="Collection" label="Collection" /> | `string` | `default` | La colección registrada en la que se busca el nombre del icono. |
+| <ApiLink pkg="core" type="Icon" member="Mirrored" label="Mirrored" /> | `bool` | `false` | Indica si el icono está volteado horizontalmente. |
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+| Nombre | Tipo | Valor predeterminado | Descripción |
+| --- | --- | --- | --- |
+| <ApiLink pkg="core" type="Icon" member="name" label="name" /> | `string` | — | El nombre del icono. En una familia de ligaduras, el nombre es la ligadura. |
+| <ApiLink pkg="core" type="Icon" member="family" label="family" /> | `string` | `material` | La familia de iconos en la que se busca el nombre. |
+| <ApiLink pkg="core" type="Icon" member="active" label="active" /> | `boolean` | `true` | Indica si el icono está activo. Un icono inactivo usa el color deshabilitado del tema. |
+| <ApiLink pkg="core" type="Icon" member="ariaHidden" label="ariaHidden" /> | `boolean` | `true` | El valor del atributo `aria-hidden` del icono. |
+
+</PlatformBlock>
+
+## Métodos
+
+El {Platform} Icon dibuja los iconos que registre con la siguiente API.
+
+<PlatformBlock for="React,WebComponents">
+
+Registre los iconos con las siguientes funciones, que importa desde **{PackageCommon}**. Pase un objeto <ApiLink pkg="core" type="RegisterIconOptions" kind="interface" label="RegisterIconOptions" /> en lugar del nombre de la colección para establecer juntas las opciones `collection` y `stripMeta`.
+
+| Función | Descripción |
+| --- | --- |
+| <ApiLink pkg="core" type="registerIcon" kind="function" label="registerIcon" /> | Recupera un archivo SVG desde una URL y lo registra con un nombre en una colección. Devuelve una promesa que se rechaza cuando falla la solicitud. |
+| <ApiLink pkg="core" type="registerIconFromText" kind="function" label="registerIconFromText" /> | Registra el marcado SVG con un nombre en una colección. |
+| <ApiLink pkg="core" type="setIconRef" kind="function" label="setIconRef" /> | Apunta un nombre de icono de una colección a otro icono registrado. |
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+Registre los iconos con los siguientes métodos de una instancia de `IgbIcon`. Cada método tiene también una versión síncrona sin el sufijo `Async`.
+
+| Método | Descripción |
+| --- | --- |
+| <ApiLink pkg="core" type="Icon" member="RegisterIconAsync" label="RegisterIconAsync" /> | Recupera un archivo SVG desde una URL y lo registra con un nombre en una colección. |
+| <ApiLink pkg="core" type="Icon" member="RegisterIconFromTextAsync" label="RegisterIconFromTextAsync" /> | Registra el marcado SVG con un nombre en una colección. |
+| <ApiLink pkg="core" type="Icon" member="SetIconRefAsync" label="SetIconRefAsync" /> | Apunta un nombre de icono de una colección al icono que describe un `IgbIconMeta`. |
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+Registre iconos y familias con los siguientes métodos de <ApiLink pkg="core" type="IconService" />, que se proporciona en la raíz de la aplicación.
+
+| Método | Descripción |
+| --- | --- |
+| <ApiLink pkg="core" type="IconService" member="addSvgIcon" label="addSvgIcon" /> | Recupera un archivo SVG mediante `HttpClient` y lo guarda en caché con un nombre en una familia. |
+| <ApiLink pkg="core" type="IconService" member="addSvgIconFromText" label="addSvgIconFromText" /> | Guarda en caché el marcado SVG con un nombre en una familia. |
+| <ApiLink pkg="core" type="IconService" member="setFamily" label="setFamily" /> | Asocia un nombre de familia con una clase CSS, un tipo de icono (`liga`, `font` o `svg`) y un prefijo de nombre opcional. |
+| <ApiLink pkg="core" type="IconService" member="setIconRef" label="setIconRef" /> | Apunta un nombre de icono de una familia a otro icono. |
+| <ApiLink pkg="core" type="IconService" member="addIconRef" label="addIconRef" /> | Apunta un nombre de icono de una familia a otro icono solo cuando el nombre todavía no tiene una referencia. |
+
+</PlatformBlock>
+
+## Estilos
+
+El {Platform} Icon toma por defecto el color del texto que lo rodea. Cambie su color y su tamaño con las siguientes variables CSS:
+
+| Variable | Qué cambia |
+| --- | --- |
+| `--ig-icon-color` | El color del icono. Establézcalo en un icono, o en un contenedor para cambiar el color de todos los iconos que contiene. |
+| `--ig-icon-size` | El tamaño del icono. Establézcalo en un icono, o en un contenedor para redimensionar todos los iconos que contiene. |
+| `--size` | El tamaño del icono en el que lo establece. |
+| `--ig-size` | El preajuste de tamaño: `--ig-size-small`, `--ig-size-medium` o `--ig-size-large`. |
+<PlatformBlock for="Angular">| `--ig-icon-disabled-color` | El color de un icono inactivo. |</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+El elemento `igc-icon` no expone partes CSS, así que aplique los estilos al propio elemento.
+
+</PlatformBlock>
+
+### Temas con Sass
+
+Cree un tema con la función <PlatformBlock for="Angular"><ApiLink kind="sass" module="themes" type="function-icon-theme" label="icon-theme" code={true} /></PlatformBlock><PlatformBlock for="React,WebComponents,Blazor">`icon-theme`</PlatformBlock> función e inclúyala con el mixin `tokens()`. La función acepta los parámetros `$color`, `$size` y `$disabled-color`, y el mixin emite las variables `--ig-icon-*` correspondientes en el ámbito en el que lo incluya.
+
+<PlatformBlock for="Angular">
+
+```scss
+@use "igniteui-angular/theming" as *;
+
+$custom-icon-theme: icon-theme(
+  $color: #1481b8,
+  $disabled-color: #494949
+);
+
+:host {
+  @include tokens($custom-icon-theme);
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+Las funciones de Sass proceden del paquete `igniteui-theming`. Consulte el tema [Temas](../themes/overview.mdx) para la configuración de Sass.
+
+```scss
+@use "igniteui-theming" as *;
+
+$custom-icon-theme: icon-theme(
+  $color: #1481b8
+);
+
+:root {
+  @include tokens($custom-icon-theme);
+}
+```
+
+</PlatformBlock>
+
+### Variables CSS
+
+Establezca el color y el tamaño en un icono o en un contenedor cuando necesite un estilo local sin un paso de compilación de Sass:
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+```css
+igc-icon {
+  --size: 28px;
+  color: var(--ig-primary-500);
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+```html
+<igx-icon name="home" [style.color]="'#e41c77'"></igx-icon>
+```
+
+</PlatformBlock>
+
+```css
+.toolbar {
+  --ig-icon-color: var(--ig-primary-500);
+}
+```
+
+<PlatformBlock for="Angular">
+
+<Sample src="/data-display/icon-styling" height={300} noBackground={false} noBorder={false} spacing="md" alt="Ejemplo de estilo de {Platform} Icon con iconos de colores en botones y en una barra de herramientas de botones de icono" />
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+<Sample src="/layouts/icon/styling" height={300} noBackground={false} noBorder={false} spacing="md" alt="Ejemplo de estilo de {Platform} Icon con iconos de colores en botones y en una barra de herramientas de botones de icono" />
+
+</PlatformBlock>
+
+### Dar estilo con Tailwind
+
+Puede dar estilo al {Platform} Icon con las clases de utilidad personalizadas de Tailwind de `igniteui-theming`. Asegúrese de [configurar Tailwind](../themes/tailwind.mdx) primero y, después, importe las utilidades de Ignite UI en su hoja de estilos global:
+
+```css
+@import "tailwindcss";
+@import "igniteui-theming/tailwind/utilities/material.css";
+```
+
+Use la clase `light-icon` o `dark-icon` para el tema correspondiente, y sobrescriba las variables CSS generadas con propiedades arbitrarias:
+
+<PlatformBlock for="Angular">
+
+```html
+<igx-icon name="person" class="!light-icon ![--color:#7B9E89] ![--size:48px]"></igx-icon>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-icon name="search" collection="material" class="!light-icon ![--color:#7B9E89] ![--size:48px]"></igc-icon>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrIcon name="search" collection="material" className="!light-icon ![--color:#7B9E89] ![--size:48px]" />
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbIcon IconName="search" Collection="material" Class="!light-icon ![--color:#7B9E89] ![--size:48px]" />
+```
+
+</PlatformBlock>
+
+El signo de exclamación (`!`) da prioridad a la utilidad de Tailwind sobre los estilos del tema predeterminado del Icon.
+
+<PlatformBlock for="Angular">
+
+<Sample src="/data-display/icon-tailwind-styling" height={400} noBackground={false} noBorder={false} spacing="md" alt="Ejemplo de estilo de {Platform} Icon con Tailwind" />
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+<Sample src="/layouts/icon/tailwind-styling" height={400} noBackground={false} noBorder={false} spacing="md" alt="Ejemplo de estilo de {Platform} Icon con Tailwind" />
+
+</PlatformBlock>
+
+## Accesibilidad
+
+El {Platform} Icon es un elemento visual no interactivo que decora el contenido cercano o transmite significado por sí solo.
+
+### Interacción por teclado
+
+El {Platform} Icon no recibe el foco y no tiene interacción por teclado: no establece `tabindex` y no gestiona eventos de teclado ni de puntero. Use el <PlatformBlock for="Angular">[Icon Button](../icon-button.mdx)</PlatformBlock><PlatformBlock for="React,WebComponents,Blazor">[Icon Button](../inputs/icon-button.mdx)</PlatformBlock> cuando los usuarios deban activar un icono con el teclado.
+
+| Clave | Acción |
+| --- | --- |
+| n/a | El Icon no es interactivo con el teclado. |
+
+### Lectores de pantalla / ARIA
+
+El {Platform} Icon no realiza anuncios propios. Lo que informa la tecnología de asistencia depende del nombre accesible del icono:
+
+<PlatformBlock for="React,WebComponents">
+
+- El icono establece su rol y su nombre accesible mediante los internals del elemento, no mediante atributos en el elemento `igc-icon`.
+- Un elemento `<title>` que es hijo directo de la raíz `<svg>` del icono registrado se convierte en el nombre accesible del icono.
+- Un atributo `aria-label` o `aria-labelledby` en el icono le da nombre a un icono cuyo SVG no tiene title, y tiene prioridad sobre el title.
+- Con `igniteui-webcomponents` 7.3.0 y posteriores, el icono declara el rol `img` solo cuando tiene un nombre accesible, de modo que un icono sin nombre no se expone como una imagen sin nombre.
+- El icono comprueba si tiene un nombre accesible al resolver su SVG: cuando cambian `name` o `collection`, cuando cambia el tema, o cuando se registra un icono. Establezca `aria-label` o `aria-labelledby` en el marcado inicial.
+- La opción de registro `stripMeta` elimina los elementos `<title>` y `<desc>` del SVG almacenado, pero el icono conserva el texto del title como nombre accesible.
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+- Un elemento `<title>` que es hijo directo de la raíz `<svg>` del icono registrado se convierte en el nombre accesible del icono.
+- Un atributo `aria-label` en el icono le da nombre a un icono cuyo SVG no tiene title, y tiene prioridad sobre el title.
+- Un atributo `aria-hidden="true"` oculta a la tecnología de asistencia un icono decorativo.
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+- El icono establece `aria-hidden="true"` de forma predeterminada mediante su entrada `ariaHidden`, así que la tecnología de asistencia lo ignora. Un `aria-label` por sí solo no expone un icono oculto.
+- El icono no establece ningún rol. Cuando establece `ariaHidden` en `false` sin un rol y una etiqueta, los lectores de pantalla leen un icono de ligadura como su texto, como `home`.
+- Establezca `ariaHidden` en `false`, añada el rol `img` y añada un `aria-label` para exponer un icono que transmite significado.
+- La entrada `active` cambia solo el estilo. El estado inactivo no se expone a la tecnología de asistencia.
+
+</PlatformBlock>
+
+### Cumplimiento de accesibilidad
+
+Infragistics documenta la compatibilidad de accesibilidad de {ProductName} con las áreas de las pautas de la Sección 508 y WCAG 2.1 en el tema [Cumplimiento de accesibilidad](../interactivity/accessibility-compliance.mdx).
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+| Criterio | Cómo cumple el componente |
+| --- | --- |
+| [1.1.1 Contenido no textual](https://www.w3.org/WAI/WCAG21/Understanding/non-text-content) | El icono usa el `aria-label` que establezca, o el `<title>` del SVG registrado, como alternativa textual. |
+<PlatformBlock for="React,WebComponents">| [4.1.2 Nombre, función, valor](https://www.w3.org/WAI/WCAG21/Understanding/name-role-value) | Con `igniteui-webcomponents` 7.3.0 y posteriores, un icono con nombre accesible expone el rol `img`, y un icono sin nombre no expone ningún rol. |</PlatformBlock>
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+| Criterio | Cómo cumple el componente |
+| --- | --- |
+| [1.1.1 Contenido no textual](https://www.w3.org/WAI/WCAG21/Understanding/non-text-content) | El icono está oculto para la tecnología de asistencia de forma predeterminada, así que los iconos decorativos pueden ignorarse, y usa el `aria-label` que establezca como alternativa textual cuando lo expone. |
+
+</PlatformBlock>
+
+Sus responsabilidades:
+
+- Dé un nombre accesible a todos los iconos que transmitan significado por sí solos, y mantenga ocultos los iconos decorativos. Consulte [Nombre accesible](#nombre-accesible).
+- Mantenga una proporción de contraste de al menos 3:1 entre un icono que transmite información y su fondo, como exige [1.4.11 Contraste de elementos no textuales](https://www.w3.org/WAI/WCAG21/Understanding/non-text-contrast), sobre todo al sustituir el color del tema.
+- Use un Icon Button, no un Icon, para las acciones que los usuarios activan.
+<PlatformBlock for="Angular">- No confíe solo en el estilo inactivo para transmitir un estado, como exige [1.4.1 Uso del color](https://www.w3.org/WAI/WCAG21/Understanding/use-of-color). Describa el estado en texto o en el nombre accesible.</PlatformBlock><PlatformBlock for="React,WebComponents,Blazor">- Establezca `mirrored` en los iconos direccionales de los diseños de derecha a izquierda, de modo que su dirección coincida con el orden de lectura.</PlatformBlock>
+
+## Solución de problemas
+
+Use estas respuestas cuando un {Platform} Icon no se renderice o no tenga el aspecto esperado.
+
+### ¿Por qué mi icono está vacío?
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+El {Platform} Icon dibuja solo un SVG registrado con el mismo nombre y la misma colección. Compruebe las siguientes causas:
+
+- El nombre o la colección no coinciden exactamente con el registro. La colección predeterminada es `default`.
+- El marcado SVG está mal formado. El registro lanza el error `SVG element not found or malformed SVG string.` cuando el texto no tiene un elemento raíz `<svg>` o no se puede analizar.
+- La solicitud del archivo SVG ha fallado. El registro desde una URL falla ante una respuesta distinta de OK, así que revise la consola del navegador y el panel de red. Un archivo de otro origen también necesita un servidor que permita las solicitudes de origen cruzado.
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents">
+
+Durante el renderizado del lado del servidor, el icono no renderiza ningún SVG. Dibuja el SVG después de cargarse en el navegador.
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+Compruebe las siguientes causas:
+
+- Un icono de ligadura necesita la fuente de su familia, como Material Icons para la familia `material` predeterminada. Compruebe que se carga la hoja de estilos de la fuente.
+- Un icono SVG necesita el mismo nombre y la misma familia que su registro.
+- `addSvgIcon` necesita `HttpClient` para recuperar el archivo. Revise el panel de red por si hay una solicitud fallida.
+- El servicio guarda en caché los iconos SVG solo en el navegador, así que los iconos SVG no se renderizan durante el renderizado del lado del servidor.
+
+</PlatformBlock>
+
+### ¿Por qué mi icono SVG no toma el color del tema?
+
+El {Platform} Icon aplica su color al elemento raíz `<svg>`, y los elementos hijos lo heredan como relleno. Un elemento hijo con un color fijo conserva ese color:
+
+```html
+<svg viewBox="0 0 24 24">
+  <path fill="#050d42" d="..." />
+</svg>
+```
+
+Elimine los colores fijos de los elementos hijos, o establezca el color en el elemento raíz `<svg>`, donde el tema lo sustituye. Para colorear deliberadamente una parte del icono, use una variable de color del tema, como `fill="var(--ig-primary-500)"`.
+
+### ¿Por qué aparece un tooltip cuando paso el ratón sobre un icono?
+
+Los navegadores muestran el elemento `<title>` de un SVG como un tooltip nativo.
+
+<PlatformBlock for="React,WebComponents">
+
+Registre el icono con la opción `stripMeta` para eliminar los elementos `<title>` y `<desc>` del SVG almacenado. El icono conserva el texto del title como su nombre accesible:
+
+```ts
+registerIconFromText('search', searchIcon, { collection: 'material', stripMeta: true });
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+Elimine el elemento `<title>` del marcado SVG antes de registrarlo, y establezca `aria-label` en los iconos que necesiten un nombre accesible.
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+Pase `true` como argumento `stripMeta` de `addSvgIcon` o `addSvgIconFromText` para eliminar los elementos `<title>` y `<desc>` del SVG guardado en caché:
+
+```ts
+this.iconService.addSvgIcon('contains', 'assets/images/svg/contains.svg', 'filter-icons', true);
+```
+
+</PlatformBlock>
+
+### Limitaciones conocidas
+
+El {Platform} Icon tiene las siguientes limitaciones:
+
+- El Icon es un elemento visual no interactivo: no recibe el foco ni gestiona la entrada del teclado.
+- Los colores del tema llegan al elemento raíz `<svg>` y a los elementos hijos que heredan su relleno. Los elementos hijos con colores fijos los conservan.
+<PlatformBlock for="React,WebComponents,Blazor">- El Icon dibuja solo iconos SVG registrados. Las fuentes de iconos y las ligaduras no se admiten.</PlatformBlock><PlatformBlock for="Angular">- El Icon de Angular no tiene ninguna opción para reflejar un icono en los diseños de derecha a izquierda.</PlatformBlock>
+
+## Referencias de API
+
+La referencia de la API de {Platform} Icon enumera la superficie completa de la API para la plataforma de destino.
+
+- <ApiLink pkg="core" type="Icon" />
+<PlatformBlock for="React,WebComponents">- <ApiLink pkg="core" type="registerIcon" kind="function" label="registerIcon" />
+- <ApiLink pkg="core" type="registerIconFromText" kind="function" label="registerIconFromText" />
+- <ApiLink pkg="core" type="setIconRef" kind="function" label="setIconRef" />
+- <ApiLink pkg="core" type="RegisterIconOptions" kind="interface" label="RegisterIconOptions" /></PlatformBlock><PlatformBlock for="Blazor">- <ApiLink pkg="core" type="IconMeta" /></PlatformBlock><PlatformBlock for="Angular">- <ApiLink pkg="core" type="IconService" />
+- <ApiLink kind="sass" module="themes" type="function-icon-theme" label="icon-theme" /></PlatformBlock>
+
+## Dependencias
+
+{Platform} Icon requiere una hoja de estilos de tema para aplicar su tamaño y su color basados en el tema. Consulte la configuración específica de cada framework en <PlatformBlock for="Angular">[**Primeros pasos**](../general/getting-started.mdx)</PlatformBlock><PlatformBlock for="React,WebComponents,Blazor">[**Primeros pasos**](../general-getting-started.mdx)</PlatformBlock>.
+
+<PlatformBlock for="Angular">
+
+Los iconos de ligadura de la familia `material` predeterminada también requieren la fuente Material Icons, y `addSvgIcon` requiere el `HttpClient` de Angular.
+
+</PlatformBlock>
+
+## Recursos adicionales
+
+Los siguientes recursos ofrecen más orientación sobre {Platform} Icon y soporte del proyecto:
+
+- [Icon - Componente del sistema de diseño](https://www.infragistics.com/products/indigo-design/help/components/icon)
+- [{ProductName} **Foros**]({ForumsLink})
+- [{ProductName} **GitHub**]({GithubLink})
+
+<PlatformBlock for="Angular">
+
+Para las familias de iconos, las referencias de iconos y el conjunto extendido de iconos de Material, consulte los temas [Icon Service](../icon-service.mdx) y [Material Icons Extended](../material-icons-extended.mdx).
+
+</PlatformBlock>
+
+## Componentes relacionados
+
+El {Platform} Icon aparece a menudo dentro de otros componentes. Use estos componentes cuando un icono necesite hacer algo más que mostrar un símbolo:
+
+- <PlatformBlock for="Angular">[Icon Button](../icon-button.mdx)</PlatformBlock><PlatformBlock for="React,WebComponents,Blazor">[Icon Button](../inputs/icon-button.mdx)</PlatformBlock> - Use Icon Button cuando los usuarios hagan clic en el icono o lo pulsen para ejecutar una acción.
+- [Avatar](./avatar.mdx): use Avatar para representar a una persona o entidad con un icono, unas iniciales o una imagen.
+- [Badge](../inputs/badge.mdx): use Badge para mostrar un estado o un recuento breve junto a otro elemento.
+
+## Preguntas frecuentes
+
+Estas preguntas cubren los escenarios habituales de configuración, accesibilidad y uso de {Platform} Icon.
+
+<Faq>
+  <FaqItem question="¿Incluye Icon Material Icons?" indicatorPosition="end">
+    <PlatformBlock for="Angular">Sí. El Icon de Angular renderiza ligaduras de Material Icons a través de su familia `material` predeterminada cuando se carga la fuente de Material Icons, y el comando `ng add igniteui-angular` añade esa fuente. Registre otras fuentes de iconos e iconos SVG con `IgxIconService`.</PlatformBlock><PlatformBlock for="React,WebComponents,Blazor">No. El {Platform} Icon dibuja iconos SVG que usted registra por nombre, así que registre cada icono de Material que necesite a partir de su marcado o archivo SVG. El {Platform} Icon no admite fuentes de iconos ni ligaduras.</PlatformBlock>
+  </FaqItem>
+  <FaqItem question="¿Cómo añado un icono SVG personalizado?" indicatorPosition="end">
+    <PlatformBlock for="Angular">Registre el SVG con el método `addSvgIcon` o `addSvgIconFromText` del `IgxIconService`, y después establezca el mismo `name` y `family` en el Icon de Angular. El servicio guarda el SVG en caché, así que todos los Icon de Angular con ese nombre y esa familia lo renderizan.</PlatformBlock><PlatformBlock for="React,WebComponents">Llame a `registerIcon` con la URL de un archivo SVG, o a `registerIconFromText` con marcado SVG, y después establezca el mismo `name` y `collection` en el {Platform} Icon. Todos los {Platform} Icon de la página comparten un único registro, así que el icono registrado está disponible en todas partes.</PlatformBlock><PlatformBlock for="Blazor">Llame al método `RegisterIconAsync` o `RegisterIconFromTextAsync` de un `IgbIcon` referenciado, y después establezca el mismo `IconName` y `Collection` en el Icon de Blazor. Todos los Icon de Blazor de la página comparten un único registro, así que el icono registrado está disponible en todas partes.</PlatformBlock>
+  </FaqItem>
+  <FaqItem question="¿Cómo hago accesible un icono para los lectores de pantalla?" indicatorPosition="end">
+    <PlatformBlock for="Angular">El Icon de Angular está oculto para los lectores de pantalla de forma predeterminada mediante `aria-hidden="true"`. Para un icono que transmite significado por sí solo, establezca `[ariaHidden]="false"`, añada `role="img"` y añada un `aria-label` que describa el significado.</PlatformBlock><PlatformBlock for="React,WebComponents,Blazor">Dé un nombre accesible a un {Platform} Icon que transmite significado por sí solo con `aria-label`, o registre un SVG que contenga un elemento `<title>`. Oculte un {Platform} Icon decorativo junto a texto visible con `aria-hidden="true"`.</PlatformBlock>
+  </FaqItem>
+  <FaqItem question="¿Puedo hacer que un Icon sea pulsable?" indicatorPosition="end">
+    El {Platform} Icon no recibe el foco ni gestiona la entrada del teclado, así que un manejador de clic en él deja fuera a los usuarios de teclado. Use el {Platform} Icon Button para las acciones, porque coloca un icono dentro de un botón enfocable.
+  </FaqItem>
+  <FaqItem question="¿Admite Icon los diseños de derecha a izquierda?" indicatorPosition="end">
+    <PlatformBlock for="Angular">El Icon de Angular no tiene ninguna opción para reflejar un icono. Para un icono direccional en un diseño de derecha a izquierda, use un icono que apunte en la dirección de lectura, como `arrow_back` en lugar de `arrow_forward`.</PlatformBlock><PlatformBlock for="React,WebComponents,Blazor">Sí. Establezca la propiedad `mirrored` del {Platform} Icon para invertir horizontalmente un icono direccional, como una flecha, en un diseño de derecha a izquierda. Los iconos no direccionales no necesitan reflejarse.</PlatformBlock>
+  </FaqItem>
+</Faq>

@@ -1,0 +1,134 @@
+---
+title: "Estilização de sobreposição do Angular | Licença MIT"
+description: "Um passo a passo detalhado que explica como aplicar e restringir corretamente estilos a elementos exibidos com o Overlay Service do IgniteUI for Angular."
+keywords: "Ignite UI for Angular, Angular Overlay Service, controles de UI do Angular, Overlay Service, exemplo de encapsulamento de visualização, estilos com escopo Sass no Angular, widgets web, widgets de UI, Angular, Native Angular Components Suite, Native Angular Controls, Native Angular Components Library"
+license: MIT
+_language: pt-BR
+llms:
+  description: "O IgxOverlayService é usado para exibir conteúdo acima do conteúdo da página."
+---
+
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+
+
+# Estilização de sobreposição
+
+<div class="highlight">
+
+
+[`IgxOverlayService`](/overlay) é usado para exibir conteúdo acima do conteúdo da página. Muitos componentes do Ignite UI for Angular usam a sobreposição - [Drop Down](/drop-down), [Combo](/inputs/combo/overview), [Date Picker](/date-picker) e outros -, por isso é importante entender como a sobreposição exibe o conteúdo.
+Para exibir o conteúdo acima de outros elementos, o serviço o move para um contêiner de saída especial (anexado ao final do body do documento, por padrão). Esse comportamento pode afetar estilos [com escopo em um contêiner específico](#estilos-de-overlay-com-escopo).
+</div>
+<hr/>
+
+## Estilizando componentes de sobreposição
+
+Um tema emitido pela folha de estilos global pode afetar o conteúdo de qualquer saída de sobreposição. Por exemplo, o seguinte tema do [Drop Down](/drop-down#estilização) emite substituições de tokens universais na raiz do Sass, onde ficam disponíveis para o conteúdo do drop-down anexado ao body do documento:
+
+```html
+{/* overlay-styling.component.html */}
+<igx-drop-down #customDropDown height="350px">
+    <igx-drop-down-item *ngFor="let item of items" [value]="item.id">
+        {{ item.name }}
+    </igx-drop-down-item>
+</igx-drop-down>
+```
+
+```scss
+// styles.scss
+@use "igniteui-angular/theming" as *;
+
+$my-drop-down-theme: drop-down-theme(
+  $background-color: #efefef
+);
+
+@include tokens($my-drop-down-theme);
+```
+
+Como essas substituições universais são globais, o conteúdo do drop-down pode usá-las depois que o serviço de overlay o move para uma saída.
+
+## Estilos com escopo do componente
+
+Um tema local só pode afetar o conteúdo de overlay que herda do seu contêiner ou que corresponde aos seletores gerados por ele. O conteúdo anexado à saída padrão no final de `body` não é descendente do componente que o abriu.
+
+Por exemplo, os [estilos](/inputs/combo/overview#styling) do item `igx-combo` usam o tema do drop-down. Este tema local do componente tem efeito depois que a saída do combo é movida para baixo do host:
+
+```scss
+// overlay-styling.component.scss
+
+:host {
+  @include tokens($my-drop-down-theme);
+}
+```
+
+<DocsAside type="warning">
+`::ng-deep` não faz com que os tokens sejam herdados por uma saída desanexada. Ou você emite o tema de overlay globalmente, ou move a saída para baixo do contêiner com tema. Se uma personalização especial usar o modo com escopo e os seletores gerados ainda não conseguirem corresponder ao conteúdo de overlay aninhado, `::ng-deep` também pode ser necessário após mover a saída.
+</DocsAside>
+
+Use a propriedade <ApiLink kind="interface" type="OverlaySettings" member="outlet" /> para controlar onde o contêiner do overlay é renderizado.
+
+Aqui, podemos passar uma referência ao elemento onde queremos que o nosso contêiner fique:
+
+```html
+<igx-combo [data]="items" valueKey="name" displayKey="name" [overlaySettings]="{ outlet: element, modal: true }">
+</igx-combo>
+```
+
+```typescript
+export class OverlayStylingComponent {
+  ...
+  constructor(public element: ElementRef) {
+  }
+}
+```
+
+Agora, a lista de itens do combo é renderizada corretamente **dentro** do host do nosso componente, o que significa que o nosso tema personalizado terá efeito:
+
+
+<Sample src="/interactions/overlay-styling-simple" height={400} alt="" />
+
+
+## Estilizando o overlay
+
+Agora que vimos como `ViewEncapsulation` funciona junto com a propriedade `outlet` do overlay, podemos ver como estilizar o próprio wrapper do overlay.
+A <ApiLink kind="sass" module="themes" type="function-overlay-theme" label="overlay-theme" code={true} /> expõe uma única propriedade, `$background-color`, que afeta a cor do fundo quando o overlay é definido como `modal: true`.
+
+### Estilos globais
+
+A forma mais fácil de estilizar o modal do overlay é incluir o seu tema nos estilos globais da aplicação:
+
+```scss
+// styles.scss
+$my-overlay-theme: overlay-theme(
+  $background-color: rgba(0, 153, 255, 0.3)
+);
+
+@include tokens($my-overlay-theme);
+```
+
+Agora **todos** os overlays modais terão um tom roxo. Como esse tema é emitido globalmente, o encapsulamento de visualização do Angular e `::ng-deep` não estão envolvidos.
+
+### Estilos de overlay com escopo
+
+Para dar a um overlay um fundo específico apenas sob determinado contêiner, mova a sua saída para baixo desse contêiner e restrinja o tema ali. As saídas personalizadas têm algumas [limitações](/overlay#premissas-e-limitações); para reduzir problemas de corte por overflow, empilhamento e viewport, use-as em componentes de nível mais alto:
+
+```scss
+// styles.scss
+...
+.purple {
+  @include tokens($my-overlay-theme);
+}
+```
+
+## Referências da API
+- [IgniteUI for Angular - Biblioteca de temas](/themes)
+- <ApiLink kind="sass" module="themes" type="function-overlay-theme" label="Estilos do IgxOverlay" />
+## Recursos adicionais
+
+- [IgniteUI for Angular - Biblioteca de temas](/themes)
+- [Tópico principal da sobreposição](/overlay)
+- [Estratégias de posicionamento](/overlay-position)
+- [Estratégias de rolagem](/overlay-scroll)

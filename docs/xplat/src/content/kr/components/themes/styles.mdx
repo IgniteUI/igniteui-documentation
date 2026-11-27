@@ -1,0 +1,61 @@
+---
+title: "{Platform} 스타일 지정 및 테마 | {Platform} 테마 | 테마 전환 | Infragistics"
+description: "Infragistics의 {Platform} 컴포넌트를 사용하여 앱을 만들고, 세계에서 가장 빠른 가상화된 실시간 {Platform} 데이터 그리드와 스트리밍 금융, 비즈니스, 재무 차트로 데이터 시각화를 개선하십시오."
+keywords: "{ProductName}, Infragistics, 테마, 스타일 지정"
+license: MIT
+mentionedTypes: ["ConfigureTheme"]
+_language: ko
+llms:
+  description: "{ProductName} 컴포넌트는 CSS 변수와 CSS 파트를 노출하여 사용자가 스타일시트의 여러 부분을 수정할 수 있게 합니다."
+---
+
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+import { Image } from 'astro:assets';
+import avatarMarkup from '@xplat-images/avatar-markup.png';
+
+
+# {ProductName}에서 컴포넌트 스타일 사용자 지정하기
+
+{ProductName} 컴포넌트는 [CSS 변수](https://developer.mozilla.org/en-US/docs/Web/CSS/Using_CSS_custom_properties)와 [CSS 파트](https://developer.mozilla.org/en-US/docs/Web/CSS/::part)를 노출하여 사용자가 스타일시트의 여러 부분을 수정할 수 있게 합니다.
+
+## CSS 파트
+
+이 문서의 앞 섹션에서 설명한 색, 그림자, 타이포그래피, 둥근 정도, 크기, 간격 같은 컴포넌트 테마의 부분을 사용자 지정하는 방법 외에도, 각 컴포넌트의 파트를 대상으로 지정하여 스타일시트의 특정 부분을 직접 덮어쓸 수도 있습니다. 모든 컴포넌트는 내부에서 정의된 기존 스타일을 추가하거나 덮어쓸 수 있도록 여러 CSS 파트를 노출합니다.
+
+컴포넌트가 노출하는 파트는 각 컴포넌트의 API 문서에서 확인할 수 있습니다. 직접 살펴보며 코딩하는 것을 선호한다면 선택한 브라우저의 '검사기' 인터페이스를 사용해 언제든지 알아볼 수 있습니다.
+예를 들어 아바타가 어떤 파트를 노출하는지 알고 싶다면, 브라우저에서 컴포넌트를 마우스 오른쪽 버튼으로 클릭하고 '검사'(Chrome 기준)를 누르십시오. 그러면 웹 검사기가 열리고 요소 탐색기 탭에서 사용자 지정 요소 마크업을 볼 수 있습니다. 아래 스크린샷과 비슷한 화면이 보일 것입니다.
+
+<Image src={avatarMarkup} alt="아바타 마크업" class="responsive-img" />
+
+아바타 유형에 따라 <ApiLink pkg="core" type="Avatar" />은(는) 4개의 파트, 즉 `base`, `icon`, `image`, `initials`를 노출하는 것을 볼 수 있습니다. 이 파트들을 사용하면 각 범위 안에서 정의된 스타일을 덮어쓸 수 있습니다.
+
+따라서 이니셜의 색을 팔레트의 주 색으로 바꾸고 싶다면, 다음과 같이 `base` 또는 `initials`에서 color 속성을 덮어쓰면 됩니다:
+
+```css
+igc-avatar::part(base) {
+  color: var(--ig-primary-500);
+}
+```
+
+같은 방식으로 `base` 파트 또는 다른 컴포넌트의 다른 파트에서 어떤 속성이든 수정하거나 추가할 수 있습니다.
+
+## CSS 변수
+
+다른 방법은 컴포넌트 스타일의 여러 부분을 담당하는 CSS 변수를 수정하는 것입니다. 편리하게도 아바타는 기존 팔레트의 변수를 사용하여 이니셜의 스타일을 지정합니다. 자세히 보면 색 변수가 `--ig-gray-800`임을 알 수 있습니다. 아바타 범위에서 이 변수의 값을 수정하면 이니셜의 색도 바꿀 수 있습니다.
+
+```css
+igc-avatar {
+  --ig-gray-800: hsl(0, 0%, 62%);
+}
+```
+
+`--ig-gray-800` 변수의 값을 다시 쓰면 color 속성을 명시적으로 덮어쓰지 않고도 앞의 예제와 같은 결과를 얻습니다. 이 방식도 작동하지만, color 속성만 따로 확인하면 색이 어디에서 오는지 추적하기 조금 헷갈릴 수 있습니다. 따라서 기본 파트에서 color 속성을 덮어쓰는 것이 권장됩니다.
+
+## 결론
+
+CSS 파트와 CSS 변수를 배웠고 이 문서의 다른 방법들과 결합하면, 모든 컴포넌트의 모습을 원하는 대로 맞출 수 있을 것입니다.
+
+
+## API 참조
+
+<ApiLink type="configureTheme" /><br />

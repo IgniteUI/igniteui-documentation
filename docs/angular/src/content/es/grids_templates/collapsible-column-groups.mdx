@@ -1,0 +1,187 @@
+<ComponentBlock for="Grid">
+
+---
+title: "Grupos de columnas contraíbles en Angular Data Grid | Infragistics"
+description: "Aproveche la capacidad de mostrar u ocultar un conjunto de datos más pequeño y conciso mediante los grupos de columnas contraíbles de nuestro Angular Data Grid. ¡Pruébelo ahora!"
+keywords: "encabezados de columna contraíbles, ignite ui for angular, infragistics"
+license: commercial
+_language: es
+llms:
+  description: "Los encabezados de varias columnas le permiten tener varios niveles de columnas y grupos de columnas anidados."
+---
+
+</ComponentBlock>
+<ComponentBlock for="TreeGrid, HierarchicalGrid, PivotGrid">
+
+---
+title: "Grupos de columnas contraíbles en Angular {ComponentTitle} | Infragistics"
+description: "Aproveche la capacidad de mostrar u ocultar un conjunto de datos más pequeño y conciso mediante los grupos de columnas contraíbles de nuestro Angular {ComponentTitle}. ¡Pruébelo ahora!"
+keywords: "encabezados de columna contraíbles, ignite ui for angular, infragistics"
+license: commercial
+_canonicalLink: grid/collapsible-column-groups
+_language: es
+llms:
+  description: "Los encabezados de varias columnas le permiten tener varios niveles de columnas y grupos de columnas anidados."
+---
+
+</ComponentBlock>
+
+
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+import { Image } from 'astro:assets';
+import expandIndicator from '../../images/general/expand_indicator.png';
+import collapsedIndicator from '../../images/general/collapsed_indicator.png';
+
+# Grupos de columnas contraíbles en Angular Data Grid
+
+Los encabezados de varias columnas le permiten tener varios niveles de columnas y grupos de columnas anidados. También ofrecen la posibilidad de marcar cada grupo de columnas como **contraíble**. Los **encabezados de varias columnas contraíbles** permiten contraer y expandir, es decir, mostrar y ocultar los encabezados anidados bajo el actual, lo que le proporcionará, por ejemplo, información abreviada o resumida.
+
+## Ejemplo de descripción general de los grupos de columnas contraíbles de Angular Grid
+
+<ComponentBlock for="Grid">
+
+<Sample src="/grid/grid-collapsible-groups" height={600} alt="Ejemplo de descripción general de los grupos de columnas contraíbles de Angular Grid" />
+
+</ComponentBlock>
+
+<ComponentBlock for="TreeGrid">
+
+<Sample src="/tree-grid/tree-grid-collapsible-groups" height={600} alt="Ejemplo de descripción general de los grupos de columnas contraíbles de Angular Grid" />
+
+</ComponentBlock>
+<ComponentBlock for="HierarchicalGrid">
+
+<Sample src="/hierarchical-grid/hierarchical-grid-collapsible-column-groups" height={600} alt="Ejemplo de descripción general de los grupos de columnas contraíbles de Angular Grid" />
+
+</ComponentBlock>
+
+
+## Configuración
+
+Para comenzar a usar {ComponentName} y los **encabezados de varias columnas contraíbles**, primero debe instalar Ignite UI for Angular escribiendo el siguiente comando:
+
+```cmd
+ng add igniteui-angular
+```
+
+Para una introducción completa a Ignite UI for Angular, lea el tema [_primeros pasos_](/general/getting-started).
+
+El siguiente paso es importar `{ComponentName}Module` en el archivo app.module.ts.
+
+<ComponentBlock for="Grid, TreeGrid, HierarchicalGrid">
+Además, le recomendamos encarecidamente que consulte brevemente el tema de [_grupos de varias columnas_](/{igPath}/multi-column-headers), para ver información más detallada sobre cómo configurar los grupos de columnas en su cuadrícula.
+</ComponentBlock>
+
+## Uso
+
+_Los grupos de columnas contraíbles_ forman parte de la característica de encabezados de varias columnas, y permiten contraer o expandir un grupo de columnas para mostrar un conjunto de datos más pequeño. Cuando un grupo de columnas está contraído, se muestra al usuario final un subconjunto de las columnas, y las demás columnas hijas del grupo se ocultan. Cada columna contraída o expandida puede enlazarse al origen de datos de la cuadrícula, o puede no estar enlazada, y en ese caso se calcula.
+
+Para definir un grupo de columnas como `collapsible`, debe establecer la propiedad en `[collapsible]="true"` y tener en cuenta que debe definir la propiedad `visibleWhenCollapsed` en al menos dos columnas secundarias: al menos una columna debe estar visible cuando el grupo está contraído (`[visibleWhenCollapsed]="true"`) y al menos una columna debe estar oculta cuando el grupo está expandido (`[visibleWhenCollapsed]="false"`); de lo contrario, **la funcionalidad de contracción se deshabilitará**. Si `visibleWhenCollapsed` no se especifica en alguna de las columnas secundarias, esa columna estará siempre visible, independientemente de que el estado del elemento principal sea expandido o contraído.
+
+Veamos entonces el siguiente marcado:
+
+```html
+<igx-column-group header="Customer Information" [collapsible]="true"> <!-- Initially the column groups will be expanded--->
+    <!--The column below will be visible when its parent is collapsed-->
+    <igx-column field="CustomerName" header="Fullname" [dataType]="'string'" [visibleWhenCollapsed]="true"></igx-column>
+    <!--The three columns below will be visible when its parent is expanded-->
+    <igx-column field="CustomerID" header="Customer ID" [dataType]="'string'" [visibleWhenCollapsed]="false"></igx-column>
+    <igx-column field="FirstName" header="First Name" [dataType]="'string'" [visibleWhenCollapsed]="false">
+    </igx-column>
+    <igx-column field="LastName" header="Last Name" [dataType]="'string'" [visibleWhenCollapsed]="false">
+    </igx-column>
+    <igx-column-group header="Customer Address"> <!--This column visibility will not be changed based on parent expand/collapsed state-->
+        <igx-column field="Country" header="Country" [dataType]="'string'" [sortable]="true">
+        </igx-column>
+        <igx-column field="City" header="City" [dataType]="'string'" [sortable]="true">
+        </igx-column>
+    </igx-column-group>
+</igx-column-group>
+```
+
+Y ahora resumamos: cada columna secundaria tiene tres estados:
+
+- Puede estar siempre visible, independientemente del estado expandido de su elemento principal;
+- Puede estar visible cuando su elemento principal está contraído;
+- Puede estar oculta cuando su elemento principal está contraído;
+
+El estado inicial del grupo de columnas especificado como contraíble es `[expanded]="true"`. Pero puede cambiar fácilmente este comportamiento estableciendo la propiedad `[expanded]="false"`.
+
+## Plantilla del indicador de expandir/contraer
+
+El indicador de expansión predeterminado de igxGrid es el siguiente:
+
+ <Image src={expandIndicator} alt="Indicador de expansión" class="responsive-img" style="width: 450px; height: 130px" />
+
+El indicador de contracción predeterminado de igxGrid es el siguiente:
+
+<Image src={collapsedIndicator} alt="Indicador de contracción" class="responsive-img" style="width: 400px; height: 130px" />
+
+Además, si necesita cambiar el indicador predeterminado de expandir/contraer, ofrecemos dos formas sencillas de hacerlo: mediante una propiedad de entrada o mediante una directiva.
+
+### Uso de una propiedad de entrada
+
+Puede definir una plantilla personalizada de expandir/contraer y proporcionarla a cada uno de los grupos de columnas contraíbles mediante la propiedad de entrada **collapsibleIndicatorTemplate**. Consulte el siguiente marcado:
+
+```html
+<ng-template #indTemplate let-column="column">
+    <igx-icon [attr.draggable]="false" >{{column.expanded ? 'remove' : 'add'}} </igx-icon>
+</ng-template>
+<igx-column-group header="Customer Information" [collapsible]="true" [collapsibleIndicatorTemplate]="indTemplate">
+    <igx-column field="CustomerName" header="Fullname" [dataType]="'string'" [visibleWhenCollapsed]="true"></igx-column>
+    <igx-column field="CustomerID" header="Customer ID" [dataType]="'string'" [visibleWhenCollapsed]="false"></igx-column>
+    <igx-column-group header="Customer Address" [collapsible]="true" [collapsibleIndicatorTemplate]="indTemplate">
+        <igx-column field="Country" header="Country" [dataType]="'string'" [sortable]="true" [visibleWhenCollapsed]="true"></igx-column>
+        <igx-column field="City" header="City" [dataType]="'string'" [sortable]="true" [visibleWhenCollapsed]="false"></igx-column>
+    </igx-column-group>
+</igx-column-group>
+```
+
+### Uso de la directiva igxCollapsibleIndicator
+
+Otra forma de conseguir este comportamiento es usar la directiva igxCollapsibleIndicator, como se muestra en el ejemplo siguiente:
+
+```html
+<igx-column-group header="Customer Information" [collapsible]="true">
+    <ng-template igxCollapsibleIndicator let-column="column">
+        <igx-icon [attr.draggable]="false">{{column.expanded ? 'remove' : 'add'}}</igx-icon>
+    </ng-template>
+    <igx-column field="CustomerName" header="Fullname" [dataType]="'string'" [visibleWhenCollapsed]="true"></igx-column>
+    <igx-column field="CustomerID" header="Customer ID" [dataType]="'string'" [visibleWhenCollapsed]="false"></igx-column>
+    <igx-column-group header="Customer Address" [collapsible]="true">
+        <igx-column field="Country" header="Country" [dataType]="'string'" [sortable]="true" [visibleWhenCollapsed]="true"></igx-column>
+        <igx-column field="City" header="City" [dataType]="'string'" [sortable]="true" [visibleWhenCollapsed]="false"></igx-column>
+    </igx-column-group>
+</igx-column-group>
+```
+
+<DocsAside type="info">
+Tenga en cuenta que, inicialmente, la opción de contraer el grupo tiene prioridad sobre la columna oculta: si declaró que su columna estuviera oculta mediante la propiedad
+hidden y tiene definido un grupo en el que esa misma columna debe mostrarse, la columna se mostrará.
+</DocsAside>
+
+## Referencias de API
+- <ApiLink type="Column" />
+- <ApiLink type="Grid" />
+- <ApiLink kind="sass" module="themes" type="mixin-grid" label="Estilos de IgxGridComponent" />
+## Recursos adicionales
+
+
+- [Descripción general de {ComponentTitle}](/{igPath}/{ComponentMainTopic})
+- [Paginación](/{igPath}/paging)
+<ComponentBlock for="Grid, TreeGrid, HierarchicalGrid">
+- [Virtualización y rendimiento](/{igPath}/virtualization)
+- [Filtrado](/{igPath}/filtering)
+- [Ordenación](/{igPath}/sorting)
+- [Resúmenes](/{igPath}/summaries)
+- [Movimiento de columnas](/{igPath}/column-moving)
+- [Anclaje de columnas](/{igPath}/column-pinning)
+- [Selección](/{igPath}/selection)
+</ComponentBlock>
+
+Nuestra comunidad está activa y siempre da la bienvenida a nuevas ideas.
+
+- [Ignite UI for Angular **Foros**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

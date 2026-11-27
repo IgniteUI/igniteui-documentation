@@ -1,0 +1,393 @@
+---
+title: "{Platform} Data Grid | Seletor de colunas | Infragistics"
+description: "Saiba como o componente de grade {ProductName} da Infragistics oferece suporte à capacidade de mostrar e ocultar colunas diretamente pela interface ou usando o controle {Platform}. Veja as demos de tabelas {ProductName} para mais informações!"
+keywords: "{Platform} Table, Data Grid, seletor de colunas, {ProductName}, Infragistics"
+license: commercial
+mentionedTypes: ["DataGrid", "DataGridColumn", "DataGridToolbar", "Button", "ColumnChooser", "ColumnHidingAnimationMode", "ColumnShowingAnimationMode", "ColumnChooserTitle"]
+namespace: Infragistics.Controls.Grids.Implementation
+_canonicalLink: "{CanonicalLinkToGridMain}"
+_language: pt-BR
+llms:
+  description: "O {ProductName} Data Grid oferece suporte à capacidade de mostrar e ocultar colunas pela interface, por meio do componente DataGridToolbar ou do componente ColumnChooser, que oferece flexibilidade para posicioná-lo em qualquer lugar da página."
+platformType: xplat
+---
+
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+
+# Visão geral do seletor de colunas da grade {Platform}
+
+O {ProductName} Data Grid oferece suporte à capacidade de mostrar e ocultar colunas pela interface, por meio do componente `DataGridToolbar` ou do componente `ColumnChooser`, que oferece flexibilidade para posicioná-lo em qualquer lugar da página. A propriedade `IsHidden` das colunas também pode ser usada para ocultar ou mostrar rapidamente uma única coluna por código, para geração manual de colunas, e o valor de `IsHidden` refletirá no componente `ColumnChooser`. Qualquer uma das abordagens pode ser usada de forma intercambiável para alterar o estado visível das colunas.
+
+## Exemplo de seletor de colunas da grade {Platform}
+
+
+<Sample src="/grids/data-grid/column-chooser-toolbar" height={600} alt="Exemplo de seletor de colunas da grade {Platform}" />
+
+
+
+<div class="divider--half"></div>
+
+
+## Interface do seletor de colunas na barra de ferramentas
+
+A interface do seletor de colunas está acessível dentro do componente `DataGridToolbar`, separada da grade. Para isso, basta definir a propriedade `ColumnChooser` da barra de ferramentas como true. A barra de ferramentas exibirá um `Button` que, ao ser clicado, mostrará a interface do seletor de colunas. Esse botão também exibe o total de colunas ocultas. Se a barra de ferramentas não for criada, habilitar a propriedade `ColumnChooser` não terá efeito e ocultará o botão.
+
+O `DataGridToolbar` oferece propriedades adicionais, como adicionar um título à barra de ferramentas usando a propriedade `ToolbarTitle`, colocar texto no `Button` definindo a propriedade `ColumnChooserText` e adicionar um cabeçalho de título à interface do seletor de colunas definindo `ColumnChooserTitle`.
+
+O seletor de colunas pode ser configurado com animações definindo as propriedades `ColumnHidingAnimationMode` e `ColumnShowingAnimationMode` da grade.
+
+## Trecho de código
+
+A seguir, mostra-se como implementar a interface do seletor de colunas na barra de ferramentas para o {Platform} Data Grid:
+
+```json-snippet source="/grids/data-grid/column-chooser-toolbar"
+{
+    "skipAlterDataCasing": true,
+    "descriptions": {
+        "aboveContent": {
+            "type": "DataGridToolbar",
+            "name": "toolbar",
+            "targetGridRef": "grid",
+            "toolbarTitle": "Grid Title",
+            "columnChooser": true,
+            "columnChooserText": "Columns",
+            "columnChooserTitle": "Column Chooser"
+        },
+        "content": {
+            "type": "DataGrid",
+            "name": "grid",
+            "dataSourceRef": "ProductOrders",
+            "autoGenerateColumns": false,
+            "defaultColumnMinWidth": 120,
+            "scrollbarStyle": "Thin",
+            "height": "calc(100% - 40px)",
+            "width": "100%",
+            "$setInCode": {
+                "dataSourceRef": [
+                    "webComponents"
+                ]
+            },
+            "columns": [
+                {
+                    "type": "TextColumn",
+                    "field": "ProductID",
+                    "headerText": "ID",
+                    "width": {
+                        "type": "ColumnWidth",
+                        "isStarSized": false,
+                        "value": 90
+                    },
+                    "isHidden": true,
+                    "horizontalAlignment": "Center"
+                },
+                {
+                    "type": "TextColumn",
+                    "field": "ProductName",
+                    "headerText": "Product",
+                    "width": {
+                        "type": "ColumnWidth",
+                        "isStarSized": true,
+                        "value": 1,
+                        "minimumWidth": 120
+                    },
+                    "isHidden": true
+                },
+                {
+                    "type": "ImageColumn",
+                    "field": "CountryFlag",
+                    "headerText": "Country",
+                    "width": {
+                        "type": "ColumnWidth",
+                        "isStarSized": true,
+                        "value": 1,
+                        "minimumWidth": 120
+                    },
+                    "isEditable": false,
+                    "paddingTop": 5,
+                    "paddingBottom": 5,
+                    "contentOpacity": 1,
+                    "horizontalAlignment": "Center"
+                },
+                {
+                    "type": "NumericColumn",
+                    "field": "ProductPrice",
+                    "headerText": "Price",
+                    "width": {
+                        "type": "ColumnWidth",
+                        "isStarSized": true,
+                        "value": 1,
+                        "minimumWidth": 110
+                    },
+                    "isHidden": true,
+                    "positivePrefix": "$",
+                    "showGroupingSeparator": true,
+                    "minFractionDigits": 2
+                },
+                {
+                    "type": "NumericColumn",
+                    "field": "OrderItems",
+                    "headerText": "Orders",
+                    "width": {
+                        "type": "ColumnWidth",
+                        "isStarSized": true,
+                        "value": 1,
+                        "minimumWidth": 110
+                    }
+                },
+                {
+                    "type": "NumericColumn",
+                    "field": "OrderValue",
+                    "headerText": "Order Value",
+                    "width": {
+                        "type": "ColumnWidth",
+                        "isStarSized": true,
+                        "value": 1,
+                        "minimumWidth": 150
+                    },
+                    "positivePrefix": "$",
+                    "showGroupingSeparator": true
+                },
+                {
+                    "type": "DateTimeColumn",
+                    "field": "OrderDate",
+                    "headerText": "Order Date",
+                    "width": {
+                        "type": "ColumnWidth",
+                        "isStarSized": true,
+                        "value": 1,
+                        "minimumWidth": 150
+                    },
+                    "horizontalAlignment": "Right",
+                    "dateTimeFormat": "DateShort"
+                },
+                {
+                    "type": "NumericColumn",
+                    "field": "Margin",
+                    "headerText": "Margin",
+                    "width": {
+                        "type": "ColumnWidth",
+                        "isStarSized": true,
+                        "value": 1,
+                        "minimumWidth": 120
+                    },
+                    "positiveSuffix": "%",
+                    "horizontalAlignment": "Center"
+                },
+                {
+                    "type": "NumericColumn",
+                    "field": "Profit",
+                    "headerText": "Profit",
+                    "width": {
+                        "type": "ColumnWidth",
+                        "isStarSized": true,
+                        "value": 1,
+                        "minimumWidth": 120
+                    },
+                    "positivePrefix": "$",
+                    "showGroupingSeparator": true
+                },
+                {
+                    "type": "TextColumn",
+                    "field": "Status",
+                    "headerText": "Status",
+                    "width": {
+                        "type": "ColumnWidth",
+                        "isStarSized": true,
+                        "value": 1,
+                        "minimumWidth": 110
+                    },
+                    "horizontalAlignment": "Center"
+                }
+            ]
+        }
+    }
+}
+```
+
+## Seletor de colunas simples
+
+Digamos que queremos exibir manualmente a interface do `ColumnChooser` sem a barra de ferramentas e colocá-la em qualquer lugar da página. Isso pode ser feito facilmente criando uma instância do componente no nosso markup.
+
+## Demonstração
+
+
+<Sample src="/grids/data-grid/column-chooser-picker" height={600} alt="Seletor de colunas do {Platform} data grid" />
+
+
+<div class="divider--half"></div>
+
+## Trecho de código
+
+A seguir, mostra-se como implementar a interface do seletor de colunas para o Data Grid:
+
+```json-snippet source="/grids/data-grid/column-chooser-picker"
+{
+    "skipAlterDataCasing": true,
+    "descriptions": {
+        "aboveContent": {
+            "type": "ColumnChooser",
+            "name": "chooser",
+            "targetGridRef": "grid",
+            "title": "Column Chooser"
+        },
+        "content": {
+            "type": "DataGrid",
+            "name": "grid",
+            "dataSourceRef": "ProductOrders",
+            "autoGenerateColumns": false,
+            "defaultColumnMinWidth": 120,
+            "scrollbarStyle": "Thin",
+            "height": "calc(100% - 40px)",
+            "width": "100%",
+            "$setInCode": {
+                "dataSourceRef": [
+                    "webComponents"
+                ]
+            },
+            "columns": [
+                {
+                    "type": "TextColumn",
+                    "field": "ProductID",
+                    "headerText": "ID",
+                    "width": {
+                        "type": "ColumnWidth",
+                        "isStarSized": false,
+                        "value": 90
+                    },
+                    "isHidden": true,
+                    "horizontalAlignment": "Center"
+                },
+                {
+                    "type": "TextColumn",
+                    "field": "ProductName",
+                    "headerText": "Product",
+                    "width": {
+                        "type": "ColumnWidth",
+                        "isStarSized": true,
+                        "value": 1,
+                        "minimumWidth": 120
+                    },
+                    "isHidden": true
+                },
+                {
+                    "type": "ImageColumn",
+                    "field": "CountryFlag",
+                    "headerText": "Country",
+                    "width": {
+                        "type": "ColumnWidth",
+                        "isStarSized": true,
+                        "value": 1,
+                        "minimumWidth": 120
+                    },
+                    "isEditable": false,
+                    "paddingTop": 5,
+                    "paddingBottom": 5,
+                    "contentOpacity": 1,
+                    "horizontalAlignment": "Center"
+                },
+                {
+                    "type": "NumericColumn",
+                    "field": "ProductPrice",
+                    "headerText": "Price",
+                    "width": {
+                        "type": "ColumnWidth",
+                        "isStarSized": true,
+                        "value": 1,
+                        "minimumWidth": 110
+                    },
+                    "isHidden": true,
+                    "positivePrefix": "$",
+                    "showGroupingSeparator": true,
+                    "minFractionDigits": 2
+                },
+                {
+                    "type": "NumericColumn",
+                    "field": "OrderItems",
+                    "headerText": "Orders",
+                    "width": {
+                        "type": "ColumnWidth",
+                        "isStarSized": true,
+                        "value": 1,
+                        "minimumWidth": 110
+                    }
+                },
+                {
+                    "type": "NumericColumn",
+                    "field": "OrderValue",
+                    "headerText": "Order Value",
+                    "width": {
+                        "type": "ColumnWidth",
+                        "isStarSized": true,
+                        "value": 1,
+                        "minimumWidth": 150
+                    },
+                    "positivePrefix": "$",
+                    "showGroupingSeparator": true
+                },
+                {
+                    "type": "DateTimeColumn",
+                    "field": "OrderDate",
+                    "headerText": "Order Date",
+                    "width": {
+                        "type": "ColumnWidth",
+                        "isStarSized": true,
+                        "value": 1,
+                        "minimumWidth": 150
+                    },
+                    "horizontalAlignment": "Right",
+                    "dateTimeFormat": "DateShort"
+                },
+                {
+                    "type": "NumericColumn",
+                    "field": "Margin",
+                    "headerText": "Margin",
+                    "width": {
+                        "type": "ColumnWidth",
+                        "isStarSized": true,
+                        "value": 1,
+                        "minimumWidth": 120
+                    },
+                    "positiveSuffix": "%",
+                    "horizontalAlignment": "Center"
+                },
+                {
+                    "type": "NumericColumn",
+                    "field": "Profit",
+                    "headerText": "Profit",
+                    "width": {
+                        "type": "ColumnWidth",
+                        "isStarSized": true,
+                        "value": 1,
+                        "minimumWidth": 120
+                    },
+                    "positivePrefix": "$",
+                    "showGroupingSeparator": true
+                },
+                {
+                    "type": "TextColumn",
+                    "field": "Status",
+                    "headerText": "Status",
+                    "width": {
+                        "type": "ColumnWidth",
+                        "isStarSized": true,
+                        "value": 1,
+                        "minimumWidth": 110
+                    },
+                    "horizontalAlignment": "Center"
+                }
+            ]
+        }
+    }
+}
+```
+
+## Referências da API
+
+- `Button`
+- `ColumnChooserText`
+- `ColumnChooserTitle`
+- `ColumnChooser`
+- `ColumnHidingAnimationMode`
+- `ColumnShowingAnimationMode`
+- `DataGridToolbar`

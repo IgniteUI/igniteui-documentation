@@ -1,0 +1,104 @@
+---
+title: "Angular 마스터-디테일 그리드 - Ignite UI for Angular"
+description: "Ignite UI Angular 그리드에서 행의 데이터를 위한 확장 가능한 상세 보기 템플릿을 정의하십시오. 계층 구조에서 마스터-디테일 스타일의 데이터를 표시하는 데 유용합니다."
+keywords: master detail, igniteui for angular, infragistics
+license: commercial
+_language: ko
+llms:
+  description: "igxGrid 컴포넌트는 콘텐츠를 펼치거나 접어서 특정 행의 추가 세부 정보를 표시하는 상세 템플릿을 지정하는 것을 지원합니다."
+---
+
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+
+# Angular 마스터-디테일 그리드
+
+`igxGrid` 컴포넌트는 콘텐츠를 펼치거나 접어서 특정 행의 추가 세부 정보를 표시하는 상세 템플릿을 지정하는 것을 지원합니다. 지정하면 각 레코드가 마스터 역할을 하며, 펼치면 현재 레코드의 컨텍스트 데이터가 담긴 사용자 지정 가능한 상세 템플릿을 보여 줍니다.
+
+이 모드는 계층 구조에서 마스터-디테일 스타일의 데이터를 표시해야 할 때 유용합니다.
+
+## Angular 그리드 마스터-디테일 예제
+
+
+<Sample lob src="/grid/grid-master-detail" height={600} alt="Angular 그리드 마스터-디테일 예제" />
+
+
+## 구성
+
+`igxGrid`이(가) 마스터-디테일 모드로 표시되도록 구성하려면, `igxGridDetail` 디렉티브로 표시한 템플릿을 그리드 안에 지정해야 합니다:
+
+```html
+ <igx-grid ... >
+         <ng-template igxGridDetail let-dataItem>
+              <!-- Custom detail template content here -->
+        </ng-template>
+    </igx-grid>
+```
+
+템플릿의 컨텍스트는 마스터 레코드 데이터이므로, 마스터 레코드의 값을 상세 템플릿에 표시할 수 있습니다. 예를 들어:
+
+```html
+    <igx-grid ... >
+         <ng-template igxGridDetail let-dataItem>
+            @if (dataItem.Category) {
+                <div>
+                    <header>{{dataItem.Category.CategoryName}}</header>
+                    <span>{{dataItem.Category.Description}}</span>
+                </div>
+            }
+        </ng-template>
+    </igx-grid>
+```
+
+
+## API
+
+펼침 상태는 `igxGrid`의 <ApiLink type="Grid" member="expansionStates" label="expansionStates" /> 입력을 통해 제어할 수 있습니다. 상태는 키-값 쌍 [행 식별자, 펼침 상태]으로 저장됩니다. 이 속성은 현재 펼침 상태를 가져오고 설정하며, 양방향 바인딩을 지원합니다:
+
+```html
+  <igx-grid [(expansionStates)]='expansionState' >
+    ...
+  </igx-grid>
+```
+
+펼침 상태를 제어하기 위한 추가 API 메서드도 노출되어 있습니다:
+
+- <ApiLink type="Grid" member="expandAll" label="expandAll" />
+- <ApiLink type="Grid" member="collapseAll" label="collapseAll" />
+- <ApiLink type="Grid" member="toggleRow" label="toggleRow" />
+- <ApiLink type="Grid" member="expandRow" label="expandRow" />
+- <ApiLink type="Grid" member="collapseRow" label="collapseRow" />
+
+## 키보드 탐색
+
+- 포커스가 상세 행에 있을 때:
+
+  - `Arrow Up` - 한 행 위로 이동하여 이전 행의 셀에 포커스합니다.
+  - `Arrow Down` - 한 행 아래로 이동하여 다음 행의 셀에 포커스합니다.
+  - `Tab` - 템플릿 안에 포커스 가능한 요소가 있으면 그 다음 포커스 가능한 요소로 포커스를 옮기고, 없으면 다음 그리드 행으로 이동합니다.
+  - `Shift + Tab` - 포커스를 이전 행으로 옮깁니다.
+
+- 포커스가 펼치기 버튼이 있는 데이터 행에 있을 때:
+  - `Alt + Arrow Right/ Down` - 행을 펼칩니다.
+  - `Alt + Arrow Left/Down` - 행을 접습니다.
+
+## 알려진 문제와 제한 사항
+
+
+| 알려진 제한 사항                                                                                                                                                  | 설명                                                                                          |
+| :----------------------------------------------------------------------------------------------------------------------------------------------------------------- | :--------------------------------------------------------------------------------------------------- |
+| 사용자 지정 상세 템플릿 안에서 Tab 탐색을 하면, 다음에 포커스되는 요소가 보이는 뷰포트 밖에 있는 경우 마스터 그리드의 스크롤 위치가 업데이트되지 않을 수 있습니다. | 사용자 지정 상세 템플릿 안에서의 Tab 탐색은 브라우저에 맡겨집니다.                          |
+| 상세 템플릿은 Excel로 내보내지지 않습니다.                                                                                                                    | 상세 템플릿은 어떤 종류의 콘텐츠든 포함할 수 있으므로, 기본 상태로는 Excel로 내보낼 수 없습니다. |
+| 검색 기능은 상세 템플릿의 요소를 강조 표시하지 않습니다.                                                                                          |                                                                                                      |
+
+
+
+## API 참조
+- <ApiLink type="Grid" />
+- <ApiLink kind="sass" module="themes" type="function-grid-theme" label="IgxGridComponent 스타일" />
+- <ApiLink type="Column" />
+- <ApiLink type="GridRow" />
+- <ApiLink type="TreeGridRow" />
+- <ApiLink type="HierarchicalGridRow" />
+- <ApiLink type="GridCell" />

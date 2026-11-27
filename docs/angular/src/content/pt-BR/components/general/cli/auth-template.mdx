@@ -1,0 +1,191 @@
+---
+title: "Template de projeto de autenticação | Ignite UI for Angular | Infragistics"
+description: "Confira o guia do Template de projeto de autenticação do Ignite UI for Angular."
+keywords: igniteui for angular | angular schematics | templates | infragistics 
+_language: pt-BR
+llms:
+  description: "Ao criar um projeto Ignite UI for Angular com o Angular Schematics ou o Ignite UI CLI, a autenticação está disponível como uma opção adicional quando você seleciona um template de navegação compatível."
+---
+
+import { Image } from 'astro:assets';
+import igxSideAuthSteps from '../../../images/general/igx-side-auth-steps.png';
+import igxSideAuthQuestion from '../../../images/general/igx-side-auth-question.png';
+import igxSideAuthLoginButton from '../../../images/general/igx-side-auth-login-button.png';
+import igxSideAuthProfileAvatar from '../../../images/general/igx-side-auth-profile-avatar.png';
+import igxSideAuthLoginDialog from '../../../images/general/igx-side-auth-login-dialog.png';
+import igxSideAuthRegisterDialog from '../../../images/general/igx-side-auth-register-dialog.png';
+import igxSideAuthLoginGoogle from '../../../images/general/igx-side-auth-login-google.png';
+import igxSideAuthLoginSocials from '../../../images/general/igx-side-auth-login-socials.png';
+
+
+# Template de projeto de autenticação
+
+Ao criar um projeto Ignite UI for Angular com o Angular Schematics ou o Ignite UI CLI, a autenticação está disponível como uma opção adicional quando você seleciona um template de navegação compatível. Ela oferece uma implementação básica de um módulo de autenticação do lado do cliente, que exige o mínimo possível de configuração adicional para iniciar rapidamente aplicativos com gerenciamento de usuários.
+
+## Criar projeto com autenticação
+
+### Assistente interativo
+
+A autenticação é oferecida como uma etapa extra no assistente interativo, depois que você seleciona um template de navegação. O fluxo é:
+
+1. Escolha um template de projeto: **Empty Project**, **Side Navigation** ou **Side Navigation Mini**.
+2. Se **Side Navigation** ou **Side Navigation Mini** for selecionado, o assistente pergunta: _"Would you like to add authentication to this project?"_
+3. Se **Empty Project** for selecionado, o prompt de autenticação não é exibido.
+
+<Image src={igxSideAuthSteps} alt="Experiência passo a passo" class="responsive-img" />
+
+Ao responder sim, é gerada uma de duas variantes autenticadas:
+
+- **Side Navigation + Authentication** - uma estrutura de navegação lateral estendida com o módulo de autenticação
+- **Side Navigation Mini + Authentication** - uma estrutura de navegação lateral compacta estendida com o módulo de autenticação
+
+<Image src={igxSideAuthQuestion} alt="Pergunta sobre autenticação" class="responsive-img" />
+
+Para um passo a passo completo das etapas do assistente, consulte [Guia passo a passo usando o Ignite UI CLI](./step-by-step-guide-using-cli.mdx) ou [Guia passo a passo usando o Ignite UI for Angular Schematics](./step-by-step-guide-using-angular-schematics.mdx).
+
+### Comando direto (avançado)
+
+Os IDs dos templates de autenticação também podem ser passados diretamente para `ig new` ou `ng new` para a criação de projetos não interativa. Esses IDs não são mostrados no assistente interativo, porque a autenticação é apresentada ali como uma opção de acompanhamento.
+
+**Navegação lateral + autenticação - Ignite UI CLI:**
+
+```bash
+ig new "Auth Project" --framework=angular --type=igx-ts --template=side-nav-auth
+```
+
+**Navegação lateral + autenticação - Angular Schematics:**
+
+```bash
+ng new "Auth Project" --collection="@igniteui/angular-schematics" --template=side-nav-auth
+```
+
+**Navegação lateral mini + autenticação - Ignite UI CLI:**
+
+```bash
+ig new "Auth Project" --framework=angular --type=igx-ts --template=side-nav-mini-auth
+```
+
+**Navegação lateral mini + autenticação - Angular Schematics:**
+
+```bash
+ng new "Auth Project" --collection="@igniteui/angular-schematics" --template=side-nav-mini-auth
+```
+
+## Descrição
+
+As variantes Side Navigation + Authentication e Side Navigation Mini + Authentication são construídas sobre a respectiva base de navegação e adicionam uma página de perfil e uma seção de login na barra de navegação do aplicativo, que exibe um botão de login ou o avatar do usuário conectado:
+
+<Image src={igxSideAuthLoginButton} alt="Barra de login" class="responsive-img" />
+<Image src={igxSideAuthProfileAvatar} alt="Barra de perfil" class="responsive-img" />
+
+A barra de login também integra diálogos para entrar ou se cadastrar:
+
+<Image src={igxSideAuthLoginDialog} alt="Diálogo de login" class="responsive-img" />
+<Image src={igxSideAuthRegisterDialog} alt="Diálogo de registro" class="responsive-img" />
+
+O projeto também oferece suporte a vários [provedores de autenticação externos](#adicionar-um-provedor-de-terceiros-social).
+
+## No código
+
+Tudo relacionado ao gerenciamento de usuários fica na pasta `src/app/authentication`. Exportações notáveis incluem:
+
+- `AuthenticationModule` em `authentication.module.ts` exporta todos os componentes e serviços para o módulo principal do aplicativo.
+- `auth.guard.ts` exporta um `AuthGuard` que você pode aplicar às rotas
+- `authentication-routing.module.ts` configura as rotas relacionadas ao login
+- `UserService` em `services/user.service.ts` mantém o estado do usuário atual
+- `AuthenticationService` em `services/authentication.service.ts` é usado para se comunicar com a API do backend
+- `ExternalAuthService` em `services/external-auth.service.ts` trata os provedores de logins de terceiros
+
+## Configuração necessária
+
+O projeto está configurado para uma aplicação de página única com serviços de API REST; por isso, `AuthenticationService` é usado para enviar requisições para as seguintes URLs:
+
+- `/login` - login com nome de usuário e senha
+- `/register` - registro com os dados do usuário
+- `/extlogin` - repassa as informações do usuário de uma fonte externa
+
+Espera-se que todos os endpoints retornem um JSON Web Token (JWT) ou um estado de erro com mensagem.
+
+> **Observação:** para fins de demonstração, o projeto tem um `services/fake-backend.service.ts` que intercepta as requisições. O `BackendProvider` em `authentication.module.ts` **não** deve ser usado em produção. Tanto o provedor quanto o arquivo devem ser removidos quando o desenvolvimento começar.
+
+Como em qualquer modelo de autenticação, usar JWT exige considerações de segurança. Em particular, os tokens recebidos da API REST são armazenados no cliente. Para que os recarregamentos do aplicativo durante o desenvolvimento sejam contínuos, os dados do usuário são armazenados no armazenamento local do navegador, que pode ser vulnerável a ataques XSS.
+
+> **Observação:** desabilite o armazenamento local antes de ir para produção. Considere manter os tokens apenas na memória, se os requisitos do aplicativo permitirem, ou adote outra forma de protegê-los. Usar cookies (considere a proteção contra CSRF) é uma alternativa; também é possível dividir a assinatura do token ou usar uma "impressão digital" adicional em um cookie reforçado.
+
+Como sempre, avalie sempre os aspectos de segurança e ajuste de acordo; a estrutura do projeto fornecida é apenas um ponto de partida.
+
+
+## Adicionar um provedor de terceiros (social)
+
+O serviço de autenticação externo é inicializado no ponto de entrada da aplicação do seu projeto. A localização exata depende do tipo de bootstrap selecionado durante a criação do projeto:
+
+- **Projetos standalone** (padrão) — a inicialização fica em `src/app/app.config.ts`, por meio de uma função de provider.
+- **Projetos NgModule** (`igx-ts-legacy`) — a inicialização fica em `src/app/app.module.ts`, pelo construtor `AppModule`.
+
+Em ambos os casos, o padrão é o mesmo: as chamadas do provedor social estão comentadas e prontas para serem habilitadas. Por exemplo, em um projeto NgModule:
+
+```ts
+// in app.module.ts
+export class AppModule {
+  constructor(private externalAuthService: ExternalAuthService) {
+    // this.externalAuthService.addGoogle('<CLIENT_ID>');
+    // this.externalAuthService.addMicrosoft('<CLIENT_ID>');
+    // this.externalAuthService.addFacebook('<CLIENT_ID>');
+  }
+}
+```
+
+Para habilitar o login do usuário com um provedor de terceiros específico, basta descomentar a linha correspondente e substituir `<CLIENT_ID>` pelo ID de cliente da sua aplicação.
+Se precisar obter um, por exemplo, para o login com Conta Google, siga o guia específico do provedor em:
+
+- [Obter credenciais](https://developers.google.com/identity/protocols/OpenIDConnect#getcredentials)
+
+- [Versão mais detalhada](https://support.google.com/cloud/answer/6158849?hl=en&ref_topic=6262490)
+
+Tenha em mente que as URLs de redirecionamento e as origens de domínio permitidas devem ser configuradas por provedor, para corresponder ao projeto. Ao criar o ID de cliente OAuth 2.0 do Google para desenvolvimento, você pode informar `http://localhost:4200/redirect-google` como URI de redirecionamento. Veja [URLs de redirecionamento](#detalhes-do-provedor) para detalhes.
+
+Depois de ter o seu ID (por exemplo, `123456789.apps.googleusercontent.com`), você pode habilitar o provedor Google para o projeto assim:
+
+```ts
+// in app.module.ts
+export class AppModule {
+  constructor(private externalAuthService: ExternalAuthService) {
+    this.externalAuthService.addGoogle('123456789.apps.googleusercontent.com');
+    // this.externalAuthService.addMicrosoft('<CLIENT_ID>');
+    // this.externalAuthService.addFacebook('<CLIENT_ID>');
+  }
+}
+```
+
+Isso habilitará automaticamente o botão correspondente no diálogo de login:
+
+<Image src={igxSideAuthLoginGoogle} alt="Botão de login com Google" class="responsive-img" />
+
+Você pode fazer o mesmo com a [Microsoft](https://docs.microsoft.com/en-us/azure/active-directory/develop/v2-protocols-oidc) seguindo este guia:
+
+https://docs.microsoft.com/en-us/azure/active-directory/develop/quickstart-v2-register-an-app
+
+E para o Facebook:
+
+https://developers.facebook.com/docs/apps/#register
+
+
+À medida que você habilita os provedores, todos os botões ficarão ativos:
+
+<Image src={igxSideAuthLoginSocials} alt="Opções de login social" class="responsive-img" />
+
+### Detalhes do provedor
+
+Estes são os provedores padrão que o template do projeto traz:
+
+| Provedor  | Usos               | URL de redirecionamento                    |
+| :-------- | :----------------- | :------------------------------ |
+| Google    | OpenID Connect*    | `<app root>/redirect-google`    |
+| Microsoft | OpenID Connect*    | `<app root>/redirect-microsoft` |
+| Facebook  | Facebook Connect** | `<app root>/redirect-facebook`  |
+
+O local onde o aplicativo é hospedado determina a URL raiz; por exemplo, por padrão, na primeira execução do aplicativo, ela será `http://localhost:4200`.
+
+\* Funcionalidade do OpenID Connect implementada usando https://github.com/damienbod/angular-auth-oidc-client
+
+\** Funcionalidade do Facebook Connect implementada usando o Facebook JS SDK

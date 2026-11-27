@@ -39,12 +39,19 @@ jobs:
 
       - name: Generate xplat Angular overlay (jp)
         run: npm run xplat:generate:jp --prefix docs/angular
+      # The translated languages: their links point at the same generated pages.
+      - name: Generate xplat Angular overlay (es, pt-BR, kr)
+        run: |
+          for l in es pt-br kr; do npm run "xplat:generate:$l" --prefix docs/angular; done
 
       - name: Generate angular content (en)
         run: npm run generate:en --prefix docs/angular
 
       - name: Generate angular content (jp)
         run: npm run generate:jp --prefix docs/angular
+      - name: Generate angular content (es, pt-BR, kr)
+        run: |
+          for l in es pt-br kr; do npm run "generate:$l" --prefix docs/angular; done
 
       # Expand xplat _shared/ templates into docs/xplat/generated/ for all
       # non-Angular platforms so the generated grid pages are present when
@@ -62,6 +69,11 @@ jobs:
           npm run generate:react:jp --prefix docs/xplat
           npm run generate:webcomponents:jp --prefix docs/xplat
           npm run generate:blazor:jp --prefix docs/xplat
+      - name: Generate xplat content (es, pt-BR, kr)
+        run: |
+          for l in es pt-br kr; do
+            for p in react webcomponents blazor; do npm run "generate:$p:$l" --prefix docs/xplat; done
+          done
 
       - name: Check relative links
         shell: bash

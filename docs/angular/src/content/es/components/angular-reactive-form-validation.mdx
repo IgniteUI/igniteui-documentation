@@ -1,0 +1,195 @@
+---
+title: "Validación de formularios reactivos de Angular – Ignite UI for Angular"
+description: "La validación de formularios de Angular es un proceso que verifica si los datos que un usuario introduce en un formulario web son correctos. Vea cómo hacerlo con los formularios reactivos de Ignite UI for Angular."
+keywords: "Ignite UI for Angular, controles de interfaz, widgets de Angular, widgets web, widgets de interfaz, Angular, Native Angular Components Suite, Native Angular Controls, Native Angular Components Library, componentes combo de Angular, formularios reactivos de Angular, formularios de Angular"
+_language: es
+llms:
+  description: "Los formularios reactivos de Angular proporcionan acceso directo al modelo de objetos del formulario subyacente, con un enfoque inmutable y explícito para gestionar las entradas del formulario."
+---
+
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+
+
+# Validación de formularios reactivos de Angular
+
+## ¿Qué son los formularios reactivos de Angular?
+
+Los formularios reactivos de Angular proporcionan acceso directo al modelo de objetos del formulario subyacente, con un enfoque inmutable y explícito para gestionar las entradas del formulario. A medida que cambian los valores de esas entradas con el tiempo, el estado del formulario lo gestionan los formularios reactivos, que se apoyan en métodos fijos o poco flexibles.
+
+Esto significa que, cada vez que se produce un cambio en el modelo de datos, los llamados operadores observables devuelven un nuevo modelo de datos, en lugar de actualizar una y otra vez el que ya existe. Y eso mantiene limpio el estado del formulario.
+
+Los formularios reactivos de Angular se consideran muy escalables, reutilizables y robustos gracias a:
+
+**Inmutabilidad**
+
+Los formularios reactivos de Angular proporcionan una estructura de datos inmutable o fija. Una vez alterado el estado del modelo subyacente, obtiene una nueva "versión" de ese modelo, que se actualiza. Tiene nuevos valores, pero sigue alineada con todos los controles de la interfaz en cada momento.
+
+**Mejor capacidad de prueba**
+
+Las pruebas con formularios reactivos son bastante sencillas y requieren menos configuración. En aplicaciones grandes, esto resulta muy beneficioso. Aquí se obtiene acceso síncrono a los flujos de entrada y la posibilidad de probar el formulario y los modelos de datos sin tener que renderizar la interfaz.
+
+**Previsibilidad**
+
+Los formularios reactivos se basan en flujos observables que registran cada cambio único del formulario y permiten acceder a los valores de las entradas de forma síncrona (gracias a un flujo de datos bien estructurado). Esto, a su vez, hace que los formularios reactivos sean muy previsibles.
+
+**Flujo de datos coherente y estructurado**
+
+El flujo de datos de los formularios reactivos de Angular está bien estructurado porque la lógica del formulario la dirige la clase del componente. Esto le permite añadir funciones de validación directamente a la instancia de FormControl en la clase del componente. Cada vez que se produce un cambio, Angular llama a estas funciones.
+
+
+## ¿Qué es la validación de formularios de Angular?
+
+La validación de formularios de Angular es un proceso técnico integral que verifica si los datos que un usuario introduce en un formulario web son correctos y completos. Puede gestionar la validación con un enfoque basado en plantillas o con formularios reactivos de Angular. Según lo que se haya introducido, el formulario permitirá al usuario continuar o mostrará un mensaje de error específico que le ayude a saber en qué ha fallado la entrada de datos.
+
+Según el validador que haya fallado, el mensaje de error en pantalla indica qué está mal y qué hay que completar o volver a introducir exactamente. En general, las aplicaciones usan formularios para tareas de introducción de datos como registrarse, iniciar sesión, actualizar perfiles en línea, enviar información sensible y más.
+
+Angular ejecuta la validación del formulario cada vez que cambia el valor de una entrada del formulario, para confirmar si los datos introducidos por un usuario en el formulario web son correctos y completos. Para hacerlo correctamente, Angular llama a una lista de validadores que se ejecutan en cada cambio que se produce.
+
+La validación de los datos introducidos por el usuario en la interfaz se puede hacer con formularios basados en plantillas o con formularios reactivos de Angular. Ambos tipos de formulario se construyen sobre las siguientes clases base:
+
+- FormControl
+- FormGroup
+- FormArray
+- ControlValueAccessor
+
+## Validación de formularios reactivos de Angular
+
+Los formularios reactivos ofrecen un enfoque basado en el modelo para gestionar las entradas del formulario, cuyos valores cambian a lo largo del tiempo. Como los formularios reactivos se construyen sobre una clase de componente, la validación de formularios reactivos de Angular se realiza añadiendo funciones de validación directamente al modelo del control del formulario en la clase del componente.
+
+Cuando el valor es válido, los validadores devuelven `null`. Si el valor no es válido, los validadores generan un conjunto de errores, y puede mostrar en pantalla un mensaje de error específico.
+
+Hay validadores integrados como `required`, `minlength`, `maxlength`, etc. Sin embargo, también puede crear sus propios validadores.
+
+Un validador reactivo personalizado sencillo puede tener este aspecto:
+
+```typescript
+import { Directive, OnInit } from '@angular/core';
+import { Validator, NG_VALIDATORS, AbstractControl, ValidationErrors } from '@angular/forms';
+
+@Directive({
+    selector: '[dateValueValidator]',
+    providers: [{ provide: NG_VALIDATORS, useExisting: DateValueValidatorDirective, multi: true }]
+})
+export class DateValueValidatorDirective implements Validator {
+    public validate(control: AbstractControl): ValidationErrors | null {
+        if (!this.isDate(control.value)) {
+            return { value: true };
+        }
+
+        return null;
+    }
+
+    private isDate(value: unknown): value is Date {
+        return value instanceof Date
+            && !isNaN(value.getTime());
+    }
+}
+```
+
+Un validador también puede ser asíncrono:
+
+```typescript
+import { Directive, OnInit } from '@angular/core';
+import { AsyncValidator, NG_ASYNC_VALIDATORS, AbstractControl, ValidationErrors } from '@angular/forms';
+import { Observable, of } from 'rxjs';
+
+@Directive({
+    selector: '[dateValueAsyncValidator]',
+    providers: [{ provide: NG_ASYNC_VALIDATORS, useExisting: DateValueAsyncValidatorDirective, multi: true }]
+})
+export class DateValueAsyncValidatorDirective implements AsyncValidator {
+    public validate(control: AbstractControl): Observable<ValidationErrors | null> {
+        if (!this.isDate(control.value)) {
+            return of({ value: true });
+        }
+
+        return of(null);
+    }
+
+    private isDate(value: unknown): value is Date {
+        return value instanceof Date
+            && !isNaN(value.getTime());
+    }
+}
+```
+
+## Ejemplo de validación de formularios reactivos de Angular
+
+Veamos cómo puede configurar la validación de formularios reactivos en la práctica con este ejemplo de validación de formularios de Angular.
+
+Es una demostración rápida de un formulario de reserva de película bastante estándar. Muestra qué ocurre si una o varias entradas del formulario están incompletas y cómo se visualiza el mensaje de error específico.
+
+En nuestro ejemplo de validación de formularios reactivos de Angular, los campos obligatorios son: película, nombre completo, correo electrónico y género. Mientras no los complete todos, no podrá continuar con la reserva y `book button` seguirá desactivado.
+
+Así, si introduce valores para el título de la película, el nombre completo, el teléfono y el correo electrónico, se resaltarán en verde. Pero si olvida seleccionar `favorite genre`, este campo se resaltará en rojo, lo que indica que la entrada de valores está incompleta. Cuando todos los valores estén bien, el campo se resaltará en verde, lo que indica que las entradas son correctas. `book button` se activará y después podrá enviar el formulario correctamente.
+
+<Sample src="/data-entries/reactive-forms" height={850} alt="Ejemplo de integración de formularios reactivos de Angular" />
+
+<hr/>
+
+## Validación de grupos de formularios de Angular
+
+Los grupos de formularios son, básicamente, un conjunto de varios `FormControlls` relacionados que le permiten acceder al estado de los controles que contienen. La validación de grupos de formularios de Angular le ayuda a seguir el valor de los controles del grupo o del formulario, así como la validación del estado del control del formulario. `FormGroup` se usa con `FormControl`.
+
+## ¿Por qué necesitaría una validación personalizada de formularios de Angular?
+
+Con los validadores personalizados puede cubrir distintas funcionalidades y asegurarse de que los valores de un formulario cumplen ciertos criterios, algo que a veces no es posible hacer solo con los validadores integrados. Si quiere validar un número de teléfono o un patrón de contraseña concreto, lo mejor es crear un validador personalizado y apoyarse en la validación personalizada de formularios de Angular.
+
+Con los formularios reactivos, crear uno de estos validadores es tan sencillo como escribir una función nueva. Y para los formularios basados en el modelo (como el formulario reactivo de Angular), creamos funciones de validación personalizadas y se las pasamos al constructor de `FormControl`.
+
+A continuación se muestra cómo escribir e implementar un validador personalizado de formularios en su formulario reactivo.
+
+```typescript
+import { FormGroup, FormControl, Validators, ValidatorFn, ValidationErrors } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+
+@Component({/* ... */})
+export class MyComponent implements OnInit {
+    public form: FormGroup;
+
+    public ngOnInit(): void {
+        this.form = new FormGroup({
+            datePicker: new FormControl('', [Validators.required, this.dateValidator(new Date())])
+        });
+    }
+
+    private dateValidator(val: Date): ValidatorFn {
+        return (control: AbstractControl): ValidationErrors | null => {
+            if (this.isDate(control.value)
+                || this.valGreaterThanDate(control.value, val)) {
+                return { value: true };
+            }
+
+            return null;
+        }
+    }
+
+    private valGreaterThanDate(value: Date, date: Date): boolean {
+        const value1 = new Date(value).setHours(0, 0, 0, 0);
+        const value2 = new Date(date).setHours(0, 0, 0, 0);
+        return value.getTime() > date.getTime();
+    }
+
+    private isDate(value: unknown): value is Date {
+        return value instanceof Date
+            && !isNaN(value.getTime());
+    }
+}
+```
+
+## Recursos adicionales
+
+<hr/>
+
+Temas relacionados:
+
+- [Combo](/inputs/combo/overview)
+- [Select](/select)
+- [Input Group](/input-group)
+- [Date Picker](/date-picker)
+- [Time Picker](/time-picker)
+
+Nuestra comunidad está activa y siempre da la bienvenida a nuevas ideas.
+
+- [Ignite UI for Angular **Foros**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

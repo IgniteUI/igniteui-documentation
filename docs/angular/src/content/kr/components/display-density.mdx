@@ -1,0 +1,151 @@
+---
+title: "크기 | Ignite UI for Angular" 
+description: "Ignite UI for Angular는 애플리케이션 또는 컴포넌트 수준에서 size 속성을 설정하는 방법을 제공합니다." 
+keywords: "Ignite UI for Angular, UI 컨트롤, Angular 위젯, 웹 위젯, UI 위젯, Angular, Native Angular Components Suite, Native Angular Components, Native Angular Controls, Native Angular Components Library, size"
+_language: ko
+llms:
+  description: "크기 구성은 대량의 데이터를 시각적으로 표현하는 방식을 크게 개선할 수 있습니다."
+---
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+
+
+# 크기
+
+크기 구성은 대량의 데이터를 시각적으로 표현하는 방식을 크게 개선할 수 있습니다. Ignite UI for Angular에서는 미리 정의된 옵션 집합을 제공합니다:
+
+- **large**
+- **medium**
+- **small**
+
+`--ig-size` 사용자 지정 CSS 속성을 사용하면 애플리케이션 또는 컴포넌트 수준에서 크기를 구성할 수 있습니다.
+
+## Angular Size 예제
+
+<Sample src="/theming/density" height={250} alt="Angular Size 예제" />
+
+<hr/>
+
+<DocsAside type="info">
+자신의 프로젝트에서 Ignite UI for Angular 컴포넌트를 사용하려면 필요한 모든 종속성을 구성하고 프로젝트를 올바르게 설정했는지 확인하십시오. 이 방법은 [**설치**](https://www.infragistics.com/products/ignite-ui-angular/getting-started#installation) 항목에서 확인할 수 있습니다.
+</DocsAside>
+
+## 사용법
+
+**애플리케이션/컴포넌트 수준에서 크기 설정하기**
+
+크기를 설정하려면 `--ig-size` CSS 사용자 지정 속성을 사용하십시오. 위 속성을 body 요소에 설정하면 앱의 모든 컴포넌트에 대한 크기를 설정할 수 있습니다.
+
+`--ig-size`에 사용할 수 있는 값은 `--ig-size-small`, `--ig-size-medium`, `--ig-size-large`입니다.
+
+```css
+body {
+    --ig-size: var(--ig-size-small);
+}
+```
+
+컴포넌트 수준에서 크기를 설정하려면 요소 선택기를 대상으로 지정하십시오. 예를 들어 입력 그룹의 크기를 `small`(으)로 설정하려면 다음과 같이 할 수 있습니다:
+
+```css
+igx-input-group {
+    --ig-size: var(--ig-size-small);
+}
+```
+
+## CSS 사용자 지정 속성으로 크기 이해하기
+
+Ignite UI의 크기 조정 시스템은 컴포넌트 크기와 간격을 자동으로 조정하는 CSS 사용자 지정 속성 집합을 통해 동작합니다. `--ig-size` 속성을 변경하면 컴포넌트가 이 변경을 자동으로 감지하고 적절한 크기 값을 적용합니다.
+
+### 크기 감지 변수
+
+컴포넌트는 크기 변경을 감지하고 이에 반응하기 위해 여러 CSS 사용자 지정 속성을 사용합니다:
+
+- `--component-size` - 전역 `--ig-size`을(를) 숫자 값으로 매핑합니다(1=small, 2=medium, 3=large)
+- `--is-small` - 컴포넌트 크기가 small이면 1, 그렇지 않으면 0으로 설정됩니다
+- `--is-medium` - 컴포넌트 크기가 medium이면 1, 그렇지 않으면 0으로 설정됩니다.  
+- `--is-large` - 컴포넌트 크기가 large이면 1, 그렇지 않으면 0으로 설정됩니다.
+
+이 변수들은 수학적 CSS 식을 사용하여 자동으로 계산되며, `--ig-size`이(가) 수정될 때마다 변경됩니다.
+
+### 크기 상수
+
+테마 시스템은 세 가지 크기 상수를 정의합니다:
+
+- `--ig-size-small`(값: 1)
+- `--ig-size-medium`(값: 2)  
+- `--ig-size-large`(값: 3).
+
+## 자신의 컴포넌트에 크기 적용하기
+
+Ignite UI의 Sass 유틸리티를 사용하면 사용자 지정 컴포넌트가 크기 변경에 반응하도록 만들 수 있습니다. 이 유틸리티는 필요한 CSS 사용자 지정 속성과 수학 식을 내부에서 생성합니다.
+
+### Sizable 믹스인과 함수 사용하기
+
+전역 크기 설정에 반응하는 컴포넌트를 만드는 방법은 다음과 같습니다:
+
+```html
+<div class="my-responsive-element"></div>
+```
+
+```scss
+@use "igniteui-angular/theming" as *;
+
+.my-responsive-element {
+    // The sizable mixin sets up size detection CSS custom properties
+    @include sizable();
+
+    // Connect to the global size system
+    --component-size: var(--ig-size, var(--ig-size-large));
+
+    // Use the sizable function for responsive sizing
+    --size: #{sizable(10px, 20px, 30px)};
+    width: var(--size);
+    height: var(--size);
+}
+```
+
+### Sizable 시스템이 내부적으로 동작하는 방식
+
+`@include sizable()`을(를) 사용하면 현재 컴포넌트 크기를 감지하는 CSS 사용자 지정 속성이 생성됩니다:
+
+```css
+.my-responsive-element {
+    --is-large: clamp(0, (var(--component-size, 1) + 1) - var(--ig-size-large, 3), 1);
+    --is-medium: min(
+        clamp(0, (var(--component-size, 1) + 1) - var(--ig-size-medium, 2), 1),
+        clamp(0, var(--ig-size-large, 3) - var(--component-size, 1), 1)
+    );
+    --is-small: clamp(0, var(--ig-size-medium, 2) - var(--component-size, 1), 1);
+}
+```
+
+`sizable(10px, 20px, 30px)` 함수는 적절한 값을 자동으로 선택하는 CSS 식을 생성합니다:
+
+```css
+--size: max(
+    calc(var(--is-large, 1) * 30px),
+    calc(var(--is-medium, 1) * 20px), 
+    calc(var(--is-small, 1) * 10px)
+);
+```
+
+`clamp()`, `min()`, `max()`, `calc()` 함수를 사용하는 이 수학적 방식을 통해 컴포넌트는 현재 `--ig-size` 설정에 따라 크기 값 사이를 자동으로 전환할 수 있습니다.
+
+## API 참조
+<igc-divider></igc-divider>
+- <ApiLink kind="sass" module="themes" type="mixin-sizable" label="테마 - Sizable 믹스인" />
+- <ApiLink kind="sass" module="themes" type="function-sizable" label="테마 - Sizable 함수" />
+### 크기 및 간격 함수
+- <ApiLink kind="sass" module="utilities" type="function-pad" label="유틸리티 - Pad" />
+- <ApiLink kind="sass" module="utilities" type="function-pad-inline" label="유틸리티 - Pad Inline" />
+- <ApiLink kind="sass" module="utilities" type="function-pad-block" label="유틸리티 - Pad Block" />
+## 추가 리소스
+
+<hr/>
+
+커뮤니티는 활발하며 새로운 아이디어를 언제나 환영합니다.
+
+- [Ignite UI for Angular **포럼**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

@@ -1,0 +1,206 @@
+---
+title: "{Platform} Dock Manager | Personalização | Infragistics"
+description: "Use o componente dock manager {Platform} da Infragistics para gerenciar o layout por meio de painéis, com a possibilidade de personalizá-lo. Confira os tutoriais do dock manager do {ProductName}!"
+keywords: "dock manager, layout, personalização, {ProductName}"
+license: commercial
+mentionedTypes: ["DockManager", "ContentPane"]
+_language: pt-BR
+llms:
+  description: "O componente Dock Manager do {Platform} da Infragistics oferece as propriedades necessárias para personalizar ainda mais o layout, de acordo com os requisitos específicos da sua aplicação."
+---
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+
+## Personalizando o Dock Manager do {Platform}
+
+O componente Dock Manager do {Platform} da Infragistics oferece as propriedades necessárias para personalizar ainda mais o layout, de acordo com os requisitos específicos da sua aplicação.
+Vamos ver como o {Platform} DockManager permite criar interfaces excepcionais e aumentar a produtividade das suas aplicações!
+
+## Encaixe por proximidade
+
+Nesse modo, os indicadores de joystick ficam ocultos, e o encaixe é feito arrastando um painel para perto da borda de outro painel. Enquanto um painel é arrastado, quando o cursor do mouse chega à área correspondente à posição de encaixe, uma prévia do encaixe é exibida. Ao soltar o mouse, o painel arrastado é encaixado no local da prévia. Para ativar o encaixe por proximidade, basta definir a propriedade `proximityDock` como **true**.
+
+```ts
+this.dockManager.proximityDock = true;
+```
+
+### Encaixe interno
+
+Para encaixar à direita um painel 1 arrastado dentro do painel 2, o cursor deve estar na área definida pela borda direita do painel 2 e pelo deslocamento da borda direita para a esquerda. A distância do deslocamento é especificada como limite de encaixe por proximidade e está definida como 50px. Quando há um splitter, o encaixe pode ser feito pelos dois lados do splitter.
+
+### Encaixe externo
+Para realizar um encaixe externo, é preciso atender primeiro a critérios específicos. No Dock Manager, o encaixe externo só é permitido dentro de um host de documento, ou seja, você encaixa o painel de destino nas regiões externas do host de documento.
+
+Para realizar, por exemplo, um encaixe externo no topo, o cursor deve estar dentro da região definida pela borda superior do host de documento e permanecer dentro do deslocamento da borda superior. A distância do deslocamento é especificada como limite externo de encaixe por proximidade e está explicitamente definida como 25px. O valor de 50px do limite de encaixe por proximidade permanece inalterado, o que significa que, nesse cenário, apenas uma área de 25px fica disponível para o encaixe interno. Quando há um splitter dentro do host de documento, o encaixe externo pode ser feito pelos dois lados do splitter.
+
+> NOTA: quando o encaixe por proximidade está ativado, o usuário não consegue realizar um encaixe externo à esquerda e à direita, nem no topo e na base, a partir de um único painel. Por exemplo, em um cenário com dois painéis divididos e um splitter entre eles, o usuário só poderá realizar um encaixe externo à esquerda quando o painel arrastado estiver sobre o painel da esquerda, e vice-versa.
+
+Experimente no exemplo abaixo:
+
+<Sample src="/layouts/dock-manager/proximity-dock" height={600} alt="Exemplo de encaixe por proximidade do {Platform} Dock Manager" />
+
+
+## Focar painéis programaticamente
+
+O método `focusPane` permite que os desenvolvedores focalizem dinamicamente e por código um painel específico do layout, informando o `contentId` do painel desejado.
+
+```ts
+this.dockManager.focusPane('content1');
+```
+
+Ao usar o método `focusPane`, o comportamento varia conforme o estado do painel de destino. Veja como funciona:
+
+1. **Painéis flutuantes**: se o painel estiver flutuando, invocar `focusPane` o trará para o foco, o definirá como activePane e garantirá que ele apareça acima de quaisquer outros painéis flutuantes.
+
+2. **Painéis não fixados**: quando o painel de destino não está fixado, `focusPane` fará o painel sair em seu estado aberto.
+
+3. **Painéis fixados comuns**: para painéis fixados comuns, `focusPane` definirá o painel como `activePane`.
+
+
+Ao usar este método, os desenvolvedores conseguem controlar com facilidade a visibilidade e o posicionamento dos painéis com base na interação do usuário ou em eventos da aplicação.
+
+Experimente no exemplo abaixo:
+
+<Sample src="/layouts/dock-manager/focus-panes" height={600} alt="{Platform} Exemplo de foco programático de painéis no Dock Manager" />
+
+
+
+## Ocultar automaticamente os cabeçalhos dos painéis
+
+Com a propriedade `showPaneHeaders` do DockManager, os desenvolvedores passam a ter flexibilidade para controlar a visibilidade dos cabeçalhos dos painéis dentro do `layout`. Por padrão, `showPaneHeaders` está definida como `always`, garantindo que os cabeçalhos dos painéis fiquem sempre visíveis. Quando definida como `onHoverOnly`, todos os cabeçalhos dos painéis ficam ocultos até que o mouse passe sobre a borda superior de um painel de conteúdo. O cabeçalho correspondente aparece e some suavemente quando o mouse se afasta. Veja o exemplo abaixo:
+
+<Sample src="/layouts/dock-manager/hide-pane-headers" height={600} alt="{Platform} Exemplo de cabeçalhos de painel ocultos automaticamente no Dock Manager" />
+
+
+## Controlar o encaixe interno
+Por padrão, o Dock Manager permite que os usuários arrastem e encaixem painéis uns dentro dos outros, criando abas. Para oferecer mais controle sobre essa funcionalidade, introduzimos duas propriedades: `allowInnerDock` e `acceptsInnerDock`.
+
+Ao definir a propriedade `acceptsInnerDock` de um <ApiLink type="IgcContentPane" />, os desenvolvedores podem controlar o encaixe interno em painéis de conteúdo específicos. Quando essa propriedade é definida como false, o usuário fica impedido de realizar o encaixe interno no painel especificado.
+
+
+<PlatformBlock for="WebComponents">
+
+```ts
+{
+    type: IgcDockManagerPaneType.contentPane,
+    header: 'Floating 1',
+    contentId: 'content3',
+    acceptsInnerDock: false
+}
+```
+
+</PlatformBlock>
+
+Se você quiser desativar o encaixe interno em todo o DockManager, basta definir `allowInnerDock` como **false**. Essa propriedade determina se o usuário final tem permissão para encaixar painéis internamente.
+
+
+```ts
+this.dockManager.allowInnerDock = false;
+```
+
+<Sample src="/layouts/dock-manager/toggle-inner-dock" height={600} alt="{Platform} Exemplo de alternância de encaixe interno no Dock Manager" />
+
+
+## Controlar o arrasto de painéis
+
+Com a propriedade `containedInBoundaries`, os desenvolvedores podem controlar se as laterais dos painéis flutuantes ficam sempre contidas no DockManager. Quando definida como **true**, o arrasto do painel é interrompido assim que qualquer uma das laterais tenta ultrapassar os limites do DockManager.
+
+
+Experimente no exemplo abaixo:
+
+<Sample src="/layouts/dock-manager/contained-in-boundaries" height={600} alt="{Platform} Exemplo de Dock Manager contido nos limites" />
+
+
+## Destacar painéis em redimensionamento
+
+Quando os usuários redimensionam painéis arrastando um splitter, nem sempre fica claro quais painéis são afetados, especialmente em layouts mais complexos. Para deixar essa interação mais clara, o Dock Manager pode desenhar uma borda ao redor dos painéis que estão sendo redimensionados. Essa indicação visual ajuda o usuário a entender de imediato quais partes do layout vão crescer ou diminuir ao mover o splitter.
+
+Você pode ativar e estilizar esse comportamento configurando as seguintes propriedades customizadas CSS no elemento host do Dock Manager (ou em um elemento pai):
+
+- `--igc-resize-target-border-color` – controla a cor da borda do alvo de redimensionamento.
+- `--igc-resize-target-border-width` – controla a espessura da borda (por exemplo, `2px`).
+- `--igc-resize-target-border-style` – controla o estilo da borda (por exemplo, `solid`, `dashed`).
+
+```css
+igc-dockmanager {
+    --igc-resize-target-border-color: #0078d4;
+    --igc-resize-target-border-width: 2px;
+    --igc-resize-target-border-style: solid;
+}
+```
+
+Depois de definir essas variáveis, qualquer painel afetado pelo arrasto de um splitter será envolvido pela borda configurada durante toda a operação de redimensionamento, dando ao usuário um retorno claro e imediato sobre quais painéis estão sendo ajustados.
+
+## Modo de tamanho fixo em painéis divididos
+
+Por padrão, cada painel em um layout dividido recebe um tamanho relativo em comparação com seus irmãos, e esse tamanho assume 100 como padrão. Por exemplo, se você tiver dois painéis irmãos em que o primeiro tem tamanho 400 e o segundo tem tamanho 200, o primeiro terá o dobro do tamanho do segundo, e juntos eles preencherão todo o espaço disponível.
+
+Se, para determinados painéis, você quiser um dimensionamento explícito em pixels em vez de relativo, pode ativar o modo de tamanho fixo definindo a propriedade `useFixedSize` do painel dividido pai como **true**. Quando essa propriedade está ativada, todos os filhos são dimensionados em pixels com base na propriedade `size`. No exemplo anterior, o primeiro painel terá 400 pixels e o segundo, 200 pixels. Redimensionar pelo splitter altera apenas o tamanho do painel com o qual o usuário está interagindo, sem redistribuir o espaço entre os irmãos.
+
+Assim que a soma dos tamanhos dos painéis filhos ultrapassa o tamanho disponível do pai, o painel dividido passa a ter rolagem. O dock manager também oferece rolagem automática integrada para manter o usuário focado no seu conteúdo:
+
+- Quando os usuários **arrastam painéis em direção às bordas** de um painel raiz de tamanho fixo, o contêiner rola na direção do arrasto para que o usuário alcance facilmente áreas fora da tela.
+- Quando os usuários **redimensionam painéis pelo splitter**, o contêiner rola conforme necessário para revelar o conteúdo recém-expandido.
+
+Em um painel dividido **horizontal**, a rolagem automática acontece para a **esquerda** ou para a **direita**; em um painel dividido **vertical**, acontece para o **topo** ou para a **base**, conforme a direção do arrasto ou do redimensionamento.
+
+
+<PlatformBlock for="WebComponents">
+
+```ts
+const splitPaneRelativeSize: IgcSplitPane = {
+    type: IgcDockManagerPaneType.splitPane,
+    orientation: IgcSplitPaneOrientation.horizontal,
+    panes: [
+        {
+            type: IgcDockManagerPaneType.contentPane,
+            contentId: 'content1',
+            header: 'Pane 1',
+            size: 400 // Size will be relative to siblings
+        },
+        {
+            type: IgcDockManagerPaneType.contentPane,
+            contentId: 'content2',
+            header: 'Pane 2',
+            size: 200 // Size will be relative to siblings
+        }
+    ]
+}
+
+const splitPaneFixedSize: IgcSplitPane = {
+    type: IgcDockManagerPaneType.splitPane,
+    orientation: IgcSplitPaneOrientation.horizontal,
+    useFixedSize: true,
+    panes: [
+        {
+            type: IgcDockManagerPaneType.contentPane,
+            contentId: 'content3',
+            header: 'Pane 3',
+            size: 400 // Size will be applied in pixels
+        },
+        {
+            type: IgcDockManagerPaneType.contentPane,
+            contentId: 'content4',
+            header: 'Pane 4',
+            size: 200 // Size will be applied in pixels
+        }
+    ]
+}
+```
+
+</PlatformBlock>
+
+Observe que, ao encaixar um painel dentro de um painel dividido que tem `useFixedSize` definido como **true**, o painel encaixado terá a mesma largura/altura (conforme a orientação do painel dividido) que o painel flutuante.
+
+Experimente no exemplo abaixo:
+
+<Sample src="/layouts/dock-manager/split-pane-fixed-size" height={600} alt="{Platform} Exemplo de tamanho fixo em painel dividido no Dock Manager" />
+
+
+## Referências da API
+
+
+<ApiLink type="DockManager" /><br />
+<ApiLink type="ContentPane" /><br />

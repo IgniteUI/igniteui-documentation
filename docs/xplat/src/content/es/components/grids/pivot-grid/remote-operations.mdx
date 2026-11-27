@@ -1,0 +1,241 @@
+---
+title: "Cuadrícula dinámica personalizada remota de {Platform} | Tablas dinámicas | Infragistics"
+description: "Cree cuadrículas y tablas dinámicas {Platform} rápidas y adaptables con Ignite UI for {Platform}. Realice análisis de datos complejos mediante datos dinámicos."
+keywords: "cuadrícula dinámica {Platform}, tabla dinámica material {Platform}, ignite ui for {Platform}, personalización de la cuadrícula dinámica, cuadrícula dinámica remota, dinámica remota"
+license: commercial
+mentionedTypes: ["PivotGrid", "PivotConfiguration", "PivotKeys"]
+namespace: Infragistics.Controls
+_language: es
+llms:
+  description: "In scenarios where the pivot data is already grouped and aggregated from a remote service and there's no need for further processing on the client, the pivot grid can be configured to use a custom empty strategy that will skip data processing on the client and allow it to."
+---
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+
+
+# Operaciones remotas de la cuadrícula dinámica de {Platform}
+
+En los escenarios en los que los datos dinámicos ya están agrupados y agregados desde un servicio remoto, y no es necesario procesarlos más en el cliente, la cuadrícula dinámica puede configurarse para usar una estrategia vacía personalizada que omita el procesamiento de datos en el cliente y muestre directamente los datos tal como están:
+
+
+<PlatformBlock for="Angular">
+
+
+```typescript
+public pivotConfigHierarchy: IPivotConfiguration = {
+    columnStrategy: NoopPivotDimensionsStrategy.instance(),
+    rowStrategy: NoopPivotDimensionsStrategy.instance(),
+}
+```
+
+</PlatformBlock>
+
+
+
+<PlatformBlock for="WebComponents">
+
+
+```typescript
+public pivotConfigHierarchy: IgcPivotConfiguration = {
+    columnStrategy: IgcNoopPivotDimensionsStrategy.instance(),
+    rowStrategy: IgcNoopPivotDimensionsStrategy.instance(),
+}
+```
+
+</PlatformBlock>
+
+
+El siguiente ejemplo muestra cómo gestionar los escenarios en los que los datos ya están agregados, y qué aspecto debe tener su estructura:
+<Sample src="/{PivotGridSample}/remote" height={530} alt="Ejemplo de agregaciones predefinidas personalizadas de la cuadrícula dinámica de {Platform}" />
+
+
+
+
+Los usuarios pueden lograr ciertos escenarios alimentando la cuadrícula dinámica con datos ya agregados.
+Hay algunos requisitos sobre el aspecto que deben tener los datos y algunos detalles sobre las jerarquías en la vista dinámica. Por ejemplo, para declarar una jerarquía en la dimensión **filas**:
+
+```typescript
+rows: [
+    {
+        memberName: 'AllProducts',
+        memberFunction: () => 'All Products',
+        enabled: true,
+        childLevel: {
+            memberName: 'ProductCategory',
+            enabled: true
+        }
+    }
+]
+```
+
+Y un ejemplo de los datos agregados sería:
+
+```typescript
+public aggregatedData = [
+    {
+        ProductCategory: 'All', AllProducts: 'All Products', All: 1000, 'All-Bulgaria': 774, 'All-USA': 829, 'All-Uruguay': 524, AllProducts_records: [
+            { ProductCategory: 'Clothing', 'All-Bulgaria': 774, 'All-USA': 296, 'All-Uruguay': 456 },
+            { ProductCategory: 'Bikes', 'All-Uruguay': 68 },
+            { ProductCategory: 'Accessories', 'All-USA': 293 },
+            { ProductCategory: 'Components', 'All-USA': 240 }
+        ]
+    }
+];
+```
+
+La cuadrícula dinámica proporciona las claves de objeto que usa para realizar sus cálculos dinámicos.
+- <ApiLink type="PivotKeys" member="children" label="Children" />: campo que almacena los hijos para construir la jerarquía. Representa un mapa de los valores agrupados y de todos los pivotGridRecords basados en ese valor. Puede utilizarse en escenarios muy concretos en los que hay que hacer algo mientras se crean las jerarquías. No es necesario cambiarlo para un uso habitual.
+- <ApiLink type="PivotKeys" member="records" label="Records" />: campo que almacena una referencia a los registros de datos originales. Puede verse en el ejemplo anterior: **AllProducts_records**. Evite definir en los datos campos con el mismo nombre que esta propiedad. Si sus registros de datos tienen una propiedad **records**, puede especificar un valor distinto y único para ella usando <ApiLink type="PivotConfiguration" member="pivotKeys" label="PivotKeys" />.
+- <ApiLink type="PivotKeys" member="aggregations" label="Aggregations" />: campo que almacena los valores de agregación. Se aplica al crear las jerarquías y tampoco debe cambiarse en los escenarios habituales.
+- <ApiLink type="PivotKeys" member="level" label="Level" />: campo que almacena el nivel de dimensión según su jerarquía. Evite definir en los datos campos con el mismo nombre que esta propiedad. Si sus registros de datos tienen una propiedad **level**, puede especificar un valor distinto y único para ella usando <ApiLink type="PivotConfiguration" member="pivotKeys" label="PivotKeys" />.
+- <ApiLink type="PivotKeys" member="columnDimensionSeparator" label="ColumnDimensionSeparator" />: separador usado al generar los valores únicos de campo de columna. Es el guion (**-**) del ejemplo anterior: **All-Bulgaria**.
+- <ApiLink type="PivotKeys" member="rowDimensionSeparator" label="RowDimensionSeparator" />: separador usado al generar los valores únicos de campo de fila. Es el guion bajo (**_**) del ejemplo anterior: **AllProducts_records**. Se usa al crear los campos <ApiLink type="PivotKeys" member="records" label="Records" /> y <ApiLink type="PivotKeys" member="level" label="Level" />.
+
+Todos estos valores se almacenan en la propiedad <ApiLink type="PivotConfiguration" member="pivotKeys" label="PivotKeys" />, que forma parte de <ApiLink type="PivotGrid" member="pivotConfiguration" label="PivotConfiguration" /> y puede usarse para cambiar las claves dinámicas predeterminadas.
+Estos valores predeterminados son:
+
+```typescript
+export const DEFAULT_PIVOT_KEYS = {
+    aggregations: 'aggregations', records: 'records', children: 'children', level: 'level',
+    rowDimensionSeparator: '_', columnDimensionSeparator: '-'
+};
+```
+
+Al establecer <ApiLink type="NoopPivotDimensionsStrategy" /> para <ApiLink type="PivotConfiguration" member="columnStrategy" label="ColumnStrategy" /> y <ApiLink type="PivotConfiguration" member="rowStrategy" label="RowStrategy" /> se omiten la agrupación y la agregación de datos que realizan los pipes de datos, pero la cuadrícula dinámica sigue necesitando declaraciones para las filas, columnas, valores y filtros con el fin de renderizar la vista dinámica como se espera:
+
+
+<PlatformBlock for="Angular">
+
+
+```typescript
+public pivotConfig: IPivotConfiguration = {
+    rows: [
+        {
+            memberName: 'AllProducts',
+            memberFunction: () => 'All Products',
+            enabled: true,
+            childLevel: {
+                memberName: 'ProductCategory',
+                enabled: true
+            }
+        }
+    ],
+    columns: [
+        {
+            memberName: 'All',
+            enabled: true,
+            childLevel: {
+                memberName: 'Country',
+                enabled: true
+            }
+        }
+    ],
+    values: [
+        {
+            member: 'UnitsSold',
+            aggregate: {
+                aggregator: IgxPivotNumericAggregate.sum,
+                key: 'sum',
+                label: 'Sum'
+            },
+            enabled: true
+        },
+    ]
+}
+```
+
+</PlatformBlock>
+
+
+
+<PlatformBlock for="WebComponents">
+
+
+```typescript
+public pivotConfig: IgcPivotConfiguration = {
+    rows: [
+        {
+            memberName: 'AllProducts',
+            memberFunction: () => 'All Products',
+            enabled: true,
+            childLevel: {
+                memberName: 'ProductCategory',
+                enabled: true
+            }
+        }
+    ],
+    columns: [
+        {
+            memberName: 'All',
+            enabled: true,
+            childLevel: {
+                memberName: 'Country',
+                enabled: true
+            }
+        }
+    ],
+    values: [
+        {
+            member: 'UnitsSold',
+            aggregate: {
+                aggregator: IgcPivotNumericAggregate.sum,
+                key: 'sum',
+                label: 'Sum'
+            },
+            enabled: true
+        },
+    ]
+}
+```
+
+</PlatformBlock>
+
+
+Es importante que los datos coincidan con la configuración. Para obtener los mejores resultados, no debe incluirse ningún campo adicional en los datos agregados, y ningún campo de los datos proporcionados debe quedar sin declarar como fila o columna. El componente <ApiLink type="PivotGrid" /> genera sus datos a partir de <ApiLink type="PivotGrid" member="pivotConfiguration" label="PivotConfiguration" />, y se espera que la configuración y los datos agregados coincidan en consecuencia.
+
+Del mismo modo, en otras operaciones remotas como la ordenación y el filtrado, puede omitirse el procesamiento de datos estableciendo las estrategias vacías correspondientes: <ApiLink type="GridBaseDirective" member="filterStrategy" label="FilterStrategy" />, <ApiLink type="GridBaseDirective" member="sortStrategy" label="SortStrategy" />:
+
+
+<PlatformBlock for="Angular">
+
+
+```html
+<{PivotGridSelector} [filterStrategy]="noopFilterStrategy" [sortStrategy]="noopSortStrategy">
+</{PivotGridSelector}>
+```
+
+</PlatformBlock>
+
+
+
+<PlatformBlock for="WebComponents">
+
+
+```html
+<{PivotGridSelector} filter-strategy="noopFilterStrategy" sort-strategy="noopSortStrategy">
+</{PivotGridSelector}>
+```
+
+</PlatformBlock>
+
+
+```typescript
+public noopFilterStrategy = NoopFilteringStrategy.instance();
+public noopSortStrategy = NoopSortingStrategy.instance();
+```
+
+
+## Referencias de API
+<ApiLink type="PivotGrid" />
+<ApiLink type="PivotDataSelector" />
+## Recursos adicionales
+
+{/** [{Platform} Pivot Grid Features](./pivot-grid-features.mdx) */}
+- [Descripción general de la cuadrícula dinámica de {Platform}](./overview.mdx)
+
+Nuestra comunidad está activa y siempre da la bienvenida a nuevas ideas.
+
+- [{ProductName} **Foros**]({ForumsLink})
+- [{ProductName} **GitHub**]({GithubLink})

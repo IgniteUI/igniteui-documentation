@@ -1,0 +1,162 @@
+---
+title: "Dicas de ferramenta de dados de gráfico de {Platform} | Ferramentas de visualização de dados | Infragistics"
+description: "Use o gráfico {ProductName} da Infragistics com a camada de dicas de ferramenta de dados!"
+keywords: "Gráficos {Platform}, legenda do gráfico, legenda, tipos de legenda, {ProductName}, Infragistics"
+license: commercial
+
+mentionedTypes: ["DataChart", "Legend", "CategoryChart", "FinancialChart", "DataLegend", "DataToolTipLayer", "DataAbbreviationMode", "DataLegendSeriesValueType", "DataToolTipLayerGroupingMode", "DataLegendLayoutMode"]
+namespace: Infragistics.Controls.Charts
+_language: pt-BR
+llms:
+  description: "No {ProductName}, a DataToolTip exibe valores e títulos das séries, bem como os selos da legenda das séries, em uma dica de ferramenta."
+platformType: xplat
+---
+
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import { Image } from 'astro:assets';
+import layoutMode from '@xplat-images/general/layout_mode.png';
+
+
+# Dica de ferramenta de dados de {Platform}
+
+No {ProductName}, a **DataToolTip** exibe valores e títulos das séries, bem como os selos da legenda das séries, em uma dica de ferramenta. Além disso, oferece muitas propriedades de configuração do `DataLegend` para filtrar linhas de séries e colunas de valores, além de estilizar e formatar valores. Este tipo de dica de ferramenta é atualizado ao mover o mouse dentro da área de plotagem do `CategoryChart`<PlatformBlock for="Web">, `FinancialChart`,</PlatformBlock> e dos componentes `DataChart`.
+
+## Propriedades da dica de ferramenta de dados de {Platform}
+
+Todas as propriedades de `DataToolTipLayer` têm o prefixo **DataToolTip** e são expostas na API de <PlatformBlock for="Web">componentes `CategoryChart` e `FinancialChart`</PlatformBlock><PlatformBlock for="WinUI, Uno">componente `CategoryChart`</PlatformBlock>. No entanto, você precisará criar uma instância de `DataToolTipLayer` e adicioná-la à coleção de séries do componente `DataChart` se quiser usá-la com gráficos radiais, gráficos polares e gráficos de dispersão.
+
+## Elementos da dica de ferramenta de dados de {Platform}
+
+A **DataToolTip** exibe o conteúdo usando um conjunto de três tipos de linhas e quatro tipos de colunas.
+
+### Linhas da dica de ferramenta de dados de {Platform}
+
+As linhas da **DataToolTip** incluem a linha de cabeçalho, a(s) linha(s) de série e a linha de resumo.
+
+A linha de cabeçalho exibe o rótulo do eixo do ponto sobre o qual o mouse passa, e pode ser alterada usando a propriedade `dataToolTipHeaderText`.
+
+A linha de série pode, na verdade, ser um conjunto de linhas correspondentes a cada série plotada no gráfico. Essas linhas exibem o selo da legenda, o título da série, o valor real ou abreviado da série e o símbolo de abreviação e a unidade, se especificados.
+
+Por fim, há uma linha de resumo que exibe o total de todos os valores das séries. O título padrão do resumo pode ser alterado usando a propriedade `dataToolTipSummaryTitleText` da legenda. Além disso, você pode usar a propriedade `dataToolTipSummaryType` para personalizar se deseja exibir o Total, o Mínimo, o Máximo ou a Média dos valores das séries na linha de resumo.
+
+O exemplo a seguir demonstra a dica de ferramenta de dados com um resumo aplicado:
+
+<Sample src="/charts/category-chart/data-tooltip" height={450} alt="Exemplo de dica de ferramenta de dados do Category Chart de {Platform}" />
+
+
+
+
+### Colunas da dica de ferramenta de dados de {Platform}
+
+As colunas do `DataToolTipLayer` incluem as colunas de título, rótulo, valor e unidades. Cada série do gráfico pode ter várias colunas para rótulo, valor e unidades, dependendo das coleções `dataToolTipIncludedColumns` ou `dataToolTipExcludedColumns` do gráfico.
+
+A coluna de título exibe os selos da legenda e os títulos das séries, que vêm da propriedade `chartTitle` das diferentes `Series` plotadas no gráfico.
+
+A coluna de rótulo exibe o nome ou a abreviação dos diferentes caminhos de propriedade nas coleções `dataToolTipIncludedColumns` ou `dataToolTipExcludedColumns` da dica de ferramenta.
+
+A coluna de valor exibe os valores das séries como texto abreviado, que pode ser formatado usando a propriedade `dataToolTipValueFormatAbbreviation` para aplicar a mesma abreviação a todos os números, definindo esta propriedade como `DataAbbreviationMode.Auto` ou `Shared`. Como alternativa, o usuário pode escolher outras abreviações, como `Independent`, `Kilo`, `Million`, etc. A precisão dos valores abreviados é controlada pelas propriedades `dataToolTipValueFormatMinFractions` e `dataToolTipValueFormatMaxFractions`, para o número mínimo e máximo de dígitos, respectivamente.
+
+A coluna de unidades exibe um símbolo de abreviação e/ou texto de unidade, que pode ser definido na **DataToolTip** pela propriedade `dataToolTipUnitsText` para todas as colunas, ou usando as propriedades a seguir em cada série do gráfico:
+
+- Séries de categoria (por exemplo, ColumnSeries)
+  - ValueMemberAsLegendUnit="K"
+- Séries de preços financeiros:
+  - OpenMemberAsLegendUnit="K"
+  - LowMemberAsLegendUnit="K"
+  - HighMemberAsLegendUnit="K"
+  - CloseMemberAsLegendUnit="K"
+- Séries de intervalo:
+  - LowMemberAsLegendUnit="K"
+  - HighMemberAsLegendUnit="K"
+- Séries radiais:
+  - ValueMemberAsLegendUnit="km"
+- Séries polares:
+  - RadiusMemberAsLegendUnit="km"
+  - AngleMemberAsLegendUnit="degrees"
+
+Para as propriedades listadas acima, há propriedades correspondentes que terminam em **MemberAsLegendLabel** para determinar o texto nas colunas de rótulo mencionadas anteriormente.
+<PlatformBlock for="Web">
+As colunas incluídas nas coleções `dataToolTipIncludedColumns` e `dataToolTipExcludedColumns` geralmente correspondem aos caminhos de valor dos seus itens de dados subjacentes, mas a série financeira tem a opção de incluir alguns caminhos especiais, além dos caminhos `High`, `Low`, `Open` e `Close` exigidos para que a série financeira seja plotada corretamente. Você pode mostrar as opções `TypicalPrice`, `Change` e `Volume` na dica de ferramenta.
+</PlatformBlock>
+<PlatformBlock for="Angular, React, WebComponents, Blazor">
+O exemplo a seguir demonstra uma dica de ferramenta de dados com as colunas adicionadas de Open, High, Low, Close e Change:
+
+<Sample src="/charts/financial-chart/data-tooltip" height={450} alt="Exemplo de dica de ferramenta de dados do Financial Chart de {Platform}" />
+</PlatformBlock>
+
+
+
+
+## Agrupamento de dicas de ferramenta de dados de {Platform} para o Data Chart
+
+`dataLegendGroup` pode ser definida, em todos os tipos de série, como uma string que categoriza um grupo de séries na Legenda de dados. Cada grupo terá sua própria linha de resumo, exibida antes de outro grupo de séries:
+Por padrão, a DataLegend oculta os nomes dos grupos, mas você pode exibi-los definindo a propriedade `groupRowVisible` como true. `groupingMode` deve ser definida como "Grouped" e `labelDisplayMode` deve ser definida como "Visible" na camada da Dica de ferramenta de dados.
+
+<Sample src="/charts/data-chart/data-tooltip-grouping" height={450} alt="Agrupamento da dica de ferramenta de dados de {Platform}" />
+
+
+
+## Agrupamento e posicionamento da dica de ferramenta de dados de {Platform} para o Category Chart<PlatformBlock for="Web"> & Financial Chart</PlatformBlock>
+
+Você pode definir a propriedade `dataToolTipGroupingMode` como `Grouped` ou `Individual` para agrupar o conteúdo de várias séries em uma única dica de ferramenta, ou para exibir conteúdo separado para cada série em várias dicas de ferramenta. No modo `Grouped`, você pode personalizar onde a dica de ferramenta é exibida, definindo as propriedades `dataToolTipGroupedPositionModeX` e `dataToolTipGroupedPositionModeY`. Isso permite, essencialmente, personalizar os alinhamentos horizontal e vertical da dica de ferramenta, e definir se ela deve acompanhar os pontos da série mais próximos da posição do mouse ou fixar a dica na borda da área de plotagem.
+
+O exemplo a seguir demonstra uma dica de ferramenta de dados posicionada no canto superior direito do gráfico:
+
+<Sample src="/charts/category-chart/data-tooltip-positioning" height={450} alt="Exemplo de posicionamento da dica de ferramenta de dados do Category Chart de {Platform}" />
+
+
+## Formatação de valores da dica de ferramenta de dados de {Platform}
+
+A **DataToolTip** oferece abreviação automática de números grandes por meio da sua propriedade `dataToolTipValueFormatAbbreviation`. Isso adiciona um multiplicador na coluna de unidades, como kilo, milhão, bilhão, etc. Você pode personalizar a quantidade de casas decimais exibidas definindo as propriedades `dataToolTipValueFormatMinFractions` e `dataToolTipValueFormatMaxFractions`. Elas permitem determinar o número mínimo e máximo de dígitos que aparecem após a vírgula decimal, respectivamente.
+
+O exemplo a seguir demonstra uma **DataToolTip** com as frações mínima e máxima definidas:
+
+<Sample src="/charts/category-chart/data-tooltip-formatting-decimals" height={450} alt="Exemplo de formatação de casas decimais da dica de ferramenta de dados do Category Chart de {Platform}" />
+
+
+
+
+<PlatformBlock for="Angular, React, WebComponents, Blazor">
+## Modo de valor da dica de ferramenta de dados de {Platform}
+
+Você pode alterar a exibição decimal padrão dos valores na **DataToolTip** para moeda, alterando a propriedade `dataToolTipValueFormatMode` da camada. A **DataToolTip** também permite modificar a cultura do símbolo de moeda exibido, usando a sua propriedade `dataToolTipValueFormatCulture` e definindo-a com a tag de cultura correspondente. Por exemplo, o exemplo a seguir demonstra um gráfico com `dataToolTipValueFormatCulture` definido como "en-GB":
+
+<Sample src="/charts/financial-chart/data-tooltip-formatting-currency" height={450} alt="Exemplo de formatação de moeda da dica de ferramenta de dados do Financial Chart de {Platform}" />
+</PlatformBlock>
+
+
+## Modo de layout
+
+Os itens da legenda podem ser posicionados em uma estrutura vertical ou de tabela por meio da propriedade `layoutMode`. O valor padrão é `Table`, que mantém a mesma aparência das versões anteriores.
+
+ex.
+
+<Image src={layoutMode} alt="Modo de layout" />
+
+
+## Estilização da dica de ferramenta de dados de {Platform}
+
+A **DataToolTip** oferece propriedades para estilizar cada tipo de coluna. Cada uma dessas propriedades começa com Title, Label, Value ou Units, e você pode estilizar a cor, a fonte e a margem do texto. Por exemplo, se você quiser definir a cor do texto de cada uma delas, deverá definir as propriedades `dataToolTipTitleTextColor`, `dataToolTipLabelTextColor`, `dataToolTipValueTextColor` e `dataToolTipUnitsTextColor`.
+
+<PlatformBlock for="Angular, React, WebComponents, Blazor">
+O exemplo a seguir demonstra o uso das propriedades de estilo mencionadas acima:
+
+<Sample src="/charts/financial-chart/data-tooltip-styling-props" height={450} alt="Exemplo de estilização da dica de ferramenta de dados do Financial Chart de {Platform}" />
+</PlatformBlock>
+
+
+Várias propriedades são expostas, incluindo o agrupamento de partes da dica de ferramenta.
+
+- `GroupTextMarginLeft/GroupTextMarginTop/GroupTextMarginRight/GroupTextMarginBottom`
+- `groupTextColor`
+- `GroupTextFontSize/GroupTextFontFamily/GroupTextFontStyle/GroupTextFontWeight`
+- `HeaderTextMarginLeft/HeaderTextMarginTop/HeaderTextMarginRight/HeaderTextMarginBottom`
+- `headerTextColor`
+- `HeaderTextFontSize/HeaderTextFontFamily/HeaderTextFontStyle/HeaderTextFontWeight`
+
+
+## Referências da API
+`DataToolTipLayer`
+`CategoryChart`<PlatformBlock for="Web">
+`FinancialChart`</PlatformBlock>
+`DataChart`

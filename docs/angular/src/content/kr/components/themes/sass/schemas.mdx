@@ -1,0 +1,182 @@
+---
+title: "스키마"
+description: "Ignite UI for Angular 테마 스키마를 사용하면 컴포넌트 테마의 레시피를 만들 수 있습니다."
+keywords: "Ignite UI for Angular, UI 컨트롤, Angular 위젯, 웹 위젯, UI 위젯, Angular, Native Angular Components Suite, Native Angular Controls, Native Angular Components Library" 
+_language: ko
+llms:
+  description: "스키마는 컴포넌트 테마가 사용하는 모든 속성을 나열하는 간단하고 선언적인 방법입니다."
+---
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+# 스키마
+
+<div class="highlight">
+스키마는 컴포넌트 테마가 사용하는 모든 속성을 나열하는 간단하고 선언적인 방법입니다.
+</div>
+
+<hr/>
+
+## 개요
+
+스키마는 레시피와 같습니다. JSON과 비슷한 단순한 Sass 맵으로, 테마가 사용할 수 있는 모든 속성을 정의할 수 있습니다. 그 속성은 색상, 고도 수준, 둥근 정도 등일 수 있습니다. 테마가 소비하는 모든 것은 `schema`로 설명할 수 있으며, 그다음 전역 또는 컴포넌트 테마에 전달됩니다. 컴포넌트 스키마는 기존 컴포넌트 스키마를 확장하고 그 속성을 재정의할 수 있습니다.
+
+**CSS 스타일 규칙이나 CSS 변수를 중복하지 않는 방식으로 컴포넌트의 기본 테마 속성을 바꾸고 싶을 때는 스키마를 사용해야 합니다**.
+
+밝은 Material Avatar 스키마를 살펴보겠습니다:
+
+```scss
+$light-avatar: (
+    background: (
+        color: (
+            'gray',
+            400,
+            0.54,
+        ),
+    ),
+    color: (
+        color: (
+            'gray',
+            800,
+            0.96,
+        ),
+    ),
+    icon-color: (
+        color: (
+            'gray',
+            800,
+            0.96,
+        ),
+    ),
+    border-radius: rem(8px),
+    size: (
+        sizable: (
+            rem(40px),
+            rem(64px),
+            rem(88px),
+        ),
+    ),
+    default-size: 1,
+);
+```
+
+위 예제에서 볼 수 있듯이, 컴포넌트 스키마는 <ApiLink kind="sass" module="themes" type="function-avatar-theme" label="Avatar 테마" />이(가) 소비하는 속성을 정의합니다. 구체적인 색상 팔레트 맵을 참조하지 않고 avatar가 사용해야 할 색상만 규정합니다.
+
+`background` 속성을 예로 들어 보겠습니다. 이는 avatar 테마에 기본 배경이 무엇이어야 하는지 알려 줍니다.
+
+_`background`에는 어떤 값이든 할당할 수 있습니다. 즉 CSS `background-color` 속성에 할당할 수 있는 값이면 됩니다._ 위 샘플처럼 `background`에 맵을 할당할 수도 있습니다. `background` 속성에 맵을 할당할 때, 맵은 키 이름으로 함수(예: `color`)를 가져야 하며, 그 키들의 값으로 함수의 인수를 가져야 합니다. 이렇게 하는 이유는 avatar 테마가 빌드될 때 나중에 값을 해석할 수 있도록 하기 위함입니다. 사용자가 avatar 테마에 어떤 팔레트를 전달할지 모르므로, 팔레트가 알려진 시점에만 나중에 해석할 수 있어야 합니다.
+
+<hr/>
+
+## 스키마 확장하기
+
+위 예제에서 보았듯이, 스키마는 단순한 맵이므로 일부 속성을 재정의하여 확장할 수 있습니다. 다른 모든 속성을 수동으로 복사하지 않고도 `background` 속성만 바꾸어 material avatar 스키마를 *확장*하고 싶을 수 있습니다. 이는 우리가 제공하는 `extend` 함수를 사용하면 쉽게 할 수 있습니다.
+
+```scss
+$my-avatar-schema: extend($light-avatar, (
+    background: limegreen
+));
+```
+
+이제 `$my-avatar-schema`의 값에는 `$_light-avatar`의 모든 속성이 포함되지만, `background`의 값은 `limegreen`이어야 합니다.
+
+## 사전 정의된 스키마
+
+테마 프리셋에서 사용하는 사전 정의된 밝은 스키마와 어두운 스키마를 제공합니다:
+
+- 밝은 스키마
+  - `$light-material-schema`
+  - `$light-fluent-schema`
+  - `$light-bootstrap-schema`
+  - `$light-indigo-schema`
+- 어두운 스키마
+  - `$dark-material-schema`
+  - `$dark-fluent-schema`
+  - `$dark-bootstrap-schema`
+  - `$dark-indigo-schema`
+
+밝은 스키마와 어두운 스키마를 각각 밝은 팔레트와 어두운 팔레트와 함께 사용하여 컴포넌트 테마를 만듭니다. 예를 들어 `$light-material-schema`을(를) `$light-material-palette`과(와) 함께 사용하면 모든 밝은 material 컴포넌트 테마를 만들 수 있습니다. 반대로 `$dark-material-schema`을(를) `$dark-material-palette`와 함께 사용하면 어두운 material 컴포넌트 테마를 얻을 수 있습니다.
+
+## 스키마 사용하기
+
+지금까지는 컴포넌트 스키마가 무엇인지, 그리고 그것을 어떻게 만드는지 보여 주었지만, Sass 프로젝트에서 스키마를 어떻게 사용하는지에 대해서는 아직 설명하지 않았습니다.
+
+개별 컴포넌트 스키마는 우리가 가진 모든 컴포넌트를 위한 전역 스키마 맵으로 묶여 있습니다. 따라서 `$light-avatar` 스키마는 `$material-avatar` 변수에 저장되며, 이것이 전역 `$light-material-schema`에서 사용됩니다. `$light-material-schema` 맵은 모든 컴포넌트 이름을 키로, 그에 해당하는 스키마를 값으로 가집니다. `$light-material-schema`는 대략 다음과 같습니다:
+
+```scss
+$light-material-schema: (
+    action-strip: $material-action-strip,
+    avatar: $material-avatar,
+    badge: $material-badge,
+    ...
+);
+```
+
+이렇게 하는 이유는 전체 `$light-material-schema`을(를) `theme` 믹스인에 전달할 수 있게 하기 위함입니다. 예를 들어 avatar 컴포넌트가 사용하는 기본 컴포넌트 스키마를 바꾸어 `$light-material-schema`을(를) 수정하고 싶다면 다음과 같이 할 수 있습니다:
+
+```scss
+$my-light-schema: extend($light-material-schema, (
+    avatar: $my-avatar-schema
+));
+```
+
+이제 그 모든 것을 전역 테마 믹스인에 전달할 수 있습니다:
+
+```scss
+// styles.scss
+@include theme(
+    $schema: $my-light-schema,
+    $palette: $default-palette
+);
+```
+
+이제 전역 테마의 avatar는 배경색으로 limegreen 색상을 사용합니다.
+
+button 스키마처럼 일부 컴포넌트 스키마에는 둥근 정도에 대한 속성 정의가 있습니다. 즉, 모든 버튼의 기본 둥근 정도를 바꿀 수 있다는 뜻입니다.
+
+개별 컴포넌트 테마가 위에서 만든 스키마를 어떻게 사용할 수 있는지 살펴보겠습니다.
+
+```scss
+$my-avatar-theme: avatar-theme(
+    $schema: $my-avatar-schema
+);
+```
+
+현재 스키마의 가장 흔한 사용 사례는 특정 요소에 전역 테마와 다른 테마를 적용하고 싶을 때입니다.
+예를 들어 전역 테마에 `$light-material-schema`을(를) 적용했는데, 특정 avatar 컴포넌트 하나만 `$light-indigo-schema`을(를) 사용하게 하고 싶다면 다음과 같이 할 수 있습니다:
+
+```scss
+// We only get the avatar part of the light-indigo-schema
+$indigo-avatar: map.get($light-indigo-schema, avatar);
+
+// We include the specific schema to a class which we can then set on the avatar component that we want
+.indigo-avatar {
+    @include tokens(
+        avatar-theme(
+            $schema: $indigo-avatar
+        ),
+        $mode: 'scoped'
+    );
+}
+```
+
+## 결론
+
+스키마는 테마 함수와 믹스인에 비해 테마 라이브러리에 대한 더 깊은 지식을 요구하지만, 생성되는 CSS의 크기를 늘리지 않고 컴포넌트 테마를 선언할 수 있게 해 줍니다. 스키마를 사용하는 또 다른 이점은 단순한 Sass 맵이므로 재사용하고 확장하기 쉽다는 점입니다. 컴포넌트 스키마를 섞고 맞추어 전역 테마 스키마를 만들 수 있습니다.
+
+우리는 내부적으로 스키마를 사용하여, Material, Bootstrap, Fluent, Indigo를 위해 사전 번들된 서로 다른 테마를 만드는 변형을 생성합니다.
+
+## API 개요
+
+- <ApiLink kind="sass" module="schemas" type="variable-light-material-schema" label="밝은 컴포넌트 스키마" />
+- <ApiLink kind="sass" module="schemas" type="variable-dark-material-schema" label="어두운 컴포넌트 스키마" />
+- <ApiLink kind="sass" module="themes" type="mixin-theme" label="전역 테마" />
+- <ApiLink kind="sass" module="themes" type="function-avatar-theme" label="Avatar 테마" />
+
+## 추가 리소스
+
+<hr/>
+
+커뮤니티는 활발하며 새로운 아이디어를 언제나 환영합니다.
+
+- [Ignite UI for Angular **포럼**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

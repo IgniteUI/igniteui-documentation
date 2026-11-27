@@ -1,0 +1,104 @@
+---
+title: "Grade Master-Detail Angular - Ignite UI for Angular"
+description: "Defina um template de visualização de detalhes expansível para os dados das linhas com a Grade Angular do Ignite UI. Útil para exibir dados no estilo master-detail em uma estrutura hierárquica."
+keywords: master detail, igniteui for angular, infragistics
+license: commercial
+_language: pt-BR
+llms:
+  description: "O componente igxGrid oferece suporte à especificação de um template de detalhes que exibe informações adicionais de uma determinada linha, expandindo/recolhendo o seu conteúdo."
+---
+
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+
+# Grade Master-Detail Angular
+
+O componente `igxGrid` oferece suporte à especificação de um template de detalhes que exibe informações adicionais de uma determinada linha, expandindo/recolhendo o seu conteúdo. Quando especificado, cada registro atua como mestre, que, ao ser expandido, mostra um template de detalhes personalizável com os dados contextuais do registro atual.
+
+Este modo é útil quando você precisa exibir dados no estilo master-detail em uma estrutura hierárquica.
+
+## Exemplo de Grade Master-Detail do Angular
+
+
+<Sample lob src="/grid/grid-master-detail" height={600} alt="Exemplo de Grade Master-Detail do Angular" />
+
+
+## Configuração
+
+Para configurar o `igxGrid` para exibir no modo master-detail, você precisa especificar um template dentro da grade, marcado com a diretiva `igxGridDetail`:
+
+```html
+ <igx-grid ... >
+         <ng-template igxGridDetail let-dataItem>
+              <!-- Custom detail template content here -->
+        </ng-template>
+    </igx-grid>
+```
+
+O contexto do template são os dados do registro mestre, para que os valores do registro mestre possam ser exibidos no template de detalhes. Por exemplo:
+
+```html
+    <igx-grid ... >
+         <ng-template igxGridDetail let-dataItem>
+            @if (dataItem.Category) {
+                <div>
+                    <header>{{dataItem.Category.CategoryName}}</header>
+                    <span>{{dataItem.Category.Description}}</span>
+                </div>
+            }
+        </ng-template>
+    </igx-grid>
+```
+
+
+## API
+
+Os estados de expansão podem ser controlados pela entrada <ApiLink type="Grid" member="expansionStates" label="expansionStates" /> do `igxGrid`. Os estados são armazenados em pares chave-valor [identificador da linha, estado de expansão]. A propriedade obtém/define os estados de expansão atuais e oferece suporte à vinculação bidirecional:
+
+```html
+  <igx-grid [(expansionStates)]='expansionState' >
+    ...
+  </igx-grid>
+```
+
+Também são expostos métodos adicionais da API para controlar os estados de expansão:
+
+- <ApiLink type="Grid" member="expandAll" label="expandAll" />
+- <ApiLink type="Grid" member="collapseAll" label="collapseAll" />
+- <ApiLink type="Grid" member="toggleRow" label="toggleRow" />
+- <ApiLink type="Grid" member="expandRow" label="expandRow" />
+- <ApiLink type="Grid" member="collapseRow" label="collapseRow" />
+
+## Navegação pelo teclado
+
+- Quando o foco está em uma linha de detalhes:
+
+  - `Arrow Up` - navega uma linha para cima, focando uma célula da linha anterior.
+  - `Arrow Down` - navega uma linha para baixo, focando uma célula da próxima linha.
+  - `Tab` - permite que o foco se mova para o próximo elemento focável dentro do template, se houver elementos focáveis; caso contrário, move para a próxima linha da grade.
+  - `Shift + Tab` - move o foco para a linha anterior.
+
+- Quando o foco está em uma linha de dados com expansor:
+  - `Alt + Arrow Right/ Down` - expande a linha.
+  - `Alt + Arrow Left/Down` - recolhe a linha.
+
+## Problemas conhecidos e limitações
+
+
+| Limitações conhecidas                                                                                                                                                  | Descrição                                                                                          |
+| :----------------------------------------------------------------------------------------------------------------------------------------------------------------- | :--------------------------------------------------------------------------------------------------- |
+| A navegação com Tab dentro do template de detalhes personalizado pode não atualizar a posição de rolagem da grade mestre caso o próximo elemento focado esteja fora da janela de visualização. | A navegação com Tab dentro do template de detalhes personalizado fica a cargo do navegador.                          |
+| O template de detalhes não será exportado para o Excel.                                                                                                                    | Como o template de detalhes pode conter qualquer tipo de conteúdo, não é possível exportá-lo para o Excel por padrão. |
+| O recurso de pesquisa não destacará elementos do template de detalhes.                                                                                          |                                                                                                      |
+
+
+
+## Referências da API
+- <ApiLink type="Grid" />
+- <ApiLink kind="sass" module="themes" type="function-grid-theme" label="Estilos do IgxGridComponent" />
+- <ApiLink type="Column" />
+- <ApiLink type="GridRow" />
+- <ApiLink type="TreeGridRow" />
+- <ApiLink type="HierarchicalGridRow" />
+- <ApiLink type="GridCell" />

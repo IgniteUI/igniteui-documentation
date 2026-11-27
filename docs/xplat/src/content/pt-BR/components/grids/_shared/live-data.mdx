@@ -1,0 +1,252 @@
+---
+title: "Atualizações de dados em tempo real do {Platform} {ComponentTitle} - {ProductName}"
+description: "Veja como o {ProductName} {ComponentTitle} pode lidar com milhares de atualizações por segundo, mantendo-se responsivo às interações do usuário."
+keywords: "{Platform} {ComponentKeywords} atualizações, {Platform} dados em tempo real, infragistics"
+license: commercial
+sharedComponents: ["Grid", "TreeGrid"]
+namespace: Infragistics.Controls
+_language: pt-BR
+llms:
+  description: "O recurso de atualização de dados em tempo real do {ProductName} em {Platform} {ComponentTitle} é usado para ativar atualizações em tempo real ou quase em tempo real dos dados exibidos na grade."
+---
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+
+# Atualizações de dados em tempo real do {Platform} {ComponentTitle}
+
+O recurso de atualização de dados em tempo real do {ProductName} em {Platform} {ComponentTitle} é usado para ativar atualizações em tempo real ou quase em tempo real dos dados exibidos na grade. Isso é extremamente útil em aplicações em que os dados mudam constantemente, como monitores do mercado de ações, placares esportivos ao vivo ou painéis de IoT (Internet das Coisas). O <ApiLink type="{ComponentName}" /> pode lidar com milhares de atualizações por segundo, mantendo-se responsivo às interações do usuário.
+
+
+## Exemplo de atualização de dados em tempo real do {Platform}
+
+O exemplo abaixo demonstra o desempenho do {ComponentTitle} quando todos os registros são atualizados várias vezes por segundo. Use os controles da interface para escolher o número de registros carregados e a frequência das atualizações.
+Envie os mesmos dados para o [Column Chart](../../charts/types/column-chart.mdx) para conhecer os recursos poderosos de gráficos do Ignite UI for Angular. O botão `Chart` mostrará os dados de Category Prices per Region das linhas selecionadas, e o botão da coluna `Chart` mostrará o mesmo para a linha atual.
+
+<Sample src="/{ComponentSample}/finjs" height={700} alt="Exemplo de atualização de dados em tempo real do {Platform}" />
+
+
+
+## Vinculação e atualização de dados
+
+Um serviço fornece dados ao componente quando a página é carregada e quando o controle deslizante é usado para buscar uma determinada quantidade de registros. Em um cenário real, os dados atualizados seriam consumidos do serviço; aqui, os dados são atualizados no código. Isso é feito para manter a demonstração simples e focada no seu objetivo principal: demonstrar o desempenho do grid.
+
+<PlatformBlock for="Blazor">
+```Razor
+<{ComponentSelector} Id="grid1" @ref="grid1"><{ComponentSelector}>
+```
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+```html
+<{ComponentSelector} [data]="data"></{ComponentSelector}>
+```
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+```html
+<{ComponentSelector} id="grid1"></{ComponentSelector}>
+```
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+<{ComponentSelector}></{ComponentSelector}>
+```
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```csharp
+public void OnStart()
+{
+    this.StartButton.Disabled = true;
+    this.ShowChartButton.Disabled = true;
+    this.StopButton.Disabled = false;
+    var startTimeSpan = TimeSpan.Zero;
+    var periodTimeSpan = TimeSpan.FromMilliseconds(Frequency);
+
+    this.Timer = new System.Threading.Timer((e) =>
+    {
+        grid1.Data = this.FinancialDataClass.UpdateRandomPrices(this.CurrentStocks);
+    }, null, startTimeSpan, periodTimeSpan);
+}
+
+```
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+```typescript
+public startUpdate() {
+    const frequency = (document.getElementById('frequency') as IgcSliderComponent).value;
+    this._timer = setInterval(() => {
+        this.grid1.data = FinancialData.updateAllPrices(this.data);
+    }, frequency);
+    (document.getElementById('startButton') as IgcButtonComponent).disabled = true;
+    (document.getElementById('stopButton') as IgcButtonComponent).disabled = false;
+    (document.getElementById('chartButton') as IgcButtonComponent).disabled = true;
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```typescript
+const startUpdate = () => {
+  timer.current = setInterval(() => {
+    setData((oldData) => FinancialData.updateAllPrices(oldData));
+  }, frequency);
+
+  setIsStartButtonDisabled(true);
+  setIsStopButtonDisabled(false);
+  setIsChartButtonDisabled(true);
+}
+
+```
+
+Uma alteração no valor de um campo de dados ou na referência do objeto ou da coleção de dados acionará os pipes correspondentes. No entanto, isso não acontece com colunas vinculadas a [objetos de dados complexos](../data-grid.mdx#vinculação-de-dados-complexos). Para resolver a situação, forneça uma nova referência de objeto para o objeto de dados que contém a propriedade. Exemplo:
+
+```tsx
+<{ComponentSelector}>
+    <IgrColumn field="price.usd"></IgrColumn>
+</{ComponentSelector}>
+```
+
+</PlatformBlock>
+
+Uma alteração no valor de um campo de dados ou na referência do objeto ou da coleção de dados acionará os pipes correspondentes. No entanto, isso não acontece com colunas vinculadas a [objetos de dados complexos](../data-grid.mdx#vinculação-de-dados-complexos). Para resolver a situação, forneça uma nova referência de objeto para o objeto de dados que contém a propriedade. Exemplo:
+
+<PlatformBlock for="Blazor">
+```Razor
+<{ComponentSelector}>
+    <IgbColumn Field="price.usd"></IgbColumn>
+</{ComponentSelector}>
+```
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+```html
+<{ComponentSelector} #grid [data]="data">
+    <igx-column field="price.usd"></igx-column>
+</{ComponentSelector}>
+```
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+```html
+<{ComponentSelector} id="grid1">
+    <igc-column field="price.usd"></igc-column>
+</{ComponentSelector}>
+```
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+```typescript
+private updateData(data: any[]) {
+    const newData = []
+    for (const rowData of data) {
+        rowData.price = { usd: getUSD(), eur: getEUR() };
+        newData.push({...rowData});
+    }
+    this.grid.data = newData;
+}
+```
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```typescript
+const updateData = (data: any[]) => {
+    const newData = []
+    for (const rowData of data) {
+        rowData.price = { usd: getUSD(), eur: getEUR() };
+        newData.push({...rowData});
+    }
+    gridRef.current.data = newData;
+}
+```
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```csharp
+ grid1.Data = this.FinancialDataClass.UpdateRandomPrices(this.CurrentStocks);
+```
+</PlatformBlock>
+
+## Templates
+A atualização da visualização funciona da mesma forma para colunas com template padrão e para colunas com template personalizado. No entanto, recomenda-se manter os templates personalizados relativamente simples. À medida que o número de elementos no template cresce, o impacto negativo no desempenho também aumenta.
+
+<PlatformBlock for="Angular">
+## Feed de dados ao vivo com o Dock Manager e os componentes igxGrid
+O objetivo desta demonstração é apresentar um painel financeiro com fluxo de dados em tempo real, usando um back-end de hub [SignalR](https://dotnet.microsoft.com/apps/aspnet/signalr).
+Como você pode ver, o componente igxGrid lida com facilidade com as atualizações de alta frequência vindas do servidor. O código da aplicação ASP.NET Core usando SignalR pode ser encontrado neste [repositório público no GitHub](https://github.com/IgniteUI/finjs-web-api).
+<Sample src="/{ComponentSample}/finjs-dock-manager" height={700} alt="Exemplo de atualização de dados em tempo real com um serviço do {Platform} {ComponentTitle}" />
+
+
+
+
+### Iniciar a conexão com o hub
+
+O signal-r.service cuida da conectividade e das atualizações dos parâmetros gerenciáveis expostos: **frequência**, **volume** e **alternância do estado de atualização ao vivo** (Start/Stop).
+
+```ts
+this.hubConnection = new signalR.HubConnectionBuilder()
+        .configureLogging(signalR.LogLevel.Trace)
+        .withUrl('https://www.infragistics.com/angular-apis/webapi/streamHub')
+        .build();
+    this.hubConnection
+        .start()
+        .then(() => {
+            this.hasRemoteConnection = true;
+            this.registerSignalEvents();
+            this.broadcastParams(interval, volume, live, updateAll);
+        })
+        .catch(() => {});
+```
+
+Com base na frequência especificada, um total de 30 novas atualizações será recebido pelos grids do servidor. Classes específicas de cellStyle são aplicadas às três colunas que tratam das alterações (Price, Change e Change in percent).
+
+### Frequência de atualização e volume de dados
+
+Usando o painel de Ações à esquerda, você pode gerenciar a frequência do feed de dados e o volume dos dados solicitados. Todos os grids usam a mesma fonte de dados. Sinta-se à vontade para usar os outros elementos de ação para **parar o feed de dados**, alterar o **tema da aplicação** ou adicionar **dinamicamente um contêiner DockSlot** com um igxGrid.
+
+Usamos o método `updateParameters` para solicitar um novo conjunto de dados com determinada frequência. Esse método faz parte da [implementação do stream hub](https://github.com/IgniteUI/finjs-web-api/blob/master/WebAPI/Models/StreamHub.cs#L18) do SignalR.
+
+```ts
+this.hubConnection.invoke('updateparameters', frequency, volume, live, updateAll)
+    .then(() => console.log('requestLiveData', volume))
+    .catch(err => {
+        console.error(err);
+    });
+```
+
+### Criar dinamicamente os componentes DockSlot e Grid
+
+Usando o [ComponentFactoryResolver](https://angular.io/api/core/ComponentFactoryResolver), conseguimos criar os componentes DockSlot e Grid em tempo de execução.
+
+### Componente DockManager
+Aproveite o WebComponent [Dock Manager](../../layouts/dock-manager.mdx) e crie a sua própria webview usando painéis encaixados ou flutuantes. Para adicionar um novo painel flutuante, abra o painel de Ações à direita e clique no botão 'Add floating pane'. Arraste e solte o novo painel na posição desejada.
+
+</PlatformBlock>
+
+
+## Referências da API
+<ApiLink type="{ComponentName}" />
+## Recursos adicionais
+<ComponentBlock for="Grid">
+- [Virtualização e desempenho](virtualization.mdx)
+- [Paginação](paging.mdx)
+- [Filtragem](filtering.mdx)
+- [Ordenação](sorting.mdx)
+- [Resumos](summaries.mdx)
+- [Movimentação de colunas](column-moving.mdx)
+- [Fixação de colunas](column-pinning.mdx)
+- [Redimensionamento de colunas](column-resizing.mdx)
+- [Seleção](selection.mdx)
+</ComponentBlock>
+
+Nossa comunidade é ativa e sempre receptiva a novas ideias.
+
+- [{ProductName} **Fóruns**]({ForumsLink})
+- [{ProductName} **GitHub**]({GithubLink})
+
+

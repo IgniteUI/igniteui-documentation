@@ -1,0 +1,423 @@
+---
+title: "{Platform} Splitter Component | Controles de layout | Infragistics"
+description: "Use o componente {ProductName} Splitter para criar dois painéis redimensionáveis com layouts horizontais ou verticais, comportamento de recolher e expandir, suporte a teclado e visões divididas aninhadas."
+keywords: "splitter, painéis divididos, painéis redimensionáveis, splitter de web components, splitter {Platform}, {ProductName}"
+license: MIT
+mentionedTypes: ["Splitter", "SplitterResizeEventArgs"]
+_language: pt-BR
+llms:
+  description: "O {ProductName} Splitter oferece um layout de painéis divididos redimensionável, que separa o conteúdo em duas áreas: início e fim."
+---
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiRef from 'igniteui-astro-components/components/mdx/ApiRef.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+# Visão geral do {Platform} Splitter
+
+O {ProductName} Splitter oferece um layout de painéis divididos redimensionável, que separa o conteúdo em duas áreas: `start` e `end`. Os usuários podem arrastar a barra do splitter, usar atalhos de teclado ou recolher e expandir painéis com os controles integrados. Você também pode aninhar splitters para criar layouts complexos no estilo de dashboard.
+
+## Exemplo de {Platform} Splitter
+
+<PlatformBlock for="WebComponents, React">
+<Sample src="/layouts/splitter/base" height={520} alt="Exemplo de {Platform} Splitter" />
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+<Sample src="/layouts/splitter/overview" height={520} alt="Exemplo de {Platform} Splitter" />
+</PlatformBlock>
+
+
+## Primeiros passos com o {Platform} Splitter
+
+<PlatformBlock for="WebComponents">
+
+Primeiro, você precisa instalar o {ProductName} executando o seguinte comando:
+
+```cmd
+npm install {PackageWebComponents}
+```
+
+Antes de usar o <ApiLink type="Splitter" />, você precisa registrá-lo da seguinte forma:
+
+```ts
+import { defineComponents, IgcSplitterComponent } from 'igniteui-webcomponents';
+
+defineComponents(IgcSplitterComponent);
+```
+
+Para uma introdução completa ao {ProductName}, leia o tópico [**Primeiros passos**](../general-getting-started.mdx).
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+Primeiro, você precisa instalar o pacote npm {ProductName} correspondente executando o seguinte comando:
+
+```cmd
+npm install igniteui-react
+```
+
+Em seguida, você precisará importar o <ApiLink type="Splitter" /> e o CSS necessário, assim:
+
+```tsx
+import { IgrSplitter } from 'igniteui-react';
+import 'igniteui-webcomponents/themes/light/bootstrap.css';
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+Registre os serviços de {ProductName}:
+
+```csharp
+// in Program.cs file
+
+builder.Services.AddIgniteUIBlazor();
+```
+
+Registrar <ApiLink pkg="core" type="SplitterModule" />, o módulo de recursos do cliente do Splitter, é **opcional**: o componente carrega seus recursos na primeira renderização. Listá-lo em `builder.Services.AddIgniteUIBlazor(typeof(IgbSplitterModule))` pode ser usado para pré-carregar recursos ou para oferecer suporte a elementos criados somente no cliente (consulte [Módulos de componentes](../general-getting-started.mdx#módulos-do-componente)).
+
+</PlatformBlock>
+
+
+<PlatformBlock for="Blazor">
+
+Você também precisará vincular um arquivo CSS adicional para aplicar o estilo ao componente <ApiLink pkg="core" type="Splitter" />. O seguinte deve ser colocado na página host da aplicação (**wwwroot/index.html** em uma aplicação Blazor WebAssembly independente ou Blazor Hybrid, **Pages/_Host.cshtml** em uma aplicação Blazor Server, **Components/App.razor** em uma aplicação Blazor Web App):
+
+```razor
+<link href="_content/IgniteUI.Blazor/themes/light/bootstrap.css" rel="stylesheet" />
+```
+
+</PlatformBlock>
+
+## Usando o {Platform} Splitter
+
+Use os slots `start` e `end` para colocar o conteúdo dos painéis:
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-splitter style="height: 400px;">
+  <div slot="start">Start pane content</div>
+  <div slot="end">End pane content</div>
+</igc-splitter>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrSplitter>
+  <div slot="start">Start pane content</div>
+  <div slot="end">End pane content</div>
+</IgrSplitter>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbSplitter>
+  <div slot="start">Start pane content</div>
+  <div slot="end">End pane content</div>
+</IgbSplitter>
+```
+
+</PlatformBlock>
+
+Recomendamos usar um `<div>` ou outros elementos semânticos, como `<section>` ou `<article>`, para os slots `start` e `end` do componente Splitter.
+
+### Orientação
+
+Defina a propriedade <ApiLink pkg="core" type="Splitter" member="orientation" label="Orientation" /> para controlar a direção dos painéis:
+
+- `horizontal` (padrão): os painéis de início e de fim são renderizados à esquerda e à direita.
+- `vertical`: os painéis de início e de fim são renderizados no topo e na base.
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-splitter orientation="vertical" style="height: 400px;">
+  <div slot="start">Top pane</div>
+  <div slot="end">Bottom pane</div>
+</igc-splitter>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrSplitter orientation="vertical">
+  <div slot="start">Top pane</div>
+  <div slot="end">Bottom pane</div>
+</IgrSplitter>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbSplitter Orientation="SplitterOrientation.Vertical">
+  <div slot="start">Top pane</div>
+  <div slot="end">Bottom pane</div>
+</IgbSplitter>
+```
+
+</PlatformBlock>
+
+### Tamanho e restrições dos painéis
+
+Use as propriedades de tamanho para definir tamanhos iniciais e restritos dos painéis:
+
+- <ApiLink pkg="core" type="Splitter" member="startSize" label="StartSize" />, <ApiLink pkg="core" type="Splitter" member="endSize" label="EndSize" />
+- <ApiLink pkg="core" type="Splitter" member="startMinSize" label="StartMinSize" />, <ApiLink pkg="core" type="Splitter" member="endMinSize" label="EndMinSize" />
+- <ApiLink pkg="core" type="Splitter" member="startMaxSize" label="StartMaxSize" />, <ApiLink pkg="core" type="Splitter" member="endMaxSize" label="EndMaxSize" />
+
+Os valores aceitam valores de comprimento CSS, como `px` e `%`.
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-splitter
+  start-size="35%"
+  end-size="65%"
+  start-min-size="200px"
+  end-min-size="180px"
+  style="height: 420px;"
+>
+  <div slot="start">Navigation</div>
+  <div slot="end">Main content</div>
+</igc-splitter>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrSplitter
+  startSize="35%"
+  endSize="65%"
+  startMinSize="200px"
+  endMinSize="180px"
+>
+  <div slot="start">Navigation</div>
+  <div slot="end">Main content</div>
+</IgrSplitter>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbSplitter
+  StartSize="35%"
+  EndSize="65%"
+  StartMinSize="200px"
+  EndMinSize="180px"
+>
+  <div slot="start">Navigation</div>
+  <div slot="end">Main content</div>
+</IgbSplitter>
+```
+
+</PlatformBlock>
+
+### Recolher e redimensionar
+
+Use estas propriedades para controlar as interações:
+
+- <ApiLink pkg="core" type="Splitter" member="disableResize" label="DisableResize" />: desativa o redimensionamento dos painéis.
+- <ApiLink pkg="core" type="Splitter" member="disableCollapse" label="DisableCollapse" />: desativa o recolhimento dos painéis.
+- <ApiLink pkg="core" type="Splitter" member="hideDragHandle" label="HideDragHandle" />: oculta a alça de arrasto.
+- <ApiLink pkg="core" type="Splitter" member="hideCollapseButtons" label="HideCollapseButtons" />: oculta os botões de recolher e expandir.
+
+Você também pode recolher ou expandir os painéis programaticamente:
+
+<PlatformBlock for="WebComponents">
+
+```ts
+const splitter = document.querySelector('igc-splitter') as IgcSplitterComponent;
+
+splitter.toggle('start'); // collapse start pane
+splitter.toggle('start'); // expand start pane
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+import { useRef } from 'react';
+
+const splitterRef = useRef<IgrSplitterComponent>(null);
+
+const toggleStartPane = () => {
+  splitterRef.current?.toggle('start');
+};
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbSplitter @ref="SplitterRef">
+  <div slot="start">Start pane</div>
+  <div slot="end">End pane</div>
+</IgbSplitter>
+
+@code {
+    private IgbSplitter SplitterRef;
+
+    public async Task ToggleStartPane()
+    {
+      this.SplitterRef.Toggle(PanePosition.Start);
+    }
+}
+```
+
+</PlatformBlock>
+
+### Splitters aninhados
+
+Splitters podem ser aninhados para criar layouts com várias regiões.
+
+<Sample src="/layouts/splitter/nested" height={520} alt="Exemplo de {Platform} Splitter aninhado" />
+
+## Eventos
+
+O Splitter emite os seguintes eventos durante as operações de redimensionamento:
+
+<PlatformBlock for="WebComponents">
+
+- `igcResizeStart`: disparado uma vez quando o redimensionamento começa.
+- `igcResizing`: disparado continuamente durante o redimensionamento.
+- `igcResizeEnd`: disparado uma vez quando o redimensionamento termina.
+
+O detalhe do evento inclui `startPanelSize`, `endPanelSize` e `delta` atuais para os eventos em andamento e de término.
+
+</PlatformBlock>
+
+<PlatformBlock for="React, Blazor">
+
+- <ApiLink type="Splitter" member="onResizeStart" label="ResizeStart" />: disparado uma vez quando o redimensionamento começa.
+- <ApiLink type="Splitter" member="onResizing" label="Resizing" />: disparado continuamente durante o redimensionamento.
+- <ApiLink type="Splitter" member="onResizeEnd" label="ResizeEnd" />: disparado uma vez quando o redimensionamento termina.
+
+O detalhe do evento inclui `StartPanelSize`, `EndPanelSize` e `Delta` atuais para os eventos em andamento e de término.
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```ts
+const splitter = document.querySelector('igc-splitter');
+
+splitter?.addEventListener('igcResizeEnd', (event: CustomEvent) => {
+  console.log(event.detail.startPanelSize, event.detail.endPanelSize, event.detail.delta);
+});
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+const handleResizeEnd = (event: CustomEvent<IgcSplitterResizeEventArgs>) => {
+  console.log(event.detail.startPanelSize, event.detail.endPanelSize, event.detail.delta);
+};
+
+<IgrSplitter onResizeEnd={handleResizeEnd}>
+  <div slot="start">Start pane</div>
+  <div slot="end">End pane</div>
+</IgrSplitter>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbSplitter ResizeEnd="OnResizeEnd">
+  <div slot="start">Start pane</div>
+  <div slot="end">End pane</div>
+</IgbSplitter>
+
+@code {
+    public void OnResizeEnd(IgbSplitterResizeEventArgs e)
+    {
+        Console.WriteLine($"StartPanelSize: {e.Detail.StartPanelSize}, EndPanelSize: {e.Detail.EndPanelSize}");
+    }
+}
+```
+
+</PlatformBlock>
+
+## Navegação pelo teclado
+
+Quando a barra do splitter está em foco:
+
+| Teclas | Descrição |
+| ---- | ----------- |
+| <kbd>Seta para a esquerda</kbd> / <kbd>Seta para a direita</kbd> | Redimensionar painéis na orientação horizontal |
+| <kbd>Seta para cima</kbd> / <kbd>Seta para baixo</kbd> | Redimensionar painéis na orientação vertical |
+| <kbd>Home</kbd> | Ajustar o painel de início ao seu tamanho mínimo |
+| <kbd>End</kbd> | Ajustar o painel de início ao seu tamanho máximo |
+| <kbd>Ctrl</kbd> + <kbd>Seta para a esquerda</kbd> / <kbd>Seta para cima</kbd> | Recolher ou expandir o painel de início |
+| <kbd>Ctrl</kbd> + <kbd>Seta para a direita</kbd> / <kbd>Seta para baixo</kbd> | Recolher ou expandir o painel de fim |
+
+## Estilização
+
+O componente <ApiLink pkg="core" type="Splitter" /> expõe partes CSS para estilização:
+
+| Nome | Descrição |
+| ---- | ----------- |
+| `splitter-bar` | O separador arrastável entre os painéis |
+| `drag-handle` | O elemento da alça de arrasto na barra do splitter |
+| `start-pane` | O contêiner do painel de início |
+| `end-pane` | O contêiner do painel de fim |
+| `start-collapse-btn` | Botão que recolhe o painel de início |
+| `end-collapse-btn` | Botão que recolhe o painel de fim |
+| `start-expand-btn` | Botão que expande o painel de início |
+| `end-expand-btn` | Botão que expande o painel de fim |
+
+Ele também oferece suporte a variáveis CSS do tema, incluindo:
+
+- `--bar-color`
+- `--handle-color`
+- `--expander-color`
+- `--bar-color-active`
+- `--handle-color-active`
+- `--expander-color-active`
+- `--focus-color`
+- `--size`
+
+```css
+igc-splitter {
+  --bar-color: #011627;
+  --handle-color: #ecaa53;
+  --expander-color: #ecaa53;
+  --bar-color-active: #011627;
+  --handle-color-active: #ecaa53;
+  --expander-color-active: #ecaa53;
+  --focus-color: #ecaa53;
+}
+```
+
+<Sample src="/layouts/splitter/styling" height={520} alt="Exemplo de estilização do {Platform} Splitter" />
+
+## Referências da API
+<ApiRef pkg="core" types={["Splitter"]} />
+- [`Styling & Themes`](../themes/overview.mdx)
+## Recursos adicionais
+
+- [{ProductName} **Fóruns**]({ForumsLink})
+- [{ProductName} **GitHub**]({GithubLink})

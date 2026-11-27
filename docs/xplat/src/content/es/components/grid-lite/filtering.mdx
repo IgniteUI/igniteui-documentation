@@ -1,0 +1,650 @@
+---
+title: "Filtrado de {Platform} {GridLiteTitle} | {ProductName} | Licencia MIT"
+description: "Operaciones de filtrado, personalización del filtrado y filtrado remoto para {GridLiteTitle}. Cree aplicaciones con nuestros {Platform} {GridLiteTitle} de código abierto. Pruébelo ahora."
+keywords: "filtrado, {Platform}, {ComponentKeywords}, {ProductName}, Infragistics"
+mentionedTypes: [{ComponentApiMembers}]
+namespace: Infragistics.Controls
+license: MIT
+_language: es
+llms:
+  description: "{GridLiteTitle} admite operaciones de filtrado sobre su origen de datos."
+---
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+
+# Operaciones de filtrado de {Platform} {GridLiteTitle}
+
+
+<PlatformBlock for="React, WebComponents">
+
+
+{GridLiteTitle} admite operaciones de filtrado sobre su origen de datos. El filtrado de datos se controla por columna, lo que permite tener columnas filtrables y no filtrables. De forma predeterminada, el filtrado de una columna está deshabilitado, a menos que se configure explícitamente con la propiedad `filterable` de la columna.
+
+</PlatformBlock>
+
+
+
+<PlatformBlock for="Blazor">
+
+
+{GridLiteTitle} admite operaciones de filtrado sobre su origen de datos. El filtrado de datos se controla por columna, lo que permite tener columnas filtrables y no filtrables. De forma predeterminada, el filtrado de una columna está deshabilitado, a menos que se configure explícitamente con la propiedad <ApiLink type="Column" member="filterable" label="Filterable" /> de la columna.
+
+</PlatformBlock>
+
+
+
+<PlatformBlock for="WebComponents">
+
+
+```html
+<igc-grid-lite .data=${data}>
+  <igc-grid-lite-column field="price" filterable></igc-grid-lite-column>
+</igc-grid-lite>
+```
+
+</PlatformBlock>
+
+
+<PlatformBlock for="React">
+
+```tsx
+return (
+  <IgrGridLite data={data}>
+    <IgrGridLiteColumn field="price" filterable></IgrGridLiteColumn>
+  </IgrGridLite>
+);
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbGridLite Data="@data">
+    <IgbGridLiteColumn Field="LastName" Filterable="true" />
+</IgbGridLite>
+```
+
+</PlatformBlock>
+
+
+<PlatformBlock for="WebComponents">
+
+
+También puede controlar si las operaciones de filtrado de las columnas de cadena distinguen entre mayúsculas y minúsculas usando la propiedad `filteringCaseSensitive` o el atributo `filtering-case-sensitive`:
+
+</PlatformBlock>
+
+
+<PlatformBlock for="React">
+
+
+También puede controlar si las operaciones de filtrado de las columnas de cadena deben distinguir mayúsculas y minúsculas usando la propiedad `filteringCaseSensitive`:
+
+</PlatformBlock>
+
+
+
+<PlatformBlock for="WebComponents">
+
+
+```html
+<igc-grid-lite-column 
+  field="price" 
+  filterable
+  filtering-case-sensitive
+></igc-grid-lite-column>
+```
+
+</PlatformBlock>
+
+
+<PlatformBlock for="React">
+
+```tsx
+return (
+  <IgrGridLite data={data}>
+    <IgrGridLiteColumn 
+      field="price" 
+      filterable
+      filteringCaseSensitive
+    ></IgrGridLiteColumn>
+  </IgrGridLite>
+);
+```
+
+</PlatformBlock>
+
+
+<PlatformBlock for="Blazor">
+
+
+También puede controlar si las operaciones de filtrado de las columnas de cadena distinguen entre mayúsculas y minúsculas usando el parámetro `FilteringCaseSensitive`:
+
+```razor
+<IgbGridLiteColumn 
+    Field="FirstName" 
+    Filterable="true"
+    FilteringCaseSensitive="true" />
+```
+
+</PlatformBlock>
+
+
+<Sample src="/{GridLiteSample}/filtering-config" height={600} alt="Configuración del filtrado de {Platform} {GridLiteTitle}" />
+
+
+## Modelo de filtro
+
+
+<PlatformBlock for="React, WebComponents">
+
+
+Los bloques de construcción de las operaciones de filtrado en la cuadrícula son `FilterExpression<T, K>`, que tiene la siguiente estructura:
+
+</PlatformBlock>
+
+
+<PlatformBlock for="Blazor">
+
+
+Los bloques de construcción de las operaciones de filtrado en la cuadrícula son <ApiLink type="IgbGridLiteFilterExpression" />, que tiene la siguiente estructura:
+
+</PlatformBlock>
+
+
+```typescript
+export interface FilterExpression<T, K extends Keys<T> = Keys<T>> {
+  /**
+   * The target column for the filter operation.
+   */
+  key: K;
+  /**
+   * The filter function which will be executed against the data records.
+   */
+  condition: FilterOperation<T[K]> | OperandKeys<T[K]>;
+
+  /**
+   * The filtering value used in the filter condition function.
+   *
+   * @remarks
+   * Optional for unary conditions.
+   */
+  searchTerm?: T[K];
+  /**
+   * Dictates how this expression should resolve in the filter operation in relation to
+   * other expressions.
+   */
+  criteria?: FilterCriteria;
+  /**
+   * Whether the sort operation should be case sensitive.
+   *
+   * @remarks
+   * If not provided, the value is resolved based on the column filter configuration (if any).
+   */
+  caseSensitive?: boolean;
+}
+```
+
+<PlatformBlock for="Blazor">
+
+```csharp
+public class IgbGridLiteFilterExpression
+{
+    /// <summary>
+    /// The target column for the filter operation.
+    /// </summary>
+    public required string Key { get; set; }
+
+    /// <summary>
+    /// The name of the filter condition to apply. The valid names depend on the column's DataType.
+    /// </summary>
+    public required string Condition { get; set; }
+
+    /// <summary>
+    /// The filtering value used in the filter condition function.
+    /// Optional for unary conditions.
+    /// </summary>
+    public object? SearchTerm { get; set; }
+
+    /// <summary>
+    /// How this expression resolves in relation to the column's other expressions:
+    /// And - the record must pass all the conditions.
+    /// Or - the record must pass at least one condition.
+    /// </summary>
+    public GridLiteFilterCriteria? Criteria { get; set; }
+
+    /// <summary>
+    /// Whether the filter operation should be case sensitive.
+    /// If not provided, the value is resolved based on the column filter configuration.
+    /// </summary>
+    public bool? CaseSensitive { get; set; }
+}
+```
+
+Los nombres de condición que admite una columna dependen de su `DataType`; una columna sin uno cuenta como `String`:
+
+| `DataType` | Nombres de condición |
+| :--------- | :-------------- |
+| `String`   | `contains`, `doesNotContain`, `startsWith`, `endsWith`, `equals`, `doesNotEqual`, `empty`, `notEmpty` |
+| `Number`   | `equals`, `doesNotEqual`, `greaterThan`, `lessThan`, `greaterThanOrEqual`, `lessThanOrEqual`, `empty`, `notEmpty` |
+| `Boolean`  | `all`, `true`, `false`, `empty`, `notEmpty` |
+
+Las condiciones `Boolean`, `empty` y `notEmpty` no admiten `SearchTerm`.
+
+</PlatformBlock>
+
+## API de filtrado
+
+
+<PlatformBlock for="React, WebComponents">
+
+
+{GridLiteTitle} ofrece dos enfoques principales para aplicar operaciones de filtrado desde su API: mediante los métodos `GridLite.filter()`/`GridLite.clearFilter()` o mediante la propiedad <ApiLink type="GridLite" member="filterExpressions" label="GridLite.filterExpressions" />.
+
+El método `filter()` acepta una única expresión o un array de expresiones de filtro, y después filtra los datos de la cuadrícula
+según esas expresiones.
+
+</PlatformBlock>
+
+
+<PlatformBlock for="Blazor">
+
+
+{GridLiteTitle} ofrece dos enfoques principales para aplicar operaciones de filtrado desde su API: mediante los métodos `FilterAsync()`/`ClearFilterAsync()` o mediante la propiedad <ApiLink type="GridLite" member="filterExpressions" label="GridLite.FilterExpressions" />.
+
+El método `FilterAsync()` acepta una única expresión o una colección de expresiones de filtro, y después filtra los datos de la cuadrícula
+según esas expresiones.
+
+</PlatformBlock>
+
+
+
+<PlatformBlock for="WebComponents">
+
+
+```typescript
+// Single
+grid.filter({ key: 'firstName', condition: 'contains', searchTerm: 'George' });
+
+// Multiple
+grid.filter([
+  { key: 'firstName', condition: 'startsWith', searchTerm: 'a' },
+  { key: 'firstName', condition: 'startsWith', searchTerm: 'g', criteria: 'or' },
+]);
+```
+
+</PlatformBlock>
+
+
+<PlatformBlock for="React">
+
+
+```typescript
+// Single
+gridRef.current.filter({ key: 'firstName', condition: 'contains', searchTerm: 'George' });
+
+// Multiple
+gridRef.current.filter([
+  { key: 'firstName', condition: 'startsWith', searchTerm: 'a' },
+  { key: 'firstName', condition: 'startsWith', searchTerm: 'g', criteria: 'or' },
+]);
+```
+
+</PlatformBlock>
+
+
+<PlatformBlock for="Blazor">
+
+```razor
+// Single
+await grid.FilterAsync(new IgbGridLiteFilterExpression { Key = "FirstName", Condition = "contains", SearchTerm = "George" });
+
+// Multiple
+await grid.FilterAsync(new IgbGridLiteFilterExpression[]
+{
+    new IgbGridLiteFilterExpression { Key = "FirstName", Condition = "startsWith", SearchTerm = "a" },
+    new IgbGridLiteFilterExpression { Key = "FirstName", Condition = "startsWith", SearchTerm = "g", Criteria = GridLiteFilterCriteria.Or }
+});
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React, WebComponents">
+
+
+El método `clearFilter()`, como indica su nombre, borra el estado de filtrado de una sola columna o de toda la cuadrícula, según los argumentos que se pasen.
+
+</PlatformBlock>
+
+
+<PlatformBlock for="Blazor">
+
+
+El método `ClearFilterAsync()`, como indica su nombre, borra el estado de filtrado de una sola columna o de toda la cuadrícula, según los argumentos que se pasen.
+
+</PlatformBlock>
+
+
+
+<PlatformBlock for="WebComponents">
+
+
+```typescript
+// Clear the filter state for the `age` column.
+grid.clearFilter('age');
+
+// Clear the filter state of the grid.
+grid.clearFilter();
+```
+
+</PlatformBlock>
+
+
+<PlatformBlock for="React">
+
+
+```typescript
+// Clear the filter state for the `age` column.
+gridRef.current.clearFilter('age');
+
+// Clear the filter state of the grid.
+gridRef.current.clearFilter();
+```
+
+</PlatformBlock>
+
+
+<PlatformBlock for="Blazor">
+
+```razor
+// Clear the filter state for the `Age` column.
+await grid.ClearFilterAsync("Age");
+
+// Clear the filter state of the grid.
+await grid.ClearFilterAsync();
+```
+
+</PlatformBlock>
+
+## Estado inicial del filtro
+
+
+<PlatformBlock for="Blazor">
+
+
+La propiedad `FilterExpressions` se comporta de forma muy parecida a la llamada al método `FilterAsync()`. Ofrece una forma declarativa de controlar el estado del filtro en la cuadrícula, pero la propiedad más útil es la posibilidad de establecer el estado inicial del filtro cuando el componente {GridLiteTitle} se renderiza por primera vez.
+
+Por ejemplo:
+
+```razor
+<IgbGridLite Data="users" FilterExpressions="filterState" />
+
+@code {
+    private IgbGridLiteFilterExpression[] filterState = new[]
+    {
+        new IgbGridLiteFilterExpression { Key = "Age", Condition = "greaterThan", SearchTerm = 21 },
+        // unary condition so `SearchTerm` is not required
+        new IgbGridLiteFilterExpression { Key = "Active", Condition = "true" }
+    };
+}
+```
+
+</PlatformBlock>
+
+
+
+<PlatformBlock for="React, WebComponents">
+
+
+La propiedad `filterExpressions` se comporta de forma muy parecida a la llamada al método `filter()`. Ofrece una forma declarativa de controlar el estado del filtro en la cuadrícula, pero la propiedad más útil es la posibilidad de establecer el estado inicial del filtro cuando el componente {GridLiteTitle} se renderiza por primera vez.
+
+<PlatformBlock for="WebComponents">
+Por ejemplo, aquí tiene un ejemplo basado en Lit:
+
+```typescript
+{
+  filterState: FilterExpression<User>[] = [
+    { key: 'age', condition: 'greaterThan', searchTerm: 21 },
+    /** unary condition so `searchTerm` is not required */
+    { key: 'active', condition: 'true' },
+  ];
+
+  render() {
+    return html`<igc-grid-lite .filterExpressions=${filterState}></igc-grid-lite>`
+  }
+}
+```
+
+</PlatformBlock>
+<PlatformBlock for="React">
+Este es un ejemplo:
+
+```tsx
+const filterState: FilterExpression<User>[] = [
+  { key: 'age', condition: 'greaterThan', searchTerm: 21 },
+  /** unary condition so `searchTerm` is not required */
+  { key: 'active', condition: 'true' },
+];
+
+return(
+  <IgrGridLite filterExpressions={filterState}></IgrGridLite>
+);
+```
+
+</PlatformBlock>
+
+</PlatformBlock>
+
+
+<PlatformBlock for="React, WebComponents">
+
+Puede usarse para obtener el estado de filtrado actual del componente y realizar un procesamiento adicional según otro estado de su aplicación.
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+El parámetro `FilterExpressions` establece el estado del filtro; no sigue los cambios que hace el usuario a través de la interfaz. Para obtener el estado actual del filtro, gestione el evento `Filtered`: su `State` contiene las expresiones de filtro de la columna indicada en `Key`.
+
+</PlatformBlock>
+
+
+<PlatformBlock for="WebComponents">
+
+
+```typescript
+const state = grid.filterExpressions;
+// Save the current filter state
+saveUserFilterState(state);
+```
+
+</PlatformBlock>
+
+
+<PlatformBlock for="React">
+
+
+```typescript
+const state = gridRef.current.filterExpressions;
+// Save the current filter state
+saveUserFilterState(state);
+```
+
+</PlatformBlock>
+
+
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbGridLite Data="users" Filtered="OnFiltered" />
+
+@code {
+    private void OnFiltered(IgbGridLiteFilteredEventArgs args)
+    {
+        // Save the current filter state of the column
+        SaveUserFilterState(args.Key, args.State);
+    }
+}
+```
+
+</PlatformBlock>
+
+## Eventos
+
+<PlatformBlock for="React, WebComponents">
+
+
+Cuando se realiza una operación de filtrado a través de la interfaz, el componente emite un evento personalizado `filtering`. La propiedad `detail` es la expresión de filtro que aplicará {GridLiteTitle}. El evento es cancelable, y si se cancela, impedirá la operación de filtrado actual.
+
+Después de que la cuadrícula aplique el nuevo estado de filtro, se emite un evento `filtered`. Contiene el estado del filtro para la columna que fue objeto de la operación, y no es cancelable.
+
+</PlatformBlock>
+
+
+
+<PlatformBlock for="Blazor">
+
+
+Cuando se realiza una operación de filtrado a través de la interfaz, el componente dispara el evento `Filtering`. Incluye las expresiones de filtro de la columna y el tipo de cambio (`Add`, `Modify` o `Remove`). Es una notificación: no puede cancelar ni cambiar la operación.
+
+Después de que la cuadrícula aplique el nuevo estado de filtro, se dispara un evento `Filtered`. Contiene el estado del filtro para la columna que fue objeto de la operación.
+
+
+</PlatformBlock>
+
+
+<PlatformBlock for="WebComponents">
+
+
+```typescript
+grid.addEventListener('filtering', (event: CustomEvent<GridLiteFilteringEvent<T>>) => { ... });
+grid.addEventListener('filtered', (event: CustomEvent<GridLiteFilteredEvent<T>>) => { ... });
+```
+
+</PlatformBlock>
+
+
+<PlatformBlock for="React">
+
+
+```typescript
+gridRef.current.addEventListener('filtering', (event: CustomEvent<GridLiteFilteringEvent<T>>) => { ... });
+gridRef.current.addEventListener('filtered', (event: CustomEvent<GridLiteFilteredEvent<T>>) => { ... });
+```
+
+</PlatformBlock>
+
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbGridLite Filtering="OnFiltering" Filtered="OnFiltered" />
+
+@code {
+    private void OnFiltering(IgbGridLiteFilteringEventArgs args)
+    {
+        // Handle filtering event
+    }
+
+    private void OnFiltered(IgbGridLiteFilteredEventArgs args)
+    {
+        // Handle filtered event
+    }
+}
+```
+
+</PlatformBlock>
+
+<Sample src="/{GridLiteSample}/filtering-config-events" height={600} alt="Eventos de la configuración del filtrado de {Platform} {GridLiteTitle}" />
+
+
+
+<PlatformBlock for="React, WebComponents">
+
+
+## Operaciones de filtrado remotas
+
+Cuando el filtrado debe hacerse de forma remota o quiere guardar el estado o los datos actuales en un servidor,
+{GridLiteTitle} expone un punto de enlace donde puede implementar y personalizar este comportamiento.
+<PlatformBlock for="React, WebComponents">
+Con la propiedad `dataPipelineConfiguration`, puede proporcionar un punto de enlace personalizado que se llamará cada vez que vaya a ejecutarse una operación de filtrado. Al callback se le pasa un objeto <ApiLink type="DataPipelineParams" />.
+
+```typescript
+export type DataPipelineParams<T extends object> = {
+  /**
+   * The current data state of the grid.
+   */
+  data: T[];
+  /**
+   * The grid component itself.
+   */
+  grid: GridLite<T>;
+  /**
+   * The type of data operation being performed.
+   */
+  type: 'sort' | 'filter';
+};
+```
+
+<PlatformBlock for="WebComponents">
+```typescript
+grid.dataPipelineConfiguration = { filter: (params: DataPipelineParams<T>) => T[] | Promise<T[]> };
+```
+</PlatformBlock>
+<PlatformBlock for="React">
+```typescript
+gridRef.current.dataPipelineConfiguration = { filter: (params: DataPipelineParams<T>) => T[] | Promise<T[]> };
+```
+</PlatformBlock>
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<!-- Remote data operations TBD in Blazor -->
+```
+
+</PlatformBlock>
+
+
+La función de devolución de llamada personalizada puede ser asíncrona, ya que la cuadrícula esperará a que se resuelva.
+
+El siguiente ejemplo simula una operación de filtrado remoto, que refleja el endpoint REST generado a partir del estado de filtrado del componente.
+
+<Sample src="/{GridLiteSample}/filtering-config-remote" height={600} alt="Configuración del filtrado remoto de {Platform} {GridLiteTitle}" />
+
+
+
+</PlatformBlock>
+
+
+<PlatformBlock for="WebComponents, Blazor">
+
+## Referencias de API
+
+<PlatformBlock for="WebComponents">
+<ApiLink type="GridLite" /><br />
+<ApiLink type="GridLiteColumn" /><br />
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+<ApiLink type="GridLite<TItem>" /><br />
+<ApiLink type="GridLiteColumn" /><br />
+<ApiLink type="IgbGridLiteFilterExpression" /><br />
+
+</PlatformBlock>
+
+</PlatformBlock>
+
+## Recursos adicionales
+
+- [Configuración de columnas](./column-configuration.mdx)
+- [Ordenación](./sorting.mdx)
+
+Nuestra comunidad está activa y siempre da la bienvenida a nuevas ideas.
+
+- [{GridLiteTitle} **GitHub**]({GithubLinkLite})

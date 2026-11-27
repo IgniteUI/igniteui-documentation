@@ -1,0 +1,380 @@
+---
+title: "Biblioteca Excel de {Platform} | Usando planilhas | Infragistics"
+description: "Use a biblioteca Excel {Platform} da Infragistics para inserir dados trabalhando com as linhas e células da planilha e definindo os valores correspondentes. Transfira facilmente dados do Excel de {ProductName} para o seu aplicativo!"
+keywords: "Biblioteca Excel, planilha, {ProductName}, Infragistics"
+license: commercial
+mentionedTypes: ["Workbook", "Worksheet", "WorksheetCell", "DisplayOptions", "WorksheetFilterSettings", "IWorksheetCellFormat"]
+_language: pt-BR
+llms:
+  description: "A Planilha do Excel Engine {Platform} da Infragistics é onde os seus dados são mantidos."
+platformType: xplat-unmapped
+---
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+# {Platform} Usando planilhas
+
+A <ApiLink type="Worksheet" /> do Excel Engine {Platform} da Infragistics é onde os seus dados são mantidos. Você pode inserir dados trabalhando com as linhas e células da planilha e definindo os valores correspondentes. A <ApiLink type="Worksheet" /> permite filtrar, ordenar e personalizar os formatos das células, como mostrado abaixo.
+
+## Exemplo de uso de planilhas de {Platform}
+
+
+<Sample src="/excel/excel-library/operations-on-worksheets" height={200} alt="Exemplo de uso de planilhas de {Platform}" />
+
+
+
+
+<PlatformBlock for="Angular, React, WebComponents">
+
+
+O código a seguir mostra as importações necessárias para usar os trechos de código abaixo:
+
+```ts
+import { Workbook } from "{PackageExcel}";
+import { Worksheet } from "{PackageExcel}";
+import { WorkbookFormat } from "{PackageExcel}";
+import { Color } from "{PackageCore}";
+
+import { CustomFilterCondition } from "{PackageExcel}";
+import { ExcelComparisonOperator } from "{PackageExcel}";
+import { FormatConditionTextOperator } from "{PackageExcel}";
+import { OrderedSortCondition } from "{PackageExcel}";
+import { RelativeIndex } from "{PackageExcel}";
+import { SortDirection } from "{PackageExcel}";
+import { WorkbookColorInfo } from "{PackageExcel}";
+```
+
+</PlatformBlock>
+
+
+## Configurando as linhas de grade
+As linhas de grade são usadas para separar visualmente as células da planilha. Você pode mostrar ou ocultar as linhas de grade e também alterar a sua cor.
+
+Você pode mostrar ou ocultar as linhas de grade usando a propriedade <ApiLink type="DisplayOptions" member="showGridlines" label="ShowGridlines" /> do <ApiLink type="DisplayOptions" /> da planilha. O código a seguir demonstra como ocultar as linhas de grade da sua planilha:
+
+```ts
+var workbook = new Workbook(WorkbookFormat.Excel2007);
+var worksheet = workbook.worksheets().add("Sheet1");
+
+worksheet.displayOptions.showGridlines = false;
+```
+
+<PlatformBlock for="Blazor">
+
+```razor
+var workbook = new Workbook();
+var worksheet = workbook.Sheets.Add("Sheet1", SheetType.Worksheet) as Worksheet;
+
+worksheet.DisplayOptions.ShowGridlines = false;
+```
+
+</PlatformBlock>
+
+Você pode configurar a cor das linhas de grade usando a propriedade <ApiLink type="DisplayOptions" member="gridlineColor" label="GridlineColor" /> do <ApiLink type="DisplayOptions" /> da planilha. O código a seguir demonstra como alterar as linhas de grade da sua planilha para vermelho:
+
+```ts
+var workbook = new Workbook(WorkbookFormat.Excel2007);
+var worksheet = workbook.worksheets().add("Sheet1");
+
+worksheet.displayOptions.gridlineColor = "Red";
+```
+
+<PlatformBlock for="Blazor">
+
+```razor
+var workbook = new Workbook();
+var worksheet = workbook.Sheets.Add("Sheet1", SheetType.Worksheet) as Worksheet;
+
+worksheet.DisplayOptions.GridlineColor = Core.Graphics.Colors.Red;
+```
+
+</PlatformBlock>
+
+## Configurando os cabeçalhos
+Os cabeçalhos de coluna e de linha são usados para identificar visualmente colunas e linhas. Eles também são usados para destacar visualmente a célula ou a região de células atualmente selecionada.
+
+Você pode mostrar ou ocultar os cabeçalhos de coluna e de linha usando a propriedade <ApiLink type="DisplayOptions" member="showRowAndColumnHeaders" label="ShowRowAndColumnHeaders" /> do <ApiLink type="DisplayOptions" /> da planilha. O código a seguir demonstra como ocultar os cabeçalhos de linha e de coluna:
+
+```ts
+var workbook = new Workbook(WorkbookFormat.Excel2007);
+var worksheet = workbook.worksheets().add("Sheet1");
+
+worksheet.displayOptions.showRowAndColumnHeaders = false;
+```
+
+<PlatformBlock for="Blazor">
+
+```razor
+var workbook = new Workbook();
+var worksheet = workbook.Sheets.Add("Sheet1", SheetType.Worksheet) as Worksheet;
+
+worksheet.DisplayOptions.ShowRowAndColumnHeaders = false;
+```
+
+</PlatformBlock>
+
+## Configurando a edição da planilha
+Por padrão, os <ApiLink type="Worksheet" /> que você salvar serão editáveis. Você pode desabilitar a edição de uma planilha protegendo-a pelo método <ApiLink type="Workbook" member="protect" label="Protect" /> do objeto <ApiLink type="Worksheet" />. Esse método tem muitos argumentos `bool` anuláveis, que determinam quais partes são protegidas, e uma dessas opções é permitir a edição de objetos; se ela for definida como **false**, a edição da planilha será impedida.
+
+O código a seguir demonstra como desabilitar a edição na sua planilha:
+
+```ts
+var workbook = new Workbook(WorkbookFormat.Excel2007);
+var worksheet = workbook.worksheets().add("Sheet1");
+
+worksheet.protect();
+```
+
+<PlatformBlock for="Blazor">
+
+```razor
+var workbook = new Workbook();
+var worksheet = workbook.Sheets.Add("Sheet1", SheetType.Worksheet) as Worksheet;
+
+worksheet.Protect();
+```
+
+</PlatformBlock>
+
+Você também pode usar o método <ApiLink type="Workbook" member="protect" label="Protect" /> do objeto <ApiLink type="Worksheet" /> para proteger uma planilha contra alterações estruturais.
+
+Quando a proteção estiver definida, você pode definir a propriedade <ApiLink type="IWorksheetCellFormat" member="locked" label="Locked" /> do objeto <ApiLink type="IWorksheetCellFormat" /> em células, linhas, regiões de células mescladas ou colunas individuais, para substituir a proteção do objeto de planilha nesses objetos. Por exemplo, se você precisar que todas as células de uma planilha sejam somente leitura, exceto as células de uma coluna, pode proteger a planilha e, em seguida, definir a propriedade <ApiLink type="IWorksheetCellFormat" member="locked" label="Locked" /> do objeto <ApiLink type="IWorksheetCellFormat" /> como **false** em um objeto <ApiLink type="WorksheetColumn" /> específico. Isso permitirá que os usuários editem as células dentro da coluna, enquanto desabilita a edição das demais células da planilha.
+
+O código a seguir demonstra como fazer isso:
+
+```ts
+var workbook = new Workbook(WorkbookFormat.Excel2007);
+var worksheet = workbook.worksheets().add("Sheet1");
+
+worksheet.protect();
+worksheet.columns(0).cellFormat.locked = false;
+```
+
+<PlatformBlock for="Blazor">
+
+```razor
+var workbook = new Workbook();
+var worksheet = workbook.Sheets.Add("Sheet1", SheetType.Worksheet) as Worksheet;
+
+worksheet.Protect();
+worksheet.Columns[0].CellFormat.Locked = ExcelDefaultableBoolean.False;
+```
+
+</PlatformBlock>
+
+## Filtrando regiões da planilha
+A filtragem é feita definindo uma condição de filtro em um <ApiLink type="WorksheetFilterSettings" /> da planilha, que pode ser obtido pela propriedade <ApiLink type="Worksheet" member="filterSettings" label="FilterSettings" /> do objeto <ApiLink type="Worksheet" />. As condições de filtro só são reaplicadas quando são adicionadas, removidas ou modificadas, ou quando o método <ApiLink type="WorksheetFilterSettings" member="reapplyFilters" label="ReapplyFilters" /> é chamado na planilha. Elas não são avaliadas constantemente à medida que os dados da região mudam.
+
+Você pode especificar a região à qual aplicar o filtro usando o método <ApiLink type="WorksheetFilterSettings" member="setRegion" label="SetRegion" /> do objeto <ApiLink type="WorksheetFilterSettings" />.
+
+A seguir está uma lista de métodos e suas descrições, que você pode usar para adicionar um filtro a uma planilha:
+
+| Método        | Descrição |
+| --------------|-------------|
+|<ApiLink type="WorksheetFilterSettings" member="applyAverageFilter" label="ApplyAverageFilter" />|Representa um filtro que pode filtrar dados com base em estarem abaixo ou acima da média de todo o intervalo de dados.|
+|<ApiLink type="WorksheetFilterSettings" member="applyDatePeriodFilter" label="ApplyDatePeriodFilter" />|Representa um filtro que pode filtrar datas em um mês ou trimestre de qualquer ano.|
+|<ApiLink type="WorksheetFilterSettings" member="applyFillFilter" label="ApplyFillFilter" />|Representa um filtro que filtrará células com base nos seus preenchimentos de fundo. Esse filtro especifica um único CellFill. As células com esse preenchimento ficarão visíveis no intervalo de dados. Todas as outras células serão ocultadas.|
+|`ApplyFixedValuesFilter`|Representa um filtro que pode filtrar células com base em valores específicos e fixos, que podem ser exibidos.|
+|<ApiLink type="WorksheetFilterSettings" member="applyFontColorFilter" label="ApplyFontColorFilter" />|Representa um filtro que filtrará células com base nas suas cores de fonte. Esse filtro especifica uma única cor. As células com essa cor de fonte ficarão visíveis no intervalo de dados. Todas as outras células serão ocultadas.|
+|<ApiLink type="WorksheetFilterSettings" member="applyIconFilter" label="ApplyIconFilter" />|Representa um filtro que pode filtrar células com base no seu ícone de formatação condicional.|
+|<ApiLink type="WorksheetFilterSettings" member="applyRelativeDateRangeFilter" label="ApplyRelativeDateRangeFilter" />|Representa um filtro que pode filtrar células de data com base em datas relativas ao momento em que o filtro foi aplicado.|
+|<ApiLink type="WorksheetFilterSettings" member="applyTopOrBottomFilter" label="ApplyTopOrBottomFilter" />|Representa um filtro que pode incluir células na parte superior ou inferior dos valores ordenados.|
+|<ApiLink type="WorksheetFilterSettings" member="applyYearToDateFilter" label="ApplyYearToDateFilter" />|Representa um filtro que pode incluir células de data se as datas ocorrerem entre o início do ano atual e o momento em que o filtro é avaliado.|
+|<ApiLink type="WorksheetFilterSettings" member="applyCustomFilter" label="ApplyCustomFilter" />|Representa um filtro que pode filtrar dados com base em uma ou duas condições personalizadas. Essas duas condições de filtro podem ser combinadas com uma operação lógica "e" ou uma operação lógica "ou".|
+
+Você pode usar o trecho de código a seguir como exemplo para adicionar um filtro a uma região da planilha:
+
+```ts
+var workbook = new Workbook(WorkbookFormat.Excel2007);
+var worksheet = workbook.worksheets().add("Sheet1");
+
+worksheet.filterSettings.setRegion("Sheet1!A1:A10");
+worksheet.filterSettings.applyAverageFilter(0, AverageFilterType.AboveAverage);
+```
+
+<PlatformBlock for="Blazor">
+
+```razor
+var workbook = new Workbook();
+var worksheet = workbook.Sheets.Add("Sheet1", SheetType.Worksheet) as Worksheet;
+
+worksheet.FilterSettings.SetRegion("Sheet1!A1:A10");
+worksheet.FilterSettings.ApplyAverageFilter(0, Documents.Excel.Filtering.AverageFilterType.AboveAverage);
+```
+
+</PlatformBlock>
+
+## Congelando e dividindo painéis
+Você pode congelar linhas no topo da planilha ou colunas à esquerda usando os recursos de congelamento de painéis. As linhas e colunas congeladas permanecem visíveis o tempo todo enquanto o usuário rola a planilha. As linhas e colunas congeladas são separadas do restante da planilha por uma única linha sólida, que não pode ser removida.
+
+Para habilitar o congelamento de painéis, você precisa definir a propriedade <ApiLink type="DisplayOptions" member="panesAreFrozen" label="PanesAreFrozen" /> do <ApiLink type="DisplayOptions" /> do objeto <ApiLink type="Worksheet" /> como **true**. Em seguida, você pode especificar as linhas ou colunas a congelar usando as propriedades `FrozenRows` e `FrozenColumns` das opções de exibição <ApiLink type="DisplayOptions" member="frozenPaneSettings" label="FrozenPaneSettings" />, respectivamente.
+
+Você também pode especificar a primeira linha do painel inferior ou a primeira coluna do painel direito usando as propriedades `FirstRowInBottomPane` e `FirstColumnInRightPane`, respectivamente.
+
+O trecho de código a seguir demonstra como usar os recursos de congelamento de painéis em uma planilha:
+
+```ts
+var workbook = new Workbook(WorkbookFormat.Excel2007);
+var worksheet = workbook.worksheets().add("Sheet1");
+
+worksheet.displayOptions.panesAreFrozen = true;
+
+worksheet.displayOptions.frozenPaneSettings.frozenRows = 3;
+worksheet.displayOptions.frozenPaneSettings.frozenColumns = 1;
+
+worksheet.displayOptions.frozenPaneSettings.firstColumnInRightPane = 2;
+worksheet.displayOptions.frozenPaneSettings.firstRowInBottomPane = 6;
+```
+
+<PlatformBlock for="Blazor">
+
+```razor
+var workbook = new Workbook();
+var worksheet = workbook.Sheets.Add("Sheet1", SheetType.Worksheet) as Worksheet;
+
+worksheet.DisplayOptions.PanesAreFrozen = true;
+
+worksheet.DisplayOptions.FrozenPaneSettings.FrozenRows = 3;
+worksheet.DisplayOptions.FrozenPaneSettings.FrozenColumns = 3;
+
+worksheet.DisplayOptions.FrozenPaneSettings.FirstColumnInRightPane = 2;
+worksheet.DisplayOptions.FrozenPaneSettings.FirstRowInBottomPane = 6;
+```
+
+</PlatformBlock>
+
+## Definindo o nível de zoom da planilha
+Você pode alterar o nível de zoom de cada planilha de forma independente, usando a propriedade <ApiLink type="WorksheetDisplayOptions" member="magnificationInNormalView" label="MagnificationInNormalView" /> do <ApiLink type="DisplayOptions" /> do objeto <ApiLink type="Worksheet" />. Essa propriedade recebe um valor entre 10 e 400 e representa o percentual de zoom que você deseja aplicar.
+
+O código a seguir demonstra como fazer isso:
+
+```ts
+var workbook = new Workbook(WorkbookFormat.Excel2007);
+var worksheet = workbook.worksheets().add("Sheet1");
+
+worksheet.displayOptions.magnificationInNormalView = 300;
+```
+
+<PlatformBlock for="Blazor">
+
+```razor
+var workbook = new Workbook();
+var worksheet = workbook.Sheets.Add("Sheet1", SheetType.Worksheet) as Worksheet;
+
+worksheet.DisplayOptions.MagnificationInNormalView = 300;
+```
+
+</PlatformBlock>
+
+## Ordenação no nível da planilha
+
+A ordenação é feita definindo uma condição de classificação em um objeto de nível de planilha, em colunas ou em linhas. Você pode ordenar colunas ou linhas em ordem crescente ou decrescente.
+
+Isso é feito especificando uma região e um tipo de ordenação para o <ApiLink type="Worksheet" /> do objeto <ApiLink type="WorksheetSortSettings" />, que pode ser obtido pela propriedade <ApiLink type="Worksheet" member="sortSettings" label="SortSettings" /> da planilha.
+
+As condições de classificação em uma planilha só são reaplicadas quando são adicionadas, removidas ou modificadas, ou quando o método <ApiLink type="WorksheetFilterSettings" member="reapplySortConditions" label="ReapplySortConditions" /> é chamado na planilha. Colunas ou linhas serão ordenadas dentro da região. "Rows" é o tipo de ordenação padrão.
+
+O trecho de código a seguir demonstra como aplicar uma ordenação a uma região de células de uma planilha:
+
+```ts
+var workbook = new Workbook(WorkbookFormat.Excel2007);
+var worksheet = workbook.worksheets().add("Sheet1");
+
+worksheet.sortSettings.sortConditions().addItem(new RelativeIndex(0), new OrderedSortCondition(SortDirection.Ascending));
+```
+
+<PlatformBlock for="Blazor">
+
+```razor
+var workbook = new Workbook();
+var worksheet = workbook.Sheets.Add("Sheet1", SheetType.Worksheet) as Worksheet;
+
+worksheet.SortSettings.SortConditions.Add(new RelativeIndex(0), new Infragistics.Documents.Excel.Sorting.OrderedSortCondition(Documents.Excel.Sorting.SortDirection.Ascending));
+```
+
+</PlatformBlock>
+
+## Proteção da planilha
+Você pode proteger uma planilha chamando o método <ApiLink type="Workbook" member="protect" label="Protect" /> do objeto <ApiLink type="Worksheet" />. Esse método expõe muitos parâmetros `bool` anuláveis, que permitem restringir ou permitir as seguintes operações do usuário:
+
+- Edição de células.
+- Edição de objetos, como formas, comentários, gráficos ou outros controles.
+- Edição de cenários.
+- Filtragem de dados.
+- Formatação de células.
+- Inserção, exclusão e formatação de colunas.
+- Inserção, exclusão e formatação de linhas.
+- Inserção de hiperlinks.
+- Ordenação de dados.
+- Uso de tabelas dinâmicas.
+
+Você pode remover a proteção da planilha chamando o método <ApiLink type="Workbook" member="unprotect" label="Unprotect" /> do objeto <ApiLink type="Worksheet" />.
+
+O trecho de código a seguir mostra como habilitar a proteção de todas as operações do usuário listadas acima:
+
+```ts
+var workbook = new Workbook(WorkbookFormat.Excel2007);
+var worksheet = workbook.worksheets().add("Sheet1");
+
+worksheet.protect();
+```
+
+<PlatformBlock for="Blazor">
+
+```razor
+var workbook = new Workbook();
+var worksheet = workbook.Sheets.Add("Sheet1", SheetType.Worksheet) as Worksheet;
+
+worksheet.Protect();
+```
+
+</PlatformBlock>
+
+## Formatação condicional da planilha
+
+Você pode configurar a formatação condicional de um objeto <ApiLink type="Worksheet" /> usando os muitos métodos "Add" expostos na coleção <ApiLink type="Worksheet" member="conditionalFormats" label="ConditionalFormats" /> dessa planilha. O primeiro parâmetro desses métodos "Add" é a região `string` da planilha à qual você deseja aplicar a formatação condicional.
+
+Muitas das formatações condicionais que você pode adicionar à sua planilha têm uma propriedade <ApiLink type="IWorksheetCellFormat" />, que determina como os elementos <ApiLink type="WorksheetCell" /> devem ser exibidos quando a condição dessa formatação condicional é verdadeira. Por exemplo, você pode usar as propriedades ligadas a essa propriedade <ApiLink type="IWorksheetCellFormat" />, como <ApiLink type="IWorksheetCellFormat" member="fill" label="Fill" /> e <ApiLink type="IWorksheetCellFormat" member="font" label="Font" />, para determinar as configurações de fundo e de fonte das suas células sob uma determinada formatação condicional, respectivamente.
+
+Há algumas formatações condicionais que não têm uma propriedade <ApiLink type="IWorksheetCellFormat" />, pois a visualização delas na célula da planilha se comporta de forma diferente. Essas formatações condicionais são <ApiLink type="DataBarConditionalFormat" />, <ApiLink type="ColorScaleConditionalFormat" /> e <ApiLink type="IconSetConditionalFormat" />.
+
+Ao carregar um <ApiLink type="Workbook" /> pré-existente do Excel, os formatos são preservados quando esse <ApiLink type="Workbook" /> é carregado. O mesmo vale quando você salva o <ApiLink type="Workbook" /> em um arquivo do Excel.
+
+O exemplo de código a seguir demonstra o uso de formatos condicionais em uma planilha:
+
+```ts
+var workbook = new Workbook(WorkbookFormat.Excel2007);
+var worksheet = workbook.worksheets().add("Sheet1");
+
+var color = new Color();
+color.colorString = "Red";
+
+var format = worksheet.conditionalFormats().addAverageCondition("A1:A10", FormatConditionAboveBelow.AboveAverage);
+format.cellFormat.font.colorInfo = new WorkbookColorInfo(color);
+```
+
+<PlatformBlock for="Blazor">
+
+```razor
+var workbook = new Workbook();
+var worksheet = workbook.Sheets.Add("Sheet1", SheetType.Worksheet) as Worksheet;
+
+var format = worksheet.ConditionalFormats.AddAverageCondition("A1:A10", Documents.Excel.ConditionalFormatting.FormatConditionAboveBelow.AboveAverage);
+format.CellFormat.Font.ColorInfo = new WorkbookColorInfo(Core.Graphics.Colors.Red);
+```
+
+</PlatformBlock>
+
+
+## Referências da API
+<ApiLink type="IWorksheetCellFormat" />
+<ApiLink type="ColorScaleConditionalFormat" />
+<ApiLink type="DataBarConditionalFormat" />
+<ApiLink type="DisplayOptions" />
+<ApiLink type="Workbook" />
+<ApiLink type="WorksheetCell" />
+<ApiLink type="WorksheetColumn" />
+<ApiLink type="WorksheetFilterSettings" />
+<ApiLink type="WorksheetSortSettings" />
+<ApiLink type="Worksheet" />

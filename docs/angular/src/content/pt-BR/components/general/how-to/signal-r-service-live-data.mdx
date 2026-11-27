@@ -1,0 +1,298 @@
+---
+title: "Como criar um serviço ASP.NET Core SignalR para transmissão de dados em tempo real."
+description: "Data grid moderno e dock manager são usados para criar a aplicação, junto com o ASP.NET Core SignalR."
+keywords: angular, signalr, .net core, infragistics
+_language: pt-BR
+llms:
+  description: "Neste tópico, vamos ver como criar aplicações que transmitem e recebem dados com o ASP.NET Core SignalR."
+---
+
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import { Image } from 'astro:assets';
+import wsParty1 from '../../../images/general/how-to/ws-party-1.jpg';
+import wsLetsParty from '../../../images/general/how-to/ws-lets-party.jpg';
+import createNewProject from '../../../images/general/how-to/create-new-project.jpg';
+import wsHubCallers from '../../../images/general/how-to/ws-hub-callers.jpg';
+
+
+# Aplicação web em tempo real com ASP.NET Core SignalR
+
+Neste tópico, vamos ver como criar aplicações que fazem tanto _transmissão_ quanto _recebimento_ de dados com o **ASP.NET Core SignalR**.
+
+O que você vai precisar:
+
+- Conhecimento básico de ASP.NET Core e Angular.
+- .NET Core 3.1 instalado e uma IDE como o Visual Studio.
+
+O que você vai saber ao final deste artigo:
+
+- Como adicionar e usar o SignalR.
+- Como abrir a conexão do cliente e usar o conceito de _invocação de método_ para transmitir dados por cliente.
+- Como consumir o serviço SignalR com uma aplicação Angular usando Observables.
+
+O SignalR aproveita vários transportes e seleciona automaticamente o melhor transporte disponível, considerando os recursos do cliente e do servidor - [WebSockets, Server Send Events ou Long-polling](https://stackoverflow.com/a/12855533/2940502).
+
+Quando falamos em [WebSockets](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/websockets?view=aspnetcore-5.0) (deixando de lado SSE e Long-polling), com o cliente conectado ao servidor em tempo real, sempre que algo acontece o servidor sabe enviar uma mensagem por esse WebSocket de volta ao cliente. Com clientes e servidores mais antigos, seria usado o transporte Long-polling.
+
+É assim que o SignalR lida com clientes e servidores modernos: ele usa WebSockets por baixo dos panos quando disponíveis e recorre, de forma elegante, a outras técnicas e tecnologias quando não estão disponíveis:
+
+<Image src={wsParty1} alt="Aplicação web em tempo real com ASP.NET Core SignalR" style="-webkit-box-shadow: 8px 9px 9px 5px #ccc; -moz-box-shadow: 8px 9px 9px 5px #ccc; box-shadow: 8px 9px 9px 5px #ccc; min-width: calc(100% - 950px); max-width: calc(100% - 400px);" />
+
+É como um aperto de mão: o cliente e o servidor concordam sobre o que usar e então o utilizam. Isso se chama **negociação do processo**.
+
+<Image src={wsLetsParty} alt="Aplicação web em tempo real com WebSockets" style="-webkit-box-shadow: 8px 9px 9px 5px #ccc; -moz-box-shadow: 8px 9px 9px 5px #ccc; box-shadow: 8px 9px 9px 5px #ccc; min-width: calc(100% - 650px); max-width: calc(100% - 400px);" />
+
+## Exemplo de SignalR
+
+O objetivo desta demonstração é mostrar um painel financeiro com um fluxo de dados em tempo real usando o [ASP.NET Core SignalR](https://dotnet.microsoft.com/apps/aspnet/signalr).
+
+<Sample src="/grid-finjs-dock-manager/grid-finjs-dock-manager" height={700} alt="Exemplo de atualização de dados ao vivo no Angular com um serviço" lob />
+
+## Configuração do servidor SignalR
+
+### Criar aplicação ASP.NET Core
+
+Vamos ver como configurar a aplicação ASP.NET Core SignalR.
+No Visual Studio, em _File_ >> _New project_, escolha ASP.NET Core Web Application e siga a configuração. Sinta-se à vontade para seguir o [tutorial oficial da documentação da Microsoft](https://docs.microsoft.com/en-us/aspnet/core/tutorials/signalr?view=aspnetcore-3.1&tabs=visual-studio) se tiver dificuldades de configuração.
+
+<Image src={createNewProject} alt="Criar projeto de aplicação ASP.NET Core" style="-webkit-box-shadow: 8px 9px 9px 5px #ccc; -moz-box-shadow: 8px 9px 9px 5px #ccc; box-shadow: 8px 9px 9px 5px #ccc; min-width: calc(100% - 650px); max-width: calc(100% - 400px);" />
+
+
+### Configuração do SignalR
+
+Adicione o código a seguir ao arquivo [Startup.cs](https://github.com/IgniteUI/finjs-web-api/blob/master/WebAPI/Startup.cs):
+
+- Parte do endpoint do método `Configure`.
+
+```cs
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllers();
+    endpoints.MapHub<StreamHub>("/streamHub");
+});
+```
+
+- Adicione o uso do SignalR ao método `ConfigureServices`.
+
+```cs
+services.AddSignalR(options =>
+{
+    options.EnableDetailedErrors = true;
+});
+```
+
+As alterações acima adicionam o SignalR ao sistema de injeção de dependências e de roteamento do ASP.NET Core.
+
+Agora vamos fazer a configuração básica adicional. Abra o arquivo [properties/launchSettings.json](https://github.com/IgniteUI/finjs-web-api/blob/master/WebAPI/Properties/launchSettings.json#L11) e modifique-o de acordo:
+
+```json
+"profiles": {
+    "WebAPI": {
+      "commandName": "Project",
+      "launchBrowser": false,
+      "applicationUrl": "https://localhost:5001;http://localhost:5000",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
+    }
+  }
+```
+
+O nosso projeto do lado do servidor vai rodar em `localhost:5001` e o lado do cliente vai rodar em `localhost:4200`; por isso, para estabelecer a comunicação entre os dois, precisamos habilitar o CORS. Vamos abrir a classe [Startup.cs](https://github.com/IgniteUI/finjs-web-api/blob/master/WebAPI/Startup.cs#L31) e modificá-la:
+
+```cs
+public void ConfigureServices(IServiceCollection services)
+{
+    services.AddCors(options =>
+    {
+        options.AddPolicy("CorsPolicy", builder => builder
+        .AllowAnyMethod()
+        .AllowAnyHeader()
+        .AllowCredentials()
+        .WithOrigins("http://localhost:4200"));
+    });
+    ...
+
+    public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+    {
+        ...
+        app.UseCors("CorsPolicy");
+        ...
+```
+
+Se você tiver um problema específico ao habilitar o Cross-origin resource sharing, consulte o [tópico oficial da Microsoft](https://docs.microsoft.com/en-us/aspnet/core/signalr/security?view=aspnetcore-5.0#cross-origin-resource-sharing).
+
+### Configuração do hub SignalR
+
+Vamos começar explicando o que é um [hub do SignalR?](https://docs.microsoft.com/en-us/aspnet/core/signalr/hubs?view=aspnetcore-5.0#what-is-a-signalr-hub)
+A API do SignalR Hub permite chamar métodos em clientes conectados a partir do servidor. No código do servidor, você define métodos que são chamados pelo cliente. No SignalR existe um conceito chamado _Invocation_ - você pode, de fato, chamar o hub a partir do cliente com um método específico. No código do cliente, você define métodos que são chamados a partir do servidor.
+
+O hub propriamente dito fica do lado do servidor. Imagine que você tem _Clients_ e _o Hub_ fica entre todos eles. Você pode dizer algo para todos os Clients com `Clients.All.doWork()` invocando um método no hub. Isso chega a todos os clientes conectados. Além disso, você pode se comunicar com apenas um cliente, que é o Caller, porque ele é quem chamou aquele método específico.
+
+<Image src={wsHubCallers} alt="Configuração do hub SignalR com callers" style="-webkit-box-shadow: 8px 9px 9px 5px #ccc; -moz-box-shadow: 8px 9px 9px 5px #ccc; box-shadow: 8px 9px 9px 5px #ccc; min-width: calc(100% - 650px); max-width: calc(100% - 400px);" />
+
+Criamos uma [classe StreamHub](https://github.com/IgniteUI/finjs-web-api/blob/d493f159e0a6f14b5ffea3e893f543f057fdc92a/WebAPI/Models/StreamHub.cs#L9) que herda da classe base Hub, responsável por gerenciar conexões, grupos e mensagens. Vale lembrar que a classe Hub é stateless e que cada nova invocação de um determinado método acontece em uma nova instância dessa classe. Não adianta guardar estado em propriedades de instância; por isso, sugerimos usar propriedades estáticas. No nosso caso, usamos uma coleção estática de pares chave-valor para armazenar dados de cada cliente conectado.
+
+Outras propriedades úteis desta classe são _Clients_, _Context_ e _Groups_. Elas podem ajudar a gerenciar determinados comportamentos com base no _ConnectionID_ exclusivo. Além disso, esta classe oferece os seguintes métodos úteis:
+
+- OnConnectedAsync() - chamado quando uma nova conexão é estabelecida com o hub.
+- OnDisconnectedAsync(Exception) - chamado quando uma conexão com o hub é encerrada.
+
+Eles nos permitem executar qualquer lógica adicional quando uma conexão é estabelecida ou fechada. Na nossa aplicação, também adicionamos o método _UpdateParameters_, que recebe um _Context connection ID_ e o usa para enviar dados de volta em um determinado intervalo. Como você pode ver, nos comunicamos por um _ConnectionID_ exclusivo, o que impede que uma transmissão interfira em outros Clients.
+
+```cs
+public async void UpdateParameters(int interval, int volume, bool live = false, bool updateAll = true)
+{
+    ...
+    var connection = Context.ConnectionId;
+    var clients = Clients;
+    ...
+    if (!clientConnections.ContainsKey(connection))
+    {
+        clientConnections.Add(connection, new TimerManager(async() =>
+        {
+            ...
+            await Send(newDataArray, client, connection);
+        }, interval));
+    } else
+    {
+        clientConnections[connection].Stop();
+        clientConnections[connection] = new TimerManager(async () =>
+        {
+            var client = clients.Client(connection);
+            ..
+            await Send(newDataArray, client, connection);
+        }, interval);
+    }
+    ...
+}
+```
+
+Quando os dados estão prontos, nós os transferimos emitindo um evento `transferdata` com a ajuda do método `SendAsync`.
+
+```cs
+public async Task Send(FinancialData[] array, IClientProxy client, string connection)
+{
+    await client.SendAsync("transferdata", array);
+}
+...
+
+// Called when a connection with the hub is terminated
+public override Task OnDisconnectedAsync(Exception exception)
+{
+    StopTimer();
+    clientConnections.Remove(Context.ConnectionId);
+    return base.OnDisconnectedAsync(exception);
+}
+```
+
+Nossa aplicação cliente ficaria escutando os eventos registrados:
+
+```ts
+private registerSignalEvents() {
+    this.hubConnection.onclose(() => {
+        this.hasRemoteConnection = false;
+    });
+    this.hubConnection.on('transferdata', (data) => {
+        this.data.next(data);
+    })
+}
+```
+
+O repositório público no GitHub da [aplicação ASP.NET Core pode ser encontrado aqui](https://github.com/IgniteUI/finjs-web-api).
+
+## Criar a biblioteca cliente do SignalR
+
+Vamos criar um projeto Angular para consumir o serviço SignalR.
+O [repositório no GitHub com a aplicação](https://github.com/IgniteUI/igniteui-angular-samples/tree/master/projects/app-lob/src/app/grid-finjs-dock-manager) pode ser encontrado no repositório igniteui-angular-samples.
+
+Primeiro, comece instalando o SignalR:
+
+```
+npm install @microsoft/signalr
+```
+
+Lembre-se de que vamos enviar a requisição HTTP para o nosso servidor; por isso, também precisamos do HttpClientModule.
+
+A seguir está o arquivo [signal-r.service.ts](https://github.com/IgniteUI/igniteui-angular-samples/blob/master/projects/app-lob/src/app/services/signal-r.service.ts#L10), que cuida do construtor da conexão com o hub.
+
+```ts
+export class SignalRService implements OnDestroy {
+    public data: BehaviorSubject<any[]>;
+    public hasRemoteConnection: boolean;
+    private hubConnection: signalR.HubConnection;
+    ...
+
+    constructor(private zone: NgZone, private http: HttpClient) {
+        this.data = new BehaviorSubject([]);
+    }
+    ...
+
+    // Start Hub Connection and Register events
+    public startConnection = (interval = 500, volume = 1000, live = false,  updateAll = true) => {
+        this.hubConnection = new signalR.HubConnectionBuilder()
+            .configureLogging(signalR.LogLevel.Trace)
+            .withUrl('https://www.infragistics.com/angular-apis/webapi/streamHub')
+            .build();
+        this.hubConnection
+            .start()
+            .then(() => {
+                ...
+                this.registerSignalEvents();
+                this.broadcastParams(interval, volume, live, updateAll);
+            })
+            .catch(() => { ... });
+    }
+
+    // Change the broadcast parameters like frequency and data volume
+    public broadcastParams = (frequency, volume, live, updateAll = true) => {
+        this.hubConnection.invoke('updateparameters', frequency, volume, live, updateAll)
+            .then(() => console.log('requestLiveData', volume))
+            .catch(err => {
+                console.error(err);
+            });
+    }
+
+    // Register events
+    private registerSignalEvents() {
+        this.hubConnection.onclose(() => {
+            this.hasRemoteConnection = false;
+        });
+        this.hubConnection.on('transferdata', (data) => {
+            this.data.next(data);
+        });
+    }
+    ...
+```
+
+No seu app.component, use o método `startConnection` recém-criado
+
+```ts
+constructor(public dataService: SignalRService) {}
+public ngOnInit() {
+    this.dataService.startConnection(this.frequency, this.dataVolume, true, false);
+}
+...
+```
+
+### Vinculação de dados da grade
+
+Como vimos até agora no código do cliente, configuramos um listener para o evento `transferdata`, que recebe como argumento o array de dados atualizado. Para passar os dados recém-recebidos para a nossa grade, usamos um observable. Para isso, precisamos vincular a fonte de dados da grade ao observable de dados, assim:
+
+```html
+<igx-grid [data]='data | async'> ... </igx-grid>
+```
+
+Sempre que novos dados são recebidos do servidor pelo cliente, chamamos o método `next()` do observable de dados.
+
+```ts
+    this.hubConnection.on('transferdata', (data) => {
+        this.data.next(data);
+    })
+```
+
+## Principais conclusões do tópico
+
+Se você não quiser atualizar a aplicação, apenas ver quando os dados são atualizados, deve considerar o ASP.NET Core SignalR. Recomendo definitivamente a transmissão de conteúdo quando você achar que os seus dados são grandes, ou se quiser uma experiência de usuário fluida, sem bloquear o cliente com spinners infinitos.
+
+Usar a comunicação com o hub do SignalR é fácil e intuitivo e, com a ajuda dos Observables do Angular, você pode criar uma aplicação poderosa que usa transmissão de dados com WebSockets.

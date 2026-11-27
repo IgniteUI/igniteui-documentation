@@ -1,0 +1,618 @@
+---
+title: "Angular Slider | Ignite UI for Angular | Infragistics | Licença MIT"
+description: "Saiba como configurar uma seleção em um determinado intervalo usando a trilha do cursor com o Angular Slider, parte do Ignite UI for Angular. Escolha entre os tipos de slider simples e de intervalo"
+keywords: "angular slider, componente angular slider, componente angular range slider, componente angular range input, componentes de ui angular, igniteui for angular, infragistics"
+license: MIT
+_language: pt-BR
+llms:
+  description: "O Slider do Ignite UI for Angular é um componente de formulário que permite selecionar um valor em um determinado intervalo, movendo um cursor ao longo de uma trilha."
+---
+
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+# Visão geral do componente Angular Slider
+
+<div class="highlight">
+O Slider do Ignite UI for Angular é um componente de formulário que permite selecionar um valor em um determinado intervalo, movendo um cursor ao longo de uma trilha. A trilha pode ser definida como contínua ou em passos, e o slider pode ser configurado para que os usuários escolham entre o tipo de valor único e o tipo de intervalo (valor inferior e superior).
+</div>
+
+## Exemplo do Angular Slider
+
+<Sample src="/interactions/slider-sample-1" height={250} alt="Exemplo do Angular Slider" />
+
+<hr/>
+
+## Primeiros passos com o Slider do Ignite UI for Angular
+
+Para começar com o componente Slider do Ignite UI for Angular, primeiro é preciso instalar o Ignite UI for Angular. Em um aplicativo Angular existente, digite o seguinte comando:
+
+```cmd
+ng add igniteui-angular
+```
+
+Para uma introdução completa ao Ignite UI for Angular, leia o tópico [_primeiros passos_](/general/getting-started).
+
+O próximo passo é importar o `IgxSliderModule` no arquivo **app.module.ts**.
+
+```typescript
+// app.module.ts
+
+import { IgxSliderModule } from 'igniteui-angular/slider';
+// import { IgxSliderModule } from '@infragistics/igniteui-angular'; for licensed package
+
+@NgModule({
+    ...
+    imports: [..., IgxSliderModule],
+    ...
+})
+export class AppModule {}
+```
+
+Alternativamente, a partir de `16.0.0` você pode importar o `IgxSliderComponent` como uma dependência independente, ou usar o token [`IGX_SLIDER_DIRECTIVES`](https://github.com/IgniteUI/igniteui-angular/blob/master/projects/igniteui-angular/slider/src/slider/public_api.ts) para importar o componente e todos os seus componentes e diretivas de apoio.
+
+```typescript
+// home.component.ts
+
+import { FormsModule } from '@angular/forms';
+import { IGX_SLIDER_DIRECTIVES } from 'igniteui-angular/slider';
+// import { IGX_SLIDER_DIRECTIVES } from '@infragistics/igniteui-angular'; for licensed package
+
+@Component({
+    selector: 'app-home',
+    template: '<igx-slider [minValue]="0" [maxValue]="100" [step]="10" [(ngModel)]="task.completion"></igx-slider>',
+    styleUrls: ['home.component.scss'],
+    standalone: true,
+    imports: [IGX_SLIDER_DIRECTIVES, FormsModule]
+    /* or imports: [IgxSliderComponent, FormsModule] */
+})
+export class HomeComponent {
+    public task: Task;
+}
+```
+
+Agora que você importou o módulo ou as diretivas do Slider do Ignite UI for Angular, pode começar a usar o componente `igx-slider`.
+
+## Usando o Angular Slider
+
+### Slider discreto
+
+Por padrão, o componente Slider é definido como do tipo discreto. Um slider discreto mostra o valor atual com um rótulo numérico (balão). O balão pode ser exibido ao passar o mouse sobre o cursor do slider.  
+Você também pode usar o slider com passos predefinidos, para acompanhar apenas os valores significativos para o usuário.  
+
+No exemplo a seguir, definimos um slider discreto que exibe valores de 0% a 100%, e o <ApiLink type="Slider" member="step" label="step" /> é definido como 10% por incremento/decremento.  
+Também vinculamos o <ApiLink type="Slider" member="value" label="value" /> do slider a uma propriedade do nosso componente chamada "completion", usando [`ngModel`](https://angular.io/guide/built-in-directives#ngModel) do Angular, para permitir a vinculação bidirecional com um componente de entrada.
+
+```html
+{/*sample.component.html*/}
+
+<igx-slider [minValue]="0" [maxValue]="100" [step]="10" [(ngModel)]="task.completion"></igx-slider>
+<igx-input-group type="border">
+    <input igxInput id="percentInput" type="number" [(ngModel)]="task.completion" />
+    <label igxLabel for="percentInput">Task Completion</label>
+    <igx-suffix>%</igx-suffix>
+</igx-input-group>
+```
+
+```typescript
+// sample.component.ts 
+import { Component, ViewChild } from '@angular/core';
+import { IgxInputDirective } from 'igniteui-angular/input-group';
+import { IgxSliderComponent } from 'igniteui-angular/slider';
+// import { IgxInputDirective, IgxSliderComponent } from '@infragistics/igniteui-angular'; for licensed package
+
+@Component({
+    selector: 'app-sample',
+    styleUrls: ['./sample.component.scss'],
+    templateUrl: './sample.component.html'
+})
+export class SampleComponent {
+    public task = {
+        completion: 10
+    };
+
+    constructor() { }
+}
+```
+
+Agora devemos ver a vinculação de dados bidirecional entre os nossos dois componentes.
+
+<Sample src="/interactions/slider-sample-3" height={160} alt="" />
+
+### Slider contínuo
+
+Primeiro, especifique o tipo do slider definindo a entrada <ApiLink type="Slider" member="continuous" label="continuous" /> como true. Em seguida, defina os valores mínimo e máximo usando <ApiLink type="Slider" member="minValue" label="minValue" /> e <ApiLink type="Slider" member="maxValue" label="maxValue" />.  
+
+<DocsAside type="info">
+O slider contínuo não tem indicadores de passo sobre a trilha nem rótulos visíveis do cursor durante a interação.
+</DocsAside>
+
+```html
+{/*sample.component.html*/}
+
+<igx-slider 
+    id="slider" 
+    [minValue]="0" 
+    [maxValue]="100" 
+    [continuous]=true 
+    [(ngModel)]="volume">
+    </igx-slider>
+<label igxLabel for="slider">Volume: {{volume}}</label>
+```
+
+Vamos também vincular o <ApiLink type="Slider" member="value" label="value" /> do slider a uma propriedade do nosso componente chamada "volume".
+
+```typescript
+// sample.component.ts 
+
+// Set an initial value
+public volume = 20;
+```
+
+Se o exemplo estiver configurado corretamente, arrastar o cursor do slider deve atualizar o rótulo abaixo, e o valor do slider deve ficar limitado entre os valores mínimo e máximo especificados:
+
+<Sample src="/interactions/slider-sample-2" height={140} alt="" />
+
+### Slider de intervalo
+
+Primeiro, defina o <ApiLink type="Slider" member="type" label="type" /> do slider como `Range`. Em seguida, vinculamos o valor do slider a um objeto com propriedades para os valores `lower` e `upper`.
+
+```html
+{/*sample.component.html*/}
+
+<igx-slider 
+    [type]="sliderType.RANGE" 
+    [minValue]="0" 
+    [maxValue]="1000" 
+    [(lowerValue)]="priceRange.lower"
+    [(upperValue)]="priceRange.upper">
+</igx-slider>
+
+<igx-input-group type="border">
+    <label igxLabel for="lowerRange">From</label>
+    <igx-prefix>$</igx-prefix>
+    <input igxInput id="lowerRange" type="number" [(ngModel)]="priceRange.lower" />
+</igx-input-group>
+
+<igx-input-group type="border">
+    <label igxLabel for="upperRange">To</label>
+    <igx-prefix>$</igx-prefix>
+    <input igxInput id="upperRange" type="number" [(ngModel)]="priceRange.upper" />
+</igx-input-group>
+```
+
+```typescript
+// sample.component.ts
+import { Component } from '@angular/core';
+import { IgxSliderType } from 'igniteui-angular/slider';
+// import { IgxSliderType } from '@infragistics/igniteui-angular'; for licensed package
+
+@Component({
+  selector: 'app-sample',
+  styleUrls: ['./sample.component.scss'],
+  templateUrl: './sample.component.html'
+})
+export class SampleComponent {
+  public sliderType = IgxSliderType;
+  public priceRange = {
+      lower: 200,
+      upper: 800
+  };
+
+  constructor() { }
+}
+```
+
+<Sample src="/interactions/slider-sample-4" height={200} alt="" />
+
+<DocsAside type="info">
+Ao usar um slider do tipo RANGE, a vinculação a `ngModel` funcionará apenas no sentido de atualizar o modelo a partir do slider. Para usar a vinculação bidirecional nos dois valores, você pode usar as vinculações `lowerValue` e `upperValue`.
+</DocsAside>
+
+Em alguns casos, valores próximos ao mínimo e ao máximo não são adequados. Você pode definir ainda um intervalo útil para limitar a escolha do usuário, além de definir <ApiLink type="Slider" member="minValue" label="minValue" /> e <ApiLink type="Slider" member="maxValue" label="maxValue" />.
+Isso pode ser feito definindo <ApiLink type="Slider" member="lowerBound" label="lowerBound" /> e <ApiLink type="Slider" member="upperBound" label="upperBound" />. Agora, o usuário não conseguirá mover o cursor no intervalo de 0 a 100 nem no intervalo de 900 a 1000.
+
+```html
+{/*sample.component.html*/}
+
+<igx-slider 
+    [type]="sliderType.RANGE" 
+    [minValue]="0" 
+    [maxValue]="1000"
+    [(lowerValue)]="priceRange.lower"
+    [(upperValue)]="priceRange.upper"
+    [lowerBound]="100" 
+    [upperBound]="900">
+</igx-slider>
+```
+
+<Sample src="/interactions/slider-sample-5" height={160} alt="" />
+
+### Modo de rótulos
+
+Até agora, só vimos números nos cursores, mas há outra abordagem que você pode usar para apresentar informações: usar um array de valores primitivos.
+<DocsAside type="info">
+O seu array de valores primitivos deve conter pelo menos dois valores; caso contrário, `labelsView` não será ativado.
+</DocsAside>
+
+Quando tivermos a definição que corresponde à regra anterior, estamos prontos para passá-la para a propriedade de entrada `labels` **input**, que tratará os nossos dados distribuindo-os igualmente ao longo de `track`. Agora, os valores dos rótulos representam cada valor primitivo que definimos na nossa coleção. Eles podem ser acessados a qualquer momento pela API, solicitando <ApiLink type="Slider" member="lowerLabel" label="lowerLabel" /> ou <ApiLink type="Slider" member="upperLabel" label="upperLabel" />.
+
+<DocsAside type="info">
+Observe que, quando <ApiLink type="Slider" member="labelsView" label="labelsView" /> está ativado, o seu controle sobre as entradas <ApiLink type="Slider" member="maxValue" label="maxValue" />, <ApiLink type="Slider" member="minValue" label="minValue" /> e <ApiLink type="Slider" member="step" label="step" /> será assumido.
+</DocsAside>
+
+Outro fator importante é a forma como o `slider` trata o processo de atualização quando `labelsView` está ativado.
+Ele simplesmente opera com os `index(es)` da coleção, o que significa que as propriedades `value`, `lowerBound` e `upperBound` **controlam** o `track` seguindo/definindo-as (`index(es)`).
+
+```html
+{/*sample.component.html*/}
+<igx-slider #slider3 [type]="sliderType" [labels]="labels" [lowerBound]="1" [upperBound]="5">
+    <ng-template igxSliderThumbFrom let-value let-labels="labels">
+        <span class="ellipsis">{{ labels[value.lower] }}</span>
+    </ng-template>
+    <ng-template igxSliderThumbTo let-value let-labels="labels">
+        <span class="ellipsis">{{ labels[value.upper] }}</span>
+    </ng-template>
+</igx-slider>
+```
+
+```typescript
+// sample.component.ts
+public sliderType: SliderType = SliderType.RANGE;
+public labels = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+```
+
+<Sample src="/interactions/slider-sample-6" height={160} alt="" />
+
+Como vemos no exemplo acima, definir `boundaries` continua sendo uma operação válida. Endereçar <ApiLink type="Slider" member="lowerbound" label="lowerBound" /> e <ApiLink type="Slider" member="upperbound" label="upperBound" /> limita o intervalo pelo qual você pode deslizar.
+
+### Template dos rótulos
+
+Durante a demonstração acima, mostramos intencionalmente como fornecer um template `label` personalizado, usando as diretivas <ApiLink type="ThumbFromTemplateDirective" /> e <ApiLink type="ThumbToTemplateDirective" />. Intuitivamente, podemos supor que <ApiLink type="ThumbFromTemplateDirective" /> corresponde a <ApiLink type="Slider" member="lowerLabel" label="lowerLabel" /> e <ApiLink type="ThumbToTemplateDirective" /> corresponde a <ApiLink type="Slider" member="upperLabel" label="upperLabel" />. <br/>
+O <ApiLink type="Slider" member="context" label="context" /> aqui nos dá implicitamente uma referência à propriedade de entrada `value` **input** e, explicitamente, uma referência à entrada `labels` **input**, se `labelsView` estiver ativado.
+
+```html
+  <ng-template igxSliderThumbFrom let-value let-labels="labels">
+    <span class="ellipsis">{{ labels[value.lower] }}</span>
+  </ng-template>
+  <ng-template igxSliderThumbTo let-value let-labels="labels">
+      <span class="ellipsis">{{ labels[value.upper] }}</span>
+  </ng-template>
+```
+
+## Marcas de escala e rótulos do slider
+
+**As marcas de escala do slider** oferecem uma forma nova e mais atraente de visualizar dados, como um período específico, dias da semana e outros. Com esse novo recurso, os usuários não são obrigados a interagir com o Angular Slider para ver qual intervalo de dados está sendo representado. É extremamente flexível quanto ao controle do posicionamento e da orientação das **marcas de escala** e dos **rótulos das marcas**. As **marcas** podem ser **ativadas/desativadas** e alternadas entre **primárias**, **secundárias** ou **ambas**. Além disso, este recurso oferece uma forma de **ativar/desativar** **rótulos primários**, **secundários** **rótulos** ou ambos. Os **rótulos das marcas** podem alterar sua rotação de **horizontal** para **vertical** (**de cima para baixo** (90) ou **de baixo para cima** (-90)).
+
+### Ativar marcas
+
+Podemos ativar as **marcas** do slider definindo <ApiLink type="Slider" member="showTicks" label="showTicks" /> como **true**.
+Use <ApiLink type="Slider" member="primaryTicks" label="primaryTicks" /> para definir a quantidade de marcas primárias.  
+Use <ApiLink type="Slider" member="secondaryTicks" label="SecondaryTicks" /> para definir a quantidade de marcas secundárias.
+
+```html
+{/*sample.component.html*/}
+
+<igx-slider 
+    id="slider" 
+    [maxValue]="100" 
+    [step]="10"
+    [showTicks]="true" 
+    [primaryTicks]="3" 
+    [secondaryTicks]="4">
+</igx-slider>
+```
+
+```typescript
+// sample.component.ts 
+
+// Change slider type initial value
+public type = SliderType.RANGE;
+```
+
+<Sample src="/interactions/discrete-slider-ticks-bottom" height={180} alt="" />
+
+### Orientação e visibilidade dos rótulos
+
+No exemplo a seguir, desativamos todos os **rótulos secundários** definindo <ApiLink type="Slider" member="secondaryTickLabels" label="secondaryTickLabels" /> como **false**.  
+
+```html
+<igx-slider
+    [step]="10"
+    [type]="type"
+    [maxValue]="100"
+    [continuous]="true"
+    [showTicks]="true"
+    [primaryTicks]="3"
+    [secondaryTicks]="4"
+    [secondaryTickLabels]="false"
+    [tickLabelsOrientation]="labelsOrientation">
+</igx-slider>
+```
+
+Também giramos todos os rótulos viáveis definindo <ApiLink type="TickLabelsOrientation" kind="variable" label="TickLabelsOrientation" /> como <ApiLink kind="variable" type="TickLabelsOrientation" />
+
+```typescript
+... 
+{
+    public type = SliderType.RANGE:
+    public labelsOrientation = TickLabelsOrientation.BottomToTop;
+}
+...
+```
+
+<Sample src="/interactions/slider-ticks-bottomtotop-labels" height={200} alt="" />
+
+### Posição das marcas
+
+Vamos em frente e ver como alterar a posição das **marcas**.
+
+```html
+<div class="slider-container">
+
+    <igx-slider
+        [maxValue]="20"
+        [showTicks]="true"
+        [secondaryTicks]="21"
+        [primaryTickLabels]="false"
+        [ticksOrientation]="ticksOrientation">
+    </igx-slider>
+</div>
+```
+
+A mudança de posição vem da entrada <ApiLink type="Slider" member="ticksOrientation" label="ticksOrientation" />, que é alterada de **Bottom** (padrão) para **Mirror**.
+Isso espelha a visualização das **marcas**, exibindo-as acima e abaixo do slider.
+
+```typescript
+
+  // The available options are: Top, Bottom and Mirror
+  public ticksOrientation = TicksOrientation.Mirror;
+```
+
+<Sample src="/interactions/slider-secondary-ticks-mirror" height={160} alt="" />
+
+### Orientação
+
+> Quando <ApiLink type="Slider" member="ticksOrientation" label="ticksOrientation" /> é definido como **Top** ou **Mirror** e há **rótulos das marcas** visíveis, o **rótulo do cursor** fica oculto intencionalmente. Isso evita uma experiência ruim para o usuário e a sobreposição entre os dois rótulos.
+
+### Marcas do slider com visualização de rótulos
+
+Este exemplo mostra como os rótulos das marcas e o rótulo do cursor funcionam juntos.
+
+```html
+<igx-slider
+    [labels]="labels"
+    [showTicks]="true"
+    [secondaryTicks]="3"
+></igx-slider>
+```
+
+```typescript
+  public type: SliderType = SliderType.RANGE;
+  public labels = ["04:00", "08:00", "12:00", "16:00", "20:00", "00:00"];
+```
+
+<Sample src="/interactions/slider-timeframe" height={160} alt="" />
+
+Aqui, a entrada <ApiLink type="Slider" member="primaryTicks" label="primaryTicks" /> não foi definida, porque ela não teria nenhum efeito. O **tamanho** da coleção tem precedência sobre ela. Isso não significa que <ApiLink type="Slider" member="secondaryTicks" label="secondaryTicks" /> não possa ser definido. Todas as **marcas secundárias** ficarão vazias (sem nenhum **rótulo**).
+
+### Rótulos com template
+
+Por fim, veremos como fornecer um template personalizado para os **rótulos das marcas** e o que o contexto do template `IgxTicksComponent` oferece.
+
+```html
+<igx-slider
+    [showTicks]="true"
+    [primaryTicks]="3"
+    [secondaryTicks]="3">
+    <ng-template igxSliderTickLabel let-value let-primary="isPrimary" let-idx="index">
+        {{ tickLabel(value, primary, idx) }}
+    </ng-template>
+</igx-slider>
+```
+
+Aplicar <ApiLink type="TickLabelTemplateDirective" /> ao `ng-template` atribui o template a todos os **rótulos das marcas**.
+
+<DocsAside type="info">
+O contexto é executado para cada marca.
+</DocsAside>
+
+Isso significa que ele fornece uma referência a:
+
+- cada **valor** de marca correspondente
+- se essa marca for **primária**.
+- índice da **marca**.
+- E a coleção <ApiLink type="Slider" member="labels" label="labels" />, se tivermos uma.
+
+```typescript
+  public tickLabel(value, primary, index) {
+      if (primary) {
+          return Math.round(value);
+      }
+
+      return value;
+  }
+```
+
+No callback **tickLabel** acima, estamos arredondando o **valor** de cada marca **primária**.
+
+<Sample src="/interactions/slider-tick-labels-template" height={180} alt="" />
+
+## Estilização
+
+### Mapa de propriedades de tema do Slider
+
+Quando você modifica uma propriedade primária, todas as propriedades dependentes relacionadas são atualizadas automaticamente para refletir a mudança:
+
+<div class="theme-switcher-wrapper">
+
+  <input type="radio" name="theme" id="material" checked/>
+  <label for="material" class="switch-label">Material</label>
+  <input type="radio" name="theme" id="fluent"/>
+  <label for="fluent" class="switch-label">Fluent</label>
+  <input type="radio" name="theme" id="bootstrap"/>
+  <label for="bootstrap" class="switch-label">Bootstrap</label>
+  <input type="radio" name="theme" id="indigo"/>
+  <label for="indigo" class="switch-label">Indigo</label>
+
+  <div class="tables">
+
+    {/* Material Theme Table */}
+    <div class="theme-table material">
+
+      | Propriedade primária | Propriedade dependente | Descrição |
+| --- | --- | --- |
+| **$track-color** | $thumb-color | A cor do cursor. |
+|  | $base-track-color | A cor de fundo base da trilha. |
+|  | $track-hover-color | A cor da trilha ao passar o mouse. |
+|  | $disabled-fill-track-color | A cor base de preenchimento da trilha quando desativada. |
+|  | $label-background-color | A cor de fundo do rótulo em balão. |
+| **$thumb-color** | $track-color | A cor da trilha |
+|  | $disabled-thumb-color | A cor do cursor quando desativado. |
+| **$base-track-color** | $base-track-hover-color | A cor base da trilha ao passar o mouse. |
+|  | $track-step-color | A cor dos passos da trilha. |
+|  | $disabled-base-track-color | A cor base da trilha quando desativada. |
+
+</div>
+    <div class="theme-table fluent">
+
+      | Propriedade primária | Propriedade dependente | Descrição |
+| --- | --- | --- |
+| **$thumb-border-color** | $track-color | A cor da trilha |
+|  | $thumb-border-hover-color | A cor da borda do cursor quando em hover. |
+|  | $thumb-focus-color | A cor de foco do cursor. |
+|  | $thumb-disabled-border-color | A cor da borda do cursor quando desativado. |
+| **$track-color** | $thumb-border-color | A cor da borda do cursor |
+|  | $track-hover-color | A cor da trilha ao passar o mouse. |
+|  | $disabled-fill-track-color | A cor base de preenchimento da trilha quando desativada. |
+|  | $label-background-color | A cor de fundo do rótulo em balão. |
+|  | $label-text-color | A cor do texto do rótulo em balão. |
+| **$base-track-color** | $base-track-hover-color | A cor base da trilha ao passar o mouse. |
+|  | $track-step-color | A cor dos passos da trilha. |
+|  | $disabled-base-track-color | A cor base da trilha quando desativada. |
+
+</div>
+    <div class="theme-table bootstrap">
+
+      | Propriedade primária | Propriedade dependente | Descrição |
+| --- | --- | --- |
+| **$thumb-color** | $thumb-border-color | A cor da borda do cursor. |
+|  | $thumb-focus-color | A cor de foco do cursor. |
+|  | $track-color | A cor da trilha. |
+|  | $label-background-color | A cor de fundo do rótulo em balão. |
+|  | $label-text-color | A cor do texto do rótulo em balão. |
+|  | $disabled-thumb-color | A cor do cursor quando desativado. |
+| **$track-color** | $track-hover-color | A cor da trilha ao passar o mouse. |
+|  | $disabled-fill-track-color | A cor de preenchimento da trilha quando desativada. |
+| **$base-track-color** | $base-track-hover-color | A cor base da trilha ao passar o mouse. |
+|  | $track-step-color | A cor dos passos da trilha. |
+|  | $disabled-base-track-color | A cor base da trilha quando desativada. |
+
+</div>
+    <div class="theme-table indigo">
+
+      | Propriedade primária | Propriedade dependente | Descrição |
+| --- | --- | --- |
+| **$thumb-border-color** | $track-color | A cor da trilha. |
+|  | $thumb-border-hover-color | A cor da borda do cursor quando em hover. |
+|  | $thumb-focus-color | A cor de foco do cursor. |
+|  | $thumb-disabled-border-color | A cor da borda do cursor quando desativado. |
+| **$track-color** | $thumb-border-color | A cor da borda do cursor. |
+|  | $track-hover-color | A cor da trilha ao passar o mouse. |
+|  | $disabled-fill-track-color | A cor base de preenchimento da trilha quando desativada. |
+|  | $label-background-color | A cor de fundo do rótulo em balão. |
+|  | $label-text-color | A cor do texto do rótulo em balão. |
+| **$base-track-color** | $base-track-hover-color | A cor base da trilha ao passar o mouse. |
+|  | $track-step-color | A cor dos passos da trilha. |
+|  | $disabled-base-track-color | A cor base da trilha quando desativada. |
+
+</div>
+  
+</div>
+</div>
+
+Para personalizar o Slider, primeiro é preciso importar o arquivo `index`, onde ficam todas as funções e mixins de estilização.
+
+```scss
+@use "igniteui-angular/theming" as *;
+
+// IMPORTANT: Prior to Ignite UI for Angular version 13 use:
+// @import '~igniteui-angular/lib/core/styles/themes/index';
+```
+
+Em seguida, precisamos criar um novo tema que estenda o `slider-theme` e passar os parâmetros que queremos alterar. Ao informar apenas o parâmetro `$track-color` ou `$thumb-color`, o tema gerará automaticamente todas as cores relacionadas à trilha e ao cursor, e os seus diversos estados de interação.
+
+Você também pode substituir propriedades adicionais, como as cores e os rótulos das marcas, para um controle mais preciso.
+
+```scss
+$custom-slider-theme: slider-theme(
+  $thumb-color: #ff7400,
+  $tick-label-color: #b246c2,
+  $tick-color: #b246c2
+);
+```
+
+O último passo é incluir o tema de componente recém-criado em nosso aplicativo.
+
+```scss
+:host {
+  @include tokens($custom-slider-theme);
+}
+```
+
+### Demonstração
+
+Este é o resultado final da aplicação do nosso novo tema.
+
+<Sample src="/interactions/slider-styling-sample" height={240} alt="" />
+
+### Estilizando com Tailwind
+
+Você pode estilizar o `slider` usando nossas classes utilitárias personalizadas do Tailwind. Certifique-se de [configurar o Tailwind](../themes/tailwind.mdx) primeiro.
+
+Junto com a importação do tailwind na sua folha de estilos global, você pode aplicar os utilitários de tema desejados da seguinte forma:
+
+```scss
+@import "tailwindcss";
+...
+@use 'igniteui-theming/tailwind/utilities/material.css';
+```
+
+O arquivo de utilitários inclui as variantes de tema `light` e `dark`.
+
+- Use as classes `light-*` para o tema claro.
+- Use as classes `dark-*` para o tema escuro.
+- Acrescente o nome do componente depois do prefixo, por exemplo, `light-slider`, `dark-slider`.
+
+Depois de aplicadas, essas classes habilitam cálculos dinâmicos de tema. A partir daí, você pode substituir as variáveis CSS geradas usando `arbitrary properties`. Depois dos dois-pontos, informe qualquer formato de cor CSS válido (HEX, variável CSS, RGB etc.).
+
+Você pode encontrar a lista completa de propriedades em <ApiLink kind="sass" module="themes" type="function-slider-theme" label="Tema do IgxSlider" />. A sintaxe é a seguinte:
+
+```html
+<igx-slider
+class="!light-slider ![--thumb-color:#7B9E89]"
+>
+</igx-slider>
+```
+
+<DocsAside type="info">
+O ponto de exclamação (`!`) é obrigatório para garantir que a classe utilitária tenha precedência. O Tailwind aplica estilos em camadas e, sem marcar esses estilos como importantes, eles serão sobrescritos pelo tema padrão do componente.
+</DocsAside>
+
+No final, o seu slider deve ficar assim:
+
+<Sample src="/interactions/slider-tailwind-styling-sample/" height={100} iframeOnly />
+
+## Referências da API
+<hr/>
+- <ApiLink type="Slider" />
+- <ApiLink kind="sass" module="themes" type="function-slider-theme" label="Estilos do IgxSliderComponent" />
+- `SliderType`
+- <ApiLink type="IRangeSliderValue" kind="interface" />
+- <ApiLink type="Slider" member="ticksOrientation" label="TicksOrientation" />
+- <ApiLink type="Slider" member="tickLabelsOrientation" label="TickLabelsOrientation" />
+<hr/>
+Nossa comunidade é ativa e sempre receptiva a novas ideias.
+- [Ignite UI for Angular **Fóruns**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

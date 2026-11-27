@@ -1,0 +1,155 @@
+---
+title: "{Platform} Excel 라이브러리 | 통합 문서 사용하기 | Infragistics"
+description: "Infragistics {Platform} Excel 라이브러리를 사용하여 통합 문서와 워크시트를 만들고, 데이터를 입력하며, 데이터를 Microsoft® Excel®로 내보내십시오. 자세한 내용은 {ProductName} Excel 자습서를 확인하십시오!"
+keywords: "Excel 라이브러리, 통합 문서, {ProductName}, Infragistics"
+license: commercial
+mentionedTypes: ["Workbook"]
+_language: ko
+llms:
+  description: "Infragistics {Platform} Excel 엔진을 사용하면 Microsoft® Excel®에 데이터를 저장하고 Microsoft® Excel®에서 데이터를 불러올 수 있습니다."
+platformType: xplat-unmapped
+---
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+# {Platform} 통합 문서 사용하기
+
+Infragistics {Platform} Excel 엔진을 사용하면 Microsoft® Excel®에 데이터를 저장하고 Microsoft® Excel®에서 데이터를 불러올 수 있습니다. 라이브러리의 다양한 클래스를 사용하여 통합 문서와 워크시트를 만들고, 데이터를 입력하고, 데이터를 Excel로 내보낼 수 있습니다. Infragistics {Platform} Excel 엔진을 사용하면 애플리케이션의 데이터를 Excel 스프레드시트로 쉽게 내보내고, Excel의 데이터를 애플리케이션으로 가져올 수 있습니다.
+
+## {Platform} 통합 문서 사용하기 예제
+
+
+<Sample src="/excel/excel-library/operations-on-workbooks" height={500} alt="{Platform} 통합 문서 사용하기 예제" />
+
+
+
+
+## 기본 글꼴 변경
+
+먼저 <ApiLink type="IWorkbookFont" />의 새 인스턴스를 만드십시오. 그다음 새 글꼴을 <ApiLink type="Workbook" />의 <ApiLink type="Workbook" member="styles" label="Styles" /> 컬렉션에 추가하십시오. 이 스타일은 행, 열, 셀에서 별도로 지정하지 않는 한 통합 문서의 모든 셀에 대한 기본 속성을 포함합니다. 스타일의 속성을 변경하면 통합 문서의 기본 셀 서식 속성이 변경됩니다.
+
+```ts
+var workbook = new Workbook();
+var font: IWorkbookFont;
+font = workbook.styles().normalStyle.styleFormat.font;
+font.name = "Times New Roman";
+font.height = 16 * 20;
+```
+
+<PlatformBlock for="Blazor">
+
+```razor
+var workbook = new Workbook();
+var font = workbook.Styles.NormalStyle.StyleFormat.Font;
+font.Name = "Times New Roman";
+font.Height = 16 * 20;
+```
+
+</PlatformBlock>
+
+## 통합 문서 속성 설정하기
+
+Microsoft Excel® 문서 속성은 문서를 정리하고 추적하는 데 도움이 되는 정보를 제공합니다. Infragistics {Platform} Excel 라이브러리를 사용하여 <ApiLink type="Workbook" /> 객체의 <ApiLink type="Workbook" member="documentProperties" label="DocumentProperties" /> 속성으로 이러한 속성을 설정할 수 있습니다. 사용 가능한 속성은 다음과 같습니다:
+
+- <ApiLink type="DocumentProperties" member="author" label="Author" />
+
+- <ApiLink type="DocumentProperties" member="title" label="Title" />
+
+- <ApiLink type="DocumentProperties" member="subject" label="Subject" />
+
+- <ApiLink type="DocumentProperties" member="keywords" label="Keywords" />
+
+- <ApiLink type="DocumentProperties" member="category" label="Category" />
+
+- <ApiLink type="DocumentProperties" member="status" label="Status" />
+
+- <ApiLink type="DocumentProperties" member="comments" label="Comments" />
+
+- <ApiLink type="DocumentProperties" member="company" label="Company" />
+
+- <ApiLink type="DocumentProperties" member="manager" label="Manager" />
+
+다음 코드는 통합 문서를 만들고 `title`와 `status` 문서 속성을 설정하는 방법을 보여 줍니다.
+
+```ts
+var workbook = new Workbook();
+workbook.documentProperties.title = "Expense Report";
+workbook.documentProperties.status = "Complete";
+```
+
+<PlatformBlock for="Blazor">
+
+```razor
+var workbook = new Workbook();
+workbook.DocumentProperties.Title = "Expense Report";
+workbook.DocumentProperties.Status = "Complete";
+```
+
+</PlatformBlock>
+
+## 통합 문서 보호
+
+통합 문서 보호 기능을 사용하면 통합 문서의 구조를 보호할 수 있습니다. 즉, 사용자가 해당 통합 문서의 워크시트를 추가, 이름 바꾸기, 삭제, 숨기기, 순서 바꾸기 하는 기능을 제한합니다.
+
+이 보호는 Infragistics Excel 엔진의 개체 모델을 통해 강제되지 않습니다. 이 개체 모델을 시각화하는 UI가 이러한 보호 설정을 준수하여 해당 작업을 사용자가 수행하도록 허용하거나 제한해야 합니다.
+
+보호는 `protect` 메서드를 호출하여 통합 문서에 적용합니다.
+
+<ApiLink type="Workbook" />가 암호 없이 보호된 경우, 최종 사용자는 암호를 제공하지 않고도 Excel에서 <ApiLink type="Workbook" />의 보호를 해제할 수 있습니다. <ApiLink type="Workbook" />의 보호를 프로그래밍 방식으로 해제하려면 `unprotect` 메서드를 사용할 수 있습니다.
+
+<ApiLink type="Workbook" />가 보호되면, 이 <ApiLink type="Workbook" />의 `protection` 속성에서 얻은 <ApiLink type="WorkbookProtection" /> 인스턴스의 속성 값은 비활성화된 작업을 나타냅니다.
+
+<ApiLink type="Workbook" member="isProtected" label="IsProtected" />가 이미 true이면 `protect` 메서드는 무시됩니다.
+
+```ts
+var workbook = new Workbook();
+workbook.protect(false, false);
+```
+
+<PlatformBlock for="Blazor">
+
+```razor
+var workbook = new Workbook();
+workbook.Protect(false, false);
+```
+
+</PlatformBlock>
+
+통합 문서에 보호가 있는지 확인합니다. 이 읽기 전용 속성은 Protect 메서드의 오버로드를 사용하여 설정된 보호가 있으면 true를 반환합니다.
+
+```ts
+var workbook = new Workbook();
+var protect = workbook.isProtected;
+```
+
+<PlatformBlock for="Blazor">
+
+```razor
+var workbook = new Workbook();
+var protect = workbook.IsProtected;
+```
+
+</PlatformBlock>
+
+이 읽기 전용 속성은 각 보호 설정을 개별적으로 가져오기 위한 속성을 포함하는 WorkbookProtection 유형의 객체를 반환합니다.
+
+```ts
+var workbook = new Workbook();
+var protection = workbook.protection;
+```
+
+<PlatformBlock for="Blazor">
+
+```razor
+var workbook = new Workbook();
+var protect = workbook.Protection;
+```
+
+</PlatformBlock>
+
+
+## API 참조
+<ApiLink type="DocumentProperties" />
+<ApiLink type="WorkbookProtection" />
+<ApiLink type="Workbook" />

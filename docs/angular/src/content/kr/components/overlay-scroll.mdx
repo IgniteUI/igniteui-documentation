@@ -1,0 +1,106 @@
+---
+title: "Angular Overlay Service - 스크롤 전략 - MIT 라이선스" 
+description: "Overlay Service의 IScrollStrategy 인터페이스와 이를 구현하는 클래스에 대한 설명과 예제입니다."
+license: MIT
+_language: ko
+llms:
+  description: "스크롤 전략은 제공된 IgxOverlayService에서 스크롤이 어떻게 처리될지 결정합니다."
+---
+
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+# 스크롤 전략
+
+스크롤 전략은 제공된 `IgxOverlayService`에서 스크롤이 어떻게 처리될지 결정합니다. 스크롤 전략은 네 가지가 있습니다:
+
+1. **NoOperation** - 아무 작업도 하지 않습니다.
+2. **Block** - 이벤트가 취소되며 컴포넌트는 창과 함께 스크롤되지 않습니다.
+3. **Close** - 허용 오차를 사용하며, 허용 오차를 초과하면 스크롤 시 펼쳐진 컴포넌트를 닫습니다.
+4. **Absolute** - 모든 것을 스크롤합니다.
+
+## 사용법
+
+모든 스크롤 전략에는 다음 메서드가 있습니다:
+
+- <ApiLink kind="interface" type="IScrollStrategy" member="initialize" /> - 스크롤 전략을 초기화합니다. 문서의 참조, 오버레이 서비스, 렌더링된 컴포넌트의 id가 필요합니다
+- <ApiLink kind="interface" type="IScrollStrategy" member="attach" /> - 스크롤 전략을 지정된 요소 또는 문서에 연결합니다
+- <ApiLink kind="interface" type="IScrollStrategy" member="detach" /> - 스크롤 전략을 분리합니다
+
+```typescript
+this.scrollStrategy.initialize(document, overlayService, id);
+this.scrollStrategy.attach();
+this.scrollStrategy.detach();
+```
+
+<hr/>
+
+### 시작하기
+
+스크롤 전략은 <ApiLink type="OverlayService" member="attach" label="overlay.attach()" /> 메서드를 호출할 때 <ApiLink kind="interface" type="OverlaySettings" /> 매개변수의 속성으로 전달됩니다:
+
+```typescript
+// Initializing and using overlay settings
+const overlaySettings: OverlaySettings = {
+    positionStrategy: new GlobalPositionStrategy(),
+    scrollStrategy: new AbsoluteScrollStrategy(), //Passes the scroll strategy
+    modal: true,
+    closeOnOutsideClick: true
+}
+const overlayId = overlay.attach(dummyElement, overlaySettings); 
+```
+
+<igc-divider></igc-divider>
+
+오버레이가 사용하는 스크롤 전략을 변경하려면, 오버레이에 전달되는 <ApiLink kind="interface" type="OverlaySettings" /> 객체의 <ApiLink kind="interface" type="IScrollStrategy" /> 속성을 재정의하십시오. 전략이 이미 연결되어 있었다면, 이전에 생성된 ID를 분리해야 합니다:
+
+```typescript
+// overlaySettings is an existing object of type OverlaySettings
+// to override the scroll strategy
+const newOverlaySettings = Object.assing({}, overlaySettings);
+Object.assing(newOverlaySettings, {
+    scrollStrategy: new CloseScrollStrategy()
+})
+const overlayId = overlay.attach(dummyElement, newOverlaySettings);
+overlay.show(overlayId);
+```
+
+<hr/>
+
+### 종속성
+
+스크롤 전략 중 어느 것이든 사용하려면 다음과 같이 가져오십시오:
+
+```typescript
+import { NoOpScrollStrategy } from "./scroll/NoOpScrollStrategy";
+```
+
+### 스크롤 전략
+
+스크롤 전략은 <ApiLink kind="interface" type="OverlaySettings" /> 객체에 전달하여 오버레이가 스크롤을 어떻게 처리할지 결정할 수 있습니다.
+아래 데모는 서로 다른 <ApiLink kind="interface" type="IScrollStrategy" />의 차이를 보여 줍니다:
+
+<Sample src="/interactions/overlay-scroll-sample-2" height={400} alt="" />
+
+<hr/>
+
+## Modal
+
+<ApiLink kind="interface" type="OverlaySettings" /> 객체는 불리언 속성(<ApiLink kind="interface" type="OverlaySettings" member="modal" />)을 전달하는 것도 허용합니다. 이 속성은 오버레이가 표시되는 방식을 제어합니다:
+
+- <ApiLink kind="interface" type="OverlaySettings" member="modal" /> 속성이 `false`이면, 요소는 DOM 전경에 연결되지만 모든 요소는 여전히 활성 상태이며 상호 작용할 수 있습니다. 예를 들어 스크롤, 클릭 등이 가능합니다.
+- <ApiLink kind="interface" type="OverlaySettings" member="modal" /> 속성이 `true`이면, 요소는 DOM 전경에 연결되고 그 뒤를 오버레이 차단기가 감싸서 모든 이벤트의 전파를 막습니다:
+
+<Sample src="/interactions/overlay-scroll-sample-1" height={400} alt="" />
+
+<hr/>
+
+## API 참조
+- <ApiLink type="IScrollStrategy" kind="interface" />
+## 추가 리소스
+
+- [오버레이 기본 주제](/overlay)
+- [위치 지정 전략](/overlay-position)
+- [스타일 지정 주제](/overlay-styling)
+- <ApiLink type="OverlayService" />
+- <ApiLink kind="sass" module="themes" type="function-overlay-theme" label="IgxOverlay 스타일" />

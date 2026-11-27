@@ -1,0 +1,423 @@
+---
+title: "{Platform} Splitter 컴포넌트 | 레이아웃 컨트롤 | Infragistics"
+description: "가로 또는 세로 레이아웃, 접기 및 펼치기 동작, 키보드 지원, 중첩된 분할 뷰를 갖춘 크기 조정 가능한 두 패널을 만들려면 {ProductName} Splitter 컴포넌트를 사용하십시오."
+keywords: "splitter, 분할 패널, 크기 조정 가능한 패널, 웹 컴포넌트 splitter, {Platform} splitter, {ProductName}"
+license: MIT
+mentionedTypes: ["Splitter", "SplitterResizeEventArgs"]
+_language: ko
+llms:
+  description: "{ProductName} Splitter는 콘텐츠를 시작과 끝의 두 영역으로 나누는 크기 조정 가능한 분할 패널 레이아웃을 제공합니다."
+---
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiRef from 'igniteui-astro-components/components/mdx/ApiRef.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+# {Platform} Splitter 개요
+
+{ProductName} Splitter는 콘텐츠를 `start`과(와) `end`의 두 영역으로 나누는 크기 조정 가능한 분할 패널 레이아웃을 제공합니다. 사용자는 스플리터 막대를 끌거나, 키보드 단축키를 사용하거나, 내장 컨트롤로 패널을 접고 펼칠 수 있습니다. 스플리터를 중첩하여 복잡한 대시보드형 레이아웃을 만들 수도 있습니다.
+
+## {Platform} Splitter 예제
+
+<PlatformBlock for="WebComponents, React">
+<Sample src="/layouts/splitter/base" height={520} alt="{Platform} Splitter 예제" />
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+<Sample src="/layouts/splitter/overview" height={520} alt="{Platform} Splitter 예제" />
+</PlatformBlock>
+
+
+## {Platform} Splitter 시작하기
+
+<PlatformBlock for="WebComponents">
+
+먼저 다음 명령을 실행하여 {ProductName}를 설치해야 합니다:
+
+```cmd
+npm install {PackageWebComponents}
+```
+
+<ApiLink type="Splitter" />를 사용하기 전에 다음과 같이 등록해야 합니다:
+
+```ts
+import { defineComponents, IgcSplitterComponent } from 'igniteui-webcomponents';
+
+defineComponents(IgcSplitterComponent);
+```
+
+{ProductName}에 대한 전체 소개는 [**시작하기**](../general-getting-started.mdx) 항목을 읽어 보십시오.
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+먼저 다음 명령을 실행하여 해당 {ProductName} npm 패키지를 설치하십시오:
+
+```cmd
+npm install igniteui-react
+```
+
+그다음 다음과 같이 <ApiLink type="Splitter" />와 필요한 CSS를 import해야 합니다:
+
+```tsx
+import { IgrSplitter } from 'igniteui-react';
+import 'igniteui-webcomponents/themes/light/bootstrap.css';
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+{ProductName} 서비스를 등록합니다:
+
+```csharp
+// in Program.cs file
+
+builder.Services.AddIgniteUIBlazor();
+```
+
+Splitter의 클라이언트 리소스 모듈인 <ApiLink pkg="core" type="SplitterModule" />을(를) 등록하는 것은 **선택 사항**입니다. 컴포넌트는 처음 렌더링될 때 리소스를 로드합니다. `builder.Services.AddIgniteUIBlazor(typeof(IgbSplitterModule))`에 나열하면 리소스를 미리 로드하거나 클라이언트에서만 만들어지는 요소를 지원할 수 있습니다([컴포넌트 모듈](../general-getting-started.mdx#컴포넌트-모듈) 참조).
+
+</PlatformBlock>
+
+
+<PlatformBlock for="Blazor">
+
+<ApiLink pkg="core" type="Splitter" /> 컴포넌트에 스타일을 적용하려면 추가 CSS 파일도 연결해야 합니다. 다음 내용을 애플리케이션의 호스트 페이지에 넣어야 합니다(독립 실행형 Blazor WebAssembly 또는 Blazor Hybrid 앱에서는 **wwwroot/index.html**, Blazor Server 앱에서는 **Pages/_Host.cshtml**, Blazor Web App에서는 **Components/App.razor**):
+
+```razor
+<link href="_content/IgniteUI.Blazor/themes/light/bootstrap.css" rel="stylesheet" />
+```
+
+</PlatformBlock>
+
+## {Platform} Splitter 사용하기
+
+`start` 및 `end` 슬롯을 사용하여 패널 콘텐츠를 배치하십시오:
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-splitter style="height: 400px;">
+  <div slot="start">Start pane content</div>
+  <div slot="end">End pane content</div>
+</igc-splitter>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrSplitter>
+  <div slot="start">Start pane content</div>
+  <div slot="end">End pane content</div>
+</IgrSplitter>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbSplitter>
+  <div slot="start">Start pane content</div>
+  <div slot="end">End pane content</div>
+</IgbSplitter>
+```
+
+</PlatformBlock>
+
+Splitter 컴포넌트의 `start` 및 `end` 슬롯에는 `<div>` 또는 `<section>`나 `<article>` 같은 시맨틱 요소를 사용하는 것을 권장합니다.
+
+### 방향
+
+패널 방향을 제어하려면 <ApiLink pkg="core" type="Splitter" member="orientation" label="Orientation" /> 속성을 설정하십시오:
+
+- `horizontal`(기본값): 시작 패널과 끝 패널이 왼쪽과 오른쪽에 렌더링됩니다.
+- `vertical`: 시작 패널과 끝 패널이 위와 아래에 렌더링됩니다.
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-splitter orientation="vertical" style="height: 400px;">
+  <div slot="start">Top pane</div>
+  <div slot="end">Bottom pane</div>
+</igc-splitter>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrSplitter orientation="vertical">
+  <div slot="start">Top pane</div>
+  <div slot="end">Bottom pane</div>
+</IgrSplitter>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbSplitter Orientation="SplitterOrientation.Vertical">
+  <div slot="start">Top pane</div>
+  <div slot="end">Bottom pane</div>
+</IgbSplitter>
+```
+
+</PlatformBlock>
+
+### 패널 크기와 제약 조건
+
+크기 속성을 사용하여 초기 패널 크기와 제약된 패널 크기를 설정하십시오:
+
+- <ApiLink pkg="core" type="Splitter" member="startSize" label="StartSize" />, <ApiLink pkg="core" type="Splitter" member="endSize" label="EndSize" />
+- <ApiLink pkg="core" type="Splitter" member="startMinSize" label="StartMinSize" />, <ApiLink pkg="core" type="Splitter" member="endMinSize" label="EndMinSize" />
+- <ApiLink pkg="core" type="Splitter" member="startMaxSize" label="StartMaxSize" />, <ApiLink pkg="core" type="Splitter" member="endMaxSize" label="EndMaxSize" />
+
+값은 `px` 및 `%` 같은 CSS 길이 값을 받습니다.
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-splitter
+  start-size="35%"
+  end-size="65%"
+  start-min-size="200px"
+  end-min-size="180px"
+  style="height: 420px;"
+>
+  <div slot="start">Navigation</div>
+  <div slot="end">Main content</div>
+</igc-splitter>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrSplitter
+  startSize="35%"
+  endSize="65%"
+  startMinSize="200px"
+  endMinSize="180px"
+>
+  <div slot="start">Navigation</div>
+  <div slot="end">Main content</div>
+</IgrSplitter>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbSplitter
+  StartSize="35%"
+  EndSize="65%"
+  StartMinSize="200px"
+  EndMinSize="180px"
+>
+  <div slot="start">Navigation</div>
+  <div slot="end">Main content</div>
+</IgbSplitter>
+```
+
+</PlatformBlock>
+
+### 접기 및 크기 조정
+
+다음 속성을 사용하여 상호 작용을 제어하십시오:
+
+- <ApiLink pkg="core" type="Splitter" member="disableResize" label="DisableResize" />: 패널 크기 조정을 비활성화합니다.
+- <ApiLink pkg="core" type="Splitter" member="disableCollapse" label="DisableCollapse" />: 패널 접기를 비활성화합니다.
+- <ApiLink pkg="core" type="Splitter" member="hideDragHandle" label="HideDragHandle" />: 끌기 핸들을 숨깁니다.
+- <ApiLink pkg="core" type="Splitter" member="hideCollapseButtons" label="HideCollapseButtons" />: 접기 및 펼치기 버튼을 숨깁니다.
+
+프로그래밍 방식으로 패널을 접거나 펼칠 수도 있습니다:
+
+<PlatformBlock for="WebComponents">
+
+```ts
+const splitter = document.querySelector('igc-splitter') as IgcSplitterComponent;
+
+splitter.toggle('start'); // collapse start pane
+splitter.toggle('start'); // expand start pane
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+import { useRef } from 'react';
+
+const splitterRef = useRef<IgrSplitterComponent>(null);
+
+const toggleStartPane = () => {
+  splitterRef.current?.toggle('start');
+};
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbSplitter @ref="SplitterRef">
+  <div slot="start">Start pane</div>
+  <div slot="end">End pane</div>
+</IgbSplitter>
+
+@code {
+    private IgbSplitter SplitterRef;
+
+    public async Task ToggleStartPane()
+    {
+      this.SplitterRef.Toggle(PanePosition.Start);
+    }
+}
+```
+
+</PlatformBlock>
+
+### 중첩된 스플리터
+
+스플리터를 중첩하여 여러 영역 레이아웃을 만들 수 있습니다.
+
+<Sample src="/layouts/splitter/nested" height={520} alt="{Platform} 중첩 스플리터 예제" />
+
+## 이벤트
+
+Splitter는 크기 조정 작업 중에 다음 이벤트를 발생시킵니다:
+
+<PlatformBlock for="WebComponents">
+
+- `igcResizeStart`: 크기 조정이 시작될 때 한 번 발생합니다.
+- `igcResizing`: 크기 조정 중에 계속 발생합니다.
+- `igcResizeEnd`: 크기 조정이 끝날 때 한 번 발생합니다.
+
+이벤트 세부 정보에는 진행 중인 이벤트와 종료 이벤트에 대한 현재 `startPanelSize`, `endPanelSize`, `delta`이(가) 포함됩니다.
+
+</PlatformBlock>
+
+<PlatformBlock for="React, Blazor">
+
+- <ApiLink type="Splitter" member="onResizeStart" label="ResizeStart" />: 크기 조정이 시작될 때 한 번 발생합니다.
+- <ApiLink type="Splitter" member="onResizing" label="Resizing" />: 크기 조정 중에 계속 발생합니다.
+- <ApiLink type="Splitter" member="onResizeEnd" label="ResizeEnd" />: 크기 조정이 끝날 때 한 번 발생합니다.
+
+이벤트 세부 정보에는 진행 중인 이벤트와 종료 이벤트에 대한 현재 `StartPanelSize`, `EndPanelSize`, `Delta`이(가) 포함됩니다.
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```ts
+const splitter = document.querySelector('igc-splitter');
+
+splitter?.addEventListener('igcResizeEnd', (event: CustomEvent) => {
+  console.log(event.detail.startPanelSize, event.detail.endPanelSize, event.detail.delta);
+});
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+const handleResizeEnd = (event: CustomEvent<IgcSplitterResizeEventArgs>) => {
+  console.log(event.detail.startPanelSize, event.detail.endPanelSize, event.detail.delta);
+};
+
+<IgrSplitter onResizeEnd={handleResizeEnd}>
+  <div slot="start">Start pane</div>
+  <div slot="end">End pane</div>
+</IgrSplitter>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbSplitter ResizeEnd="OnResizeEnd">
+  <div slot="start">Start pane</div>
+  <div slot="end">End pane</div>
+</IgbSplitter>
+
+@code {
+    public void OnResizeEnd(IgbSplitterResizeEventArgs e)
+    {
+        Console.WriteLine($"StartPanelSize: {e.Detail.StartPanelSize}, EndPanelSize: {e.Detail.EndPanelSize}");
+    }
+}
+```
+
+</PlatformBlock>
+
+## 키보드 탐색
+
+스플리터 막대에 포커스가 있을 때:
+
+| 키 | 설명 |
+| ---- | ----------- |
+| <kbd>Arrow Left</kbd> / <kbd>Arrow Right</kbd> | 가로 방향에서 패널 크기 조정 |
+| <kbd>Arrow Up</kbd> / <kbd>Arrow Down</kbd> | 세로 방향에서 패널 크기 조정 |
+| <kbd>Home</kbd> | 시작 패널을 최소 크기로 맞춤 |
+| <kbd>End</kbd> | 시작 패널을 최대 크기로 맞춤 |
+| <kbd>Ctrl</kbd> + <kbd>Arrow Left</kbd> / <kbd>Arrow Up</kbd> | 시작 패널을 접거나 펼침 |
+| <kbd>Ctrl</kbd> + <kbd>Arrow Right</kbd> / <kbd>Arrow Down</kbd> | 끝 패널을 접거나 펼침 |
+
+## 스타일링
+
+<ApiLink pkg="core" type="Splitter" /> 컴포넌트는 스타일 지정을 위해 다음 CSS 파트를 노출합니다:
+
+| 이름 | 설명 |
+| ---- | ----------- |
+| `splitter-bar` | 패널 사이의 끌 수 있는 구분선입니다. |
+| `drag-handle` | 스플리터 막대의 끌기 핸들 요소입니다. |
+| `start-pane` | 시작 패널 컨테이너입니다. |
+| `end-pane` | 끝 패널 컨테이너입니다. |
+| `start-collapse-btn` | 시작 패널을 접는 버튼입니다. |
+| `end-collapse-btn` | 끝 패널을 접는 버튼입니다. |
+| `start-expand-btn` | 시작 패널을 펼치는 버튼입니다. |
+| `end-expand-btn` | 끝 패널을 펼치는 버튼입니다. |
+
+다음을 포함한 테마 CSS 변수도 지원합니다:
+
+- `--bar-color`
+- `--handle-color`
+- `--expander-color`
+- `--bar-color-active`
+- `--handle-color-active`
+- `--expander-color-active`
+- `--focus-color`
+- `--size`
+
+```css
+igc-splitter {
+  --bar-color: #011627;
+  --handle-color: #ecaa53;
+  --expander-color: #ecaa53;
+  --bar-color-active: #011627;
+  --handle-color-active: #ecaa53;
+  --expander-color-active: #ecaa53;
+  --focus-color: #ecaa53;
+}
+```
+
+<Sample src="/layouts/splitter/styling" height={520} alt="{Platform} Splitter 스타일 지정 예제" />
+
+## API 참조
+<ApiRef pkg="core" types={["Splitter"]} />
+- [`Styling & Themes`](../themes/overview.mdx)
+## 추가 리소스
+
+- [{ProductName} **포럼**]({ForumsLink})
+- [{ProductName} **GitHub**]({GithubLink})

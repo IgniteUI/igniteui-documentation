@@ -1,0 +1,215 @@
+---
+title: "Angular Overlay Service – Estratégias de posicionamento – Licença MIT" 
+description: "Explicação e exemplo sobre a interface IPositionStrategy do Overlay Service e as classes que a implementam."
+license: MIT
+_language: pt-BR
+llms:
+  description: "As estratégias de posicionamento determinam onde o conteúdo é exibido no IgxOverlayService fornecido."
+---
+
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+
+# Estratégias de posicionamento
+
+As estratégias de posicionamento determinam onde o conteúdo é exibido no `IgxOverlayService` fornecido. Por padrão, o conteúdo é posicionado no meio da tela.
+
+## Exemplo de estratégias de posicionamento do Angular
+
+
+<Sample src="/interactions/overlay-sample-main-1" height={350} alt="Exemplo de estratégias de posicionamento do Angular" />
+
+<hr/>
+
+## Visão geral das estratégias
+
+Existem cinco estratégias de posicionamento:
+
+### Global
+
+Posiciona o conteúdo com base nas direções passadas por meio de <ApiLink kind="interface" type="PositionSettings" />. São Left/Center/Right para <ApiLink kind="interface" type="PositionSettings" member="horizontalDirection" /> e Top/Middle/Bottom para <ApiLink kind="interface" type="PositionSettings" member="verticalDirection" />. Os valores padrão são:
+
+| horizontalDirection        | verticalDirection        |
+| :------------------------- | :----------------------- |
+| HorizontalAlignment.Center | VerticalAlignment.Middle |
+
+<igc-divider></igc-divider>
+
+### Container
+
+Posiciona o conteúdo como `GlobalPositionStrategy`. Em vez de posicionar em relação à tela, `ContainerPositionStrategy` posiciona o conteúdo em relação ao elemento informado em `OverlaySettings` `outlet`. Os valores padrão são:
+
+| horizontalDirection        | verticalDirection        |
+| :------------------------- | :----------------------- |
+| HorizontalAlignment.Center | VerticalAlignment.Middle |
+
+<igc-divider></igc-divider>
+
+### Connected
+
+Posiciona o elemento com base no ponto inicial de <ApiLink kind="interface" type="OverlaySettings" /> e nas direções passadas por meio de <ApiLink kind="interface" type="PositionSettings" />. É possível passar um ponto inicial (tipo <ApiLink pkg="core" type="Point" />) ou um `HTMLElement` como base de posicionamento. Os valores padrão são:
+
+| target          | horizontalDirection       |  verticalDirection       | horizontalStartPoint     | verticalStartPoint       |
+| :-------------- | :------------------------ | :----------------------- | :----------------------- | :----------------------- |
+| new Point(0, 0) | HorizontalAlignment.Right | VerticalAlignment.Bottom | HorizontalAlignment.Left | VerticalAlignment.Bottom |
+
+<igc-divider></igc-divider>
+
+### Auto
+
+Posiciona o elemento da mesma forma que a estratégia de posicionamento **Connected**. Ela também calcula um ponto inicial diferente caso o elemento fique parcialmente fora da viewport. A estratégia **Auto** tenta, inicialmente, mostrar o elemento como a estratégia **Connected** faz. Se o elemento sair da viewport, **Auto** inverte o ponto inicial e a direção, ou seja, se a direção for 'bottom', ela muda para 'top' e assim por diante. Depois da inversão, se o elemento ainda estiver fora da viewport, **Auto** usa as direções e o ponto inicial originais para empurrar o elemento para dentro da viewport. Por exemplo: se o elemento sair 50px pela direita da viewport, **Auto** o empurrará 50px para a esquerda. Depois disso, se o elemento ainda estiver parcialmente fora da viewport, por ter altura ou largura maiores que as da viewport, **Auto** alinhará a borda esquerda/superior do elemento com a borda esquerda/superior da viewport. Os valores padrão são:
+
+| target          | horizontalDirection       |  verticalDirection       | horizontalStartPoint     | verticalStartPoint       |
+| :-------------- | :------------------------ | :----------------------- | :----------------------- | :----------------------- |
+| new Point(0, 0) | HorizontalAlignment.Right | VerticalAlignment.Bottom | HorizontalAlignment.Left | VerticalAlignment.Bottom |
+
+<igc-divider></igc-divider>
+
+### Elastic
+
+Posiciona o elemento como a estratégia **Connected** e redimensiona o elemento para caber dentro da viewport (recalculando largura e/ou altura) caso ele esteja parcialmente fora da área visível. <ApiLink kind="interface" type="PositionSettings" member="minSize" /> pode ser passado em <ApiLink kind="interface" type="PositionSettings" /> para impedir o redimensionamento se isso fizer as dimensões do elemento ficarem abaixo de um determinado limite. Os valores padrão são:
+
+| target          | horizontalDirection       |  verticalDirection       | horizontalStartPoint     | verticalStartPoint       | minSize               |
+|:----------------|:--------------------------|:-------------------------|:-------------------------|:-------------------------|:----------------------|
+| new Point(0, 0) | HorizontalAlignment.Right | VerticalAlignment.Bottom | HorizontalAlignment.Left | VerticalAlignment.Bottom |`{ width: 0, height: 0 }`|
+
+<igc-divider></igc-divider>
+
+<DocsAside type="info">
+Ele não tenta redimensionar o elemento se a estratégia estiver usando HorizontalDirection = Center / VerticalDirection = Middle.
+</DocsAside>
+
+<DocsAside type="info">
+O elemento de sobreposição **será** redimensionado, mas a estratégia de posicionamento **não** trata `overflow`. Por exemplo, se o elemento precisar ter `overflow-y` ao ser redimensionado, inclua o estilo apropriado para isso.
+</DocsAside>
+
+## Uso
+
+As estratégias de posicionamento permitem exibir conteúdo na sobreposição em várias combinações. Para começar a usar as diferentes estratégias, primeiro inclua as dependências necessárias para cada estratégia utilizada, assim:
+
+```typescript
+import {
+    AutoPositionStrategy,
+    ConnectedPositioningStrategy,
+    ContainerPositionStrategy,
+    ElasticPositionStrategy,
+    GlobalPositionStrategy
+} from 'igniteui-angular/core';
+// import { AutoPositionStrategy, 
+//    ConnectedPositioningStrategy, 
+//    ContainerPositionStrategy,
+//    ElasticPositionStrategy,
+//    GlobalPositionStrategy } from '@infragistics/igniteui-angular'; for licensed package
+
+```
+
+Em seguida, especifique a estratégia de posicionamento a ser usada pela sobreposição. A estratégia é passada como propriedade no parâmetro <ApiLink kind="interface" type="OverlaySettings" /> quando o método <ApiLink type="OverlayService" member="attach" label="overlay.attach()" /> é chamado. No exemplo a seguir, substituímos o `GlobalPositionStrategy` padrão por `ConnectedPositionStrategy`:
+
+```typescript
+// Initialize and use overlay settings
+const overlaySettings: OverlaySettings = {
+    // Set the target where content should be shown
+    target: this.buttonElement.nativeElement,
+    // Pass in the positioning strategy
+    positionStrategy: new ConnectedPositioningStrategy()
+};
+this._overlayId = this.overlayService.attach(MyDynamicCardComponent, this.viewContainerRef, overlaySettings); 
+```
+
+<igc-divider></igc-divider>
+
+
+<Sample src="/interactions/overlay-position-sample-1" height={400} alt="" />
+
+<hr/>
+
+## Configurações de posicionamento
+
+Cada estratégia de posicionamento tem as suas próprias configurações. Elas determinam como o conteúdo será mostrado. No exemplo a seguir, criamos um novo objeto `PositionSettings`. Com ele, forçamos a sobreposição a mostrar o conteúdo a partir do ponto superior direito de `target` informado: `buttonElement`. A direção em que o conteúdo é mostrado é definida como superior-esquerda. Em seguida, criamos uma nova `ConnectedPositionStrategy` e a passamos para `positionSettings`.
+
+```typescript
+const positionSettings: PositionSettings = {
+    horizontalStartPoint: HorizontalAlignment.Right,
+    verticalStartPoint: VerticalAlignment.Top,
+    horizontalDirection: HorizontalAlignment.Left,
+    verticalDirection: VerticalAlignment.Top
+};
+
+const strategy = new ConnectedPositioningStrategy(positionSettings);
+
+// Initialize and use overlay settings
+const overlaySettings: OverlaySettings = {
+    target: buttonElement.nativeElement,
+    // Pass in the positioning strategy
+    positionStrategy: strategy
+};
+this._overlayId = this.overlayService.attach(MyDynamicCardComponent, this.viewContainerRef, overlaySettings);
+```
+
+
+<Sample src="/interactions/overlay-position-sample-2" height={500} alt="" />
+
+<hr/>
+
+### Alterando estratégias
+
+Você também pode alterar a estratégia de posicionamento usada pela sobreposição, substituindo a propriedade <ApiLink kind="interface" type="IPositionStrategy" /> do objeto <ApiLink kind="interface" type="OverlaySettings" /> que é passado para a sobreposição:
+
+```typescript
+const myPositionStrategy = new AutoPositionStrategy();
+overlay.attach(element, { positionStrategy: myPositionStrategy }); 
+```
+
+<Sample src="/interactions/overlay-position-sample-3" height={500} alt="" />
+
+<hr/>
+
+### Alterando configurações
+
+Para alterar as configurações de posicionamento de uma estratégia já existente, substitua qualquer uma das configurações dela. Se uma estratégia já estiver anexada, você deve desanexar o ID gerado anteriormente:
+
+```typescript
+// overlaySettings is an existing object of type OverlaySettings
+// overlaySettings.positionStrategy is an existing PositionStrategy with settings of type PositionSettings
+Object.assign(overlaySettings.positionStrategy.settings, {
+    horizontalStartPoint: HorizontalAlignment.Left,
+    horizontalDirection: HorizontalAlignment.Left
+});
+overlaySettings.target = dummyHTMLElement;
+// the element will now start to the left of the target (dummyHTMLElement)
+// and will align itself to the left
+const overlayId = overlay.attach(overlayId, overlaySettings);
+overlay.show(overlayId);
+```
+
+### Deslocando o conteúdo
+
+O método `setOffset` permite um ajuste preciso do posicionamento do conteúdo ao longo do eixo correspondente, por um valor especificado. Além disso, ele oferece suporte a um parâmetro `offsetMode` opcional, que controla como os valores de deslocamento são aplicados.
+
+```typescript
+// deltaX and deltaY determine the amount by which the content will be offset.
+// Using OffsetMode.Add to add the values (default behavior)
+const deltaX: number = 30;
+const deltaY: number = 15;
+overlay.setOffset(this._overlayId, deltaX, deltaY, OffsetMode.Add);
+```
+
+```typescript
+// deltaX and deltaY determine the exact position to set the content to, relative to its target element.
+// Using OffsetMode.Set to set the offset to specific values
+const deltaX: number = 30;
+const deltaY: number = 15;
+overlay.setOffset(this._overlayId, deltaX, deltaY, OffsetMode.Set);
+```
+
+## Referências da API
+- <ApiLink type="IPositionStrategy" kind="interface" />
+## Recursos adicionais
+
+- [Tópico principal da sobreposição](/overlay)
+- [Estratégias de rolagem](/overlay-scroll)
+- [Tópico de estilização](/overlay-styling)
+- <ApiLink type="OverlayService" />
+- <ApiLink kind="sass" module="themes" type="function-overlay-theme" label="Estilos do IgxOverlay" />

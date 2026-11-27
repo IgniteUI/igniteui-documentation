@@ -1,0 +1,215 @@
+---
+title: "Angular Overlay Service - 위치 지정 전략 - MIT 라이선스" 
+description: "Overlay Service의 IPositionStrategy 인터페이스와 이를 구현하는 클래스에 대한 설명과 예제입니다."
+license: MIT
+_language: ko
+llms:
+  description: "위치 지정 전략은 제공된 IgxOverlayService에서 콘텐츠가 표시되는 위치를 결정합니다."
+---
+
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+
+# 위치 지정 전략
+
+위치 지정 전략은 제공된 `IgxOverlayService`에서 콘텐츠가 표시되는 위치를 결정합니다. 기본적으로 콘텐츠는 화면 중앙에 위치합니다.
+
+## Angular 위치 지정 전략 예제
+
+
+<Sample src="/interactions/overlay-sample-main-1" height={350} alt="Angular 위치 지정 전략 예제" />
+
+<hr/>
+
+## 전략 개요
+
+위치 지정 전략은 다섯 가지가 있습니다:
+
+### 전역
+
+<ApiLink kind="interface" type="PositionSettings" />을(를) 통해 전달된 방향에 따라 콘텐츠를 위치시킵니다. <ApiLink kind="interface" type="PositionSettings" member="horizontalDirection" />에는 Left/Center/Right, <ApiLink kind="interface" type="PositionSettings" member="verticalDirection" />에는 Top/Middle/Bottom을 사용합니다. 기본값은 다음과 같습니다:
+
+| horizontalDirection        | verticalDirection        |
+| :------------------------- | :----------------------- |
+| HorizontalAlignment.Center | VerticalAlignment.Middle |
+
+<igc-divider></igc-divider>
+
+### Container
+
+콘텐츠를 `GlobalPositionStrategy`(으)로 위치시킵니다. 화면과 관련된 위치 대신 `OverlaySettings`에 제공된 `outlet`과(와) 관련하여 `ContainerPositionStrategy` 콘텐츠를 위치시킵니다. 기본값은 다음과 같습니다:
+
+| horizontalDirection        | verticalDirection        |
+| :------------------------- | :----------------------- |
+| HorizontalAlignment.Center | VerticalAlignment.Middle |
+
+<igc-divider></igc-divider>
+
+### Connected
+
+<ApiLink kind="interface" type="OverlaySettings" />의 시작점과 <ApiLink kind="interface" type="PositionSettings" />을(를) 통해 전달된 방향에 따라 요소를 위치시킵니다. 위치 지정 기준으로 시작점(<ApiLink pkg="core" type="Point" /> 유형)을 전달하거나 `HTMLElement`을(를) 전달할 수 있습니다. 기본값은 다음과 같습니다:
+
+| target          | horizontalDirection       |  verticalDirection       | horizontalStartPoint     | verticalStartPoint       |
+| :-------------- | :------------------------ | :----------------------- | :----------------------- | :----------------------- |
+| new Point(0, 0) | HorizontalAlignment.Right | VerticalAlignment.Bottom | HorizontalAlignment.Left | VerticalAlignment.Bottom |
+
+<igc-divider></igc-divider>
+
+### Auto
+
+**Connected** 위치 지정 전략과 같은 방식으로 요소를 위치시킵니다. 또한 요소가 뷰포트를 일부 벗어나는 경우 다른 시작점을 계산합니다. **Auto** 전략은 처음에는 **Connected** 전략처럼 요소를 표시하려고 합니다. 요소가 뷰포트를 벗어나면 **Auto**는 시작점과 방향을 뒤집습니다. 예를 들어 방향이 'bottom'이면 'top'으로 바꾸는 식입니다. 뒤집은 후에도 요소가 여전히 뷰포트를 벗어나면, **Auto**는 초기 방향과 시작점을 사용해 요소를 뷰포트 안으로 밀어 넣습니다. 예를 들어 요소가 뷰포트의 오른쪽 바깥으로 50px 벗어나면, **Auto**는 요소를 왼쪽으로 50px 밀어 넣습니다. 그 후에도 요소가 부분적으로 뷰포트를 벗어나 있다면, 즉 요소의 높이나 너비가 뷰포트보다 크다는 뜻이라면, **Auto**는 요소의 왼쪽/위쪽 가장자리를 뷰포트의 왼쪽/위쪽 가장자리에 맞춥니다. 기본값은 다음과 같습니다:
+
+| target          | horizontalDirection       |  verticalDirection       | horizontalStartPoint     | verticalStartPoint       |
+| :-------------- | :------------------------ | :----------------------- | :----------------------- | :----------------------- |
+| new Point(0, 0) | HorizontalAlignment.Right | VerticalAlignment.Bottom | HorizontalAlignment.Left | VerticalAlignment.Bottom |
+
+<igc-divider></igc-divider>
+
+### Elastic
+
+**Connected** 위치 지정 전략처럼 요소를 위치시키고, 요소가 부분적으로 보이지 않는 경우 뷰포트 안에 맞도록 크기를 다시 조정합니다(너비 및/또는 높이를 다시 계산). <ApiLink kind="interface" type="PositionSettings" member="minSize" />을(를) <ApiLink kind="interface" type="PositionSettings" />에 전달하면, 요소의 크기가 특정 임계값 아래로 내려갈 경우 크기 조정을 막을 수 있습니다. 기본값은 다음과 같습니다:
+
+| target          | horizontalDirection       |  verticalDirection       | horizontalStartPoint     | verticalStartPoint       | minSize               |
+|:----------------|:--------------------------|:-------------------------|:-------------------------|:-------------------------|:----------------------|
+| new Point(0, 0) | HorizontalAlignment.Right | VerticalAlignment.Bottom | HorizontalAlignment.Left | VerticalAlignment.Bottom |`{ width: 0, height: 0 }`|
+
+<igc-divider></igc-divider>
+
+<DocsAside type="info">
+전략이 HorizontalDirection = Center / VerticalDirection = Middle을 사용하는 경우에는 요소의 크기를 조정하지 않습니다.
+</DocsAside>
+
+<DocsAside type="info">
+오버레이 요소는 크기가 **조정됩니다**. 하지만 위치 지정 전략은 `overflow`을(를) **처리하지 않습니다**. 예를 들어 크기 조정 시 요소가 `overflow-y`을(를) 가져야 한다면, 이를 위해 적절한 스타일을 포함하십시오.
+</DocsAside>
+
+## 사용법
+
+위치 지정 전략을 사용하면 오버레이에 다양한 조합으로 콘텐츠를 표시할 수 있습니다. 다양한 위치 지정 전략을 사용하려면 먼저 사용하는 각 전략에 필요한 종속성을 다음과 같이 포함해야 합니다:
+
+```typescript
+import {
+    AutoPositionStrategy,
+    ConnectedPositioningStrategy,
+    ContainerPositionStrategy,
+    ElasticPositionStrategy,
+    GlobalPositionStrategy
+} from 'igniteui-angular/core';
+// import { AutoPositionStrategy, 
+//    ConnectedPositioningStrategy, 
+//    ContainerPositionStrategy,
+//    ElasticPositionStrategy,
+//    GlobalPositionStrategy } from '@infragistics/igniteui-angular'; for licensed package
+
+```
+
+그런 다음 오버레이가 사용할 위치 지정 전략을 지정합니다. 위치 지정 전략은 <ApiLink type="OverlayService" member="attach" label="overlay.attach()" /> 메서드를 호출할 때 <ApiLink kind="interface" type="OverlaySettings" /> 매개변수의 속성으로 전달됩니다. 아래 예제에서는 기본 `GlobalPositionStrategy`을(를) `ConnectedPositionStrategy`(으)로 바꿉니다:
+
+```typescript
+// Initialize and use overlay settings
+const overlaySettings: OverlaySettings = {
+    // Set the target where content should be shown
+    target: this.buttonElement.nativeElement,
+    // Pass in the positioning strategy
+    positionStrategy: new ConnectedPositioningStrategy()
+};
+this._overlayId = this.overlayService.attach(MyDynamicCardComponent, this.viewContainerRef, overlaySettings); 
+```
+
+<igc-divider></igc-divider>
+
+
+<Sample src="/interactions/overlay-position-sample-1" height={400} alt="" />
+
+<hr/>
+
+## 위치 지정 설정
+
+각 위치 지정 전략에는 고유한 위치 지정 설정이 있습니다. 이 설정은 콘텐츠가 어떻게 표시될지 결정합니다. 아래 예제에서는 새 `PositionSettings` 객체를 만듭니다. 이를 사용하여 오버레이가 제공된 `target`의 오른쪽 위 지점(`buttonElement`)에서 콘텐츠를 시작하도록 강제합니다. 콘텐츠가 표시되는 방향은 top-left로 설정됩니다. 그다음 새 `ConnectedPositionStrategy`를 만들어 `positionSettings`을(를) 전달합니다.
+
+```typescript
+const positionSettings: PositionSettings = {
+    horizontalStartPoint: HorizontalAlignment.Right,
+    verticalStartPoint: VerticalAlignment.Top,
+    horizontalDirection: HorizontalAlignment.Left,
+    verticalDirection: VerticalAlignment.Top
+};
+
+const strategy = new ConnectedPositioningStrategy(positionSettings);
+
+// Initialize and use overlay settings
+const overlaySettings: OverlaySettings = {
+    target: buttonElement.nativeElement,
+    // Pass in the positioning strategy
+    positionStrategy: strategy
+};
+this._overlayId = this.overlayService.attach(MyDynamicCardComponent, this.viewContainerRef, overlaySettings);
+```
+
+
+<Sample src="/interactions/overlay-position-sample-2" height={500} alt="" />
+
+<hr/>
+
+### 전략 변경하기
+
+오버레이에 전달되는 <ApiLink kind="interface" type="OverlaySettings" /> 객체의 <ApiLink kind="interface" type="IPositionStrategy" /> 속성을 재정의하여 오버레이가 사용하는 위치 지정 전략도 바꿀 수 있습니다:
+
+```typescript
+const myPositionStrategy = new AutoPositionStrategy();
+overlay.attach(element, { positionStrategy: myPositionStrategy }); 
+```
+
+<Sample src="/interactions/overlay-position-sample-3" height={500} alt="" />
+
+<hr/>
+
+### 설정 변경하기
+
+이미 존재하는 전략의 위치 지정 설정을 변경하려면, 그 안의 설정을 재정의하면 됩니다. 전략이 이미 연결되어 있었다면, 이전에 생성된 ID를 분리해야 합니다:
+
+```typescript
+// overlaySettings is an existing object of type OverlaySettings
+// overlaySettings.positionStrategy is an existing PositionStrategy with settings of type PositionSettings
+Object.assign(overlaySettings.positionStrategy.settings, {
+    horizontalStartPoint: HorizontalAlignment.Left,
+    horizontalDirection: HorizontalAlignment.Left
+});
+overlaySettings.target = dummyHTMLElement;
+// the element will now start to the left of the target (dummyHTMLElement)
+// and will align itself to the left
+const overlayId = overlay.attach(overlayId, overlaySettings);
+overlay.show(overlayId);
+```
+
+### 콘텐츠 오프셋 설정하기
+
+`setOffset` 메서드를 사용하면 지정된 양만큼 해당 축을 따라 콘텐츠 위치를 정밀하게 조정할 수 있습니다. 또한 선택적 `offsetMode` 매개변수를 지원하여 오프셋 값이 적용되는 방식을 제어할 수 있습니다.
+
+```typescript
+// deltaX and deltaY determine the amount by which the content will be offset.
+// Using OffsetMode.Add to add the values (default behavior)
+const deltaX: number = 30;
+const deltaY: number = 15;
+overlay.setOffset(this._overlayId, deltaX, deltaY, OffsetMode.Add);
+```
+
+```typescript
+// deltaX and deltaY determine the exact position to set the content to, relative to its target element.
+// Using OffsetMode.Set to set the offset to specific values
+const deltaX: number = 30;
+const deltaY: number = 15;
+overlay.setOffset(this._overlayId, deltaX, deltaY, OffsetMode.Set);
+```
+
+## API 참조
+- <ApiLink type="IPositionStrategy" kind="interface" />
+## 추가 리소스
+
+- [오버레이 기본 주제](/overlay)
+- [스크롤 전략](/overlay-scroll)
+- [스타일 지정 주제](/overlay-styling)
+- <ApiLink type="OverlayService" />
+- <ApiLink kind="sass" module="themes" type="function-overlay-theme" label="IgxOverlay 스타일" />

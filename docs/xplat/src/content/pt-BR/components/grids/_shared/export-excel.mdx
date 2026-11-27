@@ -1,0 +1,314 @@
+---
+title: "Exportação do {Platform} {ComponentTitle} - {ProductName}"
+description: "Com a {ProductName} {ComponentTitle} você pode exportar os dados da grade para os formatos Excel, CSV e PDF, preservando recursos como filtragem, ordenação e o estado atual da grade."
+keywords: "{Platform}, {ComponentTitle}, {ComponentTitle}, {ProductName}, Infragistics"
+license: commercial
+mentionedTypes: [{ComponentApiMembers}]
+sharedComponents: ["Grid", "TreeGrid", "HierarchicalGrid"]
+namespace: Infragistics.Controls
+_canonicalLink: "{CanonicalLinkToGridExportExcel}"
+_language: pt-BR
+llms:
+  description: "A {ProductName} {ComponentTitle} oferece funcionalidade de exportação de dados por meio do componente Grid Toolbar Exporter."
+---
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+
+# Exportação do {Platform} {ComponentTitle}
+
+<PlatformBlock for="Blazor, React, WebComponents">
+A {ProductName} {ComponentTitle} oferece funcionalidade de exportação de dados por meio do componente Grid Toolbar Exporter. Você pode exportar os dados exibidos nos formatos Excel, CSV ou PDF. As exportações para Excel usam o formato de tabela do MS Excel, que oferece recursos como filtragem e ordenação. Para ativar a exportação, coloque <ApiLink type="GridToolbarExporter" /> dentro da barra de ferramentas da grade. Por padrão, todos os formatos de exportação estão ativados.
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+Os serviços de exportação {ProductName} em {Platform} {ComponentTitle} podem exportar dados para os formatos Excel e PDF. A funcionalidade de exportação está encapsulada nas classes <ApiLink type="ExcelExporterService" /> e <ApiLink type="PdfExporterService" />. As exportações para Excel usam o formato de tabela do MS Excel, que oferece recursos como filtragem e ordenação, enquanto as exportações para PDF capturam o estado atual da grade. Para iniciar uma exportação, invoque o método `Export` de <ApiLink type="ExcelExporterService" /> ou <ApiLink type="PdfExporterService" /> e passe o componente <ApiLink type="{ComponentName}" /> como primeiro argumento.
+</PlatformBlock>
+
+## Exemplo de exportação de {Platform}
+
+<Sample src="/{ComponentSample}/excel-exporting" height={750} alt="Exemplo de exportação do {Platform} {ComponentTitle}" />
+
+
+<PlatformBlock for="Angular">
+## Exportando dados de {ComponentTitle}
+
+Para começar a usar os exportadores Excel e PDF do IgniteUI, primeiro importe <ApiLink type="ExcelExporterService" /> e/ou <ApiLink type="PdfExporterService" /> no arquivo app.module.ts e adicione os serviços ao array `providers`:
+
+```ts
+// app.module.ts
+import { ExcelExporterService, PdfExporterService } from 'igniteui-{Platform}';
+
+@NgModule({
+  providers: [ ExcelExporterService, PdfExporterService ]
+})
+
+export class AppModule {}
+```
+
+<DocsAside type="info">
+Na v12.2.1 e posteriores, os serviços de exportação são fornecidos no root, o que significa que você não precisa mais declará-los nos providers do AppModule.
+</DocsAside>
+
+Para iniciar uma exportação, você pode usar o handler de um botão no template do seu componente.
+
+```html
+<{ComponentTitle} #{ComponentTitle} [data]="localData" [autoGenerate]="true"></{ComponentTitle}>
+<button (click)="exportButtonHandler()">Export {ComponentTitle} to Excel</button>
+<button (click)="exportPdfButtonHandler()">Export {ComponentTitle} to PDF</button>
+```
+
+Você pode acessar os serviços de exportação definindo argumentos do construtor do tipo <ApiLink type="ExcelExporterService" /> ou <ApiLink type="PdfExporterService" />, e o framework {Platform} fornecerá instâncias dos serviços. Para exportar dados para Excel ou PDF, invoque o método `Export` e passe o componente {ComponentTitle} como primeiro argumento.
+
+O código a seguir executa os processos de exportação no arquivo do componente:
+
+```ts
+// component.ts
+import { ExcelExporterService, ExcelExporterOptions, PdfExporterService, PdfExporterOptions } from 'igniteui-{Platform}';
+import { {ComponentName} } from 'igniteui-{Platform}';
+
+@ViewChild('{ComponentName}') public {ComponentName}: {ComponentName};
+
+constructor(private excelExportService: ExcelExporterService, private pdfExportService: PdfExporterService) {
+}
+
+public exportButtonHandler() {
+  this.excelExportService.export(this.{ComponentName}, new ExcelExporterOptions('ExportedDataFile'));
+}
+
+public exportPdfButtonHandler() {
+  this.pdfExportService.export(this.{ComponentName}, new PdfExporterOptions('ExportedDataFile'));
+}
+```
+
+Se tudo correu bem, você verá o componente {ComponentTitle} e os dois botões de exportação. Ao pressionar o botão correspondente, o processo de exportação é acionado e o navegador baixa um arquivo chamado "ExportedDataFile.xlsx" ou "ExportedDataFile.pdf", contendo os dados do componente <ApiLink type="{ComponentName}" /> no formato Excel ou PDF.
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+## Exportando dados de {ComponentTitle}
+
+Para iniciar uma exportação, você pode usar o handler de um botão no template do seu componente.
+
+```Razor
+<IgbGrid data="localData"/>
+<button @onclick="exportButtonHandler">Export to Excel</button>
+<button @onclick="exportPdfButtonHandler">Export to PDF</button>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+## Exportar todos os dados
+
+Quando você usa operações remotas como **paginação**, a Grid pode não ter acesso ao conjunto completo de dados de uma vez. Nesses casos, recomendamos usar o [Excel Export Service](../exporter-excel.mdx) e passar a coleção de dados inteira, se disponível. Exemplo:
+
+```ts
+public exportButtonHandler() {
+  this.excelExportService.exportData(this.localData, new ExcelExporterOptions('ExportedDataFile'));
+}
+```
+
+Ao oferecer downloads em PDF para dados remotos, considere buscar primeiro o conjunto de dados completo e depois chamar `export`, para que o documento reflita o que os usuários esperam ver.
+
+</PlatformBlock>
+
+<ComponentBlock for="Grid">
+## Exportar dados agrupados
+
+Para exportar dados agrupados, agrupe <ApiLink type="{ComponentName}" /> por uma ou mais colunas. O navegador baixará um arquivo chamado "ExportedDataFile.xlsx", que contém os dados do componente <ApiLink type="{ComponentName}" /> no formato Excel, agrupados pelas colunas selecionadas. Você encontra um exemplo no início do tópico.
+
+<PlatformBlock for="Angular">
+<Sample src="/{ComponentSample}/excel-exporting" height={750} alt="Exemplo de exportador Excel de dados agrupados do {Platform} {ComponentTitle}" />
+</PlatformBlock>
+
+</ComponentBlock>
+
+## Exportar grid com cabeçalhos de várias colunas
+
+Você pode exportar <ApiLink type="{ComponentName}" /> com [cabeçalhos de várias colunas](multi-column-headers.mdx) definidos. Todos os cabeçalhos são refletidos no arquivo Excel exportado, como são exibidos em <ApiLink type="{ComponentName}" />. Se quiser excluir os cabeçalhos de várias colunas definidos dos dados exportados, defina `ExporterOption` <PlatformBlock for="Angular"><ApiLink type="IGridToolbarExportEventArgs" member="ignoreMultiColumnHeaders" /></PlatformBlock><PlatformBlock for="React"><ApiLink type="ExporterOptionsBase" member="ignoreMultiColumnHeaders" /></PlatformBlock><PlatformBlock for="WebComponents"><ApiLink type="ExporterOptionsBase" member="ignoreMultiColumnHeaders" /></PlatformBlock><PlatformBlock for="Blazor"><ApiLink type="GridToolbarExportEventArgs" member="ignoreMultiColumnHeaders" /></PlatformBlock> como `true`.
+
+
+<DocsAside type="info">
+O `{ComponentName}` exportado não será formatado como tabela, pois as tabelas do Excel não oferecem suporte a vários cabeçalhos de coluna.
+</DocsAside>
+
+<DocsAside type="info">
+O <ApiLink type="{ComponentName}" /> exportado não será formatado como tabela, pois as tabelas do Excel não oferecem suporte a vários cabeçalhos de coluna.
+</DocsAside>
+
+<DocsAside type="info">
+<ApiLink type="GridToolbarExporter" /> também está configurado para demonstrar como você pode controlar quais formatos de exportação ficam disponíveis para os usuários finais. Use as opções do exportador da barra de ferramentas para ativar ou desativar os botões Excel, CSV ou PDF:
+- `export-excel`, `export-csv`, `export-pdf`
+- `exportExcel`, `exportCsv`, `exportPdf`
+- <ApiLink type="GridToolbarExporter" member="exportExcel" label="ExportExcel" />, `ExportCsv`, `ExportPdf`
+</DocsAside>
+
+<Sample src="/{ComponentSample}/multi-column-headers-export" height={750} alt="Exportação com cabeçalhos de várias colunas do {Platform} {ComponentTitle}" />
+
+## Exportar grid com cabeçalhos de colunas congelados
+
+Por padrão, o serviço Excel Exporter exporta a grade com os cabeçalhos de coluna roláveis (não fixos). Em muitos cenários, você pode querer fixar todos os cabeçalhos no topo do arquivo Excel exportado, para que fiquem sempre visíveis conforme o usuário rola os registros. Para isso, defina `ExporterOption` <PlatformBlock for="Angular"><ApiLink type="IGridToolbarExportEventArgs" member="freezeHeaders" /></PlatformBlock><PlatformBlock for="React"><ApiLink type="ExporterOptionsBase" member="freezeHeaders" /></PlatformBlock><PlatformBlock for="WebComponents"><ApiLink type="ExporterOptionsBase" member="freezeHeaders" /></PlatformBlock><PlatformBlock for="Blazor"><ApiLink type="GridToolbarExportEventArgs" member="freezeHeaders" /></PlatformBlock> como `true`.
+
+<DocsAside type="info">
+As exportações em PDF incluem automaticamente a linha de cabeçalho das colunas no topo do documento, para que os leitores mantenham o mesmo contexto ao abrir ou imprimir o arquivo.
+</DocsAside>
+
+<PlatformBlock for="Angular">
+```ts
+public exportButtonHandler() {
+    const exporterOptions = new ExcelExporterOptions('ExportedDataFile');
+    exporterOptions.freezeHeaders = true;
+    this.excelExportService.export(this.grid, exporterOptions);
+}
+```
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+<ComponentBlock for="Grid, TreeGrid">
+```ts
+constructor() {
+  var gridToolbarExporter1 = document.getElementById('gridToolbarExporter1') as IgcGridToolbarExporterComponent;
+  gridToolbarExporter1.addEventListener("exportStarted", this.webGridExportEventFreezeHeaders);
+}
+
+public webGridExportEventFreezeHeaders(args: any): void {
+  args.detail.options.freezeHeaders = true;
+}
+
+```
+</ComponentBlock>
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+<ComponentBlock for="HierarchicalGrid">
+```ts
+constructor() {
+  var hGridToolbarExporter = document.getElementById('hGridToolbarExporter') as IgcGridToolbarExporterComponent;
+  hGridToolbarExporter.addEventListener("exportStarted", this.webGridExportEventFreezeHeaders);
+}
+
+public webGridExportEventFreezeHeaders(args: CustomEvent<IgcExporterEvent>): void {
+  args.detail.options.freezeHeaders = true;
+}
+```
+
+</ComponentBlock>
+</PlatformBlock>
+
+<PlatformBlock for="React">
+<ComponentBlock for="Grid, TreeGrid, HierarchicalGrid">
+```tsx
+function exportEventFreezeHeaders(args: IgrExporterEventArgs) {
+    args.detail.options.freezeHeaders = true;
+  }
+
+<IgrGridToolbar>
+  <IgrGridToolbarActions>
+    <IgrGridToolbarExporter onExportStarted={exportEventFreezeHeaders}></IgrGridToolbarExporter>
+  </IgrGridToolbarActions>
+</IgrGridToolbar>
+```
+</ComponentBlock>
+</PlatformBlock>
+
+<ComponentBlock for="Grid, TreeGrid">
+<PlatformBlock for="Blazor">
+```razor
+ <{ComponentSelector}>
+    <IgbGridToolbar>
+      <IgbGridToolbarActions>
+        <IgbGridToolbarExporter
+          ExportExcel="true" ExportStartedScript="WebGridExportEventFreezeHeaders">
+        </IgbGridToolbarExporter>
+      </IgbGridToolbarActions>
+    </IgbGridToolbar>
+ </{ComponentSelector}>
+
+igRegisterScript("WebGridExportEventFreezeHeaders", (ev) => {
+    ev.detail.options.freezeHeaders = false;
+}, false);
+
+```
+</PlatformBlock>
+</ComponentBlock>
+
+<PlatformBlock for="Blazor">
+<ComponentBlock for="HierarchicalGrid">
+```razor
+ <{ComponentSelector}>
+    <IgbGridToolbar>
+      <IgbGridToolbarActions>
+        <IgbGridToolbarExporter
+          ExportExcel="true" ExportStartedScript="WebHierarchicalGridExportEventFreezeHeaders">
+        </IgbGridToolbarExporter>
+      </IgbGridToolbarActions>
+    </IgbGridToolbar>
+ </{ComponentSelector}>
+
+igRegisterScript("WebHierarchicalGridExportEventFreezeHeaders", (ev) => {
+    ev.detail.options.freezeHeaders = false;
+}, false);
+```
+
+</ComponentBlock>
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+## Personalizando o conteúdo exportado
+
+Nos exemplos acima, o serviço Excel Exporter exporta todos os dados disponíveis. Há situações em que você pode querer ignorar a exportação de uma linha ou até de uma coluna inteira. Para isso, assine os eventos <ApiLink type="{ComponentName}" member="columnExporting" /> e/ou <ApiLink type="{ComponentName}" member="rowExporting" />, que são disparados para cada coluna e para cada linha, respectivamente, e cancele o evento definindo a propriedade `cancel` do objeto de argumento do evento como `true`.
+
+O exemplo a seguir exclui uma coluna da exportação se o seu cabeçalho for "Age" e o seu índice for 1:
+
+```ts
+// component.ts
+
+this.excelExportService.columnExporting.subscribe((args: IColumnExportingEventArgs) => {
+  if (args.header == 'Age' && args.columnIndex == 1) {
+      args.cancel = true;
+  }
+});
+this.excelExportService.export(this.{ComponentTitle}, new ExcelExporterOptions('ExportedDataFile'));
+```
+
+Ao exportar dados do componente <ApiLink type="{ComponentName}" />, o processo de exportação considera recursos como filtragem de linhas e ocultação de colunas, e exporta apenas os dados visíveis em <ApiLink type="{ComponentName}" />. Você pode configurar o serviço de exportação para incluir linhas filtradas ou colunas ocultas definindo propriedades no objeto <ApiLink type="ExcelExporterOptions" /> ou <ApiLink type="PdfExporterOptions" />.
+</PlatformBlock>
+
+## Limitações conhecidas
+
+<ComponentBlock for="Grid">
+|Limitação|Descrição|
+|--- |--- |
+|Tamanho máximo da planilha|O tamanho máximo de planilha suportado pelo Excel é de 1.048.576 linhas por 16.384 colunas.|
+|Estilização de células|O serviço Excel Exporter não oferece suporte à exportação de um estilo personalizado aplicado a um componente de célula. Nesses cenários, recomendamos usar a [Excel Library](../../excel-library.mdx).|
+|Layouts de PDF largos|Grids muito largos podem fazer com que as colunas do PDF sejam reduzidas para caber na página. Aplique larguras de coluna ou oculte campos de menor prioridade antes de exportar, para manter o documento legível.|
+</ComponentBlock>
+
+<ComponentBlock for="TreeGrid">
+|Limitação|Descrição|
+|--- |--- |
+|Níveis de hierarquia|O serviço Excel Exporter pode criar até 8 níveis de hierarquia.|
+|Tamanho máximo da planilha|O tamanho máximo de planilha suportado pelo Excel é de 1.048.576 linhas por 16.384 colunas.|
+|Estilização de células|O serviço Excel Exporter não oferece suporte à exportação de um estilo personalizado aplicado a um componente de célula. Nesses cenários, recomendamos usar a [Excel Library](../../excel-library.mdx).|
+|Layouts de PDF largos|Grids muito largos podem fazer com que as colunas do PDF sejam reduzidas para caber na página. Aplique larguras de coluna ou oculte campos de menor prioridade antes de exportar, para manter o documento legível.|
+</ComponentBlock>
+
+<ComponentBlock for="HierarchicalGrid">
+|Limitação|Descrição|
+|--- |--- |
+|Níveis de hierarquia|O serviço Excel Exporter pode criar até 8 níveis de hierarquia.|
+|Tamanho máximo da planilha|O tamanho máximo de planilha suportado pelo Excel é de 1.048.576 linhas por 16.384 colunas.|
+|Exportando colunas fixadas|No arquivo Excel exportado, as colunas fixadas não ficarão congeladas, mas serão exibidas na mesma ordem em que aparecem na grade.|
+|Layouts de PDF largos|Grids muito largos podem fazer com que as colunas do PDF sejam reduzidas para caber na página. Aplique larguras de coluna ou oculte campos de menor prioridade antes de exportar, para manter o documento legível.|
+</ComponentBlock>
+
+## Referências da API
+<ApiLink type="{ComponentName}" />
+## Recursos adicionais
+
+Nossa comunidade é ativa e sempre receptiva a novas ideias.
+
+- [{ProductName} **Fóruns**]({ForumsLink})
+- [{ProductName} **GitHub**]({GithubLink})

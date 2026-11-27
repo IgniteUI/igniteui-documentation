@@ -1,0 +1,454 @@
+---
+title: "{Platform} Radial Gauge Chart | Herramientas de visualización de datos | Infragistics"
+description: "Use el control radial gauge {Platform} de Infragistics para crear visualizaciones de datos atractivas y paneles, y mostrar KPI con un estilo rico e interactividad. ¡Conozca los elementos configurables del radial gauge de {ProductName}!"
+keywords: "Radial Gauge, {ProductName}, Infragistics, animación, etiquetas, aguja, escalas, rangos, marcas de graduación"
+license: commercial
+mentionedTypes: ["RadialGauge", "RadialGaugeRange"]
+namespace: Infragistics.Controls.Gauges
+_language: es
+llms:
+  description: "El componente radial gauge de {Platform} proporciona varios elementos visuales, como aguja, marcas de graduación, rangos y etiquetas, para crear una forma y una escala predefinidas."
+platformType: xplat
+---
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+# Descripción general de {Platform} Radial Gauge
+
+El componente radial gauge de {Platform} proporciona varios elementos visuales, como aguja, marcas de graduación, rangos y etiquetas, para crear una forma y una escala predefinidas. El `RadialGauge` también admite de forma integrada transiciones animadas. Esta animación se personaliza fácilmente estableciendo la propiedad `transitionDuration`.
+
+## Ejemplo de {Platform} Radial Gauge
+
+El siguiente ejemplo muestra cómo establecer varias propiedades en el mismo `RadialGauge` puede convertirlo en un radial gauge totalmente distinto.
+
+
+<Sample src="/gauges/radial-gauge/animation" height={375} alt="Ejemplo de {Platform} Radial Gauge" />
+
+
+
+
+<PlatformBlock for="Angular, React, WebComponents">
+
+
+## Dependencias
+
+Al instalar el componente de medidor, también debe instalarse el paquete principal.
+
+```cmd
+npm install --save {PackageCore}
+npm install --save {PackageGauges}
+```
+
+</PlatformBlock>
+
+
+
+<PlatformBlock for="Blazor">
+
+
+Consulte estos temas sobre cómo añadir el paquete IgniteUI.Blazor.
+
+- [Primeros pasos](./general-getting-started.mdx)
+- [Añadir el paquete NuGet](./general-nuget-feed.mdx)
+
+A continuación, puede empezar a implementar el control añadiendo los siguientes espacios de nombres:
+
+```razor
+@using IgniteUI.Blazor.Controls
+```
+
+</PlatformBlock>
+
+
+<PlatformBlock for="Angular, React, WebComponents, Blazor">
+## Módulos de componentes
+
+<PlatformBlock for="Angular, React, WebComponents">
+
+El `RadialGauge` requiere los siguientes módulos:
+
+
+```json-snippet source="/gauges/radial-gauge/animation" channel="modulesImports...moduleRegistration" exclude="Xaml"
+{
+    "descriptions": {
+        "content": {
+            "type": "RadialGauge",
+            "name": "gauge"
+        }
+    },
+    "modules": [
+        "gauges/RadialGaugeModule"
+    ],
+    "$modules": [
+        "+doc:modulesImports",
+        "+doc:moduleRegistration"
+    ]
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+Registre los servicios de {ProductName}:
+
+```csharp
+// in Program.cs file
+
+builder.Services.AddIgniteUIBlazor();
+```
+
+Registrar <ApiLink raw type="RadialGaugeModule" />, el módulo de recursos de cliente de `RadialGauge`, es **opcional**: el componente carga sus recursos la primera vez que se muestra. Incluirlo en `builder.Services.AddIgniteUIBlazor(typeof(IgbRadialGaugeModule))` sirve para precargar recursos o para admitir elementos creados solo en el cliente (véase [Módulos de componentes](general-getting-started.mdx#módulos-de-componentes)).
+
+</PlatformBlock>
+
+</PlatformBlock>
+
+
+
+
+## Uso
+
+El siguiente código muestra cómo crear un radial gauge que contenga una aguja y tres rangos comparativos en la escala.
+
+```json-snippet
+{
+    "type": "RadialGauge",
+    "height": "400px",
+    "width": "400px",
+    "minimumValue": 0,
+    "maximumValue": 100,
+    "value": 25,
+    "interval": 5,
+    "ranges": [
+        { "type": "RadialGaugeRange", "startValue": 0,  "endValue": 30,  "brush": "red" },
+        { "type": "RadialGaugeRange", "startValue": 30, "endValue": 60,  "brush": "yellow" },
+        { "type": "RadialGaugeRange", "startValue": 60, "endValue": 100, "brush": "green" }
+    ]
+}
+```
+
+
+## Fondo
+
+El componente radial gauge incluye una forma de fondo dibujada detrás de la escala que actúa como fondo del radial gauge.
+
+El elemento de fondo representa el fondo y el borde del componente radial gauge. Es siempre el primer elemento renderizado, y todos los demás elementos, como la aguja, las etiquetas y las marcas de graduación, se superponen sobre él.
+
+El fondo puede ser circular o ajustado. Una forma circular crea un medidor circular de 360 grados, mientras que una forma ajustada crea un segmento de arco relleno que abarca las propiedades `scaleStartAngle` y `scaleEndAngle`. Esto puede establecerse con la propiedad `backingShape`.
+
+```json-snippet source="/gauges/radial-gauge/backing"
+{
+    "type": "RadialGauge",
+    "height": "300px",
+    "width": "300px",
+    "minimumValue": 0,
+    "maximumValue": 80,
+    "value": 50,
+    "interval": 10,
+    "backingShape": "Fitted",
+    "backingBrush": "#FCFCFC",
+    "backingOutline": "DodgerBlue",
+    "backingOversweep": 5,
+    "backingCornerRadius": 10,
+    "backingStrokeThickness": 5,
+    "backingOuterExtent": 0.8,
+    "backingInnerExtent": 0.15,
+    "scaleStartAngle": 135,
+    "scaleEndAngle": 45
+}
+```
+
+
+<Sample src="/gauges/radial-gauge/backing" height={320} alt="Fondo del radial gauge de {Platform}" />
+
+
+
+## Escala
+
+La escala es un elemento visual que destaca el intervalo completo de valores del medidor, que puede crearse proporcionando los valores `minimumValue` y `maximumValue`. Junto con el fondo, define la forma general del medidor. Las propiedades `scaleStartAngle` y `scaleEndAngle` definen los límites del arco de la escala. Por su parte, la propiedad `scaleSweepDirection` especifica si la escala recorre el sentido horario o antihorario. Puede personalizar el aspecto de la escala estableciendo las propiedades `scaleBrush`, `scaleStartExtent` y `scaleEndExtent`.
+
+```json-snippet source="/gauges/radial-gauge/scale"
+{
+    "type": "RadialGauge",
+    "height": "300px",
+    "width": "300px",
+    "minimumValue": 0,
+    "maximumValue": 80,
+    "value": 50,
+    "interval": 10,
+    "scaleStartAngle": 135,
+    "scaleEndAngle": 45,
+    "scaleBrush": "DodgerBlue",
+    "scaleSweepDirection": "Clockwise",
+    "scaleOversweep": 1,
+    "scaleOversweepShape": "Fitted",
+    "scaleStartExtent": 0.45,
+    "scaleEndExtent": 0.575
+}
+```
+
+
+<Sample src="/gauges/radial-gauge/scale" height={320} alt="Escala del radial gauge de {Platform}" />
+
+
+
+## Etiquetas y títulos
+
+Las etiquetas del radial gauge son elementos visuales que muestran valores numéricos a intervalos especificados entre los valores de las propiedades `minimumValue` y `maximumValue`. Puede posicionar las etiquetas estableciendo la propiedad `labelExtent` en una fracción, donde 0 representa el centro del medidor y 1 representa el extremo exterior del fondo del medidor. Además, puede personalizar las etiquetas con distintas propiedades de estilo, como `fontBrush` y `RadialGauge.FontFamily/RadialGauge.FontSize/RadialGauge.FontStyle/RadialGauge.FontWeight`.
+
+Cada una de estas etiquetas de la aguja tiene varios atributos de estilo que puede aplicar para cambiar la fuente, el ángulo, el pincel y la distancia desde el centro del medidor, como `titleExtent`, `titleAngle`, `SubtitleFontSize` y `highlightLabelBrush`.
+
+```json-snippet source="/gauges/radial-gauge/labels"
+{
+    "type": "RadialGauge",
+    "height": "300px",
+    "width": "300px",
+    "minimumValue": 0,
+    "maximumValue": 80,
+    "value": 50,
+    "interval": 10,
+    "labelInterval": 10,
+    "labelExtent": 0.65,
+    "font": "11px Verdana",
+    "fontBrush": "DodgerBlue"
+}
+```
+
+
+<Sample src="/gauges/radial-gauge/labels" height={320} alt="Etiquetas del radial gauge de {Platform}" />
+
+
+## Título y subtítulo
+
+Están disponibles las propiedades `titleText` y `subtitleText`, que pueden usarse ambas para mostrar texto personalizado en la aguja. Como alternativa, `titleDisplaysValue` y `subtitleDisplaysValue`, cuando se establecen en true, mostrarán el valor de la aguja y sustituirán a `titleText` y `subtitleText`. Así puede ocupar el título con texto personalizado y mostrar el valor en el subtítulo, o viceversa.
+
+Si se muestra la aguja resaltada, como se explica más abajo, el texto personalizado puede mostrarse mediante `highlightLabelText`; en caso contrario, puede habilitarse `highlightLabelDisplaysValue` para mostrar su valor.
+
+```json-snippet
+{
+    "type": "RadialGauge",
+    "titleText": "Global Sales",
+    "subtitleText": "2024"
+}
+```
+
+
+## Escalado óptico
+
+Las etiquetas y los títulos del radial gauge pueden cambiar su escalado. Para habilitarlo, primero establezca `opticalScalingEnabled` en true. Después puede establecer `opticalScalingSize`, que gestiona el tamaño al que las etiquetas tienen un escalado óptico del 100 %. Las etiquetas tendrán fuentes más grandes cuando el tamaño del medidor sea mayor. Por ejemplo, las etiquetas tendrán un tamaño de fuente un 200 % mayor cuando esta propiedad se establezca en 500 y el tamaño en píxeles del medidor se duplique, por ejemplo hasta 1000.
+
+<Sample src="/gauges/radial-gauge/optical-scaling" height={500} alt="Escalado óptico del radial gauge de {Platform}" />
+
+
+## Marcas de graduación
+
+Las marcas de graduación son líneas finas que irradian desde el centro del radial gauge. Hay dos tipos de marcas de graduación: principales y secundarias. Las marcas principales se muestran en el `RadialGauge.interval` entre las propiedades `minimumValue` y `maximumValue`. Use la propiedad `minorTickCount` para especificar el número de marcas secundarias que se muestran entre cada marca principal. Puede controlar la longitud de las marcas de graduación estableciendo una fracción (entre 0 y 1) en las propiedades `tickStartExtent`, `tickEndExtent`, `minorTickStartExtent` y `minorTickEndExtent`.
+
+```json-snippet source="/gauges/radial-gauge/tickmarks"
+{
+    "type": "RadialGauge",
+    "height": "300px",
+    "width": "300px",
+    "minimumValue": 0,
+    "maximumValue": 80,
+    "value": 50,
+    "interval": 10,
+    "tickStartExtent": 0.45,
+    "tickEndExtent": 0.575,
+    "tickStrokeThickness": 2,
+    "tickBrush": "DodgerBlue",
+    "minorTickCount": 4,
+    "minorTickStartExtent": 0.575,
+    "minorTickEndExtent": 0.5,
+    "minorTickStrokeThickness": 1,
+    "minorTickBrush": "DarkViolet"
+}
+```
+
+
+<Sample src="/gauges/radial-gauge/tickmarks" height={320} alt="Marcas de graduación del radial gauge de {Platform}" />
+
+
+
+## Rangos
+
+Un rango destaca un conjunto de valores continuos delimitado por las propiedades `minimumValue` y `maximumValue` especificadas. Puede añadir varios rangos al radial gauge indicando sus valores inicial y final. Cada rango tiene algunas propiedades de personalización, como `RadialGaugeRange.brush` y `RadialGaugeRange.outline`. Como alternativa, puede establecer las propiedades `rangeBrushes` y `rangeOutlines` en una lista de colores para los rangos.
+
+```json-snippet source="/gauges/radial-gauge/ranges"
+{
+    "type": "RadialGauge",
+    "height": "300px",
+    "width": "300px",
+    "minimumValue": 0,
+    "maximumValue": 80,
+    "value": 50,
+    "interval": 10,
+    "rangeBrushes":  [ "red", "yellow", "green" ],
+    "rangeOutlines": [ "red", "yellow", "green" ],
+    "ranges": [
+        { "type": "RadialGaugeRange", "startValue": 5,  "endValue": 15, "brush": "red" },
+        { "type": "RadialGaugeRange", "startValue": 15, "endValue": 35, "brush": "yellow" },
+        { "type": "RadialGaugeRange", "startValue": 35, "endValue": 45, "brush": "green" }
+    ]
+}
+```
+
+
+<Sample src="/gauges/radial-gauge/ranges" height={320} alt="Rangos del radial gauge de {Platform}" />
+
+
+
+## Aguja
+
+Las agujas del radial gauge son elementos visuales que indican un valor establecido del medidor. Las agujas están disponibles en una de varias formas predefinidas. La aguja puede tener una forma de pivote, que se coloca en el centro del medidor. La forma del pivote también adopta una de las formas predefinidas. Las formas de pivote que incluyen un overlay o un underlay pueden tener un pincel de pivote independiente aplicado a la forma.
+
+Las formas y los remates de aguja admitidos se establecen con las propiedades `needleShape` y `needlePivotShape`.
+
+Puede habilitar un modo interactivo del medidor (con la propiedad `isNeedleDraggingEnabled`) y el usuario final podrá cambiar el valor arrastrando la aguja entre los valores de las propiedades `minimumValue` y `maximumValue`.
+
+```json-snippet source="/gauges/radial-gauge/needle"
+{
+    "type": "RadialGauge",
+    "height": "300px",
+    "width": "300px",
+    "minimumValue": 0,
+    "maximumValue": 80,
+    "value": 50,
+    "interval": 10,
+    "isNeedleDraggingEnabled": true,
+    "isNeedleDraggingConstrained": true,
+    "needleShape": "NeedleWithBulb",
+    "needleBrush": "DodgerBlue",
+    "needleOutline": "DodgerBlue",
+    "needleEndExtent": 0.475,
+    "needleStrokeThickness": 1,
+    "needlePivotShape": "CircleOverlay",
+    "needlePivotBrush": "#9F9FA0",
+    "needlePivotOutline": "#9F9FA0",
+    "needlePivotWidthRatio": 0.2,
+    "needlePivotStrokeThickness": 1
+}
+```
+
+
+<Sample src="/gauges/radial-gauge/needle" height={320} alt="Aguja del radial gauge de {Platform}" />
+
+
+## Resaltar la aguja
+
+El radial gauge puede modificarse para mostrar una segunda aguja. Esto hará que la `RadialGauge.value` de la aguja principal aparezca con una opacidad menor. Para habilitarlo, primero establezca `highlightValueDisplayMode` en Overlay y después aplique una `highlightValue`.
+
+```json-snippet source="/gauges/radial-gauge/highlight-needle"
+{
+    "type": "RadialGauge",
+    "height": "100%",
+    "width": "100%",
+    "minimumValue": 0,
+    "maximumValue": 100,
+    "value": 30,
+    "interval": 10,
+    "labelInterval": 10,
+    "labelExtent": 0.65,
+    "isHighlightNeedleDraggingEnabled": true,
+    "highlightValueDisplayMode": "Overlay",
+    "highlightValue": 50,
+    "highlightLabelDisplaysValue": true,
+    "highlightLabelSnapsToNeedlePivot": true
+}
+```
+
+
+<Sample src="/gauges/radial-gauge/highlight-needle" height={320} alt="Aguja resaltada del radial gauge de {Platform}" />
+
+
+## Resumen
+
+Para su comodidad, todos los fragmentos de código anteriores se combinan en un único bloque de código que puede copiar fácilmente en su proyecto para ver el radial gauge con todas las funciones y elementos visuales habilitados.
+
+```json-snippet
+{
+    "type": "RadialGauge",
+    "height": "300px",
+    "width": "300px",
+    "minimumValue": 0,
+    "maximumValue": 80,
+    "value": 50,
+    "interval": 10,
+
+    "titleText": "Global Sales",
+    "subtitleText": "2024",
+
+    "backingShape": "Fitted",
+    "backingBrush": "#FCFCFC",
+    "backingOutline": "DodgerBlue",
+    "backingOversweep": 5,
+    "backingCornerRadius": 10,
+    "backingStrokeThickness": 5,
+    "backingOuterExtent": 0.8,
+    "backingInnerExtent": 0.15,
+
+    "scaleStartAngle": 135,
+    "scaleEndAngle": 45,
+    "scaleBrush": "DodgerBlue",
+    "scaleSweepDirection": "Clockwise",
+    "scaleOversweep": 1,
+    "scaleOversweepShape": "Fitted",
+    "scaleStartExtent": 0.45,
+    "scaleEndExtent": 0.575,
+
+    "labelInterval": 10,
+    "labelExtent": 0.65,
+    "font": "11px Verdana",
+    "fontBrush": "DodgerBlue",
+
+    "tickStartExtent": 0.45,
+    "tickEndExtent": 0.575,
+    "tickStrokeThickness": 2,
+    "tickBrush": "DodgerBlue",
+    "minorTickCount": 4,
+    "minorTickStartExtent": 0.575,
+    "minorTickEndExtent": 0.5,
+    "minorTickStrokeThickness": 1,
+    "minorTickBrush": "DarkViolet",
+
+    "isNeedleDraggingEnabled": true,
+    "isNeedleDraggingConstrained": true,
+    "needleShape": "NeedleWithBulb",
+    "needleBrush": "DodgerBlue",
+    "needleOutline": "DodgerBlue",
+    "needleEndExtent": 0.475,
+    "needleStrokeThickness": 1,
+    "needlePivotShape": "CircleOverlay",
+    "needlePivotBrush": "#9F9FA0",
+    "needlePivotOutline": "#9F9FA0",
+    "needlePivotWidthRatio": 0.2,
+    "needlePivotStrokeThickness": 1,
+
+    "isHighlightNeedleDraggingEnabled": true,
+    "highlightValueDisplayMode": "Overlay",
+    "highlightValue": 50,
+    "highlightLabelDisplaysValue": true,
+    "highlightLabelSnapsToNeedlePivot": true,
+
+    "rangeBrushes":  [ "red", "yellow", "green" ],
+    "rangeOutlines": [ "red", "yellow", "green" ],
+    "ranges": [
+        { "type": "RadialGaugeRange", "startValue": 5,  "endValue": 15, "brush": "red" },
+        { "type": "RadialGaugeRange", "startValue": 15, "endValue": 35, "brush": "yellow" },
+        { "type": "RadialGaugeRange", "startValue": 35, "endValue": 45, "brush": "green" }
+    ]
+}
+```
+
+
+## Referencias de API
+`RadialGauge`
+`RadialGaugeRange`
+## Recursos adicionales
+
+Puede encontrar más información sobre otros tipos de indicadores en estos temas:
+
+- [Bullet Graph](./bullet-graph.mdx)
+- [Indicador lineal](./linear-gauge.mdx)

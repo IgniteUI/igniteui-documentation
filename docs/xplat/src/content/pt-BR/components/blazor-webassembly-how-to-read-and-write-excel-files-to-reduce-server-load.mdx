@@ -1,0 +1,325 @@
+---
+title: "Blazor Webassembly | Biblioteca Excel do Blazor | Infragistics"
+description: "Infragistics Blazor Webassembly - Como ler e gravar arquivos Excel para reduzir a carga do servidor"
+keywords: "Blazor Webassembly, biblioteca Excel, ler e gravar arquivos Excel, {ProductName}, Infragistics"
+license: commercial
+mentionedTypes: []
+_language: pt-BR
+llms:
+  description: "Explica como um aplicativo Blazor WebAssembly pode ler e gravar arquivos Excel localmente com a Biblioteca Excel da Infragistics, para reduzir o processamento no servidor."
+---
+
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import { Image } from 'astro:assets';
+import blazorExcel from '@xplat-images/general/blazor-excel.png';
+import lazyLoadingOfAssembly from '@xplat-images/general/lazy-loading-of-assembly.png';
+
+
+# Blazor Webassembly: Como ler e gravar arquivos Excel para reduzir a carga do servidor
+
+A [Biblioteca Excel do Infragistics Blazor](https://www.infragistics.com/products/ignite-ui-blazor/blazor/components/excel-library) facilita a exportação do Blazor para o Excel e a apresentação dos dados do seu aplicativo em uma planilha Excel, a transferência de dados do Excel para o seu aplicativo e o gerenciamento de dados de planilhas com recursos e objetos semelhantes aos do Microsoft® Excel®, como Workbook, Worksheet, Cell, Formula e assim por diante.
+
+Quando você usa a biblioteca Excel do Infragistics Blazor em um [aplicativo Blazor WebAssembly](./general-getting-started.mdx#standalone-blazor-webassembly-apps), ela permite gerar e baixar arquivos no formato Excel (.xlsx) no seu navegador com facilidade. Gerar um arquivo Excel dessa forma garante que a carga do processo de geração não fique concentrada no servidor Web. Em vez disso, o processamento acontece no navegador.
+
+Este artigo vai guiar você pelas formas mais fáceis de implementar a biblioteca Excel do Blazor e vai demonstrar como tudo funciona criando um aplicativo de exemplo.
+
+Tópicos abordados:
+- O que é Blazor?
+- Criando um aplicativo de exemplo Blazor WebAssembly
+- Passos de implementação e visão geral da estrutura do projeto
+  - Adicionando o pacote NuGet
+  - Adicionando uma referência a um arquivo JavaScript
+  - Workbook.InProcessRuntime - definindo a propriedade estática
+  - Lendo e gravando arquivos Excel usando a classe Workbook
+- O que fazer se o processo demorar demais
+- Como o "carregamento tardio de assembly" melhora a velocidade inicial do aplicativo
+- Resumo
+
+## Blazor em resumo: entendendo WebAssembly e Blazor Server
+
+Em resumo, [Blazor](https://www.infragistics.com/products/ignite-ui-blazor/blazor/components/general-getting-started) é um framework de UI de código aberto desenvolvido pela Microsoft. Ele é usado para criar aplicativos Web de página única com .NET e C# em vez de JavaScript. Há duas formas de hospedar aplicativos Web: [Blazor Server e Blazor WebAssembly](https://www.infragistics.com/community/blogs/b/jason_beres/posts/blazor-server-vs-blazor-webassembly).
+
+Blazor WebAssembly, também conhecido como WASM, é um padrão desenvolvido pela [W3C](https://www.computerhope.com/jargon/w/w3c.htm) para criar software que roda no navegador Web. É um software compilado que roda em velocidade quase nativa no seu processador.
+
+Já o Blazor Server executa a lógica do cliente no servidor, usando um aplicativo ASP.NET Core padrão. Esse aplicativo se comunica com o navegador por meio de uma conexão constante usando SignalR.
+
+## Como criar um aplicativo Blazor WebAssembly com o Ignite UI for Blazor
+
+Para demonstrar como tudo funciona, vamos criar um aplicativo Blazor WebAssembly que obtém dados da [Agência Meteorológica do Japão em formato XML](https://www-data-go-jp.translate.goog/data/dataset/mlit_20170902_0034/resource/de72cea0-a658-4c64-987c-38effeca3eb8?_x_tr_sl=ja&_x_tr_tl=en&_x_tr_hl=ja&_x_tr_pto=wapp). Para este artigo, incluímos um gráfico de barras no arquivo Excel baixado, com o número de terremotos diários ocorridos ao longo de 7 dias.
+
+<Image src={blazorExcel} alt="blazor-excel.png" />
+
+O código-fonte deste aplicativo de exemplo está publicado em [este repositório do GitHub](https://github-com.translate.goog/igjp-sample/IgbExcelDemo?_x_tr_sl=ja&_x_tr_tl=en&_x_tr_hl=ja&_x_tr_pto=wapp).
+
+## Etapas de implementação e visão geral da estrutura do projeto
+
+Por causa do Cross-Origin Resource Sharing (CORS), usamos o projeto Blazor WebAssembly hospedado no servidor ASP.NET Core para obter todos os dados, em vez do projeto Blazor WebAssembly independente.
+
+No entanto, como mencionado no início, a geração e o processamento do arquivo Excel são concluídos no navegador Web. O lado do servidor ASP.NET Core só é necessário para obter e processar o XML de informações de prevenção de desastres da JMA e fornecer os dados em formato JSON ao programa Blazor WebAssembly executado no navegador.
+Além disso, não é preciso gerar um arquivo Excel completamente novo no código - basta colocar um arquivo Excel (.xlsx) no servidor Web. Ele será usado como um "modelo" com um gráfico de barras já configurado. Em seguida, use o HttpClient no aplicativo Blazor WebAssembly e preencha cada célula do arquivo Excel com a data e o número de terremotos.
+
+Depois de implementar o número de ocorrências diárias de terremotos nos últimos 7 dias, todos os dados serão exibidos no grid do Ignite UI for Blazor. Em seguida, siga as etapas abaixo para prosseguir com a geração do arquivo Excel.
+
+### Adicionando o pacote NuGet
+
+Para usar a biblioteca Excel do Blazor, você precisa instalar o pacote **IgniteUI.Blazor.Documents.Excel** do NuGet e adicionar o seguinte namespace ao seu aplicativo:
+
+<PlatformBlock for="Blazor">
+
+```razor
+@using Infragistics.Documents.Excel
+```
+
+</PlatformBlock>
+
+Se você estiver usando o Visual Studio, pode adicionar o pacote NuGet "IgniteUI.Blazor.Documents.Excel" ao seu projeto Blazor WebAssembly pelo gerenciador de pacotes NuGet.
+
+Para simplificar a descrição do namespace no código que será apresentado depois, vamos abrir antecipadamente o namespace Infragistics.Documents.Excel da biblioteca Excel do Infragistics Blazor em _Imports.razor.
+
+<PlatformBlock for="Blazor">
+
+```razor
+@* _Imports.razor *@
+@using System.Net.Http
+@using Infragistics.Documents.Excel @* 👈 Add this line *@
+```
+
+</PlatformBlock>
+
+### Adicionando uma referência a um arquivo JavaScript
+
+Em seguida, os arquivos JavaScript fornecidos pelo pacote NuGet "IgniteUI.Blazor.Documents.Excel" devem ser carregados na página Web, para que a biblioteca Excel do Infragistics Blazor possa trabalhar com arquivos Excel no Blazor WebAssembly.
+
+No arquivo wwwroot/index.html (a página de fallback do projeto Blazor WebAssembly), adicionamos uma tag `<script>` da seguinte forma:
+
+<PlatformBlock for="Blazor">
+
+```razor
+<html>
+<body>
+<script src="_content/IgniteUI.Blazor/app.bundle.js"></script>
+<!-- Add this line -->
+<script src="_content/IgniteUI.Blazor.Documents.Excel/excel.js"></script>
+<script src="_framework/blazor.webassembly.js"></script>
+</body>
+</html>
+```
+
+</PlatformBlock>
+
+### Workbook.InProcessRuntime - definindo a propriedade estática
+
+Agora você está pronto para usar a biblioteca Excel do Infragistics Blazor. Use a classe Workbook no namespace Infragistics.Documents.Excel para ler e gravar arquivos Excel. Lembre-se de que, antes de processar um arquivo Excel com a classe Workbook no Blazor WebAssembly, você precisa definir a propriedade estática Workbook.InProcessRuntime como um objeto de runtime JavaScript com a interface IJSInProcessRuntime.
+
+Isso pode ser feito com o código a seguir:
+
+<PlatformBlock for="Blazor">
+
+```razor
+@inject IJSRuntime JSRuntime
+@* ... *@
+@code {
+    // ...
+    // ⚠️ Note-To use the Excel library on Blazor WebAssembly,
+    // you need to initialize the Workbook.InProcessRuntime static property.
+    if (Workbook.InProcessRuntime == null)
+        Workbook.InProcessRuntime = this .JSRuntime as IJSInProcessRuntime;
+    // ...
+```
+
+</PlatformBlock>
+
+### Lendo e gravando arquivos Excel usando a classe Workbook
+
+Quando estiver pronto, você pode usar o método estático Load() da classe Workbook para carregar o arquivo Excel e usar o objeto Workbook retornado para referenciar objetos de planilha e célula e preenchê-los com valores. Depois de criar a tabela Excel, você pode finalmente gravar o conteúdo como um arquivo Excel usando os métodos do objeto. Use o método Save() do objeto Workbook para gravar o conteúdo do arquivo Excel em um Stream. Grave o conteúdo em um MemoryStream do .NET para obter um array de bytes, que pode então ser baixado pelo navegador.
+
+Observe que o processo de disparo do download em aplicativos Blazor usa uma biblioteca OSS licenciada sob MIT.
+
+<PlatformBlock for="Blazor">
+
+```razor
+@inject HttpClient HttpClient
+@inject IJSRuntime JSRuntime
+@* ... *@
+@code
+{
+    // ...
+    private IEnumerable <EarthquakeCountParDay>? _EarthquakeCountParDays;
+
+    // <summary>
+    // Called when the [Download] button is clicked, the data of the number of earthquake occurrences per day in the last week is stored in an Excel file and downloaded.
+    // </summary>
+    private async Task OnClickedDownloadAsync()
+    {
+        // ⚠️ Note-To use the Excel library on Blazor WebAssembly, you need to initialize the Workbook.InProcessRuntime static property.
+        if (Workbook.InProcessRuntime == null) Workbook.InProcessRuntime = this .JSRuntime as IJSInProcessRuntime;
+
+        // Get the template Excel file from the server and load it into the Workbook object.
+        await using var templateStream = await this .HttpClient.GetStreamAsync ("./TemplateBook.xlsx");
+
+        var workBook = Workbook.Load(templateStream);
+        await templateStream.DisposeAsync();
+
+        // Post the date and number of earthquakes to the contents (cells) of the sheet.
+        var sheet = workBook.Worksheets[0];
+        var row = 2;
+        foreach (var item in this._EarthquakeCountParDays)
+        {
+            sheet.GetCell($"A{row}").Value = item.Date;
+            sheet.GetCell($"B{row}").Value = item.Count;
+            row++;
+        }
+
+        // Export the completed Workbook object to a .xlsx file format and have it downloaded by your browser.
+        await using var memStream = new MemoryStream();
+        workBook.Save(memStream);
+        await this.JSRuntime.InvokeDownloadAsync("Book.xlsx", "application / octet-stream" ,memStream.ToArray());
+    }
+    // ...
+```
+
+</PlatformBlock>
+
+Como você pode ver, todo o processamento do arquivo Excel é feito no navegador Web, e nada acontece do lado do servidor Web. Portanto, mesmo que vários clientes executem a geração do arquivo Excel ao mesmo tempo, a carga no servidor Web não vai aumentar rapidamente.
+
+## O que fazer se o processo demorar demais?
+
+Processar um arquivo Excel pode levar um tempo considerável, dependendo de:
+
+- o conteúdo
+- a escala dos dados que você quer processar
+- o número de células e assim por diante
+
+Em aplicativos Blazor WebAssembly, nos quais o código .NET é processado de forma interpretada, o desempenho do processamento cai significativamente. Aqui estão algumas formas úteis de ajudar você a melhorar a velocidade de processamento nesses casos.
+
+### Dicas e truques nº 1 - Pausar o cálculo automático de fórmulas
+
+A biblioteca Excel do Infragistics Blazor permite pausar o cálculo automático de fórmulas para melhorar a velocidade de processamento ao navegar ou reescrever células de um arquivo Excel em um aplicativo Blazor WebAssembly. Para mais informações, consulte [este tópico da documentação](blazor-excel-library-temporarily-stop-automatic-calculation-of-formulas-to-speed-up-processing.mdx).
+
+### Dicas e truques nº 2 - Usar a compilação Ahead-Of-Time (AOT)
+
+A partir do .NET 6, você pode usar uma técnica chamada "compilação Ahead-Of-Time (AOT)" para criar aplicativos Blazor WebAssembly. Essa técnica permite acelerar o processamento ao compilar o código .NET diretamente em WebAssembly quando você publica o seu aplicativo Blazor. Para mais informações sobre a compilação AOT, consulte a documentação oficial da Microsoft, no site vinculado abaixo.
+
+### Dicas e truques nº 3 - Executar do lado do servidor
+
+Diferente do Blazor WebAssembly, em que o código .NET é processado sequencialmente de forma interpretada, a biblioteca Excel do Infragistics Blazor roda em um servidor Blazor Server ou ASP.NET Core na velocidade nativa da CPU, com o compilador Just-in-time (JIT). Isso garante uma melhora significativa na velocidade de processamento.
+
+É claro que você pode reescrever todo o aplicativo, de Blazor WebAssembly para Blazor Server, ou fazer isso substituindo apenas a parte de geração do arquivo Excel pela Web API do servidor ASP.NET Core, mantendo o aplicativo Blazor WebAssembly como está.
+
+## Como o "carregamento tardio de assembly" melhora a velocidade inicial do aplicativo
+
+O arquivo de assembly (.dll) fornecido pela biblioteca Excel do Infragistics Blazor tem cerca de 5 MB. Se o tamanho do conteúdo aumentar no primeiro carregamento, isso pode deixar mais lento o carregamento do conteúdo e o tempo inicial até o aplicativo Blazor WebAssembly começar a funcionar.
+
+<Image src={lazyLoadingOfAssembly} alt="lazy-loading-of-assembly" />
+
+Por isso, sugerimos usar a técnica de "carregamento atrasado de assembly" (no .NET 5 ou versões seguintes). Você poderá melhorar o desempenho de inicialização do aplicativo Blazor WebAssembly aguardando o carregamento do assembly do aplicativo até que ele seja necessário. Isso é chamado de "carregamento tardio" (lazy loading).
+
+## Configurando o carregamento tardio
+
+### Especifique o assembly que será carregado tardiamente no arquivo do projeto
+
+Primeiro, no arquivo de projeto do Blazor WebAssembly (.csproj), organize os elementos `<BlazorWebAssemblyLazyLoad>` dentro dos elementos `<ItemGroup>` e liste os nomes dos arquivos de assembly (.dll) que você quer carregar tardiamente.
+
+<PlatformBlock for="Blazor">
+
+```razor
+<!-- Blazor WebAssembly project file (.csproj) -->
+<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly" >
+
+  <!-- Specify the file name of the assembly file (.dll) that you want to lazy load in the BlazorWebAssemblyLazyLoad element. -->
+  <ItemGroup>
+    <BlazorWebAssemblyLazyLoad Include="IgniteUI.Blazor.Documents.Core.dll" />
+    <BlazorWebAssemblyLazyLoad Include="IgniteUI.Blazor.Documents.Excel.dll" />
+  </ItemGroup>
+
+</Project>
+```
+
+</PlatformBlock>
+
+### Carregue o assembly usando LazyAssemblyLoader
+
+Em seguida, implemente o assembly especificado como "carregamento tardio", para que ele seja carregado automaticamente quando for necessário. Para carregar o assembly, injete do contêiner DI o serviço da classe que vem por padrão com o Blazor WebAssembly, LazyAssemblyLoader, e chame o seu LoadAssembliesAsync().
+
+
+Neste aplicativo de exemplo, o arquivo de assembly da biblioteca Excel do Infragistics Blazor é carregado quando o botão de download do arquivo Excel é clicado.
+
+<PlatformBlock for="Blazor">
+
+```razor
+@using Microsoft.AspNetCore.Components.WebAssembly.Services
+@inject LazyAssemblyLoader AssemblyLoader
+@* ... *@
+@code {
+    // ...
+    // <summary>
+    // Called when the [Download] button is clicked, the data of the number of earthquake occurrences per day in the last week is stored in an Excel    file and downloaded.
+    // </summary>
+    private async Task OnClickedDownloadAsync()
+    {
+        // The assembly file (.dll) for which lazy loading was specified in the project file (IgbExcelDemo.Client.csproj) is now loaded using AssemblyLoader.
+        // (Supplement: It's okay to call it over and over again, only .dlls that haven't been loaded yet will be loaded)
+        await this.AssemblyLoader.LoadAssembliesAsync(new [])
+        {
+            "IgniteUI.Blazor.Documents.Core.dll",
+            "IgniteUI.Blazor.Documents.Excel.dll"
+        });
+    // ...
+```
+
+</PlatformBlock>
+
+### Separe o processamento do assembly carregado tardiamente em outro escopo
+
+Agora, se você executar este aplicativo de exemplo como está, verá que o arquivo de assembly da biblioteca Excel do Infragistics Blazor não é carregado como esperado quando a página é exibida pela primeira vez. Além disso, o tamanho do conteúdo é reduzido em cerca de 5 MB.
+
+<Image src={lazyLoadingOfAssembly} alt="lazy-loading-of-assembly" />
+
+No entanto, ao clicar no botão de download, recebemos a exceção "System.IO.FileNotFoundException: Could not load file or assembly".
+
+Essa exceção ocorre quando um método que referencia um tipo existente no assembly carregado tardiamente tenta resolver um tipo no escopo do mesmo método que faz o carregamento tardio, mas o assembly ainda não foi carregado. Para contornar o problema, o processamento que referencia um tipo existente no assembly carregado tardiamente (como a classe Workbook neste aplicativo de exemplo) deve ser separado em um método independente e chamado a partir daí (veja abaixo):
+
+<PlatformBlock for="Blazor">
+
+```razor
+@* ... *@
+@code {
+    // ...
+    // <summary>
+    // Called when the [Download] button is clicked, the data of the number of earthquake occurrences per day in the last week is stored in an Excel file and downloaded.
+    // </summary>
+    private async Task OnClickedDownloadAsync()
+    {
+        // ...
+        await this .AssemblyLoader.LoadAssembliesAsync ( new [] )
+        {
+            "IgniteUI.Blazor.Documents.Core.dll",
+            "IgniteUI.Blazor.Documents.Excel.dll"
+        });
+        // Lazy load the assembly, then call the method that uses the features in the lazy loaded assembly.
+        // (If you refer to a function in a lazy-loaded assembly directly in a method that lazy-loads an assembly,
+        // System.IO.FileNotFoundException: Could not load file or assembly exception will occur.)
+        Await this.DownloadAsExcelAsync();
+    }
+    // <summary>
+    // Cut out the code that uses the Excel library into a separate method to enable lazy loading of the assembly.
+    // </summary>
+    private async ValueTask DownloadAsExcelAsync ()
+    {
+        // Read and write Excel files using the Workbook class in this method
+    }
+    // ...
+```
+
+</PlatformBlock>
+
+## Resumo e principais conclusões do artigo
+
+Usar a biblioteca Excel do Infragistics Blazor no seu aplicativo Blazor WebAssembly é a forma mais fácil e simples de ler e gravar arquivos Excel totalmente no navegador Web. Mas o melhor é que mostramos como reduzir, com ela, o tempo de carregamento no seu servidor Web.
+
+Este artigo também apresentou várias opções para melhorar a velocidade de processamento:
+
+- Pausar o cálculo automático de fórmulas.
+- Usar a compilação Ahead-Of-Time (AOT).
+- Executar do lado do servidor.
+- Especificar o "carregamento tardio de assembly".

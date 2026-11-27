@@ -1,0 +1,84 @@
+---
+title: "Angular Grid Lite 데이터 바인딩 | Ignite UI for Angular | MIT 라이선스"
+description: "Angular Grid Lite의 데이터 바인딩입니다. 오픈 소스 Angular Grid Lite로 앱을 만들어 보십시오. 가볍고 필수 기능을 갖추고 있습니다. 지금 사용해 보십시오."
+keywords: "data binding, Infragistics"
+license: MIT
+mentionedTypes: [{ComponentApiMembers}]
+namespace: Infragistics.Controls
+_language: ko
+llms:
+  description: "The Grid Lite accepts an array of plain objects as a data source."
+---
+
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+
+# Angular Grid Lite 데이터 바인딩
+
+Grid Lite는 데이터 소스로 일반 객체의 배열을 받습니다. 각 그리드 행은 배열 안의 데이터 레코드를 렌더링한 것이며, 행의 셀은 열 구성에 의해 제어됩니다.
+
+정렬 및 필터링 같은 데이터 변환을 적용할 때, 그리드는 원래 데이터 참조를 수정하지 않습니다. 즉 데이터 변환은 원본 소스에 반영되지 않습니다. 그리드는 데이터 배열 안의 객체 변경을 추적하지 않으므로, 데이터 객체를 직접 수정하면 반영되지 않습니다.
+
+## 실행 중 데이터 소스 변경하기
+
+컴포넌트는 실행 중에 데이터 소스를 변경하는 것을 지원합니다. 새 소스가 이전 소스와 다른 "형태"를 가진다면 열 구성도 함께 업데이트하십시오.
+
+```typescript
+grid.data = [...{
+  /** records follow */
+}];
+```
+
+```html
+<igx-grid-lite>
+    {/* Update column configuration, add or remove columns as needed to represent the new data. */}
+    <igx-grid-lite-column field="id"></igx-grid-lite-column>
+</igx-grid-lite>
+```
+
+그리드에 `autoGenerate`이(가) 활성화되어 있다면, 데이터가 바뀔 때 새 열 구성을 자동으로 "_추론_"합니다.
+
+```typescript
+grid.autoGenerate = true;
+
+/** After the new binding the grid will infer the column collection from the bound data. */
+grid.data = [];
+```
+
+또는 그리드에 `@ViewChild`을(를) 사용하는 대신 HTML에서 해당 속성을 설정하기만 할 수도 있습니다.
+
+```html
+  <igx-grid-lite
+    [autoGenerate]="true"
+    [data]="data">
+  </igx-grid-lite>
+```
+
+
+<DocsAside type="info">
+이 방식으로 데이터 소스를 바꿔도 Grid Lite 컴포넌트의 정렬/필터 상태는 유지됩니다.
+</DocsAside>
+보통은 <ApiLink type="GridLite" member="clearSort" label="clearSort()" /> 및/또는 <ApiLink type="GridLite" member="clearFilter" label="clearFilter()" />를 호출하여 이 상태를 초기화하고 싶을 것입니다.
+
+아래 샘플에서는 그리드에 열 자동 생성이 활성화되어 있습니다. 데이터 전환 버튼을 클릭하면
+열 컬렉션이 초기화되고 새 데이터 소스가 그리드에 바인딩됩니다.
+
+<Sample src="/grid-lite/data-binding-dynamic" height={510} alt="Angular Grid Lite 데이터 바인딩 예제" />
+
+## API 참조
+
+- <ApiLink type="GridLite" />
+- <ApiLink type="GridLiteColumn" />
+
+## 추가 리소스
+
+- [열 구성](/grid-lite/column-configuration)
+- [정렬](/grid-lite/sorting)
+- [필터링](/grid-lite/filtering)
+- [테마 및 스타일링](/grid-lite/theming)
+
+커뮤니티는 활발하며 새로운 아이디어를 언제나 환영합니다.
+
+- [Grid Lite **GitHub**](https://github.com/IgniteUI/igniteui-grid-lite)

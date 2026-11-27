@@ -1,0 +1,341 @@
+---
+title: "{Platform} {ComponentTitle} 연쇄 콤보 - {ProductName}"
+description: "{Platform} {ComponentTitle}를 사용하여 {ComponentTitle}에서 연쇄 콤보로 업데이트를 수행하십시오. 데모와 예제를 확인하십시오!"
+keywords: "{Platform}, {ComponentKeywords}, {ProductName}, Infragistics"
+license: commercial
+_language: en
+sharedComponents: ["Grid"]
+namespace: Infragistics.Controls
+llms:
+  description: "{ComponentTitle}의 편집 기능은 연쇄 콤보박스 컴포넌트를 사용할 기회를 제공합니다."
+---
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+
+# 연쇄 콤보가 있는 {Platform} {ComponentTitle}
+
+{ComponentTitle}의 편집 기능은 연쇄 콤보박스 컴포넌트를 사용할 기회를 제공합니다. 앞의 <ApiLink type="Combo" />에서 값을 선택하면, 사용자는 다음 {Platform} 콤보박스 컴포넌트에서 자신의 선택과 관련된 데이터만 받게 됩니다.
+
+## 연쇄 콤보가 있는 {Platform} {ComponentTitle} 샘플 개요
+
+아래 샘플은 <ApiLink type="{ComponentName}" />가 중첩된 연쇄 <ApiLink type="Combo" /> 컴포넌트와 어떻게 작동하는지 보여 줍니다.
+
+
+
+
+<ComponentBlock for="Grid">
+<Sample src="/{ComponentSample}/cascading-combo" height={500} alt="{Platform} {ComponentTitle} 연쇄 콤보 예제" />
+</ComponentBlock>
+
+## 설정
+
+열 편집을 활성화하려면 <ApiLink type="Column" member="editable" /> 속성이 `true`로 설정되어 있는지 확인하십시오.
+
+열 편집을 활성화하면 <ApiLink type="Combo" />를 추가하여 시작할 수 있습니다. 여기서는 단일 선택만 가능하도록 <ApiLink type="Combo" member="singleSelect" /> 속성을 사용해야 한다는 점에 유의하십시오.
+
+
+<PlatformBlock for="WebComponents, Blazor, React">
+<PlatformBlock for="WebComponents, React">
+
+<ApiLink type="Combo" />로 시작하려면 먼저 이를 import해야 합니다:
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+```ts
+import { IgcComboComponent, defineAllComponents } from 'igniteui-webcomponents';
+defineAllComponents();
+```
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+{ProductName} 서비스를 등록합니다:
+
+```csharp
+// in Program.cs file
+
+builder.Services.AddIgniteUIBlazor();
+```
+
+<ApiLink type="Combo" />의 클라이언트 리소스 모듈인 <ApiLink pkg="core" type="ComboModule" /> 등록은 **선택 사항**입니다. 컴포넌트는 처음 렌더링될 때 리소스를 로드합니다. `builder.Services.AddIgniteUIBlazor(typeof(IgbComboModule))`에 나열하면 리소스를 미리 로드하거나 클라이언트에서만 생성되는 요소를 지원할 수 있습니다([컴포넌트 모듈](../../general-getting-started.mdx#컴포넌트-모듈) 참조).
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+import { IgrCombo } from 'igniteui-react';
+```
+</PlatformBlock>
+
+그다음 콤보가 있는 열 템플릿을 정의해야 합니다:
+
+
+<PlatformBlock for="React">
+```tsx
+   <IgrColumn
+    field="Country"
+    header="Country"
+    bodyTemplate={webGridCountryDropDownTemplate}>
+    </IgrColumn>
+```
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+    const webGridCountryDropDownTemplate = (ctx: IgrCellTemplateContext) => {
+        const rowId = ctx.cell?.id.rowID;
+        if (!rowId) return <></>;
+        const comboId = `country_${rowId}`;
+
+        return (
+        <>
+            <IgrCombo
+                data={countries}
+                ref={getComboRef(comboId)}
+                onChange={(event: CustomEvent) => { onCountryChange(rowId, event) }}
+                placeholder="Choose Country..."
+                valueKey="Country"
+                displayKey="Country"
+                singleSelect={true}
+                name={comboId}>
+            </IgrCombo>
+        </>
+        );
+    }
+
+```
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```razor
+<IgbColumn Field="Country" Header="Country" BodyTemplate="WebGridCountryDropDownTemplate"></IgbColumn>
+
+@code{
+    public static RenderFragment<IgbCellTemplateContext> WebGridCountryDropDownTemplate = (context) =>
+    {
+        var id = "country_" + context.Cell.Id.RowID;
+        return @<IgbCombo id="@id" Placeholder="Choose Country..." SingleSelect=true ValueKey="Country" DisplayKey="Country" ChangeScript="CountryChange"></IgbCombo>;
+    };
+}
+
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+```ts
+public webGridCountryDropDownTemplate: IgcRenderFunction<IgcCellTemplateContext> = (ctx: IgcCellTemplateContext) => {
+    const id = ctx.cell.id.rowID;
+    const comboId = "country_" + id;
+    return html`<igc-combo placeholder="Choose Country..." value-key="Country" display-key="Country" id="${comboId}" single-select></igc-combo>`
+}
+```
+</PlatformBlock>
+
+- <ApiLink type="Combo" member="displayKey" /> - 객체 배열에 필요합니다. 항목의 텍스트로 사용할 속성을 지정합니다. <ApiLink type="Combo" member="displayKey" />에 값이 지정되지 않으면, 콤보는 지정된 <ApiLink type="Combo" member="valueKey" />(있는 경우)를 사용합니다.
+
+선택 변경을 처리하려면 change 이벤트가 필요합니다. 발생한 이벤트 인수에는 변경 전 선택, 현재 선택, 추가되거나 제거된 항목에 대한 정보가 들어 있습니다. 따라서 이전 콤보의 선택을 기준으로 값을 필터링합니다.
+
+<PlatformBlock for="Blazor">
+
+```javascript
+//In Javascript
+igRegisterScript("CountryChange", (ctx) => {
+    const value = e.detail.newValue;
+    cell.update(value);
+    const nextCombo = document.getElementById("region_" + cell.id.rowID);
+    const nextProgress = document.getElementById("progress_region_" + cell.id.rowID);
+    if (value === "") {
+        nextCombo.deselect(nextCombo.value);
+        nextCombo.disabled = true;
+        nextCombo.data = [];
+    } else {
+        nextProgress.style.display = "block";
+        setTimeout(() => {
+            nextProgress.style.display = "none";
+            nextCombo.disabled = false;
+            nextCombo.data = this.regions.filter(x => x.Country === value);
+        }, 2000);
+    }
+});
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+```ts
+ public countries = [...this.worldCitiesAbove500K].filter(x => this.countryNames.indexOf(x.Country) !== -1).filter((value, index, array) => array.findIndex(x => x.Country === value.Country) === index);
+public bindEventsCountryCombo(rowId: any, cell: any) {
+        const comboId = "country_" + rowId;
+        var combo = document.getElementById(comboId) as IgcComboComponent<any>;
+        combo?.addEventListener("igcChange", (e:any) => {
+            const value = e.detail.newValue[0];
+            cell.update(value);
+            const nextCombo = document.getElementById("region_" + cell.id.rowID) as IgcComboComponent<any>;
+            const nextProgress = document.getElementById("progress_region_" + cell.id.rowID) as IgcLinearProgressComponent;
+            if (value === "") {
+                nextCombo.deselect(nextCombo.value);
+                nextCombo.disabled = true;
+                nextCombo.data = [];
+            } else {
+                nextProgress.style.display = "block";
+                setTimeout(() => {
+                    nextProgress.style.display = "none";
+                    nextCombo.disabled = false;
+                    nextCombo.data = this.regions.filter(x => x.Country === value);
+                }, 2000);
+
+            }
+        });
+        combo?.addEventListener("igcOpening", (e:any) => {
+            var currCombo = e.target;
+            if (currCombo.data.length === 0) {
+                combo.data = this.countries;
+            };
+        });
+    }
+
+```
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+    const onCountryChange = (rowId: string, event: CustomEvent) => {
+        const regionCombo = getComboRef(`region_${rowId}`).current;
+        const cityCombo = getComboRef(`city_${rowId}`).current;
+        const regions = regions;
+        const newValue = event.detail.newValue[0];
+
+        if (newValue === undefined) {
+            regionCombo.deselect(regionCombo.value);
+            regionCombo.disabled = true;
+            regionCombo.data = [];
+
+            cityCombo.deselect(regionCombo.value);
+            cityCombo.disabled = true;
+            cityCombo.data = [];
+        } else {
+            regionCombo.disabled = false;
+            regionCombo.data = regions.filter(x => x.Country === newValue);
+
+            cityCombo.deselect(cityCombo.value);
+            cityCombo.disabled = true;
+            cityCombo.data = [];
+        }
+    }
+```
+
+</PlatformBlock>
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+`SimpleComboBox` 컴포넌트로 시작하려면 먼저 `app.module.ts` 파일에서 `IgxSimpleComboModule`를 import해야 합니다:
+
+```typescript
+import { IgxSimpleComboModule } from 'igniteui-angular';
+
+@NgModule({
+    imports: [
+        ...
+        IgxSimpleComboModule,
+        ...
+    ]
+})
+export class AppModule {}
+```
+
+그다음 템플릿에서 콤보의 `SimpleCombo`을(를) 일부 데이터에 바인딩해야 합니다.
+
+- `displayKey` - 객체 배열에 필요합니다. 항목의 텍스트로 사용할 속성을 지정합니다. `displayKey`에 값이 지정되지 않으면, 단순 콤보박스는 지정된 `valueKey`(있는 경우)를 사용합니다.
+
+```typescript
+export class MySimpleComboComponent implements OnInit {
+    public countriesData: Country[];
+    public selectedCountry: Country;
+    public selectedCity: City;
+
+    public ngOnInit() {
+        this.countriesData = getCountries([
+            'United States',
+            'Japan',
+            'United Kingdom'
+        ]);
+    }
+}
+```
+
+선택 변경을 처리하려면 `selectionChanging`이(가) 필요합니다. 발생하는 이벤트 인수 `IComboSelectionChangingEventArgs`에는 변경 전 선택, 현재 선택, 추가되거나 제거된 항목에 대한 정보가 들어 있습니다. 따라서 이전 콤보의 선택을 기준으로 값을 필터링합니다.
+
+```html
+<igx-combo [data]="countriesData" (selectionChanging)="countryChanging($event)"></igx-combo>
+```
+
+```typescript
+public countryChanging(event: IComboSelectionChangeEventArgs) {
+    if (event.added.length) {
+        event.newSelection = event.added;
+    }
+}
+```
+
+마지막으로 데이터 목록을 불러올 때 필요한 <ApiLink pkg="core" type="LinearProgress" />를 추가합니다.
+`id`는 `id` 어트리뷰트의 값을 설정하는 데 필요합니다.
+
+```html
+ <igx-linear-bar
+    [id]="'region-progress-' + cell.row.data.ID"
+    [style.visibility]="'hidden'"
+    type="info" [indeterminate]="true">
+</igx-linear-bar>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+마지막으로 데이터 목록을 불러올 때 필요한 <ApiLink pkg="core" type="LinearProgress" />를 추가합니다.
+`id`는 `id` 어트리뷰트의 값을 설정하는 데 필요합니다.
+
+```ts
+    public webGridRegionDropDownTemplate: IgcRenderFunction<IgcCellTemplateContext> = (ctx: IgcCellTemplateContext) => {
+        const id = ctx.cell.id.rowID;
+        const comboId = "region_" + id;
+        const progressId = "progress_region_" + id;
+        return html`<div style="display:flex; flex-direction: column;"><igc-combo placeholder="Choose Region..." disabled value-key="Region" display-key="Region" id="${comboId}" single-select></igc-combo>
+        <igc-linear-progress style="display:none;" indeterminate id="${progressId}"></igc-linear-progress></div>`;
+    }
+```
+
+
+</PlatformBlock>
+
+
+<PlatformBlock for="Blazor">
+마지막으로 데이터 목록을 불러올 때 필요한 <ApiLink pkg="core" type="LinearProgress" />를 추가합니다.
+
+
+
+```csharp
+    public static RenderFragment<IgbCellTemplateContext> WebGridRegionDropDownTemplate = (context) =>
+    {
+        var id = "region_" + context.Cell.Id.RowID;
+        return @<div style="display:flex;flex-direction:column;"><IgbCombo id="@id" Placeholder="Choose Region..." SingleSelect=true ValueKey="Region" DisplayKey="Region" ChangeScript="RegionChange"></IgbCombo><IgbLinearProgress Indeterminate=true></IgbLinearProgress></div>;
+    };
+```
+
+</PlatformBlock>
+
+## 알려진 문제와 제한 사항
+
+|제한 사항|설명|
+|--- |--- |
+| 콤보 드롭다운 목록이 다른 UI 요소 뒤에 숨을 수 있습니다. | 그리드 안 요소의 쌓임 순서 때문에, 콤보 드롭다운이 머리글, 바닥글 등 다른 요소 뒤에 숨을 수 있습니다. |
+
+
+## API 참조
+<ApiLink type="{ComponentName}" />
+<ApiLink type="Column" />
+<ApiLink type="Combo" />
+<ApiLink pkg="core" type="LinearProgress" />

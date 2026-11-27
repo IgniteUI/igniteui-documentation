@@ -1,0 +1,94 @@
+---
+title: "Filtro de destaque de gráfico de {Platform} | Visualização de dados | Infragistics"
+description: "Filtro de destaque de gráfico de {Platform} da Infragistics"
+keywords: "Gráficos de {Platform}, destaque, filtragem, Infragistics"
+license: commercial
+mentionedTypes: ["CategoryChart", "DataChart", "Series", "HighlightedValuesDisplayMode", "HorizontalAnchoredCategorySeries"]
+namespace: Infragistics.Controls.Charts
+_language: pt-BR
+llms:
+  description: "Os componentes de gráfico {ProductName} oferecem suporte a uma sobreposição de destaque de dados, que pode aprimorar a visualização das séries plotadas nesses gráficos, permitindo que você veja um subconjunto dos dados plotados."
+platformType: xplat
+---
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+
+
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+# Filtro de destaque de gráfico de {Platform}
+
+Os componentes de gráfico {ProductName} oferecem suporte a uma sobreposição de destaque de dados, que pode aprimorar a visualização das séries plotadas nesses gráficos, permitindo que você veja um subconjunto dos dados plotados. Quando habilitado, ele destaca um subconjunto dos dados, enquanto exibe o conjunto total com opacidade reduzida no caso de séries de colunas e áreas, e com uma linha tracejada no caso de séries de linhas. Isso pode ajudar você a visualizar, por exemplo, valores-alvo em comparação com valores reais no seu conjunto de dados. Este recurso é demonstrado no exemplo a seguir:
+
+<Sample src="/charts/data-chart/chart-highlight-filter-multiple-series" height={500} alt="Exemplo de filtro de destaque de {Platform}" />
+
+
+Observe que o recurso de destaque de dados é compatível com o `DataChart` e o `CategoryChart`, mas é configurado de formas diferentes nesses controles, devido à natureza do funcionamento de cada um. Uma coisa permanece igual nesse recurso: é preciso definir a propriedade `highlightedValuesDisplayMode` como `SeriesHighlightedValuesDisplayMode.Overlay` se você quiser ver o destaque. A seguir, explicamos as diferentes configurações do recurso de filtro de destaque.
+
+## Usando o filtro de destaque com o DataChart
+
+No `DataChart`, grande parte da API do filtro de destaque acontece nas próprias séries, principalmente definindo a propriedade `highlightedDataSource` como uma coleção que representa um subconjunto dos dados que você quer destacar. A quantidade de itens em `highlightedDataSource` precisa corresponder à quantidade de dados vinculados a `DataSource` da série que você quer destacar e, no caso de séries de categoria, ele usará por padrão o `ValueMemberPath` que você definiu como caminho de destaque. O exemplo no início desta página usa o `highlightedDataSource` no `DataChart` para mostrar a sobreposição.
+
+Caso o schema não corresponda entre o `highlightedDataSource` e o `DataSource` da série, você pode configurar isso usando a propriedade `HighlightedValueMemberPath` na série. Além disso, se quiser usar o `DataSource` da própria série como fonte de destaque e tiver um caminho no seu item de dados que represente o subconjunto, você pode fazer isso. Basta definir a propriedade `HighlightedValueMemberPath` como esse caminho e não fornecer um `highlightedDataSource`.
+
+A opacidade reduzida dos tipos de série de colunas e áreas pode ser configurada definindo a propriedade `highlightedValuesFadeOpacity` na série. Você também pode definir a propriedade `highlightedValuesDisplayMode` como `SeriesHighlightedValuesDisplayMode.Hidden` se não quiser ver a sobreposição de forma alguma.
+
+A parte da série exibida pelo filtro de destaque será representada separadamente nas camadas de legenda e de dica de ferramenta do gráfico. Você pode configurar o título que ela recebe na dica de ferramenta e na legenda definindo a propriedade `highlightedTitleSuffix`. Isso acrescentará o valor que você informar ao final do `chartTitle` da série.
+
+Se o `DataLegend` ou o `DataToolTipLayer` for usado, as séries destacadas aparecerão agrupadas. Isso pode ser gerenciado definindo a propriedade `highlightedValuesDataLegendGroup` na série, para categorizá-las adequadamente.
+
+O exemplo a seguir demonstra o uso do agrupamento da legenda de dados e do recurso de sobreposição de destaque no controle `DataChart`, usando o `highlightedValuesDataLegendGroup`:
+
+<Sample src="/charts/data-chart/data-legend-grouping-and-highlighting" height={500} alt="Exemplo de agrupamento e destaque da legenda de dados de {Platform}" />
+
+
+O exemplo a seguir demonstra o uso do agrupamento da legenda de dados e do recurso de sobreposição de destaque no controle `DataChart`, usando o `highlightedValuesDataLegendGroup`:
+
+<Sample src="/charts/data-chart/data-tooltip-grouping-and-highlighting" height={500} alt="Exemplo de agrupamento e destaque da dica de ferramenta de dados de {Platform}" />
+
+
+O exemplo a seguir demonstra o uso do recurso de sobreposição de destaque de dados no controle `DataChart`, usando o `highlightedValueMemberPath`:
+
+<Sample src="/charts/data-chart/chart-highlight-filter" height={500} alt="Exemplo de filtro de destaque de {Platform}" />
+
+
+## Usando o filtro de destaque no CategoryChart
+
+O filtro de destaque do `CategoryChart` acontece no gráfico, definindo a propriedade `initialHighlightFilter`. Como o `CategoryChart` considera, por padrão, todas as propriedades do seu item de dados subjacente, você também precisará definir o `initialGroups` no gráfico, para que os dados possam ser agrupados e agregados de uma forma que permita ter um subconjunto dos dados para filtrar. Você pode definir a propriedade `initialGroups` como um caminho de valor no seu item de dados subjacente, para agrupar por um caminho que tenha valores duplicados.
+
+{/*Unsure of this part. Need to review */}
+{/* ????? The `initialHighlightFilter` is done using OData filter query syntax. The syntax for this is an abbreviation of the filter operator. For example, if you wanted to have an InitialHighlightFilter of "Month not equals January" it would be represented as "Month ne 'January'"*/}
+
+Assim como no `DataChart`, a propriedade `highlightedValuesDisplayMode` também é exposta no `CategoryChart`. Caso você não queira ver a sobreposição, pode definir essa propriedade como `SeriesHighlightedValuesDisplayMode.Hidden`.
+
+O exemplo a seguir demonstra o uso do recurso de sobreposição de destaque de dados no controle `CategoryChart`:
+
+<Sample src="/charts/category-chart/chart-highlight-filter" height={500} alt="Exemplo de filtro de destaque de {Platform}" />
+
+
+{/*TODO add new section that talks about how this feature also applies to Range, Financial series and the HighlightedValueMemberPath property corresponds to:
+HighlightedHighMemberPath and HighlightedLowMemberPath in Range Series
+HighlightedHighMemberPath, HighlightedLowMemberPath, HighlightedOpenMemberPath, HighlightedCloseMemberPath in Financial Series*/}
+
+## Recursos adicionais
+
+Você pode encontrar mais informações sobre recursos de gráfico relacionados nestes tópicos:
+
+- [Destaque de gráfico](chart-highlighting.mdx)
+- [Dica de ferramenta de dados do gráfico](chart-data-tooltip.mdx)
+- [Agregações de dados do gráfico](chart-data-aggregations.mdx)
+
+## Referências da API
+
+A seguir está uma lista dos membros de API mencionados nas seções acima:
+
+
+| Propriedades de `CategoryChart`                    | Propriedades de `DataChart` |
+| ----------------------------------------------|---------------------------|
+| `highlightedDataSource`        | `highlightedDataSource`  |
+| `highlightedTitleSuffix`        | `highlightedTitleSuffix`  |
+| `highlightedValueMemberPath`    | `highlightedValueMemberPath`     |
+| `highlightedValuesDisplayMode`  | `highlightedValuesDisplayMode`   |
+| `highlightedValuesFadeOpacity`  | `highlightedValuesFadeOpacity`   |
+| `highlightedValuesDisplayMode`  | `highlightedValuesDisplayMode`   |
+| `initialHighlightFilter`        |  |
+| `initialGroups`                 |  |

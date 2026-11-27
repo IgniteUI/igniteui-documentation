@@ -1,0 +1,120 @@
+---
+title: "Componente de exportación a Excel - Native Angular | Ignite UI for Angular"
+description: "Los usuarios pueden exportar sus datos para editarlos o para presentarlos sin conexión en formato Excel con el componente Export to Excel de Ignite UI for Angular."
+keywords: "Ignite UI for Angular, controles de interfaz, widgets de Angular, widgets web, widgets de interfaz, Angular, Native Angular Controls, Native Angular Components Suite, Native Angular Controls, Native Angular Components Library, Angular Grid, Angular Data Grid, control de cuadrícula de Angular, componente de cuadrícula de Angular, exportación a Excel, componente Excel de Angular, exportar a Excel de Angular"
+license: commercial
+_language: es
+llms:
+  description: "El servicio Excel Exporter de Ignite UI for Angular puede exportar datos en formato Microsoft® Excel® desde datos sin procesar (array) o desde los componentes IgxGrid, IgxTreeGrid e IgxHierarchicalGrid."
+---
+
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+# Excel Exporter
+
+<div class="highlight">
+
+El servicio Excel Exporter de Ignite UI for Angular puede exportar datos en formato Microsoft® Excel® desde datos sin procesar (array) o desde los componentes [**IgxGrid**](/grid/grid), [**IgxTreeGrid**](/treegrid/tree-grid) y [**IgxHierarchicalGrid**](/hierarchicalgrid/hierarchical-grid). La funcionalidad de exportación está encapsulada en la clase <ApiLink type="ExcelExporterService" /> y los datos se exportan en formato de tabla de MS Excel. Este formato permite funciones como el filtrado, la ordenación, etc.
+</div>
+<igc-divider></igc-divider>
+
+## Ejemplo de Excel Exporter de Angular
+
+<Sample src="/services/export-excel" height={100} alt="Ejemplo de Excel Exporter de Angular" />
+
+<hr/>
+
+## Uso
+
+Para empezar a usar IgniteUI Excel Exporter, primero importe <ApiLink type="ExcelExporterService" /> en el archivo app.module.ts y añada el servicio al array `providers`:
+
+```typescript
+// app.module.ts
+
+...
+import { IgxExcelExporterService } from 'igniteui-angular/grids/core';
+// import { IgxExcelExporterService } from '@infragistics/igniteui-angular'; for licensed package
+
+@NgModule({
+  providers: [ IgxExcelExporterService ]
+})
+
+export class AppModule {}
+```
+
+<DocsAside type="info">
+En la versión 12.2.1 y posteriores, los servicios de exportación se proporcionan en root, lo que significa que ya no es necesario declararlos en los providers de AppModule.
+</DocsAside>
+
+Para iniciar un proceso de exportación puede usar el manejador de un botón en la plantilla de su componente.
+
+```html
+<button (click)="exportButtonHandler()">Export Data to Excel</button>
+```
+
+Puede acceder al servicio de exportación definiendo un argumento de tipo <ApiLink type="ExcelExporterService" /> en el constructor del componente, y el framework de Angular le proporcionará una instancia del servicio. Para exportar datos en formato MS Excel, debe invocar el método <ApiLink type="ExcelExporterService" member="exportdata" label="exportData" /> del servicio de exportación. Este método acepta como primer argumento los datos que quiere exportar, y el segundo argumento es de tipo <ApiLink type="ExcelExporterOptions" /> y permite configurar el proceso de exportación.
+
+Este es el código que ejecutará el proceso de exportación en el archivo TypeScript del componente:
+
+```typescript
+// component.ts
+
+...
+import { IgxExcelExporterService, IgxExcelExporterOptions } from 'igniteui-angular/grids/core';
+// import { IgxExcelExporterService, IgxExcelExporterOptions } from '@infragistics/igniteui-angular'; for licensed package
+...
+
+public localData = [
+  { Name: 'Eric Ridley', Age: '26' },
+  { Name: 'Alanis Brook', Age: '22' },
+  { Name: 'Jonathan Morris', Age: '23' }
+];
+
+constructor(private excelExportService: IgxExcelExporterService) {
+}
+
+public exportButtonHandler() {
+  this.excelExportService.exportData(this.localData, new IgxExcelExporterOptions('ExportedDataFile'));
+}
+
+```
+
+Si todo ha ido bien, debería ver un botón de exportación. Al pulsarlo, se iniciará el proceso de exportación y el navegador descargará un archivo llamado "ExportedDataFile.xlsx" que contiene los datos del array `localData` en formato MS Excel.
+
+## Personalizar el contenido exportado
+
+En los ejemplos anteriores, el servicio Excel Exporter exportaba todos los datos disponibles. Hay situaciones en las que puede que quiera omitir la exportación de una fila o incluso de una columna completa. Para lograrlo, puede engancharse a los eventos <ApiLink type="ExcelExporterService" member="columnexporting" label="columnExporting" /> y/o <ApiLink type="ExcelExporterService" member="rowexporting" label="rowExporting" />, que se disparan para cada columna y/o cada fila respectivamente, y cancelar el evento correspondiente estableciendo la propiedad <ApiLink kind="interface" type="IRowExportingEventArgs" member="cancel" /> del objeto de argumentos del evento en `true`.
+
+El siguiente ejemplo excluye de la exportación una columna si su encabezado es "Age" y su índice es 1:
+
+```typescript
+// component.ts
+
+this.excelExportService.columnExporting.subscribe((args: IColumnExportingEventArgs) => {
+  if (args.header == 'Age' && args.columnIndex == 1) {
+      args.cancel = true;
+  }
+});
+this.excelExportService.export(this.igxGrid1, new IgxExcelExporterOptions('ExportedDataFile'));
+```
+
+## Referencias de API
+El servicio Excel Exporter tiene algunas API más que explorar, que se enumeran a continuación.
+- <ApiLink type="ExcelExporterService" />
+- <ApiLink type="ExcelExporterOptions" />
+Exportadores de Excel de cuadrículas:
+- [`IgxGrid Excel Exporters`](/grid/export-excel)
+- [`IgxTreeGrid Excel Exporters`](/treegrid/export-excel)
+Componentes adicionales que se han usado:
+- <ApiLink type="Grid" />
+- <ApiLink kind="sass" module="themes" type="function-grid-theme" label="Estilos de IgxGridComponent" />
+<igc-divider></igc-divider>
+## Recursos adicionales
+
+<hr/>
+Nuestra comunidad está activa y siempre da la bienvenida a nuevas ideas.
+
+- [Ignite UI for Angular **Foros**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

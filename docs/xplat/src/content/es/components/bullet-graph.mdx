@@ -1,0 +1,405 @@
+---
+title: "Bullet Graph de {Platform} | Herramientas de visualización de datos | Infragistics"
+description: "El control Bullet Graph de {Platform} de Infragistics le permite crear paneles que muestran rangos o comparan varias medidas. ¡Descubra nuestras herramientas de visualización de datos!"
+keywords: "{Platform} Bullet Graph, animación, etiquetas, aguja, escalas, rangos, marcas de graduación, Infragistics"
+license: commercial
+mentionedTypes: ["BulletGraph"]
+namespace: Infragistics.Controls.Gauges
+_language: es
+llms:
+  description: "El componente {Platform} Bullet Graph permite una vista lineal y concisa de medidas comparadas con una escala."
+platformType: xplat
+---
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+# Información general del Bullet Graph de {Platform}
+
+El componente {Platform} Bullet Graph permite una vista lineal y concisa de medidas comparadas con una escala.
+
+El componente {ProductName} Bullet Graph le permite crear presentaciones de datos atractivas, que sustituyen a los medidores e indicadores de los paneles por gráficos de barras sencillos y claros. Un bullet graph es una de las formas más eficaces y eficientes de presentar el progreso hacia objetivos, los rangos bueno/mejor/óptimo o la comparación de varias medidas en el menor espacio horizontal o vertical posible.
+
+## Ejemplo de Bullet Graph de {Platform}
+
+El siguiente ejemplo muestra cómo establecer varias propiedades en el mismo `BulletGraph` puede convertirlo en un Bullet Graph completamente distinto.
+
+<Sample src="/gauges/bullet-graph/animation" height={155} alt="Ejemplo de Bullet Graph de {Platform}" />
+
+
+
+
+El bullet graph admite una escala, un conjunto de marcas de graduación y un conjunto de etiquetas. El componente también incluye compatibilidad integrada con transiciones animadas. Esta animación se puede personalizar fácilmente estableciendo la propiedad `transitionDuration`.
+Entre las características del bullet graph se incluyen la orientación y la dirección configurables, y elementos visuales configurables como la aguja, entre otros.
+
+
+<PlatformBlock for="Angular, React, WebComponents">
+
+
+## Dependencias
+Al instalar el paquete de indicadores, también debe instalarse el paquete principal.
+
+```cmd
+npm install --save {PackageCore}
+npm install --save {PackageGauges}
+```
+
+</PlatformBlock>
+
+
+<PlatformBlock for="Angular, React, WebComponents, Blazor">
+## Módulos de componentes
+
+<PlatformBlock for="Angular, React, WebComponents">
+
+El `BulletGraph` requiere los siguientes módulos:
+
+```json-snippet source="/gauges/bullet-graph/animation" channel="modulesImports...moduleRegistration" exclude="Xaml"
+{
+    "descriptions": {
+        "content": {
+            "type": "BulletGraph",
+            "name": "graph"
+        }
+    },
+    "modules": [
+        "gauges/BulletGraphModule"
+    ],
+    "$modules": [
+        "+doc:modulesImports",
+        "+doc:moduleRegistration"
+    ]
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+Registre los servicios de {ProductName}:
+
+```csharp
+// in Program.cs file
+
+builder.Services.AddIgniteUIBlazor();
+```
+
+Registrar <ApiLink raw type="BulletGraphModule" />, el módulo de recursos de cliente de `BulletGraph`, es **opcional**: el componente carga sus recursos la primera vez que se muestra. Incluirlo en `builder.Services.AddIgniteUIBlazor(typeof(IgbBulletGraphModule))` sirve para precargar recursos o para admitir elementos creados solo en el cliente (véase [Módulos de componentes](general-getting-started.mdx#módulos-de-componentes)).
+
+</PlatformBlock>
+
+</PlatformBlock>
+
+
+
+## Uso
+
+El siguiente código explica cómo crear un componente bullet graph y configurar una barra de rendimiento, un marcador de medida comparativa y tres rangos comparativos en la escala.
+
+
+```json-snippet
+{
+    "type": "BulletGraph",
+    "$styleOptions": {
+        "colorNotation": "hex",
+        "uppercaseHexColors": true
+    },
+    "height": "100px",
+    "width": "300px",
+    "minimumValue": 5,
+    "maximumValue": 55,
+    "value": 35,
+    "targetValue": 43,
+    "ranges": [
+        { "type": "LinearGraphRange", "startValue": 0, "endValue": 15, "brush": "#828181" },
+        { "type": "LinearGraphRange", "startValue": 15, "endValue": 30, "brush": "#AAAAAA" },
+        { "type": "LinearGraphRange", "startValue": 30, "endValue": 55, "brush": "#D0D0D0" }
+    ]
+}
+```
+
+
+## Medidas comparativas
+El bullet graph puede mostrar dos medidas: el valor de rendimiento y el valor objetivo.
+
+El valor de rendimiento es la medida principal que muestra el componente, y se visualiza como una barra que se extiende a lo largo de todo el gráfico. El valor objetivo es una medida con la que se compara el valor de rendimiento. Se muestra como un pequeño bloque perpendicular a la orientación de la barra de rendimiento.
+
+```json-snippet source="/gauges/bullet-graph/measures"
+{
+    "type": "BulletGraph",
+    "height": "80px",
+    "width": "400px",
+    "minimumValue": 0,
+    "maximumValue": 100,
+
+    "value": 50,
+    "valueBrush": "DodgerBlue",
+    "valueStrokeThickness": 1,
+    "valueInnerExtent": 0.5,
+    "valueOuterExtent": 0.65,
+
+    "targetValue": 80,
+    "targetValueBreadth": 10,
+    "targetValueBrush": "LimeGreen",
+    "targetValueOutline": "LimeGreen",
+    "targetValueStrokeThickness": 1,
+    "targetValueInnerExtent": 0.3,
+    "targetValueOuterExtent": 0.85
+}
+```
+
+
+<Sample src="/gauges/bullet-graph/measures" height={125} alt="Medidas del bullet graph de {Platform}" />
+
+
+## Valor destacado
+
+El valor de rendimiento del bullet graph puede modificarse aún más para mostrar el progreso representado como un valor destacado. Esto hará que el `BulletGraph.value` aparezca con una opacidad menor. Un buen ejemplo es si `BulletGraph.value` es 50 y `highlightValue` se establece en 25. Esto representaría un rendimiento del 50 % independientemente del valor que tenga `targetValue`. Para habilitarlo, primero establezca `highlightValueDisplayMode` en Overlay y, a continuación, aplique un `highlightValue` a un valor inferior a `BulletGraph.value`.
+
+```json-snippet source="/gauges/bullet-graph/highlight-needle"
+{
+    "type": "BulletGraph",
+    "height": "80px",
+    "width": "400px",
+    "minimumValue": 0,
+    "maximumValue": 100,
+    "value": 50,
+    "targetValue": 90,
+    "interval": 10,
+    "labelInterval": 10,
+    "labelExtent": 0.025,
+    "labelsPreTerminal": 0,
+    "labelsPostInitial": 0,
+    "highlightValueDisplayMode": "Overlay",
+    "highlightValue": 25
+}
+```
+
+<Sample src="/gauges/bullet-graph/highlight-needle" height={125} alt="Aguja de resaltado del bullet graph de {Platform}" />
+
+
+## Rangos comparativos
+Los rangos son elementos visuales que resaltan un intervalo de valores especificado en una escala. Su finalidad es comunicar visualmente el estado cualitativo de la medida de la barra de rendimiento, indicando al mismo tiempo el grado en que se encuentra dentro de ese estado.
+
+```json-snippet source="/gauges/bullet-graph/ranges"
+{
+    "type": "BulletGraph",
+    "height": "80px",
+    "width": "400px",
+    "minimumValue": 0,
+    "maximumValue": 100,
+    "value": 80,
+    "interval": 10,
+    "targetValue": 90,
+    "rangeBrushes":  [ "#C62828", "#F96232", "#FF9800" ],
+    "rangeOutlines": [ "#C62828", "#F96232", "#FF9800" ],
+    "ranges": [
+        { "type": "LinearGraphRange", "startValue": 0,  "endValue": 40,  "innerStartExtent": 0.075, "innerEndExtent": 0.075, "outerStartExtent": 0.95, "outerEndExtent": 0.95 },
+        { "type": "LinearGraphRange", "startValue": 40, "endValue": 70,  "innerStartExtent": 0.075, "innerEndExtent": 0.075, "outerStartExtent": 0.95, "outerEndExtent": 0.95 },
+        { "type": "LinearGraphRange", "startValue": 70, "endValue": 100, "innerStartExtent": 0.075, "innerEndExtent": 0.075, "outerStartExtent": 0.95, "outerEndExtent": 0.95 }
+    ]
+}
+```
+
+<Sample src="/gauges/bullet-graph/ranges" height={125} alt="Rangos del bullet graph de {Platform}" />
+
+
+
+## Marcas de graduación
+Las marcas de graduación sirven para dividir visualmente la escala en intervalos y así aumentar la legibilidad del bullet graph.
+- Marcas de graduación principales: son los delimitadores principales de la escala. La frecuencia con que aparecen, su extensión y su estilo pueden controlarse estableciendo sus propiedades correspondientes.
+- Marcas de graduación secundarias: representan marcas de ayuda que pueden usarse para mejorar aún más la legibilidad de la escala, y pueden personalizarse de forma similar a las principales.
+
+```json-snippet source="/gauges/bullet-graph/tickmarks"
+{
+    "type": "BulletGraph",
+    "height": "80px",
+    "width": "400px",
+    "minimumValue": 0,
+    "maximumValue": 100,
+    "value": 70,
+    "targetValue": 90,
+    "interval": 10,
+
+    "tickBrush": "DodgerBlue",
+    "ticksPreTerminal": 0,
+    "ticksPostInitial": 0,
+    "tickStrokeThickness": 2,
+    "tickStartExtent": 0.2,
+    "tickEndExtent": 0.075,
+
+    "minorTickCount": 4,
+    "minorTickBrush": "DarkViolet",
+    "minorTickStartExtent": 0.2,
+    "minorTickEndExtent": 0.1,
+    "minorTickStrokeThickness": 1
+}
+```
+
+
+<Sample src="/gauges/bullet-graph/tickmarks" height={125} alt="Marcas de graduación del bullet graph de {Platform}" />
+
+
+
+## Etiquetas
+Las etiquetas indican las medidas de la escala.
+
+```json-snippet source="/gauges/bullet-graph/labels"
+{
+    "type": "BulletGraph",
+    "height": "80px",
+    "width": "400px",
+    "minimumValue": 0,
+    "maximumValue": 100,
+    "value": 70,
+    "targetValue": 90,
+    "interval": 10,
+    "labelInterval": 10,
+    "labelExtent": 0.025,
+    "labelsPreTerminal": 0,
+    "labelsPostInitial": 0,
+    "fontBrush": "DodgerBlue",
+    "font": "11px Verdana"
+}
+```
+
+
+<Sample src="/gauges/bullet-graph/labels" height={125} alt="Etiquetas del bullet graph de {Platform}" />
+
+
+
+## Fondo
+El elemento de fondo representa el fondo y el borde del componente bullet graph. Es siempre el primer elemento que se muestra, y todos los demás elementos, como las etiquetas y las marcas de graduación, se superponen sobre él.
+
+```json-snippet source="/gauges/bullet-graph/background"
+{
+    "type": "BulletGraph",
+    "height": "80px",
+    "width": "400px",
+    "minimumValue": 0,
+    "maximumValue": 100,
+    "value": 70,
+    "targetValue": 90,
+    "interval": 10,
+    "backingBrush": "#bddcfc",
+    "backingOutline": "DodgerBlue",
+    "backingStrokeThickness": 4,
+    "backingInnerExtent": 0,
+    "backingOuterExtent": 1
+}
+```
+
+
+<Sample src="/gauges/bullet-graph/background" height={125} alt="Fondo del bullet graph de {Platform}" />
+
+
+
+## Escala
+La escala es un elemento visual que resalta todo el intervalo de valores del indicador. Puede personalizar el aspecto y la forma de la escala. La escala también puede invertirse (con la propiedad `isScaleInverted`) y, en ese caso, todas las etiquetas se mostrarán de derecha a izquierda en lugar de de izquierda a derecha.
+
+```json-snippet source="/gauges/bullet-graph/scale"
+{
+    "type": "BulletGraph",
+    "height": "80px",
+    "width": "400px",
+    "minimumValue": 0,
+    "maximumValue": 100,
+    "value": 70,
+    "targetValue": 90,
+    "interval": 10,
+    "isScaleInverted": false,
+    "scaleBackgroundBrush": "DodgerBlue",
+    "scaleBackgroundOutline": "DarkViolet",
+    "scaleBackgroundThickness": 2,
+    "scaleStartExtent": 0.05,
+    "scaleEndExtent": 0.95
+}
+```
+
+
+<Sample src="/gauges/bullet-graph/scale" height={125} alt="Escala del bullet graph de {Platform}" />
+
+
+
+## Resumen
+Para su comodidad, todos los fragmentos de código anteriores se combinan en un único bloque de código que puede copiar fácilmente en su proyecto para ver el bullet graph con todas las características y elementos visuales activados.
+
+```json-snippet
+{
+    "type": "BulletGraph",
+    "height": "80px",
+    "width": "400px",
+    "minimumValue": 0,
+    "maximumValue": 100,
+    "interval": 10,
+
+    "isScaleInverted": false,
+    "scaleBackgroundBrush": "DodgerBlue",
+    "scaleBackgroundOutline": "DarkViolet",
+    "scaleBackgroundThickness": 2,
+    "scaleStartExtent": 0.05,
+    "scaleEndExtent": 0.95,
+
+    "value": 50,
+    "valueBrush": "DodgerBlue",
+    "valueStrokeThickness": 1,
+    "valueInnerExtent": 0.5,
+    "valueOuterExtent": 0.65,
+
+    "targetValue": 80,
+    "targetValueBreadth": 10,
+    "targetValueBrush": "LimeGreen",
+    "targetValueOutline": "LimeGreen",
+    "targetValueStrokeThickness": 1,
+    "targetValueInnerExtent": 0.3,
+    "targetValueOuterExtent": 0.85,
+
+    "highlightValueDisplayMode": "Overlay",
+    "highlightValue": 25,
+
+    "labelInterval": 10,
+    "labelExtent": 0.025,
+    "labelsPreTerminal": 0,
+    "labelsPostInitial": 0,
+    "fontBrush": "DodgerBlue",
+    "font": "11px Verdana",
+
+    "backingBrush": "#bddcfc",
+    "backingOutline": "DodgerBlue",
+    "backingStrokeThickness": 4,
+    "backingInnerExtent": 0,
+    "backingOuterExtent": 1,
+
+    "tickBrush": "DodgerBlue",
+    "ticksPreTerminal": 0,
+    "ticksPostInitial": 0,
+    "tickStrokeThickness": 2,
+    "tickStartExtent": 0.2,
+    "tickEndExtent": 0.075,
+
+    "minorTickCount": 4,
+    "minorTickBrush": "DarkViolet",
+    "minorTickStartExtent": 0.2,
+    "minorTickEndExtent": 0.1,
+    "minorTickStrokeThickness": 1,
+
+    "rangeBrushes":  [ "#C62828", "#F96232", "#FF9800" ],
+    "rangeOutlines": [ "#C62828", "#F96232", "#FF9800" ],
+    "ranges": [
+        { "type": "LinearGraphRange", "startValue": 0,  "endValue": 40,  "innerStartExtent": 0.075, "innerEndExtent": 0.075, "outerStartExtent": 0.95, "outerEndExtent": 0.95 },
+        { "type": "LinearGraphRange", "startValue": 40, "endValue": 70,  "innerStartExtent": 0.075, "innerEndExtent": 0.075, "outerStartExtent": 0.95, "outerEndExtent": 0.95 },
+        { "type": "LinearGraphRange", "startValue": 70, "endValue": 100, "innerStartExtent": 0.075, "innerEndExtent": 0.075, "outerStartExtent": 0.95, "outerEndExtent": 0.95 }
+    ]
+}
+```
+
+
+## Referencias de API
+`BulletGraph`
+`LinearGraphRange`
+## Recursos adicionales
+
+Puede encontrar más información sobre otros tipos de indicadores en estos temas:
+
+- [Indicador lineal](linear-gauge.mdx)
+- [Indicador radial](radial-gauge.mdx)

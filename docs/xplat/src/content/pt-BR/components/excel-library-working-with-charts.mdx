@@ -1,0 +1,64 @@
+---
+title: "Biblioteca Excel de {Platform} | Trabalhando com gráficos | Infragistics"
+description: "Use o recurso de gráficos da biblioteca Excel {Platform} da Infragistics para adicionar representações visuais de gráficos das tendências dos dados em regiões de células de uma planilha. Visualize dados do Excel {ProductName} em mais de 70 tipos de gráfico!"
+keywords: "Biblioteca Excel, gráficos, {ProductName}, Infragistics"
+license: commercial
+mentionedTypes: ["Workbook", "Worksheet"]
+
+_language: pt-BR
+llms:
+  description: "A funcionalidade WorksheetChart do Excel Engine {Platform} da Infragistics permite adicionar representações visuais de gráficos das tendências dos dados em regiões de células de uma planilha."
+platformType: xplat-unmapped
+---
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+# {Platform} Trabalhando com gráficos
+
+A funcionalidade <ApiLink type="WorksheetChart" /> do Excel Engine {Platform} da Infragistics permite adicionar representações visuais de gráficos das tendências dos dados em regiões de células de uma planilha. Por exemplo, se você quiser ver os seus dados do Excel em uma região de células representada como uma coluna, uma linha ou um dos mais de 70 outros tipos de gráfico, este recurso pode ajudar você a conseguir isso.
+
+## {Platform} Exemplo de trabalho com gráficos
+
+
+<Sample src="/excel/excel-library/working-with-charts" height={500} alt="{Platform} Exemplo de trabalho com gráficos" />
+
+
+<DocsAside type="info">
+O formato XLSX é obrigatório. Outros formatos não são compatíveis no momento.
+</DocsAside>
+
+
+## Uso
+Para adicionar um gráfico a uma planilha, você deve usar o método <ApiLink type="WorksheetShapeCollection" member="addChart" label="AddChart" /> da coleção de formas da planilha. Nesse método, você pode especificar o tipo de gráfico que deseja usar, a célula superior esquerda, a célula inferior direita e os percentuais dessas células que você deseja que o gráfico ocupe.
+
+O método <ApiLink type="WorksheetShapeCollection" member="addChart" label="AddChart" /> retorna o elemento de gráfico da planilha a ser adicionado à planilha. Depois de obtê-lo, você pode usar o método <ApiLink type="WorksheetChart" member="setSourceData" label="SetSourceData" /> do gráfico para definir um endereço de célula da região de células da planilha que deseja usar como fonte de dados, bem como definir se deseja ou não trocar o mapeamento de colunas e linhas para os eixos X e Y.
+
+Há mais de 70 tipos de gráfico compatíveis, incluindo `Line`, `Area`, <ApiLink type="Column" /> e `Pie`.
+
+O código a seguir demonstra como usar o recurso de gráficos do Excel. O trecho abaixo adicionará um gráfico de colunas entre a primeira célula e a 13ª célula da primeira linha da planilha. Os dados de origem são então definidos para os dados da região A2:M6, trocando o mapeamento de colunas e linhas para os eixos X e Y do gráfico de colunas:
+
+```ts
+var chart = ws.shapes().addChart(ChartType.ColumnClustered,
+      ws.rows(0).cells(0), { x: 0, y: 0 },
+      ws.rows(0).cells(12), { x: 100, y: 100 });
+
+chart.setSourceData("A2:M6", true);
+```
+
+<PlatformBlock for="Blazor">
+
+```razor
+var chart = sheet.Shapes.AddChart(Documents.Excel.Charts.ChartType.ColumnClustered,
+    sheet.Rows[0].Cells[0], new Core.Point(0, 0),
+    sheet.Rows[0].Cells[props.Length - 1], new Core.Point(100, 100));
+
+chart.SetSourceData("A2:M6", true);
+```
+
+</PlatformBlock>
+
+
+## Referências da API
+<ApiLink type="WorksheetChart" />

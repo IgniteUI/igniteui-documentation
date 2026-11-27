@@ -1,0 +1,430 @@
+---
+title: "Angular Material 테마 적용"
+description: "Ignite UI for Angular 테마 엔진은 Angular Material 라이브러리 같은 다른 테마 라이브러리에서 가져온 외부 컴포넌트와 함께 쉽게 사용할 수 있도록 설계되어 있습니다."
+keywords: "Ignite UI for Angular, UI 컨트롤, Angular 위젯, 웹 위젯, UI 위젯, Angular, Native Angular Components Suite, Native Angular Controls, Native Angular Components Library, 테마 적용, Angular Material, Material 컴포넌트"
+_language: ko
+llms:
+  description: "Ignite UI for Angular 테마 엔진은 Angular Material 라이브러리 같은 다른 테마 라이브러리에서 가져온 외부 컴포넌트와 함께 쉽게 사용할 수 있도록 설계되어 있습니다."
+---
+
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+import { Image } from 'astro:assets';
+import materialNav from '../../../images/material-nav.png';
+import igniteuiDialog from '../../../images/igniteui-dialog.png';
+import igxExpansionPanel from '../../../images/igx-expansion-panel.png';
+import materialDark from '../../../images/material-dark.png';
+
+# Angular Material 테마 적용
+
+<div class="highlight">
+
+Ignite UI for Angular 테마 엔진은 [`Angular Material`](https://material.angular.io/) 라이브러리 같은 다른 테마 라이브러리에서 가져온 외부 컴포넌트와 함께 쉽게 사용할 수 있도록 설계되어 있습니다.
+</div>
+<hr/>
+
+## Ignite UI와 Angular Material 개요
+
+Angular Material은 모바일 및 데스크톱 Angular 웹 애플리케이션을 위한 UI 컴포넌트 라이브러리입니다. 여러 개의 사전 구축된 테마와 [`Material Design specification`](https://material.io/components)을(를) 기반으로 한 많은 컴포넌트를 포함합니다.
+
+Ignite UI for Angular는 Material 기반 UI 위젯, 컴포넌트, Figma UI 키트와 지원 디렉티브를 완전하게 갖춘 Angular용 세트로, 개발자가 최신 고성능 앱을 만들 수 있도록 합니다. 우리의 테마 엔진은 사용하기 쉬우며, 단일 컴포넌트, 여러 컴포넌트 또는 전체 제품군 등 여러 수준에서 세밀한 테마 적용을 가능하게 합니다. 또한 아주 적은 노력으로 다른 테마 라이브러리의 컴포넌트 스타일을 지정하는 데도 사용할 수 있습니다.
+
+다음 문서는 Ignite UI와 Angular Material 컴포넌트를 하나의 애플리케이션에서 함께 사용하는 방법과, 서로 비슷하게 보이도록 스타일을 지정하는 방법을 보여 줍니다.
+
+## Angular Material 테마 적용 예제
+
+<Sample src="/theming/angular-sample" height={1100} alt="" />
+
+<hr/>
+
+## Ignite UI 및 Angular Material 시작하기
+
+### Angular Material 설치 방법
+
+Angular CLI를 사용하고 있고 기존 Angular 프로젝트가 있다면, 아래 명령으로 Angular Material을 추가할 수 있습니다:
+
+```cmd
+ng add @angular/material
+```
+
+그다음 사전 구축된 테마 중 하나를 선택하고, Angular Material에 대한 전역 타이포그래피 스타일과 브라우저 애니메이션을 설정할지 결정해야 합니다. 이 구성을 마치면 애플리케이션은 Angular Material 컴포넌트를 사용할 준비가 됩니다.
+
+Angular Material 라이브러리 사용에 대한 자세한 정보는 [`official documentation`](https://material.angular.io/guide/getting-started)에서 확인할 수 있습니다.
+
+### Ignite UI for Angular 설치 방법
+
+Ignite UI for Angular 패키지를 모든 종속성, 글꼴 가져오기, 스타일 참조와 함께 설치하려면 프로젝트에서 다음 명령을 실행하십시오:
+
+```cmd
+ng add igniteui-angular
+```
+
+그다음 _app.module.ts_ 파일에서 해당 모듈을 가져와 Ignite UI 컴포넌트를 사용할 수 있습니다:
+
+```ts
+// manually addition of the Igx Avatar component
+import { IgxAvatarModule } from 'igniteui-angular/avatar';
+// import { IgxAvatarModule } from '@infragistics/igniteui-angular'; for licensed package
+
+@NgModule({
+    imports: [
+        ...,
+        IgxAvatarModule,
+        ...
+    ]
+)}
+```
+
+기존 프로젝트에서 Ignite UI for Angular를 사용하는 것에 대한 전체 소개는 [`Getting Started`](/general/getting-started) 주제를 따르십시오. 각 컴포넌트를 가져오고 사용하는 방법에 대한 자세한 정보와 안내 예제는 컴포넌트 문서에서 찾을 수 있습니다.
+
+## Ignite UI 및 Angular Material 컴포넌트
+
+데모 샘플이 어떻게 만들어졌는지 살펴보겠습니다. 이는 Ignite UI 및 Angular Material 컴포넌트를 혼합하고, 하나의 애플리케이션에 잘 어울리도록 스타일을 지정한 것입니다. 예제의 탐색은 material [`mat-toolbar`](https://material.angular.io/components/toolbar/overview)과 <ApiLink type="ButtonDirective" label="igx-buttons" /> 및 <ApiLink type="Avatar" label="igx-avatar" />를 함께 사용하여 만들어집니다. Campaigns 버튼 아래의 [`menu`](https://material.angular.io/components/menu/overview)도 Angular Material 라이브러리에서 가져온 것입니다. 탐색 아래에는 일부 통계를 표시하기 위해 <ApiLink type="Card" label="igx-card" /> 컴포넌트를 사용합니다. 카드 안에는 여러 항목을 배치했습니다 - <ApiLink type="Avatar" label="igx-avatars" />과(와) <ApiLink type="Icon" label="igx-icons" />, 그리고 material [`buttons`](https://material.angular.io/components/button/overview).
+
+<Image src={materialNav} alt="Angular Material 컴포넌트 탐색" width="100%" />
+
+`More` 버튼을 클릭하면 <ApiLink type="Dialog" label="igx-dialog" />이(가) 나타납니다:
+
+<Image src={igniteuiDialog} alt="Ignite UI for Angular 대화 상자" width="100%" />
+
+다음으로 일부 신용카드 정보를 보여 주는 <ApiLink type="ExpansionPanel" label="igx-expansion-panel" />을(를) 추가했습니다. 그 콘텐츠 안에는 [`mat-sliders`](https://material.angular.io/components/slider/overview), <ApiLink type="Divider" label="igx-divider" /> 및 [`mat-stepper`](https://material.angular.io/components/stepper/overview)가 [`mat-form-fields`](https://material.angular.io/components/form-field/overview)과 함께 있습니다.
+
+<Image src={igxExpansionPanel} alt="Ignite UI for Angular 확장 패널" width="100%" />
+
+마지막으로 오른쪽 위 모서리에 앱 전체의 테마를 바꾸는 Ignite UI for Angular <ApiLink type="IconButtonDirective" label="아이콘 버튼" />을(를) 넣었습니다:
+
+<Image src={materialDark} alt="어두운 변형 테마" width="100%" />
+
+## Angular 컴포넌트 스타일 지정하기
+
+Ignite UI 테마 엔진을 사용하여 컴포넌트의 스타일을 지정하기 시작하려면, 원하는 이름의 scss 파일을 만들어 전역 테마의 기반 파일로 사용하십시오. 이 파일을 `_variables.scss`이라고 부르겠습니다. 다음으로 Ignite UI 및 Angular Material `index` 파일을 가져와야 합니다:
+
+// _variables.scss
+
+```scss
+@use "igniteui-angular/theming" as *;
+@use "@angular/material" as mat;
+
+// IMPORTANT: Prior to Ignite UI for Angular version 13 use:
+// @import '~igniteui-angular/lib/core/styles/themes/index';
+```
+
+### 색상 팔레트
+
+Ignite UI for Angular의 <ApiLink kind="sass" module="palettes" type="function-palette" label="palette" code={true} /> 함수는 `primary`, `secondary` 및 `gray` 음영의 세 가지 하위 팔레트와, `info`, `success`, `warn`, `error` 및 `surface`를 위한 추가 색상 다섯 개를 포함하는 색상 팔레트 맵을 생성합니다. 각 색상 변형에 대해 테마 엔진은 실행 중에 텍스트 대비 색상을 자동으로 생성하며, 이 색상도 팔레트에 포함됩니다. 아래에서 미리 정의된 밝은 Material 팔레트를 볼 수 있습니다:
+
+```scss
+$igx-light-palette: palette(
+    $primary: #09f,
+    $secondary: #e41c77
+    $info: #1377d5,
+    $success: #4eb862,
+    $warn: #fbb13c,
+    $error: #ff134a,
+    $gray: #000,
+    $surface: #fff
+);
+```
+
+Ignite UI 팔레트와 달리 Angular Material 색상 팔레트 맵에는 한 가지 색상과 그에 해당하는 대비 색상의 음영만 포함됩니다. 예를 들어 `$mat-purple` 팔레트를 볼 수 있습니다:
+
+```scss
+$light-primary-text: white;
+$dark-primary-text: rgba(black, 0.87);
+
+$mat-purple: (
+  50: #f3e5f5,
+  100: #e1bee7,
+  ...,
+  A700: #aa00ff,
+  contrast: (
+    50: $dark-primary-text,
+    100: $dark-primary-text,
+    ...,
+    A700: $light-primary-text,
+  )
+);
+```
+
+### 테마 팔레트 생성하기
+
+테마 팔레트를 정의하려면 색조와 색상의 맵을 생성하는 material `define-palette` 함수를 사용해야 합니다. 이 예제에서는 Ignite UI 테마로 Angular Material 컴포넌트의 스타일을 지정하고 싶으므로, 그 구조에 맞게 `$light-material-palette`을(를) 변환해야 합니다.
+
+이를 위해 `$color`, `$saturations` 및 `$palette` 매개변수를 받아 모든 색상 변형과 그 뒤에 대비 색상을 포함한 맵을 반환하는 Sass 함수를 만들겠습니다. 여기서 사용하는 채도는 [`Material Design color system`](https://material.io/design/color/the-color-system.html)을(를) 따릅니다.
+
+```scss
+$saturations: (50, 100, 200, 300, 400, 500, 600, 700, 800, 900, A100, A200, A400, A700);
+
+@function material-like-palette(
+    $color,
+    $saturations,
+    $palette,
+) {
+    $shade: ();
+    $contrast: ();
+    $result: ();
+    @each $saturation in $saturations {
+        $shade: map-merge($shade, (
+            $saturation: color($palette, $color, $saturation)
+        ));
+        $contrast: map-merge($contrast, (
+            $saturation: color($palette, $color, #{$saturation}-contrast)
+        ));
+        $result: map-merge($shade, (contrast: $contrast));
+    }
+
+    @return $result;
+}
+```
+
+#### 밝은 테마 팔레트
+
+Ignite UI `$igx-light-palette`의 `primary` 색상과 방금 만든 `material-like-palette` 함수를 사용하여 밝은 주 material 테마 팔레트를 정의하겠습니다. 결과는 `define-palette` 함수에 매개변수로 전달해야 하며, 이 함수는 `default`, `lighter`, `darker` 및 `text` 음영의 색상 값을 생성하여 팔레트 맵에 추가합니다:
+
+```scss
+$light-palette-primary: mat.define-palette(
+    material-like-palette('primary', $saturations, $igx-light-palette));
+```
+
+밝은 강조 팔레트도 같은 방식으로 만들어 보겠습니다:
+
+```scss
+$light-palette-accent: mat.define-palette(
+    material-like-palette('secondary', $saturations, $igx-light-palette));
+```
+
+마지막으로 두 색상 팔레트를 `define-light-theme` 함수에 전달할 준비가 되었습니다. 이 함수는 Ignite UI material 색상 팔레트의 색상을 사용하는 Angular Material 테마를 만듭니다:
+
+```scss
+$custom-mat-light-theme: mat.define-light-theme((
+    color: (
+        primary: $light-palette-primary,
+        accent: $light-palette-accent
+    )
+));
+```
+
+<DocsAside type="info">
+Ignite UI for Angular가 제공하는 팔레트에 대해 더 알아보고 새 팔레트를 만드는 방법을 배우려면 [`palettes with Sass`](../sass/palettes.mdx) 섹션을 방문하십시오.
+</DocsAside>
+
+#### 어두운 테마 팔레트
+
+앞선 방식을 따라 이번에는 어두운 모드를 위한 material 팔레트를 만들겠습니다. 이번에는 사용자 지정 `igx-palette`도 정의합니다:
+
+```scss
+// Custom palette
+$custom-dark-palette: palette(
+    $primary: #206094,
+    $secondary: #72da67,
+    $surface: #222,
+    $info: #1377d5,
+    $success: #4eb862,
+    $warn: #fbb13c,
+    $error: #ff134a,
+);
+
+// Material dark primary palette
+$dark-palette-primary: mat.define-palette(
+    material-like-palette('primary', $saturations, $custom-dark-palette));
+// Material dark accent palette
+$dark-palette-accent: mat.define-palette(
+    material-like-palette('secondary', $saturations, $custom-dark-palette));
+// Material dark theme
+$custom-mat-dark-theme: mat.define-dark-theme((
+    color: (
+        primary: $dark-palette-primary,
+        accent: $dark-palette-accent
+    )
+));
+```
+
+### 테마
+
+`light` 모드와 `dark` 모드를 전환하기 위해 버튼 클릭 시 바뀌는 사용자 지정 `dark` 클래스를 추가하겠습니다. 스타일시트 파일에는 각 클래스에 범위가 지정된 서로 다른 색상 팔레트를 포함하겠습니다.
+
+Ignite UI for Angular에는 [Material Design](https://material.io/design)에서 영감을 받은 미리 정의된 테마가 포함되어 있습니다. 이를 사용하려면 먼저 우리의 `core` 믹스인을 포함한 다음, 내장 테마 믹스인인 <ApiLink kind="sass" module="themes" type="mixin-theme" label="theme" />을(를) 포함해야 합니다. 또한 미리 정의된 material 팔레트인 <ApiLink kind="sass" module="palettes" type="variable-light-material-palette" label="$light-material-palette" />과(와) <ApiLink kind="sass" module="palettes" type="variable-dark-material-palette" label="$dark-material-palette" />도 사용하겠습니다.
+
+Angular Material 컴포넌트에는 먼저 해당 `core` 믹스인을 포함한 다음, 앞서 말한 사용자 지정 material 테마와 함께 `all-component-themes` 믹스인을 포함해야 합니다.
+
+```scss
+// Make sure you always include the core mixin first
+@include core();
+
+::ng-deep {
+    @include mat.core();
+    @include theme($igx-light-palette);
+    @include mat.all-component-themes($custom-mat-light-theme);
+
+    .dark {
+        @include dark-theme($custom-dark-palette);
+        @include mat.all-component-themes($custom-mat-dark-theme);
+    }
+}
+```
+
+<DocsAside type="warning">
+위 코드는 반드시 `::ng-deep` 선택기 안에 넣어 [`Emulated`](../sass/component-themes.mdx#뷰-캡슐화) ViewEncapsulation을 `penetrate`하십시오.
+</DocsAside>
+
+#### 밝은 모드
+
+색상 팔레트와 테마 구성을 마쳤으면, 컴포넌트에 추가 색상 변경을 할 수 있습니다. 애플리케이션의 배경색은 호스트 요소에 명시적으로 설정해야 합니다. 샘플에서는 전달된 팔레트의 `surface` 색상을 사용하려고 합니다. 로고는 SVG 이미지이므로 CSS로 색상을 쉽게 바꿀 수 있습니다. 또한 `mat-slider` 컴포넌트의 일부 색상을 `secondary`(으)로 바꾸어 앱에 더 잘 맞도록 하겠습니다:
+
+```scss
+:host {
+    &.light {
+        // The background color of the application in light mode
+        background: color($igx-light-palette, 'surface');
+
+        // The application logo fill color
+        #Path1 {
+            fill: color($igx-light-palette, 'secondary');
+        }
+
+        // The application logo stroke color
+        #Path2 {
+            stroke: color($igx-light-palette, 'secondary');
+            stroke-width: "0.8";
+        }
+    }
+
+    //  Update material slider component colors for both light and dark mode
+    .mat-mdc-slider.secondary .mdc-slider__track--inactive,
+    .mat-mdc-slider.secondary .mdc-slider__thumb-knob {
+        background-color: color($custom-mat-light-theme, 'secondary');
+    }
+
+    .mat-mdc-slider.secondary .mdc-slider__track--active_fill,
+    .mat-mdc-slider.secondary .mdc-slider__thumb-knob {
+        border-color: color($custom-mat-light-theme, 'secondary');
+    }
+
+    .mat-mdc-slider.secondary .mat-mdc-slider-visual-thumb .mat-ripple > * {
+        background-color: color($custom-mat-light-theme, 'secondary');
+        opacity: .12;
+    }
+}
+```
+
+#### 어두운 모드
+
+어두운 변형에는 같은 CSS 스타일을 적용하되 `$custom-dark-palette`을(를) 사용하겠습니다. 또한 `mat-stepper` 컴포넌트의 일부 색상도 업데이트하겠습니다:
+
+```scss
+:host {
+    &.dark {
+        // The background color of the application in dark mode
+        background: color($custom-dark-palette, 'surface');
+
+        // The application logo fill color
+        #Path1 {
+            fill: color($custom-dark-palette, 'secondary');
+        }
+
+        // The application logo stroke color
+        #Path2 {
+            stroke: color($custom-dark-palette, 'secondary');
+            stroke-width: "0.8";
+        }
+
+        ::ng-deep {
+            // The background of the selected step icon inside the material stepper
+            .mat-step-header .mat-step-icon-selected {
+                background-color: color($custom-dark-palette, 'secondary');
+            }
+
+            // The background of the material stepper
+            .mat-stepper-horizontal {
+                background: color($custom-dark-palette, 'surface');
+            }
+        }
+    }
+}
+```
+
+### 클래스 생성
+
+Angular Material `toolbar`은(는) 배경색에 CSS 클래스를 사용합니다. 샘플에서는 이 색상이 선택된 테마에 따라 바뀌기를 원하므로 `color-classes` 믹스인을 사용하겠습니다. 이 믹스인은 주어진 속성과 색상 팔레트에 대해 모든 색상의 CSS 클래스 이름을 생성하며, 클래스 이름에는 선택적으로 접두사와 접미사를 붙일 수 있습니다. 데모에서는 믹스인을 두 번 포함하겠습니다. 한 번은 첫 번째 값으로 해당 `$igx-light-palette`을(를) 넣어 밝은 모드용으로, 또 한 번은 `$custom-dark-palette`를 넣어 어두운 모드용으로 포함합니다:
+
+```scss
+:host {
+    &.light {
+        @include color-classes(
+            $palette: $igx-light-palette,
+            $prop: 'background',
+            $prefix: 'bg'
+        );
+    }
+
+    &.dark {
+        @include color-classes(
+            $palette: $custom-dark-palette,
+            $prop: "background",
+            $prefix: "bg"
+        );
+    }
+}
+```
+
+그다음 navbar 컴포넌트에 "bg - 팔레트의 색상 - 색상 변형" 패턴에 따라 CSS 클래스를 추가하십시오. 샘플 앱에서는 `bg-gray-100`을(를) 사용합니다.
+
+### Angular 컴포넌트 타이포그래피
+
+Ignite UI for Angular는 각 테마마다 네 가지 기본 타입 스케일을 노출하며, 이는 애플리케이션의 전역 타이포그래피 스타일을 정의하기 위해 <ApiLink kind="sass" module="typography" type="mixin-typography" label="typography" code={true} /> 믹스인 안에서 사용할 수 있습니다. 예제에서는 미리 정의된 material `typeface`과(와) `type-scale`을(를) 적용하겠지만, 원한다면 사용자 지정 스케일을 만들 수도 있습니다.
+
+```scss
+:host {
+    @include typography($font-family: $material-typeface, $type-scale: $material-type-scale);
+}
+```
+
+Angular Material 타이포그래피를 사용자 지정하려면 해당 `define-typography-config` 함수를 사용해야 합니다. 다음과 같이 그들의 `$font-family`을(를) Ignite UI `$material-typeface` 및 `$button` 스타일로 재정의하겠습니다:
+
+```scss
+$custom-typography: mat.define-typography-config(
+    $font-family: $material-typeface,
+    $button: mat.define-typography-level(14px, $font-weight: 600)
+);
+```
+
+그다음 타이포그래피 구성을 `define-light-theme` 믹스인에 전달해야 합니다:
+
+```scss
+$custom-mat-light-theme: mat.define-light-theme((
+    color: (
+        primary: $light-palette-primary,
+        accent: $light-palette-accent
+    ),
+    typography: $custom-typography
+));
+```
+
+자세한 내용은 Angular Material [`Typography documentation`](https://material.angular.io/guide/typography)을(를) 확인하십시오.
+
+## API 참조
+<hr/>
+- <ApiLink kind="sass" module="palettes" type="variable-light-material-palette" label="밝은 Material 팔레트" />
+- <ApiLink kind="sass" module="palettes" type="variable-dark-material-palette" label="어두운 Material 팔레트" />
+- <ApiLink kind="sass" module="themes" type="mixin-light-theme" label="밝은 Material 테마" />
+- <ApiLink kind="sass" module="themes" type="mixin-dark-theme" label="어두운 Material 테마" />
+- <ApiLink kind="sass" module="palettes" type="function-palette" label="팔레트 함수" />
+- <ApiLink kind="sass" module="typography" type="mixin-typography" label="타이포그래피 믹스인" />
+관련 항목:
+- [팔레트](../sass/palettes.mdx)
+- [컴포넌트 테마](../sass/component-themes.mdx)
+- [타이포그래피](../sass/typography.mdx)
+- [Avatar 컴포넌트](../../layouts/avatar.mdx)
+- [Button 컴포넌트](inputs/button)
+- [Dialog 컴포넌트](../../dialog.mdx)
+- [Icon 컴포넌트](../../layouts/icon.mdx)
+- [Expansion Panel 컴포넌트](../../expansion-panel.mdx)
+## 추가 리소스
+
+<hr/>
+
+커뮤니티는 활발하며 새로운 아이디어를 언제나 환영합니다.
+
+- [Ignite UI for Angular **포럼**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

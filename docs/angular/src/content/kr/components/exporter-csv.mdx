@@ -1,0 +1,176 @@
+---
+title: "CSV/TSV 내보내기 컴포넌트 - Native Angular | Ignite UI for Angular"
+description: "사용자는 Ignite UI for Angular의 CSV/TSV 내보내기 컴포넌트를 사용하여 편집하거나 오프라인 프레젠테이션을 위해 데이터를 CSV 또는 TSV 형식으로 내보낼 수 있습니다."
+keywords: "Ignite UI for Angular, UI 컨트롤, Angular 위젯, 웹 위젯, UI 위젯, Angular, Native Angular Components, Native Angular Components Suite, Native Angular Controls, Native Angular Components Library, Angular Grid, Angular Data Grid, Angular Grid Control, Angular Grid Component, CSV 내보내기, TSV 내보내기"
+license: commercial
+_language: ko
+llms:
+  description: "IgniteUI CSV Exporter 서비스는 원시 데이터(배열) 또는 IgxGrid, IgxHierarchicalGrid, IgxTreeGrid에서 문자로 구분된 값(Character Separated Values) 형식으로 데이터를 내보낼 수 있습니다."
+---
+
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+# CSV Exporter
+
+<div class="highlight">
+
+IgniteUI CSV Exporter 서비스는 원시 데이터(배열) 또는 [**IgxGrid**](/grid/grid), [**IgxHierarchicalGrid**](/hierarchicalgrid/hierarchical-grid), [**IgxTreeGrid**](/treegrid/tree-grid)에서 문자로 구분된 값 형식으로 데이터를 내보낼 수 있습니다.
+내보내기 기능은 <ApiLink type="CsvExporterService" /> 클래스에 캡슐화되어 있습니다.
+</div>
+<igc-divider></igc-divider>
+
+## Angular CSV Exporter 예제
+
+<Sample src="/services/export-csv" height={150} alt="Angular CSV Exporter 예제" />
+
+<hr/>
+
+IgniteUI CSV Exporter를 사용하려면 먼저 app.module.ts 파일에서 <ApiLink type="CsvExporterService" />을(를) 가져오고 `providers` 배열에 서비스를 추가하십시오:
+
+```typescript
+// app.module.ts
+
+...
+import { IgxCsvExporterService } from 'igniteui-angular/grids/core';
+// import { IgxCsvExporterService } from '@infragistics/igniteui-angular'; for licensed package
+
+@NgModule({
+  providers: [ IgxCsvExporterService ]
+})
+
+export class AppModule {}
+```
+
+<DocsAside type="info">
+v12.2.1 이후에는 내보내기 서비스가 root에 제공되므로, 더 이상 AppModule providers에 선언할 필요가 없습니다.
+</DocsAside>
+
+내보내기 과정을 시작하려면 컴포넌트 템플릿의 버튼 핸들러를 사용할 수 있습니다.
+
+```html
+<button (click)="exportButtonHandler()">Export Data to CSV</button>
+```
+
+컴포넌트의 생성자에서 <ApiLink type="CsvExporterService" /> 타입의 인수를 정의하면 내보내기 서비스에 접근할 수 있으며, Angular 프레임워크가 서비스의 인스턴스를 제공합니다. 데이터를 CSV 형식으로 내보내려면 내보내기 서비스의 <ApiLink type="CsvExporterService" member="exportdata" label="exportData" /> 메서드를 호출해야 합니다. 이 메서드는 첫 번째 인수로 내보낼 데이터를 받고, 두 번째 인수는 <ApiLink type="CsvExporterOptions" /> 타입이며 내보내기 과정을 구성할 수 있게 합니다.
+
+다음은 컴포넌트의 TypeScript 파일에서 내보내기 과정을 실행하는 코드입니다:
+
+```typescript
+// component.ts
+
+...
+import { IgxCsvExporterService, IgxCsvExporterOptions, CsvFileTypes } from 'igniteui-angular/grids/core';
+// import { IgxCsvExporterService, IgxCsvExporterOptions, CsvFileTypes } from '@infragistics/igniteui-angular'; for licensed package
+...
+
+public localData = [
+  { Name: 'Eric Ridley', Age: '26' },
+  { Name: 'Alanis Brook', Age: '22' },
+  { Name: 'Jonathan Morris', Age: '23' }
+];
+
+constructor(private csvExportService: IgxCsvExporterService) {
+}
+
+public exportButtonHandler() {
+  this.csvExportService.exportData(this.localData, new IgxCsvExporterOptions('ExportedDataFile'), CsvFileTypes.CSV);
+}
+
+```
+
+모든 것이 잘 되었다면 내보내기 버튼이 보일 것입니다. 버튼을 누르면 내보내기 과정이 시작되고, 브라우저는 `localData` 배열의 데이터를 CSV 형식으로 담은 "ExportedDataFile.csv"라는 파일을 내려받습니다.
+
+## IgxGrid 데이터 내보내기
+
+CSV Exporter 서비스는 [**IgxGrid**](/grid/grid)에서도 CSV 형식으로 데이터를 내보낼 수 있습니다. 유일한 차이점은 <ApiLink type="CsvExporterService" />의 <ApiLink type="CsvExporterService" member="export" label="export" /> 메서드를 호출하고 첫 번째 인수로 [**IgxGrid**](/grid/grid)를 전달해야 한다는 것입니다.
+
+다음은 예입니다:
+
+```html
+<igx-grid #igxGrid1 [data]="localData" [autoGenerate]="true"></igx-grid>
+<button (click)="exportButtonHandler()">Export IgxGrid</button>
+```
+
+```typescript
+// component.ts
+
+...
+import { IgxCsvExporterService, IgxCsvExporterOptions, CsvFileTypes } from 'igniteui-angular/grids/core';
+import { IgxGridComponent } from 'igniteui-angular/grids/grid';
+// import { IgxCsvExporterService, IgxCsvExporterOptions, CsvFileTypes, IgxGridComponen } from '@infragistics/igniteui-angular'; for licensed package
+...
+
+@ViewChild('igxGrid1') public igxGrid1: IgxGridComponent;
+
+public localData = [
+  { Name: 'Eric Ridley', Age: '26' },
+  { Name: 'Alanis Brook', Age: '22' },
+  { Name: 'Jonathan Morris', Age: '23' }
+];
+
+constructor(private csvExportService: IgxCsvExporterService) {
+}
+
+public exportButtonHandler() {
+  this.csvExportService.export(this.igxGrid1, new IgxCsvExporterOptions('ExportedDataFile', CsvFileTypes.CSV));
+}
+
+```
+
+<Sample src="/services/export-csv-sample-1" height={300} alt="" />
+
+## 내보내기 형식 사용자 지정하기
+
+CSV Exporter는 여러 가지 내보내기 형식을 지원합니다. 내보내기 형식은 다음 방법으로 지정할 수 있습니다:
+
+- <ApiLink type="CsvExporterOptions" /> 객체의 생성자 두 번째 인수로
+- <ApiLink type="CsvExporterOptions" /> 객체의 <ApiLink type="CsvExporterOptions" member="filetype" label="fileType" /> 속성을 사용하여
+
+내보내기 형식마다 파일 확장자와 값 구분 기호가 다릅니다. 다음 표는 내보내기 형식과 각각의 파일 확장자 및 구분 기호를 보여 줍니다:
+
+| 형식 | 파일 확장자 | 기본 구분 기호 |
+| :--- | :--- | :--- |
+| <ApiLink kind="enum" type="CsvFileTypes" member="CSV" /> | .csv | 쉼표 |
+| <ApiLink kind="enum" type="CsvFileTypes" member="TAB" /> | .tab | 탭 |
+| <ApiLink kind="enum" type="CsvFileTypes" member="TSV" /> | .tsv | 탭 |
+
+<hr/>
+
+<ApiLink type="CsvExporterOptions" /> 객체의 <ApiLink type="CsvExporterOptions" member="valuedelimiter" label="valueDelimiter" /> 속성을 사용하면 사용자 지정 구분 기호를 지정할 수도 있습니다.
+
+## 내보내는 콘텐츠 사용자 지정하기
+
+위 예제에서 CSV Exporter 서비스는 사용 가능한 모든 데이터를 내보냈습니다. 하지만 행이나 열 전체를 내보내지 않고 건너뛰고 싶을 때가 있습니다. 이를 위해 각 열과 각 행에 대해 각각 발생하는 <ApiLink type="CsvExporterService" member="columnexporting" label="columnExporting" /> 및/또는 <ApiLink type="CsvExporterService" member="rowexporting" label="rowExporting" /> 이벤트에 연결하고, 이벤트 인수 객체의 <ApiLink kind="interface" type="IRowExportingEventArgs" member="cancel" /> 속성을 `true`(으)로 설정하여 해당 이벤트를 취소할 수 있습니다.
+
+다음 예제는 이름이 "Age"이고 인덱스가 1인 열을 내보내기에서 제외합니다:
+
+```typescript
+// component.ts
+
+this.csvExportService.columnExporting.subscribe((args: IColumnExportingEventArgs) => {
+  if (args.header == 'Age' && args.columnIndex == 1) {
+      args.cancel = true;
+  }
+});
+this.csvExportService.export(this.igxGrid1, new IgxCsvExporterOptions('ExportedDataFile'));
+```
+
+[**IgxGrid**](/grid/grid)에서 데이터를 내보낼 때, 내보내기 과정은 행 필터링 및 열 숨기기와 같은 기능을 고려하여 그리드에 보이는 데이터만 내보냅니다. <ApiLink type="CsvExporterOptions" /> 객체의 속성을 설정하면 필터링된 행이나 숨겨진 열을 포함하도록 내보내기 서비스를 구성할 수 있습니다. 이러한 속성은 아래 표에 설명되어 있습니다.
+
+## API 참조
+CSV Exporter 서비스에는 살펴볼 API가 몇 가지 더 있으며, 아래에 나열되어 있습니다.
+- <ApiLink type="CsvExporterService" />
+- <ApiLink type="CsvExporterOptions" />
+사용된 추가 컴포넌트:
+- <ApiLink type="Grid" />
+- <ApiLink kind="sass" module="themes" type="function-grid-theme" label="IgxGridComponent 스타일" />
+<igc-divider></igc-divider>
+## 추가 리소스
+
+<hr/>
+커뮤니티는 활발하며 새로운 아이디어를 언제나 환영합니다.
+
+- [Ignite UI for Angular **포럼**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

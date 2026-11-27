@@ -1,0 +1,861 @@
+<ComponentBlock for="Grid">
+
+---
+title: "Resumos do Angular Grid - Ignite UI for Angular"
+description: "Configure resumos do grid Angular no rodapé de grupo da coluna e use a opção de definir um template Angular personalizado na tabela do Ignite UI for Angular"
+keywords: "resumos do angular grid, igniteui for angular, infragistics"
+license: commercial
+_language: pt-BR
+llms:
+  description: "O grid de UI Angular do Ignite UI for Angular tem um recurso de resumos que funciona por coluna, como rodapé de grupo."
+---
+
+</ComponentBlock>
+<ComponentBlock for="TreeGrid">
+
+---
+title: "Resumos do Angular Grid - Ignite UI for Angular"
+description: "Configure resumos do grid Angular no rodapé de grupo da coluna e use a opção de definir um template Angular personalizado na tabela do Ignite UI for Angular"
+keywords: angular grid summaries, ignite ui for angular, infragistics
+license: commercial
+_canonicalLink: grid/summaries
+_language: pt-BR
+llms:
+  description: "O grid de UI Angular do Ignite UI for Angular tem um recurso de resumos que funciona por coluna, como rodapé de grupo."
+---
+
+</ComponentBlock>
+<ComponentBlock for="HierarchicalGrid">
+
+---
+title: "Resumos do Angular Grid - Ignite UI for Angular"
+description: "Configure resumos do grid Angular no rodapé de grupo da coluna e use a opção de definir um template Angular personalizado na tabela do Ignite UI for Angular"
+keywords: angular grid summaries, ignite ui for angular, infragistics
+license: commercial
+_canonicalLink: grid/summaries
+_language: pt-BR
+llms:
+  description: "O grid de UI Angular do Ignite UI for Angular tem um recurso de resumos que funciona por coluna, como rodapé de grupo."
+---
+
+</ComponentBlock>
+
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+# Resumos do {ComponentTitle} do Angular
+
+O grid de UI Angular do Ignite UI for Angular tem um recurso de **resumos** que funciona por coluna, como rodapé de grupo. Os resumos do grid Angular são um recurso poderoso que permite ao usuário ver informações da coluna em um contêiner separado, com um conjunto predefinido de itens de resumo padrão, dependendo do tipo de dado da coluna, ou implementando um template Angular personalizado no {ComponentTitle}.
+
+## Exemplo de visão geral dos resumos do {ComponentTitle} do Angular
+
+<ComponentBlock for="Grid">
+
+<Sample src="/grid/grid-summary" height={650} alt="Exemplo de visão geral dos resumos do {ComponentTitle} do Angular" />
+
+</ComponentBlock>
+<ComponentBlock for="TreeGrid">
+
+<Sample src="/tree-grid/treegrid-summary" height={750} alt="Exemplo de visão geral dos resumos do {ComponentTitle} do Angular" />
+
+</ComponentBlock>
+<ComponentBlock for="HierarchicalGrid">
+
+<Sample src="/hierarchical-grid/hierarchical-grid-summary" height={650} alt="Exemplo de visão geral dos resumos do {ComponentTitle} do Angular" />
+
+</ComponentBlock>
+
+<DocsAside type="info">
+O resumo da coluna é uma **função de todos os valores da coluna**, a menos que haja filtragem aplicada; nesse caso, o resumo da coluna será uma **função dos valores filtrados**
+</DocsAside>
+
+Os **{ComponentTitle} summaries** também podem ser habilitados por coluna no Ignite UI for Angular, o que significa que você pode ativá-los apenas para as colunas de que precisa. Os {ComponentTitle} summaries oferecem um conjunto predefinido de resumos padrão, dependendo do tipo de dado da coluna, para que você economize tempo:
+
+Para `string` e `boolean` <ApiLink type="Column" member="dataType" label="tipos de dados" />, a seguinte função está disponível:
+
+- count
+
+Para os tipos de dados `number`, `currency` e `percent`, as seguintes funções estão disponíveis:
+
+- count
+- min
+- max
+- average
+- sum
+
+Para o tipo de dado `date`, as seguintes funções estão disponíveis:
+
+- count
+- earliest
+- latest
+
+Todos os tipos de dados de coluna disponíveis podem ser encontrados no tópico oficial [Tipos de coluna](/{igPath}/column-types#template-padrão).
+
+Os **{ComponentTitle} summaries** são habilitados por coluna definindo a propriedade <ApiLink type="Column" member="hasSummary" label="hasSummary" /> como `true`. Também é importante ter em mente que os resumos de cada coluna são resolvidos de acordo com o tipo de dado da coluna. No `{ComponentSelector}`, o tipo de dado padrão da coluna é `string`; por isso, se você quiser resumos específicos de `number` ou de `date`, deve especificar a propriedade <ApiLink type="Column" member="datatype" label="dataType" /> como `number` ou `date`. Observe que os valores dos resumos serão exibidos localizados, de acordo com a <ApiLink type="Grid" member="locale" label="locale" /> do grid e a <ApiLink type="Column" member="pipeArgs" label="pipeArgs" /> da coluna.
+
+<ComponentBlock for="Grid">
+
+```html
+<{ComponentSelector} #grid1 [data]="data" [autoGenerate]="false" height="800px" width="800px" (columnInit)="initColumn($event)">
+    <igx-column field="ProductID" header="Product ID" width="200px" [sortable]="true"></igx-column>
+    <igx-column field="ProductName" header="Product Name" width="200px" [sortable]="true" [hasSummary]="true"></igx-column>
+    <igx-column field="ReorderLevel" width="200px" [editable]="true" [dataType]="'number'" [hasSummary]="true"></igx-column>
+</{ComponentSelector}>
+```
+
+</ComponentBlock>
+<ComponentBlock for="TreeGrid">
+
+```html
+<{ComponentSelector} #grid1 [data]="data" [autoGenerate]="false" height="800px" width="800px" (columnInit)="initColumn($event)">
+    <igx-column field="ID" header="Order ID" width="200px" [sortable]="true"></igx-column>
+    <igx-column field="Name" header="Order Product" width="200px" [sortable]="true" [hasSummary]="true"></igx-column>
+    <igx-column field="Units" width="200px" [editable]="true" [dataType]="'number'" [hasSummary]="true"></igx-column>
+</{ComponentSelector}>
+```
+
+</ComponentBlock>
+<ComponentBlock for="HierarchicalGrid">
+
+```html
+<igx-hierarchical-grid class="hgrid" [data]="localdata" [autoGenerate]="false">
+    <igx-column field="Artist" [hasSummary]='true'></igx-column>
+    <igx-column field="Photo">
+        <ng-template igxCell let-cell="cell">
+            <div class="cell__inner_2">
+                <img [src]="cell.value" class="photo" />
+            </div>
+        </ng-template>
+    </igx-column>
+    <igx-column field="Debut" [hasSummary]='true'></igx-column>
+    <igx-column field="Grammy Nominations" [hasSummary]='true' [dataType]="'number'" [summaries]="mySummary"></igx-column>
+    <igx-column field="Grammy Awards" [hasSummary]='true' [dataType]="'number'"></igx-column>
+</igx-hierarchical-grid>
+```
+
+</ComponentBlock>
+
+A outra forma de habilitar/desabilitar os resumos de uma coluna específica ou de uma lista de colunas é usar o método público <ApiLink type="{ComponentApiType}" member="enableSummaries" label="enableSummaries" />/<ApiLink type="{ComponentApiType}" member="disableSummaries" label="disableSummaries" /> do **{ComponentSelector}**.
+
+<ComponentBlock for="Grid">
+
+```html
+<{ComponentSelector} #grid1 [data]="data" [autoGenerate]="false" height="800px" width="800px" (columnInit)="initColumn($event)" >
+    <igx-column field="ProductID" header="Product ID" width="200px"  [sortable]="true"></igx-column>
+    <igx-column field="ProductName" header="Product Name" width="200px" [sortable]="true" [hasSummary]="true"></igx-column>
+    <igx-column field="ReorderLevel" width="200px" [editable]="true" [dataType]="'number'" [hasSummary]="false"></igx-column>
+</{ComponentSelector}>
+<button (click)="enableSummary()">Enable Summary</button>
+<button (click)="disableSummary()">Disable Summary </button>
+```
+
+```typescript
+public enableSummary() {
+    this.grid1.enableSummaries([
+        {fieldName: 'ReorderLevel', customSummary: this.mySummary},
+        {fieldName: 'ProductID'}
+    ]);
+}
+public disableSummary() {
+    this.grid1.disableSummaries('ProductName');
+}
+```
+
+</ComponentBlock>
+<ComponentBlock for="TreeGrid">
+
+```html
+<{ComponentSelector} #grid1 [data]="data" [autoGenerate]="false" height="800px" width="800px" (columnInit)="initColumn($event)" >
+    <igx-column field="ID" header="Order ID" width="200px" [sortable]="true"></igx-column>
+    <igx-column field="Name" header="Order Product" width="200px" [sortable]="true" [hasSummary]="true" ></igx-column>
+    <igx-column field="Units" width="200px" [editable]="true" [dataType]="'number'" [hasSummary]="false"></igx-column>
+
+</{ComponentSelector}>
+<button (click)="enableSummary()">Enable Summary</button>
+<button (click)="disableSummary()">Disable Summary </button>
+```
+
+```typescript
+public enableSummary() {
+    this.grid1.enableSummaries([
+        {fieldName: 'Units', customSummary: this.mySummary},
+        {fieldName: 'ID'}
+    ]);
+}
+public disableSummary() {
+    this.grid1.disableSummaries('Name');
+}
+```
+
+</ComponentBlock>
+<ComponentBlock for="HierarchicalGrid">
+
+```html
+<{ComponentSelector} #hierarchicalGrid [data]="data" [autoGenerate]="false" height="800px" width="800px" (columnInit)="initColumn($event)" >
+  <igx-column field="Artist" [hasSummary]='true'></igx-column>
+        <igx-column field="Photo">
+            <ng-template igxCell let-cell="cell">
+                <div class="cell__inner_2">
+                    <img [src]="cell.value" class="photo" />
+                </div>
+            </ng-template>
+        </igx-column>
+        <igx-column field="Debut" [hasSummary]='true'></igx-column>
+        <igx-column field="Grammy Nominations" [hasSummary]='true' [dataType]="'number'" [summaries]="mySummary"></igx-column>
+        <igx-column field="Grammy Awards" [hasSummary]='true' [dataType]="'number'"></igx-column>
+</{ComponentSelector}>
+<button (click)="enableSummary()">Enable Summary</button>
+<button (click)="disableSummary()">Disable Summary </button>
+```
+
+```typescript
+public enableSummary() {
+    this.hierarchicalGrid.enableSummaries([
+        {fieldName: 'Grammy Nominations', customSummary: this.mySummary},
+        {fieldName: 'Artist'}
+    ]);
+}
+public disableSummary() {
+    this.hierarchicalGrid.disableSummaries('Photo');
+}
+```
+
+</ComponentBlock>
+
+## {ComponentTitle} Summaries personalizados
+
+Se essas funções não atenderem aos seus requisitos, você pode fornecer um resumo personalizado para colunas específicas. Para isso, é preciso estender uma das classes base <ApiLink type="SummaryOperand" />, <ApiLink type="NumberSummaryOperand" /> ou <ApiLink type="DateSummaryOperand" />, de acordo com o tipo de dado da coluna e as suas necessidades. Assim, você pode redefinir a função existente ou adicionar novas funções. A classe <ApiLink type="SummaryOperand" /> fornece a implementação padrão apenas para o método <ApiLink type="SummaryOperand" member="count" label="count" />. <ApiLink type="NumberSummaryOperand" /> estende <ApiLink type="SummaryOperand" /> e fornece a implementação de <ApiLink type="NumberSummaryOperand" member="min" label="min" />, <ApiLink type="NumberSummaryOperand" member="max" label="max" />, <ApiLink type="NumberSummaryOperand" member="sum" label="sum" /> e <ApiLink type="NumberSummaryOperand" member="average" label="average" />. <ApiLink type="DateSummaryOperand" /> estende <ApiLink type="SummaryOperand" /> e, além disso, oferece <ApiLink type="DateSummaryOperand" member="earliest" label="earliest" /> e <ApiLink type="DateSummaryOperand" member="latest" label="latest" />.
+
+<ComponentBlock for="Grid, TreeGrid, PivotGrid">
+
+```typescript
+import { IgxSummaryResult, IgxSummaryOperand, IgxNumberSummaryOperand, IgxDateSummaryOperand } from 'igniteui-angular/core';
+// import { IgxSummaryResult, IgxSummaryOperand, IgxNumberSummaryOperand, IgxDateSummaryOperand } from '@infragistics/igniteui-angular'; for licensed package
+
+class MySummary extends IgxNumberSummaryOperand {
+    constructor() {
+        super();
+    }
+
+    operate(data?: any[]): IgxSummaryResult[] {
+        const result = super.operate(data);
+        result.push({
+            key: 'test',
+            label: 'Test',
+            summaryResult: data.filter(rec => rec > 10 && rec < 30).length
+        });
+        return result;
+    }
+}
+```
+
+</ComponentBlock>
+<ComponentBlock for="HierarchicalGrid">
+
+```typescript
+import { IgxRowIslandComponent, IgxHierarchicalGridComponent } from 'igniteui-angular/grids/hierarchical-grid';
+import { IgxNumberSummaryOperand, IgxSummaryResult } from 'igniteui-angular/core';
+// import { IgxRowIslandComponent, IgxHierarchicalGridComponent, IgxNumberSummaryOperand, IgxSummaryResult } from '@infragistics/igniteui-angular'; for licensed package
+
+class MySummary extends IgxNumberSummaryOperand {
+    constructor() {
+        super();
+    }
+
+    public operate(data?: any[]): IgxSummaryResult[] {
+        const result = super.operate(data);
+        result.push({
+            key: 'test',
+            label: 'More than 5',
+            summaryResult: data.filter((rec) => rec > 5).length
+        });
+
+        return result;
+    }
+}
+```
+
+</ComponentBlock>
+
+Como visto nos exemplos, as classes base expõem o método <ApiLink type="SummaryOperand" member="operate" label="operate" />; assim, você pode optar por obter todos os resumos padrão e modificar o resultado, ou calcular resultados de resumo totalmente novos.
+O método retorna uma lista de <ApiLink type="IgxSummaryResult" kind="interface" />.
+
+```typescript
+interface IgxSummaryResult {
+    key: string;
+    label: string;
+    summaryResult: any;
+}
+```
+
+e aceita parâmetros opcionais para o cálculo dos resumos.
+Veja a seção [Resumos personalizados, que acessam todos os dados](#resumos-personalizados-que-acessam-todos-os-dados), abaixo.
+
+<DocsAside type="info">
+Para calcular corretamente a altura da linha de resumo, o {ComponentTitle} precisa que o método <ApiLink type="SummaryOperand" member="operate" label="operate" /> sempre retorne um array de <ApiLink type="IgxSummaryResult" kind="interface" /> com o tamanho adequado, mesmo quando os dados estiverem vazios.
+</DocsAside>
+<ComponentBlock for="Grid">
+
+Agora vamos adicionar o nosso resumo personalizado à coluna `UnitsInStock`. Faremos isso definindo a propriedade <ApiLink type="Column" member="summaries" label="summaries" /> como a classe que criamos abaixo.
+
+```html
+<{ComponentSelector} #grid1 [data]="data" [autoGenerate]="false" height="800px" width="800px" (columnInit)="initColumn($event)" >
+    <igx-column field="ProductID" width="200px"  [sortable]="true">
+    </igx-column>
+    <igx-column field="ProductName" width="200px" [sortable]="true" [hasSummary]="true">
+    </igx-column>
+    <igx-column field="UnitsInStock" width="200px" [dataType]="'number'" [hasSummary]="true" [summaries]="mySummary" [sortable]="true">
+    </igx-column>
+    <igx-column field="ReorderLevel" width="200px" [editable]="true" [dataType]="'number'" [hasSummary]="true">
+    </igx-column>
+</{ComponentSelector}>
+```
+
+```typescript
+...
+export class GridComponent implements OnInit {
+    mySummary = MySummary;
+    ....
+}
+```
+
+</ComponentBlock>
+
+<ComponentBlock for="TreeGrid">
+
+Agora vamos adicionar o nosso resumo personalizado à coluna `UnitPrice`. Faremos isso definindo a propriedade <ApiLink type="Column" member="summaries" label="summaries" /> como a classe que criamos abaixo.
+
+```html
+<{ComponentSelector} #grid1 [data]="data" [autoGenerate]="false" height="800px" width="800px" (columnInit)="initColumn($event)">
+    <igx-column field="ID" header="Order ID" width="200px" [sortable]="true"></igx-column>
+    <igx-column field="Name" header="Order Product" width="200px" [sortable]="true" [hasSummary]="true"></igx-column>
+    <igx-column field="Units" [dataType]="'number'" width="200px" [editable]="true" [hasSummary]="true" [summaries]="mySummary"></igx-column>
+    <igx-column field="UnitPrice" header="Unit Price" width="200px" [dataType]="'currency'" [hasSummary]="true"></igx-column>
+</{ComponentSelector}>
+```
+
+```typescript
+...
+export class GridComponent implements OnInit {
+    mySummary = MySummary;
+    ....
+}
+```
+
+</ComponentBlock>
+
+<ComponentBlock for="HierarchicalGrid">
+
+Agora vamos adicionar o nosso resumo personalizado à coluna `GramyNominations`. Faremos isso definindo a propriedade <ApiLink type="Column" member="summaries" label="summaries" /> como a classe que criamos abaixo.
+
+```html
+ <igx-hierarchical-grid class="hgrid" [data]="localdata" [autoGenerate]="false">
+    <igx-column field="Artist" [hasSummary]='true'></igx-column>
+    <igx-column field="Photo">
+        <ng-template igxCell let-cell="cell">
+            <div class="cell__inner_2">
+                <img [src]="cell.value" class="photo" />
+            </div>
+        </ng-template>
+    </igx-column>
+    <igx-column field="Debut" [hasSummary]='true'></igx-column>
+    <igx-column field="Grammy Nominations" [hasSummary]='true' [dataType]="'number'" [summaries]="mySummary"></igx-column>
+    <igx-column field="Grammy Awards" [hasSummary]='true' [dataType]="'number'"></igx-column>
+</igx-hierarchical-grid>
+```
+
+```typescript
+...
+export class HGridSummarySampleComponent implements OnInit {
+    mySummary = MySummary;
+    ....
+}
+```
+
+</ComponentBlock>
+
+### Resumos personalizados que acessam todos os dados
+
+ Agora você pode acessar todos os dados de {ComponentTitle} dentro do resumo personalizado da coluna. Dois parâmetros opcionais adicionais são introduzidos no método `operate` do IgxSummaryOperand.
+Como você pode ver no trecho de código abaixo, o método operate tem os seguintes três parâmetros:
+
+- columnData - fornece um array que contém apenas os valores da coluna atual
+- allGridData - fornece toda a fonte de dados do grid
+- fieldName - o campo da coluna atual
+
+<ComponentBlock for="TreeGrid">
+
+```typescript
+class MySummary extends IgxNumberSummaryOperand {
+    constructor() {
+        super();
+    }
+    operate(columnData: any[], allGridData = [], fieldName?): IgxSummaryResult[] {
+        const result = super.operate(allData.map(r => r[fieldName]));
+        result.push({ key: 'test', label: 'Total Undelivered', summaryResult: allData.filter((rec) => rec.Discontinued).length });
+        return result;
+    }
+}
+```
+
+</ComponentBlock>
+<ComponentBlock for="Grid, HierarchicalGrid, PivotGrid">
+
+```typescript
+class MySummary extends IgxNumberSummaryOperand {
+    constructor() {
+        super();
+    }
+    operate(columnData: any[], allGridData = [], fieldName?): IgxSummaryResult[] {
+        const result = super.operate(allData.map(r => r[fieldName]));
+        result.push({ key: 'test', label: 'Total Discontinued', summaryResult: allData.filter((rec) => rec.Discontinued).length });
+        return result;
+    }
+}
+```
+
+</ComponentBlock>
+
+<ComponentBlock for="Grid">
+
+<Sample src="/grid/grid-alldata-summaries" height={650} alt="" />
+
+</ComponentBlock>
+<ComponentBlock for="TreeGrid">
+
+<Sample src="/tree-grid/tree-grid-allData-summary" height={650} alt="" />
+
+</ComponentBlock>
+<ComponentBlock for="HierarchicalGrid">
+
+<Sample src="/hierarchical-grid/hierarchical-grid-allData-summary" height={650} alt="" />
+
+</ComponentBlock>
+
+### Template de resumo
+
+`igxSummary` tem como alvo o resumo da coluna, fornecendo como contexto os resultados do resumo da coluna.
+
+```html
+<igx-column ... [hasSummary]="true">
+    <ng-template igxSummary let-summaryResults>
+        <span> My custom summary template</span>
+        <span>{{ summaryResults[0].label }} - {{ summaryResults[0].summaryResult }}</span>
+    </ng-template>
+</igx-column>
+```
+
+Quando um resumo padrão é definido, a altura da área de resumo é calculada, por padrão, de acordo com a coluna com o maior número de resumos e o tamanho do grid. Use a propriedade de entrada <ApiLink type="Grid" member="summaryRowHeight" label="summaryRowHeight" /> para substituir o valor padrão. Como argumento, ela espera um valor numérico; definir um valor falso acionará o comportamento padrão de dimensionamento do rodapé do grid.
+
+<DocsAside type="info">
+O template de resumo da coluna pode ser definido pela API, definindo a propriedade <ApiLink type="Column" member="summaryTemplate" label="summaryTemplate" /> da coluna com o TemplateRef desejado.
+</DocsAside>
+
+<ComponentBlock for="Grid">
+
+<Sample src="/grid/grid-summary-template" height={650} alt="" />
+
+</ComponentBlock>
+<ComponentBlock for="TreeGrid">
+
+<Sample src="/tree-grid/tree-grid-summary-template" height={650} alt="" />
+
+</ComponentBlock>
+<ComponentBlock for="HierarchicalGrid">
+
+<Sample src="/hierarchical-grid/hgrid-summary-template" height={650} alt="" />
+
+</ComponentBlock>
+
+## Desabilitar resumos
+
+A propriedade <ApiLink type="{ComponentApiType}" member="disabledSummaries" label="disabledSummaries" /> oferece controle preciso por coluna sobre o recurso de resumos do grid do Ignite UI for Angular. Essa propriedade permite personalizar os resumos exibidos para cada coluna do grid, garantindo que apenas os dados mais relevantes e significativos sejam mostrados. Por exemplo, você pode excluir tipos específicos de resumo, como `['count', 'min', 'max']`, especificando as suas chaves de resumo em um array.
+
+Essa propriedade também pode ser modificada **dinamicamente em tempo de execução**, pelo código, oferecendo flexibilidade para adaptar os resumos do grid a estados da aplicação ou ações do usuário que mudam.
+
+Os exemplos a seguir ilustram como usar a propriedade `disabledSummaries` para gerenciar resumos de diferentes colunas e excluir tipos específicos de resumo padrão e personalizados no grid do Ignite UI for Angular:
+
+<ComponentBlock for="Grid">
+
+```html
+<!-- default summaries -->
+<igx-column
+    field="UnitPrice"
+    header="Unit Price"
+    dataType="number"
+    [hasSummary]="true"
+    [disabledSummaries]="['count', 'sum', 'average']"
+>
+</igx-column>
+<!-- custom summaries -->
+<igx-column
+    field="UnitsInStock"
+    header="Units In Stock"
+    dataType="number"
+    [hasSummary]="true"
+    [summaries]="discontinuedSummary"
+    [disabledSummaries]="['discontinued', 'totalDiscontinued']"
+>
+</igx-column>
+```
+
+Para `UnitPrice`, os resumos padrão como `count`, `sum` e `average` são desabilitados, deixando outros como `min` e `max` ativos.
+
+Para `UnitsInStock`, resumos personalizados como `total` e `totalDiscontinued` são excluídos usando a propriedade `disabledSummaries`.
+</ComponentBlock>
+<ComponentBlock for="TreeGrid">
+
+```html
+<!-- custom summaries -->
+<igx-column
+    field="Units"
+    header="Units"
+    dataType="number"
+    [hasSummary]="true"
+    [summaries]="unitsSummary"
+    [disabledSummaries]="['uniqueCount', 'maxDifference']"
+>
+</igx-column>
+<!-- default summaries -->
+<igx-column
+    field="UnitPrice"
+    header="Unit Price"
+    dataType="number"
+    [hasSummary]="true"
+    [disabledSummaries]="['count', 'sum', 'average']"
+>
+</igx-column>
+```
+
+Para `Units`, resumos personalizados como `totalDelivered` e `totalNotDelivered` são excluídos usando a propriedade `disabledSummaries`.
+
+Para `UnitPrice`, os resumos padrão como `count`, `sum` e `average` são desabilitados, deixando outros como `min` e `max` ativos.
+</ComponentBlock>
+<ComponentBlock for="HierarchicalGrid">
+
+```html
+<!-- custom summaries -->
+<igx-column
+    field="Photo"
+    [hasSummary]="true"
+    [summaries]="grammySummary"
+    [disabledSummaries]="['singersWithAwards', 'awards']"
+>
+    <ng-template igxCell let-cell="cell">
+        <div class="cell__inner_2">
+            <img [src]="cell.value" class="photo" />
+        </div>
+    </ng-template>
+</igx-column>
+<!-- default summaries -->
+<igx-column
+    field="GrammyNominations"
+    header="Grammy Nominations"
+    dataType="number"
+    [hasSummary]="true"
+    [disabledSummaries]="['count', 'sum', 'average']"
+></igx-column>
+```
+
+Para `Photo`, resumos personalizados como `singersWithAwards` e `awards` são excluídos usando a propriedade `disabledSummaries`.
+
+Para `GrammyNominations`, os resumos padrão como `count`, `sum` e `average` são desabilitados, deixando outros como `min` e `max` ativos.
+</ComponentBlock>
+
+Em tempo de execução, os resumos também podem ser desabilitados dinamicamente usando a propriedade `disabledSummaries`. Por exemplo, você pode definir ou atualizar a propriedade em colunas específicas, por código, para adaptar os resumos exibidos conforme ações do usuário ou mudanças de estado da aplicação.
+
+<ComponentBlock for="Grid">
+
+<Sample src="/grid/grid-disable-summaries" height={850} alt="" />
+</ComponentBlock>
+<ComponentBlock for="TreeGrid">
+
+<Sample src="/tree-grid/treegrid-disable-summaries" height={950} alt="" />
+</ComponentBlock>
+<ComponentBlock for="HierarchicalGrid">
+
+<Sample src="/hierarchical-grid/hierarchical-grid-disable-summaries" height={850} alt="" />
+</ComponentBlock>
+
+## Formatando resumos
+
+Por padrão, os resultados de resumo produzidos pelos operandos de resumo integrados são localizados e formatados de acordo com a <ApiLink type="Grid" member="locale" label="locale" /> do grid e a <ApiLink type="Column" member="pipeArgs" label="pipeArgs" /> da coluna. Ao usar operandos personalizados, a `locale` e a `pipeArgs` não são aplicadas. Se você quiser alterar a aparência padrão dos resultados de resumo, pode formatá-los usando a propriedade <ApiLink type="Column" member="summaryFormatter" label="summaryFormatter" />.
+
+```typescript
+public dateSummaryFormat(summary: IgxSummaryResult, summaryOperand: IgxSummaryOperand): string {
+    const result = summary.summaryResult;
+    if(summaryOperand instanceof IgxDateSummaryOperand && summary.key !== 'count'
+        && result !== null && result !== undefined) {
+        const pipe = new DatePipe('en-US');
+        return pipe.transform(result,'MMM YYYY');
+    }
+    return result;
+}
+```
+
+```html
+<igx-column ... [summaryFormatter]="dateSummaryFormat"></igx-column>
+```
+
+<ComponentBlock for="Grid">
+
+<Sample src="/grid/grid-summary-formatter" height={650} alt="" />
+</ComponentBlock>
+<ComponentBlock for="TreeGrid">
+
+<Sample src="/tree-grid/tree-grid-summary-formatter" height={650} alt="" />
+</ComponentBlock>
+<ComponentBlock for="HierarchicalGrid">
+
+<Sample src="/hierarchical-grid/hGrid-summary-formatter" height={650} alt="" />
+</ComponentBlock>
+
+<ComponentBlock for="Grid">
+
+## Resumos com Group By
+
+Quando você agrupou por colunas, a {ComponentTitle} permite alterar a posição do resumo e o modo de cálculo usando as propriedades <ApiLink type="{ComponentApiType}" member="summaryCalculationMode" label="summaryCalculationMode" /> e <ApiLink type="{ComponentApiType}" member="summaryPosition" label="summaryPosition" />. Junto com essas duas propriedades, a {ComponentName} expõe também a propriedade <ApiLink type="{ComponentApiType}" member="showSummaryOnCollapse" label="showSummaryOnCollapse" />, que permite determinar se a linha de resumo permanece visível quando a linha de grupo a que se refere está recolhida.
+
+Os valores disponíveis da propriedade <ApiLink type="{ComponentApiType}" member="summaryCalculationMode" label="summaryCalculationMode" /> são:
+
+- rootLevelOnly - os resumos são calculados somente para o nível raiz.
+- childLevelsOnly - os resumos são calculados somente para os níveis filhos.
+- rootAndChildLevels - os resumos são calculados tanto para o nível raiz quanto para os níveis filhos. Este é o valor padrão.
+
+Os valores disponíveis da propriedade <ApiLink type="{ComponentApiType}" member="summaryPosition" label="summaryPosition" /> são:
+
+- top - a linha de resumo aparece antes dos filhos da linha de agrupamento.
+- bottom - a linha de resumo aparece depois dos filhos da linha de agrupamento. Este é o valor padrão.
+
+A propriedade <ApiLink type="{ComponentApiType}" member="showSummaryOnCollapse" label="showSummaryOnCollapse" /> é booleana. Seu valor padrão é **false**, o que significa que a linha de resumo ficará oculta quando a linha de grupo estiver recolhida. Se a propriedade for definida como **true**, a linha de resumo permanece visível quando a linha de grupo está recolhida.
+
+<DocsAside type="info">
+A propriedade <ApiLink type="{ComponentApiType}" member="summaryPosition" label="summaryPosition" /> se aplica apenas aos resumos do nível filho. Os resumos do nível raiz aparecem sempre fixos na parte inferior do {ComponentTitle}.
+</DocsAside>
+
+### Demonstração
+
+<Sample src="/grid/grid-groupby-summary" height={720} alt="" />
+
+</ComponentBlock>
+<ComponentBlock for="TreeGrid">
+
+## Resumos de filhos
+
+O {ComponentTitle} oferece suporte a resumos separados para os nós raiz e para cada nível de nó filho aninhado. Quais resumos são exibidos pode ser configurado usando a propriedade <ApiLink type="{ComponentApiType}" member="summaryCalculationMode" label="summaryCalculationMode" />. Os resumos de nível filho podem ser exibidos antes ou depois dos nós filhos, usando a propriedade <ApiLink type="{ComponentApiType}" member="summaryPosition" label="summaryPosition" />. Junto com essas duas propriedades, a {ComponentName} expõe também a propriedade <ApiLink type="{ComponentApiType}" member="showSummaryOnCollapse" label="showSummaryOnCollapse" />, que permite determinar se a linha de resumo permanece visível quando o nó pai a que se refere está recolhido.
+
+Os valores disponíveis da propriedade <ApiLink type="{ComponentApiType}" member="summaryCalculationMode" label="summaryCalculationMode" /> são:
+
+- rootLevelOnly - os resumos são calculados somente para os nós do nível raiz.
+- childLevelsOnly - os resumos são calculados somente para os níveis filhos.
+- rootAndChildLevels - os resumos são calculados tanto para o nível raiz quanto para os níveis filhos. Este é o valor padrão.
+
+Os valores disponíveis da propriedade <ApiLink type="{ComponentApiType}" member="summaryPosition" label="summaryPosition" /> são:
+
+- top - a linha de resumo aparece antes da lista de linhas filhas.
+- bottom - a linha de resumo aparece depois da lista de linhas filhas. Este é o valor padrão.
+
+A propriedade <ApiLink type="{ComponentApiType}" member="showSummaryOnCollapse" label="showSummaryOnCollapse" /> é booleana. Seu valor padrão é **false**, o que significa que a linha de resumo ficará oculta quando a linha pai estiver recolhida. Se a propriedade for definida como **true**, a linha de resumo permanece visível quando a linha pai está recolhida.
+
+<DocsAside type="info">
+A propriedade <ApiLink type="{ComponentApiType}" member="summaryPosition" label="summaryPosition" /> se aplica apenas aos resumos do nível filho. Os resumos do nível raiz aparecem sempre fixos na parte inferior do {ComponentTitle}.
+</DocsAside>
+
+<Sample src="/tree-grid/treegrid-summary2" height={720} alt="" />
+
+</ComponentBlock>
+
+## Exportando resumos
+
+Há uma opção <ApiLink type="ExcelExporterOptions" member="exportSummaries" label="exportSummaries" /> em `IgxExcelExporterOptions` que especifica se os dados exportados devem incluir os resumos do grid. O valor padrão de `exportSummaries` é **false**.
+
+O <ApiLink type="ExcelExporterService" /> exportará os resumos padrão de todos os tipos de coluna como as funções equivalentes do Excel, para que continuem funcionando corretamente quando a planilha for modificada. Experimente você mesmo no exemplo abaixo:
+
+<ComponentBlock for="Grid">
+
+<Sample src="/grid/grid-summary-export" height={770} alt="" />
+</ComponentBlock>
+
+<ComponentBlock for="TreeGrid">
+
+<Sample src="/tree-grid/treegrid-summary-export" height={780} alt="" />
+</ComponentBlock>
+
+<ComponentBlock for="HierarchicalGrid">
+
+<Sample src="/hierarchical-grid/hierarchical-grid-summary-export" height={760} alt="" />
+</ComponentBlock>
+
+O arquivo exportado inclui uma coluna oculta que guarda o nível de cada `DataRecord` na planilha. Esse nível é usado nos resumos para filtrar as células que precisam ser incluídas na função de resumo.
+
+Na tabela abaixo, você encontra a fórmula correspondente do Excel para cada um dos resumos padrão.
+
+| Tipo de dado | Função | Função do Excel |
+|:--------|:--------:|:---------------|
+|`string`, `boolean` | count | ="Count: "&COUNTIF(start:end, recordLevel) |
+|`number`, `currency`, `percent` | count | ="Count: "&COUNTIF(start:end, recordLevel) |
+|| min| ="Min: "&MIN(IF(start:end=recordLevel, rangeStart:rangeEnd)) |
+|| max | ="Max: "&MAX(IF(start:end=recordLevel, rangeStart:rangeEnd)) |
+|| average | ="Avg: "&AVERAGEIF(start:end, recordLevel, rangeStart:rangeEnd) |
+|| sum | ="Sum: "&SUMIF(start:end, recordLevel, rangeStart:rangeEnd) |
+|`date` | count | ="Count: "&COUNTIF(start:end, recordLevel) |
+|| earliest | ="Earliest: "& TEXT(MIN(IF(start:end=recordLevel, rangeStart:rangeEnd)), format) |
+|| latest | ="Latest: "&TEXT(MAX(IF(start:end=recordLevel, rangeStart:rangeEnd)), format) |
+
+### Limitações conhecidas
+
+|Limitação|Descrição|
+|--- |--- |
+| Exportando resumos personalizados | Resumos personalizados serão exportados como strings, em vez de funções do Excel. |
+| Exportando resumos com template | Resumos com template não são suportados e serão exportados como os padrão. |
+
+## Navegação pelo teclado
+
+As linhas de resumo podem ser navegadas com as seguintes interações por teclado:
+
+- <kbd>UP</kbd> - navega uma célula para cima
+- <kbd>DOWN</kbd> - navega uma célula para baixo
+- <kbd>LEFT</kbd> - navega uma célula para a esquerda
+- <kbd>RIGHT</kbd> - navega uma célula para a direita
+- <kbd>CTRL</kbd> + <kbd>LEFT</kbd> ou <kbd>HOME</kbd> - navega até a célula mais à esquerda
+- <kbd>CTRL</kbd> + <kbd>RIGHT</kbd> ou <kbd>END</kbd> - navega até a célula mais à direita
+
+## Estilização
+
+Para começar a estilizar o comportamento de ordenação, precisamos importar o arquivo `index`, onde são exportadas todas as funções de tema e o mixin `tokens()`:
+
+```scss
+@use "igniteui-angular/theming" as *;
+
+// IMPORTANT: Prior to Ignite UI for Angular version 13 use:
+// @import '~igniteui-angular/lib/core/styles/themes/index';
+```
+
+Seguindo a abordagem mais simples, criamos um novo tema que estende o <ApiLink kind="sass" module="themes" type="function-grid-summary-theme" label="grid-summary-theme" code={true} /> e aceita os parâmetros `$background-color`, `$focus-background-color`, `$label-color`, `$result-color`, `$pinned-border-width`, `$pinned-border-style` e `$pinned-border-color`.
+
+
+
+<ComponentBlock for="Grid">
+
+```scss
+$summaries-background: #e0f3ff;
+
+$custom-theme: grid-summary-theme(
+  $background-color: $summaries-background,
+  $label-color: #e41c77,
+  $result-color: black,
+  $pinned-border-width: 2px,
+  $pinned-border-style: dotted,
+  $pinned-border-color: #e41c77,
+);
+```
+
+</ComponentBlock>
+<ComponentBlock for="TreeGrid">
+
+```scss
+$summaries-background: #eef4e5;
+
+$custom-theme: grid-summary-theme(
+  $background-color: $summaries-background,
+  $label-color: #486821,
+  $result-color: #172505,
+  $pinned-border-width: 2px,
+  $pinned-border-style: dotted,
+  $pinned-border-color: #172505,
+);
+```
+
+</ComponentBlock>
+<ComponentBlock for="HierarchicalGrid">
+
+```scss
+$summaries-background: #e0f3ff;
+
+$custom-theme: grid-summary-theme(
+  $background-color: $summaries-background,
+  $label-color: #e41c77,
+  $result-color: black,
+);
+```
+
+</ComponentBlock>
+
+<DocsAside type="info">
+Em vez de definir os valores de cor diretamente, como acabamos de fazer, podemos obter mais flexibilidade em relação às cores usando as funções <ApiLink kind="sass" module="palettes" type="function-palette" label="palette" code={true} /> e <ApiLink kind="sass" module="palettes" type="function-color" label="color" code={true} />. Consulte o tópico [`Palettes`](/themes/sass/palettes) para orientações detalhadas sobre como usá-las.
+</DocsAside>
+
+A última etapa é **incluir** o tema personalizado do componente:
+
+```scss
+:host {
+  @include tokens($custom-theme);
+}
+```
+
+<DocsAside type="info">
+Em alguns templates de componentes, o Emulated View Encapsulation ainda pode impedir que as declarações de token geradas cheguem aos elementos aninhados do Ignite UI. Se o tema não tiver efeito, use `::ng-deep` conforme mostrado abaixo ou mova o tema para uma folha de estilos global.
+</DocsAside>
+
+```scss
+:host {
+  ::ng-deep {
+    @include tokens($custom-theme);
+  }
+}
+```
+
+<ComponentBlock for="Grid">
+
+### Demonstração
+
+<Sample src="/grid/grid-groupby-summary-styling" height={710} alt="" />
+
+</ComponentBlock>
+<ComponentBlock for="TreeGrid">
+
+### Demonstração
+
+<Sample src="/tree-grid/treegrid-summary-styling" height={710} alt="" />
+
+</ComponentBlock>
+<ComponentBlock for="HierarchicalGrid">
+
+### Demonstração
+
+<Sample src="/hierarchical-grid/hierarchical-grid-summary-styling" height={710} alt="" />
+
+</ComponentBlock>
+
+
+## Referências da API
+- <ApiLink type="{ComponentApiType}" />
+- <ApiLink kind="sass" module="themes" type="function-grid-theme" label="Estilos do componente {ComponentName}" />
+- <ApiLink kind="sass" module="themes" type="function-grid-summary-theme" label="Estilos de resumos do {ComponentName}" />
+- <ApiLink type="SummaryOperand" />
+- <ApiLink type="NumberSummaryOperand" />
+- <ApiLink type="DateSummaryOperand" />
+- <ApiLink type="ColumnGroup" />
+- <ApiLink type="Column" />
+## Recursos adicionais
+
+
+- [Visão geral do {ComponentTitle}](/{igPath}/{ComponentMainTopic})
+- [Tipos de dados de coluna](/{igPath}/column-types#template-padrão)
+- [Virtualização e desempenho](/{igPath}/virtualization)
+- [Paginação](/{igPath}/paging)
+- [Filtragem](/{igPath}/filtering)
+- [Ordenação](/{igPath}/sorting)
+- [Movimentação de colunas](/{igPath}/column-moving)
+- [Fixação de colunas](/{igPath}/column-pinning)
+- [Redimensionamento de colunas](/{igPath}/column-resizing)
+- [Seleção](/{igPath}/selection)
+<ComponentBlock for="Grid">
+- [Agregados baseados na seleção](/{igPath}/selection-based-aggregates)
+</ComponentBlock>
+
+Nossa comunidade é ativa e sempre receptiva a novas ideias.
+
+- [Ignite UI for Angular **Fóruns**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

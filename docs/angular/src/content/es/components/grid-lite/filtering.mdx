@@ -1,0 +1,202 @@
+---
+title: "Filtrado de Angular Grid Lite | Ignite UI for Angular | Licencia MIT"
+description: "Operaciones de filtrado, personalización del filtrado y filtrado remoto para Angular Grid Lite. Cree aplicaciones con nuestro Angular Grid Lite de código abierto. Pruébelo ahora."
+keywords: "filtrado, {Platform}, {ComponentKeywords}, {ProductName}, Infragistics"
+license: MIT
+mentionedTypes: [{ComponentApiMembers}]
+namespace: Infragistics.Controls
+_language: es
+llms:
+  description: "Grid Lite admite operaciones de filtrado sobre su origen de datos."
+---
+
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+
+# Operaciones de filtrado de Angular Grid Lite
+
+Grid Lite admite operaciones de filtrado sobre su origen de datos. El filtrado de datos se controla por columna, lo que le permite tener columnas filtrables y no filtrables. De forma predeterminada, el filtrado de una columna está desactivado salvo que se configure explícitamente con la propiedad `filterable` del objeto de configuración de la columna.
+
+```html
+<igx-grid-lite-column
+  field="price"
+  filterable
+></igx-grid-lite-column>
+```
+
+También puede controlar si las operaciones de filtrado de las columnas de cadena deben distinguir mayúsculas y minúsculas usando la propiedad `filteringCaseSensitive`:
+
+```html
+<igx-grid-lite-column
+  field="name"
+  filterable
+  filteringCaseSensitive
+></igx-grid-lite-column>
+```
+
+También puede establecer estas propiedades mediante programación:
+
+```typescript
+column.filterable = true;
+column.filteringCaseSensitive = true;
+```
+
+<Sample src="/grid-lite/filtering-simple" height={600} alt="Configuración de filtrado de Angular Grid Lite" />
+
+## Modelo de filtro
+
+Los bloques de construcción de las operaciones de filtrado en la cuadrícula son <ApiLink type="GridLiteFilteringExpression" />, que tiene la siguiente estructura:
+
+```typescript
+export interface FilterExpression<T, K extends Keys<T> = Keys<T>> {
+  /**
+   * The target column for the filter operation.
+   */
+  key: K;
+  /**
+   * The filter function which will be executed against the data records.
+   */
+  condition: FilterOperation<T[K]> | OperandKeys<T[K]>;
+
+  /**
+   * The filtering value used in the filter condition function.
+   *
+   * @remarks
+   * Optional for unary conditions.
+   */
+  searchTerm?: T[K];
+  /**
+   * Dictates how this expression should resolve in the filter operation in relation to
+   * other expressions.
+   */
+  criteria?: FilterCriteria;
+  /**
+   * Whether the sort operation should be case sensitive.
+   *
+   * @remarks
+   * If not provided, the value is resolved based on the column filter configuration (if any).
+   */
+  caseSensitive?: boolean;
+}
+```
+
+## API de filtrado
+
+Grid Lite expone dos enfoques principales para aplicar operaciones de filtrado desde su API: mediante los métodos <ApiLink type="GridLite" member="filter" label="filter()" />/<ApiLink type="GridLite" member="clearFilter" label="clearFilter()" /> o mediante la propiedad <ApiLink type="GridLite" member="filterExpressions" />.
+
+El método **`filter()`** acepta una única expresión o un array de expresiones de filtro, y después filtra los datos de la cuadrícula
+según esas expresiones.
+
+```typescript
+// Single
+grid.filter({ key: 'firstName', condition: 'contains', searchTerm: 'George' });
+
+// Multiple
+grid.filter([
+  { key: 'firstName', condition: 'startsWith', searchTerm: 'a' },
+  { key: 'firstName', condition: 'startsWith', searchTerm: 'g', criteria: 'or' },
+]);
+```
+
+El método **`clearFilter()`**, como indica su nombre, borra el estado de filtrado de una sola columna o de todo el componente de cuadrícula, según los argumentos que se pasen.
+
+```typescript
+// Clear the filter state for the `age` column.
+grid.clearFilter('age');
+
+// Clear the filter state of the grid.
+grid.clearFilter();
+```
+
+## Estado de filtrado inicial
+
+La propiedad <ApiLink type="GridLite" member="filterExpressions" label="filterExpressions" /> se comporta de forma muy parecida a la llamada al método **`filter()`**. Expone una forma declarativa de controlar el estado de filtrado de la cuadrícula, pero su utilidad más destacada es la posibilidad de establecer el estado de filtrado inicial cuando el componente Grid Lite se renderiza por primera vez.
+
+Por ejemplo, aquí tiene un ejemplo basado en Lit:
+
+```typescript
+{
+  filteringExpressions: IgxGridLiteFilteringExpression<User>[] = [
+    { key: 'age', condition: 'greaterThan', searchTerm: 21 },
+    /** unary condition so `searchTerm` is not required */
+    { key: 'active', condition: 'true' },
+  ];
+}
+```
+
+```html
+<igx-grid-lite [filteringExpressions]="filteringExpressions"></igx-grid-lite>
+```
+
+Puede usarse para obtener el estado de filtrado actual del componente y realizar un procesamiento adicional según otro estado de su aplicación.
+
+```typescript
+const state = grid.filterExpressions;
+// Save the current filter state
+saveUserFilterState(state);
+```
+
+## Eventos
+
+Cuando se realiza una operación de filtrado a través de la interfaz, el componente emite un evento personalizado **`filtering`**. La propiedad **`detail`** es la expresión de ordenación que aplicará Grid Lite. El evento es cancelable y, si se cancela, impedirá la operación de filtrado actual.
+
+Después de que la cuadrícula aplique el nuevo estado de filtrado, se emite un evento **`filtered`**. Contiene el estado de filtrado de la columna que fue objetivo de la operación y no es cancelable.
+
+```html
+<igx-grid-lite (filtering)="onFiltering($event)" (filtered)="onFiltered($event)"></igx-grid-lite>
+```
+
+```typescript
+onFiltering(event: IgxFilteringEvent) { ... }
+onFiltered(event: IgxFilteredEvent) { ... }
+```
+
+<Sample src="/grid-lite/filtering-events" height={510} alt="Eventos de configuración de filtrado de Angular Grid Lite" />
+
+## Operaciones de filtrado remotas
+
+Cuando el filtrado debe hacerse de forma remota, o cuando quiere guardar el estado o los datos actuales en un servidor, Grid Lite expone un hook donde puede implementar y personalizar ese comportamiento.
+
+Mediante la propiedad <ApiLink type="GridLite" member="dataPipelineConfiguration" label="dataPipelineConfiguration" />, puede proporcionar un hook personalizado que se llamará cada vez que vaya a ejecutarse una operación de filtrado. A la función de devolución de llamada se le pasa un objeto **`DataPipelineParams`**.
+
+```typescript
+export type DataPipelineParams<T extends object> = {
+  /**
+   * The current data state of the grid.
+   */
+  data: T[];
+  /**
+   * The grid component itself.
+   */
+  grid: GridLite<T>;
+  /**
+   * The type of data operation being performed.
+   */
+  type: 'sort' | 'filter';
+};
+```
+
+```typescript
+grid.dataPipelineConfiguration = { filter: (params: DataPipelineParams<T>) => T[] | Promise<T[]> };
+```
+
+La función de devolución de llamada personalizada puede ser asíncrona, ya que la cuadrícula esperará a que se resuelva.
+
+El siguiente ejemplo simula una operación de filtrado remoto, que refleja el endpoint REST generado a partir del estado de filtrado del componente.
+
+<Sample src="/grid-lite/filtering-pipeline" height={510} alt="Configuración de filtrado remoto de Angular Grid Lite" />
+
+## Referencias de API
+
+- <ApiLink type="GridLite" />
+- <ApiLink type="GridLiteColumn" />
+
+## Recursos adicionales
+
+- [Configuración de columnas](/grid-lite/column-configuration)
+- [Ordenación](/grid-lite/sorting)
+
+Nuestra comunidad está activa y siempre da la bienvenida a nuevas ideas.
+
+- [Grid Lite  **GitHub**](https://github.com/IgniteUI/igniteui-grid-lite)

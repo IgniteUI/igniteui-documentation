@@ -1,0 +1,922 @@
+---
+title: "Angular Data Grid | Cree tablas Angular rápidas | Infragistics"
+description: "Cree grids y tablas de datos Angular muy rápidos y adaptables con Ignite UI for Angular. Admite edición, filtrado, enlace de datos y muchas más funciones. ¡Pruébelo ahora!"
+keywords: "angular data grid, componente de grid de angular, componente de data grid de angular, componente de tabla de angular, componente de tabla de datos de angular, tabla de angular, componentes de interfaz de angular, ignite ui for angular"
+license: commercial
+_language: es
+llms:
+  description: "Angular Data Grid es un componente para mostrar datos en formato tabular."
+---
+
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import { Image } from 'astro:assets';
+import landingGridPage from '../../images/general/landing-grid-page.png';
+
+<style dangerouslySetInnerHTML={{__html: `.sample-content {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+}
+
+.sample-column {
+    display: flex;
+    flex-flow: column nowrap;
+    flex: 1 0 25%;
+    align-content: flex-start;
+    min-width: 280px;
+}
+
+.tabbar-wrapper {
+    width: inherit;
+    position: relative;
+    height: 100%;
+    margin: 0 auto;
+}
+
+.tabbar-wrapper > p {
+    padding-right: 20px
+}`}} />
+
+# Información general del componente Angular Data Grid
+
+<div class="sample-content">
+    <article class="sample-column">
+        <div class="tabbar-wrapper">
+            <p>Angular Data Grid es un componente para mostrar datos en formato tabular. Los grids modernos son complejos y suelen incluir un amplio conjunto de funciones, como la selección de datos, el filtrado al estilo de Excel, la ordenación, la paginación, la agrupación, las plantillas, el movimiento de columnas, el anclaje de columnas, la exportación a formatos Excel, CSV o PDF y mucho más.</p>
+            <p>Ignite UI Angular Data Grid cubre todas estas funciones básicas del grid, pero también funciones avanzadas como la edición por lotes, la persistencia del estado, la navegación por teclado y mucho más. Gracias a su integración fluida con distintas fuentes de datos, nuestro componente ofrece el mejor rendimiento y escalabilidad, lo que lo hace ideal para aplicaciones que manejan grandes conjuntos de datos o que requieren actualizaciones rápidas en tiempo real.</p>
+        </div>
+    </article>
+    <article class="sample-column">
+        <div class="tabbar-wrapper">
+            <div class="tab-content">
+                <Image src={landingGridPage} alt="Angular Data Grid" class="b-lazy responsive-img" />
+                </div>
+        </div>
+    </article>
+</div>
+
+## Ejemplo de Angular Data Grid
+
+Maratón de Boston 2021: en este ejemplo de grid de Angular puede ver cómo los usuarios pueden realizar tanto filtrado básico como filtrado al estilo de Excel, ordenación de datos en vivo, así como usar resúmenes del grid y plantillas de celda que incluyen nuestro componente [Sparkline](/charts/types/sparkline-chart),
+el componente [Circular Progress Indicator](/circular-progress) y los [iconos](/layouts/icon). La demostración también incluye paginación personalizada y el uso de elementos por página, parte de la [paginación de Angular](/grid/paging).
+
+
+<Sample lob src="/grid/grid" height={700} alt="Ejemplo de cuadrícula de datos de Angular" />
+
+
+## Primeros pasos con Ignite UI for Angular Data Grid
+
+Para empezar a usar el componente Ignite UI for Angular Data Grid, primero debe instalar Ignite UI for Angular. En una aplicación Angular existente, escriba el siguiente comando:
+
+```cmd
+ng add igniteui-angular
+```
+
+Para una introducción completa a Ignite UI for Angular, lea el tema [_primeros pasos_](/general/getting-started).
+
+El siguiente paso es importar `IgxGridModule` en el archivo **app.module.ts**.
+
+```typescript
+// app.module.ts
+
+import { IgxGridModule } from 'igniteui-angular/grids/grid';
+// import { IgxGridModule } from '@infragistics/igniteui-angular'; for licensed package
+
+@NgModule({
+    imports: [
+        ...
+        IgxGridModule,
+        ...
+    ]
+})
+export class AppModule {}
+```
+
+Como alternativa, a partir de `16.0.0` puede importar `IgxGridComponent` como dependencia independiente, o usar el token [`IGX_GRID_DIRECTIVES`](https://github.com/IgniteUI/igniteui-angular/blob/master/projects/igniteui-angular/grids/grid/src/grid.module.ts) para importar el componente y todos sus componentes y directivas de apoyo.
+
+```typescript
+// home.component.ts
+
+import { IGX_GRID_DIRECTIVES } from 'igniteui-angular/grids/grid';
+// import { IGX_GRID_DIRECTIVES } from '@infragistics/igniteui-angular'; for licensed package
+
+@Component({
+    selector: 'app-home',
+    template: '<igx-grid [data]="localData" [autoGenerate]="true"></igx-grid>',
+    styleUrls: ['home.component.scss'],
+    standalone: true,
+    imports: [IGX_GRID_DIRECTIVES]
+    /* or imports: [IgxGridComponent] */
+})
+export class HomeComponent {
+    public data: Product [];
+}
+```
+
+Ahora que ha importado el módulo o las directivas de Ignite UI for Angular Grid, puede empezar a usar el componente `igx-grid`.
+
+## Uso de Angular Data Grid
+
+```html
+<igx-grid #grid1 id="grid1" [data]="localData" [autoGenerate]="true"></igx-grid>
+```
+
+La propiedad **data** enlaza el grid, en este caso, a un array local de objetos.
+
+La propiedad <ApiLink type="Grid" member="autoGenerate" /> indica a `igx-grid` que genere automáticamente las <ApiLink type="Column" /> de la cuadrícula según los campos del origen de datos. También intentará deducir el tipo de datos adecuado para la columna, si es posible. Los desarrolladores también pueden [definir las columnas](#configuración-de-columnas-del-grid-de-angular) explícitamente y la asignación a los campos del origen de datos.
+
+## Definición de grid Bootstrap de Angular
+
+<p>Ignite UI for Angular incluye un potente sistema de disposición basado en flex, similar a un grid bootstrap. Hoy en día se espera que cualquier aplicación moderna siga un enfoque de diseño web adaptable, lo que significa que puede ajustar con elegancia la disposición de los elementos HTML según el tamaño del dispositivo o simplemente al cambiar el tamaño del navegador. La disposición de grid bootstrap de Angular era el enfoque más usado en el pasado, pero un sistema de disposición basado en flex, como CSS Grid, se ha vuelto más popular porque funciona en cualquier navegador. La directiva de disposición de Ignite UI for Angular permite un flujo vertical y horizontal, incluido el ajuste de contenido o texto, la justificación y la alineación. El grid de Ignite UI for Angular admite una disposición adaptable con CSS, lo que le da la máxima flexibilidad en el comportamiento del grid al cambiar su tamaño.</p>
+
+## Configuración de estilos del grid de Angular
+
+<DocsAside type="info">
+<ApiLink type="Grid" /> usa **css grid layout**, que **no es compatible con IE sin prefijos**; por tanto, no se renderizará correctamente.
+</DocsAside>
+
+En [**Angular**](https://angular.io/) la mayoría de los estilos reciben prefijos de forma implícita gracias al plugin [Autoprefixer](https://www.npmjs.com/package/autoprefixer).
+
+Sin embargo, para añadir prefijos a las **disposiciones de grid** debe activar la [propiedad grid](https://www.npmjs.com/package/autoprefixer) de **Autoprefixer** con el comentario `/* autoprefixer grid:on */`.
+
+Para facilitarle el trabajo, aplique el comentario en el archivo `src/styles.scss`.
+
+ ```scss
+// src/styles.scss
+@use "igniteui-angular/theming" as *;
+
+// IMPORTANT: Prior to Ignite UI for Angular version 13 use:
+// @import '~igniteui-angular/lib/core/styles/themes/index';
+@include core();
+/* autoprefixer grid:on */
+@include theme($default-palette);
+ ```
+
+## Grid editable de Angular
+
+<p>Cada operación de edición del grid de Angular incluye operaciones por lotes, lo que significa que la API le permite agrupar las ediciones en una única llamada al servidor, o realizar las operaciones de edición o actualización del grid a medida que ocurren con las interacciones con el grid. Además de una gran experiencia para el desarrollador, como grid editable de Angular con operaciones CRUD, el grid de Angular incluye una navegación por teclado al estilo de Excel. Incluye la navegación predeterminada habitual del grid, además de la opción de sobrescribir cualquier opción de navegación para adaptarse a las necesidades de sus clientes. Un grid editable en Angular con un buen esquema de navegación es fundamental para cualquier aplicación empresarial moderna, y con el grid de Ignite UI lo hacemos sencillo.</p>
+
+En este tema aprenderá más sobre la [plantilla de celda](/grid/grid#plantilla-de-celda) y la [plantilla de edición de celdas](/grid/grid#plantilla-de-edición-de-celdas), y sobre la edición.
+
+## Configuración de columnas del grid de Angular
+
+<ApiLink type="Column" /> se usa para definir la colección <ApiLink type="Grid" member="columns" /> de la cuadrícula y para habilitar funciones por columna, como la **ordenación** y el **filtrado**. También están disponibles las plantillas de celda, de encabezado y de pie.
+
+### Definir columnas
+
+Desactivemos la propiedad <ApiLink type="Grid" member="autoGenerate" /> y definamos la colección de columnas en el marcado:
+
+```html
+<igx-grid #grid1 [data]="data | async" [autoGenerate]="false" (columnInit)="initColumns($event)"
+    (selected)="selectCell($event)" [allowFiltering]="true">
+    <igx-column field="Name" [sortable]="true" header=" "></igx-column>
+    <igx-column field="AthleteNumber" [sortable]="true" header="Athlete number" [filterable]="false"></igx-column>
+    <igx-column field="TrackProgress" header="Track progress" [filterable]="false">
+        <ng-template igxCell let-value>
+            <igx-linear-bar [stripped]="false" [value]="value" [max]="100"></igx-linear-bar>
+        </ng-template>
+    </igx-column>
+    <igx-paginator [perPage]="6">
+    </igx-paginator>
+</igx-grid>
+```
+
+
+Cada una de las columnas del grid puede tener una plantilla por separado. La columna espera directivas del módulo del grid de Angular `ng-template`.
+
+También expone una entrada <ApiLink type="Column" member="additionalTemplateContext" /> que puede usarse para propiedades personalizadas y para cualquier tipo de contexto de datos que quiera pasar a la propia columna:
+
+```html
+<igx-column [additionalTemplateContext]="contextObject">
+    <ng-template igxCell let-cell="cell" let-props="additionalTemplateContext">
+        {{ props.firstProperty }}
+    </ng-template>
+</igx-column>
+```
+
+```ts
+public contextObject = { firstProperty: 'testValue', secondProperty: 'testValue1'};
+```
+
+### Plantilla de encabezado
+
+`igxHeader` se dirige al encabezado de la columna, proporcionando como contexto el propio objeto de columna.
+
+```html
+...
+<igx-column field="Name">
+    <ng-template igxHeader let-column>
+        {{ column.field | uppercase }}
+    </ng-template>
+</igx-column>
+...
+```
+
+<DocsAside type="info">
+Cuando se usa una plantilla de encabezado junto con la función de agrupación o movimiento, el _área del encabezado de la columna_ se vuelve **arrastrable**, y no puede acceder a los elementos personalizados de la plantilla del encabezado hasta que los marque como **no arrastrables**. Ejemplo a continuación.
+</DocsAside>
+
+```html
+<igx-column #col field="ProductName" header="Product Name"
+    [groupable]="true" [hasSummary]="true">
+    <ng-template igxHeader let-col>
+        <div class="text">{{col.field}}</div>
+        <igx-icon (click)="toggleSummary(col)" [attr.draggable]="false">functions
+        </igx-icon>
+    </ng-template>
+</igx-column>
+```
+
+<DocsAside type="info">
+Este componente usa Material Icons. Añada el siguiente enlace a su `index.html`: `<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">`
+</DocsAside>
+
+Como puede ver, estamos añadiendo el atributo **draggable** con el valor _false_.
+
+### Plantilla de celda
+
+`igxCell` aplica la plantilla proporcionada a todas las celdas de la columna. El objeto de contexto proporcionado en la plantilla está formado por el valor de la celda, proporcionado implícitamente, y por el propio objeto de celda. Puede usarse para definir una plantilla en la que las celdas crezcan según su contenido, como en el ejemplo siguiente.
+
+```html
+...
+<igx-column field="Name">
+    <ng-template igxCell let-value>
+        {{ value | titlecase }}
+    </ng-template>
+</igx-column>
+...
+```
+
+En el fragmento anterior "tomamos" una referencia al valor de la celda proporcionado implícitamente. Esto basta si solo quiere presentar algunos datos y, tal vez, aplicar estilos personalizados o transformaciones de pipe sobre el valor de la celda. Sin embargo, es aún más útil tomar la propia instancia de <ApiLink kind="interface" type="CellType" />, como se muestra a continuación:
+
+```html
+<igx-grid #grid [data]="data">
+    <igx-column dataType="string" field="Name">
+        <ng-template igxCell let-cell="cell">
+            <!-- Implement row deleting inside the cell template itself -->
+            <span tabindex="0" (keydown.delete)="grid.deleteRow(cell.row.index)">{{ cell.value | titlecase }}</span>
+        </ng-template>
+    </igx-column>
+    <igx-column dataType="boolean" field="Subscribtion">
+        <ng-template igxCell let-cell="cell">
+            <!-- Bind the cell value through the ngModel directive and update the data source when the value is changed in the template -->
+            <input type="checkbox" [ngModel]="cell.value" (ngModelChange)="cell.update($event)" />
+        </ng-template>
+    </igx-column>
+</igx-grid>
+```
+
+Cuando se cambian datos a través de la **plantilla de celda** usando `ngModel`, hay que llamar a los métodos de la API adecuados para asegurarse de que el valor se actualiza correctamente en la colección de datos subyacente de la cuadrícula de Angular. En el fragmento anterior, la llamada `ngModelChange` pasa por la [API de edición](/grid/cell-editing#edición-a-través-de-la-api) de la cuadrícula y por su cadena de edición, desencadenando correctamente las [transacciones](/grid/batch-editing) (si procede) y gestionando los [resúmenes](/grid/summaries), la [selección](/grid/selection), etc. Sin embargo, este `ngModelChange` se disparará cada vez que cambie el valor de la celda, no solo cuando el usuario termine de editar, lo que genera muchas más llamadas a la API.
+
+<DocsAside type="info">
+El grid ofrece un tratamiento predeterminado para los tipos de columna number, string, date y boolean. Por ejemplo, la columna mostrará de forma predeterminada el icono `check` o `close`, en lugar de true/false, para el tipo de columna boolean.
+</DocsAside>
+
+Si los datos de una celda están enlazados con `[(ngModel)]` y no se gestiona el cambio de valor, el nuevo valor **no** se actualizará correctamente en el origen de datos subyacente de la cuadrícula de Angular. Al tratar la edición de celdas con una plantilla personalizada, se recomienda encarecidamente usar la **plantilla de edición de celdas** de la celda.
+
+Si se implementa correctamente, la plantilla de edición de celdas también garantiza que `editValue` de la celda pasa correctamente por el [ciclo de eventos de edición](/grid/editing#argumentos-del-evento-y-secuencia) de la cuadrícula.
+
+### Plantilla de edición de celdas
+
+La columna también acepta una última plantilla que se usará cuando una celda esté en modo de edición. Como con las demás plantillas de columna, el objeto de contexto proporcionado es de nuevo el valor de la celda y el propio objeto de celda. Por supuesto, para que la plantilla del modo de edición sea accesible para los usuarios finales, necesita
+establecer la propiedad <ApiLink type="Column" member="editable" /> de <ApiLink type="Column" /> en `true`.
+
+```html
+<igx-column dataType="number" editable="true" field="Price">
+    <ng-template igxCellEditor let-cell="cell">
+        <label for="price">
+            Enter the new price tag
+        </label>
+        <input name="price" type="number" [(ngModel)]="cell.editValue" />
+    </ng-template>
+</igx-column>
+```
+
+Asegúrese de consultar la API de <ApiLink kind="interface" type="CellType" /> para familiarizarse con las propiedades disponibles que puede usar en sus plantillas.
+
+### API de plantillas de columna
+
+Cada una de las plantillas de columna puede cambiarse mediante programación en cualquier momento a través del propio objeto <ApiLink type="Column" />. Por ejemplo, en el código siguiente hemos declarado dos plantillas para nuestros datos de usuario. En nuestro código TypeScript obtendremos referencias a las propias plantillas y, según alguna condición, renderizaremos la plantilla adecuada para la columna de nuestra aplicación.
+
+```html
+<igx-grid>
+    <!-- Column declarations -->
+</igx-grid>
+
+<ng-template #normalView let-value>
+    <div class="user-details">{{ value }}</div>
+    <user-details-component></user-details-component>
+</ng-template>
+
+<ng-template #smallView let-value>
+    <div class="user-details-small">{{ value }}</div>
+</ng-template>
+```
+
+```typescript
+@ViewChild("normalView", { read: TemplateRef })
+public normalView: TemplateRef<any>;
+
+@ViewChild("smallView", { read: TemplateRef })
+public smallView: TemplateRef<any>;
+
+....
+
+const column = this.grid.getColumnByName("User");
+// Return the appropriate template based on some conditiion.
+// For example saved user settings, viewport size, etc.
+column.bodyTemplate = this.smallView;
+```
+
+Las propiedades de columna también pueden establecerse en código en el evento <ApiLink type="Grid" member="columnInit" />, que se emite cuando las columnas se inicializan en la cuadrícula.
+
+```typescript
+public initColumns(column: IgxGridColumn) {
+    if (column.field === 'ProductName') {
+        column.sortable = true;
+        column.editable = true;
+    }
+}
+```
+
+El código anterior hará que la columna **ProductName** sea ordenable y editable, y creará la interfaz correspondiente de las funciones (como los campos de entrada para la edición, etc.).
+
+### Formato de visualización personalizado
+
+Todos los valores de una columna de fecha, numérica, de moneda y de porcentaje se transforman mediante los pipes de Angular [`DatePipe`](https://angular.io/api/common/DatePipe), [`DecimalPipe`](https://angular.io/api/common/DecimalPipe), [`CurrencyPipe`](https://angular.io/api/common/CurrencyPipe) y [`PercentPipe`](https://angular.io/api/common/PercentPipe), respectivamente. Esto no modifica el valor original, solo el valor que se muestra en la columna. Por tanto, tenga en cuenta que todas las operaciones y manipulaciones de datos se realizan según los valores de su origen de datos. De forma predeterminada, los valores se mostrarán según la <ApiLink type="Grid" member="locale" /> de la cuadrícula (si no se especifica, se usa la configuración regional de la aplicación, que por defecto es `'en-US'`).
+
+Consulte [Configurar la configuración regional de su aplicación](https://angular.io/guide/i18n#setting-up-the-locale-of-your-app) para más detalles.
+
+Además, hay parámetros opcionales para el formato:
+
+- `format`: determina qué partes de fecha y hora se muestran; el valor predeterminado es `'mediumDate'`, equivalente a `'MMM d, y'`
+- `timezone`: el desfase de zona horaria para las fechas. De forma predeterminada usa la zona horaria local del sistema del usuario final
+- `digitsInfo`: objetos de representación decimal. El valor predeterminado es `'1.0-3'`
+
+Para permitir personalizar el formato de visualización con estos parámetros, se expone la entrada <ApiLink type="Column" member="pipeArgs" />. Una columna solo respetará las propiedades correspondientes a su tipo de datos, si se establece `pipeArgs`. Ejemplo:
+
+```typescript
+const pipeArgs: IColumnPipeArgs = {
+     format: 'longDate',
+     timezone: 'UTC',
+     digitsInfo: '1.1-2'
+}
+```
+
+```html
+<igx-column field="OrderDate" dataType="date" [pipeArgs]="pipeArgs"></igx-column>
+<igx-column field="UnitPrice" dataType="number" [pipeArgs]="pipeArgs"></igx-column>
+```
+
+La columna `OrderDate` solo respetará las propiedades `format` y `timezone`, mientras que la columna `UnitPrice` solo respetará `digitsInfo`. Para más detalles, consulte la documentación oficial de Angular en [Localizar su aplicación](https://angular.io/guide/i18n).
+
+Todos los tipos de datos de columna disponibles se pueden consultar en el tema oficial [Tipos de columna](/grid/column-types#plantilla-predeterminada).
+
+## Estructura de datos del grid de Angular
+
+El <ApiLink type="Grid" /> admite **datos planos** y **POJO anidados (Plain Old Java Objects)**. La estructura de datos específica para la renderización tiene la forma:
+
+```typescript
+const OBJECT_ARRAY = [{
+        ObjectKey1: value1,
+        ObjectKey2: value2,
+        // ...
+        ObjectKeyN: valueN
+    },
+    // ...
+  }];
+
+const POJO = [{
+        ObjectKey1: value1,
+        ObjectKey2: value2,
+        // ...
+        ObjectKeyN: {
+          ObjectKeyN1: value1,
+          ObjectKeyN2: value2,
+          // ...
+          ObjectKeyNM: valueNM,
+        }
+    },
+    // ...
+  }];
+
+```
+
+<DocsAside type="warning">
+**Los valores de las claves no deben contener arrays**.
+Si usa columnas <ApiLink type="Grid" member="autoGenerate" />, **las claves de datos deben ser idénticas.**
+</DocsAside>
+
+## Enlace de datos del grid de Angular
+
+Antes de seguir con el grid, queremos cambiar el grid de Angular para que se enlace a un servicio de datos remoto, que es el escenario habitual en aplicaciones a gran escala. Una buena práctica es separar toda la lógica relacionada con la obtención de datos en un servicio de datos aparte, así que vamos a crear un servicio que gestione la obtención de datos del servidor.
+
+Implementemos nuestro servicio en un archivo aparte
+
+```typescript
+// northwind.service.ts
+
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs/Observable';
+import { of } from 'rxjs/observable/of';
+import { catchError, map } from 'rxjs/operators';
+```
+
+Importamos el decorador `Injectable`, que es un [ingrediente esencial](https://angular.io/guide/dependency-injection) en cualquier definición de servicio de Angular. `HttpClient` nos proporcionará la funcionalidad para comunicarnos con los servicios de backend. Devuelve un `Observable` con algún resultado, al que nos suscribiremos en nuestro componente de la cuadrícula.
+
+**Nota**: antes de Angular 5, `HttpClient` se encontraba en `@angular/http` y se llamaba `Http`.
+
+Como vamos a recibir una respuesta JSON que contiene un array de registros, podemos ayudarnos especificando qué tipo de datos esperamos recibir en el observable, definiendo una interfaz con la forma correcta. La comprobación de tipos siempre es recomendable y puede ahorrarle dolores de cabeza más adelante.
+
+```typescript
+// northwind.service.ts
+
+export interface NorthwindRecord {
+    ProductID: number;
+    ProductName: string;
+    SupplierID: number;
+    CategoryID: number;
+    QuantityPerUnit: string;
+    UnitPrice: number;
+    UnitsInStock: number;
+    UnitsOnOrder: number;
+    ReorderLevel: number;
+    Discontinued: boolean;
+    CategoryName: string;
+}
+```
+
+El servicio en sí es bastante sencillo y consta de un método: `fetchData`, que devolverá un `Observable<NorthwindRecord[]>`. Si la solicitud falla por cualquier motivo (servidor no disponible, error de red, etc.), el `HttpClient` devolverá un error. Usaremos el operador `catchError`, que intercepta un _Observable_ que ha fallado y pasa el error a un controlador de errores. Nuestro controlador de errores registrará el error y devolverá un valor seguro.
+
+```typescript
+// northwind.service.ts
+
+@Injectable()
+export class NorthwindService {
+    private url = 'http://services.odata.org/V4/Northwind/Northwind.svc/Alphabetical_list_of_products';
+
+    constructor(private http: HttpClient) {}
+
+    public fetchData(): Observable<NorthwindRecord[]> {
+        return this.http
+            .get(this.url)
+            .pipe(
+                map(response => response['value']),
+                catchError(
+                    this.errorHandler('Error loading northwind data', [])
+                )
+            );
+    }
+
+    private errorHandler<T>(message: string, result: T) {
+        return (error: any): Observable<any> => {
+            console.error(`${message}: ${error.message}`);
+            return of(result as T);
+        };
+    }
+}
+```
+
+Asegúrese de importar tanto `HttpClientModule` como nuestro servicio en el módulo de la aplicación y de registrar el servicio como proveedor.
+
+```typescript
+// app.module.ts
+
+import { HttpClientModule } from '@angular/common/http';
+...
+import { NorthwindService } from './northwind.service';
+
+@NgModule({
+    imports: [
+        ...
+        HttpClientModule
+        ...
+    ],
+    providers: [
+        NorthwindService
+    ]
+})
+export class AppModule {}
+```
+
+Después de implementar el servicio, lo inyectaremos en el constructor de nuestro componente y lo usaremos para recuperar los datos. El hook de ciclo de vida `ngOnInit` es un buen lugar para lanzar la solicitud inicial.
+
+**Nota**: en el código siguiente puede preguntarse por qué establecemos la propiedad _records_ en un array vacío antes de suscribirnos al servicio. La solicitud Http es asíncrona, y hasta que se completa, la propiedad _records_ será _undefined_, lo que provocará un error cuando el grid intente enlazarse a ella. Debe inicializarla con un valor predeterminado o usar un `BehaviorSubject`.
+
+```typescript
+// my.component.ts
+
+@Component({...})
+export class MyComponent implements OnInit {
+
+    public records: NorthwindRecord[];
+
+    constructor(private northwindService: NorthwindService) {}
+
+    ngOnInit() {
+        this.records = [];
+        this.northwindService.fetchData().subscribe((records) => this.records = records);
+    }
+}
+```
+
+y en la plantilla del componente:
+
+```html
+    <igx-grid [data]="records">
+        <igx-column field="ProductId"></igx-column>
+        <!-- rest of the column definitions -->
+        ...
+    </igx-grid>
+```
+
+**Nota**: por ahora, es preferible evitar la propiedad <ApiLink type="Grid" member="autoGenerate" /> del grid cuando se enlaza a datos remotos. Supone que los datos están disponibles para inspeccionarlos y generar las columnas adecuadas. Normalmente esto no ocurre hasta que responde el servicio remoto, y el grid lanzará un error. Hacer que <ApiLink type="Grid" member="autoGenerate" /> esté disponible al enlazar con un servicio remoto está previsto para versiones futuras.
+
+## Enlace de datos complejos
+
+El <ApiLink type="Grid" /> admite el enlace a objetos complejos (incluido el anidamiento de más de un nivel) mediante una "ruta" de propiedades en el registro de datos.
+
+Observe el siguiente modelo de datos:
+
+```typescript
+interface AminoAcid {
+    name: string;
+    abbreviation: {
+        short: string;
+        long: string;
+    }
+    weight: {
+        molecular: number;
+        residue: number;
+    },
+    formula: {
+        molecular: string;
+        residue: string;
+    }
+    ...
+}
+```
+
+Por ejemplo, para mostrar los pesos de un aminoácido determinado en la cuadrícula, basta con el siguiente fragmento
+
+```html
+<igx-column field="weight.molecular"></igx-column>
+<igx-column field="weight.residue"></igx-column>
+```
+
+Consulte el ejemplo siguiente para más información. Este tipo de enlace admite toda la funcionalidad predeterminada que cabría esperar de la cuadrícula.
+Es decir, las operaciones de ordenación y filtrado funcionan sin ninguna configuración adicional. Lo mismo ocurre con las operaciones de agrupación y edición, con o sin transacciones, así como con la posibilidad de crear plantillas para las celdas de la columna enlazada.
+
+<DocsAside type="warning">
+Los grids **no admiten** este tipo de enlace para las propiedades `primary key`, `foreign key` y `child key`, cuando procede.
+</DocsAside>
+
+
+<Sample src="/grid/grid-nested-data-binding-2" height={460} alt="Ejemplo de enlace de datos anidados en la cuadrícula de Angular" />
+
+
+Una forma alternativa de enlazar datos complejos, o de visualizar datos compuestos (de más de una columna) en **IgxGrid**, es usar una plantilla de cuerpo personalizada para la columna. En general, se puede:
+    - usar el `value` de la celda, que contiene los datos anidados
+    - usar el objeto `cell` en la plantilla, desde el que se accede a `row.data` y, por tanto, se recupera cualquier valor de él, por ejemplo `cell.row.data[field]` y `cell.row.data[field][nestedField]`
+
+e interpolarlos en la plantilla.
+
+```html
+<igx-column field="abbreviation.long" header="Long">
+    <ng-template igxCell let-cell="cell">
+        <div>
+            <div>
+                {{ cell.value }}
+                {{ cell.row.data['name'] }}
+                {{ cell.row.data['weight']['molecular'] }}
+            </div>
+        </div>
+    </ng-template>
+</igx-column>
+```
+
+A continuación están los datos que vamos a usar:
+
+```typescript
+export const EMPLOYEE_DATA = [
+    {
+        Age: 55,
+        Employees: [
+            {
+                Age: 43,
+                HireDate: new Date(2011, 6, 3),
+                ID: 3,
+                Name: "Michael Burke",
+                Title: "Senior Software Developer"
+            },
+            {
+                Age: 29,
+                HireDate: new Date(2009, 6, 19),
+                ID: 2,
+                Name: "Thomas Anderson",
+                Title: "Senior Software Developer"
+            },
+            {
+                Age: 31,
+                HireDate: new Date(2014, 8, 18),
+                ID: 11,
+                Name: "Monica Reyes",
+                Title: "Software Development Team Lead"
+            },
+            {
+                Age: 35,
+                HireDate: new Date(2015, 9, 17),
+                ID: 6,
+                Name: "Roland Mendel",
+                Title: "Senior Software Developer"
+            }],
+        HireDate: new Date(2008, 3, 20),
+        ID: 1,
+        Name: "John Winchester",
+        Title: "Development Manager"
+    },
+...
+```
+
+La plantilla personalizada de la columna, que renderizará los datos anidados:
+
+```html
+...
+ <igx-column field="Employees" header="Employees" [cellClasses]="{ expand: true }" width="40%">
+        <ng-template #nestedDataTemp igxCell let-people let-cell="cell">
+            <div class="employees-container">
+                <igx-expansion-panel *ngFor="let person of people">
+                    <igx-expansion-panel-header iconPosition="right">
+                        <igx-expansion-panel-description>
+                            {{ person.Name }}
+                        </igx-expansion-panel-description>
+                    </igx-expansion-panel-header>
+                    <igx-expansion-panel-body>
+                        <div class="description">
+                            <igx-input-group (keydown)="stop($event)" style="--ig-size: var(--ig-size-small)">
+                                <label igxLabel for="title">Title</label>
+                                <input type="text" name="title" igxInput [(ngModel)]="person.Title" style="text-overflow: ellipsis;" />
+                            </igx-input-group>
+                            <igx-input-group (keydown)="stop($event)" style="--ig-size: var(--ig-size-small); width: 15%;">
+                                <label igxLabel for="age">Age</label>
+                                <input type="number" name="age" igxInput [(ngModel)]="person.Age" />
+                            </igx-input-group>
+                        </div>
+                    </igx-expansion-panel-body>
+                </igx-expansion-panel>
+            </div>
+        </ng-template>
+ </igx-column>
+...
+```
+
+El resultado de esta configuración es:
+
+
+<Sample src="/grid/grid-nested-data-binding" height={460} alt="Ejemplo de enlace de datos anidados de la cuadrícula de Angular" />
+
+
+### Trabajar con datos planos
+
+El enfoque de enlace de datos planos es similar al que ya hemos descrito, pero en lugar del **valor de la celda** usaremos la propiedad <ApiLink type="GridRow" member="data" /> de <ApiLink type="GridRow" />.
+
+Como el grid de Angular es un componente para **renderizar**, **manipular** y **conservar** registros de datos, tener acceso a **cada registro de datos** le ofrece la oportunidad de personalizar la forma de gestionarlo. La propiedad <ApiLink type="GridRow" member="data" /> le ofrece esa oportunidad.
+
+A continuación están los datos que vamos a usar:
+
+```typescript
+export const DATA: any[] = [
+    {
+        Address: "Obere Str. 57",
+        City: "Berlin",
+        CompanyName: "Alfreds Futterkiste",
+        ContactName: "Maria Anders",
+        ContactTitle: "Sales Representative",
+        Country: "Germany",
+        Fax: "030-0076545",
+        ID: "ALFKI",
+        Phone: "030-0074321",
+        PostalCode: "12209",
+        Region: null
+    },
+...
+]
+```
+
+La plantilla personalizada:
+
+```html
+...
+<igx-column field="Address" header="Address" width="25%" editable="true">
+    <ng-template #compositeTemp igxCell let-cell="cell">
+        <div class="address-container">
+        // In the Address column combine the Country, City and PostCode values of the corresponding data record
+            <span><strong>Country:</strong> {{cell.row.data.Country}}</span>
+            <br/>
+            <span><strong>City:</strong> {{cell.row.data.City}}</span>
+            <br/>
+            <span><strong>Postal Code:</strong> {{cell.row.data.PostalCode}}</span>
+        </div>
+    </ng-template>
+</igx-column>
+```
+
+Tenga en cuenta que con la plantilla definida arriba no podrá realizar operaciones de edición, así que necesitamos una plantilla de editor.
+
+```html
+<igx-column field="Address" header="Address" width="25%" editable="true">
+    <ng-template  igxCellEditor let-cell="cell">
+        <div class="address-container">
+            <span>
+                <strong>Country:</strong> {{cell.row.data.Country}}
+                <igx-input-group width="100%">
+                        <input igxInput [(ngModel)]="cell.row.data.Country" />
+                </igx-input-group>
+            </span>
+            <br/>
+            <span><strong>City:</strong> {{cell.row.data.City}}</span>
+            <igx-input-group width="100%">
+                    <input igxInput [(ngModel)]="cell.row.data.City" />
+            </igx-input-group>
+            <br/>
+            <span><strong>Postal Code:</strong> {{cell.row.data.PostalCode}}</span>
+            <igx-input-group width="100%">
+                    <input igxInput [(ngModel)]="cell.row.data.PostalCode" />
+            </igx-input-group>
+        </div>
+    </ng-template>
+</igx-column>
+...
+```
+
+Y el resultado es:
+
+
+<Sample src="/grid/grid-composite-data-binding" height={550} alt="Ejemplo de enlace de datos compuestos de la cuadrícula de Angular" />
+
+
+## Navegación por teclado
+
+La navegación por teclado del grid ofrece una gran variedad de interacciones de teclado para el usuario. Mejora la accesibilidad y permite una navegación intuitiva por cualquier tipo de elementos que contenga (celda, fila, encabezado de columna, barra de herramientas, pie, etc.).
+Consulte estos recursos para más información:
+
+- [Navegación por teclado de Grid](/grid/keyboard-navigation)
+- [Navegación por teclado de TreeGrid](/treegrid/keyboard-navigation)
+- [Navegación por teclado de Hierarchical Grid](/hierarchicalgrid/keyboard-navigation)
+- [Entrada de blog](https://www.infragistics.com/community/blogs/b/engineering/posts/grid-keyboard-navigation-accessibility): Mejorar la usabilidad, la accesibilidad y el cumplimiento de ARIA con la navegación por teclado del grid
+
+## Persistencia del estado
+
+Crear un framework de persistencia del estado es hoy más fácil que nunca gracias a la nueva directiva integrada [`IgxGridState`](/grid/state-persistence).
+
+## Dimensionamiento
+
+Consulte el tema [Dimensionamiento de Grid](/grid/sizing).
+
+## Rendimiento (experimental)
+
+El diseño de `IgxGridComponent` le permite aprovechar la función de fusión de eventos (Event Coalescing) que Angular introdujo. Esta función mejora el rendimiento, con una mejora aproximada de **`20%`** en cuanto a interacciones y capacidad de respuesta. Esta función puede habilitarse a nivel de aplicación simplemente estableciendo las propiedades `ngZoneEventCoalescing` y `ngZoneRunCoalescing` en `true` en el método `bootstrapModule`:
+
+```typescript
+platformBrowserDynamic()
+  .bootstrapModule(AppModule, { ngZoneEventCoalescing: true, ngZoneRunCoalescing: true })
+  .catch(err => console.error(err));
+```
+
+<DocsAside type="info">
+Esta función sigue siendo experimental para `IgxGridComponent`. Esto significa que podrían producirse comportamientos inesperados en el Grid. Si encuentra alguno de esos comportamientos, póngase en contacto con nosotros en nuestra página de [GitHub](https://github.com/IgniteUI/igniteui-angular/discussions).
+</DocsAside>
+
+<DocsAside type="info">
+Habilitarla puede afectar a otras partes de una aplicación Angular que no están relacionadas con `IgxGridComponent`.
+</DocsAside>
+
+## Limitaciones conocidas
+
+| Limitación                                                                                                                                                                           | Descripción                                                                                                                                                                                                                                                                                               |
+| :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Anchos de columna establecidos en `percentage` y `px`                                                                                                                                           | Actualmente no admitimos mezclar anchos de columna con `%` y `px`.                                                                                                                                                                                                                                    |
+| Al intentar filtrar una columna de tipo `number`                                                                                                                                      | Si en el campo de filtrado se introduce un valor distinto de `number`, se devuelve `NaN` debido a una conversión incorrecta.                                                                                                                                                                                       |
+|El <ApiLink type="Grid" member="width" /> del grid no depende de los anchos de columna | El <ApiLink type="Column" member="width" /> de todas las columnas no determina la extensión del propio grid. Esta viene determinada por las dimensiones del contenedor padre o por el <ApiLink type="Grid" member="width" /> definido para el grid.|
+|Grid anidado en un contenedor padre | Cuando no se establece el <ApiLink type="Grid" member="width" /> del grid y se coloca en un contenedor padre con dimensiones definidas, el grid se extiende a ese contenedor.|
+| `OnPush` ChangeDetectionStrategy del grid                                                                                                                                                | El grid funciona con `ChangeDetectionStrategy.OnPush`, así que cada vez que aparezca alguna personalización asegúrese de notificar al grid los cambios que se produzcan.                                                                                                                                        |
+| Las columnas tienen un ancho mínimo permitido. Según el valor de la variable CSS [`--ig-size`], son los siguientes: <br/>"small": 56px <br/> "medium": 64px <br/> "large ": 80px | Si se establece un ancho inferior al mínimo permitido, no afectará a los elementos renderizados. Se renderizarán con el ancho mínimo permitido para el [`--ig-size`] correspondiente. Esto puede dar lugar a un comportamiento inesperado con la virtualización horizontal y, por tanto, no se admite.                       |
+| La altura de la fila no se ve afectada por la altura de las celdas que no están renderizadas actualmente en la vista.                                                                                           | Debido a la virtualización, una columna con plantilla personalizada (que cambia la altura de la celda) que no está en la vista no afectará a la altura de la fila. La altura de la fila solo se verá afectada mientras la columna correspondiente esté desplazada a la vista.                                                                   |
+
+<DocsAside type="info">
+`igxGrid` usa internamente la directiva `igxForOf`, por lo que todas las limitaciones de `igxForOf` son válidas para `igxGrid`. Para más detalles, consulte la sección [Problemas conocidos de igxForOf](/for-of#limitaciones-conocidas).
+</DocsAside>
+
+## Temas
+
+La forma más sencilla y recomendada de dar estilo a `igxGrid` es usar <ApiLink kind="sass" module="themes" type="function-grid-theme" label="grid-theme" code={true} /> y proporcionar solo los tres colores principales: `background`, `foreground` y `accent-color`.
+
+Estas son las propiedades de tema principales. Al establecerlas, todas las partes de la cuadrícula y los componentes internos derivan sus colores de esos valores, lo que da como resultado un aspecto coherente en toda la cuadrícula. Los componentes anidados, como botones, iconos, entradas, listas desplegables, casillas, barras de desplazamiento, chips y otros componentes auxiliares, también derivan sus tokens de estilo del <ApiLink kind="sass" module="themes" type="function-grid-theme" label="grid-theme" code={true} /> principal para lograr un aspecto unificado.
+
+```scss
+$custom-grid: grid-theme(
+  $background: #292826,
+  $foreground: #eeece1,
+  $accent-color: #ffcd0f,
+);
+
+igx-grid {
+  @include tokens($custom-grid);
+}
+```
+
+Además, hay parámetros adicionales en <ApiLink kind="sass" module="themes" type="function-grid-theme" label="grid-theme" code={true} /> que puede usar si quiere personalizaciones más específicas.
+
+### Temas adicionales
+
+Si quiere un control más preciso sobre los componentes anidados, el grid también ofrece temas adicionales. Úselos cuando quiera que un componente anidado concreto tenga un estilo distinto del resto del tema del grid.
+
+Los temas independientes disponibles incluyen:
+
+- <ApiLink kind="sass" module="themes" type="function-excel-filtering-theme" label="excel-filtering-theme" code={true} /> para el componente de filtrado al estilo de Excel
+- <ApiLink kind="sass" module="themes" type="function-grid-toolbar-theme" label="grid-toolbar-theme" code={true} /> para el componente de la barra de herramientas de la cuadrícula
+- <ApiLink kind="sass" module="themes" type="function-paginator-theme" label="paginator-theme" code={true} /> para el componente paginador
+- <ApiLink kind="sass" module="themes" type="function-column-actions-theme" label="column-actions-theme" code={true} /> para el componente de acciones de columna
+- <ApiLink kind="sass" module="themes" type="function-query-builder-theme" label="query-builder-theme" code={true} /> para el cuadro de diálogo de filtrado avanzado
+
+```scss
+$excel-filtering-theme: excel-filtering-theme(
+  $background: #3c6eda,
+  $foreground: #f5f5f5,
+  $accent-color: #8e11fb
+);
+
+$query-builder-theme: query-builder-theme(
+  $background: #f59906,
+  $foreground: #050505,
+  $accent-color: #443209
+);
+
+igx-grid-excel-style-filtering,
+.igx-excel-filter__secondary {
+  @include tokens($excel-filtering-theme);
+}
+
+igx-advanced-filtering-dialog {
+  @include tokens($query-builder-theme);
+}
+```
+
+Al proporcionar solo los tres colores principales, todas las partes del componente reciben un estilo coherente. Estos temas también exponen parámetros adicionales si necesita una personalización más detallada.
+
+### Temas de componentes anidados
+
+Si quiere apuntar solo a componentes anidados más pequeños dentro de la cuadrícula, como botones, iconos, campos de entrada o chips, puede aplicar directamente sus temas independientes. Asegúrese de que el ámbito del selector sea lo bastante específico para que el tema proporcionado afecte solo al elemento previsto.
+
+Algunos de los temas de componente son:
+
+- <ApiLink kind="sass" module="themes" type="function-icon-theme" label="Tema de IgxIcon" />
+- <ApiLink kind="sass" module="themes" type="function-input-group-theme" label="Tema de IgxInputGroup" />
+- <ApiLink kind="sass" module="themes" type="function-chip-theme" label="Tema IgxChip" />
+- <ApiLink kind="sass" module="themes" type="function-ripple-theme" label="Tema de IgxRipple" />
+- <ApiLink kind="sass" module="themes" type="function-button-theme" label="Tema de IgxButton" />
+- <ApiLink kind="sass" module="themes" type="function-overlay-theme" label="Tema de IgxOverlay" />
+- <ApiLink kind="sass" module="themes" type="function-drop-down-theme" label="Tema de IgxDropDown" />
+- <ApiLink kind="sass" module="themes" type="function-calendar-theme" label="Tema de IgxCalendar" />
+- <ApiLink kind="sass" module="themes" type="function-snackbar-theme" label="Tema IgxSnackBar" />
+- <ApiLink kind="sass" module="themes" type="function-badge-theme" label="Tema IgxBadge" />
+
+## Referencias de API
+
+- <ApiLink type="Grid" />
+- <ApiLink kind="sass" module="themes" type="function-grid-theme" label="Estilos de IgxGridComponent" />
+- <ApiLink type="Column" />
+- <ApiLink type="GridRow" />
+- <ApiLink type="GridCell" />
+
+## Tutorial en vídeo
+
+Conozca más sobre cómo crear un data grid de Angular en nuestro breve tutorial en vídeo:
+
+<iframe width="100%" height="600" src="https://www.youtube.com/embed/Xv_fQVQ8fmM">
+</iframe>
+
+## Recursos adicionales
+
+
+- [Dimensionamiento de Grid](/grid/sizing)
+- [Virtualización y rendimiento](/grid/virtualization)
+- [Paginación](/grid/paging)
+- [Filtrado](/grid/filtering)
+- [Ordenación](/grid/sorting)
+- [Resúmenes](/grid/summaries)
+- [Movimiento de columnas](/grid/column-moving)
+- [Anclaje de columnas](/grid/column-pinning)
+- [Redimensionado de columnas](/grid/column-resizing)
+- [Selección](/grid/selection)
+- [Tipos de datos de columna](/grid/column-types#plantilla-predeterminada)
+- [Crear operaciones CRUD con igxGrid](/general/how-to/how-to-perform-crud)
+- [Ignite UI for Angular Skills](/ai/skills): Agent Skills para cuadrículas, operaciones de datos y temas
+
+Nuestra comunidad está activa y siempre da la bienvenida a nuevas ideas.
+
+- [Ignite UI for Angular **Foros**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

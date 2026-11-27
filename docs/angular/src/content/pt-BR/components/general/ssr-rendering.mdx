@@ -1,0 +1,79 @@
+---
+title: "Renderização do lado do servidor | Angular SSR | Ignite UI for Angular | Infragistics"
+description: "Como usar a renderização do lado do servidor do Angular com o Ignite UI for Angular."
+keywords: "Ignite UI for Angular, Angular SSR, renderização do lado do servidor"
+_language: pt-BR
+llms:
+  description: "Todas as aplicações Angular são executadas no navegador do cliente, e isso costuma causar uma queda de desempenho no Largest Contentful Paint (LCP), ou seja, no momento em que o navegador renderiza pela primeira vez o maior conteúdo de uma página."
+---
+
+# Renderização do lado do servidor com Angular SSR
+
+Este tópico descreve o que é a renderização do lado do servidor e como configurá-la em uma aplicação Ignite UI for Angular.
+
+## Renderização do lado do servidor no Angular
+
+Todas as aplicações Angular são executadas no navegador do cliente, e isso costuma causar uma queda de desempenho no [Largest Contentful Paint (LCP)](https://web.dev/articles/lcp), ou seja, no momento em que o navegador renderiza pela primeira vez o maior conteúdo de uma página. É aqui que o [Angular SSR](https://angular.dev/guide/ssr) é útil: você pode gerar o HTML completo de uma página no servidor. Ele renderiza uma página do lado do cliente em HTML no servidor, que depois é inicializada no cliente. Ok, mas como isso funciona?
+
+> O [LCP](https://web.dev/articles/lcp) mede o momento em que o maior conteúdo de uma página fica visível para o usuário; já a métrica [FCP](https://web.dev/first-contentful-paint) mede quanto tempo o navegador leva para renderizar o primeiro trecho de conteúdo do DOM depois que um usuário navega até a sua página. Veja [a pontuação de desempenho do Lighthouse](https://web.dev/performance-scoring) para mais informações.
+
+
+## Como funciona?
+
+Com o Angular SSR, você entrega uma versão estática da página inicial da sua aplicação, enquanto a aplicação Angular completa carrega em segundo plano. A página inicial será apenas HTML e será exibida mesmo que o JavaScript esteja desabilitado. Você pode encontrar mais sobre a renderização no servidor no [guia Rendering on the Web](https://developers.google.com/web/updates/2019/02/rendering-on-the-web).
+
+## Uso
+
+A renderização do lado do servidor é uma das muitas técnicas das diretrizes de [Rendering on Web](https://developers.google.com/web/updates/2019/02/rendering-on-the-web), que pode:
+
+- Facilitar a indexação do seu site pelos rastreadores da web, para que ele apareça melhor nas buscas - melhorando a sua otimização para mecanismos de busca (SEO).
+- Mostrar a primeira página rapidamente - um carregamento inicial lento desmotiva os usuários (se levar mais de 3 segundos).
+- Melhorar o desempenho da sua aplicação - isso tem impacto positivo tanto no [First Contentful Paint](https://web.dev/first-contentful-paint) quanto no [Largest Contentful Paint](https://web.dev/articles/lcp).
+
+> Dá controle total sobre o SEO e as pré-visualizações em redes sociais e melhora o desempenho percebido geral da sua aplicação, ao permitir que os usuários vejam uma primeira visualização renderizada.
+
+## Adicionar SSR a uma aplicação Ignite UI existente
+
+### Etapa 1 - Adicionar @angular/ssr
+
+Usando um schematic do Angular CLI, podemos executar o seguinte comando:
+
+```
+ng add @angular/ssr
+```
+
+Este schematic fará várias alterações nas configurações do cliente e do servidor da sua aplicação, além de adicionar arquivos extras à estrutura do projeto.
+
+### Etapa 2 - Inicie a sua aplicação Angular SSR
+
+Execute o seguinte comando:
+
+```
+ng serve
+```
+
+## Crie uma nova aplicação do zero
+
+1. Use `ng new` ou o comando `ig new` do [Ignite UI CLI](/general/cli/getting-started-with-cli). Como alternativa, use `ng new --ssr` para criar diretamente um novo projeto Angular SSR, pulando a etapa 3.
+2. Execute `ng add igniteui-angular`, que instala os pacotes npm da biblioteca no seu workspace e configura o projeto no diretório de trabalho atual para usar essa biblioteca.
+3. Adicione o Angular SSR com `ng add @angular/ssr`.
+4. Adicione componentes do Ignite UI for Angular - por exemplo, Grid, Calendar
+
+## Outras considerações
+
+- Se a sua aplicação usar outros objetos específicos do navegador, envolva o uso deles em uma instrução condicional, para que sejam usados pelo Angular somente no navegador. Você pode fazer isso importando as funções `isPlatformBrowser` e `isPlatformServer` de `@angular/common`, injetando o token `PLATFORM_ID` no seu componente e executando as funções importadas para verificar se você está no servidor ou no navegador.
+- Se usar ElementRef para manipular elementos HTML, não use o nativeElement para alterar atributos do elemento. Em vez disso, injete e use os [métodos do Renderer2](https://alligator.io/angular/using-renderer2).
+- Todas as URLs de requisições ao servidor devem ser absolutas; lembre-se de que requisições de dados feitas a URLs relativas falharão quando executadas no servidor.
+- Para tratar eventos do navegador, a equipe do Angular oferece a função [withEventReplay()](https://angular.dev/guide/hydration#capturing-and-replaying-events). Esse recurso permite capturar todos os eventos que acontecem antes da hidratação e reproduzi-los assim que a hidratação for concluída.
+- Se usar o IgxIconService para registrar ícones, certifique-se de ter configurado o [provideHttpClient()](https://angular.dev/api/common/http/provideHttpClient) nos seus providers.
+- Ao usar o Angular SSR, o servidor pré-renderiza as páginas que ficarão visíveis para os usuários; no entanto, as interações serão limitadas. Quando a aplicação do lado do cliente terminar de carregar em segundo plano, ela passará, sem interrupções, da exibição das páginas renderizadas no servidor para a aplicação do lado do cliente.
+
+## Recursos úteis
+
+<hr/>
+
+- [Guia do Angular SSR](https://angular.dev/guide/ssr)
+- [Terminologia de renderização do lado do servidor](https://developers.google.com/web/updates/2019/02/rendering-on-the-web)
+- [Primeiros passos com o Ignite UI for Angular](/general/getting-started)
+- [Guia do Ignite UI CLI](/general/cli/step-by-step-guide-using-cli)
+- [Ignite UI for Angular Schematics](/general/cli/step-by-step-guide-using-angular-schematics)

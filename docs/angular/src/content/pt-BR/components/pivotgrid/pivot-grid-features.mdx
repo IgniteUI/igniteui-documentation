@@ -1,0 +1,226 @@
+---
+title: "Recursos do Angular Pivot Grid | Tabelas dinâmicas | Infragistics"
+description: "Crie pivot grids e tabelas dinâmicas Angular rápidos e responsivos com o Ignite UI for Angular. Realize análises complexas de dados por meio de dados dinâmicos."
+keywords: angular pivot grid, Angular pivot table, ignite ui for angular, pivot grid features, pivot features
+license: commercial
+_language: pt-BR
+llms:
+  description: "As classes dos componentes pivot grid e flat grid herdam de uma base comum e, por isso, compartilham algumas funcionalidades e recursos."
+---
+
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+
+
+# Recursos do Angular Pivot Grid
+
+As classes dos componentes pivot grid e flat grid herdam de uma base comum e, por isso, compartilham algumas funcionalidades e recursos.
+
+<DocsAside type="info">
+Alguns recursos não têm comportamento significativo no contexto de uma tabela dinâmica e, por isso, não podem ser ativados para `IgxPivotGrid`. Entre eles estão:
+
+- Operações CRUD
+- Agrupamento
+- Fixação de linhas/colunas
+- Resumos
+- Paginação
+</DocsAside>
+
+O componente Pivot Grid tem recursos e funcionalidades adicionais relacionados às suas dimensões, descritos abaixo.
+
+<Sample src="/pivot-grid/pivot-grid-features" height={870} alt="Exemplo de Angular Pivot Grid com Pivot Selector" />
+
+## Filtragem de dimensões
+
+Todas as dimensões (filtros, linhas, colunas) podem ser filtradas pela UI de chips ou pela API. Essa funcionalidade é embutida e ativada por padrão.
+
+<DocsAside type="info">
+Você pode usar a dimensão de filtro para filtrar valores de dados que não fazem parte da visualização dinâmica.
+</DocsAside>
+
+A UI de filtragem pode ser aberta pelo ícone de filtro dos chips de dimensão e permite a filtragem no estilo Excel dos valores exclusivos da dimensão.
+
+<DocsAside type="info">
+Se não houver espaço para todos os chips de filtro, o pivot grid mostrará os que ficaram de fora em um menu suspenso. Os usuários finais podem acessá-los e manipulá-los ali.
+</DocsAside>
+
+As dimensões também podem ser filtradas inicialmente pela configuração de dimensão em `pivotConfiguration`, com a propriedade `filter` da dimensão.
+Ela pode ser definida como um novo `FilteringExpressionsTree` com a condição de filtro correspondente, por exemplo:
+
+```typescript
+public filterExpTree = new FilteringExpressionsTree(FilteringLogic.And);
+
+constructor() {
+    this.filterExpTree.filteringOperands = [
+        {
+            condition: IgxStringFilteringOperand.instance().condition('equals'),
+            fieldName: 'SellerName',
+            searchVal: 'Stanley'
+        }
+    ];
+}
+
+public pivotConfigHierarchy: IPivotConfiguration = {
+    filters: [
+        {
+            memberName: 'SellerName',
+            enabled: true,
+            filter: this.filterExpTree
+        }
+    ]
+}
+```
+
+## Ordenação de dimensões
+
+Os valores de dimensão em `rows` ou `columns` podem ser ordenados pelo chip correspondente ou pela API. Essa funcionalidade é embutida e ativada por padrão.
+
+A dimensão é ordenada ao clicar no chip correspondente, e, como resultado, os valores da dimensão são ordenados em ordem crescente/decrescente.
+
+A ordenação também pode ser aplicada inicialmente pela propriedade `sortDirection` da definição da dimensão.
+
+```typescript
+public pivotConfigHierarchy: IPivotConfiguration = {
+    rows: [
+        {
+            memberName: 'SellerName',
+            enabled: true,
+            sortDirection: SortingDirection.Asc
+        }
+    ]
+}
+```
+
+## Redimensionamento de dimensões
+
+As dimensões de linha podem ser redimensionadas de forma semelhante ao redimensionamento de colunas, por meio de um indicador de redimensionamento localizado na borda direita das células.
+Elas também podem ser ajustadas automaticamente com um clique duplo no indicador de redimensionamento ou pela API correspondente - `autoSizeRowDimension`.
+
+Um tamanho diferente também pode ser definido inicialmente pela propriedade `width` disponível na definição da dimensão:
+
+```typescript
+public pivotConfigHierarchy: IPivotConfiguration = {
+    rows: [
+        {
+            memberName: 'Country',
+            enabled: true,
+            width: '400px'
+        }
+    ]
+}
+```
+
+<DocsAside type="info">
+A partir da versão `18.0.0` do IgniteUI for Angular, o `width` das dimensões de linha também pode ser definido como `auto`.
+</DocsAside>
+
+## Seleção de dimensões
+
+O Pivot Grid oferece suporte à seleção única, que é habilitada da mesma forma que no grid base. Por exemplo:
+
+```html
+<igx-pivot-grid #grid1 [rowSelection]="'single'" [data]="data" [pivotConfiguration]="pivotConfigHierarchy">
+</igx-pivot-grid>
+```
+
+Quando houver várias dimensões de linha ou coluna que criem grupos abrangendo várias linhas/colunas, a seleção é aplicada a todas as células que pertencem ao grupo selecionado.
+
+## Modo super compacto
+
+O componente `IgxPivotGrid` oferece um `superCompactMode` `@Input`. Ele é adequado para casos que exigem muitas células na tela ao mesmo tempo. Se ativada, a opção ignora a variável `ig-size` do pivot grid. Ativar `superCompactMode` também define a variável `ig-size` como `ig-size-small` para cada componente filho (como `IgxChip`) que não tenha a opção `superCompactMode`.
+
+```html
+<igx-pivot-grid [superCompactMode]="true"></igx-pivot-grid>
+```
+
+## Coluna de resumo adicional
+
+Quando uma dimensão `column` define uma hierarquia, o pivot grid renderiza uma coluna adicional de resumo/total, que acumula as agregações de todas as colunas dentro do grupo. Quando o grupo é recolhido, apenas a coluna de resumo permanece. Quando o grupo é expandido, a coluna de resumo adicional aparece no fim do grupo.
+
+## Cabeçalhos das dimensões de linha
+
+A partir da versão `18.0.0` do IgniteUI for Angular, os cabeçalhos dos valores das dimensões de linha podem ser ativados pela opção `pivotUI`:
+
+```html
+<igx-pivot-grid [pivotUI]="{ showRowHeaders: true }">
+</igx-pivot-grid>
+```
+
+## Layout das dimensões de linha
+
+O `IgxPivotGridComponent` oferece suporte a duas formas de renderizar as dimensões de linha. Isso pode ser controlado definindo a propriedade `rowLayout` da opção `pivotUI`.
+
+```html
+  <igx-pivot-grid [pivotUI]="pivotUI">
+  </igx-pivot-grid>
+```
+
+```typescript
+public pivotUI: IPivotUISettings = { rowLayout: PivotRowLayoutType.Horizontal };
+```
+
+O layout padrão do grid é `Vertical`. Nesse modo, a hierarquia das dimensões se expande verticalmente. A alternativa é `Horizontal`. Nesse modo, os filhos de uma única dimensão de linha, quando expandidos, são exibidos horizontalmente no mesmo layout de várias linhas do pai. No exemplo abaixo, você pode alternar entre os dois modos para compará-los.
+
+Observe que, no modo `Horizontal`, os agregados da dimensão de linha pai não ficam visíveis, a menos que a linha pai esteja recolhida.
+Para mostrar a dimensão pai em um resumo de linha, a propriedade `horizontalSummary` pode ser ativada para a dimensão correspondente.
+
+```ts
+rows: [
+    {
+        memberFunction: () => 'All Products',
+        memberName: 'AllProducts',
+        enabled: true,
+        horizontalSummary: true,
+        width: "150px",
+        childLevel: {
+            //...
+        }
+    }
+]
+```
+
+Além disso, a posição do resumo pode ser alterada pela propriedade `horizontalSummariesPosition` da opção `pivotUI`. Ela pode ser definida como `Top` (padrão) ou `Bottom`.
+
+```ts
+public pivotUI: IPivotUISettings = { rowLayout: PivotRowLayoutType.Horizontal, horizontalSummariesPosition: PivotSummaryPosition.Bottom };
+```
+
+<DocsAside type="info">
+As opções de resumo de linha - `horizontalSummary` e `horizontalSummariesPosition` - se aplicam apenas ao modo de layout `Horizontal`.
+</DocsAside>
+
+<Sample src="/pivot-grid/pivot-grid-layout" height={870} alt="Angular Pivot Grid com layout horizontal de dimensões de linha" />
+
+## Interações
+
+### Navegação pelo teclado
+
+A navegação por teclado em `IgxPivotGrid` funciona de forma semelhante à de `IgxGrid`. O pivot grid é dividido em três áreas - `rows`, `columns`, `values`. As áreas de `rows` e `columns` são consideradas cabeçalhos para fins de navegação, enquanto a área de `values` é o corpo.
+As setas do teclado permitem navegar pelo elemento ativo somente dentro da área atual.
+
+### Arrastar e soltar dimensões
+
+As dimensões são representadas por chips, que podem ser arrastados e soltos.
+Todos os chips podem alterar a sua ordem dentro da área por arrastar e soltar.
+Os chips de `rows`, `column`, `filter` (chips de dimensão) podem ser movidos de qualquer uma dessas áreas para qualquer outra, em qualquer posição.
+Os chips dessas áreas não podem ser movidos para a área `values`, e os chips da área `values` não podem ser movidos para nenhuma das áreas de dimensão.
+
+<DocsAside type="info">
+Os chips do Pivot Grid não podem ser movidos para o Pivot Data Selector, e os itens do Pivot Data Selector não podem ser movidos para o Pivot Grid.
+</DocsAside>
+
+## Referências da API
+- <ApiLink type="PivotGrid" />
+- <ApiLink type="PivotDataSelector" />
+## Recursos adicionais
+
+
+- [Visão geral do Angular Pivot Grid](/pivotgrid/pivot-grid)
+- [Agregações personalizadas do Angular Pivot Grid](/pivotgrid/pivot-grid-custom)
+
+Nossa comunidade é ativa e sempre receptiva a novas ideias.
+
+- [Ignite UI for Angular **Fóruns**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

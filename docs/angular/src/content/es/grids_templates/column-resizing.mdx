@@ -1,0 +1,408 @@
+<ComponentBlock for="Grid">
+
+---
+title: "Redimensionamiento de columnas en Angular Grid: Ignite UI for Angular"
+description: "Empiece a usar el redimensionamiento de columnas de Angular Grid para cambiar el ancho de las columnas al instante. El redimensionamiento de arrastre en Angular nunca había sido tan fácil. ¡Pruébelo gratis!"
+keywords: "redimensionamiento de columnas de grid, igniteui for angular, infragistics"
+license: commercial
+_language: es
+llms:
+  description: "Con el redimensionamiento diferido de columnas, el usuario verá un indicador de redimensionamiento temporal mientras la operación de arrastre en Angular está en curso."
+---
+
+</ComponentBlock>
+<ComponentBlock for="TreeGrid">
+
+---
+title: "Redimensionamiento de columnas en Angular Tree Grid: Ignite UI for Angular"
+description: "Empiece a usar el redimensionamiento de columnas de Angular Tree Grid para cambiar el ancho de las columnas al instante. El redimensionamiento de arrastre en Angular nunca había sido tan fácil. ¡Pruébelo gratis!"
+keywords: "redimensionamiento de columnas de grid, igniteui for angular, infragistics"
+license: commercial
+_canonicalLink: grid/column-resizing
+_language: es
+llms:
+  description: "Con el redimensionamiento diferido de columnas, el usuario verá un indicador de redimensionamiento temporal mientras la operación de arrastre en Angular está en curso."
+---
+
+</ComponentBlock>
+<ComponentBlock for="HierarchicalGrid">
+
+---
+title: "Redimensionamiento de columnas en Angular Hierarchical Grid: Ignite UI for Angular"
+description: "Empiece a usar el redimensionamiento de columnas de Angular Hierarchical Grid para cambiar el ancho de las columnas al instante. El redimensionamiento de arrastre en Angular nunca había sido tan fácil. ¡Pruébelo gratis!"
+keywords: "redimensionamiento de columnas de grid, igniteui for angular, infragistics"
+license: commercial
+_canonicalLink: grid/column-resizing
+_language: es
+llms:
+  description: "Con el redimensionamiento diferido de columnas, el usuario verá un indicador de redimensionamiento temporal mientras la operación de arrastre en Angular está en curso."
+---
+
+</ComponentBlock>
+
+
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+# Redimensionamiento de columnas de {ComponentTitle} en Angular
+
+Con el redimensionamiento diferido de columnas, el usuario verá un indicador de redimensionamiento temporal mientras la operación de arrastre en Angular está en curso. El nuevo ancho de columna se aplica una vez terminada la operación de arrastre.
+
+## Ejemplo de redimensionamiento de columnas de {ComponentTitle} en Angular
+
+<ComponentBlock for="Grid">
+
+<Sample src="/grid/grid-resizing-sample" height={550} alt="Ejemplo de redimensionamiento de columnas de {ComponentTitle} en Angular" />
+
+</ComponentBlock>
+<ComponentBlock for="TreeGrid">
+
+<Sample src="/tree-grid/treegrid-column-resizing" height={550} alt="Ejemplo de redimensionamiento de columnas de {ComponentTitle} en Angular" />
+
+</ComponentBlock>
+<ComponentBlock for="HierarchicalGrid">
+
+<Sample lob src="/hierarchical-grid/hierarchical-grid-resizing" height={510} alt="Ejemplo de redimensionamiento de columnas de {ComponentTitle} en Angular" />
+
+</ComponentBlock>
+
+El **redimensionamiento de columnas** también se habilita a nivel de columna individual, lo que significa que <ApiLink type="{ComponentApiType}" /> puede tener una combinación de columnas redimensionables y no redimensionables. Esto se hace mediante la entrada <ApiLink type="Column" member="resizable" label="resizable" /> de <ApiLink type="Column" label="igx-column" />.
+
+<ComponentBlock for="Grid, TreeGrid, PivotGrid">
+
+```html
+<igx-column [field]="'ID'" width="100px" [resizable]="true"></igx-column>
+```
+
+</ComponentBlock>
+<ComponentBlock for="HierarchicalGrid">
+
+```html
+<igx-column [field]="'Artist'" [resizable]="true"></igx-column>
+```
+
+</ComponentBlock>
+Puede suscribirse al evento <ApiLink type="{ComponentApiType}" member="columnResized" label="columnResized" /> de <ApiLink type="{ComponentApiType}" /> para implementar una lógica personalizada cuando se redimensiona una columna. Tanto el ancho anterior como el nuevo de la columna, así como el objeto <ApiLink type="Column" />, se exponen a través de los argumentos del evento.
+
+<ComponentBlock for="Grid">
+
+```html
+<igx-grid [data]="data" (columnResized)="onResize($event)" [autoGenerate]="false">
+    <igx-column [field]="'ID'" width="100px" [resizable]="true"></igx-column>
+    <igx-column [field]="'CompanyName'" width="100px" [resizable]="true"></igx-column>
+</igx-grid>
+```
+
+```typescript
+public onResize(event) {
+    this.col = event.column;
+    this.pWidth = event.prevWidth;
+    this.nWidth = event.newWidth;
+}
+```
+
+</ComponentBlock>
+<ComponentBlock for="TreeGrid">
+
+```html
+<igx-tree-grid [data]="data" primaryKey="ID" foreignKey="ParentID" (columnResized)="onResize($event)" [autoGenerate]="false">
+    <igx-column [field]="'Title'" [resizable]="true" [width]="'100px'"></igx-column>
+    <igx-column [field]="'HireDate'" [resizable]="true" [width]="'100px'"></igx-column>
+</igx-tree-grid>
+```
+
+```typescript
+public onResize(event) {
+    this.col = event.column;
+    this.pWidth = event.prevWidth;
+    this.nWidth = event.newWidth;
+}
+```
+
+</ComponentBlock>
+<ComponentBlock for="HierarchicalGrid">
+
+```html
+  <igx-hierarchical-grid class="hgrid" [data]="localdata" (columnResized)="onResize($event)" [autoGenerate]="false"
+        [height]="'600px'" [width]="'100%'" #hierarchicalGrid>
+        <igx-column field="Artist" [resizable]="true"></igx-column>
+        ...
+</igx-hierarchical-grid>
+```
+
+```typescript
+public onResize(event) {
+    this.col = event.column;
+    this.pWidth = event.prevWidth;
+    this.nWidth = event.newWidth;
+}
+```
+
+</ComponentBlock>
+
+## Redimensionar columnas en píxeles o porcentajes
+
+Según el escenario del usuario, el ancho de columna puede definirse en píxeles, en porcentajes o en una combinación de ambos. La función de redimensionamiento de columnas admite todos estos escenarios. De forma predeterminada, si una columna no tiene ancho establecido, ocupa el espacio disponible con un ancho definido en píxeles.
+
+Esto significa que es posible la siguiente configuración:
+
+<ComponentBlock for="Grid">
+
+```html
+<igx-grid [data]="data" (columnResized)="onResize($event)" [autoGenerate]="false">
+    <igx-column [field]="'ID'" width="10%" [resizable]="true"></igx-column>
+    <igx-column [field]="'CompanyName'" width="100px" [resizable]="true"></igx-column>
+    <igx-column [field]="'ContactTitle'" [resizable]="true"></igx-column>
+</igx-grid>
+```
+
+</ComponentBlock>
+<ComponentBlock for="TreeGrid">
+
+```html
+<igx-tree-grid [data]="data" primaryKey="ID" foreignKey="ParentID" (columnResized)="onResize($event)" [autoGenerate]="false">
+    <igx-column [field]="'Title'" [resizable]="true" [width]="'10%'"></igx-column>
+    <igx-column [field]="'HireDate'" [resizable]="true" [width]="'100px'"></igx-column>
+    <igx-column [field]="'Age'" dataType="number" [resizable]="true"></igx-column>
+</igx-tree-grid>
+```
+
+</ComponentBlock>
+<ComponentBlock for="HierarchicalGrid">
+
+```html
+  <igx-hierarchical-grid class="hgrid" [data]="localdata" (columnResized)="onResize($event)" [autoGenerate]="false"
+        [height]="'600px'" [width]="'100%'" #hierarchicalGrid>
+        <igx-column field="Artist" [resizable]="true" [width]="'10%'"></igx-column>
+        <igx-column field="GrammyNominations" [resizable]="true" [width]="'100px'"></igx-column>
+        <igx-column field="GrammyAwards" [resizable]="true"></igx-column>
+        ...
+</igx-hierarchical-grid>
+```
+
+</ComponentBlock>
+
+<DocsAside type="info">
+El redimensionamiento funciona de forma ligeramente distinta para las columnas definidas en píxeles y en porcentajes.
+</DocsAside>
+
+**Píxeles**
+
+El redimensionamiento de columnas con ancho en píxeles funciona sumando o restando directamente al tamaño de la columna el desplazamiento horizontal del ratón.
+
+**Porcentajes**
+
+Al redimensionar columnas con ancho en porcentajes, el desplazamiento horizontal del ratón en píxeles se traduce aproximadamente en su porcentaje relativo al ancho de la cuadrícula. Las columnas siguen siendo adaptables, y cualquier redimensionamiento futuro de la cuadrícula también se reflejará en ellas.
+
+## Restringir el redimensionamiento de columnas
+
+También puede configurar los anchos mínimo y máximo permitidos para las columnas. Esto se hace mediante las entradas <ApiLink type="Column" member="minWidth" label="minWidth" /> y <ApiLink type="Column" member="maxWidth" label="maxWidth" /> de <ApiLink type="Column" label="igx-column" />. En este caso, la operación de arrastre del indicador de redimensionamiento se restringe para notificar al usuario que la columna no puede redimensionarse fuera de los límites definidos por <ApiLink type="Column" member="minWidth" label="minWidth" /> y <ApiLink type="Column" member="maxWidth" label="maxWidth" />.
+
+<ComponentBlock for="Grid, TreeGrid, PivotGrid">
+
+```html
+<igx-column [field]="'ID'" width="100px" [resizable]="true"
+            [minWidth]="'60px'" [maxWidth]="'230px'"></igx-column>
+```
+
+</ComponentBlock>
+<ComponentBlock for="HierarchicalGrid">
+
+```html
+<igx-column [field]="'Artist'" width="100px" [resizable]="true"
+            [minWidth]="'60px'" [maxWidth]="'230px'"></igx-column>
+```
+
+</ComponentBlock>
+
+Se permite combinar los tipos de valor del ancho mínimo y máximo de columna (píxeles o porcentajes). Si los valores mínimo y máximo se establecen en porcentajes, el tamaño de la columna correspondiente se limitará exactamente a esos tamaños, igual que con los píxeles.
+
+Esto significa que son posibles las siguientes configuraciones:
+
+<ComponentBlock for="Grid, TreeGrid, PivotGrid">
+
+```html
+<igx-column [field]="'ID'" width="10%" [resizable]="true"
+            [minWidth]="'60px'" [maxWidth]="'230px'"></igx-column>
+```
+
+</ComponentBlock>
+<ComponentBlock for="HierarchicalGrid">
+
+```html
+<igx-column [field]="'Artist'" width="100px" [resizable]="true"
+            [minWidth]="'60px'" [maxWidth]="'230px'"></igx-column>
+```
+
+</ComponentBlock>
+
+o
+
+<ComponentBlock for="Grid, TreeGrid, PivotGrid">
+
+```html
+<igx-column [field]="'ID'" width="100px" [resizable]="true"
+            [minWidth]="'5%'" [maxWidth]="'15%'"></igx-column>
+```
+
+</ComponentBlock>
+<ComponentBlock for="HierarchicalGrid">
+
+```html
+<igx-column [field]="'Artist'" width="100px" [resizable]="true"
+            [minWidth]="'60px'" [maxWidth]="'15%'"></igx-column>
+```
+
+</ComponentBlock>
+
+## Ajustar automáticamente el tamaño de las columnas al hacer doble clic
+
+Cada columna puede **ajustarse automáticamente** haciendo doble clic en el lado derecho del encabezado: la columna se ajustará al valor de celda visible más largo, incluido el propio encabezado. Este comportamiento está habilitado de forma predeterminada y no necesita configuración adicional. Sin embargo, la columna no se ajustará automáticamente si <ApiLink type="Column" member="maxWidth" label="maxWidth" /> está establecido en esa columna y el nuevo ancho supera ese valor de <ApiLink type="Column" member="maxWidth" label="maxWidth" />. En ese caso, la columna se ajustará según el valor <ApiLink type="Column" member="maxWidth" label="maxWidth" /> predefinido.
+
+También puede ajustar automáticamente el tamaño de una columna de forma dinámica usando el método <ApiLink type="Column" member="autosize" label="autosize()" /> expuesto en <ApiLink type="Column" />.
+
+<ComponentBlock for="Grid, TreeGrid, PivotGrid">
+
+```typescript
+@ViewChild('{ComponentObjectRef}') {ComponentObjectRef}: {ComponentName}Component;
+
+let column = this.{ComponentObjectRef}.columnList.filter(c => c.field === 'ID')[0];
+column.autosize();
+```
+
+</ComponentBlock>
+<ComponentBlock for="HierarchicalGrid">
+
+```typescript
+@ViewChild('{ComponentObjectRef}') {ComponentObjectRef}: {ComponentName}Component;
+
+let column = this.{ComponentObjectRef}.columnList.filter(c => c.field === 'Artist')[0];
+column.autosize();
+```
+
+</ComponentBlock>
+
+## Ajustar automáticamente el tamaño de las columnas al inicializar
+
+Cada columna puede configurarse para ajustarse automáticamente al inicializarse, estableciendo `width` en 'auto':
+
+```html
+<igx-column width='auto'></igx-column>
+```
+
+Cuando la columna se inicializa por primera vez en la vista, su ancho se ajusta al tamaño de la celda o del encabezado visible más largo. Tenga en cuenta que no se incluyen las celdas que están fuera de las filas visibles.
+Este enfoque está más optimizado en rendimiento que ajustar el tamaño después de la inicialización, y se recomienda especialmente cuando necesita ajustar automáticamente el tamaño de un gran número de columnas.
+
+<ComponentBlock for="Grid">
+
+<Sample src="/grid/grid-columnAutoResizing-sample" height={550} alt="Ejemplo de redimensionamiento de columnas de {ComponentTitle} en Angular" />
+
+</ComponentBlock>
+<ComponentBlock for="TreeGrid">
+
+<Sample src="/tree-grid/tree-grid-columnAutoSizing-sample" height={550} alt="Ejemplo de redimensionamiento de columnas de {ComponentTitle} en Angular" />
+
+</ComponentBlock>
+<ComponentBlock for="HierarchicalGrid">
+
+<Sample src="/hierarchical-grid/hGrid-columnAutosizing-sample" height={510} alt="Ejemplo de redimensionamiento de columnas de {ComponentTitle} en Angular" />
+
+</ComponentBlock>
+
+## Estilos
+
+Para empezar a dar estilo a la línea de redimensionamiento de columnas de {ComponentTitle}, debemos importar el archivo index, donde se exportan todas las funciones de tema y el mixin `tokens()`:
+
+```scss
+@use "igniteui-angular/theming" as *;
+
+// IMPORTANT: Prior to Ignite UI for Angular version 13 use:
+// @import '~igniteui-angular/lib/core/styles/themes/index';
+```
+
+La forma más sencilla de lograrlo es crear un tema nuevo que extienda <ApiLink kind="sass" module="themes" type="function-grid-theme" label="grid-theme" code={true} /> y acepte muchos parámetros, así como el parámetro `$resize-line-color`.
+
+<ComponentBlock for="Grid">
+
+``` scss
+$custom-grid-theme: grid-theme(
+  $resize-line-color: #0288d1
+);
+```
+
+</ComponentBlock>
+<ComponentBlock for="TreeGrid">
+
+``` scss
+$custom-grid-theme: grid-theme(
+  $resize-line-color: #dc38e8
+);
+```
+
+</ComponentBlock>
+<ComponentBlock for="HierarchicalGrid">
+
+``` scss
+$custom-grid-theme: grid-theme(
+  $resize-line-color: #07ea07
+);
+```
+
+</ComponentBlock>
+
+<DocsAside type="info">
+En lugar de codificar los valores de color como acabamos de hacer, podemos lograr más flexibilidad con los colores usando las funciones <ApiLink kind="sass" module="palettes" type="function-palette" label="palette" code={true} /> y <ApiLink kind="sass" module="palettes" type="function-color" label="color" code={true} />. Consulte el tema [`Palettes`](/themes/sass/palettes) para obtener orientación detallada sobre cómo usarlas.
+</DocsAside>
+
+El último paso es aplicar el tema del componente con `tokens()`:
+
+```scss
+:host {
+  @include tokens($custom-grid-theme);
+}
+```
+
+### Demostración
+
+<ComponentBlock for="Grid">
+
+<Sample src="/grid/grid-resize-line-styling-sample" height={550} alt="" />
+
+</ComponentBlock>
+<ComponentBlock for="TreeGrid">
+
+<Sample src="/tree-grid/treegrid-resize-line-styling" height={550} alt="" />
+
+</ComponentBlock>
+<ComponentBlock for="HierarchicalGrid">
+
+<Sample src="/hierarchical-grid/hierarchical-grid-resize-line-styling" height={550} alt="" />
+
+</ComponentBlock>
+
+<DocsAside type="info">
+El ejemplo no se verá afectado por el tema global seleccionado en `Change Theme`.
+</DocsAside>
+
+## Referencias de API
+- <ApiLink type="Column" />
+- <ApiLink type="{ComponentApiType}" />
+- <ApiLink kind="sass" module="themes" type="mixin-grid" label="Estilos de {ComponentName}Component" />
+## Recursos adicionales
+
+
+- [Descripción general de {ComponentTitle}](/{igPath}/{ComponentMainTopic})
+- [Virtualización y rendimiento](/{igPath}/virtualization)
+- [Paginación](/{igPath}/paging)
+- [Filtrado](/{igPath}/filtering)
+- [Ordenación](/{igPath}/sorting)
+- [Resúmenes](/{igPath}/summaries)
+- [Movimiento de columnas](/{igPath}/column-moving)
+- [Anclaje de columnas](/{igPath}/column-pinning)
+- [Selección](/{igPath}/selection)
+
+Nuestra comunidad está activa y siempre da la bienvenida a nuevas ideas.
+
+- [Ignite UI for Angular **Foros**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

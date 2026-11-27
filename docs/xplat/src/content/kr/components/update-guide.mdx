@@ -1,0 +1,122 @@
+---
+title: "업데이트 가이드 | Ignite UI for React | Infragistics"
+description: "Ignite UI for React 라이브러리의 최신 버전으로 업데이트하는 방법은 이 문서를 참조하십시오."
+keywords: "ignite ui for react, 업데이트, npm 패키지, material 컴포넌트"
+mentionedTypes: ["Input", "Button"]
+_language: ko
+llms:
+  description: "Ignite UI for React 버전 체계에서 첫 번째 숫자는 항상 코드가 지원하는 React의 주 버전과 일치하며, 두 번째 숫자는 주 버전 릴리스 전용입니다."
+---
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+
+# 업데이트 가이드
+
+Ignite UI for React 버전 체계에서 첫 번째 숫자는 항상 코드가 지원하는 React의 주 버전과 일치하며, 두 번째 숫자는 주 버전 릴리스 전용입니다. 주 버전 릴리스 사이에는 호환되지 않는 변경이 도입될 수 있습니다. Ignite UI for React의 각 릴리스에 대한 전체 변경 목록은 제품 [CHANGELOG](./general-changelog-dv-react.mdx)에서 확인할 수 있습니다.
+
+
+## 18.9.0에서 19.0.0까지
+
+이 릴리스에는 일부 React 컴포넌트 내부를 대대적으로 재작업한 내용이 포함되어 있으며, 이로 인해 **igniteui-react** 및 **igniteui-react-grids** 패키지에 다음과 같은 변경이 있습니다:
+
+### 일반
+
+#### 호환성 깨짐 변경
+
+- Ignite UI for React 컴포넌트는 이제 React 함수 컴포넌트를 사용하므로, **useRef**에서 얻은 참조는 더 이상 클래스 컴포넌트 인스턴스가 아니라 네이티브 요소에 대한 전달 참조가 됩니다. 많은 사용 사례는 그대로 유지될 수 있지만, DOM 요소 자체에 접근하기 위해 추가 속성이 필요 없는 것처럼 변경이 필요할 수도 있습니다.
+- 컴포넌트는 이제 모든 속성 타입에서 대체 문자열 유니언(예: **boolean | string** 또는 **number | string**)을 받지 않습니다. 또한 문자열 유니언 타입은 더 이상 대소문자를 구분하지 않습니다.
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrColumn dataType="String" sortable="true"></IgrColumn>
+```
+
+</PlatformBlock>
+
+다음과 같이 바뀝니다:
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrColumn dataType="string" sortable={true}></IgrColumn>
+```
+
+</PlatformBlock>
+
+- 컴포넌트 이벤트에는 이제 **on** 접두사가 붙습니다. 즉:
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrGrid columnPin={handlePinning}></IgrGrid>
+```
+
+</PlatformBlock>
+
+다음과 같이 바뀝니다
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrGrid onColumnPin={handlePinning}></IgrGrid>
+```
+
+</PlatformBlock>
+
+- 컴포넌트 이벤트는 이제 첫 번째 인수로 `sender` 대신 표준 _CustomEvent_ 인수 하나를 발생시킵니다. 따라서 *sender.nativeElement*와 같은 사용자 지정 속성은 더 이상 사용할 수 없지만, 네이티브 이벤트 속성은 모두 사용할 수 있습니다. 또한 이벤트 인수의 타입은 특정 사용자 지정 이벤트의 별칭으로 제공되므로, `detail`에 접근하는 사용 방식은 그대로 유지됩니다. 새 핸들러 시그니처에서 `event.detail`는 같고, `event.target`는 발신자에 해당하는 DOM 요소입니다:
+
+<PlatformBlock for="React">
+
+```tsx
+    const handlePinning = (sender: IgrGridBaseDirective, event: IgrPinColumnCancellableEventArgs) => {};
+```
+
+</PlatformBlock>
+
+다음과 같이 바뀝니다:
+
+<PlatformBlock for="React">
+
+```tsx
+    const handlePinning = (event: IgrPinColumnCancellableEventArgs) => {}
+    // equivalent to
+    const handlePinning = (event: CustomEvent<IgrPinColumnCancellableEventArgsDetail>) => {}
+```
+
+</PlatformBlock>
+
+- 컴포넌트는 이제 기본적으로 기능이 없는 `name` 속성을 갖지 않습니다. `name` 속성은 **igniteui-react** 컴포넌트, 특히 네이티브 기능이 있는 [IgrInput](./inputs/input.mdx) 및 [IgrCombo](./inputs/combo/overview.mdx) 같은 폼 입력에만 남아 있습니다.
+- Ignite UI for React 컴포넌트는 React의 [문서](https://react.dev/learn/rendering-lists#keeping-list-items-in-order-with-key)에 따라 필요한 경우를 제외하고는 더 이상 `key` 속성을 요구하지 않습니다
+- [IgrDataGrid](./grids/data-grid.mdx)는 더 이상 **igniteui-react-grids** 패키지의 일부가 아닙니다. **igniteui-react-data-grids**로 옮겨졌으며, 이로 인해 **igniteui-react-grids**는 더 가벼워졌습니다.
+- 버전 **18.9.0**에서 클래스로 노출되었던 여러 타입이 더 이상 그렇지 않습니다. 이제 이들은 타입으로 내보내지며, 다음과 같이 사용할 수 있습니다:
+
+<PlatformBlock for="React">
+
+```tsx
+const pivotConfiguration = new IgrPivotConfiguration();
+```
+
+</PlatformBlock>
+
+다음과 같이 바뀝니다:
+
+<PlatformBlock for="React">
+
+```tsx
+const pivotConfiguration: IgrPivotConfiguration = {
+  rows: [],
+  columns: [],
+  values: []
+}
+```
+
+</PlatformBlock>
+
+- <ApiLink pkg="core" type="Button" />
+  - **호환성 깨짐 변경**
+  - `clicked` 이벤트가 제거되었습니다. 대신 네이티브 <ApiLink pkg="core" type="Button" member="click" label="onClick" />를 사용하십시오.
+- <ApiLink pkg="core" type="Input" />
+  - **호환성 깨짐 변경**
+  - `inputOccurred` 이벤트의 이름이 <ApiLink type="Input" member="onInput" label="onInput" />(으)로 바뀌었습니다

@@ -1,0 +1,328 @@
+---
+title: "Componente Angular Banner – Ignite UI for Angular | Infragistics | Licencia MIT"
+description: "Integre fácilmente un mensaje breve y no intrusivo (con acciones opcionales) usando el componente Banner de Ignite UI for Angular."
+keywords: "componente Angular Banner, control Angular Banner, Ignite UI for Angular, controles de interfaz, widgets de Angular, widgets web, widgets de interfaz, Angular, componentes de interfaz de Angular"
+license: MIT
+_language: es
+llms:
+  description: "El componente Angular Banner permite mostrar de forma destacada un mensaje a los usuarios de su aplicación, de un modo menos efímero que un snackbar y menos intrusivo que un diálogo."
+---
+
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+# Descripción general del componente Angular Banner
+
+<div class="highlight">
+El componente Angular Banner permite mostrar de forma destacada un mensaje a los usuarios de su aplicación, de un modo menos efímero que un snackbar y menos intrusivo que un diálogo. El banner también se puede configurar para mostrar botones de acción personalizados y un icono.
+</div>
+
+## Ejemplo de Angular Banner
+
+<Sample src="/notifications/banner-sample-1" height={530} alt="Ejemplo de Angular Banner" />
+
+<hr/>
+
+## Primeros pasos con Ignite UI for Angular Banner
+
+Para empezar con el componente Ignite UI for Angular Banner, primero debe instalar Ignite UI for Angular. En una aplicación Angular existente, escriba el siguiente comando:
+
+```cmd
+ng add igniteui-angular
+```
+
+Para una introducción completa a Ignite UI for Angular, lea el tema [_primeros pasos_](./general/getting-started.mdx).
+
+El siguiente paso es importar `IgxBannerModule` en el archivo **app.module.ts**.
+
+```typescript
+// app.module.ts
+
+...
+import { IgxBannerModule } from 'igniteui-angular/banner';
+// import { IgxBannerModule } from '@infragistics/igniteui-angular'; for licensed package
+
+@NgModule({
+    ...
+    imports: [..., IgxBannerModule],
+    ...
+})
+export class AppModule {}
+```
+
+Como alternativa, a partir de `16.0.0` puede importar `IgxBannerComponent` como dependencia independiente, o usar el token [`IGX_BANNER_DIRECTIVES`](https://github.com/IgniteUI/igniteui-angular/blob/master/projects/igniteui-angular/banner/src/banner/public_api.ts) para importar el componente y todos sus componentes y directivas de apoyo.
+
+```typescript
+// home.component.ts
+
+...
+import { IGX_BANNER_DIRECTIVES } from 'igniteui-angular/banner';
+// import { IGX_BANNER_DIRECTIVES } from '@infragistics/igniteui-angular'; for licensed package
+
+@Component({
+    selector: 'app-home',
+    template: `
+    <igx-banner>
+        You are currently offline.
+    </igx-banner>
+    `,
+    styleUrls: ['home.component.scss'],
+    standalone: true,
+    imports: [IGX_BANNER_DIRECTIVES]
+    /* or imports: [IgxBannerComponent] */
+})
+export class HomeComponent {}
+```
+
+
+<DocsAside type="info">
+Este componente usa Material Icons. Añada el siguiente enlace a su `index.html`: `<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">`
+</DocsAside>
+
+Ahora que ha importado el módulo o las directivas de Ignite UI for Angular Banner, puede empezar con una configuración básica del componente `igx-banner`.
+
+## Uso del componente Angular Banner
+
+### Mostrar banner
+
+Para mostrar el componente banner, use su método <ApiLink type="Banner" member="open" label="open()" /> y llámelo al hacer clic en un botón. El banner aparece en la posición del elemento en la plantilla de la página, desplazando el resto del contenido. Normalmente muestra contenido no intrusivo que requiere una interacción mínima del usuario para cerrarse.
+
+```html
+{/*banner.component.html*/}
+
+<igx-icon (click)="connectionBanner.open()">refresh</igx-icon>
+...
+<igx-banner #connectionBanner>
+    You are currently offline.
+</igx-banner>
+
+```
+
+<DocsAside type="info">
+`IgxBannerModule` incluye un botón predeterminado del banner, `Dismiss`, que cierra el banner.
+</DocsAside>
+
+## Ejemplos
+
+<ApiLink type="Banner" /> permite crear plantillas de su contenido ajustándose lo más posible a las pautas de Material Design para banners.
+
+### Cambiar el mensaje del banner
+
+Configurar el mensaje que se muestra en el banner es fácil: basta con cambiar el contenido que pasa a la etiqueta `igx-banner`. El texto aparecerá en el área del banner indicada y el banner usará su plantilla predeterminada para mostrarlo. A continuación, cambiaremos el contenido de nuestro banner de ejemplo por uno un poco más descriptivo:
+
+```html
+{/*banner.component.html*/}
+<igx-banner #connectionBanner>
+    You have lost connection to the internet. This app is offline.
+</igx-banner>
+```
+
+### Añadir un icono
+
+Se puede mostrar un [`igx-icon`](./layouts/icon.mdx) en el banner pasándolo al contenido del banner. El icono siempre se colocará al principio del mensaje del banner.
+
+<DocsAside type="info">
+Si se insertan varios elementos `igx-icon` como descendientes directos del banner, el banner intentará colocarlos todos al principio. Se recomienda encarecidamente pasar solo un `igx-icon` directamente al banner.
+</DocsAside>
+
+Para pasar un `igx-icon` a su banner, basta con insertarlo en el contenido del banner:
+
+```html
+{/*banner.component.html*/}
+<igx-banner #connectionBanner>
+    <igx-icon>signal_wifi_off</igx-icon>
+    You have lost connection to the internet. This app is offline.
+</igx-banner>
+```
+
+Si quiere usar un `igx-icon` en el mensaje del banner, envuélvalo en una etiqueta `span`:
+
+```html
+{/*banner.component.html*/}
+<igx-banner #connectionBanner>
+    You have lost connection to the internet. This app is offline.
+    <span>
+        <igx-icon>signal_wifi_off</igx-icon>
+    </span>
+</igx-banner>
+```
+
+### Cambiar el botón del banner
+
+`IgxBannerModule` expone una directiva para crear plantillas de los botones del banner: <ApiLink type="BannerActionsDirective" />. Esta directiva le permite reemplazar el botón predeterminado del banner (`Dismiss`) y añadir acciones personalizadas definidas por el usuario.
+
+```html
+{/*banner.component.html*/}
+<igx-banner #connectionBanner>
+    <igx-icon>signal_wifi_off</igx-icon>
+    You have lost connection to the internet. This app is offline.
+    <igx-banner-actions>
+        <button igxButton igxRipple (click)="connectionBanner.toggle()">Toggle Banner</button>
+    </igx-banner-actions>
+</igx-banner>
+```
+
+<Sample src="/notifications/banner-sample-2" height={530} alt="" />
+
+### Aplicar animaciones personalizadas
+
+El componente banner incluye la propiedad <ApiLink type="Banner" member="animationSettings" label="animationSettings" />, que permite aplicar animaciones personalizadas de apertura y cierre. Los desarrolladores pueden elegir entre animaciones definidas por ellos mismos y las de nuestro <ApiLink kind="sass" module="animations" label="Conjunto de animaciones" code={true} />. Las animaciones predeterminadas que usa el banner son `growVerIn` para la entrada y `growVerOut` para la salida.
+
+Cambiemos las animaciones que usa nuestro banner, de forma que se deslice al entrar y al salir:
+
+```html
+{/*banner.component.html*/}
+<igx-banner #connectionBanner [animationSettings]="animationSettings">
+    ...
+</igx-banner>
+```
+
+```typescript
+// banner.component.ts
+import { IgxBannerComponent } from 'igniteui-angular/banner';
+import { slideInLeft, slideOutRight } from 'igniteui-angular/animations'
+// import { IgxBannerComponent, slideInLeft, slideOutRight } from '@infragistics/igniteui-angular'; for licensed package
+...
+export class MyBannerComponent {
+    ...
+    public animationSettings = {
+        openAnimation: slideInLeft,
+        closeAnimation: slideOutRight
+    }
+    ...
+}
+```
+
+<Sample src="/notifications/banner-sample-3" height={530} alt="" />
+
+### Enlazar eventos
+
+El componente banner emite eventos cuando cambia su estado: <ApiLink type="Banner" member="opening" label="opening" /> y <ApiLink type="Banner" member="opened" label="opened" /> se llaman cuando el banner se muestra (antes y después, respectivamente), mientras que <ApiLink type="Banner" member="closing" label="closing" /> y <ApiLink type="Banner" member="closed" label="closed" /> se emiten cuando el banner se cierra. Los eventos _ing_ (<ApiLink type="Banner" member="opening" label="opening" />, <ApiLink type="Banner" member="closing" label="closing" />) se pueden cancelar: usan la interfaz `ICancelEventArgs` y el objeto emitido tiene una propiedad `cancel`. Si la propiedad `cancel` se establece en true, la acción y el evento de finalización correspondientes no se dispararán; por ejemplo, si cancelamos <ApiLink type="Banner" member="opening" label="opening" />, el método <ApiLink type="Banner" member="open" label="open()" /> del banner no terminará y el banner no se mostrará.
+
+Para cancelar un evento, enlácelo al objeto emitido y establezca su propiedad `cancel` en `true`.
+
+```html
+{/*banner.component.html*/}
+    <igx-banner #connectionBanner (opening)="handleOpen($event)">
+        ...
+    </igx-banner>
+```
+
+```typescript
+// banner.component.ts
+...
+export class MyBannerComponent {
+    ...
+    public handleOpen(event) {
+        event.cancel = true;
+    }
+}
+```
+
+<DocsAside type="info">
+Si se aplican los cambios anteriores, el banner nunca se abrirá, ya que el evento de apertura siempre se cancela.
+</DocsAside>
+
+## Ejemplo avanzado
+
+Creemos un banner con dos botones personalizados: uno para descartar la notificación y otro para activar la conexión. Podemos pasar controladores de acción personalizados usando el selector `igx-banner-actions`:
+
+```html
+{/*banner.component.html*/}
+<igx-banner class="offline-banner" #connectionBanner [animationSettings]="animationSettings">
+    <igx-icon>signal_wifi_off</igx-icon>
+        You have lost connection to the internet. This app is offline.
+    <igx-banner-actions>
+        <button igxButton igxRipple (click)="connectionBanner.close()">Continue Offline</button>
+        <button igxButton igxRipple (click)="wifiState = true">Turn On Wifi</button>
+    </igx-banner-actions>
+</igx-banner>
+```
+
+<DocsAside type="info">
+Según las pautas de [`Material Design`](https://material.io/design/components/banners.html#anatomy) de Google, un banner debe tener como máximo 2 botones. El `IgxBannerComponent` no limita explícitamente el número de elementos bajo la etiqueta `igx-banner-actions`, pero se recomienda encarecidamente usar hasta 2 si quiere cumplir las pautas de Material Design.
+</DocsAside>
+
+La opción de descartar (`'Continue Offline'`) no necesita ninguna lógica adicional, así que basta con que llame al método `close()`. La acción de confirmar (`'Turn On Wifi'`), sin embargo, requiere lógica adicional, por lo que tenemos que definirla en el componente. Después, crearemos un Observable `onNetworkStateChange` y nos suscribiremos a él. El último paso es llamar al método `refreshBanner()` en cada cambio, lo que alternará el banner según el valor de `wifiState`.
+
+El banner también tendrá un icono de WiFi en la barra de navegación. Como la suscripción se dispara ante cualquier cambio en `wifiState`, el icono no solo alternará el banner, sino que también cambiará según el estado de la conexión:
+
+```html
+{/*banner.component.html*/}
+<igx-navbar title="Gallery">
+    <igx-icon (click)="wifiState = !wifiState">
+        {{ wifiState ? 'signal_wifi_4_bar' : 'signal_wifi_off' }}
+    </igx-icon>
+</igx-navbar>
+```
+
+Por último, añadiremos un <ApiLink type="Toast" /> que muestre un mensaje sobre el estado del WiFi. Los resultados del banner con plantilla se pueden ver en la demostración siguiente:
+
+<Sample src="/notifications/banner-advanced-sample" height={530} alt="" />
+
+## Estilos
+
+Primero, para usar las funciones que expone el motor de temas, tenemos que importar el archivo index en nuestro archivo de estilos:
+
+```scss
+@use "igniteui-angular/theming" as *;
+
+// IMPORTANT: Prior to Ignite UI for Angular version 13 use:
+// @import '~igniteui-angular/lib/core/styles/themes/index';
+```
+
+Siguiendo el enfoque más sencillo, creamos un tema nuevo que extiende <ApiLink kind="sass" module="themes" type="function-banner-theme" label="banner-theme" code={true} /> y especificamos solo `$banner-background`. A partir de este valor, `$banner-message-color` y `$banner-illustration-color` se establecen automáticamente en negro o blanco, según cuál ofrezca mejor contraste con el fondo.
+
+```scss
+$custom-banner-theme: banner-theme(
+  $banner-background: #011627,
+);
+```
+
+<DocsAside type="info">
+En lugar de codificar los valores de color como acabamos de hacer, podemos lograr más flexibilidad con los colores usando las funciones <ApiLink kind="sass" module="palettes" type="function-palette" label="palette" code={true} /> y <ApiLink kind="sass" module="palettes" type="function-color" label="color" code={true} />. Consulte el tema [`Palettes`](./themes/sass/palettes.mdx) para obtener orientación detallada sobre cómo usarlas.
+</DocsAside>
+
+El último paso es pasar el tema personalizado del banner:
+
+```scss
+:host {
+    @include tokens($custom-banner-theme);
+}
+```
+
+<Sample src="/notifications/banner-styling" height={530} alt="" />
+
+<hr/>
+
+## Referencia de API
+
+<hr/>
+
+- <ApiLink type="Banner" />
+- <ApiLink type="BannerActionsDirective" />
+- <ApiLink kind="sass" module="themes" type="function-banner-theme" label="Estilos de IgxBannerComponent" />
+
+Componentes y/o directivas adicionales con API relacionadas que se han usado:
+
+- <ApiLink type="Card" />
+- <ApiLink type="Icon" />
+- <ApiLink type="Navbar" />
+- <ApiLink type="Toast" />
+
+## Dependencias de temas
+
+- <ApiLink kind="sass" module="themes" type="function-icon-theme" label="Tema de IgxIcon" />
+- <ApiLink kind="sass" module="themes" type="function-button-theme" label="Tema de IgxButton" />
+- <ApiLink kind="sass" module="themes" type="function-ripple-theme" label="Tema de IgxRipple" />
+- <ApiLink kind="sass" module="themes" type="function-expansion-panel-theme" label="Tema de IgxExpansionPanel" />
+
+## Recursos adicionales
+
+<hr/>
+
+Nuestra comunidad está activa y siempre da la bienvenida a nuevas ideas.
+
+- [Ignite UI for Angular **Foros**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

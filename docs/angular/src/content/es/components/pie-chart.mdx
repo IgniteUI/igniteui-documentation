@@ -1,0 +1,218 @@
+---
+title: "Gráfico circular de Angular | Herramienta de visualización de datos | Infragistics"
+description: "Use el gráfico circular de Angular de Infragistics para crear un gráfico circular con colores que muestre datos categóricos. ¡Conozca los elementos configurables del gráfico circular de Ignite UI for Angular!"
+keywords: "gráficos de Angular, gráfico circular, Ignite UI for Angular, Infragistics, enlace de datos, selección de sectores, explosión de sectores, animación"
+license: commercial
+mentionedTypes: ['XamPieChart','SliceSelectionMode','PieSliceOthersContext']
+_language: es
+llms:
+  description: "El componente de gráfico circular de Ignite UI for Angular es un componente especializado que renderiza un gráfico circular, formado por un área circular dividida en secciones."
+---
+
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+
+
+# Descripción general del gráfico circular de Angular
+
+El componente de gráfico circular de Ignite UI for Angular es un componente especializado que renderiza un gráfico circular, formado por un área circular dividida en secciones. Cada sección tiene una longitud de arco proporcional a su valor de datos subyacente.
+
+Este control se usa para representar datos categóricos. Es más eficaz cuando hay pocas categorías y cada categoría representa un porcentaje relativamente grande del total de los datos.
+
+## Ejemplo de gráfico circular de Angular
+
+<Sample src="/charts/pie-chart-overview" height={350} alt="Ejemplo de gráfico circular de Angular" />
+
+<hr/>
+
+{/*Angular, React, WebComponents*/}
+
+## Dependencias
+
+Al instalar el componente de gráficos también debe instalarse el paquete principal.
+
+<pre style="background:#141414;color:white;display:inline-block;padding:16x;margin-top:10px;font-family:'Consolas';border-radius:5px;width:100%">
+npm install --save igniteui-angular-core
+npm install --save igniteui-angular-charts
+</pre>
+
+{/*end: Angular, React, WebComponents*/}
+
+## Módulos necesarios
+
+El [`IgxPieChartComponent`]({environment:dvApiBaseUrl}/products/ignite-ui-angular/api/docs/typescript/latest/classes/igxpiechartcomponent.html) requiere los siguientes módulos:
+
+```ts
+// app.module.ts
+
+import { IgxPieChartModule } from 'igniteui-angular-charts';
+
+@NgModule({
+    imports: [
+        // ...
+        IgxPieChartModule,
+        // ...
+    ]
+})
+export class AppModule {}
+```
+
+<hr/>
+
+## Uso
+
+Ahora que el módulo del gráfico circular está importado, el siguiente paso es enlazarlo a datos.
+Para crear un gráfico circular, primero necesita datos a los que enlazarlo. El siguiente fragmento de código muestra cómo crear un origen de datos sencillo.
+
+```ts
+var data = [
+    { MarketShare: 30, Company: "Google",    },
+    { MarketShare: 30, Company: "Apple",     },
+    { MarketShare: 15, Company: "Microsoft", },
+    { MarketShare: 15, Company: "Samsung",   },
+    { MarketShare: 10, Company: "Other",     },
+];
+```
+
+El siguiente código muestra cómo enlazar el gráfico circular a los datos anteriores.
+
+```html
+<igx-pie-chart [dataSource]="data"
+               width="100%"
+               height="100%"
+               labelMemberPath="Company"
+               valueMemberPath="MarketShare">
+</igx-pie-chart>
+```
+
+<hr/>
+
+## Leyenda
+
+Para mostrar una leyenda junto al componente de gráfico circular, hay que crear un ItemLegend y asignarlo a la propiedad [`IgxLegendComponent`]({environment:dvApiBaseUrl}/products/ignite-ui-angular/api/docs/typescript/latest/classes/igxlegendcomponent.html). Después, [`legendLabelMemberPath`]({environment:dvApiBaseUrl}/products/ignite-ui-angular/api/docs/typescript/latest/classes/igxpiechartbasecomponent.html#legendlabelmemberpath) puede usarse para especificar qué propiedad de su modelo de datos utilizará para mostrar dentro de la leyenda cada sector del gráfico.
+
+Además, puede usar las propiedades [`legendItemTemplate`]({environment:dvApiBaseUrl}/products/ignite-ui-angular/api/docs/typescript/latest/classes/igxpiechartbasecomponent.html#legenditemtemplate) y [`legendItemBadgeTemplate`]({environment:dvApiBaseUrl}/products/ignite-ui-angular/api/docs/typescript/latest/classes/igxpiechartbasecomponent.html#legenditembadgetemplate) y las distintas propiedades de fuente de ItemLegend para personalizar aún más el aspecto de los elementos de la leyenda.
+
+```html
+<igx-pie-chart [dataSource]="data"
+               width="100%"
+               height="100%"
+               valueMemberPath="MarketShare"
+               labelMemberPath="Company"
+               legendLabelMemberPath="Company"
+               [legend]="PieChartLegend">
+</igx-pie-chart>
+```
+
+<Sample src="/charts/pie-chart-legend" height={350} alt="" />
+
+<hr/>
+
+## Categoría Others
+
+A veces, los datos subyacentes del componente de gráfico circular contienen muchos elementos con valores pequeños. En ese caso, la categoría Others permite agregar automáticamente varios valores de datos en un único sector
+
+En el siguiente ejemplo, [`othersCategoryThreshold`]({environment:dvApiBaseUrl}/products/ignite-ui-angular/api/docs/typescript/latest/classes/igxpiechartbasecomponent.html#otherscategorythreshold) está establecido en 2 y [`othersCategoryType`]({environment:dvApiBaseUrl}/products/ignite-ui-angular/api/docs/typescript/latest/classes/igxpiechartbasecomponent.html#otherscategorytype) está establecido en Number. Por tanto, los elementos con un valor menor o igual que 2 se asignarán a la categoría "Others".
+
+Si establece [`othersCategoryType`]({environment:dvApiBaseUrl}/products/ignite-ui-angular/api/docs/typescript/latest/classes/igxpiechartbasecomponent.html#otherscategorytype) en Percent, [`othersCategoryThreshold`]({environment:dvApiBaseUrl}/products/ignite-ui-angular/api/docs/typescript/latest/classes/igxpiechartbasecomponent.html#otherscategorythreshold) se interpretará como un porcentaje y no como un valor; es decir, los elementos cuyos valores sean inferiores al 2 % de la suma de todos los valores de los elementos se asignarían a la categoría Others. Puede usar la [`othersCategoryType`]({environment:dvApiBaseUrl}/products/ignite-ui-angular/api/docs/typescript/latest/classes/igxpiechartbasecomponent.html#otherscategorytype) que mejor se adapte a su aplicación.
+
+```html
+<igx-pie-chart [dataSource]="data"
+               width="100%"
+               height="100%"
+               labelMemberPath="Company"
+               valueMemberPath="MarketShare"
+               othersCategoryThreshold="2"
+               othersCategoryType="Number"
+               othersCategoryText="Others">
+</igx-pie-chart>
+```
+
+<Sample src="/charts/pie-chart-others" height={350} alt="" />
+
+<hr/>
+
+## Explosión
+
+El componente de gráfico circular admite la explosión de sectores individuales, así como un evento `SliceClick` que le permite modificar los estados de selección e implementar lógica personalizada
+
+```html
+<igx-pie-chart [dataSource]="data"
+               width="100%"
+               height="100%"
+               allowSliceExplosion="true"
+               sliceClick="piechart_SliceClick">
+</igx-pie-chart>
+```
+
+<Sample src="/charts/pie-chart-explosion" height={350} alt="" />
+
+<hr/>
+
+## Selección
+
+El gráfico circular admite la selección de sectores mediante clic del ratón como comportamiento predeterminado. Puede determinar los sectores seleccionados usando la propiedad [`selectedItems`]({environment:dvApiBaseUrl}/products/ignite-ui-angular/api/docs/typescript/latest/classes/igxpiechartbasecomponent.html#selecteditems). Después, los sectores seleccionados se resaltan.
+
+Hay una propiedad llamada [`selectionMode`]({environment:dvApiBaseUrl}/products/ignite-ui-angular/api/docs/typescript/latest/classes/igxpiechartbasecomponent.html#selectionmode), que determina el modo que quiere usar el gráfico circular. El valor predeterminado es [`Single`]({environment:dvApiBaseUrl}/products/ignite-ui-angular/api/docs/typescript/latest/enums/sliceselectionmode.html#single). Para desactivar la selección, establezca la propiedad en [`Manual`]({environment:dvApiBaseUrl}/products/ignite-ui-angular/api/docs/typescript/latest/enums/sliceselectionmode.html#manual).
+
+El componente de gráfico circular admite tres modos de selección distintos.
+
+- Single: cuando el modo está establecido en single, solo puede seleccionarse un sector a la vez. Al seleccionar un nuevo sector, el sector seleccionado anteriormente se deselecciona y el nuevo pasa a estar seleccionado.
+- Multiple: cuando el modo está establecido en Multiple, pueden seleccionarse varios sectores a la vez. Si hace clic en un sector, se seleccionará, y al hacer clic en otro sector también se seleccionará ese, dejando el sector anterior seleccionado.
+- Manual: cuando el modo está establecido en Manual, la selección está desactivada.
+
+El componente de gráfico circular tiene 4 eventos asociados a la selección:
+
+- SelectedItemChanging
+- SelectedItemChanged
+- SelectedItemsChanging
+- SelectedItemsChanged
+
+Los eventos que terminan en "Changing" son eventos cancelables, lo que significa que puede detener la selección de un sector estableciendo la propiedad del argumento del evento `Cancel` en true. Cuando se establece en true, la propiedad asociada no se actualizará y el sector no quedará seleccionado. Esto resulta útil en escenarios en los que quiere impedir que los usuarios seleccionen ciertos sectores según los datos que contienen.
+
+En los casos en los que haga clic en el sector Others, el gráfico circular devolverá un objeto llamado [`IgxPieSliceOthersContext`]({environment:dvApiBaseUrl}/products/ignite-ui-angular/api/docs/typescript/latest/classes/igxpiesliceotherscontext.html). Este objeto contiene una lista de los elementos de datos incluidos en el sector Others.
+
+```html
+<igx-pie-chart [dataSource]="data"
+            width="100%"
+            height="100%"
+            selectionMode="multiple"
+            selectedSliceStroke = "white"
+            selectedSliceFill= "rgb(143,143,143)"
+            selectedSliceOpacity =1.0
+            selectedSliceStrokeThickness=2>
+</igx-pie-chart>
+```
+
+<Sample src="/charts/pie-chart-selection" height={350} alt="" />
+
+<hr/>
+
+## Animación
+
+Puede animar el gráfico circular de forma suave estableciendo la propiedad `radiusFactor`, que escalará el radio del gráfico. Establezca también la propiedad `startAngle` para inclinar el gráfico de forma que siga aumentando el ángulo del gráfico mientras gira.
+
+En el código siguiente, radiusFactor aumenta el gráfico en un 0,25 % del tamaño, y startAngle hace girar el gráfico 1 grado. Cuando radiusFactor y startAngle alcanzan su límite máximo, la animación se detiene restableciendo la marca de animación y limpiando el intervalo.
+
+```ts
+window.setInterval(() => this.tick(), 15);
+
+public tick(): void {
+    if (this.isAnimating) {
+        if (this.chart.radiusFactor < 1.0)
+            this.chart.radiusFactor += 0.0025;
+
+        if (this.chart.startAngle < 360)
+            this.chart.startAngle++;
+
+        if (this.chart.radiusFactor >= 1.0 &&
+            this.chart.startAngle >= 360) {
+            this.isAnimating = false;
+            window.clearInterval(this.interval);
+        }
+    }
+}
+```
+
+<Sample src="/charts/pie-chart-animation" height={350} alt="" />
+
+<hr/>

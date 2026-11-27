@@ -1,0 +1,150 @@
+---
+title: "Opciones de ejes de {Platform} | Visualización de datos | Infragistics"
+description: "Opciones de ejes de {Platform} de Infragistics"
+keywords: "Eje de {Platform}, opciones, título, etiquetas, separación, solapamiento, rango, escala, modo, Infragistics"
+license: commercial
+
+mentionedTypes: ["DomainChart", "CategoryChart", "FinancialChart", "FinancialChartYAxisMode", "FinancialChartXAxisMode", "NumericYAxis", "CategoryXAxis", "AutoMarginsAndAngleUpdateMode"]
+namespace: Infragistics.Controls.Charts
+_language: es
+llms:
+  description: "En todos los gráficos {ProductName}, los ejes ofrecen propiedades para configuraciones visuales como títulos, etiquetas y rangos."
+platformType: xplat
+---
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+
+# Opciones de ejes de {Platform}
+
+En todos los gráficos {ProductName}, los ejes ofrecen propiedades para configuraciones visuales como títulos, etiquetas y rangos. Estas características se muestran en los ejemplos incluidos a continuación.
+
+## Ejemplo de títulos de ejes
+
+La característica de títulos de ejes de los gráficos {Platform} le permite añadir información contextual a su gráfico. Puede personalizar el aspecto de los títulos de los ejes de muchas formas, como aplicando distintos estilos de fuente, colores, márgenes y alineaciones.
+
+<Sample src="/charts/category-chart/axis-titles" height={450} alt="Ejemplo de títulos de ejes de {Platform}" />
+
+
+
+## Ejemplo de etiquetas de ejes
+
+Los gráficos {Platform} le permiten controlar totalmente la configuración, el formato y el estilo de la fuente de las etiquetas que se muestran en un eje de su gráfico. Puede cambiar el ángulo de rotación, el margen, la alineación horizontal y vertical, el color, el relleno y la visibilidad de las etiquetas del eje. El siguiente ejemplo muestra cómo usar estas características de los ejes.
+
+<Sample src="/charts/category-chart/axis-labels" height={450} alt="Ejemplo de etiquetas de ejes de {Platform}" />
+
+
+
+
+## Gestión y formato de las etiquetas de ejes
+
+Los ejes del gráfico pueden realizar un cálculo mejorado del espacio disponible para las etiquetas del eje al que pertenecen. Este cálculo mejorado permite que el eje optimice el espacio que se le asigna para mostrar más etiquetas en ese eje.
+
+Este cálculo mejorado es algo a lo que debe optar expresamente, lo que puede hacer estableciendo la propiedad `useEnhancedIntervalManagement` en true. Después, si prefiere mostrar todas las etiquetas que quepan en las dimensiones del eje sin establecer manualmente la propiedad `xAxisInterval` del eje, puede establecer la propiedad `enhancedIntervalPreferMoreCategoryLabels` del eje en true.
+
+El gráfico también puede tener en cuenta la rotación automática de las etiquetas si no caben en el espacio asignado, así como aplicar un margen automático al área de trazado para que las etiquetas quepan. Esta función puede activarse inicialmente estableciendo primero la propiedad `autoMarginAndAngleUpdateMode` del gráfico en `SizeChanging` o en `SizeChangingAndZoom`. Esto indicará al gráfico cuándo debe volver a evaluar el margen automático y el ángulo aplicados a las etiquetas, si se desea.
+
+Tras establecer `autoMarginAndAngleUpdateMode`, puede establecer la propiedad `shouldAutoExpandMarginForInitialLabels` en true para activar el margen automático, o la propiedad `shouldConsiderAutoRotationForInitialLabels` en true para la rotación automática. También puede personalizar aún más el margen automático aplicado estableciendo `autoExpandMarginExtraPadding` y `autoExpandMarginMaximumValue` para proporcionar espacio adicional o un margen máximo posible, respectivamente.
+
+Pueden añadirse formatos de etiqueta personalizados, como <ApiLink raw pkg="geo-core" type="NumberFormatSpecifier" /> y `DateTimeFormatSpecifier`, a cada eje mediante las colecciones `xAxisLabelFormatSpecifiers` y `yAxisLabelFormatSpecifiers`. Se usan habitualmente para aplicar formatos de número, fecha y hora sensibles al idioma, con Intl.NumberFormat e Intl.DateTimeFormat. Para que un formato personalizado se aplique a las etiquetas, `yAxisLabelFormat` o `xAxisLabelFormat` deben establecerse con el nombre de la propiedad del elemento de datos en `CategoryChart`, p. ej., `{Date}`.<PlatformBlock for="Web"> En el caso de `FinancialChart`, el número es el contexto porque usa un eje numérico, por lo que debe establecerse en `{0}`.</PlatformBlock>
+
+El siguiente ejemplo da formato al eje Y con un <ApiLink raw pkg="geo-core" type="NumberFormatSpecifier" /> para representar los precios en USD de las películas más taquilleras de Estados Unidos.
+
+<Sample src="/charts/category-chart/format-specifiers" height={450} alt="Especificadores de formato de {Platform} para las etiquetas de ejes" />
+
+
+## Ejemplo de rango de ejes
+
+En los gráficos {Platform}, puede definir un valor mínimo y máximo de rango para un eje numérico o de tiempo. El mínimo del rango es el valor más bajo del eje y el máximo del rango es el valor más alto del eje. Se establecen con las opciones `CategoryChart.yAxisMinimumValue` y `CategoryChart.yAxisMaximumValue`.
+
+De forma predeterminada, los gráficos calculan los valores mínimo y máximo del rango de los ejes numéricos y de tiempo a partir de los valores más bajos y más altos de los puntos de datos correspondientes, pero este cálculo automático puede no ser adecuado para su conjunto de puntos de datos en todos los casos. Por ejemplo, si sus datos tienen un valor mínimo de 850, puede que quiera establecer `yAxisMinimumValue` en 800 para que haya un espacio de 50 entre el mínimo del eje y el valor más bajo de los puntos de datos. La misma idea puede aplicarse al valor máximo del eje y al valor más alto de los puntos de datos mediante la propiedad `yAxisMaximumValue`.
+
+<Sample src="/charts/category-chart/axis-range" height={450} alt="Ejemplo de rango de ejes de {Platform}" />
+
+
+
+
+## Modos de ejes y escala
+
+En los <PlatformBlock for="Web">controles `FinancialChart` y `CategoryChart`</PlatformBlock><PlatformBlock for="WinUI, Uno">control `CategoryChart`</PlatformBlock>, puede elegir si sus datos se representan en una escala logarítmica a lo largo del eje Y cuando la propiedad `yAxisIsLogarithmic` se establece en true, o en una escala lineal cuando esta propiedad se establece en false (valor predeterminado). Con la propiedad `yAxisLogarithmBase`, puede cambiar la base de la escala logarítmica del valor predeterminado 10 a otro valor entero.
+<PlatformBlock for="Web">
+El control `FinancialChart` y su propiedad `yAxisMode` le permiten elegir cómo se representan sus datos a lo largo del eje Y, mediante los modos `Numeric` y `PercentChange`. El modo `Numeric` representa los datos con sus valores exactos, mientras que el modo `PercentChange` muestra los datos como variación porcentual respecto al primer punto de datos proporcionado. El valor predeterminado es el modo `Numeric`.
+</PlatformBlock>
+<PlatformBlock for="Angular, React, WebComponents, Blazor">
+Además de la propiedad `yAxisMode`, el control `FinancialChart` tiene la propiedad `xAxisMode`, que ofrece los modos `Time` y `Ordinal` para el eje X. El modo `Time` reserva espacio a lo largo del eje X para los huecos en los datos (por ejemplo, la falta de operaciones bursátiles en fines de semana o festivos). El modo `Ordinal` colapsa las zonas de fechas donde no existen datos. El valor predeterminado es el modo `Ordinal`.
+
+<Sample src="/charts/financial-chart/axis-types" height={450} alt="Ejemplo de rango de ejes de {Platform}" />
+</PlatformBlock>
+
+
+
+
+## Ejemplo de separación de ejes
+
+La propiedad `xAxisGap` de los gráficos {Platform} determina el espacio entre las columnas o barras de las series representadas. Esta propiedad acepta un valor numérico entre 0.0 y 1.0. El valor representa el ancho relativo de la separación respecto al número de píxeles disponibles entre las series. Si establece esta propiedad en 0, no se representará ninguna separación entre las series, y si la establece en 1, se representará la separación máxima disponible.
+
+La propiedad `xAxisMaximumGap` de los gráficos {Platform} determina el valor máximo de separación permitido. El valor predeterminado es 1.0, pero puede cambiarse en función de lo que establezca en `xAxisGap`.
+
+La propiedad `xAxisMinimumGapSize` de los gráficos {Platform} determina la cantidad mínima de píxeles que se usará para la separación entre las categorías, si es posible.
+
+El siguiente ejemplo muestra la temperatura máxima media en grados Celsius del Central Park de Nueva York, representada mediante un [gráfico de columnas](../types/column-chart.mdx) con `xAxisGap` inicialmente establecido en 1, de modo que habrá una anchura completa de categoría entre las columnas. Hay un control deslizante que le permite configurar la separación en este ejemplo para ver qué hacen los distintos valores.
+
+<Sample src="/charts/category-chart/axis-gap" height={450} alt="Ejemplo de separación de ejes de {Platform}" />
+
+
+
+
+## Ejemplo de solapamiento de ejes
+
+La propiedad `xAxisOverlap` de los gráficos {Platform} permite establecer el solapamiento de las columnas o barras representadas de las series. Esta propiedad acepta un valor numérico entre -1.0 y 1.0. El valor representa un solapamiento relativo respecto al número de píxeles disponibles dedicados a cada serie. Si establece esta propiedad en un valor negativo (hasta -1.0), las categorías se separan entre sí, produciendo un espacio entre ellas. Por el contrario, si la establece en un valor positivo (hasta 1.0), las categorías se solapan entre sí. Un valor de 1 hace que el gráfico represente las categorías unas encima de otras.
+
+El siguiente ejemplo muestra una comparación de las franquicias cinematográficas de mayor recaudación mundial, según los ingresos totales en taquilla mundial de la franquicia y de la película más taquillera de la serie, representada mediante un [gráfico de columnas](../types/column-chart.mdx) con `xAxisOverlap` inicialmente establecido en 1, de modo que las columnas se solapan por completo. Hay un control deslizante que le permite configurar el solapamiento en este ejemplo para ver qué hacen los distintos valores.
+
+<Sample src="/charts/category-chart/axis-overlap" height={450} alt="Ejemplo de solapamiento de ejes de {Platform}" />
+
+
+
+
+## Recursos adicionales
+
+Puede encontrar más información sobre características relacionadas de los gráficos en estos temas:
+
+- [Líneas de cuadrícula de ejes](chart-axis-gridlines.mdx)
+- [Disposición de ejes](chart-axis-layouts.mdx)
+
+## Referencias de API
+
+La siguiente es una lista de miembros de la API mencionados en las secciones anteriores:
+<PlatformBlock for="Web">
+
+| `DataChart`                                         | `FinancialChart`       | `CategoryChart`        |
+| ------------------------------------------------------ | ---------------------- | ---------------------- |
+| `Axes` -> `NumericYAxis` -> `maximumValue`             | `FinancialChart.yAxisMaximumValue`    | `CategoryChart.yAxisMaximumValue`    |
+| `Axes` -> `NumericYAxis` -> `minimumValue`             | `FinancialChart.yAxisMinimumValue`    | `CategoryChart.yAxisMinimumValue`    |
+| `Axes` -> `NumericYAxis` -> `isLogarithmic`            | `FinancialChart.yAxisIsLogarithmic`   | `CategoryChart.yAxisIsLogarithmic`   |
+| `Axes` -> `NumericYAxis` -> `logarithmBase`            | `FinancialChart.yAxisLogarithmBase`   | `CategoryChart.yAxisLogarithmBase`   |
+| `Axes` -> `CategoryXAxis` -> `CategoryXAxis.gap`                     | None                   | `CategoryChart.xAxisGap`             |
+| `Axes` -> `CategoryXAxis` -> `CategoryXAxis.overlap`                 | None                   | `CategoryChart.xAxisOverlap`         |
+| `Axes` -> `TimeXAxis`                                  | `FinancialChart.xAxisMode`            | None                   |
+| `Axes` -> `PercentChangeYAxis`                         | `FinancialChart.yAxisMode`            | None                   |
+| `Axes` -> `NumericYAxis` -> `LabelAngle`      | `FinancialChart.yAxisLabelAngle`      | `CategoryChart.yAxisLabelAngle`      |
+| `Axes` -> `NumericXAxis` -> `LabelAngle`      | `FinancialChart.xAxisLabelAngle`      | `CategoryChart.xAxisLabelAngle`      |
+| `Axes` -> `NumericYAxis` -> `LabelTextColor`  | `FinancialChart.YAxisLabelTextColor` | `CategoryChart.YAxisLabelTextColor` |
+| `Axes` -> `NumericXAxis` -> `LabelTextColor`  | `FinancialChart.XAxisLabelTextColor` | `CategoryChart.XAxisLabelTextColor` |
+| `Axes` -> `NumericYAxis` -> `LabelVisibility` | `FinancialChart.yAxisLabelVisibility` | `CategoryChart.yAxisLabelVisibility` |
+| `Axes` -> `NumericXAxis` -> `LabelVisibility` | `FinancialChart.xAxisLabelVisibility` | `CategoryChart.xAxisLabelVisibility` |</PlatformBlock>
+
+<PlatformBlock for="WinUI, Uno">
+| `DataChart`                                         | `CategoryChart`        |
+| ------------------------------------------------------ | ---------------------- |
+| `Axes` -> `NumericYAxis` -> `maximumValue`             | `CategoryChart.yAxisMaximumValue`    |
+| `Axes` -> `NumericYAxis` -> `minimumValue`             | `CategoryChart.yAxisMinimumValue`    |
+| `Axes` -> `NumericYAxis` -> `isLogarithmic`            | `CategoryChart.yAxisIsLogarithmic`   |
+| `Axes` -> `NumericYAxis` -> `logarithmBase`            | `CategoryChart.yAxisLogarithmBase`   |
+| `Axes` -> `CategoryXAxis` -> `CategoryXAxis.gap`                     | `CategoryChart.xAxisGap`             |
+| `Axes` -> `CategoryXAxis` -> `CategoryXAxis.overlap`                 | `CategoryChart.xAxisOverlap`         |
+| `Axes` -> `NumericYAxis` -> `LabelAngle`      | `CategoryChart.yAxisLabelAngle`      |
+| `Axes` -> `NumericXAxis` -> `LabelAngle`      | `CategoryChart.xAxisLabelAngle`      |
+| `Axes` -> `NumericYAxis` -> `LabelTextColor`  | `CategoryChart.YAxisLabelTextColor` |
+| `Axes` -> `NumericXAxis` -> `LabelTextColor`  | `CategoryChart.XAxisLabelTextColor` |
+| `Axes` -> `NumericYAxis` -> `LabelVisibility` | `CategoryChart.yAxisLabelVisibility` |
+| `Axes` -> `NumericXAxis` -> `LabelVisibility` | `CategoryChart.xAxisLabelVisibility` |
+</PlatformBlock>

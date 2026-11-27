@@ -1,0 +1,438 @@
+---
+title: "Componente de cuadrícula de datos {Platform} | Tablas {Platform} en tiempo real | Infragistics"
+description: "El componente de cuadrícula {Platform} de Infragistics le ayuda a crear una cuadrícula de datos de React rápida y en tiempo real. ¡Descubra cómo {ProductName} puede ayudarle a mostrar mejor sus datos!"
+keywords: "Tabla {Platform}, cuadrícula de datos, descripción general, {ProductName}, enlace de datos, Infragistics"
+license: commercial
+mentionedTypes: ["DataGrid", "DataGridColumn"]
+namespace: Infragistics.Controls.Grids.Implementation
+_canonicalLink: "{CanonicalLinkToGridMain}"
+_language: es
+llms:
+  description: "La tabla / cuadrícula de datos {ProductName} es un componente de cuadrícula tabular {Platform} que le permite enlazar y mostrar rápidamente sus datos con poca codificación o configuración."
+platformType: xplat
+---
+
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+
+# Descripción general de la cuadrícula de datos {Platform}
+
+La tabla / cuadrícula de datos {ProductName} es un componente de cuadrícula tabular {Platform} que le permite enlazar y mostrar rápidamente sus datos con poca codificación o configuración. Entre las funciones de la cuadrícula de datos {Platform} se incluyen el filtrado, la ordenación, las plantillas, la selección de filas, la agrupación de filas, el anclaje de filas y las columnas movibles. Las tablas {Platform} están optimizadas para datos en vivo y en streaming, con capacidad para gestionar un tamaño de conjunto de datos ilimitado en número de filas o columnas.
+
+## Ejemplo de Data Grid de {Platform}
+
+Esta demostración implementa algunas de las funciones disponibles en la cuadrícula:
+Filtrado, agrupación, anclar/desanclar columnas, reposicionar columnas, ordenación y resúmenes
+
+<Sample src="/grids/data-grid/overview" height={600} alt="Ejemplo de Data Grid de {Platform}" />
+
+
+
+<div class="divider--half"></div>
+
+## Primeros pasos
+
+<PlatformBlock for="Web">
+### Dependencias
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+Consulte estos temas sobre cómo añadir el paquete IgniteUI.Blazor.
+- [Primeros pasos](../../general-getting-started.mdx)
+- [Añadir el paquete NuGet](../../general-nuget-feed.mdx)
+
+A continuación, puede empezar a implementar el control añadiendo los siguientes espacios de nombres:
+
+```razor
+@using IgniteUI.Blazor.Controls
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular, React, WebComponents">
+Al instalar el paquete de cuadrícula {Platform}, también debe instalarse el paquete principal.
+
+```cmd
+npm install --save {PackageCore}
+npm install --save {PackageGrids}
+npm install --save {PackageInputs}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular, React, WebComponents, Blazor">
+### Módulos de componentes
+
+El `DataGrid` requiere los siguientes módulos:
+
+```json-snippet source="/grids/data-grid/overview" channel="modulesImports...moduleRegistration" exclude="Xaml"
+{
+    "descriptions": {
+        "content": {
+            "type": "DataGrid",
+            "name": "grid"
+        }
+    },
+    "modules": [
+        "grids/DataGridModule"
+    ],
+    "$modules": [
+        "+doc:modulesImports",
+        "+doc:moduleRegistration"
+    ]
+}
+```
+
+</PlatformBlock>
+
+<div class="divider--half"></div>
+
+<PlatformBlock for="Angular, React, WebComponents, Blazor">
+### Módulos opcionales
+
+Las funciones opcionales `DataGrid`, vistas arriba, requieren los siguientes módulos:
+
+```json-snippet source="/grids/data-grid/overview" channel="modulesImports...moduleRegistration" exclude="Xaml"
+{
+    "descriptions": {
+        "content": {
+            "type": "DataGrid",
+            "name": "grid"
+        }
+    },
+    "modules": [
+        "grids/DataGridModule",
+        "grids/DataGridToolbarModule",
+        "charts/SparklineModule"
+    ],
+    "$modules": [
+        "+doc:modulesImports",
+        "+doc:moduleRegistration"
+    ]
+}
+```
+
+</PlatformBlock>
+
+
+<div class="divider--half"></div>
+
+### Origen de datos de ejemplo
+Empiece por definir los datos locales que mostrará la cuadrícula {Platform}. El siguiente ejemplo crea un origen de datos con detalles de productos y pedidos.
+
+```ts
+    this.data = [{
+        Discontinued: false,
+        OrderDate: new Date("2012-02-12"),
+        ProductID: 1,
+        ProductName: "Chai",
+        QuantityPerUnit: "10 boxes x 20 bags",
+        ReorderLevel: 10,
+        UnitPrice: 18.0000,
+        UnitsInStock: 39
+    }, {
+        Discontinued: false,
+        OrderDate: new Date("2003-03-17"),
+        ProductID: 2,
+        ProductName: "Chang",
+        QuantityPerUnit: "24 - 12 oz bottles",
+        ReorderLevel: 25,
+        UnitPrice: 19.0000,
+        UnitsInStock: 17
+    }, {
+        Discontinued: false,
+        OrderDate: new Date("2006-03-17"),
+        ProductID: 3,
+        ProductName: "Aniseed Syrup",
+        QuantityPerUnit: "12 - 550 ml bottles",
+        ReorderLevel: 25,
+        UnitPrice: 10.0000,
+        UnitsInStock: 13
+    }, {
+        Discontinued: false,
+        OrderDate: new Date("2016-03-17"),
+        ProductID: 4,
+        ProductName: "Chef Antony Cajun Seasoning",
+        QuantityPerUnit: "48 - 6 oz jars",
+        ReorderLevel: 0,
+        UnitPrice: 22.0000,
+        UnitsInStock: 53
+    }, {
+        Discontinued: true,
+        OrderDate: new Date("2011-11-11"),
+        ProductID: 5,
+        ProductName: "Chef Antony Gumbo Mix",
+        QuantityPerUnit: "36 boxes",
+        ReorderLevel: 0,
+        UnitPrice: 21.3500,
+        UnitsInStock: 0
+    }];
+```
+
+<PlatformBlock for="Blazor">
+
+```razor
+@code {
+
+    public List<SaleInfo> DataSource { get; set;}
+    Random Rand = new Random();
+
+    protected override void OnInitialized()
+    {
+        GenerateData();
+    }
+
+    public void GenerateData()
+    {
+        string[] names = new string[] {
+            "Intel CPU", "AMD CPU",
+            "Intel Motherboard", "AMD Motherboard", "Nvidia Motherboard",
+            "Nvidia GPU", "Gigabyte GPU", "Asus GPU", "AMD GPU", "MSI GPU",
+            "Corsair Memory", "Patriot Memory", "Skill Memory",
+            "Samsung HDD", "WD HDD", "Seagate HDD", "Intel HDD", "Asus HDD",
+            "Samsung SSD", "WD SSD", "Seagate SSD", "Intel SSD", "Asus SSD",
+            "Samsung Monitor", "Asus Monitor", "LG Monitor", "HP Monitor" };
+
+        string[] countries = new string[] {
+            "USA", "UK", "France", "Canada", "Poland",
+            "Denmark", "Croatia", "Australia", "Seychelles",
+            "Sweden", "Germany", "Japan", "Ireland",
+            "Barbados", "Jamaica", "Cuba", "Spain", };
+        string[] status = new string[] { "Packing", "Shipped", "Delivered" };
+
+        var sales = new List<SaleInfo>();
+
+        for (var i = 0; i < 200; i++)
+        {
+            var price = GetRandomNumber(10000, 90000) / 100;
+            var items = GetRandomNumber(4, 30);
+            var value = Math.Round(price * items);
+            var margin = GetRandomNumber(2, 5);
+            var profit = Math.Round((price * margin / 100) * items);
+            var country = GetRandomItem(countries);
+
+            var item = new SaleInfo()
+            {
+                Country = country,
+                CountryFlag = GetCountryFlag(country),
+                Margin = margin,
+                OrderDate = GetRandomDate(),
+                OrderItems = items,
+                OrderValue = value,
+                ProductID = 1001 + i,
+                ProductName = GetRandomItem(names),
+                ProductPrice = price,
+                Profit = Math.Round(profit),
+                Status = GetRandomItem(status)
+            };
+            sales.Add(item);
+        }
+
+        this.DataSource = sales;
+    }
+
+    public double GetRandomNumber(double min, double max)
+    {
+        return Math.Round(min + (Rand.NextDouble() * (max - min)));
+    }
+
+    public string GetRandomItem(string[] array)
+    {
+        var index = (int)Math.Round(GetRandomNumber(0, array.Length - 1));
+        return array[index];
+    }
+
+    public DateTime GetRandomDate() {
+        var today = new DateTime();
+        var year = today.Year;
+        var month = this.GetRandomNumber(1, 9);
+        var day = this.GetRandomNumber(10, 27);
+        return new DateTime(year, (int)month, (int)day);
+    }
+
+    public string GetCountryFlag(string country)
+    {
+        var flag = "https://static.infragistics.com/xplatform/images/flags/" + country + ".png";
+        return flag;
+    }
+
+    public class SaleInfo
+    {
+        public string? Status { get; set; }
+        public string? ProductName { get; set; }
+        public string? CountryFlag { get; set; }
+        public string? Country { get; set; }
+        public DateTime OrderDate { get; set; }
+        public double Profit { get; set; }
+        public double ProductPrice { get; set; }
+        public double ProductID { get; set; }
+        public double OrderValue { get; set; }
+        public double OrderItems { get; set; }
+        public double Margin { get; set; }
+    }
+}
+```
+
+</PlatformBlock>
+
+### Generar columnas automáticamente
+El código siguiente muestra cómo enlazar la cuadrícula de datos {Platform} a los datos locales anteriores.
+
+```json-snippet source="/grids/data-grid/overview"
+{
+    "skipAlterDataCasing": true,
+    "descriptions": {
+        "content": {
+            "type": "DataGrid",
+            "name": "grid",
+            "dataSourceRef": "EmployeesSalesData",
+            "autoGenerateColumns": true,
+            "defaultColumnMinWidth": 100,
+            "summaryScope": "Root",
+            "isColumnOptionsEnabled": true,
+            "isGroupCollapsable": true,
+            "groupSummaryDisplayMode": "RowBottom",
+            "columnMovingMode": "Deferred",
+            "columnMovingAnimationMode": "SlideOver",
+            "columnMovingSeparatorWidth": 2,
+            "columnShowingAnimationMode": "SlideFromRightAndFadeIn",
+            "columnHidingAnimationMode": "SlideToRightAndFadeOut",
+            "selectionMode": "SingleRow",
+            "cornerRadiusTopLeft": 0,
+            "cornerRadiusTopRight": 0,
+            "height": "100%",
+            "width": "100%",
+            "$setInCode": {
+                "dataSourceRef": [
+                    "webComponents"
+                ]
+            }
+        }
+    }
+}
+```
+
+### Definir columnas manualmente
+
+```json-snippet source="/grids/data-grid/column-auto-generation-sales"
+{
+    "skipAlterDataCasing": true,
+    "descriptions": {
+        "content": {
+            "type": "DataGrid",
+            "name": "grid",
+            "dataSourceRef": "ProductOrders",
+            "autoGenerateColumns": false,
+            "height": "100%",
+            "width": "100%",
+            "columns": [
+                {
+                    "type": "TextColumn",
+                    "field": "ProductID",
+                    "headerText": "Product ID"
+                },
+                {
+                    "type": "TextColumn",
+                    "field": "ProductName",
+                    "headerText": "Product Name"
+                },
+                {
+                    "type": "NumericColumn",
+                    "field": "ProductPrice"
+                },
+                {
+                    "type": "TextColumn",
+                    "field": "City"
+                },
+                {
+                    "type": "TextColumn",
+                    "field": "Country"
+                },
+                {
+                    "type": "ImageColumn",
+                    "field": "CountryFlag",
+                    "isEditable": false
+                },
+                {
+                    "type": "DateTimeColumn",
+                    "field": "OrderDate",
+                    "headerText": "Order Date"
+                },
+                {
+                    "type": "NumericColumn",
+                    "field": "Profit",
+                    "positivePrefix": "$",
+                    "showGroupingSeparator": true,
+                    "maxFractionDigits": 0,
+                    "minFractionDigits": 0
+                }
+            ],
+            "$setInCode": {
+                "dataSourceRef": [
+                    "webComponents"
+                ]
+            }
+        }
+    }
+}
+```
+
+### Dar estilo a las columnas
+El código siguiente muestra cómo dar estilo a columnas específicas usando las propiedades de la columna.
+
+```json-snippet source="/grids/data-grid/overview"
+{
+    "skipAlterDataCasing": true,
+    "descriptions": {
+        "content": {
+            "type": "TextColumn",
+            "field": "Name",
+            "background": "SkyBlue",
+            "fontStyle": "italic",
+            "fontWeight": "bold",
+            "fontFamily": "Times New Roman",
+            "fontSize": 16
+        }
+    }
+}
+```
+
+<PlatformBlock for="Blazor">
+### Vídeo tutorial
+
+Obtenga más información sobre cómo crear una cuadrícula de datos Blazor en nuestro breve vídeo tutorial:
+
+<iframe width="100%" height="600" src="https://www.youtube.com/embed/aT1L3nXqN6o">
+</iframe>
+</PlatformBlock>
+
+
+## Recursos adicionales
+
+<PlatformBlock for="Web">
+- [Cumplimiento de accesibilidad](accessibility.mdx)
+</PlatformBlock>
+- [Activación de celdas](cell-activation.mdx)
+- [Edición de la cuadrícula](cell-editing.mdx)
+- [Selección de celdas](cell-selection.mdx)
+- [Animación de columnas](column-animation.mdx)
+<PlatformBlock for="Web">- [Selector de columnas](column-chooser.mdx)
+</PlatformBlock>- [Filtrado de columnas](column-filtering.mdx)
+- [Movimiento de columnas](column-moving.mdx)
+- [Opciones de columna](column-options.mdx)
+- [Redimensionado de columnas](column-resizing.mdx)
+- [Ordenación de columnas](column-sorting.mdx)
+- [Tipos de columna](column-types.mdx)
+- [Rendimiento](performance.mdx)
+- [Anclaje de filas](row-pinning.mdx)
+- [Agrupación de filas](row-grouping.mdx)
+- [Resaltado de filas](row-highlighting.mdx)
+
+{/*TODO fix build flagging list items*/}
+<PlatformBlock for="React">
+{/*- [Row Paging](row-paging.mdx)*/}
+</PlatformBlock>
+
+## Referencias de API
+
+- `DataGrid`

@@ -1,0 +1,205 @@
+---
+title: "데이터 분석 기능 | Angular Universal | Ignite UI for Angular | Infragistics"
+description: "Ignite UI for Angular에서 차트 통합 기능을 사용하고 더 나은 비즈니스 목표를 달성하기 위한 데이터 분석 수단을 제공하는 방법입니다."
+keywords: "데이터 분석, ignite ui for angular, infragistics"
+_language: ko
+llms:
+  description: "데이터 분석은 데이터를 살펴보고, 변환하고, 특정 방식으로 정리하여 그에 기반한 유용한 정보를 생성하는 과정입니다."
+---
+
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import { Image } from 'astro:assets';
+import dataAnalysisButton from '../../images/general/data-analysis-button.png';
+import dataBarsFormatting from '../../images/general/data-bars-formatting.png';
+import colorScaleFormatting from '../../images/general/color-scale-formatting.png';
+import top10Percent from '../../images/general/top-10-percent.png';
+import uniqueValuesFormatting from '../../images/general/unique-values-formatting.png';
+import containsFormatting from '../../images/general/contains-formatting.png';
+
+# 데이터 분석
+
+데이터 분석은 데이터를 살펴보고, 변환하고, 특정 방식으로 정리하여 그에 기반한 유용한 정보를 생성하는 과정입니다. 또한 분석적이고 논리적인 추론을 통해 특정 결과와 결론에 도달할 수 있게 합니다.
+
+<DocsAside type="info">
+이 기능은 설정을 쉽게 하고 필요한 코드를 최소화하기 위해 **Ignite UI for Angular**에 외부 패키지로 제공됩니다
+</DocsAside>
+
+## DockManager로 데이터 분석하기
+
+선택된 데이터를 기반으로 `Chart types view`을(를) 활성화하려면 `cell range selection` 또는 `column selection`를 수행하십시오. 이 보기는 [Dock Manager의](/dock-manager) 오른쪽 패널에 있습니다. 여기서 다음을 할 수 있습니다:
+
+- 특정 차트 유형을 선택하고 별도의 패널에서 시각화하십시오.
+- 또는 `Data Analysis` 컨텍스트 버튼을 사용하여 다양한 텍스트 서식 옵션을 표시하십시오.
+
+<Sample src="/grid-dynamic-chart-data/data-analysis-dock-manager" height={580} lob iframeOnly fullscreenBtn />
+
+<DocsAside type="info">
+[Dock Manager Web Component](/dock-manager)는 패널을 통해 애플리케이션의 레이아웃을 관리하는 수단을 제공하며, 최종 사용자가 패널을 고정하고, 크기를 조정하고, 이동하고, 숨겨서 더 사용자 지정할 수 있도록 합니다. 데이터를 선택한 후 차트 몇 개를 만들고 사용 가능한 영역에 (드래그하여) 고정하십시오
+</DocsAside>
+
+샘플과 관련하여 유의하십시오:
+
+- 새로운 데이터를 선택하면 차트 데이터가 업데이트됩니다.
+- 여러 셀 범위 선택을 적용하면 `Text formatting` 기능만 사용할 수 있습니다.
+- 선택한 데이터가 어떤 차트와도 호환되지 않으면 "Incompatible data" 경고 메시지가 표시됩니다.
+
+## 데이터 분석 패키지
+
+아래 단계를 따라 이 기능을 사용할 수 있습니다. **igniteui-angular-extras** 패키지는 [비공개 npm 피드](https://packages.infragistics.com/npm/js-licensed/)를 통해서만 제공된다는 점을 유의하십시오. [유효한 상업용 라이선스](/general/ignite-ui-licensing#라이선스-계약)가 있으면 비공개 피드에 접근할 수 있습니다.
+
+다음으로 시작하십시오:
+
+- 애플리케이션에 패키지 설치하기
+
+```cmd
+npm install @infragistics/igniteui-angular-extras
+```
+
+- 패키지 피어 종속성 설치하기
+
+```cmd
+npm install @infragistics/igniteui-angular igniteui-angular-core igniteui-angular-charts
+```
+
+- 패키지를 설치한 후에는 다음을 수행하십시오:
+  - `IgxExtrasModule`을(를) app.module.ts에 추가하십시오
+  - 그리드에 `igxChartIntegration`, `igxConditionalFormatting`, `igxContextMenu` 디렉티브를 적용하십시오
+
+```html
+<igx-grid #grid1 igxChartIntegration igxConditionalFormatting igxContextMenu
+    [data]="localData" [autoGenerate]="true">
+    <igx-paginator>
+    </igx-paginator>
+</igx-grid>
+```
+
+이것으로 끝입니다! 이제 **셀 범위 선택**을 수행하고 데이터 분석 흐름을 따를 수 있습니다.
+
+## 데이터 분석 버튼
+
+데이터 분석 버튼은 선택한 데이터를 다양한 방식으로 시각화하는 출구입니다:
+
+<Image src={dataAnalysisButton} alt="데이터 분석 버튼" class="responsive-img" />
+
+이렇게 하면 그리드에서 수행한 모든 범위 선택을 한 번의 클릭으로 쉽게 분석할 수 있습니다.
+
+버튼은 모든 범위 선택 시 선택 영역의 **오른쪽 아래**에 렌더링되며, 선택이 비활성화되면 숨겨집니다. 가로 및 세로 스크롤 시 버튼의 위치가 다시 잡혀서, 항상 지정된 위치에 렌더링됩니다.
+
+## 차트 통합
+
+이 섹션은 그리드와 차트 기능의 통합을 소개합니다. 이를 통해 최종 사용자는 그리드에서 선택한 데이터를 기반으로 차트를 시각화하고, 필요하면 다른 차트 유형을 선택할 수 있습니다.
+
+셀 범위를 선택하고 분석 표시 버튼을 클릭하면 차트가 표시됩니다.
+
+<DocsAside type="info">
+차트 생성 옵션은 선택한 데이터에 숫자 값이 있을 때만 사용할 수 있습니다.
+</DocsAside>
+
+<Sample src="/grid-dynamic-chart-data/data-analysis" height={750} lob iframeOnly fullscreenBtn />
+
+현재 다음 차트 유형을 지원합니다:
+
+- [Column Chart](/charts/types/column-chart),
+[Area Chart](/charts/types/stacked-chart),
+[Line Chart](/charts/types/line-chart),
+[Bar Chart](/charts/types/line-chart),
+- [Stacked Chart](/charts/types/stacked-chart),
+[Stacked 100% Chart](/charts/types/stacked-chart),
+- [Pie Chart](/charts/types/pie-chart),
+[Scatter Chart](/charts/types/stacked-chart),
+[Bubble Chart](/charts/types/bubble-chart)
+ 의미 있는 Bubble Chart를 표시하기 위해, 데이터가 유효한 형식이 아니면 미리 보기를 비활성화합니다.
+
+## 조건부 셀 서식
+
+그리드에 수천 개의 데이터 행이 있다면, 원시 정보를 살펴보는 것만으로는 패턴과 추세를 파악하기가 매우 어렵습니다. 차트와 스파크라인과 마찬가지로, `Conditional formatting`은(는) 데이터를 시각화하고 이해하기 쉽게 만드는 또 다른 방법을 제공합니다.
+
+조건부 서식 이해하기 - 범위 선택에 있는 `their value`을(를) 기준으로 셀에 색상과 데이터 막대 같은 서식을 적용할 수 있습니다. 아래 [샘플](#데모)은 그리드를 구성하여 `Conditional Formatting`을(를) 적용하는 방법을 보여 줍니다. 어떤 조건의 `rules`이(가) 표시될지는 `Conditional formatting selection type`에 따라 달라집니다. 아래에서 데이터에 조건부 서식을 빠르게 적용하는 데 사용할 수 있는 사전 정의된 스타일(프리셋)을 찾을 수 있습니다. 범위의 서식은 다른 범위에 서식을 지정하거나 지우기 버튼을 사용하면 지워집니다. 지우기 버튼은 적용된 서식이 있을 때만 활성화됩니다.
+
+### 숫자 범위 선택
+
+- `Data Bars` - 데이터 막대는 판매량 상위 및 하위 제품 같은 큰 숫자와 작은 숫자를 쉽게 찾는 데 도움이 됩니다. 이 프리셋은 선택된 셀 범위의 값을 매우 쉽게 시각화합니다. 막대가 길수록 값이 높습니다. 값이 0인 셀에는 데이터 막대가 없으며, 다른 모든 셀은 비율에 따라 채워집니다. 양수 값은 `green` 색상으로, 음수 값은 `red`(으)로 표시됩니다
+
+<Image src={dataBarsFormatting} alt="데이터 막대 서식" class="responsive-img" />
+
+> `Lowest threshold` - 범위 선택에서 셀 최댓값의 33% 미만입니다.
+`Highest threshold` - 범위 선택에서 셀 최댓값의 66% 초과입니다.
+
+<Image src={colorScaleFormatting} alt="색상 눈금 서식" class="responsive-img" />
+
+- `Top 10%` - 선택된 데이터의 상위 10%에 해당하는 값을 강조하려면 이 프리셋을 사용하십시오.
+
+<Image src={top10Percent} alt="상위 10% 서식" class="responsive-img" />
+
+- `Greater than` - 이 프리셋은 `Greater than the average`인 모든 값을 표시합니다
+- `Duplicate values` - 중복된 모든 값을 표시합니다.
+- `Unique values` - 고유한 모든 셀 값이 표시됩니다(`blue` 배경색).
+
+<Image src={uniqueValuesFormatting} alt="고유 값 서식" class="responsive-img" />
+
+- `Empty` - `undefined` 값이 있는 모든 셀을 표시합니다
+
+### 텍스트 범위 선택
+
+- `Text contains` - `top-left most selected cell`의 셀 값을 포함하는 모든 셀을 표시합니다. 예:
+
+<Image src={containsFormatting} alt="텍스트 포함 서식" class="responsive-img" />
+
+- `Duplicate values` - 중복된 모든 값을 표시합니다.
+- `Unique values` - 고유한 모든 셀 값이 표시됩니다(`blue` 배경색).
+- `Empty` - `undefined` 값이 있는 모든 셀을 표시합니다
+
+### 데모
+
+<Sample src="/grid-dynamic-chart-data/data-analysis" height={750} lob iframeOnly fullscreenBtn />
+
+## 데이터 분석 패키지 API
+
+### IgxConditionalFormattingDirective
+
+<hr/>
+
+| API | 설명 | 인수 |
+|---------|:-------------:|-----------:|
+| `ConditionalFormattingType` | 조건부 서식 유형을 나타내는 **enum**입니다 | |
+| `IFormatColors` | 서식 색상을 나타내는 **interface**입니다 | |
+| `formatter`: **string** | 현재 서식 유형을 설정하거나 가져오는 **input** 속성입니다 | |
+| `formatColors` | 현재 서식 색상을 설정하거나 가져오는 **input** 속성입니다 | `val`: _IFormatColors_ |
+| `onFormattersReady`| 선택된 데이터에 적용 가능한 `formatting types`이(가) 결정되면 이를 발생시키는 **event**입니다. | |
+| `formatCells` | 선택된 셀에 조건부 서식을 적용합니다. 사용법: <br/> **this.conditionalFormatting.formatCells(ConditionalFormattingType.dataBars)** | `formatterName`: **string**, `formatRange`?: <ApiLink type="GridSelectionRange" kind="interface" /> [ ], <br /> `reset`: boolean (기본값은 **true**) |
+| `clearFormatting` | 선택된 셀에서 조건부 서식을 제거합니다. 사용법: <br /> **this.conditionalFormatting.clearFormatting()** | |
+
+### IgxChartIntegrationDirective
+
+<hr/>
+
+| API | 설명 | 인수 |
+|---------|-------------|-----------|
+| `CHART_TYPE` | 지원되는 차트 유형을 나타내는 **enum**입니다 | |
+| `OPTIONS_TYPE` | 차트 컴포넌트에 적용할 수 있는, 지원되는 옵션 유형을 나타내는 **enum**입니다| |
+| `IOptions` | 차트 속성 옵션을 위한 **interface**입니다 | |
+| `chartFactory`| 제공된 차트 유형에 따라 차트 컴포넌트를 만듭니다. 사용법: <br /> **this.chartIntegration.chartFactory(CHART_TYPE.COLUMN_GROUPED, this.viewContainerRef)** | `type`: **any[ ]**, viewContainerRef: [`ViewContainerRef`](https://angular.io/api/core/ViewContainerRef) |
+| `setChartComponentOptions` | 차트 컴포넌트에 속성 옵션을 설정합니다. 사용법: <br /> `this.chartIntegration.setChartComponentOptions(CHART_TYPE.PIE, OPTIONS_TYPE.CHART, &#123;allowSliceExplosion: true, sliceClick: (evt) => &#123; evt.args.isExploded = !evt.args.isExploded; &#125; &#125;)` | `chart`: _CHART_TYPE_, `optionsType`: _OPTIONS_TYPE_, `options`: _IOptions_ |
+| `getAvailableCharts` | 사용 가능한 차트 유형을 반환합니다 | |
+| `enableCharts` | 제공된 차트 유형을 활성화합니다. 기본적으로 모든 차트 유형이 활성화되어 있습니다 | `types`: _CHART_TYPE_ [ ] |
+| `disableCharts` | 제공된 차트 유형을 비활성화합니다 | `types`: _CHART_TYPE_ [ ] |
+| `onChartTypesDetermined` | `chartData`에 적용 가능한 차트 유형이 결정되면 발생하는 **event**입니다. 이 이벤트는 `IDeterminedChartTypesArgs` 유형의 객체를 발생시키며, 이 객체에는 두 개의 속성이 있습니다: <br /> `chartsAvailabilty`: _Map&lt;CHART_TYPE, boolean&gt;_ - 활성화/비활성화된 차트 유형, <br /> `chartsForCreation`: _CHART_TYPE[]_ - `chartData`에 적용 가능한 차트 유형 | |
+| `onChartCreationDone` | 차트가 생성되면 발생하는 이벤트입니다. 이 이벤트는 생성된 차트 컴포넌트를 발생시킵니다 | |
+| `chartData`: **any[ ]** | 차트의 데이터를 설정하거나 가져오는 **input** 속성입니다 | `selectedData`: **any[ ]** |
+| `useLegend`: **boolean** | 모든 차트 유형에 대해 범례 사용을 활성화하거나 비활성화하는 **input**입니다. 기본적으로 **true**로 설정되어 있습니다 | |
+| `defaultLabelMemberPath`: **string** | 차트의 기본 레이블 멤버 경로를 설정하거나 가져오는 **input** 속성입니다. 기본적으로 레이블 멤버 경로는 제공된 데이터를 기준으로 결정됩니다. <br />( **제공된 데이터 레코드에 문자열 값을 가진 속성이 있으면, `chartData`의 첫 번째 데이터 레코드에 있는 첫 번째 문자열 속성 이름이 차트의 레이블 멤버 경로로 선택됩니다. 그렇지 않으면 레이블 멤버 경로의 값은 _'Index'_가 됩니다.** ) <br/> | |
+| `scatterChartYAxisValueMemberPath`: **string** | 산점도 버블 차트의 기본 반지름 멤버 경로를 설정하거나 가져오는 **input** 속성입니다. **설정하지 않으면 기본 Y축 값 멤버 경로는 `chartData`의 첫 번째 데이터 레코드에 있는 첫 번째 숫자 속성 이름이 됩니다** | `path`: **string** |
+| `bubbleChartRadiusMemberPath`: **string** | 산점도 버블 차트의 기본 반지름 멤버 경로를 설정하거나 가져오는 **input** 속성입니다. **설정하지 않으면 기본 반지름 멤버 경로는 `chartData`의 첫 번째 데이터 레코드에 있는 두 번째 숫자 속성 이름이 됩니다** | `path`: **string** |
+
+## 유용한 자료
+
+<hr/>
+
+- [Angular Universal 가이드](https://angular.io/guide/universal)
+- [Ignite UI Starter Kit](https://github.com/IgniteUI/ng-universal-example)
+- [서버 측 렌더링 용어](https://developers.google.com/web/updates/2019/02/rendering-on-the-web)
+- [Ignite UI for Angular 시작하기](/general/getting-started)
+- [Ignite UI CLI 가이드](/general/cli/step-by-step-guide-using-cli)
+- [Ignite UI for Angular Schematics 가이드](/general/cli/step-by-step-guide-using-angular-schematics)

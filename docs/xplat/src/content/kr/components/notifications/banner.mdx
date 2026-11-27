@@ -1,0 +1,686 @@
+---
+title: "{Platform} Banner | Infragistics"
+description: "{ProductName} Banner 컴포넌트를 사용하면 개발자가 모바일 및 데스크톱 애플리케이션 안에 짧고 방해가 되지 않는 메시지(선택적 작업 포함)를 쉽게 통합할 수 있습니다."
+keywords: "{ProductName}, UI 컨트롤, {Platform} 위젯, 웹 위젯, UI 위젯, {Platform}, Native {Platform} 컴포넌트 스위트, Native {Platform} 컨트롤, Native {Platform} 컴포넌트 라이브러리, {Platform} Banner 컴포넌트"
+license: MIT
+mentionedTypes: ["Banner"]
+_language: ko
+llms:
+  description: "{ProductName} Banner 컴포넌트는 스낵바보다 덜 순간적이고 대화 상자보다 덜 방해되는 방식으로 애플리케이션 사용자에게 눈에 띄는 메시지를 쉽게 표시하는 방법을 제공합니다."
+---
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+
+# {Platform} Banner 개요
+
+{ProductName} Banner 컴포넌트는 스낵바보다 덜 순간적이고 대화 상자보다 덜 방해되는 방식으로 애플리케이션 사용자에게 눈에 띄는 메시지를 쉽게 표시하는 방법을 제공합니다. 또한 메시지의 맥락에 따라 취해야 할 작업을 나타낼 수도 있습니다.
+
+## {ProductName} Banner 예제
+
+<Sample src="/notifications/banner/banner-sample-1" height={530} alt="{Platform} Banner 예제" />
+
+
+## 사용법
+
+
+<PlatformBlock for="WebComponents">
+
+
+먼저 다음 명령을 실행하여 {ProductName}를 설치해야 합니다:
+
+```cmd
+npm install {PackageWebComponents}
+```
+
+그다음 다음과 같이 <ApiLink pkg="core" type="Banner" />, 필요한 CSS를 import하고 모듈을 등록해야 합니다:
+
+```ts
+import { defineComponents, IgcBannerComponent } from "igniteui-webcomponents";
+import 'igniteui-webcomponents/themes/light/bootstrap.css';
+
+defineComponents(IgcBannerComponent);
+```
+
+</PlatformBlock>
+
+
+
+<PlatformBlock for="React">
+
+
+먼저 다음 명령을 실행하여 해당 {ProductName} npm 패키지를 설치해야 합니다:
+
+```cmd
+npm install igniteui-react
+```
+
+그다음 다음과 같이 <ApiLink pkg="core" type="Banner" />와 필요한 CSS를 import해야 합니다:
+
+```tsx
+import { IgrBanner } from 'igniteui-react';
+import 'igniteui-webcomponents/themes/light/bootstrap.css';
+```
+
+</PlatformBlock>
+
+
+
+<PlatformBlock for="Blazor">
+
+
+{ProductName} 서비스를 등록합니다:
+
+```csharp
+// in Program.cs file
+
+builder.Services.AddIgniteUIBlazor();
+```
+
+<ApiLink pkg="core" type="Banner" />의 클라이언트 리소스 모듈인 <ApiLink pkg="core" type="BannerModule" /> 등록은 **선택 사항**입니다. 컴포넌트는 처음 렌더링될 때 리소스를 로드합니다. `builder.Services.AddIgniteUIBlazor(typeof(IgbBannerModule))`에 나열하면 리소스를 미리 로드하거나 클라이언트에서만 생성되는 요소를 지원할 수 있습니다([컴포넌트 모듈](../general-getting-started.mdx#컴포넌트-모듈) 참조).
+
+<ApiLink pkg="core" type="Banner" /> 컴포넌트에 스타일을 적용하려면 추가 CSS 파일도 연결해야 합니다. 다음 내용을 애플리케이션의 호스트 페이지에 넣어야 합니다(독립 실행형 Blazor WebAssembly 또는 Blazor Hybrid 앱에서는 **wwwroot/index.html**, Blazor Server 앱에서는 **Pages/_Host.cshtml**, Blazor Web App에서는 **Components/App.razor**):
+
+```razor
+<link href="_content/IgniteUI.Blazor/themes/light/bootstrap.css" rel="stylesheet" />
+```
+
+</PlatformBlock>
+
+
+{ProductName}에 대한 전체 소개는 [**시작하기**](../general-getting-started.mdx) 항목을 읽어 보십시오.
+
+### Banner 표시하기
+
+Banner 컴포넌트를 표시하려면 <ApiLink pkg="core" type="Banner" member="show" label="Show" /> 메서드를 사용하고 버튼 클릭 시 호출하십시오. Banner는 요소가 페이지 템플릿에 삽입된 위치를 기준으로 나타나며 다른 모든 콘텐츠를 밀어냅니다. 일반적으로 사용자가 최소한의 상호 작용으로 닫을 수 있는, 방해되지 않는 콘텐츠를 표시합니다.
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-button onclick="banner.show()">Show Banner</igc-button>
+
+<igc-banner id="banner">
+    You are currently offline.
+</igc-banner>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrButton onClick={() => bannerRef.current.show()}>
+    <span>Show Banner</span>
+</IgrButton>
+
+<IgrBanner ref={bannerRef}>
+    <span>You are currently offline.</span>
+</IgrBanner>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbButton @onclick="ShowBanner">Show Banner</IgbButton>
+
+<IgbBanner @ref="bannerRef">
+    You are currently offline.
+</IgbBanner>
+
+@code {
+    private IgbBanner bannerRef;
+
+    private void ShowBanner()
+    {
+        this.bannerRef.ShowAsync();
+    }
+}
+```
+
+</PlatformBlock>
+
+
+<DocsAside type="info">
+<ApiLink pkg="core" type="Banner" />에는 배너를 닫는 기본 작업 버튼 `OK`이(가) 포함되어 있습니다.
+</DocsAside>
+
+
+## 예제
+
+<ApiLink pkg="core" type="Banner" /> 컴포넌트는 Material Design 배너 지침을 최대한 따르면서도 콘텐츠의 템플릿화를 허용합니다.
+
+### Banner 메시지 변경하기
+
+Banner에 표시되는 메시지를 구성하는 것은 쉽습니다. `{BannerSelector}` 태그에 전달하는 콘텐츠만 변경하면 됩니다. 텍스트는 지정된 Banner 영역에 표시되며, Banner는 표시할 때 기본 템플릿을 사용합니다. 아래에서는 샘플 Banner의 콘텐츠를 조금 더 자세하게 바꾸겠습니다:
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-banner id="banner">
+    You have lost connection to the internet. This app is offline.
+</igc-banner>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrBanner ref={bannerRef}>
+    <span>You have lost connection to the internet. This app is offline.</span>
+</IgrBanner>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbBanner @ref="bannerRef">
+    You have lost connection to the internet. This app is offline.
+</IgbBanner>
+```
+
+</PlatformBlock>
+
+### 아이콘 추가하기
+
+배너의 `prefix` 슬롯을 사용하여 배너에 <ApiLink pkg="core" type="Icon" />을(를) 표시할 수 있습니다. 아이콘은 항상 배너 메시지의 시작 부분에 배치됩니다.
+
+
+<DocsAside type="info">
+<ApiLink pkg="core" type="Icon" /> 요소를 여러 개 삽입하면 배너는 모두 시작 부분에 배치하려고 합니다. 배너에 <ApiLink pkg="core" type="Icon" />을(를) 직접 하나만 전달하는 것을 강력히 권장합니다.
+</DocsAside>
+
+배너에 <ApiLink pkg="core" type="Icon" />을(를) 전달하려면 `prefix` 슬롯을 사용하십시오:
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-banner id="banner">
+    <igc-icon slot="prefix" name="signal_wifi_off"></igc-icon>
+    You have lost connection to the internet. This app is offline.
+</igc-banner>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrBanner ref={bannerRef}>
+    <IgrIcon slot="prefix" name="signal_wifi_off"></IgrIcon>
+    <span>You have lost connection to the internet. This app is offline.</span>
+</IgrBanner>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbBanner @ref="bannerRef">
+    <IgbIcon slot="prefix" IconName="signal_wifi_off" Collection="material"></IgbIcon>
+    You have lost connection to the internet. This app is offline.
+</IgbBanner>
+```
+
+</PlatformBlock>
+
+배너 메시지에 <ApiLink pkg="core" type="Icon" />을(를) 사용하려면 배너의 콘텐츠에 그대로 삽입하십시오:
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-banner id="banner">
+    You have lost connection to the internet. This app is offline.
+    <igc-icon name="signal_wifi_off"></igc-icon>
+</igc-banner>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrBanner ref={bannerRef}>
+    <span>You have lost connection to the internet. This app is offline.</span>
+    <IgrIcon name="signal_wifi_off"></IgrIcon>
+</IgrBanner>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbBanner @ref="bannerRef">
+    You have lost connection to the internet. This app is offline.
+    <IgbIcon IconName="signal_wifi_off" Collection="material"></IgbIcon>
+</IgbBanner>
+```
+
+</PlatformBlock>
+
+### Banner 버튼 변경하기
+
+<ApiLink pkg="core" type="Banner" />은(는) 배너 버튼의 템플릿화를 위한 `actions` 슬롯을 노출합니다. 이를 통해 기본 배너 버튼(`OK`)을 재정의하고 사용자 정의 작업을 추가할 수 있습니다.
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-banner id="banner">
+    <igc-icon slot="prefix" name="signal_wifi_off"></igc-icon>
+    You have lost connection to the internet. This app is offline.
+    <div slot="actions">
+        <igc-button onclick="banner.toggle()">
+            <igc-ripple></igc-ripple>
+            Toggle Banner
+        </igc-button>
+    </div>
+</igc-banner>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrBanner ref={bannerRef}>
+    <IgrIcon slot="prefix" name="signal_wifi_off"></IgrIcon>
+    <span>You have lost connection to the internet. This app is offline.</span>
+    <div slot="actions">
+        <IgrButton variant="flat" onClick={() => bannerRef.current.toggle()}>
+            <IgrRipple />
+            <span>Toggle Banner</span>
+        </IgrButton>
+    </div>
+</IgrBanner>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbBanner @ref="bannerRef">
+    <IgbIcon slot="prefix" IconName="signal_wifi_off" Collection="material"></IgbIcon>
+    You have lost connection to the internet. This app is offline.
+    <div slot="actions">
+        <IgbButton Variant="ButtonVariant.Flat" @onclick="OnButtonClick">
+            Toggle Banner
+            <IgbRipple />
+        </IgbButton>
+    </div>
+</IgbBanner>
+
+@code {
+    private IgbBanner bannerRef;
+
+    private void OnButtonClick()
+    {
+        this.bannerRef.ToggleAsync();
+    }
+}
+```
+
+</PlatformBlock>
+
+<Sample src="/notifications/banner/banner-sample-2" height={530} alt="{Platform} Banner 예제" />
+
+
+### 이벤트에 바인딩하기
+
+배너 컴포넌트는 닫힐 때 `Closing`과(와) `Closed` 이벤트를 발생시킵니다. `Closing` 이벤트는 취소할 수 있습니다. 이 이벤트는 [`CustomEvent`](https://developer.mozilla.org/docs/Web/API/CustomEvent) 인터페이스를 사용하며, 발생한 객체의 `cancelable` 속성은 **true**로 설정되어 있습니다. `Closing` 이벤트를 취소하면 해당 최종 작업과 이벤트는 실행되지 않습니다. 즉 배너는 닫히지 않으며 `Closed` 이벤트도 발생하지 않습니다.
+
+닫기 이벤트를 취소하려면 [`preventDefault`](https://developer.mozilla.org/en-US/docs/Web/API/Event/preventDefault) 메서드를 호출하십시오.
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-banner id="banner">
+    ...
+</igc-banner>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```ts
+const banner = document.getElementById('banner') as IgcBannerComponent;
+
+banner.addEventListener('igcClosing', (event) => {
+  event.preventDefault();
+});
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrBanner onClosing={(event) => event.preventDefault()}>
+    ...
+</IgrBanner>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbBanner id="banner">
+    ...
+</IgbBanner>
+
+@code {
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await JS.InvokeVoidAsync("handleClosing");
+        }
+    }
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+
+```javascript
+//In JavaScript:
+function handleClosing() {
+    const banner = document.getElementById('banner');
+
+    banner.addEventListener('igcClosing', (event) => {
+        event.preventDefault();
+    });
+}
+```
+
+</PlatformBlock>
+
+<DocsAside type="info">
+위의 변경 사항을 적용하면 닫기 이벤트가 항상 취소되므로 배너는 절대 닫히지 않습니다.
+</DocsAside>
+
+## 고급 예제
+
+알림을 닫는 버튼 하나와 연결을 켜는 버튼 하나, 이렇게 두 개의 사용자 지정 버튼이 있는 배너를 만들어 보겠습니다. `actions` 슬롯을 사용하여 사용자 지정 작업 핸들러를 전달할 수 있습니다:
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-banner id="banner">
+    <igc-icon slot="prefix" name="signal_wifi_off"></igc-icon>
+    You have lost connection to the internet. This app is offline.
+    <div slot="actions">
+        <igc-button onclick="banner.hide()">
+            <igc-ripple></igc-ripple>
+            Continue Offline
+        </igc-button>
+        <igc-button id="button">
+            <igc-ripple></igc-ripple>
+            Turn On Wifi
+        </igc-button>
+    </div>
+</igc-banner>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrBanner ref={bannerRef}>
+    <IgrIcon slot="prefix" name="signal_wifi_off"></IgrIcon>
+    <span>You have lost connection to the internet. This app is offline.</span>
+    <div slot="actions">
+        <IgrButton variant="flat" onClick={() => bannerRef.current.hide()}>
+            <IgrRipple />
+            <span>Continue Offline</span>
+        </IgrButton>
+        <IgrButton variant="flat" onClick={refreshBanner}>
+            <IgrRipple />
+            <span>Turn On Wifi</span>
+        </IgrButton>
+    </div>
+</IgrBanner>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbBanner @ref="bannerRef">
+    <IgbIcon IconName="signal_wifi_off" Collection="material" slot="prefix"></IgbIcon>
+    You have lost connection to the internet. This app is offline.
+    <div slot="actions">
+        <IgbButton Variant="ButtonVariant.Flat" @onclick="HideBanner">
+            Continue Offline
+            <IgbRipple />
+        </IgbButton>
+        <IgbButton Variant="ButtonVariant.Flat" @onclick="RefreshBanner">
+            Turn On Wifi
+            <IgbRipple />
+        </IgbButton>
+    </div>
+</IgbBanner>
+
+@code {
+    private IgbBanner bannerRef;
+
+    private void HideBanner()
+    {
+        this.bannerRef.HideAsync();
+    }
+}
+```
+
+</PlatformBlock>
+
+> Google의 [Material Design](https://material.io/design/components/banners.html#anatomy) 지침에 따르면 배너에는 최대 버튼 2개만 있어야 합니다. <ApiLink pkg="core" type="Banner" />은(는) `actions` 슬롯 아래의 요소 수를 명시적으로 제한하지 않지만, Material Design 지침을 따르려면 최대 2개까지 사용하는 것을 강력히 권장합니다.
+
+
+해제 옵션(**오프라인 계속**)은 추가 로직이 필요 없으므로 <ApiLink pkg="core" type="Banner" member="hide" label="Hide" /> 메서드를 호출하기만 하면 됩니다. 그러나 확인 작업(**Wifi 켜기**)에는 추가 로직이 필요하므로 컴포넌트에서 정의해야 합니다. 그다음 `click` 이벤트에 대한 이벤트 리스너를 추가합니다. 마지막 단계는 변경될 때마다 `refreshBanner()` 메서드를 호출하는 것입니다. 이 메서드는 `wifiState`에 따라 배너를 전환합니다.
+
+navbar에는 Wifi 아이콘이 있으며, 이 아이콘의 `click` 이벤트에도 이벤트 리스너를 추가합니다. 변경될 때마다 `refreshBanner()` 메서드가 호출되므로, 아이콘은 배너를 전환할 뿐 아니라 연결 상태에 따라 모양도 바꿉니다:
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-navbar>
+  <h1>Gallery</h1>
+  <igc-icon id="icon" slot="end" name="signal_wifi_off"></igc-icon>
+</igc-navbar>
+
+<igc-banner id="banner">
+    ...
+    <div slot="actions">
+        ...
+        <igc-button id="button">
+            <igc-ripple></igc-ripple>
+            Turn On Wifi
+        </igc-button>
+    </div>
+</igc-banner>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```ts
+private banner: IgcBannerComponent;
+private icon: IgcIconComponent;
+private button: IgcButtonComponent;
+
+private wifiState: boolean = false;
+
+constructor() {
+    this.banner = document.getElementById('banner') as IgcBannerComponent;
+    this.icon = document.getElementById('icon') as IgcIconComponent;
+    this.button = document.getElementById('button') as IgcButtonComponent;
+
+    this.icon.addEventListener('click', () => this.refreshBanner());
+    this.button.addEventListener('click', () => this.refreshBanner());
+}
+
+public refreshBanner() {
+    if (!this.wifiState) {
+        this.icon.name = 'signal_wifi_4_bar';
+        this.banner.hide();
+    } else {
+        this.icon.name = 'signal_wifi_off';
+        this.banner.show();
+    }
+    this.wifiState = !this.wifiState;
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+const bannerRef = useRef<IgrBanner>(null);
+const iconRef = useRef<IgrIcon>(null);
+
+const [wifiState, setWifiState] = useState(false);
+const [iconName, setIconName] = useState("signal_wifi_off");
+
+const refreshBanner = () => {
+    const nextWifiState = !wifiState;
+    setWifiState(nextWifiState);
+    setIconName(nextWifiState ? "signal_wifi_4_bar" : "signal_wifi_off");
+
+    if (nextWifiState) {
+        bannerRef.current.hide();
+    } else {
+        bannerRef.current.show();
+    }
+}
+
+return(
+    <>
+        <IgrNavbar>
+            <h1>Gallery</h1>
+            <IgrIcon ref={iconRef} name={iconName} slot="end" onClick={refreshBanner}></IgrIcon>
+        </IgrNavbar>
+
+        <IgrBanner ref={bannerRef}>
+            ...
+            <div slot="actions">
+                ...
+                <IgrButton variant="flat" onClick={refreshBanner}>
+                    <IgrRipple />
+                    <span>Turn On Wifi</span>
+                </IgrButton>
+            </div>
+        </IgrBanner>
+    </>
+);
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbNavbar>
+    <h1>Gallery</h1>
+    <IgbIcon @ref="iconRef" IconName="@iconName" Collection="material" slot="end" @onclick="RefreshBanner"></IgbIcon>
+</IgbNavbar>
+
+<IgbBanner @ref="bannerRef">
+    ...
+    <div slot="actions">
+        ...
+        <IgbButton Variant="ButtonVariant.Flat" @onclick="RefreshBanner">
+            Turn On Wifi
+            <IgbRipple />
+        </IgbButton>
+    </div>
+</IgbBanner>
+
+@code {
+    private IgbBanner bannerRef;
+    private string iconName = "signal_wifi_off";
+    private bool wifiState = false;
+
+    private void RefreshBanner()
+    {
+        if (!this.wifiState)
+        {
+            this.iconName = "signal_wifi_4_bar";
+            this.bannerRef.HideAsync();
+        }
+        else
+        {
+            this.iconName = "signal_wifi_off";
+            this.bannerRef.ShowAsync();
+        }
+        this.wifiState = !this.wifiState;
+    }
+}
+```
+
+</PlatformBlock>
+
+마지막으로 WiFi 상태에 대한 메시지를 표시하는 <ApiLink pkg="core" type="Toast" />을(를) 추가하겠습니다. 템플릿이 적용된 Banner의 결과는 아래 데모에서 확인할 수 있습니다:
+
+<Sample src="/notifications/banner/banner-advanced-sample" height={530} alt="{Platform} Banner 예제" />
+
+
+## 스타일링
+
+<ApiLink pkg="core" type="Banner" /> 컴포넌트는 스타일을 완전히 제어할 수 있도록 여러 CSS 파트를 노출합니다:
+
+|이름|설명|
+|--|--|
+| `base` | 배너 컴포넌트의 기본 래퍼입니다. |
+| `spacer` | 배너 주변의 공간을 설정하는 내부 래퍼입니다. |
+| `message` | 텍스트와 일러스트레이션을 담는 파트입니다. |
+| `illustration` | 배너 아이콘/일러스트레이션을 담는 파트입니다. |
+| `content` | 배너 텍스트 콘텐츠를 담는 파트입니다. |
+| `actions` | 배너 작업 버튼을 담는 파트입니다. |
+
+```css
+igc-banner::part(spacer) {
+  background: var(--ig-surface-600);
+}
+
+igc-banner::part(illustration) {
+  color: var(--ig-surface-600-contrast);
+}
+
+igc-banner::part(content) {
+  color: var(--ig-gray-900);
+}
+```
+
+<Sample src="/notifications/banner/banner-styling" height={530} alt="{Platform} Banner 예제" />
+
+
+## API 참조
+
+
+<ApiLink pkg="core" type="Banner" /><br />
+<ApiLink pkg="core" type="Card" /><br />
+<ApiLink pkg="core" type="Icon" /><br />
+<ApiLink pkg="core" type="Navbar" /><br />
+<ApiLink pkg="core" type="Toast" /><br />
+<ApiLink pkg="core" type="Ripple" /><br />
+
+## 추가 리소스
+
+- [{ProductName} **포럼**]({ForumsLink})
+- [{ProductName} **GitHub**]({GithubLink})

@@ -1,0 +1,491 @@
+---
+title: "Componente Angular Select - Ignite UI for Angular - Licença MIT" 
+description: "Saiba como configurar o componente Angular Select. O Angular Select oferece uma entrada com uma lista suspensa do Angular, permitindo a seleção de um único item do Angular Combobox. Experimente agora."
+keywords:  "angular select, componente angular select, formulários angular, componente select de formulário angular, componentes de ui angular, igniteui for angular, infragistics"
+license: MIT
+_language: pt-BR
+llms:
+  description: "O Angular Select é um componente de formulário usado para selecionar um único valor de uma lista de valores predefinidos."
+---
+
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+# Visão geral do componente Angular Select
+
+O Angular Select é um componente de formulário usado para selecionar um único valor de uma lista de valores predefinidos. O componente Angular Select oferece funcionalidade idêntica ao elemento select nativo do HTML, mas com muito mais opções de personalização. Ele é baseado no <ApiLink type="DropDown" /> e oferece suporte a todos os seus recursos, incluindo templates, virtualização e personalização dos itens da lista suspensa.
+
+## Exemplo do Angular Select
+
+A seguir, um exemplo básico do Angular Select. Ele tem um menu de contexto simples que exibe uma lista de várias opções, aberta a cada clique.
+
+<Sample src="/data-entries/select-sample-1" height={300} alt="Exemplo do Angular Select" />
+
+## Primeiros passos com o Ignite UI for Angular Select
+
+Para começar com o componente Ignite UI for Angular Select, primeiro é preciso instalar o Ignite UI for Angular. Em um aplicativo Angular existente, digite o seguinte comando:
+
+```cmd
+ng add igniteui-angular
+```
+
+Para uma introdução completa ao Ignite UI for Angular, leia o tópico [_primeiros passos_](/general/getting-started).
+
+O próximo passo é importar o `IgxSelectModule` no arquivo **app.module.ts**.
+
+```typescript
+// app.module.ts
+...
+import { IgxSelectModule } from 'igniteui-angular/select';
+// import { IgxSelectModule } from '@infragistics/igniteui-angular'; for licensed package
+@NgModule({
+    ...
+    imports: [..., IgxSelectModule],
+    ...
+})
+export class AppModule {}
+```
+
+Alternativamente, a partir de `16.0.0` você pode importar o `IgxSelectComponent` como uma dependência independente, ou usar o token [`IGX_SELECT_DIRECTIVES`](https://github.com/IgniteUI/igniteui-angular/blob/master/projects/igniteui-angular/select/src/select/public_api.ts) para importar o componente e todos os seus componentes e diretivas de apoio.
+
+```typescript
+// home.component.ts
+
+import { FormsModule } from '@angular/forms';
+import { IGX_SELECT_DIRECTIVES } from 'igniteui-angular/select';
+// import { IGX_SELECT_DIRECTIVES } from '@infragistics/igniteui-angular'; for licensed package
+
+@Component({
+    selector: 'app-home',
+    template: `
+    <igx-select [(ngModel)]="selected">
+        <label igxLabel>Simple Select</label>
+        <igx-select-item value="Orange">Orange</igx-select-item>
+        <igx-select-item value="Apple">Apple</igx-select-item>
+        <igx-select-item value="Banana">Banana</igx-select-item>
+        <igx-select-item value="Mango">Mango</igx-select-item>
+    </igx-select>
+    `,
+    styleUrls: ['home.component.scss'],
+    standalone: true,
+    imports: [IGX_SELECT_DIRECTIVES, FormsModule]
+    /* or imports: [IgxSelectComponent, IgxSelectItemComponent, IgxLabelDirective, FormsModule] */
+})
+export class HomeComponent {
+    public selected: string;
+}
+```
+
+Agora que você importou o módulo ou as diretivas do Ignite UI for Angular Select, pode começar a usar o componente `igx-select`.
+
+## Usando o Angular Select
+
+Adicione o `igx-select` junto com uma lista de itens para escolher. Usamos <ApiLink type="SelectItem" label="igx-select-item" /> para exibir os itens que o `igx-select` contém.
+
+```html
+<igx-select>
+    <label igxLabel>Simple Select</label>
+    <igx-select-item value="Orange">Orange</igx-select-item>
+    <igx-select-item value="Apple">Apple</igx-select-item>
+    <igx-select-item value="Banana">Banana</igx-select-item>
+    <igx-select-item value="Mango">Mango</igx-select-item>
+</igx-select>
+```
+
+<DocsAside type="info">
+Este componente usa Material Icons. Adicione o seguinte link ao seu `index.html`: `<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">`
+</DocsAside>
+
+Outra forma de fazer isso seria usar uma coleção de itens que queremos exibir, com a diretiva estrutural [*ngFor](https://angular.io/api/common/NgForOf):
+
+```typescript
+public items: string[] = ['Orange', 'Apple', 'Banana', 'Mango'];
+```
+
+```html
+<igx-select [(ngModel)]="selected">
+    <label igxLabel>Simple Select</label>
+    <igx-select-item *ngFor="let item of items" [value]="item">
+        {{item}}
+    </igx-select-item>
+</igx-select>
+```
+
+Por padrão, o componente Select usará o `innerText` do elemento do item no campo de entrada. Em casos com templates de item mais complexos, você pode definir explicitamente a propriedade `text` para especificar o que deve ser exibido no campo de entrada quando este item for selecionado. Por exemplo:
+
+```html
+<igx-select>
+    <igx-select-item *ngFor="let item of items" [value]="item.value" [text]="item.text">
+        {{item.text}} ( {{item.count}} )
+    </igx-select-item>
+</igx-select>
+```
+
+Para ver a propriedade `text` em ação com templates de item um pouco mais sofisticados, confira o exemplo de agrupamento na seção **Select com grupos**, abaixo.
+
+### Propriedades de entrada
+
+O componente Select oferece suporte às seguintes diretivas aplicáveis ao [Input Group](/input-group):
+
+- `igxLabel` - não é preciso definir a propriedade `for`, pois a vinculação com a entrada do Angular Select é feita automaticamente por meio de `aria-labelledby`.
+- `igx-prefix`/`igxPrefix`
+- `igx-suffix`/`igxSuffix` - observe que o sufixo de botão de alternância integrado sempre será exibido por último.
+- `igx-hint`/`igxHint`
+
+```html
+<igx-select [(ngModel)]="selected">
+    <label igxLabel>Pick a fruit</label>
+    <igx-prefix>
+        <span class="bio-prefix">BIO</span>
+    </igx-prefix>
+    @if (selected) {
+        <igx-suffix>
+            <igx-icon (click)="clearSelection($event)">clear</igx-icon>
+        </igx-suffix>
+    }
+    <igx-hint>Choose a banana</igx-hint>
+    <igx-select-item *ngFor="let item of items" [value]="item">
+        {{item}}
+    </igx-select-item>
+</igx-select>
+```
+
+<Sample src="/data-entries/select-input-directives" height={350} alt="" />
+
+<DocsAside type="info">
+Se nenhum <ApiLink type="Select" member="placeholder" label="placeholder" /> for especificado para o componente Select e nenhuma seleção tiver sido feita, o `igxLabel` fará a transição e aparecerá onde você esperaria que o placeholder estivesse.
+</DocsAside>
+
+### Agrupando itens do Select
+
+Para ajudar a separar visualmente os grupos de itens, o componente select oferece suporte ao agrupamento de itens, envolvendo-os em um `<igx-select-item-group>`.
+Isso funciona melhor com dados hierárquicos que podem ser iterados para declarar os componentes. No exemplo a seguir, cada grupo tem um `label` e uma coleção de `items`:
+
+```typescript
+public greengrocery: Array<{ label: string, items: Array<{ type: string, origin: string }> }> = [
+    { label: 'Fruits', items: [
+            { type: 'Apple', origin: 'local' },
+            { type: 'Orange', origin: 'import' },
+            { type: 'Banana', origin: 'import'}
+        ]
+    },
+    { label: 'Vegetables', items: [
+            { type: 'Cucumber', origin: 'local' },
+            { type: 'Potato', origin: 'import' },
+            { type: 'Pepper', origin: 'local' }
+        ]
+    }
+];
+```
+
+Depois, no arquivo de template, você pode iterar sobre os objetos e acessar os itens correspondentes:
+
+```html
+<igx-select #select>
+    <label igxLabel>Select With Groups</label>
+    <igx-select-item-group *ngFor="let group of greengrocery" [label]="group.label">
+        <igx-select-item *ngFor="let item of group.items" [value]="item.type" [text]="item.type">
+            {{item.type}}
+            @if (item.origin === 'local') {
+                <igx-icon title="Local product">local_shipping</igx-icon>
+            } @else {
+                <igx-icon title="Import product">flight</igx-icon>
+            }
+        </igx-select-item>
+    </igx-select-item-group>
+</igx-select>
+```
+
+<Sample src="/data-entries/select-sample-2" height={400} alt="" />
+
+### Cabeçalho e rodapé
+
+Atualmente, não há templates padrão de cabeçalho e rodapé para o componente Select. No entanto, você pode adicionar um template de cabeçalho ou de rodapé marcando-os, respectivamente, com `igxSelectHeader` ou `igxSelectFooter`. Como são templates personalizados, você também deve definir a sua estilização.
+Neste exemplo, há templates ng-template de cabeçalho e de rodapé definidos. No cabeçalho, há uma filtragem básica, implementada por meio de <ApiLink type="ButtonGroup" label="igx-buttongroup" />. O rodapé inclui um resumo estático de todos os itens, com base no método de entrega.
+
+```html
+<igx-select>
+    <label igxLabel>Pick your fruit</label>
+    <igx-select-item *ngFor="let fruit of fruits" [value]="fruit.type" [text]="fruit.type" [ngSwitch]="fruit.delivery">
+        {{fruit.type}}
+        <igx-icon *ngSwitchCase="'flight'">flight</igx-icon>
+        <igx-icon *ngSwitchCase="'train'">train</igx-icon>
+        <igx-icon *ngSwitchCase="'boat'">directions_boat</igx-icon>
+    </igx-select-item>
+    <ng-template igxSelectHeader>
+        <div class="custom-select-header">
+
+            <span class="sample-template-heading">DELIVERY METHOD</span>
+            <igx-buttongroup (click)="filter($event.target.title)">
+                    <button igxButton title="flight"><igx-icon title="flight">flight</igx-icon></button>
+                    <button igxButton title="train"><igx-icon title="train">train</igx-icon></button>
+                    <button igxButton title="boat"><igx-icon title="boat">directions_boat</igx-icon></button>
+            </igx-buttongroup>
+        
+</div>
+    </ng-template>
+    <ng-template igxSelectFooter>
+        <div class="custom-select-footer">
+
+            <span class="sample-template-heading">TOTAL</span>
+            <div class="sample-template-icons">
+
+                <span class="sample-template-icons__item">
+                    <igx-icon
+                        title="flight"
+                        [class.important-icon]="selected === 'flight'"
+                    >flight</igx-icon>
+                    {{flightCount}}
+                </span>
+                <span class="sample-template-icons__item">
+                    <igx-icon
+                        title="train"
+                        [class.important-icon]="selected === 'train'"
+                    >train</igx-icon>
+                    {{trainCount}}
+                </span>
+                <span class="sample-template-icons__item">
+                    <igx-icon
+                        title="boat"
+                        [class.important-icon]="selected === 'boat'"
+                    >directions_boat
+                    </igx-icon>
+                    {{boatCount}}
+                </span>
+            
+</div>
+        
+</div>
+    </ng-template>
+</igx-select>
+```
+
+<Sample src="/data-entries/select-header-footer" height={610} alt="" />
+
+### Botão de alternância personalizado no Angular Select
+
+Você pode personalizar o botão de alternância padrão usando a diretiva `igxSelectToggleIcon` ou definindo um `TemplateRef` para a propriedade <ApiLink type="Select" member="toggleIconTemplate" label="toggleIconTemplate" />.
+
+```html
+<igx-select #select>
+    ...
+    <ng-template igxSelectToggleIcon let-collapsed>
+        <igx-icon>{{ collapsed ? 'add_circle' : 'add_circle_outline'}}</igx-icon>
+    </ng-template>
+    ...
+</igx-select>
+```
+
+## Navegação pelo teclado
+
+- Abra a `igx-select` clicando na tecla `Space`, `Enter` ou `ALT + Up/Down Arrow`, enquanto o select estiver com foco.
+- Feche a `igx-select` usando a combinação `ALT + Up/Down Arrow` ou qualquer uma das teclas `Enter`, `Space`, `Esc` ou `Tab`.
+- Use as teclas `Up/Down Arrow` para navegar pelos itens.
+- Use as teclas `Home` ou `End` para ir até o primeiro e o último item da lista.
+- Você pode navegar pelos itens da lista, a partir de um determinado caractere, pressionando a tecla correspondente.
+- Você pode ir até um item específico digitando rapidamente os primeiros caracteres do item para o qual deseja ir.
+- Selecione um item usando as teclas `Enter` ou `Space`
+
+<DocsAside type="info">
+`igx-select` oferece suporte apenas à seleção _única_ de itens.
+</DocsAside>
+
+Você também pode experimentar o [App Builder™ de arrastar e soltar](https://www.infragistics.com/products/appbuilder) para ver como ele automatiza certos processos e reduz a necessidade de codificação manual excessiva ao criar a sua próxima aplicação Angular.
+
+## Configurações personalizadas de overlay
+
+Você pode criar <ApiLink type="OverlaySettings" kind="interface" /> personalizadas. Para isso, primeiro defina o seu template desta forma:
+
+```html
+<igx-select [overlaySettings]="customOverlaySettings">
+    <igx-select-item *ngFor="let item of items">
+        {{item}}
+    </igx-select-item>
+</igx-select>
+```
+
+- Onde a propriedade `overlaySettings` é vinculada às suas configurações personalizadas.
+
+Na sua classe, você teria algo como:
+
+```typescript
+export class MyClass implements OnInit {
+    @ViewChild(IgxSelectComponent)
+    public select: IgxSelectComponent;
+    public items: string[] = ['Orange', 'Apple', 'Banana', 'Mango', 'Tomato'];
+    public customOverlaySettings: OverlaySettings;
+
+    public ngOnInit(): void {
+        const positionSettings: PositionSettings = {
+            closeAnimation: scaleOutBottom,
+            horizontalDirection: HorizontalAlignment.Right,
+            horizontalStartPoint: HorizontalAlignment.Left,
+            openAnimation: scaleInTop,
+            verticalDirection: VerticalAlignment.Bottom,
+            verticalStartPoint: VerticalAlignment.Bottom
+        };
+        this.customOverlaySettings = {
+            target: this.select.inputGroup.element.nativeElement,
+            positionStrategy: new ConnectedPositioningStrategy(
+                positionSettings
+            ),
+            scrollStrategy: new AbsoluteScrollStrategy()
+        };
+    }
+}
+```
+
+Você pode ver que criamos um objeto <ApiLink kind="interface" type="PositionSettings" /> que é passado diretamente para o nosso <ApiLink type="ConnectedPositioningStrategy" />. Não é obrigatório fazer isso, mas, como queremos definir um posicionamento personalizado, usamos esse objeto para substituir as configurações padrão da estratégia.
+
+- Você pode definir todas as configurações dentro do hook [_ngOnInit_](https://angular.io/api/core/OnInit), e isso afetará automaticamente o seu template quando o componente for gerado.
+
+<Sample src="/data-entries/select-sample-4" height={260} alt="" />
+
+Você também pode passar um objeto <ApiLink type="OverlaySettings" kind="interface" /> personalizado para a função open do <ApiLink type="Select" member="open" label="IgxSelectComponent" />; nesse caso, o seu template deve ficar assim:
+
+```html
+<igx-select>
+    <igx-select-item *ngFor="let item of items">
+        {{item}}
+    </igx-select-item>
+</igx-select>
+
+<button (click)="onClick($event)"></button>
+```
+
+E a sua classe tem o seguinte:
+
+```typescript
+export class MyClass implements OnInit {
+    /* -- */
+    private otherCustomOverlaySettings: OverlaySettings = {
+        positionStrategy: new GlobalPositionStrategy(),
+        scrollStrategy: new AbsoluteScrollStrategy()
+    }
+    onClick(event: MouseEvent): void {
+        this.select.open(this.otherCustomOverlaySettings)
+    }
+    /* -- */
+}
+```
+
+<DocsAside type="info">
+Se você passar as suas configurações personalizadas tanto como argumento da função `open` quanto no template, o `igx-select` usará a configuração informada na função `open`. No entanto, se você vincular as configurações a um evento interno, como `opening` ou `opened`, o `igx-select` usará as configurações definidas no template.
+</DocsAside>
+
+## Estilização
+
+### Mapa de propriedades de tema do Select
+
+Quando você modifica uma propriedade primária, todas as propriedades dependentes relacionadas são atualizadas automaticamente para refletir a mudança:
+
+| Propriedade primária | Propriedade dependente | Descrição |
+| --- | --- | --- |
+| **$toggle-button-background** | $toggle-button-foreground | Cor do texto do botão de alternância |
+|  | $toggle-button-foreground-filled | Cor do texto quando o botão de alternância está preenchido |
+|  | $toggle-button-background-focus | Cor de fundo quando está com foco |
+|  | $toggle-button-background-focus--border (bootstrap/indigo) | Fundo quando está com foco na variante com borda (Bootstrap/Indigo) |
+|  | $toggle-button-foreground-focus | Cor do texto quando o botão de alternância está com foco |
+
+Cada componente tem a sua própria função de tema.
+
+Para estilizar o componente Select, é preciso estilizar os componentes que o contêm. No nosso caso, são o <ApiLink kind="sass" module="themes" type="function-input-group-theme" label="input-group-theme" /> e o <ApiLink kind="sass" module="themes" type="function-drop-down-theme" label="drop-down-theme" />.
+Veja as seções de estilização [`Input Group`](/input-group#estilização) e [`Drop Down`](/drop-down#estilização) para entender melhor como estilizar esses dois componentes.
+
+Também temos uma função <ApiLink kind="sass" module="themes" type="function-select-theme" label="select-theme" code={true} />, usada apenas para estilizar o botão do nosso componente Select. <br/>
+Para começar a estilizar o botão do componente Select, precisamos importar o arquivo `index`, onde são exportadas todas as funções de tema e o mixin `tokens()`:
+
+```scss
+@use "igniteui-angular/theming" as *;
+
+// IMPORTANT: Prior to Ignite UI for Angular version 13 use:
+// @import '~igniteui-angular/lib/core/styles/themes/index';
+```
+
+Seguindo a abordagem mais simples, criamos um novo tema que estende o <ApiLink kind="sass" module="themes" type="function-select-theme" label="select-theme" code={true} /> e define apenas o parâmetro `$toggle-button-background`. A função de tema calculará automaticamente todas as cores de fundo e de primeiro plano correspondentes para os diferentes estados, com base apenas nesse valor.
+
+```scss
+$custom-select-theme: select-theme(
+  $toggle-button-background: #57a5cd,
+);
+```
+
+A última etapa é passar o tema de rádio personalizado na nossa aplicação:
+
+```scss
+:host {
+    @include tokens($custom-select-theme);
+}
+```
+
+<Sample src="/data-entries/select-styling" height={220} alt="" />
+
+### Estilizando com Tailwind
+
+Você pode estilizar o select usando as nossas classes utilitárias personalizadas do Tailwind. Antes, certifique-se de [configurar o Tailwind](/themes/tailwind).
+
+Junto com a importação do tailwind na sua folha de estilos global, você pode aplicar os utilitários de tema desejados da seguinte forma:
+
+```scss
+@import "tailwindcss";
+...
+@use 'igniteui-theming/tailwind/utilities/material.css';
+```
+
+O arquivo de utilitários inclui as variantes de tema `light` e `dark`.
+
+- Use as classes `light-*` para o tema claro.
+- Use as classes `dark-*` para o tema escuro.
+- Acrescente o nome do componente depois do prefixo, por exemplo, `light-select`, `dark-select`.
+
+Depois de aplicadas, essas classes habilitam cálculos dinâmicos de tema. A partir daí, você pode substituir as variáveis CSS geradas usando `arbitrary properties`. Depois dos dois-pontos, informe qualquer formato de cor CSS válido (HEX, variável CSS, RGB etc.).
+
+Você pode encontrar a lista completa de propriedades em <ApiLink kind="sass" module="themes" type="function-select-theme" label="select-theme" />. A sintaxe é a seguinte:
+
+```html
+<igx-select
+  class="!light-select ![--toggle-button-background:#99BAA6]">
+  ...
+</igx-select>
+```
+
+<DocsAside type="info">
+O ponto de exclamação (`!`) é obrigatório para garantir que a classe utilitária tenha precedência. O Tailwind aplica estilos em camadas e, sem marcar esses estilos como importantes, eles serão sobrescritos pelo tema padrão do componente.
+</DocsAside>
+
+No final, o seu select deve ficar assim:
+
+<Sample src="/data-entries/select-tailwind-styling" height={220} iframeOnly />
+
+<hr/>
+
+## Referência da API
+
+- <ApiLink type="Select" />
+- <ApiLink type="SelectItem" />
+- <ApiLink type="DropDown" />
+- <ApiLink type="DropDownItem" />
+- <ApiLink type="OverlaySettings" kind="interface" />
+- <ApiLink type="ConnectedPositioningStrategy" />
+- <ApiLink type="GlobalPositionStrategy" member="constructor" label="GlobalPositionStrategy" />
+- <ApiLink type="AbsoluteScrollStrategy" />
+- <ApiLink type="PositionSettings" kind="interface" />
+
+## Dependências de tema
+
+- <ApiLink kind="sass" module="themes" type="function-drop-down-theme" label="Tema do IgxDropDown" />
+- <ApiLink kind="sass" module="themes" type="function-icon-theme" label="Tema do IgxIcon" />
+- <ApiLink kind="sass" module="themes" type="function-overlay-theme" label="Tema do IgxOverlay" />
+- <ApiLink kind="sass" module="themes" type="function-input-group-theme" label="Tema do IgxInputGroup" />
+
+## Recursos adicionais
+
+- [NgModel](https://angular.io/api/forms/NgModel)
+- [ViewChild](https://angular.io/api/core/ViewChild)
+- [ngForOf](https://angular.io/api/common/NgForOf)
+
+Nossa comunidade é ativa e sempre receptiva a novas ideias.
+
+- [Ignite UI for Angular **Fóruns**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

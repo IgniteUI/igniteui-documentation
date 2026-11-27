@@ -1,0 +1,154 @@
+---
+title:  "Acciones de fila en Angular Data Grid: Ignite UI for Angular" 
+description: "El componente grid de Ignite UI for Angular permite usar ActionStrip y utilizar CRUD para los componentes de fila y celda, así como el anclaje de filas."
+keywords: "Ignite UI for Angular, controles de interfaz, widgets de Angular, widgets web, widgets de interfaz, Angular, conjunto de componentes nativos de Angular, controles nativos de Angular, biblioteca de componentes nativos de Angular, componentes ActionStrip de Angular, directivas ActionStrip de Angular, controles ActionStrip de Angular"
+license: commercial
+_language: es
+llms:
+  description: "El componente grid de Ignite UI for Angular permite usar ActionStrip y utilizar CRUD para los componentes de fila y celda, así como el anclaje de filas."
+---
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+<ComponentBlock for="Grid">
+
+# Acciones de fila en Angular Data Grid
+
+El componente grid de Ignite UI for Angular permite usar [ActionStrip](/action-strip) y utilizar CRUD para los componentes de fila y celda, así como el anclaje de filas. El componente Action Strip puede alojar controles de interfaz predefinidos para estas operaciones.
+</ComponentBlock>
+<ComponentBlock for="TreeGrid">
+
+# Acciones de fila en Angular Tree Grid
+
+El componente tree grid de Ignite UI for Angular permite usar [ActionStrip](/action-strip) y utilizar CRUD para los componentes de fila y celda, así como el anclaje de filas. El componente Action Strip puede alojar controles de interfaz predefinidos para estas operaciones.
+</ComponentBlock>
+<ComponentBlock for="HierarchicalGrid">
+
+# Acciones de fila en Angular Hierarchical Grid
+
+El componente hierarchical grid de Ignite UI for Angular permite usar [ActionStrip](/action-strip) y utilizar CRUD para los componentes de fila y celda, así como el anclaje de filas. El componente Action Strip puede alojar controles de interfaz predefinidos para estas operaciones.
+</ComponentBlock>
+
+## Uso
+
+El primer paso es importar **IgxActionStripModule** en nuestro archivo **app.module.ts**:
+
+```typescript
+// app.module.ts
+
+...
+import { IgxActionStripModule } from 'igniteui-angular/action-strip';
+// import { IgxActionStripModule } from '@infragistics/igniteui-angular'; for licensed package
+
+@NgModule({
+    ...
+    imports: [..., IgxActionStripModule],
+    ...
+})
+```
+
+Los componentes de interfaz predefinidos `actions` son:
+
+- <ApiLink type="GridEditingActions" />: incluye funcionalidad e interfaz diseñadas específicamente para la edición de la cuadrícula. Permite alternar rápidamente el modo de edición de celdas o filas, según la opción <ApiLink type="Grid" member="rowEditable" label="rowEditable" />, y eliminar filas de la cuadrícula.
+
+- <ApiLink type="GridPinningActions" />: incluye funcionalidad e interfaz diseñadas específicamente para el anclaje de filas de la cuadrícula. Permite anclar filas rápidamente y navegar entre las filas ancladas y sus equivalentes deshabilitados.
+
+Se añaden dentro de `<igx-action-strip>` y eso es todo lo necesario para tener un Action Strip que proporcione las interacciones predeterminadas.
+
+<ComponentBlock for="Grid">
+
+```html
+<igx-grid [data]="data" [rowEditable]="true" [primaryKey]="'ID'">
+    <igx-column *ngFor="let c of columns" [field]="c.field">
+    </igx-column>
+
+    <igx-action-strip #actionStrip>
+        <igx-grid-pinning-actions></igx-grid-pinning-actions>
+        <igx-grid-editing-actions></igx-grid-editing-actions>
+    </igx-action-strip>
+</igx-grid>
+```
+
+</ComponentBlock>
+<ComponentBlock for="TreeGrid">
+
+```html
+<igx-tree-grid [data]="data" [rowEditable]="true" [primaryKey]="'ID'">
+    <igx-column *ngFor="let c of columns" [field]="c.field">
+    </igx-column>
+
+    <igx-action-strip #actionStrip>
+        <igx-grid-pinning-actions></igx-grid-pinning-actions>
+        <igx-grid-editing-actions></igx-grid-editing-actions>
+    </igx-action-strip>
+</igx-tree-grid>
+```
+
+</ComponentBlock>
+<ComponentBlock for="HierarchicalGrid">
+
+```html
+<igx-hierarchical-grid [data]="data" [rowEditable]="true" [primaryKey]="'ID'">
+    <igx-column *ngFor="let c of columns" [field]="c.field">
+    </igx-column>
+
+    <igx-action-strip #actionStrip>
+        <igx-grid-pinning-actions></igx-grid-pinning-actions>
+        <igx-grid-editing-actions></igx-grid-editing-actions>
+    </igx-action-strip>
+</igx-hierarchical-grid>
+```
+
+</ComponentBlock>
+
+<DocsAside type="info">
+Cuando `IgxActionStripComponent` es un componente hijo de la cuadrícula, al pasar el puntero sobre una fila se mostrará automáticamente la interfaz.
+</DocsAside>
+
+## Implementación personalizada
+
+Estos componentes exponen plantillas que ofrecen flexibilidad para la personalización. Por ejemplo, si quisiéramos usar `ActionStrip` para un escenario tipo Gmail con acciones de fila como `delete`, `edit`, etc., puede crear simplemente un componente de botón con `igx-icon`, añadirle un evento de clic e insertarlo en el componente `igx-action-strip`.
+
+```html
+<igx-grid>
+    <igx-action-strip #actionstrip>
+        <igx-grid-pinning-actions></igx-grid-pinning-actions>
+        <button title="Edit" igxIconButton="flat" igxRipple (click)='startEdit(actionstrip.context)'>
+            <igx-icon>edit</igx-icon>
+        </button>
+        @if (!isDeleted(actionstrip.context)) {
+            <button title="Delete" igxIconButton="flat" igxRipple (click)='actionstrip.context.delete()'>
+                <igx-icon>delete</igx-icon>
+            </button>
+        }
+    </igx-action-strip>
+</igx-grid>
+```
+
+<ComponentBlock for="Grid">
+
+<Sample src="/grid/grid-action-strip" height={600} alt="" />
+</ComponentBlock>
+<ComponentBlock for="TreeGrid">
+
+<Sample src="/tree-grid/tree-grid-action-strip" height={600} alt="" />
+</ComponentBlock>
+
+<ComponentBlock for="HierarchicalGrid">
+
+<Sample src="/hierarchical-grid/hGrid-action-strip" height={600} alt="" />
+</ComponentBlock>
+
+<DocsAside type="info">
+Las acciones predefinidas heredan de [`IgxGridActionsBaseDirective`]({environment:infragisticsBaseUrl}/classes/igxgridactionsbasedirective.html), y al crear un componente de acción de grid personalizado, también debe heredar de `IgxGridActionsBaseDirective`.
+</DocsAside>
+
+## Referencias de API
+Para obtener información más detallada sobre la API de Action Strip, consulte los siguientes enlaces:
+- <ApiLink type="ActionStrip" />
+Componentes y/o directivas adicionales que se pueden usar dentro de Action Strip:
+- <ApiLink type="GridActionsBaseDirective" />
+- <ApiLink type="GridPinningActions" />
+- <ApiLink type="GridEditingActions" />
+- <ApiLink type="Divider" />

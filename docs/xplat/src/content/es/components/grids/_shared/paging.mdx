@@ -1,0 +1,437 @@
+---
+title: "Paginación de {Platform} {ComponentTitle} - {ProductName}"
+description: "Configure la paginación de {Platform} y cree páginas personalizadas en la tabla {Platform} de Ignite UI, y obtenga los datos de las páginas solicitadas con diversos eventos."
+sharedComponents: ["Grid", "TreeGrid", "HierarchicalGrid"]
+keywords: "Paginación, {Platform}, {ComponentKeywords}, {ProductName}, Infragistics"
+license: commercial
+namespace: Infragistics.Controls
+_canonicalLink: "{CanonicalLinkToGridPaging}"
+_language: es
+llms:
+  description: "La función de paginación de {ProductName} en {Platform} {ComponentTitle} sirve para dividir un gran conjunto de datos en una secuencia de páginas con contenido similar."
+---
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+
+# Descripción general de la paginación de {Platform} {ComponentTitle}
+
+La función de paginación de {ProductName} en {Platform} {ComponentTitle} sirve para dividir un gran conjunto de datos en una secuencia de páginas con contenido similar. La paginación de la cuadrícula de React mejora la experiencia del usuario y la interacción con los datos. La paginación de <ApiLink type="{ComponentName}" /> se configura mediante un componente independiente proyectado en el árbol de la cuadrícula, definiendo una etiqueta <ApiLink type="Paginator" />, de forma similar a como se añade una columna. Como en cualquier tabla de {Platform}, la paginación de {Platform} {ComponentTitle} admite una plantilla para páginas personalizadas.
+
+## Ejemplo de paginación de {Platform} {ComponentTitle}
+
+El ejemplo siguiente muestra la paginación de <ApiLink type="{ComponentName}" /> y expone las opciones de uso de elementos por página y de cómo habilitar la paginación. El usuario también puede desplazarse rápidamente por las páginas <ApiLink type="{ComponentName}" /> mediante los botones "Go to last page" y "Go to first page".
+
+<Sample src="/{ComponentSample}/row-paging-basic" height={550} alt="Ejemplo de paginación de {Platform} {ComponentTitle}" />
+
+
+
+<PlatformBlock for="Angular">
+Añadir un componente [Paginator](/paginator.mdx) controlará si la función está presente; puede habilitarla o deshabilitarla mediante un sencillo bloque `@if` con una propiedad de alternancia. La entrada <ApiLink type="Paginator" member="perPage" /> controla los registros visibles por página. Actualicemos nuestro <ApiLink type="{ComponentName}" /> para habilitar la paginación: -->
+
+</PlatformBlock>
+
+```css
+.gridSize {
+    --ig-size: var(--ig-size-small);
+}
+```
+
+<PlatformBlock for="Angular">
+```html
+<{ComponentSelector} #grid class="gridSize" [data]="data" [height]="'500px'" [width]="'100%'">
+    <igx-paginator [perPage]="10">
+    </igx-paginator>
+</{ComponentSelector}>
+```
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```razor
+<{ComponentSelector} @ref=grid Class="gridSize" Width="100%" Height="500px" Data=Data>
+    <IgbPaginator PerPage="10"></IgbPaginator>
+</{ComponentSelector}>
+```
+</PlatformBlock>
+<PlatformBlock for="WebComponents">
+```html
+<{ComponentSelector} id="grid" class="gridSize" height="500px" width="100%" >
+    <igc-paginator per-page="10">
+    </igc-paginator>
+</{ComponentSelector}>
+```
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+<{ComponentSelector} className="gridSize" height="500px" width="100%">
+    <IgrPaginator perPage={10}>
+    </IgrPaginator>
+</{ComponentSelector}>
+```
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+```html
+<igx-paginator #paginator [totalRecords]="20">
+    <igx-paginator-content>
+        <div id="numberPager" style="justify-content: center;">
+            <button [disabled]="paginator.isFirstPage" (click)="paginator.previousPage()" igxButton="flat">
+                PREV
+            </button>
+            <span>
+               Page {{paginator.page}} of {{paginator.totalPages}}
+            </span>
+            <button [disabled]="paginator.isLastPage" (click)="paginator.nextPage()" igxButton="flat">
+                NEXT
+            </button>
+        </div>
+    </igx-paginator-content>
+</igx-paginator>
+```
+</PlatformBlock>
+
+<ComponentBlock for="Grid">
+## Paginación con Agrupar por
+
+Las filas de grupo participan en el proceso de paginación junto con las filas de datos. Cuentan para el tamaño de página de cada página. Las filas contraídas no se incluyen en el proceso de paginación.
+
+La integración entre la paginación y Group By se describe en el tema [Group By](groupby.mdx#{PlatformLower}-grid-group-by-with-paging).
+
+</ComponentBlock>
+
+## Uso
+
+El componente <ApiLink type="Paginator" /> se usa junto con el componente <ApiLink type="{ComponentName}" /> en el ejemplo siguiente, pero puede usarse con cualquier otro componente si necesita la funcionalidad de paginación.
+
+<ComponentBlock for="Grid, TreeGrid">
+<PlatformBlock for="Angular">
+```html
+<{ComponentSelector} #grid [data]="data" class="gridSize">
+    <igx-paginator #paginator [(page)]="grid.page" [totalRecords]="grid.totalRecords" [(perPage)]="10"
+            [selectOptions]="selectOptions">
+    </igx-paginator>
+</{ComponentSelector}>
+```
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```razor
+<{ComponentSelector} @ref=grid Data=Data class="gridSize">
+    <IgbPaginator Page="grid.Page" TotalRecords="grid.TotalRecords" PerPage="10">
+    </IgbPaginator>
+</{ComponentSelector}>
+```
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+```html
+<{ComponentSelector} id="grid" class="gridSize">
+    <igc-paginator id="paginator" per-page="10">
+    </igc-paginator>
+</{ComponentSelector}>
+```
+
+```ts
+constructor() {
+    var grid = this.grid = document.getElementById('grid') as {ComponentName};
+    var paginator = this.paginator = document.getElementById('paginator') as IgcPaginatorComponent;
+    const selectOptions = [5, 15, 20, 50];
+    grid.data = this.data;
+    paginator.page = grid.page;
+    paginator.totalRecords = grid.totalRecords;
+    paginator.selectOptions = selectOptions;
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+const selectOptions = [5, 15, 20, 50];
+
+<{ComponentSelector} className="gridSize">
+    <IgrPaginator perPage={10} page={1} selectOptions={selectOptions}>
+    </IgrPaginator>
+</{ComponentSelector}>
+
+```
+</PlatformBlock>
+
+</ComponentBlock>
+<ComponentBlock for="HierarchicalGrid">
+<PlatformBlock for="Angular">
+```html
+<igx-hierarchical-grid>
+    <igx-column *ngFor="let c of hColumns" [field]="c.field">
+    </igx-column>
+    <igx-row-island [key]="'childData'" [autoGenerate]="true">
+        <igx-row-island [key]="'childData'" [autoGenerate]="true">
+            <igx-paginator *igxPaginator></igx-paginator>
+        </igx-row-island>
+        <igx-paginator *igxPaginator></igx-paginator>
+    </igx-row-island>
+    <igx-row-island [key]="'childData2'" [autoGenerate]="true">
+        <igx-paginator *igxPaginator></igx-paginator>
+    </igx-row-island>
+
+    <igx-paginator></igx-paginator>
+</igx-hierarchical-grid>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```razor
+TO-DO H-GRID CODE SNIPPET
+```
+</PlatformBlock>
+
+### Configuración del paginador en cuadrículas secundarias
+
+<PlatformBlock for="Angular">
+Debido a ciertas limitaciones en la forma en que se implementan las cuadrículas secundarias de un <ApiLink type="{ComponentName}" /> y en cómo funciona el ámbito de DI, al definir un componente de paginador dentro de las etiquetas <ApiLink type="RowIsland" />, asegúrese siempre de usar la directiva <ApiLink type="Paginator" /> en el propio paginador. Así se garantiza que la cuadrícula secundaria tenga la instancia correcta del paginador como referencia:
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+```html
+<igx-hierarchical-grid>
+    <igx-row-island>
+        <igx-grid-toolbar *igxPaginator>
+        </igx-grid-toolbar>
+    </igx-row-island>
+</igx-hierarchical-grid>
+```
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```razor
+TO-DO H-GRID CODE SNIPPET
+```
+</PlatformBlock>
+</ComponentBlock>
+
+### Demostración del componente paginador
+
+<Sample src="/{ComponentSample}/row-paging-options" height={550} alt="Ejemplo de paginador reutilizable de {Platform} {ComponentTitle}" />
+
+
+
+
+<PlatformBlock for="Angular">
+
+## Paginación remota
+
+La paginación remota se puede lograr declarando un servicio, responsable de la obtención de datos, y un componente, que será responsable de la construcción de <ApiLink type="{ComponentName}" /> y de la suscripción a los datos. Para obtener información más detallada, consulte el tema [Remote Data Operations](remote-data-operations.mdx#remote-paging).
+
+<ComponentBlock for="Grid">
+## Paginación remota con plantilla personalizada
+
+En algunos casos puede que quiera definir su propio comportamiento de paginación; en ese caso podemos aprovechar <ApiLink type="PaginatorContent" /> y añadir nuestra lógica personalizada junto a ella. [Esta sección](remote-data-operations.mdx#remote-paging-with-custom-igx-paginator-content) explica cómo ampliaremos el ejemplo de paginación remota para demostrarlo.
+
+</ComponentBlock>
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+## Estilo de paginación en {Platform}
+
+Para empezar a dar estilo al paginador, debemos importar el archivo `index`, donde viven todas las funciones de tema y los mixins de componentes:
+
+```scss
+@use "igniteui-angular/theming" as *;
+
+// IMPORTANT: Prior to Ignite UI for Angular version 13 use:
+// @import '~igniteui-angular/lib/core/styles/themes/index';
+```
+
+Siguiendo el enfoque más sencillo, creamos un tema nuevo que extiende `PaginatorTheme` y acepta los parámetros `$text-color`, `$background-color` y `$border-color`.
+
+```scss
+$dark-paginator: paginator-theme(
+    $text-color: #F4D45C,
+    $background-color: #575757,
+    $border-color: #292826
+);
+```
+
+Como se ve, `PaginatorTheme` solo controla los colores del contenedor de paginación, pero no afecta a los botones de la interfaz del paginador. Los botones del paginador son botones de icono planos, así que, para darles estilo, cree un nuevo tema de botón de icono:
+
+```scss
+$dark-button: flat-icon-button-theme(
+    $foreground: #FFCD0F,
+    $hover-foreground: #292826,
+    $hover-background: #FFCD0F,
+    $focus-foreground: #292826,
+    $focus-background: #FFCD0F,
+    $disabled-foreground: #16130C
+);
+```
+
+En este ejemplo solo hemos cambiado el color y el fondo del icono, así como el color de los botones deshabilitados, pero `flat-icon-button-theme` ofrece muchos más parámetros para controlar el estilo de los botones.
+
+El último paso es **incluir** los mixins de los componentes, cada uno con su tema correspondiente:
+
+```scss
+@include grid-paginator($dark-grid-paginator);
+.igx-grid-paginator__pager {
+    @include button($dark-button);
+}
+```
+
+<DocsAside type="info">
+Limitamos el mixin <ApiLink pkg="core" type="Button" /> dentro de `.igx-paginator__pager`, de modo que solo se den estilo a los botones del paginador. De lo contrario, otros botones de la cuadrícula también se verían afectados.
+</DocsAside>
+
+<DocsAside type="info">
+Si el componente usa un ViewEncapsulation [Emulated](../themes/styles.mdx#view-encapsulation), es necesario `penetrate` esa encapsulación usando `::ng-deep`:
+</DocsAside>
+
+```scss
+:host {
+    ::ng-deep {
+        @include paginator($dark-paginator);
+        .igx-paginator__pager {
+            @include button($dark-button);
+        }
+    }
+}
+```
+
+### Definir una paleta de colores
+
+En lugar de codificar los valores de color como acabamos de hacer, podemos conseguir más flexibilidad en cuanto a colores usando las funciones `Palette` y <ApiLink pkg="core" type="Color" />.
+
+`Palette` genera una paleta de colores basada en los colores primario y secundario que se le pasan:
+
+```scss
+$yellow-color: #F9D342;
+$black-color: #292826;
+
+$dark-palette: palette($primary: $black-color, $secondary: $yellow-color);
+```
+
+Y después, con <ApiLink pkg="core" type="Color" />, podemos obtener fácilmente un color de la paleta.
+
+```scss
+$dark-paginator: paginator-theme(
+    $text-color: color($dark-palette, "secondary", 400),
+    $background-color: color($dark-palette, "primary", 200),
+    $border-color: color($dark-palette, "primary", 500)
+);
+
+$dark-button: flat-icon-button-theme(
+    $foreground: color($dark-palette, "secondary", 700),
+    $hover-foreground: color($dark-palette, "primary", 500),
+    $hover-background: color($dark-palette, "secondary", 500),
+    $focus-foreground: color($dark-palette, "primary", 500),
+    $focus-background: color($dark-palette, "secondary", 500),
+    $disabled-foreground: color($dark-palette, "primary", 700)
+);
+```
+
+<DocsAside type="info">
+<ApiLink pkg="core" type="Color" /> y `Palette` son funciones potentes para generar y obtener colores. Consulte el tema [Paletas](../themes/sass/palettes.mdx) para una guía detallada sobre cómo usarlas.
+</DocsAside>
+
+### Usar esquemas
+
+ Avanzando con el motor de temas, puede construir una estructura sólida y flexible que se beneficia de los [esquemas](../themes/sass/schemas.mdx). Un esquema es una receta de un tema.
+
+Extienda uno de los dos esquemas predefinidos que se proporcionan para cada componente; en este caso, los esquemas `DarkPagination` y `DarkButton`:
+
+```scss
+// Extending the dark paginator schema
+$dark-paginator-schema: extend($_dark-pagination,
+        (
+            text-color:(
+               color: ("secondary", 400)
+            ),
+            background-color:(
+               color: ("primary", 200)
+            ),
+            border-color:(
+               color: ("primary", 500)
+            )
+        )
+);
+// Extending the dark button schema
+$dark-button-schema: extend($_dark-button,
+        (
+            icon-color:(
+               color: ("secondary", 700)
+            ),
+            icon-hover-color:(
+               color: ("primary", 500)
+            ),
+            icon-hover-background:(
+               color: ("secondary", 500)
+            ),
+            icon-focus-color:(
+               color: ("primary", 500)
+            ),
+            icon-focus-background:(
+               color: ("secondary", 500)
+            ),
+            disabled-color:(
+               color: ("primary", 700)
+            )
+        )
+);
+```
+
+Para aplicar nuestros esquemas personalizados debemos **extender** uno de los globales `Light` o `Dark`, lo que básicamente señala los componentes con un esquema personalizado, y después añadirlo a los temas de cada componente:
+
+```scss
+// Extending the global dark-schema
+$custom-dark-schema: extend($dark-schema,(
+    igx-paginator: $dark-paginator-schema,
+    igx-button: $dark-button-schema
+));
+
+// Definingpaginator-theme with the global dark schema
+$dark-paginator: paginator-theme(
+  $schema: $custom-dark-schema
+);
+
+// Defining flat-icon-button-theme with the global dark schema
+$dark-button: flat-icon-button-theme(
+  $schema: $custom-dark-schema
+);
+```
+
+No olvide incluir los temas de la misma forma que se ha mostrado anteriormente.
+
+### Ejemplo de estilo de paginación
+
+
+<Sample src="/{ComponentSample}/row-paging-style" height={550} alt="Ejemplo de estilo de paginación de {Platform} {ComponentTitle}" />
+
+
+
+
+</PlatformBlock>
+
+## Referencias de API
+<ApiLink type="{ComponentName}" />
+<ApiLink type="Paginator" />
+## Recursos adicionales
+
+<ComponentBlock for="Grid, TreeGrid">
+- [Virtualización y rendimiento](virtualization.mdx)
+- [Filtrado](filtering.mdx)
+- [Ordenación](sorting.mdx)
+- [Resúmenes](summaries.mdx)
+- [Movimiento de columnas](column-moving.mdx)
+- [Anclaje de columnas](column-pinning.mdx)
+- [Redimensionado de columnas](column-resizing.mdx)
+- [Selección](selection.mdx)
+
+</ComponentBlock>
+
+Nuestra comunidad está activa y siempre da la bienvenida a nuevas ideas.
+
+- [{ProductName} **Foros**]({ForumsLink})
+- [{ProductName} **GitHub**]({GithubLink})

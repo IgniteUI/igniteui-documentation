@@ -1,0 +1,369 @@
+---
+title: "Navegação por teclado do {Platform} {ComponentTitle} - {ProductName}"
+description: "Saiba como usar a Navegação por teclado de {ComponentTitle} com {ProductName}. Com a interação por teclado, os usuários podem navegar rapidamente entre células, linhas e colunas."
+keywords: "navegação por teclado, {ProductName}, infragistics"
+license: commercial
+sharedComponents: ["Grid", "TreeGrid", "HierarchicalGrid"]
+namespace: Infragistics.Controls
+_language: pt-BR
+llms:
+  description: "O recurso de Navegação por teclado de {ProductName} em {Platform} {ComponentTitle} oferece uma grande variedade de interações por teclado para o usuário."
+---
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+
+# Navegação por teclado do {Platform} {ComponentTitle}
+
+ O recurso de Navegação por teclado de {ProductName} em {Platform} {ComponentTitle} oferece uma grande variedade de interações por teclado para o usuário. Ele aumenta a acessibilidade do <ApiLink type="{ComponentName}" /> e permite que o usuário navegue por qualquer tipo de elemento interno (célula, linha, cabeçalho de coluna, barra de ferramentas, rodapé etc.). Esse recurso vem ativado por padrão, e o desenvolvedor tem a opção de substituir qualquer um dos comportamentos padrão de forma simples.
+
+A quantidade de paradas de tabulação do <ApiLink type="{ComponentName}" /> foi reduzida, para que a navegação esteja em conformidade com os padrões de acessibilidade W3C e seja prática de usar.
+
+Atualmente, o <ApiLink type="{ComponentName}" /> introduz as seguintes paradas de tabulação:
+
+- **Área de GroupBy ou da barra de ferramentas** (se ativada).
+- **Cabeçalho de {ComponentTitle}**.
+- **Corpo de {ComponentTitle}**.
+- **Resumos de coluna** (se ativados).
+- **Paginador de {ComponentTitle}** (se ativado).
+
+
+<DocsAside type="info">
+Devido a essa mudança, a navegação entre células com <kbd>TAB</kbd> e <kbd>SHIFT</kbd> + <kbd>TAB</kbd> não é mais suportada no <ApiLink type="{ComponentName}" />.
+Ao pressionar a tecla <kbd>TAB</kbd>, os pontos de parada de tabulação agora seguem esta ordem: **GroupBy** / **Barra de ferramentas** -> **Cabeçalhos** -> **Corpo** -> **Resumos** -> **Rodapé / Paginador**.
+</DocsAside>
+
+<DocsAside type="info">
+Expor qualquer elemento **focável** no corpo de <ApiLink type="{ComponentName}" /> por meio de template pode introduzir **efeitos colaterais** na navegação por teclado, já que o comportamento padrão do navegador não é impedido.
+É responsabilidade do desenvolvedor impedir ou modificar isso de forma adequada.
+</DocsAside>
+
+## Navegação pelo cabeçalho
+
+Agora há suporte completo de **navegação por teclado** no cabeçalho de <ApiLink type="{ComponentName}" />. Os cabeçalhos de coluna podem ser percorridos facilmente com as setas do teclado. Além disso, há várias combinações de teclas que disparam ações nas colunas, como **filtragem**, **ordenação**, **agrupamento** etc.
+Quando o contêiner do cabeçalho de <ApiLink type="{ComponentName}" /> estiver com foco, as seguintes combinações de teclas estarão disponíveis:
+
+### Combinações de teclas
+
+- <kbd>↑</kbd> navega uma célula para cima nos cabeçalhos (sem repetição). Disponível somente quando o Multi-row Layout (MRL) ou os Multi-column Headers (MCH) estão definidos.
+- <kbd>↓</kbd> navega uma célula para baixo nos cabeçalhos (sem quebra). Disponível somente quando o Multi-row Layout (MRL) ou os Multi-column Headers (MCH) estão definidos.
+- <kbd>←</kbd> navega uma célula para a esquerda (sem repetição).
+- <kbd>→</kbd> navega uma célula para a direita (sem quebra entre linhas).
+- <kbd>CTRL</kbd> + <kbd>←</kbd> navega até a célula mais à esquerda da linha; se MRL ou MCH estiverem ativados, navega até a célula mais à esquerda no mesmo nível.
+- <kbd>HOME</kbd> navega até a célula mais à esquerda da linha; se MRL ou MCH estiverem ativados, navega até a célula mais à esquerda no mesmo nível.
+- <kbd>CTRL</kbd> + <kbd>→</kbd> navega até a célula mais à direita da linha; se MRL ou MCH estiverem ativados, navega até a célula mais à direita no mesmo nível.
+- <kbd>END</kbd> navega até a célula mais à direita da linha; se MRL ou MCH estiverem ativados, navega até a célula mais à direita no mesmo nível.
+- <kbd>ALT</kbd> + <kbd>L</kbd> abre o diálogo de Filtragem avançada, se a Filtragem avançada estiver ativada.
+- <kbd>CTRL</kbd> + <kbd>SHIFT</kbd> + <kbd>L</kbd> abre o diálogo de Filtragem estilo Excel ou o filtro padrão (de linha), se a coluna for filtrável.
+- <kbd>CTRL</kbd> + <kbd>↑</kbd> ordena o cabeçalho de coluna ativo em ordem ASC. Se a coluna já estiver ordenada em ASC, o estado de ordenação é limpo.
+- <kbd>CTRL</kbd> + <kbd>↓</kbd> ordena o cabeçalho de coluna ativo em ordem DSC. Se a coluna já estiver ordenada em DSC, o estado de ordenação é limpo.
+- <kbd>SPACE</kbd> seleciona a coluna. Se a coluna já estiver selecionada, a seleção é limpa.
+<ComponentBlock for="Grid">
+- <kbd>SHIFT</kbd> + <kbd>ALT</kbd> + <kbd>←</kbd> agrupa a coluna, se ela estiver marcada como agrupável.
+</ComponentBlock>
+- <kbd>SHIFT</kbd> + <kbd>ALT</kbd> + <kbd>→</kbd> desagrupa a coluna, se ela estiver marcada como agrupável.
+- <kbd>ALT</kbd> + <kbd>←</kbd> ou <kbd>ALT</kbd> + <kbd>↑</kbd> recolhe o cabeçalho do grupo de colunas, se ele já não estiver recolhido.
+- <kbd>ALT</kbd> + <kbd>→</kbd> ou <kbd>ALT</kbd> + <kbd>↓</kbd> expande o cabeçalho do grupo de colunas, se ele já não estiver expandido.
+
+## Navegação pelo corpo
+
+Quando o corpo de <ApiLink type="{ComponentName}" /> estiver com foco, as seguintes combinações de teclas estarão disponíveis:
+
+### Combinação de teclas
+
+<ComponentBlock for="Grid, TreeGrid">
+- <kbd>↑</kbd> - navega uma célula para cima.
+- <kbd>↓</kbd> navega uma célula para baixo.
+
+</ComponentBlock>
+
+<ComponentBlock for="HierarchicalGrid">
+- <kbd>↑</kbd> - navega uma célula para cima ou, se necessário, um nível acima na hierarquia da grade (sem repetição).
+- <kbd>↓</kbd> navega uma célula para baixo ou, se necessário, um nível abaixo na hierarquia da grade (sem repetição).
+
+</ComponentBlock>
+
+- <kbd>←</kbd> navega uma célula para a esquerda (sem quebra entre linhas).
+- <kbd>→</kbd> - navega uma célula para a direita (sem quebra entre linhas).
+- <kbd>CTRL</kbd> + <kbd>←</kbd> navega até a célula mais à esquerda da linha.
+- <kbd>CTRL</kbd> + <kbd>→</kbd> navega até a célula mais à direita da linha.
+- <kbd>CTRL</kbd> + <kbd>↑</kbd> navega até a primeira célula da coluna.
+- <kbd>CTRL</kbd> + <kbd>↓</kbd> navega até a última célula da coluna.
+- <kbd>HOME</kbd> navega até a célula mais à esquerda da linha.
+- <kbd>END</kbd> navega até a célula mais à direita da linha.
+- <kbd>CTRL</kbd> + <kbd>HOME</kbd> navega até a célula de dados superior mais à esquerda da grade.
+- <kbd>CTRL</kbd> + <kbd>END</kbd> navega até a célula de dados inferior mais à direita da grade.
+- <kbd>PAGE UP</kbd> rola uma página (área de visualização) para cima.
+- <kbd>PAGE DOWN</kbd> rola uma página (área de visualização) para baixo.
+- <kbd>ENTER</kbd> entra no modo de edição.
+- <kbd>F2</kbd> entra no modo de edição.
+- <kbd>ESC</kbd> sai do modo de edição.
+- <kbd>TAB</kbd> disponível somente se houver uma célula em modo de edição; move o foco para a próxima célula editável da linha; ao chegar à última célula da linha, move o foco para a primeira célula editável da linha seguinte. Quando a [Edição de linha](row-editing.mdx) está ativada, move o foco da célula editável mais à direita para os botões **CANCEL** e **DONE**, e do botão **DONE** para a célula editável mais à esquerda da linha.
+- <kbd>SHIFT</kbd> + <kbd>TAB</kbd> - disponível somente se houver uma célula em modo de edição; move o foco para a célula editável anterior da linha; ao chegar à primeira célula da linha, move o foco para a última célula editável da linha anterior. Quando a [Edição de linha](row-editing.mdx) está ativada, move o foco da célula editável mais à direita para os botões **CANCEL** e **DONE**, e do botão **DONE** para a célula editável mais à direita da linha.
+- <kbd>SPACE</kbd> - seleciona a linha, se a [Seleção de linha](row-selection.mdx) estiver ativada.
+- <kbd>ALT</kbd> + <kbd>←</kbd> ou <kbd>ALT</kbd> + <kbd>↑</kbd> -
+<ComponentBlock for="Grid">
+  sobre a linha de grupo - recolhe o grupo.
+</ComponentBlock>
+<ComponentBlock for="HierarchicalGrid">
+  recolhe a ilha de linhas.
+</ComponentBlock>
+<ComponentBlock for="TreeGrid">
+  recolhe o nó atual.
+</ComponentBlock>
+- <kbd>ALT</kbd> + <kbd>→</kbd> ou <kbd>ALT</kbd> + <kbd>↓</kbd> -
+  sobre a linha de grupo - expande o grupo.
+<ComponentBlock for="HierarchicalGrid">
+  expande a ilha de linhas.
+</ComponentBlock>
+<ComponentBlock for="TreeGrid">
+  expande o nó atual.
+</ComponentBlock>
+<ComponentBlock for="Grid">
+- <kbd>ALT</kbd> + <kbd>←</kbd> ou <kbd>ALT</kbd> + <kbd>↑</kbd> - sobre a linha de detalhes mestre - recolhe a visualização de detalhes.
+- <kbd>ALT</kbd> + <kbd>→</kbd> ou <kbd>ALT</kbd> + <kbd>↓</kbd> - sobre a linha de detalhes mestre - expande a visualização de detalhes.
+- <kbd>SPACE</kbd> - sobre a linha de grupo - seleciona todas as linhas do grupo, se a propriedade <ApiLink type="{ComponentName}" member="rowSelection" /> estiver definida como multiple.
+</ComponentBlock>
+
+
+
+Pratique todas as ações mencionadas acima na demonstração abaixo. Coloque o foco em qualquer elemento navegável do grid, e uma lista com algumas das ações disponíveis para o elemento será exibida para orientá-lo.
+
+<PlatformBlock for="Angular, WebComponents, React">
+## Demonstração
+
+
+<Sample src="/{ComponentSample}/keyboard-navigation-guide" height={600} alt="Guia de navegação por teclado do {Platform} {ComponentTitle}" />
+
+</PlatformBlock>
+
+## Navegação por teclado personalizada
+
+Sobrescrever o comportamento padrão para uma tecla ou combinação de teclas é um dos benefícios que o recurso de **Navegação por teclado** oferece. Por exemplo: pressione a tecla <kbd>ENTER</kbd> ou <kbd>TAB</kbd> para navegar até a próxima célula ou a célula abaixo. Esse cenário, ou qualquer outro cenário de navegação, é facilmente obtido pela API de **Navegação por teclado**:
+
+<PlatformBlock for="Blazor">
+| API | Descrição | Argumentos |
+|---------|-------------|-----------|
+| <ApiLink type="{ComponentName}" member="gridKeydown" /> | Um evento emitido quando qualquer uma das teclas/combinações de teclas descritas acima é pressionada. Pode ser cancelado. Para qualquer outra tecla/combinação de teclas, use o evento padrão `onkeydown`. | <ApiLink type="GridKeydownEventArgs" /> |
+| <ApiLink type="{ComponentName}" member="activeNodeChange" /> | Um evento emitido quando o nó ativo é alterado. Você pode usá-lo para determinar a posição de foco ativa (cabeçalho, tbody etc.), o índice da coluna, o índice da linha ou o nível aninhado. | <ApiLink type="ActiveNodeChangeEventArgs" /> |
+</PlatformBlock>
+
+<PlatformBlock for="Angular, WebComponents">
+| API | Descrição | Argumentos |
+|---------|-------------|-----------|
+| <ApiLink type="{ComponentName}" member="gridKeydown" /> | Um evento emitido quando qualquer uma das teclas/combinações de teclas descritas acima é pressionada. Pode ser cancelado. Para qualquer outra tecla/combinação de teclas, use o evento padrão `onkeydown`. | <ApiLink type="GridKeydownEventArgs" /> |
+| <ApiLink type="{ComponentName}" member="activeNodeChange" /> | Um evento emitido quando o nó ativo é alterado. Você pode usá-lo para determinar a posição de foco ativa (cabeçalho, tbody etc.), o índice da coluna, o índice da linha ou o nível aninhado. | <ApiLink type="ActiveNodeChangeEventArgs" /> |
+| <ApiLink type="GridBaseDirective" member="navigateTo" label="NavigateTo" /> | Navega até uma posição na grade, com base nos `Rowindex` e `VisibleColumnIndex` informados. Também pode executar uma lógica personalizada sobre o elemento de destino, por meio de uma função de callback que aceita um parâmetro do tipo ```{ targetType: GridKeydownTargetType, target: Object }``` . Uso: <br />```grid.navigateTo(10, 3, (args) => { args.target.nativeElement.focus(); });``` | ```RowIndex: number, VisibleColumnIndex: number, callback: ({ targetType: GridKeydownTargetType, target: Object }```) => {} |
+| <ApiLink type="GridBaseDirective" member="getNextCell" label="GetNextCell" />| retorna um objeto `ICellPosition`, que define a próxima célula por `RowIndex` e `VisibleColumnIndex`. Uma função de callback pode ser passada como terceiro parâmetro do método <ApiLink type="GridBaseDirective" member="getNextCell" label="GetNextCell" />. A função de callback aceita <ApiLink type="Column" /> como parâmetro e retorna um valor `boolean` indicando se um determinado critério foi atendido: <br />```const nextEditableCell = grid.getNextCell(0, 4, (col) => col.editable);``` | ```currentRowIndex: number, currentVisibleColumnIndex: number, callback: (Column) => boolean``` |
+| <ApiLink type="GridBaseDirective" member="getPreviousCell" label="GetPreviousCell" /> | retorna um objeto `ICellPosition`, que define a célula anterior por `RowIndex` e `VisibleColumnIndex`. Uma função de callback pode ser passada como terceiro parâmetro do método <ApiLink type="GridBaseDirective" member="getPreviousCell" label="GetPreviousCell" />. A função de callback aceita <ApiLink type="Column" /> como parâmetro e retorna um valor `boolean` indicando se um determinado critério foi atendido: <br />```const prevEditableCell = grid.getPreviousCell(0, 4, (col) => col.editable);``` | ``` CurrentRowIndex: number, CurrentVisibleColumnIndex: number, callback: (Column) => boolean ``` |
+</PlatformBlock>
+<br />
+
+<ComponentBlock for="HierarchicalGrid">
+<DocsAside type="info">
+Tanto <ApiLink type="GridBaseDirective" member="getNextCell" label="GetNextCell" /> quanto <ApiLink type="GridBaseDirective" member="getPreviousCell" label="GetPreviousCell" /> estão disponíveis para o nível atual e não podem acessar células de níveis superiores ou inferiores.
+</DocsAside>
+</ComponentBlock>
+
+Vamos experimentar a API para demonstrar como obter cenários comuns, como validação de entrada do usuário e navegação personalizada. Primeiro, precisamos registrar um manipulador de evento para o evento <ApiLink type="{ComponentName}" member="gridKeydown" />:
+
+
+<PlatformBlock for="Angular">
+```html
+<igx-grid #grid1 [data]="data" [primaryKey]="'ProductID'" (gridKeydown)="customKeydown($event)"></igx-grid>
+```
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+```html
+<{ComponentSelector} id="grid1" primary-key="ProductID">
+</{ComponentSelector}>
+```
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```razor
+<{ComponentSelector} Id="grid1" PrimaryKey="ProductID" GridKeydownScript="WebGridCustomKBNav">
+</{ComponentSelector}>
+```
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```javascript
+// In JavaScript
+igRegisterScript("WebGridCustomKBNav", (evtArgs) => {
+    const args = evtArgs.detail;
+    const target = args.target;
+    const evt = args.event;
+    const type = args.targetType;
+    const grid = document.getElementById("grid1");
+
+    if (type === 'dataCell' && target.editMode && evt.key.toLowerCase() === 'tab') {
+        // 1. USER INPUT VALIDATION ON TAB
+    } else if (type === 'dataCell' && evt.key.toLowerCase() === 'enter') {
+        // 2. CUSTOM NAVIGATION ON ENTER KEY PRESS
+    }
+}, false);
+
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+<{ComponentSelector} id="grid1" primaryKey="ProductID" onGridKeydown={customKeydown}>
+</{ComponentSelector}>
+```
+
+</PlatformBlock>
+<PlatformBlock for="WebComponents">
+```ts
+constructor() {
+        const grid = this.grid = document.getElementById('grid1') as {ComponentName}Component;
+        grid.data = this.data
+        grid.addEventListener("gridKeydown", this.customKeydown);
+    }
+```
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+const customKeydown = (eventArgs: IgrGridKeydownEventArgs) => {
+  const args = eventArgs.detail;
+  const target= args.target;
+  const evt = args.event;
+  const type = args.targetType;
+
+  if (type === 'dataCell' && target.editMode && evt.key.toLowerCase() === 'tab') {
+      // 1. USER INPUT VALIDATION ON TAB
+
+  }
+  if (type === 'dataCell' && evt.key.toLowerCase() === 'enter') {
+      // 2. CUSTOM NAVIGATION ON ENTER KEY PRESS
+  }
+}
+
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```typescript
+public customKeydown(args: : CustomEvent<IgcGridKeydownEventArgs>) {
+    const evt = args.detail;
+    const target = evt.target as IgcCellType;
+    const evt: KeyboardEvent = evt.event as KeyboardEvent;
+    const type = evt.targetType;
+
+    if (type === 'dataCell' && target.inEditMode && evt.key.toLowerCase() === 'tab') {
+        // 1. USER INPUT VALIDATION ON TAB
+    }
+    if (type === 'dataCell' && evt.key.toLowerCase() === 'enter') {
+        // 2. CUSTOM NAVIGATION ON ENTER KEY PRESS
+    }
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular, WebComponents, Blazor">
+Com base nos valores do argumento do evento, identificamos dois casos em que é preciso fornecer nossa própria lógica (veja acima). Agora, usando os métodos da API, vamos fazer o desejado: se o usuário pressionar a tecla <kbd>TAB</kbd> sobre uma célula em modo de edição, faremos a validação do input. Se o usuário pressionar a tecla <kbd>ENTER</kbd> sobre uma célula, moveremos o foco para a célula da linha seguinte:
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular, WebComponents">
+```typescript
+    // 1. USER INPUT VALIDATION ON TAB
+    if (target.column.dataType === 'number' && target.editValue < 10) {
+        // alert the user that the input is invalid
+        return;
+    }
+    // 2. CUSTOM NAVIGATION ON ENTER KEY PRESS
+    this.grid1.navigateTo(target.row.index + 1, target.column.visibleIndex, (obj) => {
+            obj.target.activate();
+        });
+```
+</PlatformBlock>
+
+<PlatformBlock for="React">
+Com base nos valores do argumento do evento, identificamos dois casos em que é preciso fornecer nossa própria lógica (veja acima). Agora, usando os métodos da API, vamos fazer o desejado: se o usuário pressionar a tecla <kbd>TAB</kbd> sobre uma célula em modo de edição, faremos a validação do input:
+
+```typescript
+    // 1. USER INPUT VALIDATION ON TAB
+    if (target.column.dataType === 'number' && target.editValue < 10) {
+        // alert the user that the input is invalid
+        return;
+    }
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```javascript
+// In JavaScript
+igRegisterScript("WebGridCustomKBNav", (evtArgs) => {
+    const args = evtArgs.detail;
+    const target = args.target;
+    const evt = args.event;
+    const type = args.targetType;
+    const grid = document.getElementById("grid1");
+
+    // 1. USER INPUT VALIDATION ON TAB
+    if (target.column.dataType === 'number' && target.editValue < 10) {
+        // alert the user that the input is invalid
+        return;
+    }
+    // 2. CUSTOM NAVIGATION ON ENTER KEY PRESS
+    grid.navigateTo(target.row.index + 1, target.column.visibleIndex, (obj) => {
+            obj.target.activate();
+    });
+}, false);
+
+```
+
+</PlatformBlock>
+
+<DocsAside type="info">
+Consulte o código de exemplo para ver todos os detalhes da implementação.
+</DocsAside>
+
+Use a demonstração abaixo para experimentar os cenários personalizados que acabamos de implementar:
+- Clique duas vezes ou pressione a tecla <kbd>F2</kbd> sobre uma célula de uma coluna numérica, altere o valor para **7** e pressione a tecla <kbd>TAB</kbd>. Uma mensagem de aviso será exibida.
+- Selecione uma célula e pressione a tecla <kbd>ENTER</kbd> algumas vezes. Cada pressionamento move o foco para uma célula da linha seguinte, na mesma coluna.
+
+### Demonstração
+
+
+<Sample src="/{ComponentSample}/keyboard-custom-navigation" height={400} alt="Navegação personalizada por teclado do {Platform} {ComponentTitle}" />
+
+
+## Limitações conhecidas
+
+|Limitação|Descrição|
+|--- |--- |
+| Navegando dentro de um grid com contêiner pai rolável. | Se o grid estiver posicionado dentro de um contêiner pai rolável e o usuário navegar até uma célula do grid que esteja fora da área visível, o contêiner pai não será rolado.|
+
+## Referências da API
+<ApiLink type="{ComponentName}" />
+## Recursos adicionais
+
+<ComponentBlock for="Grid">
+- [Virtualização e desempenho](virtualization.mdx)
+- [Filtragem](filtering.mdx)
+- [Ordenação](sorting.mdx)
+- [Resumos](summaries.mdx)
+- [Movimentação de colunas](column-moving.mdx)
+- [Fixação de colunas](column-pinning.mdx)
+- [Redimensionamento de colunas](column-resizing.mdx)
+- [Seleção](selection.mdx)
+</ComponentBlock>
+
+Nossa comunidade é ativa e sempre receptiva a novas ideias.
+
+- [{ProductName} **Fóruns**]({ForumsLink})
+- [{ProductName} **GitHub**]({GithubLink})

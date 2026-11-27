@@ -1,0 +1,132 @@
+---
+title: "{Platform} 차트 마커 | 데이터 시각화 | Infragistics"
+description: "Infragistics의 {Platform} 차트 마커"
+keywords: "{Platform} 차트, 마커, 마커 크기, Infragistics"
+license: commercial
+mentionedTypes: ["CategoryChart", "CategoryChartType", "MarkerType", "MarkerSeries", "ScatterLineSeries", "ScatterSplineSeries", "ScatterSeries", "LineSeries", "SplineSeries", "MarkerAutomaticBehavior", "SeriesViewer"]
+namespace: Infragistics.Controls.Charts
+_language: ko
+llms:
+  description: "{ProductName}에서 마커는 차트의 플롯 영역에 데이터 지점의 값을 표시하는 시각 요소입니다."
+platformType: xplat
+---
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+
+
+# {Platform} 차트 마커
+
+{ProductName}에서 마커는 차트의 플롯 영역에 데이터 지점의 값을 표시하는 시각 요소입니다. 마커는 값이 주요 또는 보조 눈금선 사이에 놓이더라도 최종 사용자가 데이터 지점의 값을 즉시 식별할 수 있도록 도와줍니다.
+
+## {Platform} 차트 마커 예제
+
+다음 예제에서는 [선 차트](../types/line-chart.mdx)가 `markerTypes` 속성을 `MarkerType.Circle` 열거형 값으로 설정하여 마커를 활성화한 상태로, 2009년부터 2019년까지 유럽, 중국, 미국의 재생 가능 전기 생산량을 비교합니다.
+
+마커의 색상은 아래 샘플의 `markerBrushes` 및 `markerOutlines` 속성을 설정하여 관리할 수도 있습니다. 이 샘플에서는 드롭다운을 사용하여 마커와 `chartType`를 구성할 수도 있습니다.
+
+<Sample src="/charts/category-chart/marker-options" height={500} alt="{Platform} 구성 옵션 예제" />
+
+
+
+## {Platform} 차트 마커 크기
+
+마커를 지원하는 모든 시리즈에서 `MarkerSize` 속성을 설정하여 데이터 지점 마커의 정확한 장치 독립 픽셀 크기를 제어할 수 있습니다. 사용 중인 마커 템플릿이나 스타일과 관계없이 화면에 표시되는 마커의 크기를 정밀하게 제어할 수 있습니다.
+
+기본적으로 마커 크기는 시리즈의 마커 템플릿에 따라 결정됩니다. `MarkerSize`를 특정 숫자 값으로 설정하면, 해당 시리즈의 모든 마커가 정확히 그 장치 독립 픽셀 너비와 높이로 렌더링됩니다. `MarkerSize`를 다시 `\\NaN`로 설정하면 템플릿에 따른 기본 크기 지정으로 복원됩니다.
+
+`MarkerSize` 속성은 `MarkerSeries`에서 파생된 모든 시리즈 유형에서 사용할 수 있으며, 여기에는 `LineSeries`, `SplineSeries`, `AreaSeries`, `ColumnSeries`, `ScatterSeries`, `ScatterLineSeries`, `ScatterSplineSeries` 및 극좌표/방사형 시리즈 유형이 포함됩니다.
+
+다음 코드 예제는 `DataChart` 컨트롤의 `ScatterLineSeries`에서 `MarkerSize`을 장치 독립 픽셀 30으로 설정하는 방법을 보여 줍니다:
+
+```json-snippet
+{
+    "type": "DataChart",
+    "$styleOptions": { "preferNameBindings": true },
+    "axes": [
+        { "type": "NumericXAxis", "name": "xAxis" },
+        { "type": "NumericYAxis", "name": "yAxis" }
+    ],
+    "series": [
+        {
+            "type": "ScatterLineSeries",
+            "name": "scatterLineSeries",
+            "xAxisRef": "xAxis",
+            "yAxisRef": "yAxis",
+            "xMemberPath": "X",
+            "yMemberPath": "Y",
+            "markerType": "Circle",
+            "markerSize": 30
+        }
+    ]
+}
+```
+
+
+마커를 템플릿에 따른 기본 크기로 재설정하려면 `MarkerSize`을 `\\NaN`로 설정하십시오(또는 마크업에서 속성을 제거하십시오):
+
+```json-snippet
+{
+    "type": "DataChart",
+    "axes": [
+        { "type": "CategoryXAxis", "name": "xAxis", "dataSourceRef": "CountryRenewableElectricity", "label": "Year" },
+        { "type": "NumericYAxis", "name": "yAxis" }
+    ],
+    "series": [
+        {
+            "type": "LineSeries",
+            "$type": "+doc:markup",
+            "$markerType": "+doc:markup",
+            "$markerSize": "+doc:markup",
+            "xAxisRef": "xAxis",
+            "yAxisRef": "yAxis",
+            "dataSourceRef": "CountryRenewableElectricity",
+            "valueMemberPath": "America",
+            "markerType": "Circle",
+            "markerSize": null
+        }
+    ]
+}
+```
+
+
+다음 샘플은 대화형 편집기가 있는 산점도 시리즈에서 `MarkerSize`를 보여 줍니다:
+
+<Sample src="/charts/data-chart/scatter-marker-options" height={500} alt="{Platform} 차트 마커 크기 예제" />
+
+<DocsAside type="note">
+`BubbleSeries`의 경우 `MarkerSize` 속성은 버블 반지름을 재정의하지 않으며, 버블 반지름은 반지름 데이터 열과 `RadiusScale`에 의해 제어됩니다. 버블 크기는 여전히 데이터와 척도 구성에 의해서만 결정됩니다.
+</DocsAside>
+
+## {Platform} 차트 체크마크 마커 유형
+
+{ProductName} 차트에는 `MarkerType.Checkmark` 옵션이 포함되어 있습니다. 이 마커는 차트의 데이터 지점에 원 안의 V자 모양 체크마크 아이콘을 렌더링합니다.
+
+`MarkerType` 속성을 `MarkerType.Checkmark`로 설정하면 개별 시리즈에 `Checkmark` 마커 유형을 적용할 수 있습니다. 차트의 모든 시리즈에 체크마크 모양을 동시에 사용하려면 차트의 `MarkerAutomaticBehavior` 속성을 `MarkerAutomaticBehavior.Checkmark`로 설정하십시오.
+
+<PlatformBlock for="WPF">
+
+`SeriesViewer.CheckmarkMarkerTemplate` 속성은 체크마크 마커 유형의 시리즈에 사용되는 마커 템플릿을 정의하며, 차트 전체에서 해당 모양을 사용자 지정하는 데 사용할 수 있습니다.
+
+</PlatformBlock>
+
+## {Platform} 차트 마커 템플릿
+
+마커 속성 외에도, 아래 예제에서 시연하는 것처럼 `CategoryChart` 컨트롤에서 렌더링되는 시리즈의 `markerTemplate` 속성에 함수를 설정하여 직접 마커를 구현할 수 있습니다.
+
+<Sample src="/charts/category-chart/marker-templates" height={600} alt="{Platform} 차트 마커 템플릿" />
+
+
+
+
+## 추가 리소스
+
+관련 차트 기능에 대한 자세한 내용은 다음 항목에서 확인할 수 있습니다:
+
+- [차트 주석](chart-annotations.mdx)
+- [차트 강조 표시](chart-highlighting.mdx)
+
+
+## API 참조
+`CategoryChart`

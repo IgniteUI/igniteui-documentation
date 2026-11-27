@@ -1,0 +1,1396 @@
+---
+title: "Chip"
+description: "{ProductName} 칩은 사용자가 선택하거나 제거할 수 있는 태그, 필터, 수신자를 위한 간결한 요소이며, 스타일 변형과 아이콘 슬롯을 지원합니다."
+keywords: "{Platform} 칩, 칩 컴포넌트, 선택 가능한 칩, 제거 가능한 칩, 태그, 필터, {ProductName}, Infragistics"
+license: MIT
+last_updated: "2026-10-07"
+mentionedTypes: ["Chip", "Icon"]
+relatedComponents: ["Button", "Checkbox", "Badge"]
+_language: ko
+llms:
+  description: "{ProductName} 칩은 태그, 필터 또는 사람을 나타내는 간결한 요소이며, 사용자가 선택하거나 제거할 수 있습니다."
+---
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+import Anatomy from 'igniteui-astro-components/components/mdx/Anatomy.astro';
+import Faq from 'igniteui-astro-components/components/mdx/Faq.astro';
+import FaqItem from 'igniteui-astro-components/components/mdx/FaqItem.astro';
+import chipAnatomy from '@xplat-images/anatomy-content-light/chip-lt-a.png';
+import { Image } from 'astro:assets';
+import chipDo from '@xplat-images/chip/chip-do.png';
+import chipDo2x from '@xplat-images/chip/chip-do@2x.png';
+import chipDoNot from '@xplat-images/chip/chip-do-not.png';
+import chipDoNot2x from '@xplat-images/chip/chip-do-not@2x.png';
+
+# 칩 컴포넌트
+
+{ProductName} 칩은 태그, 필터 또는 사람을 나타내는 간결한 요소이며, 사용자가 선택하거나 제거할 수 있습니다.
+
+칩은 선택 가능하거나, 제거 가능하거나, 둘 다일 수 있으며, 레이블 앞뒤에 아이콘이나 다른 콘텐츠를 표시할 수 있습니다.
+
+## 라이브 데모
+
+<PlatformBlock for="WebComponents, React, Blazor">
+
+<Sample src="/inputs/chip/overview" showThemePicker height={455} alt="{Platform} 칩 개요 예제" />
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+<Sample src="/data-display/chip-overview" showThemePicker height={455} alt="{Platform} 칩 개요 예제" />
+
+</PlatformBlock>
+
+## 구조
+
+{Platform} 칩은 레이블과 선택적인 아이콘을 한 줄에 담는 컨테이너입니다.
+
+<Anatomy
+  class="chip-anatomy"
+  name="{Platform} 칩 구조"
+  description="칩 구조는 컨테이너, 선택 아이콘, 왼쪽 아이콘, 레이블, 오른쪽 아이콘, 제거 아이콘에 대한 이름을 보여 줍니다."
+  src={chipAnatomy.src}
+  alt="{Platform} 칩 구조: 컨테이너, 선택 아이콘, 왼쪽 아이콘, 레이블, 오른쪽 아이콘, 제거 아이콘"
+/>
+
+<style>{`
+  .chip-anatomy {
+    --igd-anatomy-padding: 72px 32px;
+  }
+
+  .chip-anatomy .igd-anatomy__image {
+    max-width: 282.5px;
+  }
+
+  .chip-anatomy-legend {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: 24px;
+    margin-bottom: 24px;
+  }
+
+  .chip-anatomy-legend span {
+    display: block;
+  }
+
+  @media (max-width: 768px) {
+    .chip-anatomy-legend {
+      grid-template-columns: 1fr;
+    }
+  }
+`}</style>
+
+<div class="chip-anatomy-legend ig-typography__body-2">
+  <div>
+    <span><strong>1. 컨테이너:</strong> 모든 칩 요소를 담고 시각적 경계를 정의합니다</span>
+    <span><strong>2. 선택 아이콘:</strong> 칩이 선택되었음을 나타냅니다</span>
+    <span><strong>3. 왼쪽 아이콘(선택 사항):</strong> 레이블의 왼쪽에 표시됩니다</span>
+  </div>
+  <div>
+    <span><strong>4. 레이블:</strong> 칩의 값을 식별하거나 설명하는 텍스트입니다</span>
+    <span><strong>5. 오른쪽 아이콘(선택 사항):</strong> 레이블의 오른쪽에 표시됩니다</span>
+    <span><strong>6. 제거 아이콘:</strong> 칩을 제거할 수 있음을 나타내는 취소 아이콘입니다</span>
+  </div>
+</div>
+
+<PlatformBlock for="WebComponents, React, Blazor">
+
+```text
+igc-chip                              // host
+└─ div[part="base"]                   // chip wrapper
+   ├─ button[part="action"]           // selection control; aria-pressed when selectable
+   │  ├─ span[part="prefix"]          // hidden when empty and not selected
+   │  │  ├─ slot[name="select"]       // default select icon, shown when selectable and selected
+   │  │  ├─ slot[name="start"]        // content before the prefix content
+   │  │  └─ slot[name="prefix"]       // content before the label
+   │  ├─ span[part="content"]
+   │  │  └─ slot                      // label (default slot)
+   │  └─ span[part="suffix"]          // hidden when empty
+   │     ├─ slot[name="end"]          // content before the suffix content
+   │     └─ slot[name="suffix"]       // content after the label
+   └─ span[part="remove"]             // rendered when removable and not disabled
+      └─ slot[name="remove"]          // default remove icon button
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+```text
+igx-chip[role="option"]               // host; aria-selected reflects `selected`
+└─ div.igx-chip__item                 // chip wrapper; drag and drop target
+   ├─ div.igx-chip__start
+   │  ├─ div.igx-chip__select         // select icon, shown while selected
+   │  └─ [igxPrefix]                  // content before the label
+   ├─ div.igx-chip__content           // label (projected content)
+   └─ div.igx-chip__end
+      ├─ [igxSuffix]                  // content after the label
+      └─ div.igx-chip__remove         // remove control, rendered when removable
+```
+
+</PlatformBlock>
+
+## 시작하기
+
+{ProductName}를 설치하고, 다음 <PlatformBlock for="WebComponents, React, Blazor">[시작하기](../general-getting-started.mdx)</PlatformBlock><PlatformBlock for="Angular">[시작하기](../general/getting-started.mdx)</PlatformBlock> 토픽에 설명된 대로 테마를 구성한 다음 애플리케이션에 {Platform} Chip을 추가하십시오.
+
+<PlatformBlock for="WebComponents">
+
+<ApiLink pkg="core" type="Chip" /> 컴포넌트와 그 테마를 import하고 등록하십시오.
+
+```ts
+import { defineComponents, IgcChipComponent } from 'igniteui-webcomponents';
+import 'igniteui-webcomponents/themes/light/bootstrap.css';
+
+defineComponents(IgcChipComponent);
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+칩 래퍼와 테마 스타일시트를 import하십시오.
+
+```tsx
+import { IgrChip } from 'igniteui-react';
+import 'igniteui-webcomponents/themes/light/bootstrap.css';
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+{ProductName} 서비스를 등록합니다:
+
+```csharp
+// in Program.cs file
+
+builder.Services.AddIgniteUIBlazor();
+```
+
+<ApiLink pkg="core" type="Chip" />의 클라이언트 리소스 모듈인 <ApiLink pkg="core" type="ChipModule" /> 등록은 **선택 사항**입니다. 컴포넌트는 처음 렌더링될 때 리소스를 로드합니다. `builder.Services.AddIgniteUIBlazor(typeof(IgbChipModule))`에 나열하면 리소스를 미리 로드하거나 클라이언트에서만 생성되는 요소를 지원할 수 있습니다([컴포넌트 모듈](../general-getting-started.mdx#컴포넌트-모듈) 참조).
+
+호스트 페이지에 테마 스타일시트를 추가하십시오.
+
+```razor
+<link href="_content/IgniteUI.Blazor/themes/light/bootstrap.css" rel="stylesheet" />
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+컴포넌트에 `IGX_CHIPS_DIRECTIVES`를 import하십시오. 여기에는 칩, 칩 영역, `igxPrefix` 및 `igxSuffix` 디렉티브가 포함됩니다.
+
+```ts
+import { Component } from '@angular/core';
+import { IGX_CHIPS_DIRECTIVES } from 'igniteui-angular/chips';
+
+@Component({
+  selector: 'app-chip-sample',
+  imports: [IGX_CHIPS_DIRECTIVES],
+  template: `<igx-chip>Design</igx-chip>`,
+})
+export class ChipSampleComponent {}
+```
+
+</PlatformBlock>
+
+### 사전 요구 사항 및 버전 호환성
+
+일부 {Platform} 칩 기능은 애플리케이션이 사용하는 패키지 버전에 따라 달라집니다.
+
+<PlatformBlock for="WebComponents">
+
+- `outlined` 속성은 {PackageWebComponents} 7.3.0 이상에서 사용할 수 있습니다.
+- `action` 및 `remove` 파트는 7.3.1 이상에서 사용할 수 있습니다. 이전 버전에서는 `base` 파트가 선택 버튼이며 제거 아이콘이 그 안에 렌더링됩니다.
+- `start` 및 `end` 슬롯은 7.3.1 이상에서 문서화되어 있습니다. 이전 버전에서도 렌더링되지만 문서화되어 있지 않습니다.
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+`igniteui-react` 패키지는 `igniteui-webcomponents`의 테마 스타일시트와 함께 사용하십시오. React 칩은 `igc-chip` 웹 컴포넌트를 감싸므로, 사용 가능한 속성, 슬롯, 파트는 `igniteui-react`가 사용하는 `igniteui-webcomponents` 버전을 따릅니다.
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+`IgniteUI.Blazor` 패키지를 사용하십시오. `IgniteUI.Blazor` 26.1에는 이전 버전의 칩이 포함되어 있습니다:
+
+- `IgbChip`은 `Outlined`, `Locale`, `ResourceStrings` 속성을 노출하지 않습니다.
+- `base` 파트는 선택 버튼이며, 제거 아이콘은 그 안에 렌더링됩니다. 칩에는 `action` 또는 `remove` 파트가 없습니다.
+- 포커스 스타일은 `--ig-chip-focus-outline-color`와 `--ig-chip-focus-selected-outline-color`를 읽습니다.
+- [접근성](#접근성)에 설명된 대로, 키보드 및 화면 읽기 프로그램 동작이 다릅니다.
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+`igniteui-angular` 패키지를 사용하십시오. `outlined` 입력은 22.2.0 이상에서 사용할 수 있습니다.
+
+</PlatformBlock>
+
+## 사용법
+
+{Platform} 칩에 레이블을 추가한 다음, 레이아웃에 따라 아이콘, 유형, 크기, 선택 또는 제거 기능을 추가하십시오.
+
+### 레이아웃
+
+{Platform} 칩은 레이블 주변의 콘텐츠 템플릿을 지원합니다. <PlatformBlock for="WebComponents, React, Blazor">`prefix` 및 `suffix` 슬롯에 콘텐츠를 넣으십시오</PlatformBlock><PlatformBlock for="Angular">`igxPrefix` 및 `igxSuffix` 디렉티브로 콘텐츠를 표시하십시오</PlatformBlock> 레이블 앞뒤에 텍스트나 [아이콘](../layouts/icon.mdx)처럼 표시하려는 콘텐츠를 넣으십시오. 칩 안의 아이콘은 칩 크기를 따르므로, 큼, 보통, 작음의 세 가지 크기로도 제공됩니다.
+
+<PlatformBlock for="WebComponents, React, Blazor">
+
+<Sample src="/inputs/chip/layout" showThemePicker height={245} alt="{Platform} 칩 레이아웃 예제" />
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+<Sample src="/data-display/chip-layout" showThemePicker height={245} alt="{Platform} 칩 레이아웃 예제" />
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents, React, Blazor">
+
+레이블은 기본 슬롯에 넣으십시오. `start` 슬롯은 접두사 콘텐츠 앞에, `end` 슬롯은 접미사 콘텐츠 앞에 렌더링됩니다. 기본 선택 아이콘과 제거 아이콘을 대체하려면 `select` 및 `remove` 슬롯을 사용하십시오.
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+레이블은 칩 안에 배치하십시오. 기본 선택 아이콘과 제거 아이콘을 대체하는 템플릿으로 <ApiLink pkg="core" type="Chip" member="selectIcon" label="selectIcon" /> 및 <ApiLink pkg="core" type="Chip" member="removeIcon" label="removeIcon" /> 입력을 설정하십시오.
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-chip selectable removable>
+  <igc-icon slot="select" name="check"></igc-icon>
+  <igc-icon slot="prefix" name="person"></igc-icon>
+  Ana Zane
+  <igc-icon slot="suffix" name="mail"></igc-icon>
+  <igc-icon slot="remove" name="close"></igc-icon>
+</igc-chip>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrChip selectable removable>
+  <IgrIcon slot="select" name="check" />
+  <IgrIcon slot="prefix" name="person" />
+  Ana Zane
+  <IgrIcon slot="suffix" name="mail" />
+  <IgrIcon slot="remove" name="close" />
+</IgrChip>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbChip Selectable="true" Removable="true">
+    <IgbIcon slot="select" IconName="check" Collection="material" />
+    <IgbIcon slot="prefix" IconName="person" Collection="material" />
+    Ana Zane
+    <IgbIcon slot="suffix" IconName="mail" Collection="material" />
+    <IgbIcon slot="remove" IconName="close" Collection="material" />
+</IgbChip>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+```html
+<igx-chip selectable removable [selectIcon]="selectIcon" [removeIcon]="removeIcon">
+  <igx-icon igxPrefix>person</igx-icon>
+  Ana Zane
+  <igx-icon igxSuffix>mail</igx-icon>
+</igx-chip>
+
+<ng-template #selectIcon>
+  <igx-icon>check_circle</igx-icon>
+</ng-template>
+
+<ng-template #removeIcon>
+  <igx-icon>delete</igx-icon>
+</ng-template>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents, React, Blazor">
+
+`remove` 슬롯의 사용자 지정 콘텐츠는 포커스 및 접근 가능한 레이블을 포함하여 기본 제거 아이콘을 대체합니다. 대체 요소가 포커스를 받을 수 있게 하고, 접근 가능한 이름을 부여하십시오.
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+사용자 지정 `selectIcon` 및 `removeIcon` 템플릿은 접근 가능한 레이블을 포함하여 기본 아이콘을 대체하므로, 아이콘에 접근 가능한 레이블을 부여하십시오.
+
+</PlatformBlock>
+
+### 유형
+
+{Platform} 칩은 Default와 Primary 두 가지 유형을 제공합니다.
+
+<PlatformBlock for="WebComponents, React, Blazor">
+
+<Sample src="/inputs/chip/types" showThemePicker height={220} alt="{Platform} 칩 유형 예제" />
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+<Sample src="/data-display/chip-types" showThemePicker height={220} alt="{Platform} 칩 유형 예제" />
+
+</PlatformBlock>
+
+기본 유형은 설정하지 않은 상태로 두거나, <PlatformBlock for="WebComponents, React, Angular"><ApiLink pkg="core" type="Chip" member="variant" label="variant" /></PlatformBlock><PlatformBlock for="Blazor"><ApiLink pkg="core" type="Chip" member="variant" label="Variant" /></PlatformBlock> Primary 유형은 다음 값으로 설정하십시오. 변형은 다음 값도 받습니다 <PlatformBlock for="WebComponents, React, Angular">`primary`</PlatformBlock><PlatformBlock for="Blazor">`StyleVariant.Primary`</PlatformBlock> 상태 색상을 위해 다음 값도 사용할 수 있습니다. <PlatformBlock for="WebComponents, React, Angular">`info`, `success`, `warning`, `danger`</PlatformBlock><PlatformBlock for="Blazor">`StyleVariant.Info`, `StyleVariant.Success`, `StyleVariant.Warning`, `StyleVariant.Danger`</PlatformBlock> 상태 색상을 위해 다음 값도 사용할 수 있습니다.
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-chip>Default</igc-chip>
+<igc-chip variant="primary">Primary</igc-chip>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrChip>Default</IgrChip>
+<IgrChip variant="primary">Primary</IgrChip>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbChip>Default</IgbChip>
+<IgbChip Variant="StyleVariant.Primary">Primary</IgbChip>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+```html
+<igx-chip>Default</igx-chip>
+<igx-chip variant="primary">Primary</igx-chip>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents, React, Angular">
+
+### 외곽선
+
+<ApiLink pkg="core" type="Chip" member="outlined" label="outlined" />을 설정하면 테두리와 외곽선 배경이 있는 칩으로 렌더링됩니다. 어떤 변형과도 함께 사용할 수 있습니다.
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents, React">
+
+<Sample src="/inputs/chip/outlined" showThemePicker height={165} alt="{Platform} 외곽선 칩 예제" />
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+<Sample src="/data-display/chip-outlined" showThemePicker height={165} alt="{Platform} 외곽선 칩 예제" />
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-chip outlined variant="info">Draft</igc-chip>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrChip outlined variant="info">Draft</IgrChip>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+```html
+<igx-chip outlined variant="info">Draft</igx-chip>
+```
+
+</PlatformBlock>
+
+### 크기
+
+{Platform} 칩은 세 가지 크기로 제공됩니다:
+
+- 큼: 동작 트리거처럼 상호 작용이 필요한 시나리오에 적합합니다.
+- 보통: 이메일 작성기의 수신자 필드처럼 짧은 영역에 적합합니다.
+- 작음: 그리드 셀의 값처럼 데이터가 밀집된 시나리오에 적합합니다.
+
+<PlatformBlock for="WebComponents, React, Blazor">
+
+<Sample src="/inputs/chip/size" showThemePicker height={255} alt="{Platform} 칩 크기 예제" />
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+<Sample src="/data-display/chip-size" showThemePicker height={255} alt="{Platform} 칩 크기 예제" />
+
+</PlatformBlock>
+
+칩 크기를 바꾸려면 `--ig-size`을 `var(--ig-size-small)`, `var(--ig-size-medium)`, `var(--ig-size-large)` 중 하나로 설정하십시오. 칩에 설정하거나, 컨테이너에 설정하여 그 안의 모든 칩의 크기를 지정할 수 있습니다.
+
+```css
+.filter-chips {
+  --ig-size: var(--ig-size-small);
+}
+```
+
+### 상호 작용 상태
+
+{Platform} 칩은 활성화하거나 비활성화할 수 있습니다.
+
+<PlatformBlock for="WebComponents, React, Blazor">
+
+<Sample src="/inputs/chip/interaction-state" showThemePicker height={190} alt="{Platform} 칩 상호 작용 상태 예제" />
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+<Sample src="/data-display/chip-interaction-state" showThemePicker height={190} alt="{Platform} 칩 상호 작용 상태 예제" />
+
+</PlatformBlock>
+
+상호 작용을 막으려면 <PlatformBlock for="WebComponents, React, Angular"><ApiLink pkg="core" type="Chip" member="disabled" label="disabled" /></PlatformBlock><PlatformBlock for="Blazor"><ApiLink pkg="core" type="Chip" member="disabled" label="Disabled" /></PlatformBlock> 을 설정하십시오. 비활성화된 칩은 포커스를 받거나 선택될 수 없으며, `removable`가 설정되어 있어도 제거 아이콘을 렌더링하지 않습니다.
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-chip disabled>Archived</igc-chip>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrChip disabled>Archived</IgrChip>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbChip Disabled="true">Archived</IgbChip>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+```html
+<igx-chip disabled>Archived</igx-chip>
+```
+
+</PlatformBlock>
+
+### 상태
+
+사용자가 {Platform} 칩과 상호 작용하면, 칩은 기본 유휴 상태에서 마우스 오버, 포커스, 선택 상태로 바뀝니다.
+
+<PlatformBlock for="WebComponents, React, Blazor">
+
+<Sample src="/inputs/chip/state" showThemePicker height={245} alt="{Platform} 칩 상태 예제" />
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+<Sample src="/data-display/chip-state" showThemePicker height={245} alt="{Platform} 칩 상태 예제" />
+
+</PlatformBlock>
+
+선택 상태를 사용하려면 선택이 활성화되어 있어야 합니다. 다음을 설정하십시오 <PlatformBlock for="WebComponents, React, Angular"><ApiLink pkg="core" type="Chip" member="selectable" label="selectable" /></PlatformBlock><PlatformBlock for="Blazor"><ApiLink pkg="core" type="Chip" member="selectable" label="Selectable" /></PlatformBlock> 사용자가 칩을 클릭하거나 <kbd>Space</kbd> 키를 눌러 토글할 수 있게 하려면 위 값을 설정하십시오<PlatformBlock for="WebComponents, React, Blazor"> 또는 <kbd>Enter</kbd> 키로</PlatformBlock>토글할 때마다 다음 값이 업데이트되며 <PlatformBlock for="WebComponents, React, Angular"><ApiLink pkg="core" type="Chip" member="selected" label="selected" /></PlatformBlock><PlatformBlock for="Blazor"><ApiLink pkg="core" type="Chip" member="selected" label="Selected" /></PlatformBlock> 새 상태와 함께 선택 이벤트가 발생합니다. 초기 상태를 정의하려면 `selected`를 설정하십시오.
+
+<PlatformBlock for="WebComponents, React, Blazor">
+
+선택 아이콘과 눌린 상태는 `selectable`가 설정된 경우에만 나타납니다.
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+취소 가능한 `selectedChanging` 이벤트는 `selected`에서 새 상태를 보고하며, `selectedChanged`는 상태가 바뀐 후에 발생합니다. 컴포넌트에서 상태를 유지하려면 `[(selected)]`를 바인딩하십시오. `selected`가 `true`이면 언제나 선택 아이콘이 나타납니다.
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-chip selectable selected>Bold</igc-chip>
+```
+
+```ts
+const chip = document.querySelector('igc-chip');
+
+chip.addEventListener('igcSelect', (event) => {
+  console.log(event.detail); // the new selected state
+});
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+const [bold, setBold] = useState(true);
+
+<IgrChip selectable selected={bold} onSelect={(event) => setBold(event.detail)}>
+  Bold
+</IgrChip>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbChip Selectable="true" Selected="@isBold" SelectedChanged="OnSelectedChanged">Bold</IgbChip>
+
+@code {
+    private bool isBold = true;
+
+    private void OnSelectedChanged(bool selected) => isBold = selected;
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+```html
+<igx-chip selectable [(selected)]="isBold" (selectedChanging)="onSelectedChanging($event)">Bold</igx-chip>
+```
+
+```ts
+import { IChipSelectEventArgs } from 'igniteui-angular/chips';
+
+public isBold = true;
+
+public onSelectedChanging(event: IChipSelectEventArgs) {
+  console.log(event.selected); // the new selected state
+}
+```
+
+</PlatformBlock>
+
+### 제거 가능한 칩
+
+제거 가능한 {Platform} 칩은 끝부분에 제거 아이콘을 표시하며, 사용자는 이를 활성화하여 칩 제거를 요청할 수 있습니다.
+
+<PlatformBlock for="WebComponents, React, Blazor">
+
+<Sample src="/inputs/chip/remove" showThemePicker height={245} alt="{Platform} 칩 제거 예제" />
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+<Sample src="/data-display/chip-remove" showThemePicker height={245} alt="{Platform} 칩 제거 예제" />
+
+</PlatformBlock>
+
+상호 작용을 막으려면 <PlatformBlock for="WebComponents, React, Angular"><ApiLink pkg="core" type="Chip" member="removable" label="removable" /></PlatformBlock><PlatformBlock for="Blazor"><ApiLink pkg="core" type="Chip" member="removable" label="Removable" /></PlatformBlock> 아이콘을 표시하려면 위 값을 설정하십시오. 아이콘을 활성화하면 제거 이벤트가 발생하지만, 칩은 페이지에 그대로 남아 있습니다. 칩 또는 칩이 나타내는 항목은 이벤트 핸들러에서 제거하십시오.
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-chip removable>Angular</igc-chip>
+```
+
+```ts
+document.querySelectorAll('igc-chip[removable]').forEach((chip) => {
+  chip.addEventListener('igcRemove', () => chip.remove());
+});
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+const [tags, setTags] = useState(['Angular', 'React', 'Blazor']);
+
+{tags.map((tag) => (
+  <IgrChip key={tag} removable onRemove={() => setTags((current) => current.filter((item) => item !== tag))}>
+    {tag}
+  </IgrChip>
+))}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+@foreach (var tag in Tags)
+{
+    <IgbChip @key="tag" Removable="true" Remove="@(() => Tags.Remove(tag))">@tag</IgbChip>
+}
+
+@code {
+    private readonly List<string> Tags = new() { "Angular", "React", "Blazor" };
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+```html
+@for (chip of chips; track chip.id) {
+  <igx-chip [id]="chip.id" removable (remove)="onRemove($event)">{{ chip.text }}</igx-chip>
+}
+```
+
+```ts
+import { IBaseChipEventArgs } from 'igniteui-angular/chips';
+
+public chips = [
+  { id: 'angular', text: 'Angular' },
+  { id: 'react', text: 'React' },
+  { id: 'blazor', text: 'Blazor' },
+];
+
+public onRemove(event: IBaseChipEventArgs) {
+  this.chips = this.chips.filter((chip) => chip.id !== event.owner.id);
+}
+```
+
+</PlatformBlock>
+
+### 칩 영역
+
+<PlatformBlock for="Angular">
+
+칩의 컬렉션을 정리하려면 <ApiLink pkg="core" type="ChipsArea" /> 컴포넌트를 사용하십시오.
+
+<Sample src="/data-display/chip-area" showThemePicker height={165} alt="{Platform} 칩 영역 예제" />
+
+칩 영역 안에서는 화살표 키로 칩 사이의 포커스를 이동합니다. 사용자가 `draggable` 칩을 다른 칩 위로 끌거나 <kbd>Shift</kbd> 키와 화살표 키를 누르면, 칩 영역은 새 순서와 함께 `reorder`를 발생시킵니다. 또한 선택된 칩과 함께 `selectionChange`도 발생시킵니다. 칩 영역은 칩 순서를 직접 바꾸지 않으므로, 새 순서는 `reorder` 핸들러에서 데이터에 적용하십시오.
+
+```html
+<igx-chips-area (reorder)="onReorder($event)">
+  @for (chip of chips; track chip.id) {
+    <igx-chip [id]="chip.id" [draggable]="true">{{ chip.text }}</igx-chip>
+  }
+</igx-chips-area>
+```
+
+```ts
+import { IChipsAreaReorderEventArgs } from 'igniteui-angular/chips';
+
+public onReorder(event: IChipsAreaReorderEventArgs) {
+  this.chips = event.chipsArray.map((chip) => this.chips.find((item) => item.id === chip.id)!);
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents, React, Blazor">
+
+칩의 컬렉션을 정리하려면, 간격을 두고 배치하는 컨테이너(예: 줄바꿈되는 flex 컨테이너)에 칩을 넣으십시오.
+
+<Sample src="/inputs/chip/area" showThemePicker height={165} alt="{Platform} 칩 영역 예제" />
+
+{Platform} 칩에는 별도의 칩 영역 컴포넌트가 없으므로, 레이아웃은 컨테이너의 CSS로 설정합니다.
+
+```css
+.chips-area {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents, React, Angular">
+
+### 현지화
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents, React">
+
+등록된 언어의 기본 제공 문자열을 표시하려면 `locale`를 설정하고, 자신만의 문자열을 제공하려면 `resourceStrings`를 설정하십시오. 칩은 이 문자열을 기본 제거 아이콘의 접근 가능한 레이블로 사용합니다. 언어 등록 방법은 [지역화](../localization.mdx)를 참조하십시오.
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+칩은 [지역화](../general/localization.mdx)에 설명된 전역 지역화 API로 설정된 언어를 따릅니다. 한 칩의 기본 선택 아이콘과 제거 아이콘의 접근 가능한 레이블만 바꾸려면 `resourceStrings`를 설정하십시오.
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-chip removable locale="de">Design</igc-chip>
+```
+
+```ts
+const chip = document.querySelector('igc-chip');
+chip.resourceStrings = { chip_remove: 'Remove tag' };
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrChip removable resourceStrings={{ chip_remove: 'Remove tag' }}>Design</IgrChip>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+```html
+<igx-chip removable [resourceStrings]="{ igx_chip_remove: 'Remove tag' }">Design</igx-chip>
+```
+
+</PlatformBlock>
+
+### 사용 여부
+
+칩을 사용할 때 타원형 모양은 콘텐츠에 맞게 자동으로 크기가 조정되므로, 인스턴스의 크기만 그에 맞게 조정하면 됩니다. 칩을 관련 콘텐츠의 동작 트리거로 사용하는 경우, 사용 가능한 동작이 하나뿐인 시나리오나 선택 가능한 옵션이 하나만 있는 구성에서는 사용하지 마십시오.
+
+<style>{`
+  .chip-guidance {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 24px;
+    margin-bottom: 24px;
+  }
+
+  .chip-guidance span {
+    display: block;
+  }
+
+  .chip-guidance__image {
+    display: block;
+    width: 100%;
+    height: auto;
+    margin: 0 0 24px;
+    border: 1px solid #D2DBE8;
+  }
+
+  .chip-guidance__label {
+    margin-bottom: 12px;
+    font-weight: 600;
+  }
+
+  .chip-guidance__label--do {
+    color: light-dark(var(--ig-success-900), var(--ig-success-100));
+  }
+
+  .chip-guidance__label--dont {
+    color: light-dark(var(--ig-error-700), var(--ig-error-300));
+  }
+
+  @media (max-width: 768px) {
+    .chip-guidance {
+      grid-template-columns: 1fr;
+    }
+  }
+`}</style>
+
+<div class="chip-guidance ig-typography__body-2">
+  <div>
+    <Image class="chip-guidance__image" src={chipDo} srcset={`${chipDo.src} 1x, ${chipDo2x.src} 2x`} alt="파란색, 회색, 녹색의 세 칩이 관련 옵션 세트로 함께 제공됨" />
+    <span class="chip-guidance__label chip-guidance__label--do">사용</span>
+    <span>그룹화된 동작이나 관련 옵션의 작은 세트에는 칩을 사용하십시오.</span>
+  </div>
+  <div>
+    <Image class="chip-guidance__image" src={chipDoNot} srcset={`${chipDoNot.src} 1x, ${chipDoNot2x.src} 2x`} alt="유일한 옵션으로 제공된 파란색 칩 하나" />
+    <span class="chip-guidance__label chip-guidance__label--dont">사용하지 않음</span>
+    <span>단일 동작이나 단일 선택에는 칩을 사용하지 마십시오.</span>
+  </div>
+</div>
+
+## 속성
+
+{Platform} 칩은 선택, 제거, 상태, 모양을 위한 속성을 노출합니다.
+
+<PlatformBlock for="WebComponents, React">
+
+| 이름 | 타입 | 기본값 | 설명 |
+| -- | -- | -- | -- |
+| <ApiLink pkg="core" type="Chip" member="disabled" label="disabled" /> | `boolean` | `false` | 칩을 비활성화하고 제거 아이콘을 숨깁니다. |
+| <ApiLink pkg="core" type="Chip" member="outlined" label="outlined" /> | `boolean` | `false` | 칩을 외곽선 스타일로 렌더링합니다. |
+| <ApiLink pkg="core" type="Chip" member="removable" label="removable" /> | `boolean` | `false` | 제거 아이콘을 표시합니다. |
+| <ApiLink pkg="core" type="Chip" member="selectable" label="selectable" /> | `boolean` | `false` | 사용자가 선택 상태를 토글할 수 있게 합니다. |
+| <ApiLink pkg="core" type="Chip" member="selected" label="selected" /> | `boolean` | `false` | 선택 상태를 설정합니다. |
+| <ApiLink pkg="core" type="Chip" member="variant" label="variant" /> | `"primary" \| "info" \| "success" \| "warning" \| "danger"` | n/a | 미리 정의된 색상 변형을 설정합니다. |
+| `locale` | `string` | n/a | 기본 제공 문자열의 언어를 설정합니다. |
+| `resourceStrings` | `IChipResourceStrings` | n/a | 기본 제공 레이블의 사용자 지정 문자열을 설정합니다. |
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+| 이름 | 타입 | 기본값 | 설명 |
+| -- | -- | -- | -- |
+| <ApiLink pkg="core" type="Chip" member="disabled" label="Disabled" /> | `bool` | `false` | 칩을 비활성화하고 제거 아이콘을 숨깁니다. |
+| <ApiLink pkg="core" type="Chip" member="removable" label="Removable" /> | `bool` | `false` | 제거 아이콘을 표시합니다. |
+| <ApiLink pkg="core" type="Chip" member="selectable" label="Selectable" /> | `bool` | `false` | 사용자가 선택 상태를 토글할 수 있게 합니다. |
+| <ApiLink pkg="core" type="Chip" member="selected" label="Selected" /> | `bool` | `false` | 선택 상태를 설정합니다. |
+| <ApiLink pkg="core" type="Chip" member="variant" label="Variant" /> | `StyleVariant` | n/a | 미리 정의된 색상 변형을 설정합니다. |
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+| 이름 | 타입 | 기본값 | 설명 |
+| -- | -- | -- | -- |
+| <ApiLink pkg="core" type="Chip" member="animateOnRelease" label="animateOnRelease" /> | `boolean` | `true` | 끌던 칩을 놓으면 원래 위치로 되돌아가는 애니메이션을 적용합니다. |
+| <ApiLink pkg="core" type="Chip" member="color" label="color" /> | `string` | n/a | 칩의 배경색을 설정합니다. |
+| <ApiLink pkg="core" type="Chip" member="data" label="data" /> | `any` | n/a | 칩과 관련된 데이터를 저장합니다. |
+| <ApiLink pkg="core" type="Chip" member="disabled" label="disabled" /> | `boolean` | `false` | 칩을 비활성화하고 제거 아이콘을 숨깁니다. |
+| <ApiLink pkg="core" type="Chip" member="draggable" label="draggable" /> | `boolean` | `false` | 사용자가 칩을 끌 수 있게 합니다. |
+| <ApiLink pkg="core" type="Chip" member="hideBaseOnDrag" label="hideBaseOnDrag" /> | `boolean` | `true` | 끌고 있는 칩의 복사본이 있는 동안 원래 칩을 숨깁니다. |
+| <ApiLink pkg="core" type="Chip" member="id" label="id" /> | `string` | 생성됨 | 칩 `id`을 설정합니다. 설정하지 않으면 고유한 값이 생성됩니다. |
+| <ApiLink pkg="core" type="Chip" member="outlined" label="outlined" /> | `boolean` | `false` | 칩을 외곽선 스타일로 렌더링합니다. |
+| <ApiLink pkg="core" type="Chip" member="removable" label="removable" /> | `boolean` | `false` | 제거 아이콘을 표시합니다. |
+| <ApiLink pkg="core" type="Chip" member="removeIcon" label="removeIcon" /> | `TemplateRef` | n/a | 기본 제거 아이콘을 대체합니다. |
+| <ApiLink pkg="core" type="Chip" member="resourceStrings" label="resourceStrings" /> | `IChipResourceStrings` | n/a | 기본 제공 레이블의 사용자 지정 문자열을 설정합니다. |
+| <ApiLink pkg="core" type="Chip" member="selectable" label="selectable" /> | `boolean` | `false` | 사용자가 선택 상태를 토글할 수 있게 합니다. |
+| <ApiLink pkg="core" type="Chip" member="selected" label="selected" /> | `boolean` | `false` | 선택 상태를 설정합니다. 양방향 바인딩을 지원합니다. |
+| <ApiLink pkg="core" type="Chip" member="selectIcon" label="selectIcon" /> | `TemplateRef` | n/a | 기본 선택 아이콘을 대체합니다. |
+| <ApiLink pkg="core" type="Chip" member="tabIndex" label="tabIndex" /> | `number` | `0` | 칩 `tabindex`을 설정합니다. 비활성화된 칩은 포커스를 받을 수 없습니다. |
+| <ApiLink pkg="core" type="Chip" member="variant" label="variant" /> | `"primary" \| "info" \| "success" \| "warning" \| "danger"` | n/a | 미리 정의된 색상 변형을 설정합니다. |
+
+<ApiLink pkg="core" type="ChipsArea" />는 크기에 관한 속성을 노출합니다.
+
+| 이름 | 타입 | 기본값 | 설명 |
+| -- | -- | -- | -- |
+| <ApiLink pkg="core" type="ChipsArea" member="width" label="width" /> | `number` | n/a | 칩 영역의 너비를 설정합니다. |
+| <ApiLink pkg="core" type="ChipsArea" member="height" label="height" /> | `number` | n/a | 칩 영역의 높이를 설정합니다. |
+
+</PlatformBlock>
+
+## 이벤트
+
+{Platform} 칩은 사용자가 선택하거나 제거할 때 이벤트를 발생시킵니다.
+
+<PlatformBlock for="WebComponents">
+
+| 이름 | 설명 |
+| -- | -- |
+| `igcSelect` | 사용자가 선택 가능한 칩을 토글하면 발생합니다. `event.detail`은 새 선택 상태입니다. |
+| `igcRemove` | 사용자가 제거 아이콘을 활성화하면 발생합니다. |
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+| 이름 | 설명 |
+| -- | -- |
+| `onSelect` | 사용자가 선택 가능한 칩을 토글하면 호출됩니다. `event.detail`은 새 선택 상태입니다. |
+| `onRemove` | 사용자가 제거 아이콘을 활성화하면 호출됩니다. |
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+| 이름 | 설명 |
+| -- | -- |
+| `SelectedChanged` | 사용자가 선택 가능한 칩을 토글하면 새 선택 상태와 함께 발생합니다. |
+| `Select` | 사용자가 선택 가능한 칩을 토글하면 발생합니다. JavaScript에서 처리하려면 `SelectScript`를 사용하십시오. |
+| `Remove` | 사용자가 제거 아이콘을 활성화하면 발생합니다. JavaScript에서 처리하려면 `RemoveScript`를 사용하십시오. |
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+| 이름 | 설명 |
+| -- | -- |
+| <ApiLink pkg="core" type="Chip" member="selectedChanging" label="selectedChanging" /> | 선택 상태가 바뀌기 전에 발생합니다. 현재 상태를 유지하려면 `cancel`을 설정하십시오. `selected`는 새 상태입니다. |
+| <ApiLink pkg="core" type="Chip" member="selectedChanged" label="selectedChanged" /> | 선택 상태가 바뀐 후에 발생합니다. |
+| <ApiLink pkg="core" type="Chip" member="remove" label="remove" /> | 사용자가 제거 아이콘을 활성화하거나 칩에서 <kbd>Delete</kbd> 키를 누르면 발생합니다. |
+| <ApiLink pkg="core" type="Chip" member="chipClick" label="chipClick" /> | 칩을 클릭하면 발생합니다. 선택 변경을 막으려면 `cancel`을 설정하십시오. |
+| <ApiLink pkg="core" type="Chip" member="keyDown" label="keyDown" /> | 칩에서 키를 누르면 발생합니다. 기본 키보드 처리를 건너뛰려면 `cancel`을 설정하십시오. |
+| <ApiLink pkg="core" type="Chip" member="moveStart" label="moveStart" /> | 사용자가 칩을 끌기 시작하면 발생합니다. |
+| <ApiLink pkg="core" type="Chip" member="moveEnd" label="moveEnd" /> | 끌던 칩을 놓고 되돌아가는 애니메이션이 끝나면 발생합니다. |
+| <ApiLink pkg="core" type="Chip" member="dragEnter" label="dragEnter" /> | 끌고 있는 칩이 이 칩 안으로 들어오면 발생합니다. |
+| <ApiLink pkg="core" type="Chip" member="dragLeave" label="dragLeave" /> | 끌고 있는 칩이 이 칩에서 나가면 발생합니다. |
+| <ApiLink pkg="core" type="Chip" member="dragOver" label="dragOver" /> | 끌고 있는 칩이 이 칩 위에 있는 동안 발생합니다. |
+| <ApiLink pkg="core" type="Chip" member="dragDrop" label="dragDrop" /> | 끌고 있는 칩이 이 칩 위에 놓이면 발생합니다. |
+
+<ApiLink pkg="core" type="ChipsArea" />는 그 안의 칩에 대한 이벤트를 발생시킵니다.
+
+| 이름 | 설명 |
+| -- | -- |
+| <ApiLink pkg="core" type="ChipsArea" member="reorder" label="reorder" /> | 칩을 새 위치로 옮겨야 할 때 `chipsArray`에 새 순서와 함께 발생합니다. |
+| <ApiLink pkg="core" type="ChipsArea" member="selectionChange" label="selectionChange" /> | 칩이 선택되거나 선택 해제되면 `newSelection`에 선택된 칩들과 함께 발생합니다. |
+| <ApiLink pkg="core" type="ChipsArea" member="moveStart" label="moveStart" /> | 사용자가 영역 안의 칩을 끌기 시작하면 발생합니다. |
+| <ApiLink pkg="core" type="ChipsArea" member="moveEnd" label="moveEnd" /> | 사용자가 영역 안의 칩 끌기를 멈추면 발생합니다. |
+
+</PlatformBlock>
+
+## 스타일링
+
+토큰 수준의 변경은 {Platform} 칩의 CSS 변수로, 특정 요소를 대상으로 해야 할 때는 <PlatformBlock for="WebComponents, React, Blazor">CSS 파트</PlatformBlock><PlatformBlock for="Angular">CSS 클래스</PlatformBlock> 로 스타일을 지정하십시오.
+
+<PlatformBlock for="WebComponents, React, Blazor">
+
+<Sample src="/inputs/chip/styling" height={205} noBackground={false} alt="{Platform} 스타일이 지정된 칩 예제" />
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+<Sample src="/data-display/chip-styling" height={205} noBackground={false} alt="{Platform} 스타일이 지정된 칩 예제" />
+
+</PlatformBlock>
+
+| 변수 | 변경되는 내용 |
+| -- | -- |
+| `--ig-chip-background` | 기본(외곽선 없음) 칩의 배경입니다. |
+| `--ig-chip-text-color` | 기본 칩의 텍스트 색상입니다. |
+| `--ig-chip-outlined-background` | 외곽선 칩의 배경입니다. |
+| `--ig-chip-outlined-text-color` | 외곽선 칩의 텍스트 색상입니다. |
+| `--ig-chip-border-color` | 외곽선 칩의 테두리 색상입니다. |
+| `--ig-chip-border-radius` | 칩의 모서리 반경입니다. |
+| `--ig-chip-hover-background` | 마우스를 올렸을 때 기본 칩의 배경입니다. |
+| `--ig-chip-focus-background` | 포커스되었을 때 기본 칩의 배경입니다. |
+| `--ig-chip-focus-shadow-color` | Bootstrap 및 Indigo 테마에서의 포커스 그림자 색상입니다. |
+| `--ig-chip-selected-background` | 선택된 칩의 배경입니다. |
+| `--ig-chip-selected-text-color` | 선택된 칩의 텍스트 색상입니다. |
+| `--ig-chip-disabled-background` | 비활성화된 칩의 배경입니다. |
+| `--ig-chip-disabled-text-color` | 비활성화된 칩의 텍스트 색상입니다. |
+| `--ig-chip-remove-icon-color` | 제거 아이콘의 색상입니다. |
+| `--ig-chip-remove-icon-color-focus` | 포커스되었을 때 제거 아이콘의 색상입니다. |
+| `--ig-chip-size` | 칩의 높이입니다. |
+| `--ig-size` | 칩 크기를 도출하는 데 사용되는 공유 컴포넌트 크기 토큰입니다. |
+
+<PlatformBlock for="Blazor">
+
+`IgniteUI.Blazor` 26.1에서 칩에는 외곽선 스타일이 없으므로 `--ig-chip-outlined-background`와 `--ig-chip-outlined-text-color`는 효과가 없습니다. 칩은 `--ig-chip-focus-shadow-color` 대신 `--ig-chip-focus-outline-color`와 `--ig-chip-focus-selected-outline-color`를 읽습니다.
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents, React">
+
+| CSS 파트 | 설명 |
+| -- | -- |
+| `base` | 칩 래퍼입니다. |
+| `action` | 접두사, 콘텐츠, 접미사를 감싸는 선택 컨트롤입니다. |
+| `prefix` | 선택 아이콘과 `start` 및 `prefix` 콘텐츠를 위한 컨테이너입니다. |
+| `content` | 기본 슬롯을 감싸는 래퍼입니다. |
+| `suffix` | `end` 및 `suffix` 콘텐츠를 위한 컨테이너입니다. |
+| `remove` | 제거 컨트롤의 컨테이너입니다. |
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+| CSS 파트 | 설명 |
+| -- | -- |
+| `base` | 접두사, 콘텐츠, 접미사를 감싸는 선택 버튼입니다. |
+| `prefix` | 선택 아이콘과 `start` 및 `prefix` 콘텐츠를 위한 컨테이너입니다. |
+| `content` | 기본 슬롯을 감싸는 래퍼입니다. |
+| `suffix` | `end` 및 `suffix` 콘텐츠와 제거 아이콘을 위한 컨테이너입니다. |
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+| 선택자 | 설명 |
+| -- | -- |
+| `igx-chip` | 칩 호스트 요소입니다. |
+| `.igx-chip--outlined` | `outlined`이 설정되었을 때 적용됩니다. |
+| `.igx-chip--disabled` | `disabled`이 설정되었을 때 적용됩니다. |
+| `.igx-chip--primary` | `variant`이 `primary`일 때 적용됩니다. `info`, `success`, `warning`, `danger` 변형은 일치하는 수정자를 사용합니다. |
+| `.igx-chip__item` | 칩 래퍼입니다. |
+| `.igx-chip__item--selected` | 칩이 선택된 동안 래퍼에 적용됩니다. |
+| `.igx-chip__start` | 선택 아이콘과 접두사 콘텐츠를 위한 컨테이너입니다. |
+| `.igx-chip__content` | 레이블을 위한 컨테이너입니다. |
+| `.igx-chip__end` | 접미사 콘텐츠와 제거 컨트롤을 위한 컨테이너입니다. |
+| `.igx-chip__remove` | 제거 컨트롤입니다. |
+
+</PlatformBlock>
+
+### Sass 테마 지정
+
+애플리케이션이 Sass를 통해 Ignite UI 테마를 사용자 지정하는 경우 <ApiLink kind="sass" module="themes" type="function-chip-theme" label="chip-theme" code={true} /> 함수를 사용하십시오. `$background`를 설정하거나, 외곽선 칩의 경우 `$outlined-background`를 설정하면, 테마가 여기에서 텍스트, 마우스 오버, 포커스, 선택 색상을 도출합니다. 특정 값이 필요할 때는 다른 매개변수를 재정의하십시오.
+
+<PlatformBlock for="WebComponents, React, Blazor">
+
+```scss
+@use "igniteui-theming/sass/themes" as *;
+
+$custom-chip-theme: chip-theme(
+  $background: #011627,
+  $remove-icon-color: #fecc47
+);
+
+:root {
+  @include tokens($custom-chip-theme);
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+```scss
+@use "igniteui-angular/theming" as *;
+
+$custom-chip-theme: chip-theme(
+  $background: #011627,
+  $remove-icon-color: #fecc47
+);
+
+:root {
+  @include tokens($custom-chip-theme);
+}
+```
+
+</PlatformBlock>
+
+### CSS 변수
+
+Sass 빌드 단계 없이 로컬 스타일이 필요하면 칩 CSS 변수를 직접 설정하십시오. 칩에 설정하거나, 컨테이너에 설정하여 그 안의 모든 칩의 스타일을 지정할 수 있습니다.
+
+```css
+.filter-chips {
+  --ig-chip-background: var(--ig-primary-500);
+  --ig-chip-text-color: var(--ig-primary-500-contrast);
+  --ig-chip-remove-icon-color: var(--ig-primary-500-contrast);
+}
+```
+
+칩의 특정 요소 하나의 스타일을 지정하려면 그 요소의 <PlatformBlock for="WebComponents, React, Blazor">CSS 파트</PlatformBlock><PlatformBlock for="Angular">CSS 클래스</PlatformBlock>.
+
+<PlatformBlock for="WebComponents, React, Blazor">
+
+```css
+igc-chip::part(suffix) {
+  color: var(--ig-gray-400);
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+```css
+igx-chip .igx-chip__end {
+  color: var(--ig-gray-400);
+}
+```
+
+</PlatformBlock>
+
+### Tailwind로 스타일링하기
+
+Tailwind 유틸리티 클래스로 {Platform} 칩의 스타일을 지정할 수 있으며, `[--ig-chip-background:var(--ig-primary-600)]`와 같은 임의의 속성으로 CSS 변수를 설정할 수도 있습니다. [Tailwind](../themes/tailwind.mdx)에 설명된 대로 먼저 Tailwind를 설정하십시오.
+
+<PlatformBlock for="WebComponents, React, Blazor">
+
+<Sample src="/inputs/chip/tailwind-styling" height={485} noBackground={false} alt="{Platform} 칩 Tailwind 스타일 지정 예제" />
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+<Sample src="/data-display/chip-tailwind-styling" height={485} noBackground={false} alt="{Platform} 칩 Tailwind 스타일 지정 예제" />
+
+</PlatformBlock>
+
+## 접근성
+
+{Platform} 칩은 키보드 조작을 지원하며, 상태를 보조 기술에 노출합니다.
+
+### 키보드 상호 작용
+
+키보드 사용자는 <kbd>Tab</kbd>으로 각 칩에 도달하며, 칩이 제거 가능하면 그다음에 제거 컨트롤로 이동합니다. 비활성화된 칩은 건너뜁니다.
+
+<PlatformBlock for="WebComponents, React">
+
+| 키 | 동작 |
+| -- | -- |
+| <kbd>Space</kbd> / <kbd>Enter</kbd> | 선택 버튼에서는 `selectable`가 설정된 경우 `selected`를 토글하고 선택 이벤트를 발생시킵니다. 제거 컨트롤에서는 제거 이벤트를 발생시킵니다. |
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+| 키 | 동작 |
+| -- | -- |
+| <kbd>Space</kbd> / <kbd>Enter</kbd> | 제거 가능한 칩에서는 `Selectable`가 설정된 경우 `Selected`를 토글하고 선택 이벤트를 발생시킵니다. 제거 아이콘에서는 제거 이벤트를 발생시킵니다. |
+
+`IgniteUI.Blazor` 26.1에서는 제거 가능하지 않은 칩에서 <kbd>Space</kbd>가 선택을 토글하지 않으며, <kbd>Enter</kbd>는 선택을 토글하고 제거 이벤트도 발생시킵니다.
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+| 키 | 동작 |
+| -- | -- |
+| <kbd>Space</kbd> | `selectable`가 설정된 경우 칩에서 `selected`를 토글합니다. |
+| <kbd>Space</kbd> / <kbd>Enter</kbd> | 제거 컨트롤에서 `remove`를 발생시킵니다. |
+| <kbd>Delete</kbd> | 제거 가능한 칩에서 `remove`를 발생시킵니다. |
+| <kbd>Arrow Left</kbd> / <kbd>Arrow Right</kbd> | `igx-chips-area` 안에서 포커스를 이전 또는 다음 칩으로 이동합니다. |
+| <kbd>Shift</kbd> + <kbd>Arrow Left</kbd> / <kbd>Arrow Right</kbd> | `igx-chips-area` 안에서 포커스된 칩을 한 위치 옮긴 채 `reorder`를 발생시킵니다. |
+
+</PlatformBlock>
+
+### 화면 읽기 프로그램 / ARIA
+
+{Platform} 칩은 기본 의미 체계와 ARIA 속성을 통해 상태를 노출하며<PlatformBlock for="WebComponents, React, Angular">, 접근 가능한 이름은 콘텐츠에서 가져옵니다</PlatformBlock>.
+
+<PlatformBlock for="WebComponents, React">
+
+- 선택 컨트롤은 기본 `button`입니다. `selectable`가 설정되면 `aria-pressed`는 `selected` 상태를 반영합니다.
+- `aria-pressed`가 이미 선택 상태를 전달하므로, 기본 선택 아이콘은 보조 기술에서 숨겨집니다.
+- 기본 제거 아이콘은 `role="button"`, `tabindex="0"`, 기본값이 "remove chip"인 `aria-label`를 가진 별도의 컨트롤입니다.
+- 비활성화된 칩은 기본 버튼을 비활성화하므로, 보조 기술은 칩을 사용할 수 없다고 보고합니다.
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+- 칩은 기본 `button`입니다. `Selectable`가 설정되면 `aria-pressed`는 `Selected` 상태를 반영합니다.
+- 기본 선택 아이콘에는 `aria-label` "select chip"이 있습니다.
+- `role="button"`와 `tabindex="0"`, 그리고 "remove chip"인 `aria-label`를 가진 기본 제거 아이콘은 칩의 버튼 안에 렌더링되므로 중첩된 컨트롤입니다.
+- 아이콘이 버튼 안에 렌더링되므로, 칩의 접근 가능한 이름에 그 레이블이 포함됩니다. 예를 들어 "Chip remove chip"처럼 됩니다.
+- 비활성화된 칩은 기본 버튼을 비활성화하므로, 보조 기술은 칩을 사용할 수 없다고 보고합니다.
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+- 칩 호스트에는 `role="option"`가 있으며, `aria-selected`는 `selected` 상태를 반영합니다.
+- `igx-chips-area` 요소에는 `role="listbox"`와 `aria-label` "chip area"가 있습니다.
+- 기본 선택 아이콘과 제거 아이콘에는 접근 가능한 레이블이 있습니다.
+- 비활성화된 칩은 탭 순서에서 제외되지만, 비활성화 상태를 노출하는 ARIA 속성은 없습니다.
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents, React, Angular">
+
+[지역화](#현지화)에 나온 대로 기본 아이콘의 레이블을 바꿀 수 있습니다.
+
+</PlatformBlock>
+
+### 접근성 준수
+
+Infragistics는 [접근성 준수](../interactivity/accessibility-compliance.mdx) 항목에서 Section 508 및 WCAG 2.1 지침 영역에 대한 {ProductName} 접근성 지원을 문서화합니다.
+
+<PlatformBlock for="WebComponents, React">
+
+| 기준 | 컴포넌트가 준수하는 방식 |
+| -- | -- |
+| [1.4.1 색상 사용](https://www.w3.org/WAI/WCAG21/Understanding/use-of-color) | 선택 가능한 칩은 선택된 색상과 함께 선택되는 동안 선택 아이콘을 표시합니다. |
+| [2.1.1 키보드](https://www.w3.org/WAI/WCAG21/Understanding/keyboard) | 선택 버튼과 제거 컨트롤은 모두 <kbd>Space</kbd> 및 <kbd>Enter</kbd>로 동작합니다. |
+| [2.1.2 키보드 트랩 없음](https://www.w3.org/WAI/WCAG21/Understanding/no-keyboard-trap) | <kbd>Tab</kbd> 및 <kbd>Shift</kbd> + <kbd>Tab</kbd>은 포커스를 칩 밖으로 이동시키며, 칩이 포커스를 붙잡고 있지 않습니다. |
+| [2.4.3 포커스 순서](https://www.w3.org/WAI/WCAG21/Understanding/focus-order) | 포커스는 문서 순서에 따라 선택 버튼에서 제거 컨트롤로 이동합니다. |
+| [2.4.7 포커스 표시](https://www.w3.org/WAI/WCAG21/Understanding/focus-visible) | 포커스된 칩은 포커스 배경을 보여 주며, Bootstrap 및 Indigo 테마에서는 포커스 그림자도 보여 주고, 포커스된 제거 아이콘은 색상이 바뀝니다. |
+| [4.1.2 이름, 역할, 값](https://www.w3.org/WAI/WCAG21/Understanding/name-role-value) | 선택 컨트롤은 눌림 상태를 노출하는 기본 버튼이며, 제거 컨트롤은 button 역할과 레이블을 노출합니다. |
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+| 기준 | 컴포넌트가 준수하는 방식 |
+| -- | -- |
+| [1.4.1 색상 사용](https://www.w3.org/WAI/WCAG21/Understanding/use-of-color) | 선택 가능한 칩은 선택된 색상과 함께 선택되는 동안 선택 아이콘을 표시합니다. |
+| [2.1.1 키보드](https://www.w3.org/WAI/WCAG21/Understanding/keyboard) | 제거 가능한 칩에서는 칩과 그 제거 아이콘이 모두 <kbd>Space</kbd> 및 <kbd>Enter</kbd>로 동작합니다. 제거 가능하지 않은 칩에서는 [키보드 상호 작용](#키보드-상호-작용)에 설명된 대로 <kbd>Enter</kbd>만 선택을 토글합니다. |
+| [2.1.2 키보드 트랩 없음](https://www.w3.org/WAI/WCAG21/Understanding/no-keyboard-trap) | <kbd>Tab</kbd> 및 <kbd>Shift</kbd> + <kbd>Tab</kbd>은 포커스를 칩 밖으로 이동시키며, 칩이 포커스를 붙잡고 있지 않습니다. |
+| [2.4.3 포커스 순서](https://www.w3.org/WAI/WCAG21/Understanding/focus-order) | 포커스는 문서 순서에 따라 칩에서 제거 아이콘으로 이동합니다. |
+| [2.4.7 포커스 표시](https://www.w3.org/WAI/WCAG21/Understanding/focus-visible) | 포커스된 칩은 포커스 배경을 보여 주며, Bootstrap 및 Indigo 테마에서는 포커스 윤곽선도 보여 줍니다. |
+| [4.1.2 이름, 역할, 값](https://www.w3.org/WAI/WCAG21/Understanding/name-role-value) | 칩은 눌림 상태를 노출하는 기본 버튼입니다. 제거 아이콘은 button 역할과 레이블을 노출하지만 칩의 버튼 안에 렌더링되므로, 두 요소는 별개의 컨트롤이 아닙니다. |
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+| 기준 | 컴포넌트가 준수하는 방식 |
+| -- | -- |
+| [1.4.1 색상 사용](https://www.w3.org/WAI/WCAG21/Understanding/use-of-color) | 선택된 칩은 선택된 색상과 함께 선택 아이콘을 표시합니다. |
+| [2.1.1 키보드](https://www.w3.org/WAI/WCAG21/Understanding/keyboard) | 칩 영역 안의 선택, 제거, 순서 변경은 키보드로 할 수 있습니다. |
+| [2.1.2 키보드 트랩 없음](https://www.w3.org/WAI/WCAG21/Understanding/no-keyboard-trap) | 칩은 자신의 키를 직접 처리하지만 <kbd>Tab</kbd>을 가로채지 않으므로, 포커스는 언제나 칩 밖으로 나갈 수 있습니다. |
+| [2.4.3 포커스 순서](https://www.w3.org/WAI/WCAG21/Understanding/focus-order) | 칩 영역 안에서는 화살표 키로 시각적 순서에 따라 칩 사이의 포커스를 이동합니다. |
+| [2.4.7 포커스 표시](https://www.w3.org/WAI/WCAG21/Understanding/focus-visible) | 포커스된 칩은 포커스 배경을 보여 주며, Bootstrap 및 Indigo 테마에서는 포커스 그림자도 보여 줍니다. |
+| [4.1.2 이름, 역할, 값](https://www.w3.org/WAI/WCAG21/Understanding/name-role-value) | 칩은 `option` 역할과 선택 상태를 노출하며, 칩 영역은 `listbox` 역할을 노출합니다. |
+
+</PlatformBlock>
+
+사용자의 책임:
+
+- 모든 칩에 그것이 나타내는 항목을 식별하는 텍스트 레이블을 주십시오.
+- remove 이벤트 핸들러에서 칩을 제거한 후에는, 포커스를 다음 칩처럼 논리적인 위치로 옮기십시오.
+- 테마 색상을 재정의할 때 칩 배경과 텍스트 및 아이콘 사이의 충분한 대비를 유지하십시오.
+- 칩의 스타일을 다시 지정할 때도 보이는 포커스 표시기를 유지하십시오.
+- 작은 크기나 사용자 지정 `--ig-chip-size`을 사용할 때도 칩과 제거 컨트롤이 탭하기에 충분히 크도록 유지하십시오.
+
+<PlatformBlock for="WebComponents, React, Blazor">
+
+- [레이아웃](#레이아웃)에 설명된 대로, 사용자 지정 `remove` 슬롯 콘텐츠는 포커스를 받을 수 있고 레이블이 있도록 유지하십시오.
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+- 사용자가 선택하는 칩은 `igx-chips-area` 안에 두어, 그 `option` 역할이 `listbox` 부모를 갖도록 하십시오.
+- [레이아웃](#레이아웃)에 설명된 대로, 사용자 지정 선택 및 제거 아이콘 템플릿에 레이블을 붙이십시오.
+
+</PlatformBlock>
+
+알려진 예외:
+
+<PlatformBlock for="WebComponents, React, Blazor">
+
+- `igniteui-webcomponents` 7.4.1 이하를 기반으로 한 릴리스에서는 칩 요소에 설정된 `aria-label`가 선택 버튼에 전달되지 않으므로, 칩의 접근 가능한 이름이 바뀌지 않습니다. 대신 콘텐츠를 통해 칩의 이름을 지정하십시오.
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+- 제거 컨트롤은 포커스를 받을 수 있고 레이블이 있는 아이콘을 포함하지만, `button` 역할을 노출하지 않습니다.
+- 비활성화 상태는 ARIA로 노출되지 않으므로, 화면 읽기 프로그램은 비활성화된 칩을 비활성화되었다고 알리지 않습니다. 사용자가 이 상태를 알아야 할 때는 근처 텍스트에서 상태를 설명하십시오.
+
+</PlatformBlock>
+
+## 문제 해결
+
+변경이나 업그레이드 후에 칩이 예상대로 동작하거나 보이지 않을 때 이 섹션을 사용하십시오.
+
+### 제거 아이콘을 클릭한 후에도 칩이 페이지에 남아 있는 이유는 무엇입니까?
+
+remove 이벤트는 애플리케이션에 알리기만 합니다. [칩 제거](#제거-가능한-칩)에 나온 대로 이벤트 핸들러에서 칩을 제거하십시오.
+
+<PlatformBlock for="WebComponents, React">
+
+### 업그레이드 후 `::part(base)` 스타일이 바뀐 이유는 무엇입니까?
+
+`igniteui-webcomponents` 7.3.1부터 `base` 파트는 칩 래퍼이고, 선택 버튼은 `action` 파트이며, 제거 컨트롤은 `remove` 파트에 있습니다. 버튼을 대상으로 하던 스타일은 `::part(action)`로 옮기십시오.
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents, React, Angular">
+
+### 포커스 윤곽선 변수가 더 이상 적용되지 않는 이유는 무엇입니까?
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents, React">
+
+`--ig-chip-focus-outline-color`과 `--ig-chip-focus-selected-outline-color` 변수는 `igniteui-webcomponents` 7.3.0에서 `--ig-chip-focus-shadow-color`과 `--ig-chip-focus-selected-shadow-color`로 바뀌었습니다. 스타일의 변수 이름을 바꾸십시오.
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+`igniteui-angular` 22.2.0에서는 `chip-theme`의 `$focus-outline-color`와 `$focus-selected-outline-color` 매개변수가 `$focus-shadow-color`와 `$focus-selected-shadow-color`로 바뀌었습니다. 스타일에서 매개변수와 일치하는 `--ig-chip-*` 변수의 이름을 바꾸십시오.
+
+</PlatformBlock>
+
+## API 참조
+
+칩 API의 전체 표면은 다음 API 참조를 사용하십시오.
+
+<ApiLink pkg="core" type="Chip" />
+<ApiLink pkg="core" type="Icon" />
+
+<PlatformBlock for="Angular">
+
+<ApiLink pkg="core" type="ChipsArea" />
+
+</PlatformBlock>
+
+## 종속성
+
+{Platform} 칩은 칩에 포함된 <ApiLink pkg="core" type="Icon" /> 컴포넌트로 기본 선택 아이콘과 제거 아이콘을 렌더링합니다.
+
+<PlatformBlock for="WebComponents, React, Blazor">
+
+칩 슬롯에 배치하는 사용자 지정 아이콘은 모두 등록하십시오.
+
+</PlatformBlock>
+
+<PlatformBlock for="React, Blazor">
+
+칩은 기본 모양에 공유 테마 스타일시트도 사용합니다.
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+`<igx-icon>person</igx-icon>`처럼 Material Icons 이름을 사용하는 아이콘에는 Material Icons 글꼴이 필요합니다. `<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">`를 `index.html`에 추가하십시오. Sass 스타일 지정 작업 흐름은 <ApiLink kind="sass" module="themes" type="function-chip-theme" label="chip-theme" /> 및 <ApiLink kind="sass" module="themes" type="function-icon-theme" label="icon-theme" /> 함수를 사용합니다.
+
+</PlatformBlock>
+
+## 추가 리소스
+
+지원 및 관련 {ProductName} 문서는 다음 자료를 사용하십시오.
+
+- [아이콘](../layouts/icon.mdx)
+- [{ProductName} **포럼**]({ForumsLink})
+- [{ProductName} **GitHub**]({GithubLink})
+
+## 관련 컴포넌트
+
+칩이 상호 작용에 가장 적합하지 않을 때는 다음 관련 컴포넌트를 사용하십시오.
+
+- [Button](./button.mdx) - 폼 제출이나 대화 상자 열기처럼 명령을 실행하는 컨트롤입니다.
+- [Checkbox](./checkbox.mdx) - 켜기/끄기 선택이나 독립적인 선택 세트를 위한 폼 컨트롤입니다.
+- [Badge](./badge.mdx) - 상태, 개수 또는 알림을 위한 작고 상호 작용이 없는 표시기입니다.
+
+## FAQ
+
+<Faq>
+  <FaqItem question="버튼 대신 칩을 사용해야 하는 경우는 언제입니까?" indicatorPosition="end">
+    {ProductName} 칩은 사용자가 선택하거나 제거할 수 있는 태그, 필터, 수신자 같은 항목을 나타냅니다. 버튼은 단일 명령을 실행하므로, 사용자가 항목을 고르거나 닫는 대신 동작을 실행해야 할 때 버튼을 선택하십시오.
+  </FaqItem>
+
+  <FaqItem question="한 번에 하나의 칩만 선택되도록 하려면 어떻게 합니까?" indicatorPosition="end">
+    그룹의 각 {ProductName} 칩의 선택 이벤트를 처리하십시오. 칩이 선택되면 다른 칩의 `selected`를 `false`로 설정하십시오.
+  </FaqItem>
+
+  <FaqItem question="칩의 제거 아이콘을 바꿀 수 있습니까?" indicatorPosition="end">
+    <PlatformBlock for="WebComponents, React, Blazor">예. {ProductName} 칩의 `remove` 슬롯에 자신의 콘텐츠를 넣으십시오. 이는 내장 컨트롤을 대체하므로, 그 콘텐츠가 포커스를 받을 수 있고 레이블이 있도록 유지하십시오.</PlatformBlock><PlatformBlock for="Angular">예. {ProductName} 칩의 `removeIcon` 입력에 템플릿을 전달하십시오. 이는 레이블이 있는 기본 아이콘을 대체하므로, 그 안의 아이콘에 접근 가능한 레이블을 부여하십시오.</PlatformBlock>
+  </FaqItem>
+
+  <FaqItem question="사용자가 칩의 순서를 바꿀 수 있습니까?" indicatorPosition="end">
+    <PlatformBlock for="WebComponents, React, Blazor">직접적으로는 안 됩니다. {ProductName} 칩은 끌기나 순서 변경을 지원하지 않으므로, 데이터나 마크업에서 칩의 순서를 바꾸십시오.</PlatformBlock><PlatformBlock for="Angular">예. `igx-chips-area` 안에서 사용자는 `draggable` 칩을 끌거나 <kbd>Shift</kbd> 키와 화살표 키를 누를 수 있습니다. {ProductName} 칩 영역은 새 순서를 보고하며, 애플리케이션이 이를 적용합니다.</PlatformBlock>
+  </FaqItem>
+
+  <FaqItem question="칩의 크기는 어떻게 바꿉니까?" indicatorPosition="end">
+    공유 크기 토큰 `var(--ig-size-small)`, `var(--ig-size-medium)`, `var(--ig-size-large)` 중 하나를 {ProductName} 칩의 `--ig-size` CSS 변수에 할당하십시오.
+  </FaqItem>
+</Faq>

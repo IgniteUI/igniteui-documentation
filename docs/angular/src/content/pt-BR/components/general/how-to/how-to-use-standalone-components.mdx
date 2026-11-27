@@ -1,0 +1,113 @@
+---
+title: "Como usar componentes standalone - Angular | Ignite UI for Angular"
+description: "Como usar os componentes do Ignite UI for Angular como componentes standalone e como dependências dos seus outros componentes standalone."
+keywords: "Ignite UI for Angular, componentes standalone, Angular 16, módulos Angular"
+_language: pt-BR
+llms:
+  description: "O Angular 14 introduziu o conceito de componentes standalone, que permite uma forma simplificada de criar aplicações, reduzindo a necessidade de usar NgModules."
+---
+
+# Usando componentes standalone com o Ignite UI for Angular
+
+O Angular 14 introduziu o conceito de [componentes standalone](https://angular.io/guide/standalone-components), que permite uma forma simplificada de criar aplicações, reduzindo a necessidade de usar `NgModules`. Os componentes standalone estiveram em prévia para desenvolvedores até o Angular 15. Para oferecer suporte a esse novo paradigma, todos os componentes do Ignite UI for Angular agora são exportados como `standalone` a partir da versão `16.0.0`. A partir do Angular 19, todos os componentes são standalone por padrão. Todos os `NgModules` existentes continuam sendo exportados pela biblioteca para compatibilidade com versões anteriores. No entanto, eles não declaram mais nenhum componente do Ignite UI for Angular. Em vez disso, eles importam e exportam os componentes `standalone`.
+
+## Como usar os novos componentes standalone
+
+A partir do Angular 16 e do Ignite UI for Angular 16.0, você pode simplesmente adicionar as importações de que o seu componente `standalone` precisa na propriedade `imports`. No exemplo a seguir, `IGX_GRID_DIRECTIVES` pode ser usado para importar todos os componentes e diretivas relacionados à grade.
+
+```typescript
+import { IGX_GRID_DIRECTIVES } from 'igniteui-angular/grids/grid';
+
+@Component({
+    selector: 'app-grid-sample',
+    styleUrls: ['grid.sample.scss'],
+    templateUrl: 'grid.sample.html',
+    imports: [IGX_GRID_DIRECTIVES, AsyncPipe]
+})
+```
+
+Mas você também pode importar individualmente todos os componentes usados pelo seu componente `standalone`. Um exemplo com `IgxGridComponent` e `IgxColumnComponent`, quando apenas esses dois são usados por outro componente, é o seguinte.
+
+```typescript
+import { IgxGridComponent, IgxColumnComponent } from 'igniteui-angular/grids/grid';
+
+@Component({
+    selector: 'app-grid-sample',
+    styleUrls: ['grid.sample.scss'],
+    templateUrl: 'grid.sample.html',
+    imports: [IgxGridComponent, IgxColumnComponent, AsyncPipe]
+})
+```
+
+Além disso, como todos os módulos existentes são preservados, mas agora apenas importam e exportam os componentes standalone, você também pode usá-los no seu componente standalone.
+
+```typescript
+// `NgModule` import of the `IgxGridModule` module, which is equivalent to IGX_GRID_DIRECTIVES in terms of exported components and directives.
+import { IgxGridModule } from 'igniteui-angular/grids/grid';
+
+@Component({
+    selector: 'app-grid-sample',
+    styleUrls: ['grid.sample.scss'],
+    templateUrl: 'grid.sample.html',
+    imports: [IgxGridModule, AsyncPipe]
+})
+```
+
+## Diretivas utilitárias
+
+O `IGX_GRID_DIRECTIVES` mostrado nos exemplos anteriores é uma diretiva utilitária que exporta todos os componentes e diretivas relacionados à grade. A tabela a seguir lista todas as novas diretivas utilitárias disponíveis no Ignite UI for Angular.
+
+| Coleção de diretivas                                                                                                                                                             | Descrição                                                                     |
+| :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :------------------------------------------------------------------------------ |
+| [`IGX_ACCORDION_DIRECTIVES`](https://github.com/IgniteUI/igniteui-angular/blob/master/projects/igniteui-angular/accordion/src/accordion/public_api.ts)                           | Exporta todos os componentes e diretivas relacionados ao accordion.                        |
+| [`IGX_ACTION_STRIP_DIRECTIVES`](https://github.com/IgniteUI/igniteui-angular/blob/master/projects/igniteui-angular/action-strip/src/action-strip/public_api.ts)                  | Exporta todos os componentes e diretivas relacionados ao action strip.                     |
+| [`IGX_BANNER_DIRECTIVES`](https://github.com/IgniteUI/igniteui-angular/blob/master/projects/igniteui-angular/banner/src/banner/public_api.ts)                                    | Exporta todos os componentes e diretivas relacionados ao banner.                           |
+| [`IGX_BOTTOM_NAV_DIRECTIVES`](https://github.com/IgniteUI/igniteui-angular/blob/master/projects/igniteui-angular/bottom-nav/src/bottom-nav/public_api.ts)                        | Exporta todos os componentes e diretivas relacionados à navegação inferior.                |
+| [`IGX_BUTTON_GROUP_DIRECTIVES`](https://github.com/IgniteUI/igniteui-angular/blob/master/projects/igniteui-angular/button-group/src/button-group/public_api.ts)                  | Exporta todos os componentes e diretivas relacionados ao button group.                     |
+| [`IGX_CALENDAR_DIRECTIVES`](https://github.com/IgniteUI/igniteui-angular/blob/master/projects/igniteui-angular/calendar/src/calendar/public_api.ts)                              | Exporta todos os componentes e diretivas relacionados ao calendar.                         |
+| [`IGX_CARD_DIRECTIVES`](https://github.com/IgniteUI/igniteui-angular/blob/master/projects/igniteui-angular/card/src/card/public_api.ts)                                          | Exporta todos os componentes e diretivas relacionados ao card.                             |
+| [`IGX_CAROUSEL_DIRECTIVES`](https://github.com/IgniteUI/igniteui-angular/blob/master/projects/igniteui-angular/carousel/src/carousel/public_api.ts)                              | Exporta todos os componentes e diretivas relacionados ao carousel.                         |
+| [`IGX_CHIPS_DIRECTIVES`](https://github.com/IgniteUI/igniteui-angular/blob/master/projects/igniteui-angular/chips/src/chips/public_api.ts)                                       | Exporta todos os componentes e diretivas relacionados ao chip.                             |
+| [`IGX_CIRCULAR_PROGRESS_BAR_DIRECTIVES`](https://github.com/IgniteUI/igniteui-angular/blob/master/projects/igniteui-angular/progressbar/src/progressbar/public_api.ts)           | Exporta todos os componentes e diretivas relacionados à barra de progresso circular.            |
+| [`IGX_COMBO_DIRECTIVES`](https://github.com/IgniteUI/igniteui-angular/blob/master/projects/igniteui-angular/combo/src/combo/public_api.ts)                                       | Exporta todos os componentes e diretivas relacionados ao combo.                            |
+| [`IGX_DATE_PICKER_DIRECTIVES`](https://github.com/IgniteUI/igniteui-angular/blob/master/projects/igniteui-angular/date-picker/src/date-picker/public_api.ts)                     | Exporta todos os componentes e diretivas relacionados ao date-picker.                      |
+| [`IGX_DATE_RANGE_PICKER_DIRECTIVES`](https://github.com/IgniteUI/igniteui-angular/blob/master/projects/igniteui-angular/date-picker/src/date-range-picker/public_api.ts)         | Exporta todos os componentes e diretivas relacionados ao date-range picker.                |
+| [`IGX_DIALOG_DIRECTIVES`](https://github.com/IgniteUI/igniteui-angular/blob/master/projects/igniteui-angular/dialog/src/dialog/public_api.ts)                                    | Exporta todos os componentes e diretivas relacionados ao dialog.                           |
+| [`IGX_DRAG_DROP_DIRECTIVES`](https://github.com/IgniteUI/igniteui-angular/blob/master/projects/igniteui-angular/directives/src/directives/drag-drop/public_api.ts)               | Exporta todos os componentes e diretivas relacionados a arrastar e soltar.                    |
+| [`IGX_DROP_DOWN_DIRECTIVES`](https://github.com/IgniteUI/igniteui-angular/blob/master/projects/igniteui-angular/drop-down/src/drop-down/public_api.ts)                           | Exporta todos os componentes e diretivas relacionados ao drop-down.                        |
+| [`IGX_EXPANSION_PANEL_DIRECTIVES`](https://github.com/IgniteUI/igniteui-angular/blob/master/projects/igniteui-angular/expansion-panel/src/expansion-panel/public_api.ts)         | Exporta todos os componentes e diretivas relacionados ao expansion panel.                  |
+| [`IGX_GRID_DIRECTIVES`](https://github.com/IgniteUI/igniteui-angular/blob/master/projects/igniteui-angular/grids/grid/src/grid.module.ts)                                        | Exporta todos os componentes e diretivas relacionados à grade.                             |
+| [`IGX_HIERARCHICAL_GRID_DIRECTIVES`](https://github.com/IgniteUI/igniteui-angular/blob/master/projects/igniteui-angular/grids/hierarchical-grid/src/hierarchical-grid.module.ts) | Exporta todos os componentes e diretivas relacionados à grade hierárquica.                |
+| [`IGX_INPUT_GROUP_DIRECTIVES`](https://github.com/IgniteUI/igniteui-angular/blob/master/projects/igniteui-angular/input-group/src/input-group/public_api.ts)                     | Exporta todos os componentes e diretivas relacionados ao input group.                      |
+| [`IGX_LINEAR_PROGRESS_BAR_DIRECTIVES`](https://github.com/IgniteUI/igniteui-angular/blob/master/projects/igniteui-angular/progressbar/src/progressbar/public_api.ts)             | Exporta todos os componentes e diretivas relacionados à barra de progresso linear.              |
+| [`IGX_LIST_DIRECTIVES`](https://github.com/IgniteUI/igniteui-angular/blob/master/projects/igniteui-angular/list/src/list/public_api.ts)                                          | Exporta todos os componentes e diretivas relacionados à lista.                             |
+| [`IGX_NAVBAR_DIRECTIVES`](https://github.com/IgniteUI/igniteui-angular/blob/master/projects/igniteui-angular/navbar/src/navbar/public_api.ts)                                    | Exporta todos os componentes e diretivas relacionados ao navbar.                           |
+| [`IGX_NAVIGATION_DRAWER_DIRECTIVES`](https://github.com/IgniteUI/igniteui-angular/blob/master/projects/igniteui-angular/navigation-drawer/src/navigation-drawer/public_api.ts)   | Exporta todos os componentes e diretivas relacionados à gaveta de navegação.                |
+| [`IGX_PAGINATOR_DIRECTIVES`](https://github.com/IgniteUI/igniteui-angular/blob/master/projects/igniteui-angular/paginator/src/paginator/public_api.ts)                           | Exporta todos os componentes e diretivas relacionados ao paginator.                        |
+| [`IGX_PIVOT_GRID_DIRECTIVES`](https://github.com/IgniteUI/igniteui-angular/blob/master/projects/igniteui-angular/grids/pivot-grid/src/pivot-grid.module.ts)                      | Exporta todos os componentes e diretivas relacionados à pivot grid.                       |
+| [`IGX_PROGRESS_BAR_DIRECTIVES`](https://github.com/IgniteUI/igniteui-angular/blob/master/projects/igniteui-angular/progressbar/src/progressbar/public_api.ts)                    | Exporta todos os componentes e diretivas relacionados às barras de progresso linear e circular. |
+| [`IGX_QUERY_BUILDER_DIRECTIVES`](https://github.com/IgniteUI/igniteui-angular/blob/master/projects/igniteui-angular/query-builder/src/query-builder/public_api.ts)               | Exporta todos os componentes e diretivas relacionados ao query builder.                    |
+| [`IGX_RADIO_GROUP_DIRECTIVES`](https://github.com/IgniteUI/igniteui-angular/blob/master/projects/igniteui-angular/radio/src/radio/radio-group/public_api.ts)                     | Exporta todos os componentes e diretivas relacionados ao radio group.                      |
+| [`IGX_SELECT_DIRECTIVES`](https://github.com/IgniteUI/igniteui-angular/blob/master/projects/igniteui-angular/select/src/select/public_api.ts)                                    | Exporta todos os componentes e diretivas relacionados ao select.                           |
+| [`IGX_SIMPLE_COMBO_DIRECTIVES`](https://github.com/IgniteUI/igniteui-angular/blob/master/projects/igniteui-angular/simple-combo/src/simple-combo/public_api.ts)                  | Exporta todos os componentes e diretivas relacionados ao simple combo.                     |
+| [`IGX_SLIDER_DIRECTIVES`](https://github.com/IgniteUI/igniteui-angular/blob/master/projects/igniteui-angular/slider/src/slider/public_api.ts)                                    | Exporta todos os componentes e diretivas relacionados ao slider.                           |
+| [`IGX_SPLITTER_DIRECTIVES`](https://github.com/IgniteUI/igniteui-angular/blob/master/projects/igniteui-angular/splitter/src/splitter/public_api.ts)                              | Exporta todos os componentes e diretivas relacionados ao splitter.                         |
+| [`IGX_STEPPER_DIRECTIVES`](https://github.com/IgniteUI/igniteui-angular/blob/master/projects/igniteui-angular/stepper/src/stepper/public_api.ts)                                 | Exporta todos os componentes e diretivas relacionados ao stepper.                          |
+| [`IGX_TABS_DIRECTIVES`](https://github.com/IgniteUI/igniteui-angular/blob/master/projects/igniteui-angular/tabs/src/tabs/tabs/public_api.ts)                                     | Exporta todos os componentes e diretivas relacionados às tabs.                             |
+| [`IGX_TIME_PICKER_DIRECTIVES`](https://github.com/IgniteUI/igniteui-angular/blob/master/projects/igniteui-angular/time-picker/src/time-picker/public_api.ts)                     | Exporta todos os componentes e diretivas relacionados ao time picker.                      |
+| [`IGX_TOOLTIP_DIRECTIVES`](https://github.com/IgniteUI/igniteui-angular/blob/master/projects/igniteui-angular/directives/src/directives/tooltip/public_api.ts)                   | Exporta todos os componentes e diretivas relacionados ao tooltip.                          |
+| [`IGX_TREE_DIRECTIVES`](https://github.com/IgniteUI/igniteui-angular/blob/master/projects/igniteui-angular/tree/src/tree/public_api.ts)                                          | Exporta todos os componentes e diretivas relacionados ao tree-view.                        |
+| [`IGX_TREE_GRID_DIRECTIVES`](https://github.com/IgniteUI/igniteui-angular/blob/master/projects/igniteui-angular/grids/tree-grid/src/tree-grid.module.ts)                         | Exporta todos os componentes e diretivas relacionados à tree grid.                        |
+
+## Recursos adicionais
+
+Tópicos relacionados:
+
+- [Componentes standalone](https://angular.io/guide/standalone-components)
+- [Primeiros passos com o Ignite UI for Angular](/general/getting-started)
+- [Renderização do lado do servidor com Angular](/general/ssr-rendering)
+
+Nossa comunidade é ativa e sempre receptiva a novas ideias.
+
+- [Ignite UI for Angular **Fóruns**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

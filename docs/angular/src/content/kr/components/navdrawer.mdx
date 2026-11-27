@@ -1,0 +1,508 @@
+---
+title: "Angular Navigation Drawer 컴포넌트 – Ignite UI for Angular | Infragistics | MIT 라이선스"
+description: "Ignite UI for Angular Navigation Drawer 컴포넌트로 프로그래밍 방식으로 완전히 제어할 수 있는, 사용자 친화적인 슬라이드 인/아웃 탐색 컨테이너를 구현하십시오."
+keywords: "Ignite UI for Angular, UI 컨트롤, Angular 위젯, 웹 위젯, UI 위젯, Angular, Native Angular Components Suite, Native Angular Controls, Native Angular Components Library, Angular Navigation Drawer 컴포넌트, Angular Navigation Drawer 컨트롤"
+license: MIT
+_language: ko
+llms:
+  description: "Ignite UI for Angular Navigation Drawer 컴포넌트는 측면 탐색 컨테이너입니다."
+---
+
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+# Angular Navigation Drawer 컴포넌트 개요
+
+<div class="highlight">
+Ignite UI for Angular Navigation Drawer 컴포넌트는 측면 탐색 컨테이너입니다. 콘텐츠 위에 놓이고 보기 영역으로 슬라이드 인/아웃하거나, 콘텐츠 안에서 고정되어 펼쳐지거나 접힐 수 있습니다. 미니 버전은 닫혀 있을 때도 탐색에 빠르게 접근할 수 있게 합니다. Navigation Drawer는 반응형 모드 선택과 터치 제스처를 지원합니다. 콘텐츠는 완전히 사용자 지정할 수 있으며 기본 메뉴 항목 스타일을 사용할 수도 있습니다.
+</div>
+
+## Angular Navigation Drawer 예제
+
+<hr/>
+
+<Sample src="/menus/navigation-drawer-simple" height={500} alt="Angular Navigation Drawer 예제" />
+
+<hr/>
+
+## Ignite UI for Angular Navigation Drawer 시작하기
+
+Ignite UI for Angular Navigation Drawer 컴포넌트를 시작하려면 먼저 Ignite UI for Angular를 설치해야 합니다. 기존 Angular 애플리케이션에서 다음 명령을 입력하십시오:
+
+```cmd
+ng add igniteui-angular
+```
+
+Ignite UI for Angular에 대한 전체 소개는 [_시작하기_](/general/getting-started) 항목을 읽어 보십시오.
+
+첫 번째 단계는 **app.module.ts** 파일 안에서 `IgxNavigationDrawerModule`을(를) 가져오는 것입니다.
+
+<DocsAside type="info">
+<ApiLink type="NavigationDrawer" />은(는) [`BrowserAnimationsModule`](https://angular.io/api/platform-browser/animations/BrowserAnimationsModule)에도 의존하므로, 이것도 AppModule에 추가해야 합니다:
+</DocsAside>
+
+```typescript
+// app.module.ts
+...
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { IgxNavigationDrawerModule } from 'igniteui-angular/navigation-drawer';
+// import { IgxNavigationDrawerModule } from '@infragistics/igniteui-angular'; for licensed package
+
+@NgModule({
+    ...
+    imports: [..., BrowserAnimationsModule, IgxNavigationDrawerModule],
+    ...
+})
+export class AppModule {}
+```
+
+또는 `16.0.0` 버전부터는 `IgxNavigationDrawerComponent`을 독립형(standalone) 종속성으로 가져올 수 있으며, [`IGX_NAVIGATION_DRAWER_DIRECTIVES`](https://github.com/IgniteUI/igniteui-angular/blob/master/projects/igniteui-angular/navigation-drawer/src/navigation-drawer/public_api.ts) 토큰을 사용하여 컴포넌트와 모든 지원 컴포넌트 및 디렉티브를 가져올 수도 있습니다.
+
+```typescript
+// home.component.ts
+
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NgFor } from '@angular/common';
+import { IGX_NAVIGATION_DRAWER_DIRECTIVES } from 'igniteui-angular/navigation-drawer';
+import { IgxRippleDirective } from 'igniteui-angular/directives';
+import { IgxIconComponent } from 'igniteui-angular/icon';
+// import { IGX_NAVIGATION_DRAWER_DIRECTIVES, IgxRippleDirective, IgxIconComponent } from '@infragistics/igniteui-angular'; for licensed package
+
+@Component({
+  selector: 'app-home',
+  template: `
+    <div class="content-wrap">
+
+      <igx-nav-drawer [isOpen]="true">
+        <ng-template igxDrawer>
+            <span igxDrawerItem [isHeader]="true">Components</span>
+            <span
+              *ngFor="let item of navItems"
+              igxDrawerItem
+              [active]="item.text === selected"
+              igxRipple
+              (click)="navigate(item)"
+            >
+              <igx-icon fontSet="material">{{ item.name }}</igx-icon>
+              <span>{{ item.text }}</span>
+            </span>
+        </ng-template>
+      </igx-nav-drawer>
+      <main>
+        {/* app content */}
+      </main>
+    
+</div>
+  `,
+  styleUrls: ['home.component.scss'],
+  standalone: true,
+  imports: [BrowserAnimationsModule, IGX_NAVIGATION_DRAWER_DIRECTIVES, IgxRippleDirective, IgxIconComponent, NgFor],
+  /* or imports: [BrowserAnimationsModule, IgxNavigationDrawerComponent, IgxNavDrawerTemplateDirective, IgxNavDrawerItemDirective, IgxIconComponent, IgxRippleDirective, NgFor] */
+})
+export class HomeComponent {
+  public navItems: Product[];
+}
+```
+
+<DocsAside type="info">
+이 컴포넌트는 Material Icons를 사용합니다. 다음 링크를 `index.html`에 추가하십시오: `<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">`
+</DocsAside>
+
+이제 Ignite UI for Angular Navigation Drawer 모듈 또는 디렉티브를 가져왔으므로 `igx-nav-drawer` 컴포넌트를 사용할 수 있습니다.
+
+## Angular Navigation Drawer 사용하기
+
+종속성을 가져오고 나면 앱 컴포넌트 템플릿에서 Navigation Drawer를 정의할 수 있습니다:
+
+```html
+<igx-nav-drawer id="navdrawer" [isOpen]="true">
+  {/* template(s) */}
+</igx-nav-drawer>
+```
+
+드로어의 콘텐츠는 `igxDrawer` 디렉티브로 장식된 `<ng-template>`을(를) 통해 제공해야 합니다.
+템플릿에는 어떤 콘텐츠든 제공할 수 있지만, 항목에 기본으로 제공되는 스타일을 적용하려면 <ApiLink type="NavDrawerItemDirective" /> 디렉티브([항목 스타일링](#스타일링) 참조)를 사용할 수 있습니다.
+이 디렉티브에는 두 개의 `@Input` 속성이 있습니다:
+
+- 항목을 선택된 상태로 스타일링하려면 `active`을(를) 사용하십시오.
+- 항목을 그룹 머리글로 스타일링하려면 `isHeader`을(를) 사용하십시오. 그룹 머리글은 활성 상태가 될 수 없습니다.
+
+[`igxRipple`](/ripple) 디렉티브는 모양과 느낌을 완성합니다:
+
+```html
+{/* app.component.html */}
+<div class="content-wrap">
+
+  <igx-nav-drawer id="navigation" #drawer [isOpen]="true">
+    <ng-template igxDrawer>
+        <span igxDrawerItem [isHeader]="true">Components</span>
+        <span *ngFor="let item of navItems" igxDrawerItem [active]="item.text === selected" igxRipple (click)="navigate(item)">
+          <igx-icon fontSet="material">{{ item.name }}</igx-icon>
+          <span>{{ item.text }}</span>
+        </span>
+    </ng-template>
+  </igx-nav-drawer>
+  <main>
+    {/* app content */}
+  </main>
+</div>
+```
+
+> 닫힌 상태를 위한 대체 [미니 변형](#미니-변형)에는 `igxDrawerMini` 디렉티브로 장식된 추가 템플릿을 제공할 수 있습니다.
+<DocsAside type="info">
+Navigation Drawer는 콘텐츠 위에 떠 있거나 콘텐츠와 나란히 고정될 수 있습니다. 기본적으로 드로어는 뷰포트 크기에 따라 이 모드들 사이를 전환합니다. 자세한 내용은 [모드](#모드)를 참조하십시오.
+</DocsAside>
+
+드로어가 모드를 전환하는 것을 수용하기 위해, 두 콘텐츠 영역을 감싸는 간단하고 유연한 래퍼를 다음과 같이 스타일링할 수 있습니다:
+
+```css
+/* app.component.css */
+.content-wrap {
+  width: 100%;
+  height: 100%;
+  display: flex;
+}
+```
+
+탐색 드로어에 요소를 추가하고 이를 선택할 수 있게 하려면 TypeScript 파일은 다음과 같아야 합니다:
+
+```ts
+/* app.component.ts */
+@Component({...})
+export class AppComponent {
+    public navItems = [
+        { name: 'account_circle', text: 'Avatar' },
+        ...
+    ];
+
+    public selected = 'Avatar';
+
+    public navigate(item) {
+        this.selected = item.text;
+    }
+}
+```
+
+드로어를 열고 닫는 방법은 여러 가지가 있습니다. 입력 속성을 앱 상태에 바인딩하거나, [`@ViewChild(IgxNavigationDrawerComponent)`](https://angular.io/api/core/ViewChild) 참조를 사용하여 컴포넌트에서 API에 프로그래밍 방식으로 접근하거나, 이 경우처럼 `#drawer` [템플릿 참조 변수](https://angular.io/guide/template-syntax#ref-vars)를 사용할 수도 있습니다:
+
+```html
+<button (click)="drawer.toggle()">Menu</button>
+```
+
+Navigation Drawer는 <ApiLink type="NavigationService" />과(와)도 통합되며, [`igxToggleAction`](/toggle#자동-토글-작업) 디렉티브를 사용하여 id로 대상을 지정할 수 있습니다.
+
+토글을 스타일링하기 위해 [`igxIconButton`](/icon-button)과(와) [Icon 컴포넌트](/layouts/icon)를 추가하여, **app.component.html**의 `<main>`을(를) 다음으로 교체하십시오:
+
+```html
+<main>
+  <span igxIconButton="flat" igxToggleAction="navigation">
+    <igx-icon fontSet="material">menu</igx-icon>
+  </span>
+</main>
+```
+
+또한 드로어에서 항목을 선택할 때 드로어가 닫히게 하려면 다음과 같이 [`@ViewChild(IgxNavigationDrawerComponent)`](https://angular.io/api/core/ViewChild) 참조를 사용할 수 있습니다:
+
+```ts
+/* app.component.ts */
+import { Component, ViewChild } from '@angular/core';
+import { IgxNavigationDrawerComponent } from 'igniteui-angular/navigation-drawer';
+// import { IgxNavigationDrawerComponent } from '@infragistics/igniteui-angular'; for licensed package
+
+@Component({...})
+export class AppComponent  {
+    @ViewChild(IgxNavigationDrawerComponent, { static: true })
+    public drawer: IgxNavigationDrawerComponent;
+
+    // And of course add the key line to our navigate function
+
+    public navigate(item) {
+        this.selected = item.text;
+        this.drawer.close();
+    }
+}
+```
+
+모든 것이 잘 되었다면 브라우저에서 데모 샘플을 볼 수 있을 것입니다.
+
+<hr/>
+
+## 모드
+
+고정 해제(콘텐츠 위로 올라온) 모드는 드로어가 콘텐츠 위에 놓이고 콘텐츠 위에 어두운 오버레이를 적용하는 일반적인 동작입니다. 보통 모바일 기기에 적합한 임시 탐색을 제공하는 데 사용합니다.
+
+드로어를 고정하면 더 큰 화면을 활용할 수 있으며, 상대 위치를 사용하여 드로어를 일반 콘텐츠 흐름 안에 배치합니다. 앱이 드로어를 전환하는 방법을 제공하는지에 따라, 고정 모드는 [영구적 또는 지속적 동작](https://material.io/guidelines/patterns/navigation-drawer.html#navigation-drawer-behavior)을 구현하는 데 사용할 수 있습니다.
+
+<DocsAside type="info">
+기본적으로 Navigation Drawer는 반응형이어서 화면 크기에 따라 고정 해제 모드와 고정 모드 사이를 능동적으로 전환합니다. 이 동작은 <ApiLink type="NavigationDrawerComponent" member="pinThreshold" label="pinThreshold" /> 속성으로 제어되며, falsy 값(예: 0)을 설정하여 비활성화할 수 있습니다.
+</DocsAside>
+
+### 고정(지속) 설정
+
+고정하면 드로어의 위치가 `fixed`에서 `relative`(으)로 바뀌어 콘텐츠와 같은 흐름에 놓입니다. 따라서 앱 스타일은 이러한 레이아웃을 고려해야 하며, 특히 이 모드에서 드로어를 토글해야 한다면 더욱 그렇습니다. 이처럼 유동적인 레이아웃을 구현하는 방법은 여러 가지(프로그래밍 방식 포함)가 있지만, 가장 쉬운 방법은 <ApiLink type="LayoutDirective" label="igxLayout" /> 및 <ApiLink type="FlexDirective" label="igxFlex" /> 디렉티브를 사용하는 것입니다.
+
+이전 예제에 적용하면 다음과 같이 보입니다:
+
+```html
+<div class="content-wrap" igxLayout igxLayoutDir="row">
+  <igx-nav-drawer id="navigation" #drawer [isOpen]="true" [pin]="true" [pinThreshold]="0">
+    {/* template(s) */}
+  </igx-nav-drawer>
+  <main igxFlex>
+    {/* content here */}
+  </main>
+</div>
+```
+
+```css
+.content-wrap {
+  width: 100%;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+```
+
+이제 변경된 예제는 다음과 같아야 합니다:
+
+<Sample src="/menus/navigation-drawer-pin" height={500} alt="" />
+
+드로어는 호스트 요소에 `flex-basis`을(를) 적용하여, 나머지 콘텐츠가 남은 너비를 차지하도록 합니다.
+또는 디렉티브를 사용하지 않고 다음과 유사하게 수동으로 스타일을 적용할 수도 있습니다:
+
+```css
+.main {
+  position: absolute;
+  display: flex;
+  flex-flow: row nowrap;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+}
+
+.main > * {
+  width: 100%;
+}
+```
+
+### 미니 변형
+
+미니 변형에서는 Navigation Drawer가 닫히는 대신 너비가 바뀝니다.
+아이콘만 남겨 두고 측면에서 빠른 선택을 항상 사용할 수 있게 하는 데 가장 많이 쓰입니다.
+이 변형은 `igxDrawerMini` 디렉티브로 장식된 대체 미니 템플릿이 있으면 간단히 활성화됩니다.
+
+미니 변형은 보통 지속적 설정에서 사용하므로, `pin`을(를) 설정하고 반응형 임계값을 비활성화했습니다:
+
+```html
+<igx-nav-drawer id="navigation" [pin]="true" [pinThreshold]="0">
+  <ng-template igxDrawer>
+    <span *ngFor="let item of navItems" igxDrawerItem [active]="item.text === selected" igxRipple (click)="navigate(item)">
+      <igx-icon fontSet="material">{{ item.name }}</igx-icon>
+      <span>{{ item.text }}</span>
+    </span>
+  </ng-template>
+  <ng-template igxDrawerMini>
+    <span *ngFor="let item of navItems" igxDrawerItem [active]="item.text === selected" igxRipple (click)="navigate(item)">
+      <igx-icon fontSet="material">{{ item.name }}</igx-icon>
+    </span>
+  </ng-template>
+</igx-nav-drawer>
+```
+
+<Sample src="/menus/navigation-drawer-mini" height={400} alt="" />
+
+<hr/>
+
+## Angular 라우터 사용하기
+
+Angular 라우터를 사용하려면 먼저 `@angular/router`에서 라우터를 가져오고 생성자에서 라우터 인스턴스를 만들어야 합니다.
+그런 다음 링크 값으로 라우터를 사용하여 탐색 항목을 정의해야 합니다.
+
+```typescript
+/* app.component.ts */
+ ...
+
+export class AppComponent {
+    public componentLinks = [
+        {
+            link: 'avatar',
+            name: 'Avatar'
+        },
+        {
+            link: 'badge',
+            name: 'Badge'
+        },
+        {
+            link: 'button-group',
+            name: 'Button Group'
+        }
+    ];
+}
+```
+
+`routerLinkActive`은(는) 템플릿 변수에 할당되어 있을 때 사용할 수 있으며, `isActive` 속성은 `igxDrawerItem`의 `active` 입력에 바인딩하는 데 사용할 수 있습니다. `<igx-nav-drawer>` 템플릿은 다음과 같습니다:
+
+```html
+/* app.component.html */
+
+{/* ... */}
+<ng-template igxDrawer>
+  <nav>
+    <span igxDrawerItem [isHeader]="true">Components</span>
+
+    <span
+      *ngFor="let item of componentLinks"
+      routerLink="{{item.link}}"
+      routerLinkActive
+      #rla="routerLinkActive"
+      igxDrawerItem
+      igxRipple
+      [active]="rla.isActive">
+       {{item.name}}
+    </span>
+  </nav>
+</ng-template>
+{/* ... */}
+```
+
+마지막으로 `app.module.ts` 파일에서 항목의 라우트와 함께 RouterModule을 가져오십시오:
+
+```ts
+/*app.module.ts*/
+import { RouterModule } from '@angular/router';
+
+@NgModule({
+    imports: [
+        RouterModule,
+        RouterModule.forRoot([
+            {path: 'avatar', component: NavDrawerRoutingComponent},
+            {path: 'badge', component: NavDrawerRoutingComponent},
+            {path: 'button-group', component: NavDrawerRoutingComponent}
+        ])
+    ]
+})
+```
+
+위의 모든 단계를 마치면 앱은 다음과 같아야 합니다:
+
+<Sample src="/menus/navigation-drawer-routing" height={400} alt="" />
+
+<hr/>
+
+## 계층형 탐색
+
+`IgxNavigationDrawerComponent`을(를) 사용하여 다단계 계층형 탐색을 만들려면 `igxDrawer` 템플릿에서 [IgxTreeComponent](/tree)를 사용할 수 있습니다. 트리는 애플리케이션의 `Routes` 객체로부터 직접 구성할 수 있습니다. 이를 구현하는 방법은 다음과 같습니다:
+
+```html
+<igx-nav-drawer [isOpen]="true" [enableGestures]="true" width="280px">
+  <ng-template igxDrawer>
+    <igx-tree>
+      <igx-tree-node *ngFor="let route of routes">
+        <a igxTreeNodeLink [routerLink]="route.path" routerLinkActive="route-selected-class">{{ route.data?.displayName }}</a>
+        <igx-tree-node *ngFor="let child of route.children">
+          <a igxTreeNodeLink [routerLink]="[route.path, child.path]" routerLinkActive="route-selected-class">{{ child.data?.displayName }}</a>
+        </igx-tree-node>
+      </igx-tree-node>
+    </igx-tree>
+  </ng-template>
+</igx-nav-drawer>
+```
+
+<DocsAside type="info">
+이 예제에서는 `igxDrawerItem`을(를) 사용하지 않고, 대신 `igx-tree`을(를) 사용하여 사용자 지정 `igxDrawer` 콘텐츠로 직접 채웁니다.
+</DocsAside>
+
+```typescript
+import { menusRoutes } from '../../menus-routing.module';
+
+@Component({
+  selector: 'app-nav-drawer-hierarchical',
+  templateUrl: './nav-drawer-hierarchical.component.html',
+  styleUrls: ['./nav-drawer-hierarchical.component.scss'],
+})
+export class NavDrawerHierarchicalComponent {
+  public routes = menusRoutes;
+}
+```
+
+이 예제에서는 사용자 지정 라우팅 `data`으로 라우트를 채우며, 이 객체에는 `igx-tree` 노드에서 링크 텍스트를 표시하는 데 사용되는 `displayName` 속성이 있습니다. 샘플 `Route`은 다음과 같습니다:
+
+```typescript
+export const menusRoutes: Routes = [
+  {
+    component: NavDrawerHierarchicalComponent,
+    path: 'navigation-drawer-hierarchical',
+    data: { displayName: 'Hierarchical Drawer Menu' },
+  },
+];
+```
+
+라우트의 `children` 속성에서 추출한 하위 라우팅도 있습니다. 샘플은 두 단계의 계층을 보여 주지만, 라우팅이 더 많은 단계를 가진다면 두 번째 단계 아래의 단계를 [트리 노드 템플릿](/tree#템플릿)에 정의하기만 하면 됩니다.
+
+<DocsAside type="info">
+빈 라우트 리디렉션, 오류 라우트, 페이지를 찾을 수 없음 등 일부 라우트는 시각화에 직접 적합하지 않을 수 있다는 점에 유의하십시오. 트리를 라우팅 객체에 바인딩하기 전에 컴포넌트 로직에서 그러한 라우트를 객체에서 제거할 수 있습니다.
+</DocsAside>
+
+아래 예제는 주제 이름과 링크가 있는 미리 정의된 데이터를 사용하여 계층 구조의 기능을 보여 줍니다. 이 구조를 사용하면 사용자가 기능적이고 자세한 탐색을 쉽게 만들 수 있으며, 각 요소를 링크로 표시할지 표시기로 표시할지 정의할 수 있습니다.
+
+<Sample src="/menus/navigation-drawer-hierarchical" height={400} alt="" />
+
+<hr/>
+
+## 스타일링
+
+탐색 드로어의 스타일 지정을 시작하려면 모든 테마 함수와 `tokens()` 믹스인이 내보내진 `index` 파일을 가져와야 합니다:
+
+```scss
+@use "igniteui-angular/theming" as *;
+
+// IMPORTANT: Prior to Ignite UI for Angular version 13 use:
+// @import '~igniteui-angular/lib/core/styles/themes/index';
+```
+
+가장 간단한 방법으로, <ApiLink kind="sass" module="themes" type="function-navdrawer-theme" label="navdrawer-theme" code={true} />을(를) 확장하고 navdrawer 항목의 스타일을 지정하는 몇 가지 매개변수를 받는 새 테마를 만듭니다:
+
+```scss
+$custom-theme: navdrawer-theme(
+  $background: #2d313a,
+  $item-active-background: #ecc256,
+  $item-header-text-color: #ecc256,
+);
+```
+
+보시다시피 `navdrawer-theme`은(는) 항목의 기본 스타일 지정에 유용한 몇 가지 매개변수를 제공합니다.
+
+마지막 단계는 애플리케이션에 컴포넌트 테마를 **포함**하는 것입니다.
+
+```scss
+:host {
+  @include tokens($custom-theme);
+}
+```
+
+<DocsAside type="info">
+일부 컴포넌트 템플릿에서는 Emulated View Encapsulation 때문에 생성된 토큰 선언이 중첩된 Ignite UI 요소에 도달하지 못할 수 있습니다. 테마가 적용되지 않으면 아래와 같이 `::ng-deep`을(를) 사용하거나 테마를 전역 스타일시트로 옮기십시오.
+</DocsAside>
+
+```scss
+:host {
+  ::ng-deep { 
+    @include tokens($custom-theme);
+  }
+}
+```
+
+
+<Sample src="/menus/navigation-drawer-styling" height={400} alt="" />
+
+<hr/>
+
+## API 및 스타일 참조
+
+- <ApiLink type="NavigationDrawer" />
+- <ApiLink kind="sass" module="themes" type="function-navdrawer-theme" label="IgxNavigationDrawerComponent 스타일" />

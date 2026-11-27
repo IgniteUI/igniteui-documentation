@@ -1,0 +1,285 @@
+---
+title: "Personalizar a exibição de marcadores | Gráficos Blazor | Infragistics"
+description: "Gráficos Blazor da Infragistics - Como personalizar a exibição de marcadores em gráficos Blazor"
+keywords: "Gráficos Blazor, exibição de marcadores, $ProductName$, Infragistics"
+mentionedTypes: []
+_language: pt-BR
+llms:
+  description: "Neste breve artigo prático, explicaremos como usar a função de personalização da exibição de marcadores com o Ignite UI for Blazor para exibir um gráfico de dispersão com marcadores de tamanhos e cores de preenchimento diferentes, dependendo das propriedades dos itens vinculados."
+---
+
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import { Image } from 'astro:assets';
+import blazorWasmApp from '@xplat-images/general/blazor-wasm-app.png';
+import blazorWasmApp2 from '@xplat-images/general/blazor-wasm-app-2.png';
+
+
+# Como personalizar a exibição de marcadores em gráficos Blazor
+
+Neste breve artigo prático, explicaremos como usar a função de personalização da exibição de marcadores com o Ignite UI for Blazor para exibir um gráfico de dispersão com marcadores de tamanhos e cores de preenchimento diferentes, dependendo das propriedades dos itens vinculados. Para fins de demonstração, primeiro criaremos um aplicativo Blazor de exemplo.
+
+Conteúdo deste artigo:
+
+- [Personalizando a exibição (desenho) de marcadores](#creating-a-sample-blazor-app-and-blazor-chart)
+- [Criando um aplicativo de exemplo com o Blazor Chart](#creating-a-sample-blazor-app-and-blazor-chart)
+- [Definindo uma função de fábrica que retorna um objeto de desenho personalizado](#defining-a-factory-function-that-returns-a-custom-drawing-object-for-the-marker)
+- [Implementando um método de medição](#implementing-a-measure-method-for-the-markers-custom-drawing-object-in-the-blazor-chart)
+- [Implementando o método de renderização de um objeto de renderização personalizado](#implementing-a-render-method-for-the-markers-custom-rendering-object)
+- [Registrando uma função de fábrica no Ignite UI](#registering-a-factory-function-in-the-ignite-ui-that-returns-a-custom-drawing-object-for-the-marker)
+- [Especificando o "nome do script" nos parâmetros da série](#specifying-the-script-name-in-the-series-parameters)
+- [Conclusão – por que o Blazor é um framework tão bom](#in-conclusion)
+
+Vamos começar com a personalização da exibição de marcadores nos gráficos e diagramas Blazor.
+
+## Criando um aplicativo Blazor de exemplo e um Blazor Chart
+
+Para personalizar a exibição (desenho) de um marcador com base nas propriedades do item vinculado, criamos um programa JavaScript que desenha o marcador e especificamos as propriedades da série em que o marcador deve ser desenhado usando esse programa JavaScript. Um objeto de contexto 2D de um elemento HTML Canvas é passado da série para o programa JavaScript responsável por desenhar o marcador.
+
+Tenha em mente que é necessário ter conhecimento prévio de desenho com JavaScript e HTML Canvas para personalizar a exibição (desenho) do marcador.
+
+Primeiro, o tipo de dado de exemplo a ser vinculado é o seguinte tipo de registro. Além de propriedades como XValue e YValue, como valores para os eixos X e Y no [Blazor Chart](https://www.infragistics.com/products/ignite-ui-blazor/blazor/components/charts/chart-overview), que são geralmente usadas no [tipo de gráfico Scatter do Blazor](https://www.infragistics.com/products/ignite-ui-blazor/blazor/components/charts/types/scatter-chart), também vamos adicionar:
+
+- uma propriedade Volume do tipo "Double"
+- uma propriedade "Color"
+
+O valor da propriedade Volume do Blazor Chart será usado como o tamanho do marcador, e o valor da propriedade Color como a cor de preenchimento do marcador.
+
+<PlatformBlock for="Blazor">
+
+```csharp
+public record SampleDataType (
+    string Name,
+    double XValue,
+    double YValue,
+    double Volume, // Set Shape 👈this property to the size of the marker,
+    System.Drawing.Color // Shape 👈Refer to this property as the fill color
+);
+```
+
+</PlatformBlock>
+
+Usando o tipo de registro SampleDataType acima, prepare os dados de exemplo de acordo com o mostrado abaixo:
+
+<PlatformBlock for="Blazor">
+
+```razor
+// In the @code block in the sample Razor component (.razor)
+public IEnumerable <SampleDataType> DataSource { get ; } = new SampleDataType []
+{
+    new ( Name: "item1" , XValue: 0 , YValue: 2 , Volume: 5.7 , Color: System.Drawing.Color.Fuchsia ),
+    new ( Name: "item2" , XValue: 2 , YValue: 5 , Volume: 3.6 , Color: System.Drawing.Color.MediumOrchid ),
+    new ( Name: "item3" , XValue: 3 , YValue: 1 , Volume: 2.3 , Color: System.Drawing.Color.DarkViolet ),
+    new ( Name: "item4" , XValue: 4 , YValue: 6 , Volume: 8.5 , Color: System.Drawing.Color.SlateBlue ),
+    new ( Name: "item5" , XValue: 6 , YValue: 3 , Volume: 4.2 , Color: System.Drawing.Color.RoyalBlue ),
+};
+```
+
+</PlatformBlock>
+
+Em seguida, vincule os dados de exemplo à fonte de dados do IgbScatterSeries, fornecida no IgbDataChart preparado separadamente.
+
+<PlatformBlock for="Blazor">
+
+```razor
+@* In the markup in the sample Razor component (.razor) *@
+
+<IgbDataChart Height="320px" Width="320px">
+    <IgbNumericXAxis Name="xAxis" MinimumValue="0" MaximumValue="7"/>
+    <IgbNumericYAxis Name="yAxis" MinimumValue="0" MaximumValue="10"/>
+    <IgbScatterSeries DataSource="@DataSource"
+        XMemberPath="XValue"
+        YMemberPath="YValue"
+        XAxisName="xAxis"
+        YAxisName="yAxis"/>
+</IgbDataChart>
+```
+
+</PlatformBlock>
+
+A seguir, você pode ver como o gráfico de dispersão é exibido.
+
+<Image src={blazorWasmApp} alt="blazor-wasm-app" />
+
+Agora, vamos à personalização. Vamos ajustar a exibição dos marcadores para mostrar o tamanho e a cor de preenchimento com base nas propriedades do item vinculado (Volume e Color, desta vez).
+
+## Definindo uma função de fábrica que retorna um objeto de desenho personalizado para o marcador
+
+Precisamos definir uma função de fábrica que retorna um objeto JavaScript com dois métodos - measure e render. Essa função é chamada pela caixa de ferramentas do Ignite UI sempre que um marcador é desenhado.
+
+<PlatformBlock for="Blazor">
+
+```javascript
+// in /wwwroot/customMarkerTemplateFunc.js
+function customMarkerTemplateFunc() {
+    return {
+        measure: function (measureInfo) {},
+        render: function (renderInfo) {}
+   }
+}
+```
+
+</PlatformBlock>
+
+## Implementando um método measure para o objeto de desenho personalizado do marcador no Blazor Chart
+O Ignite UI chama automaticamente esse método measure sempre que o tamanho do marcador é necessário. Nesse momento, o argumento da chamada a esse método measure contém a representação, do lado JavaScript, dos dados a serem desenhados, no campo .data.item do objeto de argumento.
+
+Em outras palavras, o valor de cada propriedade do tipo de registro SampleDataType pode ser referenciado a partir do argumento ao chamar o método measure. Dessa forma, o tamanho do marcador é calculado com base no valor específico, e a chamada do Ignite UI é respondida.
+
+Como resultado, ao chamar esse método, a largura e a altura do marcador (ambas em px) são definidas nos campos width e height do argumento.
+
+<PlatformBlock for="Blazor">
+
+```javascript
+// in /wwwroot/customMarkerTemplateFunc.js
+
+function customMarkerTemplateFunc() {
+    return {
+        measure: function ( measureInfo ) {
+           // In this example, based on the Volume property value of the data to draw
+           // 3 times that radius (so the diameter is 2 times that) Circle as a marker
+           // Width and height are calculated and set for drawing.
+           const item = measureInfo.data.item;
+           const size = item.Volume * 3 * 2;
+           measureInfo.width = size;
+           measureInfo.height = size;
+       }
+   }
+}
+```
+
+</PlatformBlock>
+
+## Implementando um método render para o objeto de renderização personalizado do marcador
+
+Em seguida, continuamos implementando o método render. Esse método é chamado pelo lado do Ignite UI sempre que um marcador precisa ser renderizado.
+Nesse momento, a representação, do lado JavaScript, dos dados a serem renderizados será incluída no campo .data.item do objeto de argumento quando esse método render for chamado (de forma semelhante ao método measure).
+
+Portanto, ao chamar o método render, os dados a serem desenhados podem ser referenciados como um parâmetro de desenho do marcador, por meio da sua representação do lado JavaScript.
+Você verá que o método desenha um marcador no objeto de contexto 2D do elemento HTML Canvas passado por esse argumento.
+
+<PlatformBlock for="Blazor">
+
+```javascript
+// in /wwwroot/customMarkerTemplateFunc.js
+
+function customMarkerTemplateFunc() {
+    return {
+        // ...
+        render: function ( renderInfo ) {
+            // Since the renderInfo passed as an argument is packed with coordinate-related information for drawing,
+            // Take this out
+            const cx = renderInfo.xPosition;
+            const cy = renderInfo.yPosition;
+            const halfWidth = renderInfo.availableWidth / 2.0;
+            const halfHeight = renderInfo.availableHeight / 2.0;
+            // For the marker fill color, use the Color property value of the data to be drawn.
+            // (By the way, the default marker fill color is
+            // stored in renderInfo.data.actualItemBrush.fill)
+            const color = renderInfo.data.item .Color;
+            // Draw a marker against the 2D context of the HTML Canvas element
+            // (Draw a perfect circle marker with the size calculated by the measure method)
+            const ctx = renderInfo.context ;
+            ctx.beginPath();
+            ctx.fillStyle = `rgba (${color.R} , ${color.G} , ${color.B} , ${color.A})`;
+            ctx.ellipse (cx, cy, halfWidth, halfHeight, 0 , 0 , 360 * Math.PI / 180);
+            ctx.fill();
+        }
+    }
+}
+```
+
+</PlatformBlock>
+
+Observe que você pode implementar qualquer desenho personalizado com o contexto 2D do HTML Canvas.
+
+No entanto, como o método render é responsável por renderizar os marcadores, é necessário implementar por conta própria todo o processamento necessário para exibir os marcadores. Por isso, é preciso ter conhecimento prévio de renderização 2D no elemento HTML Canvas.
+
+## Registrando uma função de fábrica no Ignite UI que retorna um objeto de desenho personalizado para o marcador
+
+Depois que os métodos measure e render forem implementados, chame a função igRegisterScript fornecida pelo Ignite UI. Isso registrará a função que retorna um objeto com dois métodos - measure e render. Em seguida, especifique a string "script name" no primeiro argumento da função igRegisterScript.
+
+Com o Ignite UI, ela é identificada pelo "script name" especificado nesse primeiro argumento, independentemente do nome da função JavaScript real.
+
+<PlatformBlock for="Blazor">
+
+```javascript
+// in /wwwroot/customMarkerTemplateFunc.js
+
+function customMarkerTemplateFunc() {
+    // ...
+}
+
+// Register the factory function implemented above in the Ignite UI.
+// (* The "script" name specified in the first argument of this registration is used
+// regardless of the JavaScript name of the factory function.
+igRegisterScript("customMarkerTemplateFunc", customMarkerTemplateFunc);
+```
+
+</PlatformBlock>
+
+O programa JavaScript acima é carregado no navegador. No entanto, para evitar a poluição do escopo global, quando o registro do script acima é executado, o programa JavaScript até esse ponto é envolvido em uma função anônima que é executada imediatamente.
+
+<PlatformBlock for="Blazor">
+
+```javascript
+// in /wwwroot/customMarkerTemplateFunc.js
+
+(function() {
+    function customMarkerTemplateFunc() {
+        // ...
+    }
+    igRegisterScript("customMarkerTemplateFunc", customMarkerTemplateFunc);
+}) ();
+```
+
+</PlatformBlock>
+
+Com isso, a implementação do lado JavaScript está concluída.
+
+O arquivo de programa JavaScript criado (.js) deve ser incluído na página hospedeira do aplicativo (**wwwroot/index.html** em um aplicativo Blazor WebAssembly independente ou Blazor Hybrid, **Pages/_Host.cshtml** em um aplicativo Blazor Server, **Components/App.razor** em um Blazor Web App) como um elemento script, para que possa ser carregado pelo navegador.
+
+Preste atenção à ordem dos elementos de script para garantir que ele seja carregado depois do runtime JavaScript do Ignite UI for Blazor.
+
+<PlatformBlock for="Blazor">
+
+```razor
+<script src="_content/IgniteUI.Blazor/app.bundle.js"></script>
+
+<!-- After JavaScript in Ignite UI for Blazor,
+load a custom drawing JavaScript program for marker display. -->
+
+<script src="customMarkerTemplateFunc.js"></script>
+```
+
+</PlatformBlock>
+
+## Especificando o "Script Name" nos parâmetros da série
+
+Por fim, especifique o "script name" no parâmetro da série para usar o programa JavaScript criado até aqui para a renderização personalizada dos marcadores.
+
+Há um parâmetro de string chamado MarkerTemplateScript, em que você especifica o script name do programa JavaScript que fará o desenho personalizado do marcador. Ele é identificado pela string especificada no primeiro argumento ao registrar com a função igRegisterScript.
+
+<PlatformBlock for="Blazor">
+
+```razor
+@* In the markup in the sample Razor component (.razor) *@
+<IgbDataChart Height="320px" Width="320px">
+    @*...*@
+    <IgbScatterSeries MarkerTemplateScript="customMarkerTemplateFunc"/>
+    @*...*@
+</IgbDataChart>
+```
+
+</PlatformBlock>
+
+O gráfico de dispersão agora é exibido com marcadores de tamanho e cor de preenchimento de acordo com as propriedades do item vinculado.
+
+<Image src={blazorWasmApp2} alt="blazor-wasm-app-2" />
+
+## Em conclusão
+
+Consideramos o Blazor uma ótima escolha para desenvolvedores .NET que querem criar aplicativos Web de alto nível, gerenciar visualizações de dados e melhorar a aparência padrão dos Data Charts, sem lidar com a complexidade de [frameworks populares como o Angular](https://www.infragistics.com/community/blogs/b/jason_beres/posts/blazor-vs-angular).
+
+No entanto, fazer isso exige mais do que ajustar cores, margens e preenchimentos. Sabendo que é fundamental ter um conjunto de ferramentas de visualização de dados capaz de lidar com grandes volumes de dados em tempo real e, ao mesmo tempo, oferecer uma experiência bonita e interativa, dedicamos esforço e tempo para melhorar todos os recursos de visualização de dados e os gráficos de dados do Ignite UI for Blazor na [versão mais recente do Ultimate 22.1](https://www.infragistics.com/community/blogs/b/jason_beres/posts/product-release-whats-new-in-infragistics-ultimate-22-1).
+
+Alguns dos acréscimos mais recentes ao Ignite UI for Blazor incluem: rotação automática de rótulos, eventos de estilo, propriedades para espaçamento de rótulos, posicionamento em camadas de callout, modos de destaque de séries, barras de rolagem horizontais e verticais, modos de ângulo de margem e [grids Blazor](https://www.youtube.com/watch?v=1dWR_N4teDs) e componentes como Data Legend e Data Tooltip.

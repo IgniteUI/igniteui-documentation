@@ -386,6 +386,24 @@ const LLMS_TXT_STRINGS: Record<NavLang, LlmsTxtStrings> = {
         apiRef:       'API 참조',
         apiRefDesc:   '모든 패키지의 TypeDoc/docfx API 참조입니다. 클래스, 인터페이스, 열거형 및 멤버를 포함합니다.',
     },
+    es: {
+        docsSection:  'Conjuntos de documentación',
+        abridged:     'Documentación abreviada',
+        abridgedDesc: 'una versión compacta de la documentación, sin el contenido no esencial',
+        combined:     'Documentación combinada',
+        combinedDesc: 'Exportación en Markdown de toda la documentación en un solo archivo.',
+        apiRef:       'Referencia de API',
+        apiRefDesc:   'Referencia completa de API (TypeDoc/docfx) de todos los paquetes: clases, interfaces, enumeraciones y miembros',
+    },
+    'pt-BR': {
+        docsSection:  'Conjuntos de documentação',
+        abridged:     'Documentação resumida',
+        abridgedDesc: 'uma versão compacta da documentação, sem o conteúdo não essencial',
+        combined:     'Documentação combinada',
+        combinedDesc: 'Exportação em Markdown de toda a documentação em um único arquivo.',
+        apiRef:       'Referência de API',
+        apiRefDesc:   'Referência completa de API (TypeDoc/docfx) de todos os pacotes: classes, interfaces, enumerações e membros',
+    },
 };
 
 /** Generate the complete llms.txt manifest content. */

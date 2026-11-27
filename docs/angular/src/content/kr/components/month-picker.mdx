@@ -1,0 +1,276 @@
+---
+title: "Angular Month Picker 컴포넌트 – Ignite UI for Angular - MIT 라이선스" 
+description:  "Ignite UI for Angular Month Picker 컴포넌트는 월-연도 달력 보기를 사용하여 특정 월과 연도를 선택할 수 있는 쉽고 직관적인 방법을 제공합니다. 지금 체험해 보십시오."
+keywords: "Ignite UI for Angular, UI 컨트롤, Angular 위젯, 웹 위젯, UI 위젯, Angular, Native Angular Components Suite, Native Angular Controls, Native Angular Components Library, Angular Month Picker 컴포넌트, Angular Month Picker 컨트롤"
+license: MIT
+_language: ko
+llms:
+  description: "Ignite UI for Angular Month Picker 컴포넌트는 월-연도 달력 보기를 사용하여 특정 월과 연도를 선택할 수 있는 쉽고 직관적인 방법을 제공합니다."
+---
+
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+# Angular Month Picker 컴포넌트 개요
+
+<div class="highlight">
+Ignite UI for Angular Month Picker 컴포넌트는 월-연도 달력 보기를 사용하여 특정 월과 연도를 선택할 수 있는 쉽고 직관적인 방법을 제공합니다. 이 컴포넌트를 사용하면 값을 날짜 객체에 바인딩할 수 있으며, 사용자는 Month Picker 컴포넌트 UI를 통해 날짜 객체의 월과 연도 부분을 변경할 수 있습니다. 지역화도 지원합니다.
+</div>
+
+## Angular Month Picker 예제
+
+여기서 보이는 것은 컴포넌트의 기본 보기로 연도와 월을 선택할 수 있는 기본 Angular Month Picker 예제입니다.  
+
+<Sample src="/scheduling/monthpicker-sample-1" height={620} alt="Angular Month Picker 예제" />
+
+## Ignite UI for Angular Month Picker 시작하기
+
+Ignite UI for Angular Month Picker 컴포넌트를 시작하려면 먼저 Ignite UI for Angular를 설치해야 합니다. 기존 Angular 애플리케이션에서 다음 명령을 입력하십시오:
+
+```cmd
+ng add igniteui-angular
+```
+
+Ignite UI for Angular에 대한 전체 소개는 [_시작하기_](/general/getting-started) 항목을 읽어 보십시오.
+
+첫 번째 단계는 **app.module.ts** 파일 안에서 `IgxCalendarModule`을(를) 가져오는 것입니다.
+
+<DocsAside type="info">
+<ApiLink type="MonthPicker" label="**IgxMonthPickerComponent**" />은(는) [`BrowserAnimationsModule`](https://angular.io/api/platform-browser/animations/BrowserAnimationsModule)에도 의존하므로, 이것도 AppModule에 추가해야 합니다:
+</DocsAside>
+
+```typescript
+// app.module.ts
+...
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { IgxCalendarModule } from 'igniteui-angular/calendar';
+// import { IgxCalendarModule } from '@infragistics/igniteui-angular'; for licensed package
+
+@NgModule({
+    ...
+    imports: [..., BrowserAnimationsModule, IgxCalendarModule],
+    ...
+})
+export class AppModule {}
+```
+
+또는 `16.0.0` 버전부터는 `IgxMonthPickerComponent`을 독립형(standalone) 종속성으로 가져올 수 있으며, [`IGX_CALENDAR_DIRECTIVES`](https://github.com/IgniteUI/igniteui-angular/blob/master/projects/igniteui-angular/calendar/src/calendar/public_api.ts) 토큰을 사용하여 컴포넌트와 모든 지원 컴포넌트 및 디렉티브를 가져올 수도 있습니다.
+
+```typescript
+// home.component.ts
+
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { IgxMonthPickerComponent } from 'igniteui-angular/calendar';
+// import { IgxMonthPickerComponent } from '@infragistics/igniteui-angular'; for licensed package
+
+@Component({
+    selector: 'app-home',
+    template: '<igx-month-picker></igx-month-picker>',
+    styleUrls: ['home.component.scss'],
+    standalone: true,
+    imports: [BrowserAnimationsModule, IgxMonthPickerComponent]
+    /* or imports: [BrowserAnimationsModule, IGX_CALENDAR_DIRECTIVES] */
+})
+export class HomeComponent {}
+```
+
+이제 Ignite UI for Angular Calendar 모듈 또는 Month Picker 컴포넌트를 가져왔으므로 `igx-month-picker` 컴포넌트를 사용할 수 있습니다.
+
+<DocsAside type="info">
+<ApiLink type="MonthPicker" />은(는) 날짜의 지역화와 형식 지정에 [Intl](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/DateTimeFormat) WebAPI를 사용합니다.
+대상 플랫폼이 이를 지원하지 않는 경우 [적절한 폴리필](https://github.com/andyearnshaw/Intl.js/)을 사용하는 것을 고려하십시오.
+</DocsAside>
+
+## Angular Month Picker 사용하기
+
+템플릿에 Angular Month Picker를 추가하려면 다음 코드를 사용하십시오:
+
+```html
+{/* month-picker-sample.component.html */}
+
+<igx-month-picker></igx-month-picker>
+```
+
+### 날짜 설정
+
+<ApiLink type="MonthPicker" member="value" label="value" /> 입력을 사용하여 <ApiLink type="MonthPicker" />에 날짜를 설정하십시오.
+
+```typescript
+// month-picker-sample.component.ts
+
+public date: Date = new Date();
+```
+
+```html
+{/* month-picker-sample.component.html */}
+
+<igx-month-picker [value]="date"></igx-month-picker>
+```
+
+양방향 데이터 바인딩을 만들려면 다음과 같이 `ngModel`을(를) 설정하십시오:
+
+```html
+{/* month-picker-sample.component.html */}
+
+<igx-month-picker [(ngModel)]="date"></igx-month-picker>
+```
+
+### 형식 지정
+
+<ApiLink type="MonthPicker" member="formatoptions" label="formatOptions" /> 입력을 사용하여 Month Picker의 표시 형식을 변경하십시오.
+
+```html
+{/* month-picker-sample.component.html */}
+
+<igx-month-picker [(ngModel)]="date" [formatOptions]="numericFormatOptions"></igx-month-picker>
+```
+
+```typescript
+// month-picker-sample.component.ts
+
+public date: Date = new Date();
+public numericFormatOptions = {
+    month: '2-digit'
+};
+```
+
+### 현지화
+
+Ignite UI for Angular Month Picker의 지역화를 사용자 지정하려면 <ApiLink type="MonthPicker" member="locale" label="locale" /> 입력을 사용하십시오.
+
+```html
+{/* month-picker-sample.component.html */}
+
+<igx-month-picker [(ngModel)]="date" [locale]="locale" [formatOptions]="formatOptions"></igx-month-picker>
+```
+
+```typescript
+// month-picker-sample.component.ts
+
+public date: Date = new Date();
+public locale: 'fr';
+public formatOptions = {
+    month: 'long'
+};
+```
+
+다음은 Month Picker 컴포넌트를 지역화하고 형식을 지정하는 예제입니다:
+
+<Sample src="/scheduling/monthpicker-sample-3" height={680} alt="" />
+
+## 키보드 탐색
+
+- **igxMonthPicker** 컴포넌트에 포커스가 있을 때 다음을 사용하십시오.
+  - 이전 해로 이동하려면 <kbd>PageUp</kbd> 키,
+  - 다음 해로 이동하려면 <kbd>PageDown</kbd> 키,
+  - 현재 해의 첫 번째 월에 포커스를 두려면 <kbd>Home</kbd> 키,
+  - 현재 해의 마지막 월에 포커스를 두려면 <kbd>End</kbd> 키,
+  - 하위 머리글 버튼 사이를 이동하려면 <kbd>Tab</kbd> 키를 사용하십시오.
+
+- (하위 머리글의) `<`(이전) 또는 `>`(다음) 연도 버튼에 포커스가 있을 때 다음을 사용하십시오.
+  - 다음 또는 이전 해를 화면에 스크롤하려면 <kbd>Space</kbd> 키 또는 <kbd>Enter</kbd> 키를 사용하십시오.
+
+- (하위 머리글의) 연도 버튼에 포커스가 있을 때 다음을 사용하십시오.
+  - 연도 보기를 열려면 <kbd>Space</kbd> 키 또는 <kbd>Enter</kbd> 키를 사용하십시오.
+  - 이전/다음 해를 화면에 스크롤하려면 <kbd>오른쪽</kbd> 또는 <kbd>왼쪽</kbd> 화살표 키를 사용하십시오.
+
+- 월 보기 안의 월에 포커스가 있을 때 다음을 사용하십시오.
+  - 월 사이를 이동하려면 화살표 키를 사용하십시오,
+  - 월 보기 안의 첫 번째 월에 포커스를 두려면 <kbd>Home</kbd> 키,
+  - 월 보기 안의 마지막 월에 포커스를 두려면 <kbd>End</kbd> 키,
+  - 현재 포커스된 월을 선택하고 보기를 닫으려면 <kbd>Enter</kbd> 키,
+  - 월 사이를 이동하려면 <kbd>Tab</kbd> 키를 사용하십시오.
+
+## 스타일링
+
+Month Picker의 스타일 지정을 시작하려면 모든 테마 함수와 `tokens()` 믹스인이 내보내진 `index` 파일을 가져와야 합니다:
+
+```scss
+@use "igniteui-angular/theming" as *;
+
+// IMPORTANT: Prior to Ignite UI for Angular version 13 use:
+// @import '~igniteui-angular/lib/core/styles/themes/index';
+```
+
+Month Picker는 Calendar의 테마를 사용하므로 <ApiLink kind="sass" module="themes" type="function-calendar-theme" label="calendar-theme" code={true} />을(를) 확장하는 새 테마를 만들어야 합니다. Month Picker 항목의 스타일을 지정하려면 `$content-background` 매개변수를 설정할 수 있습니다. 나머지 속성을 재정의하려면 선택적으로 `$header-background`도 설정할 수 있습니다.
+이 두 매개변수는 테마의 기반이 되며, 마우스 오버, 선택, 활성 같은 모든 상호 작용 상태에 대해 적절한 배경색과 전경색을 자동으로 생성하는 데 사용됩니다.
+
+```scss
+$my-calendar-theme: calendar-theme(
+  $border-radius: 15px,
+  $content-background: #57a5cd,
+);
+```
+
+다음 단계는 애플리케이션에 컴포넌트 테마를 **포함**하는 것입니다.
+
+```scss
+:host {
+  @include tokens($my-calendar-theme);
+}
+```
+
+모든 작업을 마치면 컴포넌트는 다음과 같이 보여야 합니다:
+
+### 데모
+
+<Sample src="/scheduling/monthpicker-styling" height={350} alt="" />
+
+### Tailwind로 스타일링하기
+
+사용자 지정 Tailwind 유틸리티 클래스를 사용하여 `month picker`의 스타일을 지정할 수 있습니다. 먼저 [Tailwind를 설정](/themes/tailwind)했는지 확인하십시오.
+
+전역 스타일시트에 Tailwind를 가져온 다음, 다음과 같이 원하는 테마 유틸리티를 적용할 수 있습니다:
+
+```scss
+@import "tailwindcss";
+...
+@use 'igniteui-theming/tailwind/utilities/material.css';
+```
+
+유틸리티 파일에는 `light` 및 `dark` 테마 변형이 모두 포함되어 있습니다. Month Picker는 Calendar 테마를 통해 스타일이 지정되므로 calendar 유틸리티 클래스를 사용해야 합니다.
+
+- 밝은 테마에는 `light-*` 클래스를 사용하십시오.
+- 어두운 테마에는 `dark-*` 클래스를 사용하십시오.
+- 접두사 뒤에 컴포넌트 이름을 붙이십시오. 예: `light-calendar`, `dark-calendar`.
+
+적용하면 이 클래스는 동적 테마 계산을 가능하게 합니다. 그런 다음 `arbitrary properties`을 사용하여 생성된 CSS 변수를 재정의할 수 있습니다. 콜론 뒤에는 유효한 CSS 색상 형식(HEX, CSS 변수, RGB 등)을 입력하십시오.
+
+속성의 전체 목록은 <ApiLink kind="sass" module="themes" type="function-calendar-theme" label="calendar-theme" />에서 확인할 수 있습니다. 구문은 다음과 같습니다:
+
+```html
+<igx-month-picker
+class="!light-calendar
+![--header-background:#4F6A5A]
+![--content-background:#A3C7B2]">
+</igx-month-picker>
+```
+
+<DocsAside type="info">
+유틸리티 클래스가 우선 적용되도록 느낌표(`!`)가 필요합니다. Tailwind는 스타일을 계층으로 적용하므로, 이 스타일을 중요(important)로 표시하지 않으면 컴포넌트의 기본 테마에 의해 재정의됩니다.
+</DocsAside>
+
+최종적으로 Month Picker는 다음과 같이 보여야 합니다:
+
+<Sample src="/scheduling/monthpicker-tailwind-styling" height={400} iframeOnly />
+
+## API 참조
+<hr/>
+- <ApiLink type="MonthPicker" />
+- <ApiLink type="Calendar" />
+- <ApiLink kind="sass" module="themes" type="function-calendar-theme" label="IgxCalendarComponent 스타일" />
+## 테마 종속성
+
+<hr/>
+
+- <ApiLink kind="sass" module="themes" type="function-calendar-theme" label="IgxCalendar 테마" />
+- <ApiLink kind="sass" module="themes" type="function-icon-theme" label="IgxIcon 테마" />
+
+## 추가 리소스
+
+<hr/>
+커뮤니티는 활발하며 새로운 아이디어를 언제나 환영합니다.
+
+- [Ignite UI for Angular **포럼**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

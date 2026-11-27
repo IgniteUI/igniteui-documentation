@@ -1,0 +1,79 @@
+---
+title: "Tema padrão"
+_language: pt-BR
+llms:
+  description: "A versão clara do tema Material é o tema padrão do Ignite UI for Angular."
+---
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+# Tema padrão
+
+A versão _**clara**_ do tema Material é o tema padrão do Ignite UI for Angular. Para usá-la, você precisa incluir o mixin `theme` depois do mixin `core`.
+
+```scss
+@use "igniteui-angular/theming" as *;
+
+// IMPORTANT: Prior to Ignite UI for Angular version 13 use:
+// @import '~igniteui-angular/lib/core/styles/themes/index';
+@include core();
+@include theme(
+  $palette: $light-material-palette,
+  $schema: $light-material-schema
+);
+
+// We can also include the Material font and font scaling
+@include typography(
+  $font-family: $material-typeface,
+  $type-scale: $material-type-scale
+);
+```
+
+## Tema Material escuro
+
+```scss
+@use "igniteui-angular/theming" as *;
+
+// IMPORTANT: Prior to Ignite UI for Angular version 13 use:
+// @import '~igniteui-angular/lib/core/styles/themes/index';
+@include core();
+@include theme(
+  $palette: $dark-material-palette,
+  $schema: $dark-material-schema
+);
+
+@include typography(
+  $font-family: $material-typeface,
+  $type-scale: $material-type-scale
+);
+```
+
+Se você quiser usar apenas o esquema escuro, mas com a sua própria paleta, precisa fazer manualmente o seguinte:
+
+```scss
+@use "igniteui-angular/theming" as *;
+
+// IMPORTANT: Prior to Ignite UI for Angular version 13 use:
+// @import '~igniteui-angular/lib/core/styles/themes/index';
+@include core();
+
+$primary-color: #2ab759;
+$secondary-color: #f96a88;
+$surface-color: #303030;
+
+// IMPORTANT, the primary, secondary and surface colors are required
+// The $gray will ensure that all the black text, borders, etc will become a shade of white in order to be visible against a dark background
+$my-color-palette: palette(
+  $primary: $primary-color,
+  $secondary: $secondary-color,
+  $surface: $surface-color,
+  $gray: #fff,
+);
+
+@include theme($my-color-palette, $schema: $dark-schema);
+```
+
+Como todos os componentes individuais usam a `$light-material-palette` por padrão, se você não especificar as demais cores, como $info e $error, elas usarão os valores padrão da `$light-material-palette`.
+
+## Visão geral da API
+
+- <ApiLink kind="sass" module="themes" type="mixin-theme" label="Tema global" />

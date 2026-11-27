@@ -1,0 +1,187 @@
+<ComponentBlock for="Grid">
+
+---
+title: "Grupos de colunas recolhíveis no Angular Data Grid | Infragistics"
+description: "Aproveite a capacidade de mostrar\\ocultar um conjunto menor e mais conciso de dados com grupos de colunas recolhíveis no nosso Angular Data Grid. Experimente agora!"
+keywords: "cabeçalhos de coluna recolhíveis, ignite ui for angular, infragistics"
+license: commercial
+_language: pt-BR
+llms:
+  description: "Os cabeçalhos de várias colunas permitem ter vários níveis de colunas aninhadas e grupos de colunas."
+---
+
+</ComponentBlock>
+<ComponentBlock for="TreeGrid, HierarchicalGrid, PivotGrid">
+
+---
+title: "Grupos de colunas recolhíveis no {ComponentTitle} do Angular | Infragistics"
+description: "Aproveite a capacidade de mostrar\\ocultar um conjunto menor e mais conciso de dados com grupos de colunas recolhíveis no nosso {ComponentTitle} do Angular. Experimente agora!"
+keywords: "cabeçalhos de coluna recolhíveis, ignite ui for angular, infragistics"
+license: commercial
+_canonicalLink: grid/collapsible-column-groups
+_language: pt-BR
+llms:
+  description: "Os cabeçalhos de várias colunas permitem ter vários níveis de colunas aninhadas e grupos de colunas."
+---
+
+</ComponentBlock>
+
+
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+import { Image } from 'astro:assets';
+import expandIndicator from '../../images/general/expand_indicator.png';
+import collapsedIndicator from '../../images/general/collapsed_indicator.png';
+
+# Grupos de colunas recolhíveis no Angular Data Grid
+
+Os cabeçalhos de várias colunas permitem ter vários níveis de colunas aninhadas e grupos de colunas. Eles também oferecem a possibilidade de marcar cada grupo de colunas como **recolhível**. Os **cabeçalhos de várias colunas recolhíveis** permitem recolher/expandir, ou seja, mostrar e ocultar os cabeçalhos aninhados abaixo do atual, o que oferece, por exemplo, uma informação resumida.
+
+## Exemplo de visão geral de grupos de colunas recolhíveis no Angular Grid
+
+<ComponentBlock for="Grid">
+
+<Sample src="/grid/grid-collapsible-groups" height={600} alt="Exemplo de visão geral de grupos de colunas recolhíveis no Angular Grid" />
+
+</ComponentBlock>
+
+<ComponentBlock for="TreeGrid">
+
+<Sample src="/tree-grid/tree-grid-collapsible-groups" height={600} alt="Exemplo de visão geral de grupos de colunas recolhíveis no Angular Grid" />
+
+</ComponentBlock>
+<ComponentBlock for="HierarchicalGrid">
+
+<Sample src="/hierarchical-grid/hierarchical-grid-collapsible-column-groups" height={600} alt="Exemplo de visão geral de grupos de colunas recolhíveis no Angular Grid" />
+
+</ComponentBlock>
+
+
+## Configuração
+
+Para começar com o {ComponentName} e os **cabeçalhos de várias colunas recolhíveis**, primeiro é preciso instalar o Ignite UI for Angular, digitando o seguinte comando:
+
+```cmd
+ng add igniteui-angular
+```
+
+Para uma introdução completa ao Ignite UI for Angular, leia o tópico [_primeiros passos_](/general/getting-started).
+
+O próximo passo é importar o `{ComponentName}Module` no arquivo app.module.ts.
+
+<ComponentBlock for="Grid, TreeGrid, HierarchicalGrid">
+Além disso, recomendamos fortemente que você dê uma olhada rápida no tópico [_grupos de várias colunas_](/{igPath}/multi-column-headers), para ver informações mais detalhadas sobre como configurar os grupos de colunas no seu grid.
+</ComponentBlock>
+
+## Uso
+
+_Grupos de colunas recolhíveis_ fazem parte do recurso de cabeçalhos de várias colunas, que oferece uma forma de recolher/expandir um grupo de colunas para um conjunto menor de dados. Quando um grupo de colunas é recolhido, um subconjunto das colunas é mostrado ao usuário final, e as outras colunas filhas do grupo ficam ocultas. Cada coluna recolhida/expandida pode ser vinculada à fonte de dados do grid, ou pode não estar vinculada e, portanto, ser calculada.
+
+Para definir um grupo de colunas como `collapsible`, você precisa definir a propriedade como `[collapsible]="true"` e também lembrar que é preciso definir a propriedade `visibleWhenCollapsed` em pelo menos duas colunas filhas: pelo menos uma coluna deve ficar visível quando o grupo estiver recolhido (`[visibleWhenCollapsed]="true"`) e pelo menos uma coluna deve ficar oculta quando o grupo estiver expandido (`[visibleWhenCollapsed]="false"`); caso contrário, a **funcionalidade recolhível será desativada**. Se `visibleWhenCollapsed` não for especificado em algumas das colunas filhas, essa coluna ficará sempre visível, independentemente de o estado do pai estar expandido ou recolhido.
+
+Então, vamos ver a marcação abaixo:
+
+```html
+<igx-column-group header="Customer Information" [collapsible]="true"> <!-- Initially the column groups will be expanded--->
+    <!--The column below will be visible when its parent is collapsed-->
+    <igx-column field="CustomerName" header="Fullname" [dataType]="'string'" [visibleWhenCollapsed]="true"></igx-column>
+    <!--The three columns below will be visible when its parent is expanded-->
+    <igx-column field="CustomerID" header="Customer ID" [dataType]="'string'" [visibleWhenCollapsed]="false"></igx-column>
+    <igx-column field="FirstName" header="First Name" [dataType]="'string'" [visibleWhenCollapsed]="false">
+    </igx-column>
+    <igx-column field="LastName" header="Last Name" [dataType]="'string'" [visibleWhenCollapsed]="false">
+    </igx-column>
+    <igx-column-group header="Customer Address"> <!--This column visibility will not be changed based on parent expand/collapsed state-->
+        <igx-column field="Country" header="Country" [dataType]="'string'" [sortable]="true">
+        </igx-column>
+        <igx-column field="City" header="City" [dataType]="'string'" [sortable]="true">
+        </igx-column>
+    </igx-column-group>
+</igx-column-group>
+```
+
+E agora vamos resumir: cada coluna filha tem três estados:
+
+- Pode estar sempre visível, independentemente do estado expandido do seu pai;
+- Pode estar visível quando o seu pai estiver recolhido;
+- Pode estar oculta quando o seu pai estiver recolhido;
+
+O estado inicial do grupo de colunas especificado como recolhível é `[expanded]="true"`. Mas você pode alterar facilmente esse comportamento definindo a propriedade `[expanded]="false"`.
+
+## Template do indicador de expandir/recolher
+
+O indicador de expandir padrão do igxGrid é o seguinte:
+
+ <Image src={expandIndicator} alt="Indicador de expansão" class="responsive-img" style="width: 450px; height: 130px" />
+
+O indicador de recolher padrão do igxGrid é o seguinte:
+
+<Image src={collapsedIndicator} alt="Indicador recolhido" class="responsive-img" style="width: 400px; height: 130px" />
+
+Além disso, se você precisar alterar o indicador padrão de expandir/recolher, oferecemos duas formas simples de fazê-lo: por meio de uma propriedade de entrada ou por meio de uma diretiva.
+
+### Usando uma propriedade de entrada
+
+Você pode definir um template personalizado de expandir/recolher e fornecê-lo a cada um dos grupos de colunas recolhíveis, usando a propriedade de entrada **collapsibleIndicatorTemplate**. Veja a marcação abaixo:
+
+```html
+<ng-template #indTemplate let-column="column">
+    <igx-icon [attr.draggable]="false" >{{column.expanded ? 'remove' : 'add'}} </igx-icon>
+</ng-template>
+<igx-column-group header="Customer Information" [collapsible]="true" [collapsibleIndicatorTemplate]="indTemplate">
+    <igx-column field="CustomerName" header="Fullname" [dataType]="'string'" [visibleWhenCollapsed]="true"></igx-column>
+    <igx-column field="CustomerID" header="Customer ID" [dataType]="'string'" [visibleWhenCollapsed]="false"></igx-column>
+    <igx-column-group header="Customer Address" [collapsible]="true" [collapsibleIndicatorTemplate]="indTemplate">
+        <igx-column field="Country" header="Country" [dataType]="'string'" [sortable]="true" [visibleWhenCollapsed]="true"></igx-column>
+        <igx-column field="City" header="City" [dataType]="'string'" [sortable]="true" [visibleWhenCollapsed]="false"></igx-column>
+    </igx-column-group>
+</igx-column-group>
+```
+
+### Usando a diretiva igxCollapsibleIndicator
+
+Outra forma de obter esse comportamento é usar a diretiva igxCollapsibleIndicator, como mostrado no exemplo abaixo:
+
+```html
+<igx-column-group header="Customer Information" [collapsible]="true">
+    <ng-template igxCollapsibleIndicator let-column="column">
+        <igx-icon [attr.draggable]="false">{{column.expanded ? 'remove' : 'add'}}</igx-icon>
+    </ng-template>
+    <igx-column field="CustomerName" header="Fullname" [dataType]="'string'" [visibleWhenCollapsed]="true"></igx-column>
+    <igx-column field="CustomerID" header="Customer ID" [dataType]="'string'" [visibleWhenCollapsed]="false"></igx-column>
+    <igx-column-group header="Customer Address" [collapsible]="true">
+        <igx-column field="Country" header="Country" [dataType]="'string'" [sortable]="true" [visibleWhenCollapsed]="true"></igx-column>
+        <igx-column field="City" header="City" [dataType]="'string'" [sortable]="true" [visibleWhenCollapsed]="false"></igx-column>
+    </igx-column-group>
+</igx-column-group>
+```
+
+<DocsAside type="info">
+Tenha em mente que a opção de grupo inicialmente recolhido tem precedência sobre a coluna oculta. Se você declarou a sua coluna como oculta, usando a propriedade
+hidden, e há um grupo definido em que a mesma coluna deveria ser exibida, a coluna será exibida.
+</DocsAside>
+
+## Referências da API
+- <ApiLink type="Column" />
+- <ApiLink type="Grid" />
+- <ApiLink kind="sass" module="themes" type="mixin-grid" label="Estilos do IgxGridComponent" />
+## Recursos adicionais
+
+
+- [Visão geral do {ComponentTitle}](/{igPath}/{ComponentMainTopic})
+- [Paginação](/{igPath}/paging)
+<ComponentBlock for="Grid, TreeGrid, HierarchicalGrid">
+- [Virtualização e desempenho](/{igPath}/virtualization)
+- [Filtragem](/{igPath}/filtering)
+- [Ordenação](/{igPath}/sorting)
+- [Resumos](/{igPath}/summaries)
+- [Movimentação de colunas](/{igPath}/column-moving)
+- [Fixação de colunas](/{igPath}/column-pinning)
+- [Seleção](/{igPath}/selection)
+</ComponentBlock>
+
+Nossa comunidade é ativa e sempre receptiva a novas ideias.
+
+- [Ignite UI for Angular **Fóruns**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

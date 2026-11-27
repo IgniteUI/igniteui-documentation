@@ -1,0 +1,189 @@
+---
+title: "{Platform} Excel 라이브러리 | 표 사용하기 | Infragistics"
+description: "Infragistics {Platform} Excel 라이브러리의 표 기능을 사용하여 데이터를 행과 열로 서식 지정하십시오. 자세한 내용은 {ProductName} Excel 자습서를 확인하십시오!"
+keywords: "Excel 라이브러리, 표, {ProductName}, Infragistics"
+license: commercial
+mentionedTypes: ["Workbook", "WorksheetTable", "Worksheet", "SortSettings"]
+_language: ko
+llms:
+  description: "Infragistics {Platform} Excel 엔진의 WorksheetTable 기능을 사용하면 데이터를 행과 열로 서식 지정할 수 있습니다. 워크시트 표의 데이터는 워크시트의 다른 행과 열의 데이터와 독립적으로 관리할 수 있습니다."
+platformType: xplat-unmapped
+---
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+# {Platform} 표 사용하기
+
+Infragistics {Platform} Excel 엔진의 <ApiLink type="WorksheetTable" /> 기능을 사용하면 데이터를 행과 열로 서식 지정할 수 있습니다. 워크시트 표의 데이터는 <ApiLink type="Worksheet" />의 다른 행과 열의 데이터와 독립적으로 관리할 수 있습니다.
+{/*## {Platform} Using Tables Example
+
+
+<Sample src="/excel/excel-library/working-with-tables" height={500} alt="{Platform} Using Tables Example" />
+
+
+
+*/}
+
+
+
+## 워크시트에 표 추가하기
+Infragistics {Platform} Excel 엔진의 워크시트 표는 <ApiLink type="WorksheetTable" /> 객체로 표현되며, 워크시트의 <ApiLink type="Worksheet" member="tables" label="Tables" /> 컬렉션에 추가됩니다. 표를 추가하려면 이 컬렉션에서 `Add` 메서드를 호출해야 합니다. 이 메서드에서 표를 추가하려는 영역, 표에 머리글을 포함할지 여부, 그리고 선택적으로 <ApiLink type="WorksheetTableStyle" /> 객체로 표의 스타일을 지정할 수 있습니다.
+
+다음 코드는 A1에서 G10까지의 영역에 걸쳐 있는 <ApiLink type="Worksheet" />에 머리글이 있는 표를 추가하는 방법을 보여 줍니다. 여기서 A1부터 G1까지가 열 머리글이 됩니다:
+
+```ts
+var workbook = new Workbook(WorkbookFormat.Excel2007);
+var worksheet = this.workbook.worksheets().add("Sheet1");
+
+worksheet.tables().add("A1:G10", true);
+```
+
+<PlatformBlock for="Blazor">
+
+```razor
+var workbook = new Workbook(WorkbookFormat.Excel2007);
+var worksheet = workbook.Worksheets.Add("Sheet1");
+
+worksheet.Tables.Add("A1:G10", true);
+```
+
+</PlatformBlock>
+
+표를 추가한 후에는 표의 <ApiLink type="WorksheetTable" />에서 <ApiLink type="WorksheetTable" member="insertColumns" label="InsertColumns" />, <ApiLink type="WorksheetTable" member="insertDataRows" label="InsertDataRows" />, <ApiLink type="WorksheetTable" member="deleteColumns" label="DeleteColumns" />, <ApiLink type="WorksheetTable" member="deleteDataRows" label="DeleteDataRows" /> 메서드를 호출하여 행과 열을 추가하거나 삭제함으로써 표를 수정할 수 있습니다. 표의 <ApiLink type="WorksheetTable" member="resize" label="Resize" /> 메서드를 사용하여 새 표 범위를 설정할 수도 있습니다.
+
+다음 코드 조각은 이러한 메서드의 사용법을 보여 줍니다:
+
+```ts
+var workbook = new Workbook(WorkbookFormat.Excel2007);
+var worksheet = workbook.worksheets().add("Sheet1");
+var table = worksheet.tables().add("A1:G10", true);
+
+//Will add 5 columns at index 1.
+table.insertColumns(1, 5);
+
+//Will add 5 rows at index 0.
+table.insertDataRows(0, 5);
+
+//Will delete 5 columns starting at index 1.
+table.deleteColumns(1, 5);
+
+//Will delete 5 rows starting at index 0.
+table.deleteDataRows(0, 5);
+
+//Will resize the table to be in the region of A1:G15.
+table.resize("A1:G15");
+```
+
+<PlatformBlock for="Blazor">
+
+```razor
+var workbook = new Workbook(WorkbookFormat.Excel2007);
+var worksheet = workbook.Worksheets.Add("Sheet1");
+var table = worksheet.Tables.Add("A1:G10", true);
+
+//Will add 5 columns at index 1.
+table.InsertColumns(1, 5);
+
+//Will add 5 rows at index 0.
+table.InsertDataRows(0, 5);
+
+//Will delete 5 columns starting at index 1.
+table.DeleteColumns(1, 5);
+
+//Will delete 5 rows starting at index 0.
+table.DeleteDataRows(0, 5);
+
+//Will resize the table to be in the region of A1:G15.
+table.Resize("A1:G15");
+```
+
+</PlatformBlock>
+
+## 표 필터링
+필터링은 <ApiLink type="WorksheetTable" />의 열에 필터를 적용하여 수행합니다. 열에 필터가 적용되면, 표의 모든 필터가 다시 평가되어 적용된 모든 필터의 조건을 충족하는 행을 결정합니다.
+
+이후 표의 데이터가 변경되거나 행의 `Hidden` 속성을 변경하면, 필터 조건은 자동으로 다시 평가되지 않습니다. 표의 필터 조건은 표 열 필터가 추가, 제거, 수정되거나 표에서 <ApiLink type="WorksheetTable" member="reapplyFilters" label="ReapplyFilters" /> 메서드가 호출될 때만 다시 적용됩니다.
+
+<ApiLink type="WorksheetTable" />의 열에 사용할 수 있는 필터 유형은 다음과 같습니다:
+
+- <ApiLink type="AverageFilter" /> - 셀이 열의 모든 셀의 평균값보다 위에 있는지 아래에 있는지에 따라 셀을 필터링할 수 있습니다.
+- <ApiLink type="CustomFilter" /> - 하나 이상의 사용자 지정 조건에 따라 셀을 필터링할 수 있습니다.
+- <ApiLink type="DatePeriodFilter" /> - 어느 연도의 특정 월 또는 분기에 날짜가 있는 셀만 표시됩니다.
+- <ApiLink type="FillFilter" /> - 특정 채우기가 있는 셀만 표시됩니다.
+- <ApiLink type="FixedValuesFilter" /> - 특정 표시 값과만 일치하거나 특정 날짜/시간 그룹에 속하는 셀이 표시됩니다.
+- <ApiLink type="FontColorFilter" /> - 특정 글꼴 색상이 있는 셀만 표시됩니다.
+- <ApiLink type="RelativeDateRangeFilter" /> - 날짜 값을 가진 셀은 필터가 적용된 날짜를 기준으로 다음 날이나 이전 분기처럼 상대적인 시간 범위 안에 있는지에 따라 필터링할 수 있습니다.
+- <ApiLink type="TopOrBottomFilter" /> - 이 필터는 상위 또는 하위 N개의 값을 필터링할 수 있습니다. 또한 상위 또는 하위 N%의 값을 필터링할 수도 있습니다.
+- <ApiLink type="YearToDateFilter" /> - 날짜 값을 가진 셀은 연초부터 필터가 적용된 날짜 사이에 날짜가 있으면 필터링할 수 있습니다.
+
+다음 코드 조각은 <ApiLink type="WorksheetTable" />의 첫 번째 열에 "평균 이상" 필터를 적용하는 방법을 보여 줍니다:
+
+```ts
+var workbook = new Workbook(WorkbookFormat.Excel2007);
+var worksheet = workbook.worksheets().add("Sheet1");
+var table = worksheet.tables().add("A1:G10", true);
+
+table.columns(0).applyAverageFilter(AverageFilterType.AboveAverage);
+```
+
+<PlatformBlock for="Blazor">
+
+```razor
+var workbook = new Workbook(WorkbookFormat.Excel2007);
+var worksheet = workbook.Worksheets.Add("Sheet1");
+var table = worksheet.Tables.Add("A1:G10", true);
+
+table.Columns[0].ApplyAverageFilter(Documents.Excel.Filtering.AverageFilterType.AboveAverage);
+```
+
+</PlatformBlock>
+
+## 표 정렬
+정렬은 표 열에 정렬 조건을 설정하여 수행합니다. 열에 정렬 조건이 설정되면, 표의 모든 정렬 조건이 다시 평가되어 표의 셀 순서를 결정합니다. 셀이 정렬 기준을 충족하도록 이동해야 할 때는 표의 셀 행 전체가 하나의 단위로 이동합니다.
+
+이후 표의 데이터가 변경되어도 정렬 조건은 자동으로 다시 평가되지 않습니다. 표의 정렬 조건은 정렬 조건이 추가, 제거, 수정되거나 표에서 <ApiLink type="WorksheetTable" member="reapplySortConditions" label="ReapplySortConditions" /> 메서드가 호출될 때만 다시 적용됩니다. 정렬 조건이 다시 평가될 때는 보이는 셀만 정렬됩니다. 숨겨진 행의 모든 셀은 제자리에 유지됩니다.
+
+정렬 조건은 표 열에서 접근하는 것 외에도 <ApiLink type="WorksheetTable" />의 SortSettings 속성에 있는 <ApiLink type="SortSettings" member="sortConditions" label="SortConditions" /> 컬렉션에서도 노출됩니다. 이는 열과 정렬 조건 쌍의 순서가 지정된 컬렉션입니다. 이 컬렉션의 순서가 정렬의 우선순위입니다.
+
+열에 설정할 수 있는 정렬 조건 유형은 다음과 같습니다:
+
+- <ApiLink type="OrderedSortCondition" /> - 값에 따라 셀을 오름차순 또는 내림차순으로 정렬합니다.
+- <ApiLink type="CustomListSortCondition" /> - 텍스트 또는 표시 값에 따라 정의된 순서로 셀을 정렬합니다. 예를 들어 요일을 알파벳순이 아니라 달력에 나타나는 순서대로 정렬할 때 유용할 수 있습니다.
+- <ApiLink type="FillSortCondition" /> - 셀의 채우기가 특정 패턴이나 그라데이션인지에 따라 셀을 정렬합니다.
+- <ApiLink type="FontColorSortCondition" /> - 셀의 글꼴이 특정 색상인지에 따라 셀을 정렬합니다.
+
+<ApiLink type="WorksheetTable" />의 SortSettings에는 문자열을 대소문자를 구분하여 정렬할지 여부를 결정하는 <ApiLink type="SortSettings" member="caseSensitive" label="CaseSensitive" /> 속성도 있습니다.
+
+다음 코드 조각은 <ApiLink type="WorksheetTable" />에 <ApiLink type="OrderedSortCondition" />를 적용하는 방법을 보여 줍니다:
+
+```ts
+var workbook = new Workbook(WorkbookFormat.Excel2007);
+var worksheet = this.workbook.worksheets().add("Sheet1");
+var table = worksheet.tables().add("A1:G10", true);
+
+table.columns(0).sortCondition = new OrderedSortCondition(SortDirection.Ascending);
+
+//Alternative:
+table.sortSettings.sortConditions().addItem(table.columns(0), new OrderedSortCondition(SortDirection.Ascending));
+```
+
+<PlatformBlock for="Blazor">
+
+```razor
+var workbook = new Workbook(WorkbookFormat.Excel2007);
+var worksheet = workbook.Worksheets.Add("Sheet1");
+var table = worksheet.Tables.Add("A1:G10", true);
+
+table.Columns[0].SortCondition = new Infragistics.Documents.Excel.Sorting.OrderedSortCondition(Documents.Excel.Sorting.SortDirection.Ascending);
+
+//Alternative
+table.SortSettings.SortConditions.Add(table.Columns[0], new Infragistics.Documents.Excel.Sorting.OrderedSortCondition(Documents.Excel.Sorting.SortDirection.Ascending));
+```
+
+</PlatformBlock>
+
+
+## API 참조
+<ApiLink type="WorksheetTableStyle" />
+<ApiLink type="WorksheetTable" />

@@ -1,0 +1,330 @@
+---
+title: "Primeros pasos con Ignite UI for Angular Schematics | Ignite UI for Angular | Infragistics"
+description: "Instale la colección de Ignite UI for Angular Schematics y úsela para generar la estructura de proyectos de Angular, añadir vistas de componentes y ejecutar un servidor de desarrollo dentro del flujo de trabajo nativo de Angular CLI."
+keywords: "ignite ui for angular, angular schematics, angular cli, generación de estructura, primeros pasos, infragistics"
+last_updated: "2026-04-21"
+_language: es
+llms:
+  description: "La colección de Ignite UI for Angular Schematics es un conjunto de schematics de Angular CLI para generar la estructura de proyectos de Angular y vistas de componentes preconfiguradas para Ignite UI for Angular."
+---
+
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+
+
+
+# Primeros pasos con Ignite UI for Angular Schematics
+
+La colección de Ignite UI for Angular Schematics es un conjunto de schematics de Angular CLI para generar la estructura de proyectos de Angular y vistas de componentes preconfiguradas para Ignite UI for Angular. Se integra en el flujo de trabajo nativo de Angular CLI: úsela con `ng new` para crear proyectos y con `ng g` para generar la estructura de componentes, sin instalar una herramienta global aparte. La colección se distribuye como el paquete `@igniteui/angular-schematics` y se añade automáticamente cuando ejecuta `ng add igniteui-angular` en un proyecto de Angular existente.
+
+La colección de Schematics no ejecuta un servidor MCP: el proceso del servidor MCP lo proporciona Ignite UI CLI y se inicia mediante `npx -y igniteui-cli mcp`, donde `-y` evita la solicitud interactiva de confirmación de `npx`. El schematic `ai-config` configura la conexión del cliente MCP y copia los Agent Skills sin necesidad de instalar una CLI aparte. La colección es específica de Angular; los equivalentes para React, Web Components y Blazor se tratan en la documentación de cada framework. Ninguna de las dos herramientas es necesaria para usar Ignite UI for Angular: la biblioteca puede instalarse y configurarse manualmente, como se describe en la [guía de primeros pasos](../getting-started.mdx).
+
+## Instalar la colección de Schematics
+
+Instale `@igniteui/angular-schematics` globalmente con npm:
+
+```cmd
+npm i -g @igniteui/angular-schematics
+```
+
+O, con yarn:
+
+```cmd
+yarn global add @igniteui/angular-schematics
+```
+
+Tras una instalación global, la colección está disponible como argumento `--collection` de `ng new`. Si ya tiene un proyecto de Angular y quiere añadir Ignite UI for Angular sin generar uno nuevo, use:
+
+```cmd
+ng add igniteui-angular
+```
+
+Esto instala el paquete `igniteui-angular`, registra la colección `@igniteui/angular-schematics` y configura automáticamente las dependencias, los estilos y las importaciones de temas.
+
+## Crear un proyecto nuevo
+
+La colección de Schematics ofrece dos modos para crear proyectos: un asistente interactivo guiado y un comando `ng new` directo con argumentos explícitos.
+
+### Usar el asistente guiado
+
+El asistente guiado es el punto de partida recomendado para los proyectos nuevos. Actívelo con:
+
+```cmd
+ng new --collection="@igniteui/angular-schematics"
+```
+
+Para un recorrido paso a paso por las opciones del asistente, consulte [Guía paso a paso con Ignite UI for Angular Schematics](./step-by-step-guide-using-angular-schematics.mdx).
+
+### Crear un proyecto directamente
+
+Para crear un proyecto de Angular de forma no interactiva, pase los argumentos de colección y de plantilla a `ng new`:
+
+```cmd
+ng new newAngularProject --collection="@igniteui/angular-schematics" --template=side-nav
+```
+
+De forma predeterminada, el proyecto usa componentes independientes. Para usar en su lugar el arranque basado en NgModule, añada `--type=igx-ts-legacy`:
+
+```cmd
+ng new newAngularProject --collection="@igniteui/angular-schematics" --type=igx-ts-legacy
+```
+
+El proyecto se crea en un directorio con el mismo nombre del proyecto. Están disponibles las siguientes plantillas base de proyecto:
+
+| ID de plantilla   | Descripción                                                                                                                                       |
+| :------------ | :------------------------------------------------------------------------------------------------------------------------------------------------ |
+| empty         | Estructura de proyecto con enrutamiento y una página de inicio. La autenticación no está disponible para esta plantilla.                                                |
+| side-nav      | Estructura de proyecto con un panel de navegación lateral. Admite la autenticación como complemento (véase más abajo).                                                |
+| side-nav-mini | Estructura de proyecto con un panel de navegación lateral compacto. Admite la autenticación como complemento (véase más abajo).                                        |
+
+Al usar el asistente interactivo, al seleccionar `side-nav` o `side-nav-mini` se muestra una pregunta adicional sobre si desea añadir autenticación. Los siguientes ID de plantilla se generan y también pueden usarse directamente con `ng new` para la creación no interactiva; no aparecen en la lista de plantillas del asistente:
+
+| ID de plantilla        | Descripción                                                                                                                                           |
+| :----------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------- |
+| side-nav-auth      | Navegación lateral ampliada con un módulo de autenticación de usuarios. Consulte [Plantilla de proyecto de autenticación de Angular](./auth-template.mdx) para más detalles.                 |
+| side-nav-mini-auth | Navegación lateral compacta ampliada con un módulo de autenticación de usuarios. Consulte [Plantilla de proyecto de autenticación de Angular](./auth-template.mdx) para más detalles.            |
+
+Al crear un proyecto están disponibles los siguientes argumentos:
+
+<details>
+  <summary><u>name</u></summary>
+  <p>
+    <code>name</code> (alias: <code>-n</code>)
+  </p>
+  <p>
+    El nombre de la aplicación. La aplicación se crea dentro de un directorio con el mismo nombre.
+  </p>
+</details>
+
+<details>
+  <summary><u>type</u></summary>
+  <p>
+    <code>--type</code> (alias: <code>-t</code>)
+  </p>
+  <p>
+    El tipo de arranque del proyecto. Use <code>igx-ts-legacy</code> para el arranque basado en NgModule. Si se omite, el valor predeterminado son los componentes independientes.
+  </p>
+</details>
+
+<details>
+  <summary><u>theme</u></summary>
+  <p>
+    <code>--theme</code> (alias: <code>-th</code>)
+  </p>
+  <p>
+    Tema del proyecto (depende del tipo de proyecto).
+  </p>
+</details>
+
+<details>
+  <summary><u>skip-git</u></summary>
+  <p>
+    <code>--skip-git</code> (alias: <code>--sg</code>)
+  </p>
+  <p>
+    Omite la inicialización automática del repositorio Git. Si se omite, se usa la propiedad de configuración global <code>skip-git</code>.
+  </p>
+</details>
+
+<details>
+  <summary><u>skip-install</u></summary>
+  <p>
+    <code>--skip-install</code> (alias: <code>--si</code>)
+  </p>
+  <p>
+    Omite la instalación inicial de paquetes npm al crear el proyecto.
+  </p>
+</details>
+
+<details>
+  <summary markdown='span'><u>template</u></summary>
+  <p>
+    <code>--template</code>
+  </p>
+  <p>
+    Especifica la plantilla del proyecto. Actualmente está disponible para los tipos de proyecto <code>igx-ts</code> de Ignite UI for Angular.
+  </p>
+</details>
+
+## Añadir una plantilla de componente
+
+Para añadir una [plantilla disponible de Ignite UI for Angular](./component-templates.mdx) a un proyecto existente, use `ng generate` con la colección de Ignite UI for Angular y el schematic `component`, indicando el ID de la plantilla y un nombre para el nuevo componente:
+
+```cmd
+ng g @igniteui/angular-schematics:component grid newGrid
+```
+
+La adición de plantillas es compatible con los proyectos creados con Angular Schematics, Ignite UI CLI o cualquier proyecto de Angular CLI en el que Ignite UI for Angular se haya añadido con `ng add`. Para el asistente guiado de componentes, consulte [Guía paso a paso con Ignite UI for Angular Schematics](./step-by-step-guide-using-angular-schematics.mdx#añadir-vistas-de-componentes).
+
+Al añadir una plantilla están disponibles los siguientes argumentos:
+
+<details>
+  <summary><u>module</u></summary>
+  <p>
+    <code>--module</code> (alias: <code>-m</code>)
+  </p>
+  <p>
+    <i>Solo aplicable en proyectos de Angular.</i>
+  </p>
+  <p>
+    Ruta del archivo <code>module.ts</code>, relativa a <code>/src/app/</code>, donde debe registrarse el nuevo componente:
+  </p>
+  <code>ng g @igniteui/angular-schematics:component combo newCombo --module=myModule/myModule.module.ts</code>
+</details>
+
+<details>
+  <summary><u>skip-route</u></summary>
+  <p>
+    <code>--skip-route</code> (alias: <code>-srk</code>)
+  </p>
+  <p>
+    Omite la generación automática de una ruta de navegación de la aplicación para el nuevo componente.
+  </p>
+</details>
+
+## Ejecutar la aplicación
+
+El schematic `start` compila la aplicación, inicia un servidor web local y la abre en su navegador predeterminado:
+
+```cmd
+ng g @igniteui/angular-schematics:start
+```
+
+## Integración con el asistente de IA
+
+La colección de Ignite UI for Angular Schematics incluye un schematic `ai-config` que configura la integración con el asistente de programación con IA para su proyecto. Con un solo comando, hace lo siguiente:
+
+- **Configura los servidores MCP**: escribe el archivo de configuración de MCP para el asistente de programación elegido, con las entradas de los servidores MCP de Ignite UI y de Angular CLI
+- **Copia los archivos de skills**: añade guías de skills específicas de Angular en los directorios de sus agentes
+- **Configura los archivos de instrucciones**: completa el archivo de instrucciones de cada agente con orientación específica del proyecto
+
+Ejecútelo desde la raíz de su proyecto después de instalar los paquetes de Ignite UI for Angular:
+
+```cmd
+ng generate @igniteui/angular-schematics:ai-config
+```
+
+### Referencia de indicadores
+
+| Indicador | Valores | Valor predeterminado |
+|------|--------|---------|
+| `--assistants` | `generic`, `vscode`, `cursor`, `gemini`, `junie`, `none` | Se solicita de forma interactiva; `generic` en el modo no interactivo |
+| `--agents` | `generic`, `claude`, `copilot`, `cursor`, `codex`, `windsurf`, `gemini`, `junie`, `none` | Se solicita de forma interactiva; `generic` + `claude` en el modo no interactivo |
+
+### Asistentes de programación compatibles
+
+| Asistente de programación | Valor de la opción | Ruta de configuración | Clave raíz |
+|-----------------|--------------|-------------|----------|
+| Genérico (Claude Code, VS Code y otros) | `generic` | `.mcp.json` | `mcpServers` |
+| VS Code (GitHub Copilot) | `vscode` | `.vscode/mcp.json` | `servers` |
+| Cursor | `cursor` | `.cursor/mcp.json` | `mcpServers` |
+| Gemini | `gemini` | `.gemini/settings.json` | `mcpServers` |
+| JetBrains Junie | `junie` | `.junie/mcp/mcp.json` | `mcpServers` |
+
+### Agentes de IA compatibles
+
+| Agente | Directorio de skills | Archivo de instrucciones |
+|-------|------------------|------------------|
+| Genérico | `.agents/skills` | `AGENTS.md` |
+| Claude | `.claude/skills` | `.claude/CLAUDE.md` |
+| Copilot | `.github/skills` | `.github/copilot-instructions.md` |
+| Cursor | `.cursor/skills` | `.cursor/rules/cursor.mdc` |
+| Codex | `.codex/skills` | `.codex/instructions.md` |
+| Windsurf | `.windsurf/skills` | `.windsurf/rules/guidelines.md` |
+| Gemini | `.gemini/skills` | `.gemini/GEMINI.md` |
+| Junie | `.junie/skills` | `.junie/guidelines.md` |
+
+### Ejemplos de uso
+
+Interactivo: pide primero los asistentes de programación y después los agentes:
+
+```bash
+ng generate @igniteui/angular-schematics:ai-config
+```
+
+No interactivo: especifique tanto los asistentes como los agentes:
+
+```bash
+ng generate @igniteui/angular-schematics:ai-config --assistants cursor --agents claude copilot
+```
+
+Omitir solo la configuración de MCP:
+
+```bash
+ng generate @igniteui/angular-schematics:ai-config --assistants none --agents claude generic
+```
+
+Omitir solo los archivos de skills y las instrucciones (los servidores MCP siguen configurados):
+
+```bash
+ng generate @igniteui/angular-schematics:ai-config --assistants vscode --agents none
+```
+
+El schematic también se ejecuta automáticamente como parte de `ng add igniteui-angular` con los valores predeterminados: agentes `["claude", "generic"]`, asistentes `["generic"]`.
+
+### Configuración del servidor MCP
+
+El schematic escribe (o combina con) el archivo de configuración del asistente de programación elegido. Las entradas de servidores MCP de terceros existentes siempre se conservan: el comando combina, nunca sobrescribe. Cuando se ejecuta mediante el schematic de Angular, se incluye automáticamente una entrada adicional del servidor MCP `angular-cli` junto a los servidores de Ignite UI.
+
+**Genérico, Cursor, Gemini y Junie** (`.mcp.json` y equivalentes, clave raíz `mcpServers`):
+
+```json
+{
+  "mcpServers": {
+    "angular-cli": {
+      "command": "npx",
+      "args": ["-y", "@angular/cli", "mcp"]
+    },
+    "igniteui-cli": {
+      "command": "npx",
+      "args": ["-y", "igniteui-cli", "mcp"]
+    },
+    "igniteui-theming": {
+      "command": "npx",
+      "args": ["-y", "igniteui-theming", "igniteui-theming-mcp"]
+    }
+  }
+}
+```
+
+**VS Code / GitHub Copilot** (`.vscode/mcp.json`, clave raíz `servers`):
+
+```json
+{
+  "servers": {
+    "angular-cli": {
+      "command": "npx",
+      "args": ["-y", "@angular/cli", "mcp"]
+    },
+    "igniteui-cli": {
+      "command": "npx",
+      "args": ["-y", "igniteui-cli", "mcp"]
+    },
+    "igniteui-theming": {
+      "command": "npx",
+      "args": ["-y", "igniteui-theming", "igniteui-theming-mcp"]
+    }
+  }
+}
+```
+
+### Archivos de skills
+
+Los archivos de skills son guías específicas de Angular que se copian en el directorio de skills de cada agente. Proceden del paquete de Ignite UI instalado y se mantienen sincronizados cada vez que ejecuta el schematic: los archivos existentes solo se actualizan si su contenido ha cambiado.
+
+<DocsAside type="info">
+Si ejecuta `ai-config` antes de instalar los paquetes (por ejemplo, con `--skip-install`), el schematic recurre a plantillas integradas. Vuelva a ejecutar el comando después de instalar para obtener los archivos de skills de la versión instalada.
+</DocsAside>
+
+### Usar Ignite UI CLI en su lugar
+
+Si tiene Ignite UI CLI instalada globalmente, el comando equivalente es:
+
+```cmd
+ig ai-config
+```
+
+<DocsAside type="info">
+El comando `ig ai-config` configura solo las dos entradas de Ignite UI, `igniteui-cli` y `igniteui-theming`, y no registra `angular-cli`. Use `ng generate @igniteui/angular-schematics:ai-config` para configurar los tres servidores en un solo paso.
+</DocsAside>
+
+Para las instrucciones completas de configuración de todos los clientes de IA y la integración de Agent Skills, consulte [Ignite UI CLI MCP](../../ai/cli-mcp.mdx).

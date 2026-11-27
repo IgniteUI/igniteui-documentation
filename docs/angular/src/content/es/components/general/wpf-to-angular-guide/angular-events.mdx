@@ -1,0 +1,155 @@
+---
+title: "Gestión de eventos de Angular | Enlace de eventos | Guía de WPF a Angular | Infragistics"
+description: "Aprenda sobre el enlace de eventos de Angular y cómo crear sus propios eventos personalizados de Angular. Vea cómo Angular usa los eventos DOM para ello y cómo gestiona la entrada del usuario."
+keywords: "gestión de eventos de angular, ignite ui for angular, infragistics"
+_language: es
+llms:
+  description: "Los eventos de Angular se emiten como respuesta a las interacciones del usuario."
+---
+
+# Gestión de eventos de Angular
+
+<iframe width="100%" height="600" src="https://www.youtube.com/embed/V1Futz4W400">
+</iframe>
+
+Los eventos de Angular se emiten como respuesta a las interacciones del usuario. Cuando se emite un evento de Angular, se ejecuta su lógica de gestión. WPF proporciona eventos enrutados, eventos CLR y comandos. En Angular, en cambio, existen los eventos DOM.
+
+Este es un ejemplo sencillo de cómo responder al evento click de un botón en WPF:
+
+```xml
+<Button Click="Button_Click">Click Me</Button>
+```
+
+```csharp
+private void Button_Click(object sender, RoutedEventArgs e)
+{
+    Console.WriteLine("Hello World");
+}
+```
+
+Lo mismo en Angular tendría este aspecto:
+
+```html
+<button (click)="onClicked()">Click Me</button>
+```
+
+```typescript
+onClicked() {
+    console.log('Hello World');
+}
+```
+
+En WPF estamos acostumbrados a obtener información sobre el evento, como el remitente y los argumentos del evento. En Angular podemos usar la variable `$event`. Esta variable proporcionará información sobre el evento que se ha invocado.
+
+```html
+<button (click)="onClicked($event)">Click Me</button>
+```
+
+```typescript
+onClicked(event) {
+    console.log(event.target);
+}
+```
+
+A veces, pasar el objeto del evento puede no ser muy útil. En su lugar, es posible que quiera pasar el valor de un `input` de la página.
+
+```html
+<input #messageInput/>
+<button (click)="onClicked(messageInput.value)">Click Me</button>
+```
+
+```typescript
+onClicked(message) {
+    console.log(message);
+}
+```
+
+Supongamos que queremos mostrar el valor de una entrada al pulsar Intro. En Angular podría hacerlo así:
+
+```html
+<input #messageInput (keyup)="onInputKeyup($event, messageInput.value)"/>
+```
+
+```typescript
+onInputKeyup(event, message) {
+    if (event.keyCode === 13) {
+        console.log(message);
+    }
+}
+```
+
+Sorprendentemente, en Angular hay una forma aún más sencilla de hacerlo. Puede enlazar al pseudoevento `keyup.enter`. Con este enfoque, el controlador del evento solo se llamará cuando el usuario pulse Intro.
+
+```html
+<input #messageInput (keyup.enter)="onInputKeyup(messageInput.value)"/>
+```
+
+```typescript
+onInputKeyup(message) {
+    console.log(message);
+}
+```
+
+## Responder a los eventos de un componente
+
+En WPF, al crear controles personalizados, a menudo necesita extender o modificar algunos eventos base como este:
+
+```csharp
+public class MyControl : Control
+{
+    protected override void OnMouseDown(MouseButtonEventArgs e)
+    {
+        base.OnMouseDown(e);
+        // Place your custom logic here
+    }
+}
+```
+
+En Angular, se consigue un resultado similar usando el decorador [HostListener](https://angular.io/api/core/HostListener).
+
+```typescript
+@Component({
+    selector: 'app-my-component',
+    templateUrl: './my.component.html',
+    styleUrls: ['./my.component.css']
+})
+export class MyComponent {
+    @HostListener('mousedown', ['$event'])
+    onMouseDown(event) {
+        // place your custom logic here
+    }
+}
+```
+
+## Crear sus propios eventos
+
+A veces necesita definir sus propios eventos. En WPF podría definir eventos CLR o eventos enrutados. Veamos un ejemplo sencillo de un evento CLR en WPF:
+
+```csharp
+public event EventHandler<TaskEventArgs> TaskCompleted;
+
+...
+this.TaskCompleted(this, new TaskEventArgs());
+```
+
+Para definir un evento personalizado en Angular, tiene que definir una propiedad [EventEmitter](https://angular.io/api/core/EventEmitter) marcada con el decorador [Output](https://angular.io/api/core/Output).
+
+```typescript
+@Output()
+taskCompleted = new EventEmitter<TaskEventArgs>();
+
+...
+this.taskCompleted.emit(new TaskEventArgs());
+```
+
+## Recursos adicionales
+
+- [De escritorio a web: responder a eventos con el enlace de eventos de Angular](https://www.youtube.com/watch?v=V1Futz4W400&list=PLG8rj6Rr0BU-AqcJMuwggKy0GMIkjkt3j&index=6)
+- [Entrada del usuario en Angular](https://angular.io/guide/user-input)
+- [Interacción entre componentes: el padre escucha los eventos del hijo](https://angular.io/guide/component-interaction#parent-listens-for-child-event)
+
+<hr/>
+Nuestra comunidad está activa y siempre da la bienvenida a nuevas ideas.
+
+- [Ignite UI for Angular **Foros**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

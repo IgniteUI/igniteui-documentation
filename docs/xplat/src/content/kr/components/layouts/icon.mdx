@@ -1,0 +1,1096 @@
+---
+title: "{Platform} Icon 컴포넌트"
+description: "{ProductName} Icon은 등록된 아이콘 세트의 이름 있는 아이콘을 렌더링합니다. 사용자 지정 SVG 아이콘도 포함되며, 테마 기반 크기와 사용자 지정 색상을 지원합니다."
+keywords: "{Platform} Icon, {ProductName}, SVG 아이콘, 아이콘 세트"
+license: MIT
+last_updated: "2026-10-06"
+relatedComponents: ["IconButton"]
+mentionedTypes: ["Icon"]
+_language: ko
+llms:
+  description: "{ProductName} Icon은 사용자 지정 SVG 아이콘 모음과 같은 등록된 아이콘 세트에서 이름 있는 아이콘을 렌더링하는 컴포넌트입니다."
+---
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+import Anatomy from 'igniteui-astro-components/components/mdx/Anatomy.astro';
+import Faq from 'igniteui-astro-components/components/mdx/Faq.astro';
+import FaqItem from 'igniteui-astro-components/components/mdx/FaqItem.astro';
+import { Image } from 'astro:assets';
+import iconAnatomy from '@xplat-images/anatomy-content-light/icon-lt-a.png';
+import iconDo from '@xplat-images/icon/icon-do.png';
+import iconDoNot from '@xplat-images/icon/icon-do-not.png';
+
+# Icon
+
+{ProductName} Icon은 사용자 지정 SVG 아이콘 모음과 같은 등록된 아이콘 세트에서 이름 있는 아이콘을 렌더링하는 컴포넌트입니다.
+
+<PlatformBlock for="Angular">
+
+기본적으로 Angular Icon은 Material Icons 리가처를 렌더링합니다. SVG 아이콘과 기타 아이콘 글꼴을 같은 방식으로 사용하려면 `IgxIconService`을(를) 사용하여 등록하십시오.
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+컬렉션에 이름으로 SVG 아이콘을 등록한 다음, 각 아이콘을 테마 기반 크기와 주변 텍스트의 색으로 표시하십시오.
+
+</PlatformBlock>
+
+## 라이브 데모
+
+<PlatformBlock for="Angular">
+
+<Sample src="/data-display/icon-overview" showThemePicker height={400} noBorder={false} spacing="md" alt="홈, 받은 편지함, 보고서, 설정, 지원 항목이 있는 탐색 메뉴의 {Platform} Icon 예제" />
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+<Sample src="/layouts/icon/overview" showThemePicker height={400} noBorder={false} spacing="md" alt="홈, 받은 편지함, 보고서, 설정, 지원 항목이 있는 탐색 메뉴의 {Platform} Icon 예제" />
+
+</PlatformBlock>
+
+## 구조
+
+아이콘은 명령, 장치, 디렉터리 또는 일반적인 작업을 나타내는 기호입니다.
+
+<Anatomy
+  class="icon-anatomy"
+  name="Icon"
+  description="Icon 컴포넌트는 등록된 아이콘 세트에서 하나의 글리프를 그립니다."
+  src={iconAnatomy.src}
+  alt="아이콘 글리프를 보여 주는 아이콘 구성 요소"
+/>
+
+<style>{`
+  .icon-anatomy {
+    --igd-anatomy-padding: 64px 32px;
+  }
+
+  .icon-anatomy .igd-anatomy__image {
+    max-width: 94.5px;
+  }
+`}</style>
+
+<span class="ig-typography__body-2" style="display: block; margin-bottom: 24px;"><strong>1. 아이콘:</strong> 작업, 객체 또는 아이디어를 나타내는 데 사용되는 시각적 기호</span>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+{Platform} Icon은 등록된 SVG를 shadow root에 그리고 CSS 파트를 노출하지 않는 `igc-icon` 요소를 렌더링합니다:
+
+```text
+igc-icon                 // host - inline box sized by --size
+└─ #shadow-root
+   └─ svg                // the registered SVG, 1em × 1em, filled with the current color
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+`igx-icon` 요소는 아이콘 제품군의 유형에 따라 다음 중 하나를 렌더링합니다:
+
+```text
+igx-icon.igx-icon[aria-hidden="true"]   // host - also carries the family class, e.g. .material-icons
+├─ ligature text                        // `liga` family - the icon name, e.g. home
+├─ div > svg                            // SVG icon registered with IgxIconService
+└─ ng-content                           // projected ligature text when `name` isn't set
+```
+
+`font` 제품군의 경우 호스트의 클래스가 글리프를 그리며, 요소에는 콘텐츠가 없습니다.
+
+</PlatformBlock>
+
+## 시작하기
+
+{Platform} Icon을 사용하려면  <PlatformBlock for="Angular">[{ProductName} 시작하기](../general/getting-started.mdx)</PlatformBlock><PlatformBlock for="React,WebComponents,Blazor">[{ProductName} 시작하기](../general-getting-started.mdx)</PlatformBlock> 기본 프로젝트 설정 항목을 참조한 다음, 대상 플랫폼에 맞게 컴포넌트를 추가하십시오.
+
+<PlatformBlock for="WebComponents">
+
+**{PackageCommon}** 패키지를 설치하십시오:
+
+```cmd
+npm install {PackageCommon}
+```
+
+그다음 <ApiLink pkg="core" type="Icon" />, 테마 CSS를 import하고 컴포넌트를 등록하십시오:
+
+```ts
+import { defineComponents, IgcIconComponent } from 'igniteui-webcomponents';
+import 'igniteui-webcomponents/themes/light/bootstrap.css';
+
+defineComponents(IgcIconComponent);
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+**{PackageCommon}** 패키지를 설치하십시오:
+
+```cmd
+npm install {PackageCommon}
+```
+
+그다음 <ApiLink pkg="core" type="Icon" /> 래퍼와 테마 CSS를 import하십시오:
+
+```tsx
+import { IgrIcon } from 'igniteui-react';
+import 'igniteui-webcomponents/themes/light/bootstrap.css';
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+{ProductName} 서비스를 등록합니다:
+
+```csharp
+// in Program.cs file
+
+builder.Services.AddIgniteUIBlazor();
+```
+
+<ApiLink pkg="core" type="Icon" />의 클라이언트 리소스 모듈인 <ApiLink pkg="core" type="IconModule" /> 등록은 **선택 사항**입니다. 컴포넌트는 처음 렌더링될 때 리소스를 로드합니다. `builder.Services.AddIgniteUIBlazor(typeof(IgbIconModule))`에 나열하면 리소스를 미리 로드하거나 클라이언트에서만 생성되는 요소를 지원할 수 있습니다([컴포넌트 모듈](../general-getting-started.mdx#컴포넌트-모듈) 참조).
+
+그다음 애플리케이션의 호스트 페이지(독립 실행형 Blazor WebAssembly 또는 Blazor Hybrid 앱에서는 **wwwroot/index.html**, Blazor Server 앱에서는 **Pages/_Host.cshtml**, Blazor Web App에서는 **Components/App.razor**)에 테마 CSS 파일을 연결하십시오:
+
+```razor
+<link href="_content/IgniteUI.Blazor/themes/light/bootstrap.css" rel="stylesheet" />
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+프로젝트에서 아직 {ProductName}을(를) 사용하지 않는다면 `ng add igniteui-angular`을(를) 실행하십시오. 그다음 독립형 <ApiLink pkg="core" type="Icon" />을(를) 가져와 컴포넌트의 `imports`에 추가하십시오:
+
+```ts
+import { Component } from '@angular/core';
+import { IgxIconComponent } from 'igniteui-angular/icon';
+
+@Component({
+    selector: 'app-home',
+    template: '<igx-icon name="home"></igx-icon>',
+    imports: [IgxIconComponent]
+})
+export class HomeComponent {}
+```
+
+`home` 이름은 Material Icons 리가처이므로, Material Icons 글꼴이 로드되면 아이콘이 나타납니다.
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+등록한 후 아이콘 이름과 컬렉션을 지정하여 <ApiLink pkg="core" type="Icon" />을(를) 렌더링하십시오:
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-icon name="search" collection="material"></igc-icon>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrIcon name="search" collection="material" />
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbIcon IconName="search" Collection="material" />
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+[이름과 컬렉션](#이름과-컬렉션)에 설명된 대로 같은 이름과 컬렉션으로 SVG 아이콘을 등록하기 전까지 아이콘은 비어 있습니다.
+
+</PlatformBlock>
+
+## 사용법
+
+레이블, 버튼, 목록 항목 및 탐색에 식별하기 쉬운 기호를 추가하거나, 상태를 한눈에 보여 주려면 {Platform} Icon을 사용하십시오.
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+### 이름과 컬렉션
+
+{Platform} Icon은 컬렉션 안의 이름으로 등록된 SVG를 그립니다. 컬렉션의 기본값은 `default`입니다. 페이지의 모든 아이콘은 하나의 레지스트리를 공유하므로, 한 번 등록한 아이콘은 모든 Icon에서 사용할 수 있으며, SVG가 등록되기 전에 렌더링된 Icon도 등록되는 즉시 업데이트됩니다.
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+<ApiLink pkg="core" type="registerIconFromText" kind="function" label="registerIconFromText" />로 SVG 마크업을 등록하거나 <ApiLink pkg="core" type="registerIcon" kind="function" label="registerIcon" />로 URL에서 SVG 파일을 가져오십시오:
+
+```ts
+import { registerIcon, registerIconFromText } from 'igniteui-webcomponents';
+
+const searchIcon =
+  '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>';
+
+registerIconFromText('search', searchIcon, 'material');
+registerIcon('build', '/icons/build.svg', 'material');
+```
+
+그다음 각 아이콘에 같은 이름과 컬렉션을 설정하십시오:
+
+```html
+<igc-icon name="search" collection="material"></igc-icon>
+<igc-icon name="build" collection="material"></igc-icon>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+<ApiLink pkg="core" type="registerIconFromText" kind="function" label="registerIconFromText" />로 SVG 마크업을 등록하거나 <ApiLink pkg="core" type="registerIcon" kind="function" label="registerIcon" />로 URL에서 SVG 파일을 가져오십시오. 그다음 각 아이콘에 같은 이름과 컬렉션을 설정하십시오:
+
+```tsx
+import { useEffect } from 'react';
+import { IgrIcon, registerIcon, registerIconFromText } from 'igniteui-react';
+
+const searchIcon =
+  '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>';
+
+export default function SearchToolbar() {
+  useEffect(() => {
+    registerIconFromText('search', searchIcon, 'material');
+    registerIcon('build', '/icons/build.svg', 'material');
+  }, []);
+
+  return (
+    <>
+      <IgrIcon name="search" collection="material" />
+      <IgrIcon name="build" collection="material" />
+    </>
+  );
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+<ApiLink pkg="core" type="Icon" member="RegisterIconFromTextAsync" label="RegisterIconFromTextAsync" /> 메서드로 SVG 마크업을 등록하거나 <ApiLink pkg="core" type="Icon" member="RegisterIconAsync" label="RegisterIconAsync" />로 URL에서 SVG 파일을 가져오십시오. 준비가 된 후 참조된 `IgbIcon`에서 호출한 다음, 각 아이콘에 같은 `IconName`과(와) `Collection`을(를) 설정하십시오:
+
+```razor
+<IgbIcon @ref="SearchIcon" IconName="search" Collection="material" />
+<IgbIcon IconName="build" Collection="material" />
+
+@code {
+    private IgbIcon SearchIcon { get; set; }
+
+    private const string SearchSvg = "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z'/></svg>";
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender && SearchIcon != null)
+        {
+            await SearchIcon.EnsureReady();
+            await SearchIcon.RegisterIconFromTextAsync("search", SearchSvg, "material");
+            await SearchIcon.RegisterIconAsync("build", "/icons/build.svg", "material");
+        }
+    }
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+### 이름과 제품군
+
+Angular Icon은 <ApiLink pkg="core" type="Icon" member="family" label="family" />에서 <ApiLink pkg="core" type="Icon" member="name" label="name" />을(를) 찾습니다. 기본 `material` 제품군은 Material Icons 리가처를 렌더링하므로, `home` 또는 `favorite`처럼 이름이 곧 리가처가 됩니다:
+
+```html
+<igx-icon name="home"></igx-icon>
+<igx-icon name="favorite"></igx-icon>
+```
+
+리가처를 콘텐츠로 프로젝션할 수도 있습니다:
+
+```html
+<igx-icon>bluetooth</igx-icon>
+```
+
+### SVG 아이콘
+
+<ApiLink pkg="core" type="IconService" />로 SVG 아이콘을 등록한 다음 아이콘에 이름과 제품군을 설정하십시오. <ApiLink pkg="core" type="IconService" member="addSvgIcon" label="addSvgIcon" /> 메서드는 URL에서 SVG 파일을 가져오고, <ApiLink pkg="core" type="IconService" member="addSvgIconFromText" label="addSvgIconFromText" />은(는) SVG 마크업을 등록합니다:
+
+```ts
+import { Component, OnInit, inject } from '@angular/core';
+import { IgxIconComponent, IgxIconService } from 'igniteui-angular/icon';
+
+const searchIcon =
+    '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>';
+
+@Component({
+    selector: 'app-filter-icons',
+    template: `
+        <igx-icon name="contains" family="filter-icons"></igx-icon>
+        <igx-icon name="search" family="filter-icons"></igx-icon>
+    `,
+    imports: [IgxIconComponent]
+})
+export class FilterIconsComponent implements OnInit {
+    private iconService = inject(IgxIconService);
+
+    public ngOnInit() {
+        this.iconService.addSvgIcon('contains', 'assets/images/svg/contains.svg', 'filter-icons');
+        this.iconService.addSvgIconFromText('search', searchIcon, 'filter-icons');
+    }
+}
+```
+
+SVG 아이콘과 리가처가 같은 이름과 제품군을 공유하면, 아이콘은 SVG를 렌더링합니다.
+
+### 글꼴 제품군
+
+[Material Symbols](https://fonts.google.com/icons)처럼 다른 아이콘 글꼴을 제품군으로 추가하려면 <ApiLink pkg="core" type="IconService" member="setFamily" label="setFamily" />을(를) 사용하십시오. 먼저 글꼴 스타일시트를 로드하십시오:
+
+```html
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet" />
+```
+
+제품군 이름을 글꼴의 CSS 클래스에 매핑하고 해당 유형을 `liga`(으)로 설정하십시오:
+
+```ts
+this.iconService.setFamily('material-symbols', { className: 'material-symbols-outlined', type: 'liga' });
+```
+
+그다음 아이콘에 제품군을 설정하십시오. Material Symbols는 가변 글꼴이므로 채우기와 두께 같은 설정을 조정할 수 있습니다:
+
+```html
+<igx-icon family="material-symbols" name="diamond" class="custom-icon"></igx-icon>
+```
+
+```scss
+.custom-icon {
+  font-variation-settings: "FILL" 0, "wght" 200, "GRAD" 0, "opsz" 40;
+}
+```
+
+[Icon Service](../icon-service.mdx) 항목에서는 `font` 유형의 제품군, 이름 접두사 및 아이콘 참조를 다룹니다.
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+### 아이콘 참조
+
+아이콘 참조는 아이콘 이름이 다른 등록된 아이콘을 가리키도록 합니다. Combo 및 Date Picker 같은 컴포넌트는 `default` 컬렉션의 참조를 통해 내장 아이콘을 렌더링하며, 사용자가 설정한 참조가 이를 우선합니다. 예를 들어 이 두 컴포넌트의 지우기 아이콘을 대체하려면 `input_clear` 참조가 사용자 자신의 아이콘을 가리키도록 하십시오:
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```ts
+import { registerIconFromText, setIconRef } from 'igniteui-webcomponents';
+
+const closeIcon =
+  '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>';
+
+registerIconFromText('close', closeIcon, 'my-icons');
+setIconRef('input_clear', 'default', { name: 'close', collection: 'my-icons' });
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+import { registerIconFromText, setIconRef } from 'igniteui-react';
+
+const closeIcon =
+  '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>';
+
+registerIconFromText('close', closeIcon, 'my-icons');
+setIconRef('input_clear', 'default', { name: 'close', collection: 'my-icons' });
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbIcon @ref="CloseIcon" IconName="close" Collection="my-icons" />
+
+@code {
+    private IgbIcon CloseIcon { get; set; }
+
+    private const string CloseSvg = "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z'/></svg>";
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender && CloseIcon != null)
+        {
+            await CloseIcon.EnsureReady();
+            await CloseIcon.RegisterIconFromTextAsync("close", CloseSvg, "my-icons");
+            await CloseIcon.SetIconRefAsync("input_clear", "default", new IgbIconMeta()
+            {
+                Name = "close",
+                Collection = "my-icons",
+            });
+        }
+    }
+}
+```
+
+</PlatformBlock>
+
+### 크기
+
+{Platform} Icon은 테마의 작은, 중간, 큰 크기 프리셋을 지원하며 기본적으로 큰 프리셋을 사용합니다. 프리셋을 선택하려면 `--ig-size` CSS 변수를 `--ig-size-small`, `--ig-size-medium` 또는 `--ig-size-large`로 설정하십시오:
+
+```css
+.small {
+  --ig-size: var(--ig-size-small);
+}
+
+.medium {
+  --ig-size: var(--ig-size-medium);
+}
+```
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-icon class="small" name="build" collection="material"></igc-icon>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrIcon className="small" name="build" collection="material" />
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbIcon Class="small" IconName="build" Collection="material" />
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+```html
+<igx-icon class="small" name="build"></igx-icon>
+```
+
+</PlatformBlock>
+
+프리셋 밖의 크기가 필요하면 아이콘에 `--size`을(를) 설정하십시오. 컨테이너 안의 모든 아이콘 크기를 조정하려면 컨테이너에 `--ig-icon-size`을(를) 설정하십시오:
+
+```css
+.custom-size {
+  --size: 56px;
+}
+
+.toolbar {
+  --ig-icon-size: 2rem;
+}
+```
+
+<PlatformBlock for="Angular">
+
+<Sample src="/data-display/icon-size" showThemePicker height={200} noBorder={false} spacing="md" alt="{Platform} Icon 크기 예제" />
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+<Sample src="/layouts/icon/size" showThemePicker height={200} noBorder={false} spacing="md" alt="{Platform} Icon 크기 예제" />
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+### 좌우 반전
+
+<ApiLink pkg="core" type="Icon" member="mirrored" label="mirrored" />을(를) 설정하면 아이콘이 가로로 뒤집힙니다. 오른쪽에서 왼쪽으로 쓰는 레이아웃에서 화살표 같은 방향성 아이콘에 사용하십시오.
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-icon name="arrow_forward" collection="material" mirrored></igc-icon>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrIcon name="arrow_forward" collection="material" mirrored={true} />
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbIcon IconName="arrow_forward" Collection="material" Mirrored="true" />
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+### 활성
+
+아이콘을 비활성 상태로 표시하려면 <ApiLink pkg="core" type="Icon" member="active" label="active" />을(를) `false`(으)로 설정하십시오. 비활성 아이콘은 테마의 비활성 색상을 낮은 불투명도로 사용합니다:
+
+```html
+<igx-icon name="volume_off" [active]="false"></igx-icon>
+```
+
+</PlatformBlock>
+
+### 접근 가능한 이름
+
+장식용 아이콘은 보조 기술에서 숨기고, 그 자체로 의미를 전달하는 아이콘에는 그 의미를 설명하는 접근 가능한 이름을 제공하십시오.
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+아이콘에 이름을 붙이려면 아이콘에 `aria-label`을(를) 설정하십시오. 등록된 SVG의 `<title>` 요소도 아이콘에 이름을 붙입니다. 보이는 텍스트 옆의 장식용 아이콘에는 `aria-hidden="true"`을(를) 설정하십시오:
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-icon name="warning" collection="material" aria-label="Warning"></igc-icon>
+
+<span>
+  <igc-icon name="search" collection="material" aria-hidden="true"></igc-icon>
+  Search
+</span>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrIcon name="warning" collection="material" aria-label="Warning" />
+
+<span>
+  <IgrIcon name="search" collection="material" aria-hidden="true" />
+  Search
+</span>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbIcon IconName="warning" Collection="material" aria-label="Warning" />
+
+<span>
+    <IgbIcon IconName="search" Collection="material" aria-hidden="true" />
+    Search
+</span>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+Angular Icon은 기본적으로 보조 기술에서 숨겨집니다. <ApiLink pkg="core" type="Icon" member="ariaHidden" label="ariaHidden" /> 입력이 `aria-hidden="true"`을(를) 설정하기 때문입니다. 의미를 전달하는 아이콘을 노출하려면 `ariaHidden`을(를) `false`(으)로 설정하고, `aria-label`과 함께 `img` 역할을 추가하십시오:
+
+```html
+<igx-icon name="warning" [ariaHidden]="false" role="img" aria-label="Warning"></igx-icon>
+```
+
+</PlatformBlock>
+
+### 사용 여부
+
+배경과 충분한 명암비를 확보하도록 Icon 색상을 신중하게 고르고, 같은 색의 비슷한 음영이나 색수차를 일으키는 조합은 반드시 피하십시오.
+
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin: 24px 0 16px;">
+  <Image src={iconDo} alt="파란 배경과 강한 명암 대비를 이루는 흰색 종 아이콘과 주황색 톱니바퀴 아이콘" class="responsive-img" style="display: block; width: 100%; height: auto;" />
+  <Image src={iconDoNot} alt="파란 배경과 약한 명암 대비를 이루는 연한 파란색 종 아이콘과 진한 주황색 톱니바퀴 아이콘" class="responsive-img" style="display: block; width: 100%; height: auto;" />
+</div>
+
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin-bottom: 32px;">
+  <div>
+    <p style="color: #258b3b; font-weight: 600; margin: 0 0 8px;">사용</p>
+    <p style="margin: 0;">배경과 강한 명암 대비를 이루는 아이콘 색을 고르십시오.</p>
+  </div>
+  <div>
+    <p style="color: #e40046; font-weight: 600; margin: 0 0 8px;">사용하지 않음</p>
+    <p style="margin: 0;">배경과 비슷한 음영 및 색수차를 일으키는 색 조합은 피하십시오.</p>
+  </div>
+</div>
+
+## 속성
+
+{Platform} Icon은 다음 속성을 노출합니다. 전체 타입 정의는 API 참조를 참조하십시오.
+
+<PlatformBlock for="React,WebComponents">
+
+| 이름 | 타입 | 기본값 | 설명 |
+| --- | --- | --- | --- |
+| <ApiLink pkg="core" type="Icon" member="name" label="name" /> | `string` | — | 그릴 아이콘의 이름입니다. |
+| <ApiLink pkg="core" type="Icon" member="collection" label="collection" /> | `string` | `default` | 아이콘 이름을 찾을 때 사용하는 등록된 컬렉션입니다. |
+| <ApiLink pkg="core" type="Icon" member="mirrored" label="mirrored" /> | `boolean` | `false` | 아이콘을 가로로 뒤집을지 여부입니다. |
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+| 이름 | 타입 | 기본값 | 설명 |
+| --- | --- | --- | --- |
+| <ApiLink pkg="core" type="Icon" member="IconName" label="IconName" /> | `string` | — | 그릴 아이콘의 이름입니다. |
+| <ApiLink pkg="core" type="Icon" member="Collection" label="Collection" /> | `string` | `default` | 아이콘 이름을 찾을 때 사용하는 등록된 컬렉션입니다. |
+| <ApiLink pkg="core" type="Icon" member="Mirrored" label="Mirrored" /> | `bool` | `false` | 아이콘을 가로로 뒤집을지 여부입니다. |
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+| 이름 | 타입 | 기본값 | 설명 |
+| --- | --- | --- | --- |
+| <ApiLink pkg="core" type="Icon" member="name" label="name" /> | `string` | — | 아이콘의 이름입니다. 리가처 제품군의 경우 이름이 곧 리가처입니다. |
+| <ApiLink pkg="core" type="Icon" member="family" label="family" /> | `string` | `material` | 이름을 찾을 때 사용하는 아이콘 제품군입니다. |
+| <ApiLink pkg="core" type="Icon" member="active" label="active" /> | `boolean` | `true` | 아이콘이 활성 상태인지 여부입니다. 비활성 아이콘은 테마의 비활성 색상을 사용합니다. |
+| <ApiLink pkg="core" type="Icon" member="ariaHidden" label="ariaHidden" /> | `boolean` | `true` | 아이콘의 `aria-hidden` 속성 값입니다. |
+
+</PlatformBlock>
+
+## 메서드
+
+{Platform} Icon은 다음 API로 등록한 아이콘을 그립니다.
+
+<PlatformBlock for="React,WebComponents">
+
+다음 함수로 아이콘을 등록하십시오. 이 함수는 **{PackageCommon}**에서 가져옵니다. 컬렉션 이름 대신 <ApiLink pkg="core" type="RegisterIconOptions" kind="interface" label="RegisterIconOptions" /> 객체를 전달하면 `collection`과(와) `stripMeta` 옵션을 함께 설정할 수 있습니다.
+
+| 함수 | 설명 |
+| --- | --- |
+| <ApiLink pkg="core" type="registerIcon" kind="function" label="registerIcon" /> | URL에서 SVG 파일을 가져와 컬렉션의 이름으로 등록합니다. 요청이 실패하면 거부되는 Promise를 반환합니다. |
+| <ApiLink pkg="core" type="registerIconFromText" kind="function" label="registerIconFromText" /> | SVG 마크업을 컬렉션의 이름으로 등록합니다. |
+| <ApiLink pkg="core" type="setIconRef" kind="function" label="setIconRef" /> | 컬렉션에서 아이콘 이름이 다른 등록된 아이콘을 가리키도록 합니다. |
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+`IgbIcon` 인스턴스의 다음 메서드로 아이콘을 등록하십시오. 각 메서드에는 `Async` 접미사가 없는 동기 버전도 있습니다.
+
+| 메서드 | 설명 |
+| --- | --- |
+| <ApiLink pkg="core" type="Icon" member="RegisterIconAsync" label="RegisterIconAsync" /> | URL에서 SVG 파일을 가져와 컬렉션의 이름으로 등록합니다. |
+| <ApiLink pkg="core" type="Icon" member="RegisterIconFromTextAsync" label="RegisterIconFromTextAsync" /> | SVG 마크업을 컬렉션의 이름으로 등록합니다. |
+| <ApiLink pkg="core" type="Icon" member="SetIconRefAsync" label="SetIconRefAsync" /> | 컬렉션에서 아이콘 이름이 `IgbIconMeta`이(가) 설명하는 아이콘을 가리키도록 합니다. |
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+애플리케이션 루트에 제공되는 <ApiLink pkg="core" type="IconService" />의 다음 메서드로 아이콘과 제품군을 등록하십시오.
+
+| 메서드 | 설명 |
+| --- | --- |
+| <ApiLink pkg="core" type="IconService" member="addSvgIcon" label="addSvgIcon" /> | `HttpClient`을(를) 통해 SVG 파일을 가져와 제품군의 이름으로 캐시합니다. |
+| <ApiLink pkg="core" type="IconService" member="addSvgIconFromText" label="addSvgIconFromText" /> | SVG 마크업을 제품군의 이름으로 캐시합니다. |
+| <ApiLink pkg="core" type="IconService" member="setFamily" label="setFamily" /> | 제품군 이름을 CSS 클래스, 아이콘 유형(`liga`, `font`, `svg` 중 하나), 그리고 선택적 이름 접두사와 연결합니다. |
+| <ApiLink pkg="core" type="IconService" member="setIconRef" label="setIconRef" /> | 제품군에서 아이콘 이름이 다른 아이콘을 가리키도록 합니다. |
+| <ApiLink pkg="core" type="IconService" member="addIconRef" label="addIconRef" /> | 이름에 아직 참조가 없을 때만 제품군에서 아이콘 이름이 다른 아이콘을 가리키도록 합니다. |
+
+</PlatformBlock>
+
+## 스타일링
+
+{Platform} Icon은 기본적으로 주변 텍스트의 색을 사용합니다. 다음 CSS 변수로 색과 크기를 변경할 수 있습니다:
+
+| 변수 | 변경되는 내용 |
+| --- | --- |
+| `--ig-icon-color` | 아이콘 색입니다. 아이콘에 설정하거나, 컨테이너에 설정하여 그 안의 모든 아이콘 색을 바꿀 수 있습니다. |
+| `--ig-icon-size` | 아이콘 크기입니다. 아이콘에 설정하거나, 컨테이너에 설정하여 그 안의 모든 아이콘 크기를 조정할 수 있습니다. |
+| `--size` | 설정한 아이콘의 크기입니다. |
+| `--ig-size` | 크기 프리셋입니다: `--ig-size-small`, `--ig-size-medium`, `--ig-size-large` 중 하나. |
+<PlatformBlock for="Angular">| `--ig-icon-disabled-color` | 비활성 아이콘의 색입니다. |</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+`igc-icon` 요소는 CSS 파트를 노출하지 않으므로 스타일을 요소 자체에 적용하십시오.
+
+</PlatformBlock>
+
+### Sass 테마 지정
+
+다음 함수로 테마를 만들고 <PlatformBlock for="Angular"><ApiLink kind="sass" module="themes" type="function-icon-theme" label="icon-theme" code={true} /></PlatformBlock><PlatformBlock for="React,WebComponents,Blazor">`icon-theme`</PlatformBlock> 함수를 만들고 `tokens()` 믹스인과 함께 포함하십시오. 이 함수는 `$color`, `$size`, `$disabled-color` 매개변수를 받으며, 믹스인은 포함한 범위에 일치하는 `--ig-icon-*` 변수를 내보냅니다.
+
+<PlatformBlock for="Angular">
+
+```scss
+@use "igniteui-angular/theming" as *;
+
+$custom-icon-theme: icon-theme(
+  $color: #1481b8,
+  $disabled-color: #494949
+);
+
+:host {
+  @include tokens($custom-icon-theme);
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+Sass 함수는 `igniteui-theming` 패키지에서 제공됩니다. Sass 설정은 [테마 지정](../themes/overview.mdx) 항목을 참조하십시오.
+
+```scss
+@use "igniteui-theming" as *;
+
+$custom-icon-theme: icon-theme(
+  $color: #1481b8
+);
+
+:root {
+  @include tokens($custom-icon-theme);
+}
+```
+
+</PlatformBlock>
+
+### CSS 변수
+
+Sass 빌드 단계 없이 지역 스타일이 필요하면 아이콘 또는 컨테이너에 색과 크기를 설정하십시오:
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+```css
+igc-icon {
+  --size: 28px;
+  color: var(--ig-primary-500);
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+```html
+<igx-icon name="home" [style.color]="'#e41c77'"></igx-icon>
+```
+
+</PlatformBlock>
+
+```css
+.toolbar {
+  --ig-icon-color: var(--ig-primary-500);
+}
+```
+
+<PlatformBlock for="Angular">
+
+<Sample src="/data-display/icon-styling" height={300} noBackground={false} noBorder={false} spacing="md" alt="버튼과 아이콘 버튼 도구 모음에서 색이 적용된 아이콘을 보여 주는 {Platform} Icon 스타일 지정 예제" />
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+<Sample src="/layouts/icon/styling" height={300} noBackground={false} noBorder={false} spacing="md" alt="버튼과 아이콘 버튼 도구 모음에서 색이 적용된 아이콘을 보여 주는 {Platform} Icon 스타일 지정 예제" />
+
+</PlatformBlock>
+
+### Tailwind로 스타일링하기
+
+`igniteui-theming`의 사용자 지정 Tailwind 유틸리티 클래스로 {Platform} Icon의 스타일을 지정할 수 있습니다. 먼저 [Tailwind를 설정](../themes/tailwind.mdx)한 다음 전역 스타일시트에서 Ignite UI 유틸리티를 가져오십시오:
+
+```css
+@import "tailwindcss";
+@import "igniteui-theming/tailwind/utilities/material.css";
+```
+
+해당 테마에는 `light-icon` 또는 `dark-icon` 클래스를 사용하고, 생성된 CSS 변수는 임의의 속성으로 재정의하십시오:
+
+<PlatformBlock for="Angular">
+
+```html
+<igx-icon name="person" class="!light-icon ![--color:#7B9E89] ![--size:48px]"></igx-icon>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-icon name="search" collection="material" class="!light-icon ![--color:#7B9E89] ![--size:48px]"></igc-icon>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrIcon name="search" collection="material" className="!light-icon ![--color:#7B9E89] ![--size:48px]" />
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbIcon IconName="search" Collection="material" Class="!light-icon ![--color:#7B9E89] ![--size:48px]" />
+```
+
+</PlatformBlock>
+
+느낌표(`!`)는 Tailwind 유틸리티가 Icon의 기본 테마 스타일보다 우선하도록 합니다.
+
+<PlatformBlock for="Angular">
+
+<Sample src="/data-display/icon-tailwind-styling" height={400} noBackground={false} noBorder={false} spacing="md" alt="{Platform} Icon Tailwind 스타일 지정 예제" />
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+<Sample src="/layouts/icon/tailwind-styling" height={400} noBackground={false} noBorder={false} spacing="md" alt="{Platform} Icon Tailwind 스타일 지정 예제" />
+
+</PlatformBlock>
+
+## 접근성
+
+{Platform} Icon은 주변 콘텐츠를 장식하거나 그 자체로 의미를 전달하는 비대화형 시각 요소입니다.
+
+### 키보드 상호 작용
+
+{Platform} Icon은 포커스를 받지 않으며 키보드 상호 작용도 없습니다. `tabindex`을(를) 설정하지 않고 키보드나 포인터 이벤트도 처리하지 않습니다. 사용자가 키보드로 아이콘을 활성화해야 할 때는 다음 <PlatformBlock for="Angular">[Icon Button](../icon-button.mdx)</PlatformBlock><PlatformBlock for="React,WebComponents,Blazor">[Icon Button](../inputs/icon-button.mdx)</PlatformBlock> 을(를) 사용하십시오.
+
+| 키 | 동작 |
+| --- | --- |
+| n/a | Icon은 키보드로 상호 작용할 수 없습니다. |
+
+### 화면 읽기 프로그램 / ARIA
+
+{Platform} Icon은 자체적으로 알리는 내용이 없습니다. 보조 기술이 보고하는 내용은 아이콘의 접근 가능한 이름에 따라 달라집니다:
+
+<PlatformBlock for="React,WebComponents">
+
+- 아이콘은 `igc-icon` 요소의 속성이 아니라 요소 내부(element internals)를 통해 역할과 접근 가능한 이름을 설정합니다.
+- 등록된 아이콘의 루트 `<svg>`의 직계 자식인 `<title>` 요소가 아이콘의 접근 가능한 이름이 됩니다.
+- 아이콘의 `aria-label` 또는 `aria-labelledby` 속성은 SVG에 title이 없는 아이콘에 이름을 붙이며, title보다 우선합니다.
+- `igniteui-webcomponents` 7.3.0 이상에서는 아이콘이 접근 가능한 이름이 있을 때만 `img` 역할을 선언하므로, 이름이 없는 아이콘이 이름 없는 이미지로 노출되지 않습니다.
+- 아이콘은 SVG를 확인할 때 접근 가능한 이름을 검사합니다. 즉 `name` 또는 `collection`가 변경될 때, 테마가 변경될 때, 또는 아이콘이 등록될 때입니다. 초기 마크업에 `aria-label` 또는 `aria-labelledby`를 설정하십시오.
+- `stripMeta` 등록 옵션은 저장된 SVG에서 `<title>` 및 `<desc>` 요소를 제거하지만, 아이콘은 title 텍스트를 접근 가능한 이름으로 유지합니다.
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+- 등록된 아이콘의 루트 `<svg>`의 직계 자식인 `<title>` 요소가 아이콘의 접근 가능한 이름이 됩니다.
+- 아이콘의 `aria-label` 속성은 SVG에 title이 없는 아이콘에 이름을 붙이며, title보다 우선합니다.
+- `aria-hidden="true"` 속성은 장식용 아이콘을 보조 기술에서 숨깁니다.
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+- 아이콘은 `ariaHidden` 입력을 통해 기본적으로 `aria-hidden="true"`을(를) 설정하므로 보조 기술이 이를 무시합니다. `aria-label`만으로는 숨겨진 아이콘이 노출되지 않습니다.
+- 아이콘은 역할을 설정하지 않습니다. 역할과 레이블 없이 `ariaHidden`을(를) `false`(으)로 설정하면, 스크린 리더는 리가처 아이콘을 `home`처럼 텍스트로 읽습니다.
+- 의미를 전달하는 아이콘을 노출하려면 `ariaHidden`을(를) `false`(으)로 설정하고, `img` 역할을 추가한 다음 `aria-label`을(를) 추가하십시오.
+- `active` 입력은 스타일만 변경합니다. 비활성 상태는 보조 기술에 노출되지 않습니다.
+
+</PlatformBlock>
+
+### 접근성 준수
+
+Infragistics는 [접근성 준수](../interactivity/accessibility-compliance.mdx) 항목에서 Section 508 및 WCAG 2.1 지침 영역에 대한 {ProductName} 접근성 지원을 문서화합니다.
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+| 기준 | 컴포넌트가 준수하는 방식 |
+| --- | --- |
+| [1.1.1 비텍스트 콘텐츠](https://www.w3.org/WAI/WCAG21/Understanding/non-text-content) | 아이콘은 설정한 `aria-label` 또는 등록된 SVG의 `<title>`를 텍스트 대체 수단으로 사용합니다. |
+<PlatformBlock for="React,WebComponents">| [4.1.2 이름, 역할, 값](https://www.w3.org/WAI/WCAG21/Understanding/name-role-value) | `igniteui-webcomponents` 7.3.0 이상에서는 접근 가능한 이름이 있는 아이콘이 `img` 역할을 노출하고, 이름이 없는 아이콘은 역할을 노출하지 않습니다. |</PlatformBlock>
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+| 기준 | 컴포넌트가 준수하는 방식 |
+| --- | --- |
+| [1.1.1 비텍스트 콘텐츠](https://www.w3.org/WAI/WCAG21/Understanding/non-text-content) | 아이콘은 기본적으로 보조 기술에서 숨겨지므로 장식용 아이콘은 무시될 수 있습니다. 노출할 때는 설정한 `aria-label`을(를) 텍스트 대체 수단으로 사용합니다. |
+
+</PlatformBlock>
+
+사용자의 책임:
+
+- 자체적으로 의미를 전달하는 모든 아이콘에는 접근 가능한 이름을 제공하고, 장식용 아이콘은 숨긴 상태로 유지하십시오. [접근 가능한 이름](#접근-가능한-이름)을 참조하십시오.
+- 정보를 전달하는 아이콘과 그 배경 사이의 명암 대비는 [1.4.11 텍스트가 아닌 콘텐츠의 명암 대비](https://www.w3.org/WAI/WCAG21/Understanding/non-text-contrast)가 요구하는 대로 최소 3:1을 유지하십시오. 특히 테마 색을 재정의할 때 그렇습니다.
+- 사용자가 활성화하는 작업에는 Icon이 아니라 Icon Button을 사용하십시오.
+<PlatformBlock for="Angular">- [1.4.1 색상 사용](https://www.w3.org/WAI/WCAG21/Understanding/use-of-color)이 요구하는 대로, 상태를 전달하기 위해 비활성 스타일에만 의존하지 마십시오. 텍스트나 접근 가능한 이름으로 상태를 설명하십시오.</PlatformBlock><PlatformBlock for="React,WebComponents,Blazor">- 오른쪽에서 왼쪽으로 쓰는 레이아웃의 방향성 아이콘에는 `mirrored`을(를) 설정하여 방향이 읽는 순서와 일치하도록 하십시오.</PlatformBlock>
+
+## 문제 해결
+
+{Platform} Icon이 렌더링되지 않거나 예상과 다르게 보일 때 다음 답변을 사용하십시오.
+
+### 아이콘이 비어 있는 이유는 무엇입니까?
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+{Platform} Icon은 같은 이름과 컬렉션으로 등록된 SVG만 그립니다. 다음 원인을 확인하십시오:
+
+- 이름 또는 컬렉션이 등록된 값과 정확히 일치하지 않습니다. 컬렉션의 기본값은 `default`입니다.
+- SVG 마크업이 잘못되었습니다. 텍스트에 루트 `<svg>` 요소가 없거나 파싱되지 않으면 등록 시 `SVG element not found or malformed SVG string.` 오류가 발생합니다.
+- SVG 파일 요청이 실패했습니다. URL에서 등록할 때 OK가 아닌 응답이면 실패하므로, 브라우저 콘솔과 네트워크 패널을 확인하십시오. 다른 출처의 파일도 교차 출처 요청을 허용하는 서버가 필요합니다.
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents">
+
+서버 측 렌더링 중에는 아이콘이 SVG를 렌더링하지 않습니다. 브라우저에서 로드된 후에 SVG를 그립니다.
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+다음 원인을 확인하십시오:
+
+- 리가처 아이콘은 제품군의 글꼴이 필요합니다. 예를 들어 기본 `material` 제품군은 Material Icons 글꼴이 필요합니다. 글꼴 스타일시트가 로드되는지 확인하십시오.
+- SVG 아이콘은 등록할 때와 같은 이름과 제품군이 필요합니다.
+- `addSvgIcon`은(는) 파일을 가져오기 위해 `HttpClient`이(가) 필요합니다. 실패한 요청이 있는지 네트워크 패널을 확인하십시오.
+- 서비스는 SVG 아이콘을 브라우저에서만 캐시하므로, 서버 측 렌더링 중에는 SVG 아이콘이 렌더링되지 않습니다.
+
+</PlatformBlock>
+
+### SVG 아이콘이 테마 색을 따르지 않는 이유는 무엇입니까?
+
+{Platform} Icon은 루트 `<svg>` 요소에 색을 적용하며, 자식 요소는 이를 fill로 상속합니다. 색이 하드코딩된 자식 요소는 그 색을 유지합니다:
+
+```html
+<svg viewBox="0 0 24 24">
+  <path fill="#050d42" d="..." />
+</svg>
+```
+
+자식 요소에서 하드코딩된 색을 제거하거나, 테마가 재정의하는 루트 `<svg>` 요소에 색을 설정하십시오. 아이콘의 일부에 의도적으로 색을 주려면 `fill="var(--ig-primary-500)"` 같은 테마 색 변수를 사용하십시오.
+
+### 아이콘에 마우스를 올리면 툴팁이 나타나는 이유는 무엇입니까?
+
+브라우저는 SVG의 `<title>` 요소를 기본 툴팁으로 표시합니다.
+
+<PlatformBlock for="React,WebComponents">
+
+저장된 SVG에서 `<title>` 및 `<desc>` 요소를 제거하려면 `stripMeta` 옵션으로 아이콘을 등록하십시오. 아이콘은 title 텍스트를 접근 가능한 이름으로 유지합니다:
+
+```ts
+registerIconFromText('search', searchIcon, { collection: 'material', stripMeta: true });
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+등록하기 전에 SVG 마크업에서 `<title>` 요소를 제거하고, 접근 가능한 이름이 필요한 아이콘에는 `aria-label`을(를) 설정하십시오.
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+캐시된 SVG에서 `<title>` 및 `<desc>` 요소를 제거하려면 `addSvgIcon` 또는 `addSvgIconFromText`의 `stripMeta` 인수로 `true`을(를) 전달하십시오:
+
+```ts
+this.iconService.addSvgIcon('contains', 'assets/images/svg/contains.svg', 'filter-icons', true);
+```
+
+</PlatformBlock>
+
+### 알려진 제한 사항
+
+{Platform} Icon에는 다음 제한 사항이 있습니다:
+
+- Icon은 비대화형 시각 요소입니다. 포커스를 받지 않으며 키보드 입력을 처리하지 않습니다.
+- 테마 색은 루트 `<svg>` 요소와 그 fill을 상속하는 자식 요소에 적용됩니다. 색이 하드코딩된 자식 요소는 그 색을 유지합니다.
+<PlatformBlock for="React,WebComponents,Blazor">- Icon은 등록된 SVG 아이콘만 그립니다. 아이콘 글꼴과 리가처는 지원되지 않습니다.</PlatformBlock><PlatformBlock for="Angular">- Angular Icon에는 오른쪽에서 왼쪽으로 쓰는 레이아웃에서 아이콘을 뒤집는 옵션이 없습니다.</PlatformBlock>
+
+## API 참조
+
+{Platform} Icon API 참조에는 대상 플랫폼의 전체 API 범위가 나와 있습니다.
+
+- <ApiLink pkg="core" type="Icon" />
+<PlatformBlock for="React,WebComponents">- <ApiLink pkg="core" type="registerIcon" kind="function" label="registerIcon" />
+- <ApiLink pkg="core" type="registerIconFromText" kind="function" label="registerIconFromText" />
+- <ApiLink pkg="core" type="setIconRef" kind="function" label="setIconRef" />
+- <ApiLink pkg="core" type="RegisterIconOptions" kind="interface" label="RegisterIconOptions" /></PlatformBlock><PlatformBlock for="Blazor">- <ApiLink pkg="core" type="IconMeta" /></PlatformBlock><PlatformBlock for="Angular">- <ApiLink pkg="core" type="IconService" />
+- <ApiLink kind="sass" module="themes" type="function-icon-theme" label="icon-theme" /></PlatformBlock>
+
+## 종속성
+
+{Platform} Icon은 테마 기반 크기와 색을 적용하려면 테마 스타일시트가 필요합니다. 프레임워크별 설정은 다음을 참조하십시오 <PlatformBlock for="Angular">[**시작하기**](../general/getting-started.mdx)</PlatformBlock><PlatformBlock for="React,WebComponents,Blazor">[**시작하기**](../general-getting-started.mdx)</PlatformBlock>.
+
+<PlatformBlock for="Angular">
+
+기본 `material` 제품군의 리가처 아이콘은 Material Icons 글꼴도 필요하며, `addSvgIcon`에는 Angular `HttpClient`이(가) 필요합니다.
+
+</PlatformBlock>
+
+## 추가 리소스
+
+다음 리소스는 {Platform} Icon에 대한 추가 지침과 프로젝트 지원을 제공합니다:
+
+- [Icon - 디자인 시스템 컴포넌트](https://www.infragistics.com/products/indigo-design/help/components/icon)
+- [{ProductName} **포럼**]({ForumsLink})
+- [{ProductName} **GitHub**]({GithubLink})
+
+<PlatformBlock for="Angular">
+
+아이콘 제품군, 아이콘 참조 및 확장 Material 아이콘 세트에 대해서는 [Icon Service](../icon-service.mdx) 및 [Material Icons Extended](../material-icons-extended.mdx) 항목을 참조하십시오.
+
+</PlatformBlock>
+
+## 관련 컴포넌트
+
+{Platform} Icon은 다른 컴포넌트 안에 자주 나타납니다. 아이콘이 기호 표시 이상의 역할을 해야 할 때는 다음 컴포넌트를 사용하십시오:
+
+- <PlatformBlock for="Angular">[Icon Button](../icon-button.mdx)</PlatformBlock><PlatformBlock for="React,WebComponents,Blazor">[Icon Button](../inputs/icon-button.mdx)</PlatformBlock> - 사용자가 아이콘을 클릭하거나 눌러 작업을 실행할 때는 Icon Button을 사용하십시오.
+- [Avatar](./avatar.mdx) - 사람이나 개체를 아이콘, 이니셜 또는 이미지로 나타내려면 Avatar를 사용하십시오.
+- [Badge](../inputs/badge.mdx) - 다른 요소 옆에 짧은 상태나 개수를 표시하려면 Badge를 사용하십시오.
+
+## FAQ
+
+다음 질문은 일반적인 {Platform} Icon 설정, 접근성 및 사용 시나리오를 다룹니다.
+
+<Faq>
+  <FaqItem question="Icon에는 Material Icons가 포함되어 있습니까?" indicatorPosition="end">
+    <PlatformBlock for="Angular">네. Material Icons 글꼴이 로드되면 Angular Icon은 기본 `material` 제품군을 통해 Material Icons 리가처를 렌더링하며, `ng add igniteui-angular` 명령이 이 글꼴을 추가합니다. 다른 아이콘 글꼴과 SVG 아이콘은 `IgxIconService`(으)로 등록하십시오.</PlatformBlock><PlatformBlock for="React,WebComponents,Blazor">아니요. {Platform} Icon은 이름으로 등록한 SVG 아이콘을 그리므로, 필요한 Material 아이콘은 각각 SVG 마크업 또는 파일에서 등록해야 합니다. {Platform} Icon은 아이콘 글꼴이나 리가처를 지원하지 않습니다.</PlatformBlock>
+  </FaqItem>
+  <FaqItem question="사용자 지정 SVG 아이콘은 어떻게 추가합니까?" indicatorPosition="end">
+    <PlatformBlock for="Angular">`IgxIconService`의 `addSvgIcon` 또는 `addSvgIconFromText` 메서드로 SVG를 등록한 다음, Angular Icon에 같은 `name`과(와) `family`을(를) 설정하십시오. 서비스가 SVG를 캐시하므로, 그 이름과 제품군을 가진 모든 Angular Icon이 이를 렌더링합니다.</PlatformBlock><PlatformBlock for="React,WebComponents">SVG 파일의 URL로 `registerIcon`을(를) 호출하거나, SVG 마크업으로 `registerIconFromText`을(를) 호출한 다음, {Platform} Icon에 같은 `name`과(와) `collection`을(를) 설정하십시오. 페이지의 모든 {Platform} Icon은 하나의 레지스트리를 공유하므로, 등록된 아이콘은 어디서나 사용할 수 있습니다.</PlatformBlock><PlatformBlock for="Blazor">참조된 `IgbIcon`의 `RegisterIconAsync` 또는 `RegisterIconFromTextAsync` 메서드를 호출한 다음, Blazor Icon에 같은 `IconName`과(와) `Collection`을(를) 설정하십시오. 페이지의 모든 Blazor Icon은 하나의 레지스트리를 공유하므로, 등록된 아이콘은 어디서나 사용할 수 있습니다.</PlatformBlock>
+  </FaqItem>
+  <FaqItem question="스크린 리더에 아이콘을 접근 가능하게 만들려면 어떻게 합니까?" indicatorPosition="end">
+    <PlatformBlock for="Angular">Angular Icon은 `aria-hidden="true"`을(를) 통해 기본적으로 스크린 리더에서 숨겨집니다. 자체적으로 의미를 전달하는 아이콘에는 `[ariaHidden]="false"`을(를) 설정하고, `role="img"`을(를) 추가한 다음, 그 의미를 설명하는 `aria-label`을(를) 추가하십시오.</PlatformBlock><PlatformBlock for="React,WebComponents,Blazor">자체적으로 의미를 전달하는 {Platform} Icon에는 `aria-label`로 접근 가능한 이름을 주거나, `<title>` 요소가 포함된 SVG를 등록하십시오. 보이는 텍스트 옆의 장식용 {Platform} Icon은 `aria-hidden="true"`로 숨기십시오.</PlatformBlock>
+  </FaqItem>
+  <FaqItem question="Icon을 클릭할 수 있게 만들 수 있습니까?" indicatorPosition="end">
+    {Platform} Icon은 포커스를 받지 않고 키보드 입력도 처리하지 않으므로, 여기에 클릭 핸들러를 두면 키보드 사용자가 제외됩니다. 작업에는 {Platform} Icon Button을 사용하십시오. 포커스를 받을 수 있는 버튼 안에 아이콘을 배치하기 때문입니다.
+  </FaqItem>
+  <FaqItem question="Icon은 오른쪽에서 왼쪽으로 쓰는 레이아웃을 지원합니까?" indicatorPosition="end">
+    <PlatformBlock for="Angular">Angular Icon에는 아이콘을 뒤집는 옵션이 없습니다. 오른쪽에서 왼쪽으로 쓰는 레이아웃의 방향성 아이콘에는 `arrow_forward` 대신 `arrow_back`처럼 읽는 방향을 가리키는 아이콘을 사용하십시오.</PlatformBlock><PlatformBlock for="React,WebComponents,Blazor">네. 오른쪽에서 왼쪽으로 쓰는 레이아웃에서 화살표 같은 방향성 아이콘을 가로로 뒤집으려면 {Platform} Icon의 `mirrored` 속성을 설정하십시오. 방향성이 없는 아이콘은 뒤집을 필요가 없습니다.</PlatformBlock>
+  </FaqItem>
+</Faq>

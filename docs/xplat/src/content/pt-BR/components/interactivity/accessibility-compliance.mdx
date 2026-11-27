@@ -1,0 +1,256 @@
+---
+title: "Conformidade de acessibilidade do {Platform} | {ProductName} | Infragistics"
+description: "Suporte de acessibilidade no {ProductName} — os padrões que visamos, o status de teclado e de leitor de tela por componente, e como relatar um problema de acessibilidade."
+keywords: "{ProductName}, Infragistics, Acessibilidade, WCAG, Seção 508, EN 301 549, ARIA, Teclado"
+license: MIT
+last_updated: "2026-08-27"
+mentionedTypes: []
+_language: pt-BR
+llms:
+  description: "Suporte de acessibilidade no {ProductName}: os padrões de conformidade visados, o índice da documentação de teclado e de leitor de tela por componente, a configuração necessária e o canal para relatar problemas de acessibilidade."
+---
+
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import Faq from 'igniteui-astro-components/components/mdx/Faq.astro';
+import FaqItem from 'igniteui-astro-components/components/mdx/FaqItem.astro';
+
+# Conformidade de acessibilidade
+
+Esta página registra os padrões de acessibilidade que o {ProductName} visa, o que a documentação de cada componente cobre atualmente e como relatar um problema de acessibilidade.
+
+O suporte de acessibilidade é fornecido em duas camadas — os próprios componentes e o mecanismo de temas que os estiliza. Use esta página para encontrar o status de um componente específico; use [Acessibilidade do tema](../themes/accessibility.mdx) para contraste, escala de texto e comportamento das cores de gráficos.
+
+<DocsAside type="note">
+**Escopo desta página.** As informações abaixo refletem o **tema padrão** e o comportamento documentado atual de cada componente. É um resumo de suporte, não uma declaração formal de conformidade. Temas personalizados, alterações de tipografia e sobrescritas de animação ou de cor podem alterar o resultado.
+</DocsAside>
+
+## Padrões que visamos
+
+| Padrão | Região | O que exige |
+|---|---|---|
+| <a href="https://www.w3.org/WAI/WCAG21/quickref/" target="_blank" rel="noopener noreferrer">WCAG 2.1 Nível AA</a> | Internacional | Os critérios de êxito listados abaixo. A base referenciada pelos outros dois. |
+| <a href="https://www.section508.gov/" target="_blank" rel="noopener noreferrer">Seção 508 (Revisada)</a> | Estados Unidos | Aquisição federal. Desde as Normas Revisadas da Seção 508 (publicadas em 2017, data de conformidade janeiro de 2018), ela incorpora por referência o WCAG 2.0 Nível AA; por isso, é atendida pelo mesmo trabalho. |
+| <a href="https://www.etsi.org/deliver/etsi_en/301500_301599/301549/" target="_blank" rel="noopener noreferrer">EN 301 549</a> | Europa | A norma europeia referenciada para acessibilidade de TIC, baseada no WCAG. O European Accessibility Act, que se baseia nela, aplica-se a partir de 28 de junho de 2025. |
+
+<DocsAside type="note">
+A Seção 508 definia anteriormente suas próprias 16 regras no §1194.22. Elas foram substituídas pelas Normas Revisadas, que adotam o WCAG diretamente. Visar o WCAG 2.1 Nível AA, portanto, atende aos três referenciais acima.
+</DocsAside>
+
+### Critérios de êxito que se aplicam a componentes de UI
+
+A conformidade com o WCAG é declarada em relação a **critérios de êxito** individuais, e não às diretrizes mais amplas. Estes são os critérios que uma biblioteca de componentes de UI pode afetar:
+
+| Critério | Nível | O que significa para um componente |
+|---|:--:|---|
+| <a href="https://www.w3.org/WAI/WCAG21/Understanding/non-text-content.html" target="_blank" rel="noopener noreferrer">1.1.1 Conteúdo não textual</a> | A | Ícones e imagens têm uma alternativa textual. |
+| <a href="https://www.w3.org/WAI/WCAG21/Understanding/info-and-relationships.html" target="_blank" rel="noopener noreferrer">1.3.1 Informações e relações</a> | A | A estrutura transmitida visualmente também é transmitida no markup. |
+| <a href="https://www.w3.org/WAI/WCAG21/Understanding/meaningful-sequence.html" target="_blank" rel="noopener noreferrer">1.3.2 Sequência significativa</a> | A | A ordem de leitura corresponde à ordem visual. |
+| <a href="https://www.w3.org/WAI/WCAG21/Understanding/contrast-minimum.html" target="_blank" rel="noopener noreferrer">1.4.3 Contraste (mínimo)</a> | AA | O texto atinge 4.5:1 em relação ao seu fundo. |
+| <a href="https://www.w3.org/WAI/WCAG21/Understanding/resize-text.html" target="_blank" rel="noopener noreferrer">1.4.4 Redimensionar texto</a> | AA | O texto escala até 200% sem perda de conteúdo. |
+| <a href="https://www.w3.org/WAI/WCAG21/Understanding/non-text-contrast.html" target="_blank" rel="noopener noreferrer">1.4.11 Contraste de conteúdo não textual</a> | AA | As bordas e os estados dos controles atingem 3:1. |
+| <a href="https://www.w3.org/WAI/WCAG21/Understanding/content-on-hover-or-focus.html" target="_blank" rel="noopener noreferrer">1.4.13 Conteúdo ao passar o mouse ou com foco</a> | AA | Tooltips e popovers podem ser dispensados e permanecem visíveis. |
+| <a href="https://www.w3.org/WAI/WCAG21/Understanding/keyboard.html" target="_blank" rel="noopener noreferrer">2.1.1 Teclado</a> | A | Toda a funcionalidade é alcançável pelo teclado. |
+| <a href="https://www.w3.org/WAI/WCAG21/Understanding/no-keyboard-trap.html" target="_blank" rel="noopener noreferrer">2.1.2 Sem armadilha de teclado</a> | A | O foco sempre pode voltar a sair. |
+| <a href="https://www.w3.org/WAI/WCAG21/Understanding/focus-order.html" target="_blank" rel="noopener noreferrer">2.4.3 Ordem de foco</a> | A | A ordem de tabulação segue uma sequência significativa. |
+| <a href="https://www.w3.org/WAI/WCAG21/Understanding/focus-visible.html" target="_blank" rel="noopener noreferrer">2.4.7 Foco visível</a> | AA | O controle com foco é indicado visivelmente. |
+| <a href="https://www.w3.org/WAI/WCAG21/Understanding/label-in-name.html" target="_blank" rel="noopener noreferrer">2.5.3 Rótulo no nome</a> | A | O nome acessível contém o rótulo visível. |
+| <a href="https://www.w3.org/WAI/WCAG21/Understanding/on-focus.html" target="_blank" rel="noopener noreferrer">3.2.1 Ao receber foco</a> | A | O foco sozinho não dispara uma mudança de contexto. |
+| <a href="https://www.w3.org/WAI/WCAG21/Understanding/on-input.html" target="_blank" rel="noopener noreferrer">3.2.2 Ao receber entrada</a> | A | Alterar apenas um valor não dispara uma mudança de contexto. |
+| <a href="https://www.w3.org/WAI/WCAG21/Understanding/labels-or-instructions.html" target="_blank" rel="noopener noreferrer">3.3.2 Rótulos ou instruções</a> | A | Os inputs têm rótulos ou instruções. |
+| <a href="https://www.w3.org/WAI/WCAG21/Understanding/name-role-value.html" target="_blank" rel="noopener noreferrer">4.1.2 Nome, função, valor</a> | A | Cada controle expõe um nome, uma função e o seu estado atual. |
+
+## Como a acessibilidade é entregue
+
+| Camada | Responsável por | Onde está documentado |
+|---|---|---|
+| **Biblioteca de componentes** (`igniteui-angular` no Angular) | Operabilidade pelo teclado, movimentação do foco, funções e estados ARIA, anúncios de leitores de tela. | O índice abaixo e o tópico de cada componente. |
+| **Mecanismo de temas** (`igniteui-theming`) | Contraste de cores, dimensionamento de texto, paletas de cores de gráficos, utilitários de estilização para controles personalizados. | [Acessibilidade do tema](../themes/accessibility.mdx) |
+
+## Suporte por componente
+
+Este índice registra o que a documentação de cada componente cobre atualmente. **Ainda não documentado** significa que a documentação do próprio componente não descreve este comportamento — é uma afirmação sobre a documentação, não sobre o componente.
+
+| Status | Significado |
+|---|---|
+| **Documentado** | O comportamento está descrito na própria documentação do componente, vinculada na linha. |
+| **Requer configuração** | Disponível depois que a configuração indicada em [Configuração necessária](#configuração-necessária) é aplicada. |
+| **Ainda não documentado** | A documentação do componente ainda não descreve este comportamento. |
+
+<PlatformBlock for="Angular">
+
+| Componente | Interação pelo teclado | Leitor de tela / ARIA | Referência |
+|---|---|---|---|
+| [Grid](../grid/grid.mdx#keyboard-navigation) | Documentado | Ainda não documentado | [Navegação por teclado](../grid/keyboard-navigation.mdx) |
+| [Hierarchical Grid](../hierarchicalgrid/hierarchical-grid.mdx) | Documentado | Ainda não documentado | [Navegação por teclado](../hierarchicalgrid/keyboard-navigation.mdx) |
+| [Tree Grid](../treegrid/tree-grid.mdx) | Documentado | Ainda não documentado | [Navegação por teclado](../treegrid/keyboard-navigation.mdx) |
+| [Avatar](../layouts/avatar.mdx#acessibilidade) | Documentado | Documentado | [Acessibilidade](../layouts/avatar.mdx#acessibilidade) |
+| [Badge](../inputs/badge.mdx#acessibilidade) | Documentado | Documentado | [Acessibilidade](../inputs/badge.mdx#acessibilidade) |
+| [Banner](../banner.mdx) | Ainda não documentado | Ainda não documentado | — |
+| [Bottom Navigation](../tabbar.mdx) | Ainda não documentado | Ainda não documentado | — |
+| [Button](../inputs/button.mdx) | Ainda não documentado | Ainda não documentado | — |
+| [Button Group](../inputs/button-group.mdx) | Ainda não documentado | Ainda não documentado | — |
+| [Calendar](../calendar.mdx#keyboard-navigation) | Documentado | Ainda não documentado | [Navegação por teclado](../calendar.mdx#keyboard-navigation) |
+| [Card](../layouts/card.mdx) | Ainda não documentado | Ainda não documentado | — |
+| [Carousel](../layouts/carousel.mdx#acessibilidade) | Documentado | Documentado | [Acessibilidade](../layouts/carousel.mdx#acessibilidade) |
+| [Checkbox](../inputs/checkbox.mdx) | Ainda não documentado | Ainda não documentado | — |
+| [Chip](../inputs/chip.mdx#acessibilidade) | Documentado | Documentado | [Acessibilidade](../inputs/chip.mdx#acessibilidade) |
+| [Progresso circular](../circular-progress.mdx) | Ainda não documentado | Ainda não documentado | — |
+| [Combo](../inputs/combo/overview.mdx#acessibilidade) | Documentado | Documentado | [Acessibilidade](../inputs/combo/overview.mdx#acessibilidade) |
+| [Seleção única do Combo](../inputs/combo/single-selection.mdx#acessibilidade) | Documentado | Documentado | [Acessibilidade](../inputs/combo/single-selection.mdx#acessibilidade) |
+| [Date Time Editor](../date-time-editor.mdx#keyboard-navigation) | Documentado | Ainda não documentado | [Navegação por teclado](../date-time-editor.mdx#keyboard-navigation) |
+| [Date Picker](../date-picker.mdx#keyboard-navigation) | Documentado | Ainda não documentado | [Navegação por teclado](../date-picker.mdx#keyboard-navigation) |
+| [Dialog](../dialog.mdx) | Ainda não documentado | Ainda não documentado | — |
+| [Divider](../divider.mdx) | Ainda não documentado | Ainda não documentado | — |
+| [Lista suspensa](../drop-down.mdx) | Ainda não documentado | Ainda não documentado | — |
+| [Expansion Panel](../expansion-panel.mdx) | Ainda não documentado | Ainda não documentado | — |
+| [Icon](../layouts/icon.mdx#acessibilidade) | Documentado | Documentado | [Acessibilidade](../layouts/icon.mdx#acessibilidade) |
+| [Input Group](../input-group.mdx) | Ainda não documentado | Ainda não documentado | — |
+| [Label](../label-input.mdx) | Ainda não documentado | Ainda não documentado | — |
+| [Linear Progress](../linear-progress.mdx) | Ainda não documentado | Ainda não documentado | — |
+| [List](../list.mdx) | Ainda não documentado | Ainda não documentado | — |
+| [Month Picker](../month-picker.mdx#keyboard-navigation) | Documentado | Ainda não documentado | [Navegação por teclado](../month-picker.mdx#keyboard-navigation) |
+| [Navbar](../navbar.mdx) | Ainda não documentado | Ainda não documentado | — |
+| [Navigation Drawer](../navdrawer.mdx) | Ainda não documentado | Ainda não documentado | — |
+| [Radio](../inputs/radio.mdx#acessibilidade) | Documentado | Documentado | [Acessibilidade](../inputs/radio.mdx#acessibilidade) |
+| [Rating](../inputs/rating.mdx#acessibilidade) | Documentado | Documentado | [Acessibilidade](../inputs/rating.mdx#acessibilidade) |
+| [Select](../select.mdx#keyboard-navigation) | Documentado | Ainda não documentado | [Navegação por teclado](../select.mdx#keyboard-navigation) |
+| [Slider](../slider/slider.mdx) | Ainda não documentado | Ainda não documentado | — |
+| [Snackbar](../snackbar.mdx) | Ainda não documentado | Ainda não documentado | — |
+| [Switch](../inputs/switch.mdx) | Ainda não documentado | Ainda não documentado | — |
+| [Tabs](../layouts/tabs.mdx#acessibilidade) | Documentado | Documentado | [Acessibilidade](../layouts/tabs.mdx#acessibilidade) |
+| [Time Picker](../time-picker.mdx#keyboard-navigation) | Documentado | Ainda não documentado | [Navegação por teclado](../time-picker.mdx#keyboard-navigation) |
+| [Toast](../toast.mdx) | Ainda não documentado | Ainda não documentado | — |
+| [Tooltip](../tooltip.mdx#accessibility) | Documentado | Ainda não documentado | [Acessibilidade](../tooltip.mdx#accessibility) |
+
+</PlatformBlock>
+
+<PlatformBlock for="React, WebComponents, Blazor">
+
+| Componente | Interação pelo teclado | Leitor de tela / ARIA | Referência |
+|---|---|---|---|
+| [Grid](../grids/data-grid.mdx#navegação-pelo-teclado) | Documentado | Ainda não documentado | [Navegação por teclado](../grids/data-grid.mdx#navegação-pelo-teclado) |
+| [Hierarchical Grid](../grids/hierarchical-grid/overview.mdx) | Documentado | Ainda não documentado | [Navegação por teclado](../grids/data-grid.mdx#navegação-pelo-teclado) |
+| [Tree Grid](../grids/tree-grid/overview.mdx) | Documentado | Ainda não documentado | [Navegação por teclado](../grids/data-grid.mdx#navegação-pelo-teclado) |
+| [Tree](../grids/tree.mdx#navegação-pelo-teclado) | Documentado | Ainda não documentado | [Navegação por teclado](../grids/tree.mdx#navegação-pelo-teclado) |
+| [List](../grids/list.mdx) | Ainda não documentado | Ainda não documentado | — |
+| [Avatar](../layouts/avatar.mdx#acessibilidade) | Documentado | Documentado | [Acessibilidade](../layouts/avatar.mdx#acessibilidade) |
+| [Badge](../inputs/badge.mdx#acessibilidade) | Documentado | Documentado | [Acessibilidade](../inputs/badge.mdx#acessibilidade) |
+| [Banner](../notifications/banner.mdx) | Ainda não documentado | Ainda não documentado | — |
+| [Button](../inputs/button.mdx) | Ainda não documentado | Ainda não documentado | — |
+| [Button Group](../inputs/button-group.mdx) | Ainda não documentado | Ainda não documentado | — |
+| [Calendar](../scheduling/calendar.mdx#navegação-pelo-teclado) | Documentado | Ainda não documentado | [Navegação por teclado](../scheduling/calendar.mdx#navegação-pelo-teclado) |
+| [Card](../layouts/card.mdx) | Ainda não documentado | Ainda não documentado | — |
+| [Carousel](../layouts/carousel.mdx#acessibilidade) | Documentado | Documentado | [Acessibilidade](../layouts/carousel.mdx#acessibilidade) |
+| [Checkbox](../inputs/checkbox.mdx) | Ainda não documentado | Ainda não documentado | — |
+| [Chip](../inputs/chip.mdx#acessibilidade) | Documentado | Documentado | [Acessibilidade](../inputs/chip.mdx#acessibilidade) |
+| [Progresso circular](../inputs/circular-progress.mdx) | Ainda não documentado | Ainda não documentado | — |
+| [Combo](../inputs/combo/overview.mdx#acessibilidade) | Documentado | Documentado | [Acessibilidade](../inputs/combo/overview.mdx#acessibilidade) |
+| [Seleção única do Combo](../inputs/combo/single-selection.mdx#acessibilidade) | Documentado | Documentado | [Acessibilidade](../inputs/combo/single-selection.mdx#acessibilidade) |
+| [Date Time Input](../inputs/date-time-input.mdx#navegação-pelo-teclado) | Documentado | Ainda não documentado | [Navegação por teclado](../inputs/date-time-input.mdx#navegação-pelo-teclado) |
+| [Date Picker](../scheduling/date-picker.mdx#navegação-pelo-teclado) | Documentado | Ainda não documentado | [Navegação por teclado](../scheduling/date-picker.mdx#navegação-pelo-teclado) |
+| [Dialog](../notifications/dialog.mdx) | Ainda não documentado | Ainda não documentado | — |
+| [Divider](../layouts/divider.mdx) | Ainda não documentado | Ainda não documentado | — |
+| [Dock Manager](../layouts/dock-manager.mdx#navegação-pelo-teclado) | Documentado | Ainda não documentado | [Navegação por teclado](../layouts/dock-manager.mdx#navegação-pelo-teclado) |
+| [Dropdown](../inputs/dropdown.mdx) | Ainda não documentado | Ainda não documentado | — |
+| [Expansion Panel](../layouts/expansion-panel.mdx#navegação-pelo-teclado) | Documentado | Ainda não documentado | [Navegação por teclado](../layouts/expansion-panel.mdx#navegação-pelo-teclado) |
+<PlatformBlock for="WebComponents">| [File Input](../inputs/file-input.mdx#suporte-a-acessibilidade-e-aria) | Documentado | Documentado | [Acessibilidade](../inputs/file-input.mdx#suporte-a-acessibilidade-e-aria) |
+</PlatformBlock>| [Icon](../layouts/icon.mdx#acessibilidade) | Documentado | Documentado | [Acessibilidade](../layouts/icon.mdx#acessibilidade) |
+| [Icon Button](../inputs/icon-button.mdx) | Ainda não documentado | Ainda não documentado | — |
+| [Input](../inputs/input.mdx) | Ainda não documentado | Ainda não documentado | — |
+| [Linear Progress](../inputs/linear-progress.mdx) | Ainda não documentado | Ainda não documentado | — |
+| [Navbar](../menus/navbar.mdx) | Ainda não documentado | Ainda não documentado | — |
+| [Navigation Drawer](../menus/navigation-drawer.mdx) | Ainda não documentado | Ainda não documentado | — |
+| [Radio](../inputs/radio.mdx#acessibilidade) | Documentado | Documentado | [Acessibilidade](../inputs/radio.mdx#acessibilidade) |
+| [Rating](../inputs/rating.mdx#acessibilidade) | Documentado | Documentado | [Acessibilidade](../inputs/rating.mdx#acessibilidade) |
+| [Select](../inputs/select.mdx#navegação-pelo-teclado) | Documentado | Ainda não documentado | [Navegação por teclado](../inputs/select.mdx#navegação-pelo-teclado) |
+| [Slider](../inputs/slider.mdx) | Ainda não documentado | Ainda não documentado | — |
+| [Snackbar](../notifications/snackbar.mdx) | Ainda não documentado | Ainda não documentado | — |
+| [Stepper](../layouts/stepper.mdx#navegação-pelo-teclado) | Documentado | Ainda não documentado | [Navegação por teclado](../layouts/stepper.mdx#navegação-pelo-teclado) |
+| [Switch](../inputs/switch.mdx) | Ainda não documentado | Ainda não documentado | — |
+| [Tabs](../layouts/tabs.mdx#acessibilidade) | Documentado | Documentado | [Acessibilidade](../layouts/tabs.mdx#acessibilidade) |
+| [Text Area](../inputs/text-area.mdx) | Ainda não documentado | Ainda não documentado | — |
+| [Toast](../notifications/toast.mdx) | Ainda não documentado | Ainda não documentado | — |
+| [Tooltip](../inputs/tooltip.mdx#suporte-a-acessibilidade-e-aria) | Documentado | Documentado | [Acessibilidade](../inputs/tooltip.mdx#suporte-a-acessibilidade-e-aria) |
+
+</PlatformBlock>
+
+<DocsAside type="warning">
+As linhas marcadas com **Ainda não documentado** são uma lacuna nesta documentação, não um defeito conhecido. Se você precisar de uma resposta de conformidade para um componente específico antes do próximo ciclo de revisão, [abra uma issue](#como-relatar-um-problema-de-acessibilidade) e pergunte.
+</DocsAside>
+
+## Configuração necessária
+
+Alguns resultados de acessibilidade dependem de como você configura a aplicação, e não apenas do componente.
+
+<PlatformBlock for="Angular">
+
+| Responsabilidade | Critério | O que configurar |
+|---|---|---|
+| Animação e movimento | <a href="https://www.w3.org/WAI/WCAG21/Understanding/three-flashes-or-below-threshold.html" target="_blank" rel="noopener noreferrer">2.3.1 Três flashes ou menos</a> | Forneça `NoopAnimationsModule` de `@angular/platform-browser/animations` em vez de `BrowserAnimationsModule` para desabilitar as animações do Angular em toda a aplicação. |
+
+</PlatformBlock>
+
+<PlatformBlock for="React, WebComponents, Blazor">
+
+| Responsabilidade | Critério | O que configurar |
+|---|---|---|
+| Animação e movimento | <a href="https://www.w3.org/WAI/WCAG21/Understanding/three-flashes-or-below-threshold.html" target="_blank" rel="noopener noreferrer">2.3.1 Três flashes ou menos</a> | Nenhuma configuração necessária. O player de animação lê a configuração `prefers-reduced-motion: reduce` do sistema operacional e reproduz as animações com uma duração de `0` quando ela está definida. |
+
+</PlatformBlock>
+
+Os itens restantes se aplicam a todas as plataformas.
+
+| Responsabilidade | Critério | O que configurar |
+|---|---|---|
+| Limites de tempo em mensagens transitórias | <a href="https://www.w3.org/WAI/WCAG21/Understanding/timing-adjustable.html" target="_blank" rel="noopener noreferrer">2.2.1 Tempo ajustável</a> | Componentes que se fecham automaticamente — como Snackbar e Toast — expõem uma configuração de duração de exibição. Estenda-a, ou desabilite o fechamento automático, para que o usuário tenha tempo de ler a mensagem. |
+| Contraste de cor após a aplicação do tema | <a href="https://www.w3.org/WAI/WCAG21/Understanding/contrast-minimum.html" target="_blank" rel="noopener noreferrer">1.4.3 Contraste (mínimo)</a> | Defina as cores de primeiro plano com `contrast-color()` ou `adaptive-contrast()`, em vez de valores fixos. Veja [Acessibilidade do tema](../themes/accessibility.mdx). |
+| Nomes acessíveis em controles somente com ícone | <a href="https://www.w3.org/WAI/WCAG21/Understanding/name-role-value.html" target="_blank" rel="noopener noreferrer">4.1.2 Nome, função, valor</a> | Forneça um nome acessível no seu próprio markup. Um controle que mostra apenas um ícone não tem nome até que você o forneça. |
+
+## Documentação formal de conformidade
+
+Esta página é um índice de documentação, não uma declaração de conformidade. Ela registra o que a nossa própria documentação cobre; não certifica nenhum componente em relação a um padrão.
+
+Para fins de aquisição, contrato ou auditoria — quando for exigida uma declaração de conformidade rastreável, critério a critério —, solicite o relatório atual de conformidade de acessibilidade (VPAT) pelo seu gerente de conta ou pelo suporte da Infragistics. Cite o produto, a versão e o padrão que o relatório deve abordar (WCAG 2.1 Nível AA, Seção 508 ou EN 301 549).
+
+<DocsAside type="note">
+Revisões anteriores desta página traziam matrizes de conformidade por componente. Essas tabelas afirmavam um nível de conformidade que não era respaldado por uma avaliação rastreável, critério a critério, e foram removidas em vez de reapresentadas. O relatório de conformidade é a fonte oficial para essa informação.
+</DocsAside>
+
+## Como relatar um problema de acessibilidade
+
+Se você encontrar um problema de acessibilidade em um componente, relate-o no <a href="{GithubLink}/issues" target="_blank" rel="noopener noreferrer">{ProductName} issue tracker</a>.
+
+Inclua o componente, a tecnologia assistiva e o navegador que você usou, o comportamento esperado e o critério de êxito do WCAG que você acredita ser afetado. Os relatos de acessibilidade são triados com base nos critérios listados acima.
+
+## Recursos adicionais
+
+- [Acessibilidade do tema](../themes/accessibility.mdx) — contraste, escala de texto e paletas de gráficos.
+- <a href="https://www.w3.org/WAI/WCAG21/quickref/" target="_blank" rel="noopener noreferrer">Referência rápida do WCAG 2.1</a> — todos os critérios de êxito com técnicas.
+- <a href="https://www.w3.org/WAI/ARIA/apg/patterns/" target="_blank" rel="noopener noreferrer">WAI-ARIA Authoring Practices</a> — comportamento esperado de teclado e ARIA por padrão de interação.
+- <a href="https://www.section508.gov/" target="_blank" rel="noopener noreferrer">Seção 508</a> — requisitos de aquisição federal dos Estados Unidos.
+- [Documentação formal de conformidade](#documentação-formal-de-conformidade) — como solicitar um relatório de conformidade (VPAT) para aquisição.
+
+## Perguntas frequentes
+
+<Faq>
+  <FaqItem question="O {ProductName} é compatível com o WCAG?" indicatorPosition="end">
+    A conformidade é uma propriedade de uma aplicação finalizada, e não de uma biblioteca de componentes isoladamente. O {ProductName} visa o WCAG 2.1 Nível AA e documenta o comportamento por componente no índice acima, mas o markup, o conteúdo e a configuração que você adiciona determinam o resultado. Use o índice acima para verificar os componentes de que você depende, e relate qualquer coisa que não se comporte como documentado.
+  </FaqItem>
+
+  <FaqItem question="Por que alguns componentes dizem ”Ainda não documentado”?" indicatorPosition="end">
+    Esse status significa que a documentação do próprio componente ainda não descreve o comportamento. Não é uma afirmação de que o componente não atende a um critério — ele registra o que a documentação cobre, para que você possa distinguir um comportamento documentado de um que não está documentado.
+  </FaqItem>
+
+  <FaqItem question="A Seção 508 ainda tem regras próprias e separadas?" indicatorPosition="end">
+    Não. As Normas Revisadas da Seção 508 (publicadas em 2017, data de conformidade janeiro de 2018) substituíram as regras anteriores do §1194.22 e adotam o WCAG Nível AA por referência; por isso, atender ao WCAG também atende à Seção 508.
+  </FaqItem>
+
+  <FaqItem question="As informações de conformidade se aplicam a temas personalizados?" indicatorPosition="end">
+    Em parte. O comportamento de teclado e de ARIA não é afetado pelo tema. O contraste de cores é — sobrescrever cores pode levar o texto abaixo da razão exigida. Verifique paletas personalizadas conforme descrito em Acessibilidade do tema.
+  </FaqItem>
+
+  <FaqItem question="Onde encontro os atalhos de teclado de um componente?" indicatorPosition="end">
+    No tópico do próprio componente, vinculado a partir da coluna Referência acima. A família de grades compartilha um tópico dedicado de navegação por teclado.
+  </FaqItem>
+</Faq>

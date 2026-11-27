@@ -1,0 +1,218 @@
+---
+title: "Angular Pie Chart | Ferramenta de visualização de dados | Infragistics"
+description: "Use o pie chart do Angular da Infragistics para criar um gráfico de pizza colorido para exibir dados categóricos. Conheça os elementos configuráveis do pie chart do Ignite UI for Angular!"
+keywords: "gráficos Angular, pie chart, Ignite UI for Angular, Infragistics, vinculação de dados, seleção de fatia, explosão de fatia, animação"
+license: commercial
+mentionedTypes: ['XamPieChart','SliceSelectionMode','PieSliceOthersContext']
+_language: pt-BR
+llms:
+  description: "O componente pie chart do Ignite UI for Angular é um componente especializado que renderiza um gráfico de pizza, formado por uma área circular dividida em seções."
+---
+
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+
+
+# Visão geral do Angular Pie Chart
+
+O componente pie chart do Ignite UI for Angular é um componente especializado que renderiza um gráfico de pizza, formado por uma área circular dividida em seções. Cada seção tem um comprimento de arco proporcional ao seu valor de dados subjacente.
+
+Este controle é usado para representar dados categóricos. Ele é mais eficaz quando há poucas categorias e quando cada categoria representa uma porcentagem relativamente grande do total dos dados.
+
+## Exemplo do Angular Pie Chart
+
+<Sample src="/charts/pie-chart-overview" height={350} alt="Exemplo do Angular Pie Chart" />
+
+<hr/>
+
+{/*Angular, React, WebComponents*/}
+
+## Dependências
+
+Ao instalar o componente de gráficos, o pacote core também precisa ser instalado.
+
+<pre style="background:#141414;color:white;display:inline-block;padding:16x;margin-top:10px;font-family:'Consolas';border-radius:5px;width:100%">
+npm install --save igniteui-angular-core
+npm install --save igniteui-angular-charts
+</pre>
+
+{/*end: Angular, React, WebComponents*/}
+
+## Módulos necessários
+
+O [`IgxPieChartComponent`]({environment:dvApiBaseUrl}/products/ignite-ui-angular/api/docs/typescript/latest/classes/igxpiechartcomponent.html) exige os seguintes módulos:
+
+```ts
+// app.module.ts
+
+import { IgxPieChartModule } from 'igniteui-angular-charts';
+
+@NgModule({
+    imports: [
+        // ...
+        IgxPieChartModule,
+        // ...
+    ]
+})
+export class AppModule {}
+```
+
+<hr/>
+
+## Uso
+
+Agora que o módulo do pie chart foi importado, o próximo passo é vinculá-lo aos dados.
+Para criar um pie chart, primeiro é preciso ter dados para vincular. O trecho de código a seguir mostra como criar uma fonte de dados simples.
+
+```ts
+var data = [
+    { MarketShare: 30, Company: "Google",    },
+    { MarketShare: 30, Company: "Apple",     },
+    { MarketShare: 15, Company: "Microsoft", },
+    { MarketShare: 15, Company: "Samsung",   },
+    { MarketShare: 10, Company: "Other",     },
+];
+```
+
+O código a seguir mostra como vincular o pie chart aos dados acima.
+
+```html
+<igx-pie-chart [dataSource]="data"
+               width="100%"
+               height="100%"
+               labelMemberPath="Company"
+               valueMemberPath="MarketShare">
+</igx-pie-chart>
+```
+
+<hr/>
+
+## Legenda
+
+Para exibir uma legenda ao lado do componente pie chart, é preciso criar um ItemLegend e atribuí-lo à propriedade [`IgxLegendComponent`]({environment:dvApiBaseUrl}/products/ignite-ui-angular/api/docs/typescript/latest/classes/igxlegendcomponent.html). Em seguida, o [`legendLabelMemberPath`]({environment:dvApiBaseUrl}/products/ignite-ui-angular/api/docs/typescript/latest/classes/igxpiechartbasecomponent.html#legendlabelmemberpath) pode ser usado para especificar qual propriedade do seu modelo de dados será usada para exibir, na legenda, cada fatia do gráfico.
+
+Além disso, você pode usar as propriedades [`legendItemTemplate`]({environment:dvApiBaseUrl}/products/ignite-ui-angular/api/docs/typescript/latest/classes/igxpiechartbasecomponent.html#legenditemtemplate) e [`legendItemBadgeTemplate`]({environment:dvApiBaseUrl}/products/ignite-ui-angular/api/docs/typescript/latest/classes/igxpiechartbasecomponent.html#legenditembadgetemplate), e as diversas propriedades de fonte do ItemLegend, para personalizar ainda mais a aparência dos itens da legenda.
+
+```html
+<igx-pie-chart [dataSource]="data"
+               width="100%"
+               height="100%"
+               valueMemberPath="MarketShare"
+               labelMemberPath="Company"
+               legendLabelMemberPath="Company"
+               [legend]="PieChartLegend">
+</igx-pie-chart>
+```
+
+<Sample src="/charts/pie-chart-legend" height={350} alt="" />
+
+<hr/>
+
+## Categoria Outros
+
+Às vezes, os dados subjacentes do componente pie chart contêm muitos itens com valores pequenos. Nesse caso, a categoria Outros permite a agregação automática de vários valores de dados em uma única fatia
+
+No exemplo a seguir, [`othersCategoryThreshold`]({environment:dvApiBaseUrl}/products/ignite-ui-angular/api/docs/typescript/latest/classes/igxpiechartbasecomponent.html#otherscategorythreshold) está definido como 2 e [`othersCategoryType`]({environment:dvApiBaseUrl}/products/ignite-ui-angular/api/docs/typescript/latest/classes/igxpiechartbasecomponent.html#otherscategorytype) está definido como Number. Portanto, os itens com valor menor ou igual a 2 serão atribuídos à categoria "Outros".
+
+Se você definir [`othersCategoryType`]({environment:dvApiBaseUrl}/products/ignite-ui-angular/api/docs/typescript/latest/classes/igxpiechartbasecomponent.html#otherscategorytype) como Percent, [`othersCategoryThreshold`]({environment:dvApiBaseUrl}/products/ignite-ui-angular/api/docs/typescript/latest/classes/igxpiechartbasecomponent.html#otherscategorythreshold) será interpretado como uma porcentagem, e não como um valor; ou seja, os itens cujos valores forem menores que 2% da soma de todos os valores dos itens seriam atribuídos à categoria Outros. Você pode usar o [`othersCategoryType`]({environment:dvApiBaseUrl}/products/ignite-ui-angular/api/docs/typescript/latest/classes/igxpiechartbasecomponent.html#otherscategorytype) que for mais adequado à sua aplicação.
+
+```html
+<igx-pie-chart [dataSource]="data"
+               width="100%"
+               height="100%"
+               labelMemberPath="Company"
+               valueMemberPath="MarketShare"
+               othersCategoryThreshold="2"
+               othersCategoryType="Number"
+               othersCategoryText="Others">
+</igx-pie-chart>
+```
+
+<Sample src="/charts/pie-chart-others" height={350} alt="" />
+
+<hr/>
+
+## Explosão
+
+O componente pie chart oferece suporte à explosão de fatias individuais, além de um evento `SliceClick` que permite modificar os estados de seleção e implementar lógica personalizada
+
+```html
+<igx-pie-chart [dataSource]="data"
+               width="100%"
+               height="100%"
+               allowSliceExplosion="true"
+               sliceClick="piechart_SliceClick">
+</igx-pie-chart>
+```
+
+<Sample src="/charts/pie-chart-explosion" height={350} alt="" />
+
+<hr/>
+
+## Seleção
+
+O pie chart oferece suporte à seleção de fatias por clique do mouse como comportamento padrão. Você pode determinar as fatias selecionadas usando a propriedade [`selectedItems`]({environment:dvApiBaseUrl}/products/ignite-ui-angular/api/docs/typescript/latest/classes/igxpiechartbasecomponent.html#selecteditems). As fatias selecionadas são então destacadas.
+
+Há uma propriedade chamada [`selectionMode`]({environment:dvApiBaseUrl}/products/ignite-ui-angular/api/docs/typescript/latest/classes/igxpiechartbasecomponent.html#selectionmode), que define o modo que o pie chart deve usar. O valor padrão é [`Single`]({environment:dvApiBaseUrl}/products/ignite-ui-angular/api/docs/typescript/latest/enums/sliceselectionmode.html#single). Para desativar a seleção, defina a propriedade como [`Manual`]({environment:dvApiBaseUrl}/products/ignite-ui-angular/api/docs/typescript/latest/enums/sliceselectionmode.html#manual).
+
+O componente pie chart oferece suporte a três modos de seleção diferentes.
+
+- Single - quando o modo é definido como single, apenas uma fatia pode ser selecionada por vez. Ao selecionar uma nova fatia, a fatia selecionada anteriormente é desmarcada e a nova passa a ficar selecionada.
+- Multiple - quando o modo é definido como Multiple, várias fatias podem ser selecionadas ao mesmo tempo. Se você clicar em uma fatia, ela ficará selecionada, e clicar em outra fatia também a selecionará, deixando a fatia anterior selecionada.
+- Manual - quando o modo é definido como Manual, a seleção fica desativada.
+
+O componente pie chart tem 4 eventos associados à seleção:
+
+- SelectedItemChanging
+- SelectedItemChanged
+- SelectedItemsChanging
+- SelectedItemsChanged
+
+Os eventos que terminam em "Changing" são canceláveis, o que significa que você pode impedir a seleção de uma fatia definindo a propriedade `Cancel` do argumento do evento como true. Quando definida como true, a propriedade associada não será atualizada e a fatia não ficará selecionada. Isso é útil em cenários em que você quer impedir que os usuários selecionem certas fatias com base nos dados que elas contêm.
+
+Nos cenários em que o usuário clica na fatia Outros, o pie chart retornará um objeto chamado [`IgxPieSliceOthersContext`]({environment:dvApiBaseUrl}/products/ignite-ui-angular/api/docs/typescript/latest/classes/igxpiesliceotherscontext.html). Esse objeto contém uma lista dos itens de dados contidos na fatia Outros.
+
+```html
+<igx-pie-chart [dataSource]="data"
+            width="100%"
+            height="100%"
+            selectionMode="multiple"
+            selectedSliceStroke = "white"
+            selectedSliceFill= "rgb(143,143,143)"
+            selectedSliceOpacity =1.0
+            selectedSliceStrokeThickness=2>
+</igx-pie-chart>
+```
+
+<Sample src="/charts/pie-chart-selection" height={350} alt="" />
+
+<hr/>
+
+## Animação
+
+Você pode animar o pie chart de forma suave definindo a propriedade `radiusFactor`, que altera a escala do raio do gráfico. Defina também a propriedade `startAngle` para inclinar o gráfico, de modo que o ângulo continue aumentando durante a rotação.
+
+No código abaixo, o radiusFactor aumenta o gráfico em 0,25% do tamanho, e o startAngle gira o gráfico em 1 grau. Quando radiusFactor e startAngle atingem o limite máximo, a animação é interrompida, redefinindo a flag de animação e limpando o intervalo.
+
+```ts
+window.setInterval(() => this.tick(), 15);
+
+public tick(): void {
+    if (this.isAnimating) {
+        if (this.chart.radiusFactor < 1.0)
+            this.chart.radiusFactor += 0.0025;
+
+        if (this.chart.startAngle < 360)
+            this.chart.startAngle++;
+
+        if (this.chart.radiusFactor >= 1.0 &&
+            this.chart.startAngle >= 360) {
+            this.isAnimating = false;
+            window.clearInterval(this.interval);
+        }
+    }
+}
+```
+
+<Sample src="/charts/pie-chart-animation" height={350} alt="" />
+
+<hr/>

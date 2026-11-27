@@ -1,0 +1,96 @@
+---
+title: "Vinculação bidirecional de dados no Angular com ngModel | Guia de WPF para Angular | Infragistics"
+description: "Saiba como a vinculação bidirecional de dados no Angular é usada para exibir informações ao usuário final e permitir que ele faça alterações nos dados subjacentes usando a UI." 
+keywords: two-way data binding in Angular, ignite ui for angular, infragistics
+_language: pt-BR
+llms:
+  description: "A vinculação bidirecional de dados no Angular permite que os dados fluam do componente para a visualização e vice-versa."
+---
+
+# O que é vinculação bidirecional de dados no Angular
+
+A vinculação bidirecional de dados no Angular permite que os dados fluam do componente para a visualização e vice-versa. Ela é usada para exibir informações ao usuário final e permite que ele faça alterações nos dados subjacentes usando a UI. Isso cria uma conexão bidirecional entre a visualização (o template) e a classe do componente que já mencionamos. O processo é semelhante à vinculação bidirecional do WPF.  
+
+<iframe width="100%" height="600" src="https://www.youtube.com/embed/MrjTTDEj7cA">
+</iframe>
+
+## Como funciona a vinculação de dados no Angular?
+
+A vinculação de dados no Angular funciona sincronizando os dados dos [componentes do Angular](https://www.infragistics.com/products/ignite-ui-angular) com a UI. Assim, ela sempre pode mostrar o valor atual dos dados. Em termos de vinculação bidirecional, a sincronização automática de dados acontece entre o Model e a View, mantendo os dois sincronizados o tempo todo. Por isso, qualquer alteração feita no Model é refletida imediatamente na View. E vice-versa: alterações feitas na View também são atualizadas no Model.
+A vinculação bidirecional de dados no Angular é usada para exibir informações ao usuário final e permite que ele faça alterações nos dados subjacentes usando a UI. Isso cria uma conexão bidirecional entre a visualização (o template) e a classe do componente. Isso é semelhante à vinculação bidirecional do WPF.
+
+Uma vinculação unidirecional pega o estado da nossa classe de componente e o exibe na nossa visualização. Vamos ver este código:
+
+```html
+<input #myTitle (keyup)="keyup(myTitle.value)"/>
+<h2>{{ text }}</h2>
+```
+
+```typescript
+export class SampleComponent implements OnInit {
+
+text = 'default value';
+
+keyup(value) {
+  this.text = value;
+}
+...
+```
+
+Aqui estamos simplesmente usando `interpolation` para vincular a propriedade text ao HTML. Isso vai exibir o valor da propriedade text na UI. O elemento `input` trata a interação do usuário e atualiza a propriedade `text` subjacente por meio da UI, usando a [vinculação de evento](/general/wpf-to-angular-guide/angular-events). Essencialmente, a entrada faz o oposto da vinculação unidirecional: ela pega a informação da UI e atualiza a propriedade na classe do componente. O método vinculado ao evento keyup da entrada atualiza a propriedade text sempre que o evento ocorre. Assim que o valor da propriedade text é alterado pelo método do evento, essa mudança é refletida na UI pela vinculação unidirecional usando `interpolation` do elemento h2. Então, se o usuário digitar algo na entrada, isso vai atualizar imediatamente o texto do h2 - esse comportamento é basicamente uma simulação de vinculação bidirecional. O mesmo também pode ser obtido no WPF usando uma vinculação unidirecional e um manipulador de evento keyup, mas a vinculação bidirecional é bem mais conveniente de usar.
+
+## Como implementar a vinculação bidirecional de dados no Angular
+
+Felizmente, podemos implementar a lógica do exemplo acima de uma forma muito mais fácil, e é aqui que entra a vinculação bidirecional!
+
+A direção de uma vinculação bidirecional não é apenas **da classe do componente para a UI**, mas também **da UI para a classe do componente**. Para isso, vamos usar uma [diretiva](https://angular.io/api/core/Directive) chamada [`ngModel`](https://angular.io/api/forms/NgModel). Vamos atualizar o exemplo acima com a diretiva `ngModel`. A sintaxe é: um colchete de abertura seguido de um parêntese de abertura e, claro, os fechamentos correspondentes de parêntese e colchete. Isso se chama **banana na caixa**; então, vamos ver isso em ação!
+
+```html
+<input [(ngModel)]="text"/>
+<h2>{{ text }}</h2>
+```
+
+E as vinculações equivalentes no WPF seriam:
+
+```xml
+<TextBox Text="{Binding Path=Text, Mode=TwoWay}"></TextBox>
+<TextBlock Text="{Binding Path=Text, Mode=OneWay}"></TextBlock>
+```
+
+A vinculação do Angular é uma questão de sintaxe; no WPF, ela se parece mais com uma configuração - em particular, o valor de `Binding.Mode`.
+
+Se executarmos este código, vai ocorrer um erro no console, dizendo que `ngModel` é uma propriedade desconhecida do elemento de entrada. Isso acontece porque, para usar a diretiva `ngModel`, é necessário importar o [`FormsModule`](https://angular.io/api/forms/FormsModule). Ele precisa ser importado no arquivo `app.module.ts`:
+
+```typescript
+import { FormsModule } from '@angular/forms';
+...
+@NgModule({
+  imports: [
+    BrowserModule,
+    FormsModule
+  ]
+...
+```
+
+Se executarmos a demonstração, o valor inicial da entrada será igual a **valor padrão**, que é o valor da propriedade `text`. Como a entrada é editável, alterar o seu valor será refletido imediatamente no elemento h2. Assim, digitar na entrada atualiza a propriedade `text`, e o elemento h2 exibe esse valor por meio de `interpolation`.
+
+Outra forma equivalente de obter isso é:
+
+```html
+<input [ngModel]="text" (ngModelChange)="text = $event"/>
+```
+
+Na verdade, isso é semelhante ao primeiro exemplo, que usava uma vinculação de propriedade e uma vinculação de evento.
+
+
+## Recursos adicionais
+
+- [Do desktop para a web: Do desktop para a web: vinculação bidirecional do Angular com ngModel](https://www.youtube.com/watch?v=MrjTTDEj7cA&list=PLG8rj6Rr0BU-AqcJMuwggKy0GMIkjkt3j)
+- [Vinculação unidirecional no Angular](/general/wpf-to-angular-guide/one-way-binding)
+- [NgModel do Angular](https://angular.io/api/forms/NgModel)
+
+<hr/>
+Nossa comunidade é ativa e sempre receptiva a novas ideias.
+
+- [Ignite UI for Angular **Fóruns**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

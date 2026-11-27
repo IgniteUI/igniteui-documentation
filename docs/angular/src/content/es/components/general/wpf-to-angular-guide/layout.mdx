@@ -1,0 +1,263 @@
+---
+title: "Elementos de disposición de página de Angular | Guía de WPF a Angular | Infragistics"
+description: "Aprenda a personalizar la disposición de página de su aplicación Angular con un tutorial en profundidad sobre funciones de CSS como Flexbox y Grid." 
+keywords: "elementos de disposición de página de angular, ignite ui for angular, infragistics"
+_language: es
+llms:
+  description: "En WPF, para disponer los elementos de la aplicación, hay que colocarlos dentro de un Panel."
+---
+
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import { Image } from 'astro:assets';
+import wpfStackpanel from '../../../images/general/wpf_stackpanel.png';
+import angularStackpanel from '../../../images/general/angular_stackpanel.png';
+import wpfWrappanel from '../../../images/general/wpf_wrappanel.png';
+import angularWrappanel from '../../../images/general/angular_wrappanel.png';
+import wpfGrid from '../../../images/general/wpf_grid.png';
+import angularGrid from '../../../images/general/angular_grid.png';
+import angularGridSpan from '../../../images/general/angular_grid_span.png';
+
+# Disposición de la página
+
+En WPF, para disponer los elementos de la aplicación, hay que colocarlos dentro de un [`Panel`](https://docs.microsoft.com/en-us/dotnet/api/system.windows.controls.panel?view=netframework-4.8). El panel es un elemento contenedor que controla la disposición de sus elementos secundarios. En Angular, para personalizar la disposición de la página y de sus elementos secundarios, hay que usar CSS. Veamos algunos de los paneles más populares de WPF y cómo podemos lograr una disposición similar con CSS.
+
+## StackPanel
+
+El [`StackPanel`](https://docs.microsoft.com/en-us/dotnet/api/system.windows.controls.stackpanel?view=netframework-4.8) dispone sus elementos secundarios en una única línea que puede orientarse horizontal o verticalmente. Añadamos varios botones en un StackPanel y veamos cómo se ven en WPF:
+
+```xml
+<StackPanel>
+    <Button>1</Button>
+    <Button>2</Button>
+    <Button>3</Button>
+    <Button>4</Button>
+    <Button>5</Button>
+</StackPanel>
+```
+
+<Image src={wpfStackpanel} alt="StackPanel de WPF" class="responsive-img" />
+
+Si queremos lograr una disposición similar en Angular, podemos usar la disposición CSS Flexbox. El módulo Flexible Box Layout es un mecanismo potente que permite diseñar una estructura de disposición flexible y adaptable. Para usar la disposición Flexbox, tenemos que definir un contenedor cuya propiedad [`display`](https://www.w3schools.com/cssref/pr_class_display.asp) esté establecida en `flex`. Además, para apilar los elementos verticalmente, debemos establecer la propiedad [`flex-direction`](https://www.w3schools.com/cssref/css3_pr_flex-direction.asp) en `column`.
+
+```html
+<div class="flex-container">
+
+    <button>1</button>
+    <button>2</button>
+    <button>3</button>
+    <button>4</button>
+    <button>5</button>
+</div>
+```
+
+```css
+.flex-container {
+    display: flex;
+    flex-flow: column;
+}
+```
+
+Este es el resultado final en el navegador:
+
+<Image src={angularStackpanel} alt="StackPanel de Angular" class="responsive-img" />
+
+El valor predeterminado de la propiedad [`flex-direction`](https://www.w3schools.com/cssref/css3_pr_flex-direction.asp) es `row`, que equivale a un StackPanel con orientación Horizontal en WPF. Flexbox también admite las direcciones `row-reverse` y `column-reverse`, que apilan los elementos de derecha a izquierda y de abajo arriba, respectivamente.
+
+## WrapPanel
+
+El [`WrapPanel`](https://docs.microsoft.com/en-us/dotnet/api/system.windows.controls.wrappanel?view=netframework-4.8) coloca los elementos secundarios en posiciones secuenciales de izquierda a derecha, y pasa el contenido a la línea siguiente en el borde del cuadro contenedor. El orden posterior se produce secuencialmente de arriba abajo o de derecha a izquierda, según el valor de la propiedad Orientation. Añadamos varios botones en un WrapPanel y veamos cómo se ven en WPF:
+
+```xml
+<WrapPanel>
+    <WrapPanel.Resources>
+        <Style TargetType="Button">
+            <Setter Property="Width" Value="150"></Setter>
+        </Style>
+    </WrapPanel.Resources>
+    <Button>1</Button>
+    <Button>2</Button>
+    <Button>3</Button>
+    <Button>4</Button>
+    <Button>5</Button>
+</WrapPanel>
+```
+
+<Image src={wpfWrappanel} alt="WrapPanel de WPF" class="responsive-img" />
+
+Para lograr un resultado similar en Angular, usaremos de nuevo la disposición Flexbox. Como en el caso de StackPanel, tenemos que establecer la propiedad [`display`](https://www.w3schools.com/cssref/pr_class_display.asp) en `flex`, pero también debemos establecer la propiedad [`flex-wrap`](https://www.w3schools.com/cssref/css3_pr_flex-wrap.asp) en `wrap`.
+
+```html
+<div class="flex-container">
+
+    <button>1</button>
+    <button>2</button>
+    <button>3</button>
+    <button>4</button>
+    <button>5</button>
+</div>
+```
+
+```css
+.flex-container {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+button {
+    width: 150px;
+}
+```
+
+Este es el resultado final en el navegador:
+
+<Image src={angularWrappanel} alt="WrapPanel de Angular" class="responsive-img" />
+
+Si quiere lograr un resultado similar a un WrapPanel con Orientation="Vertical", tiene que establecer la propiedad [`flex-direction`](https://www.w3schools.com/cssref/css3_pr_flex-direction.asp) en `column`. La propiedad [`flex-flow`](https://www.w3schools.com/cssref/css3_pr_flex-flow.asp) es una propiedad abreviada que sirve para establecer a la vez las propiedades `flex-direction` y `flex-wrap`.
+
+```css
+.flex-container {
+    display: flex;
+    flex-flow: row wrap;
+}
+```
+
+Flexbox admite algunas propiedades CSS más para alinear los elementos. Puede conocerlas mejor en este [tutorial](https://www.w3schools.com/css/css3_flexbox.asp).
+
+## Grid
+
+El [`Grid`](https://docs.microsoft.com/en-us/dotnet/api/system.windows.controls.grid?view=netframework-4.8) define un área de cuadrícula flexible formada por columnas y filas. Añadamos varios botones en un Grid y veamos cómo se ven en WPF:
+
+```xml
+<Grid>
+    <Grid.ColumnDefinitions>
+        <ColumnDefinition />
+        <ColumnDefinition />
+        <ColumnDefinition />
+    </Grid.ColumnDefinitions>
+    <Grid.RowDefinitions>
+        <RowDefinition Height="50" />
+        <RowDefinition Height="50" />
+        <RowDefinition Height="50" />
+        <RowDefinition Height="50" />
+    </Grid.RowDefinitions>
+    <Button Grid.RowSpan="2" Grid.ColumnSpan="2">1</Button>
+    <Button Grid.Column="2">2</Button>
+    <Button Grid.Row="1" Grid.Column="2">3</Button>
+    <Button Grid.Row="2">4</Button>
+    <Button Grid.Row="2" Grid.Column="1">5</Button>
+    <Button Grid.Row="2" Grid.Column="2">6</Button>
+    <Button Grid.Row="3" Grid.ColumnSpan="3">7</Button>
+</Grid>
+```
+
+<Image src={wpfGrid} alt="Grid de WPF" class="responsive-img" />
+
+En Angular podemos usar el módulo CSS Grid Layout, que ofrece un sistema de disposición basado en cuadrícula, con filas y columnas. Para usar la disposición Grid, tenemos que definir un contenedor cuya propiedad [`display`](https://www.w3schools.com/cssref/pr_class_display.asp) esté establecida en `grid` o en `inline-grid`.
+
+```html
+<div class="grid-container">
+
+    <button class="button1">1</button>
+    <button>2</button>
+    <button>3</button>
+    <button>4</button>
+    <button>5</button>
+    <button>6</button>
+    <button class="button7">7</button>
+</div>
+```
+
+```css
+.grid-container {
+    display: grid;
+}
+```
+
+<DocsAside type="info">
+CSS Grid Layout [no es compatible](https://caniuse.com/#feat=css-grid) con navegadores antiguos como Internet Explorer 11.
+</DocsAside>
+
+Ahora definamos las columnas de la cuadrícula usando la propiedad [`grid-template-columns`](https://www.w3schools.com/cssref/pr_grid-template-columns.asp).
+
+```css
+.grid-container {
+    display: grid;
+    grid-template-columns: auto auto auto;
+}
+```
+
+Hemos definido tres columnas con un ancho de `auto`, lo que significa que tendrían el mismo ancho. Si quiere repartir el espacio disponible proporcionalmente, de forma parecida al dimensionamiento con estrella de WPF, puede usar la unidad de dimensionamiento flexible `fr` de CSS. El siguiente fragmento de código define dos columnas: la primera recibirá una vez el espacio disponible y la segunda recibirá el doble:
+
+```css
+.grid-container {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+}
+```
+
+Ahora añadiremos las filas con una altura de 50px cada una usando la propiedad [`grid-template-rows`](https://www.w3schools.com/cssref/pr_grid-template-columns.asp).
+
+```css
+.grid-container {
+    display: grid;
+    grid-template-columns: auto auto auto;
+    grid-template-rows: 50px 50px 50px 50px;
+}
+```
+
+Si abrimos la aplicación ahora, tiene este aspecto:
+
+<Image src={angularGrid} alt="Grid de Angular" class="responsive-img" />
+
+Puede ver una diferencia importante entre las cuadrículas de WPF y los de CSS. En WPF, el valor predeterminado de Grid.Row y Grid.Column es 0, mientras que la disposición CSS Grid asigna automáticamente a sus hijos la siguiente fila y columna disponibles.
+
+Ahora apliquemos los extensiones de columna y de fila al primer y al séptimo botón. Para ello usaremos las propiedades [`grid-row`](https://www.w3schools.com/cssref/pr_grid-row.asp) y [`grid-column`](https://www.w3schools.com/cssref/pr_grid-column.asp).
+
+```css
+.button1 {
+    grid-column: 1 / 3;
+    grid-row: 1 / 3;
+}
+
+.button7 {
+    grid-column: 1 / span 3;
+}
+```
+
+Primero especificamos la fila/columna de inicio; después, tras el símbolo `/`, podemos especificar la fila/columna final o cuántas filas/columnas debe abarcar el elemento. A diferencia de WPF, la numeración de columnas de CSS Grid no empieza en cero, y la primera fila/columna es la 1.
+
+Este es el CSS completo y el resultado final en el navegador:
+
+```css
+.grid-container {
+    display: grid;
+    grid-template-columns: auto auto auto;
+    grid-template-rows: 50px 50px 50px 50px;
+}
+
+.button1 {
+    grid-column: 1 / 3;
+    grid-row: 1 / 3;
+}
+
+.button7 {
+    grid-column: 1 / span 3;
+}
+```
+
+<Image src={angularGridSpan} alt="Extensión de Grid en Angular" class="responsive-img" />
+
+Las propiedades `grid-row` y `grid-column` son propiedades abreviadas de las propiedades [`grid-row-start`](https://www.w3schools.com/cssref/pr_grid-row-start.asp), [`grid-row-end`](https://www.w3schools.com/cssref/pr_grid-row-end.asp), [`grid-column-start`](https://www.w3schools.com/cssref/pr_grid-column-start.asp) y [`grid-column-end`](https://www.w3schools.com/cssref/pr_grid-column-end.asp). Puede conocer más sobre las propiedades del contenedor y de los elementos de CSS Grid en los tutoriales de la sección **Recursos adicionales**.
+
+## Recursos adicionales
+
+- [CSS Flexbox](https://www.w3schools.com/css/css3_flexbox.asp)
+- [Introducción a CSS Grid](https://www.w3schools.com/css/css_grid.asp)
+- [Contenedor de CSS Grid](https://www.w3schools.com/css/css_grid_container.asp)
+- [Elemento de CSS Grid](https://www.w3schools.com/css/css_grid_item.asp)
+
+<hr/>
+Nuestra comunidad está activa y siempre da la bienvenida a nuevas ideas.
+
+- [Ignite UI for Angular **Foros**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

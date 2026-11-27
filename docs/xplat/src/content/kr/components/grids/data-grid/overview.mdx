@@ -1,0 +1,438 @@
+---
+title: "{Platform} 데이터 그리드 컴포넌트 | 실시간 {Platform} 테이블 | Infragistics"
+description: "Infragistics {Platform} 그리드 컴포넌트는 빠른 실시간 React 데이터 그리드를 만드는 데 도움을 줍니다. {ProductName}가 데이터를 더 잘 표시하도록 돕는 방법을 알아보십시오!"
+keywords: "{Platform} 테이블, 데이터 그리드, 개요, {ProductName}, 데이터 바인딩, Infragistics"
+license: commercial
+mentionedTypes: ["DataGrid", "DataGridColumn"]
+namespace: Infragistics.Controls.Grids.Implementation
+_canonicalLink: "{CanonicalLinkToGridMain}"
+_language: ko
+llms:
+  description: "{ProductName} 데이터 테이블/데이터 그리드는 적은 코딩이나 구성으로 데이터를 빠르게 바인딩하고 표시할 수 있는 표 형식의 {Platform} 그리드 컴포넌트입니다."
+platformType: xplat
+---
+
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+
+# {Platform} 데이터 그리드 개요
+
+{ProductName} 데이터 테이블/데이터 그리드는 적은 코딩이나 구성으로 데이터를 빠르게 바인딩하고 표시할 수 있는 표 형식의 {Platform} 그리드 컴포넌트입니다. {Platform} 데이터 그리드의 기능에는 필터링, 정렬, 템플릿, 행 선택, 행 그룹화, 행 고정, 이동 가능한 열이 포함됩니다. {Platform} 테이블은 실시간 스트리밍 데이터에 최적화되어 있으며, 행이나 열 수로 표현되는 무제한 크기의 데이터 세트를 처리할 수 있습니다.
+
+## {Platform} 데이터 그리드 예제
+
+이 데모는 그리드에서 사용할 수 있는 일부 기능을 구현합니다:
+필터링, 그룹화, 열 고정/고정 해제, 열 위치 재지정, 정렬, 요약
+
+<Sample src="/grids/data-grid/overview" height={600} alt="{Platform} 데이터 그리드 예제" />
+
+
+
+<div class="divider--half"></div>
+
+## 시작하기
+
+<PlatformBlock for="Web">
+### 종속성
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+IgniteUI.Blazor 패키지 추가에 대해서는 다음 항목을 참조하십시오.
+- [시작하기](../../general-getting-started.mdx)
+- [NuGet 패키지 추가](../../general-nuget-feed.mdx)
+
+그다음 다음 네임스페이스를 추가하여 컨트롤 구현을 시작할 수 있습니다:
+
+```razor
+@using IgniteUI.Blazor.Controls
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular, React, WebComponents">
+{Platform} 그리드 패키지를 설치할 때는 코어 패키지도 반드시 설치해야 합니다.
+
+```cmd
+npm install --save {PackageCore}
+npm install --save {PackageGrids}
+npm install --save {PackageInputs}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular, React, WebComponents, Blazor">
+### 컴포넌트 모듈
+
+`DataGrid`에는 다음 모듈이 필요합니다:
+
+```json-snippet source="/grids/data-grid/overview" channel="modulesImports...moduleRegistration" exclude="Xaml"
+{
+    "descriptions": {
+        "content": {
+            "type": "DataGrid",
+            "name": "grid"
+        }
+    },
+    "modules": [
+        "grids/DataGridModule"
+    ],
+    "$modules": [
+        "+doc:modulesImports",
+        "+doc:moduleRegistration"
+    ]
+}
+```
+
+</PlatformBlock>
+
+<div class="divider--half"></div>
+
+<PlatformBlock for="Angular, React, WebComponents, Blazor">
+### 선택 모듈
+
+위에 나온 선택 사항인 `DataGrid` 기능에는 다음 모듈이 필요합니다:
+
+```json-snippet source="/grids/data-grid/overview" channel="modulesImports...moduleRegistration" exclude="Xaml"
+{
+    "descriptions": {
+        "content": {
+            "type": "DataGrid",
+            "name": "grid"
+        }
+    },
+    "modules": [
+        "grids/DataGridModule",
+        "grids/DataGridToolbarModule",
+        "charts/SparklineModule"
+    ],
+    "$modules": [
+        "+doc:modulesImports",
+        "+doc:moduleRegistration"
+    ]
+}
+```
+
+</PlatformBlock>
+
+
+<div class="divider--half"></div>
+
+### 샘플 데이터 소스
+먼저 {Platform} 그리드가 표시할 로컬 데이터를 정의합니다. 다음 예제는 제품 및 주문 세부 정보가 있는 데이터 소스를 만듭니다.
+
+```ts
+    this.data = [{
+        Discontinued: false,
+        OrderDate: new Date("2012-02-12"),
+        ProductID: 1,
+        ProductName: "Chai",
+        QuantityPerUnit: "10 boxes x 20 bags",
+        ReorderLevel: 10,
+        UnitPrice: 18.0000,
+        UnitsInStock: 39
+    }, {
+        Discontinued: false,
+        OrderDate: new Date("2003-03-17"),
+        ProductID: 2,
+        ProductName: "Chang",
+        QuantityPerUnit: "24 - 12 oz bottles",
+        ReorderLevel: 25,
+        UnitPrice: 19.0000,
+        UnitsInStock: 17
+    }, {
+        Discontinued: false,
+        OrderDate: new Date("2006-03-17"),
+        ProductID: 3,
+        ProductName: "Aniseed Syrup",
+        QuantityPerUnit: "12 - 550 ml bottles",
+        ReorderLevel: 25,
+        UnitPrice: 10.0000,
+        UnitsInStock: 13
+    }, {
+        Discontinued: false,
+        OrderDate: new Date("2016-03-17"),
+        ProductID: 4,
+        ProductName: "Chef Antony Cajun Seasoning",
+        QuantityPerUnit: "48 - 6 oz jars",
+        ReorderLevel: 0,
+        UnitPrice: 22.0000,
+        UnitsInStock: 53
+    }, {
+        Discontinued: true,
+        OrderDate: new Date("2011-11-11"),
+        ProductID: 5,
+        ProductName: "Chef Antony Gumbo Mix",
+        QuantityPerUnit: "36 boxes",
+        ReorderLevel: 0,
+        UnitPrice: 21.3500,
+        UnitsInStock: 0
+    }];
+```
+
+<PlatformBlock for="Blazor">
+
+```razor
+@code {
+
+    public List<SaleInfo> DataSource { get; set;}
+    Random Rand = new Random();
+
+    protected override void OnInitialized()
+    {
+        GenerateData();
+    }
+
+    public void GenerateData()
+    {
+        string[] names = new string[] {
+            "Intel CPU", "AMD CPU",
+            "Intel Motherboard", "AMD Motherboard", "Nvidia Motherboard",
+            "Nvidia GPU", "Gigabyte GPU", "Asus GPU", "AMD GPU", "MSI GPU",
+            "Corsair Memory", "Patriot Memory", "Skill Memory",
+            "Samsung HDD", "WD HDD", "Seagate HDD", "Intel HDD", "Asus HDD",
+            "Samsung SSD", "WD SSD", "Seagate SSD", "Intel SSD", "Asus SSD",
+            "Samsung Monitor", "Asus Monitor", "LG Monitor", "HP Monitor" };
+
+        string[] countries = new string[] {
+            "USA", "UK", "France", "Canada", "Poland",
+            "Denmark", "Croatia", "Australia", "Seychelles",
+            "Sweden", "Germany", "Japan", "Ireland",
+            "Barbados", "Jamaica", "Cuba", "Spain", };
+        string[] status = new string[] { "Packing", "Shipped", "Delivered" };
+
+        var sales = new List<SaleInfo>();
+
+        for (var i = 0; i < 200; i++)
+        {
+            var price = GetRandomNumber(10000, 90000) / 100;
+            var items = GetRandomNumber(4, 30);
+            var value = Math.Round(price * items);
+            var margin = GetRandomNumber(2, 5);
+            var profit = Math.Round((price * margin / 100) * items);
+            var country = GetRandomItem(countries);
+
+            var item = new SaleInfo()
+            {
+                Country = country,
+                CountryFlag = GetCountryFlag(country),
+                Margin = margin,
+                OrderDate = GetRandomDate(),
+                OrderItems = items,
+                OrderValue = value,
+                ProductID = 1001 + i,
+                ProductName = GetRandomItem(names),
+                ProductPrice = price,
+                Profit = Math.Round(profit),
+                Status = GetRandomItem(status)
+            };
+            sales.Add(item);
+        }
+
+        this.DataSource = sales;
+    }
+
+    public double GetRandomNumber(double min, double max)
+    {
+        return Math.Round(min + (Rand.NextDouble() * (max - min)));
+    }
+
+    public string GetRandomItem(string[] array)
+    {
+        var index = (int)Math.Round(GetRandomNumber(0, array.Length - 1));
+        return array[index];
+    }
+
+    public DateTime GetRandomDate() {
+        var today = new DateTime();
+        var year = today.Year;
+        var month = this.GetRandomNumber(1, 9);
+        var day = this.GetRandomNumber(10, 27);
+        return new DateTime(year, (int)month, (int)day);
+    }
+
+    public string GetCountryFlag(string country)
+    {
+        var flag = "https://static.infragistics.com/xplatform/images/flags/" + country + ".png";
+        return flag;
+    }
+
+    public class SaleInfo
+    {
+        public string? Status { get; set; }
+        public string? ProductName { get; set; }
+        public string? CountryFlag { get; set; }
+        public string? Country { get; set; }
+        public DateTime OrderDate { get; set; }
+        public double Profit { get; set; }
+        public double ProductPrice { get; set; }
+        public double ProductID { get; set; }
+        public double OrderValue { get; set; }
+        public double OrderItems { get; set; }
+        public double Margin { get; set; }
+    }
+}
+```
+
+</PlatformBlock>
+
+### 열 자동 생성
+다음 코드는 위의 로컬 데이터에 {Platform} 데이터 그리드를 바인딩하는 방법을 보여 줍니다.
+
+```json-snippet source="/grids/data-grid/overview"
+{
+    "skipAlterDataCasing": true,
+    "descriptions": {
+        "content": {
+            "type": "DataGrid",
+            "name": "grid",
+            "dataSourceRef": "EmployeesSalesData",
+            "autoGenerateColumns": true,
+            "defaultColumnMinWidth": 100,
+            "summaryScope": "Root",
+            "isColumnOptionsEnabled": true,
+            "isGroupCollapsable": true,
+            "groupSummaryDisplayMode": "RowBottom",
+            "columnMovingMode": "Deferred",
+            "columnMovingAnimationMode": "SlideOver",
+            "columnMovingSeparatorWidth": 2,
+            "columnShowingAnimationMode": "SlideFromRightAndFadeIn",
+            "columnHidingAnimationMode": "SlideToRightAndFadeOut",
+            "selectionMode": "SingleRow",
+            "cornerRadiusTopLeft": 0,
+            "cornerRadiusTopRight": 0,
+            "height": "100%",
+            "width": "100%",
+            "$setInCode": {
+                "dataSourceRef": [
+                    "webComponents"
+                ]
+            }
+        }
+    }
+}
+```
+
+### 열 수동 정의
+
+```json-snippet source="/grids/data-grid/column-auto-generation-sales"
+{
+    "skipAlterDataCasing": true,
+    "descriptions": {
+        "content": {
+            "type": "DataGrid",
+            "name": "grid",
+            "dataSourceRef": "ProductOrders",
+            "autoGenerateColumns": false,
+            "height": "100%",
+            "width": "100%",
+            "columns": [
+                {
+                    "type": "TextColumn",
+                    "field": "ProductID",
+                    "headerText": "Product ID"
+                },
+                {
+                    "type": "TextColumn",
+                    "field": "ProductName",
+                    "headerText": "Product Name"
+                },
+                {
+                    "type": "NumericColumn",
+                    "field": "ProductPrice"
+                },
+                {
+                    "type": "TextColumn",
+                    "field": "City"
+                },
+                {
+                    "type": "TextColumn",
+                    "field": "Country"
+                },
+                {
+                    "type": "ImageColumn",
+                    "field": "CountryFlag",
+                    "isEditable": false
+                },
+                {
+                    "type": "DateTimeColumn",
+                    "field": "OrderDate",
+                    "headerText": "Order Date"
+                },
+                {
+                    "type": "NumericColumn",
+                    "field": "Profit",
+                    "positivePrefix": "$",
+                    "showGroupingSeparator": true,
+                    "maxFractionDigits": 0,
+                    "minFractionDigits": 0
+                }
+            ],
+            "$setInCode": {
+                "dataSourceRef": [
+                    "webComponents"
+                ]
+            }
+        }
+    }
+}
+```
+
+### 열 스타일 지정
+다음 코드는 제공된 열의 속성을 사용하여 특정 열의 스타일을 지정하는 방법을 보여 줍니다.
+
+```json-snippet source="/grids/data-grid/overview"
+{
+    "skipAlterDataCasing": true,
+    "descriptions": {
+        "content": {
+            "type": "TextColumn",
+            "field": "Name",
+            "background": "SkyBlue",
+            "fontStyle": "italic",
+            "fontWeight": "bold",
+            "fontFamily": "Times New Roman",
+            "fontSize": 16
+        }
+    }
+}
+```
+
+<PlatformBlock for="Blazor">
+### 튜토리얼 동영상
+
+짧은 튜토리얼 동영상에서 Blazor 데이터 그리드를 만드는 방법을 자세히 알아보십시오:
+
+<iframe width="100%" height="600" src="https://www.youtube.com/embed/aT1L3nXqN6o">
+</iframe>
+</PlatformBlock>
+
+
+## 추가 리소스
+
+<PlatformBlock for="Web">
+- [접근성 준수](accessibility.mdx)
+</PlatformBlock>
+- [셀 활성화](cell-activation.mdx)
+- [그리드 편집](cell-editing.mdx)
+- [셀 선택](cell-selection.mdx)
+- [열 애니메이션](column-animation.mdx)
+<PlatformBlock for="Web">- [열 선택기](column-chooser.mdx)
+</PlatformBlock>- [열 필터링](column-filtering.mdx)
+- [열 이동](column-moving.mdx)
+- [열 옵션](column-options.mdx)
+- [열 크기 조정](column-resizing.mdx)
+- [열 정렬](column-sorting.mdx)
+- [열 유형](column-types.mdx)
+- [성능](performance.mdx)
+- [행 고정](row-pinning.mdx)
+- [행 그룹화](row-grouping.mdx)
+- [행 강조 표시](row-highlighting.mdx)
+
+{/*TODO fix build flagging list items*/}
+<PlatformBlock for="React">
+{/*- [Row Paging](row-paging.mdx)*/}
+</PlatformBlock>
+
+## API 참조
+
+- `DataGrid`

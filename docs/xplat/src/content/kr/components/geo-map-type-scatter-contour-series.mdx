@@ -1,0 +1,107 @@
+---
+title: "{Platform} 지도 | 데이터 시각화 도구 | 산점 등고선 시리즈 | 데이터 바인딩 | Infragistics"
+description: "Infragistics {Platform} 지도의 산점 등고선 시리즈를 사용하여, 각 점에 숫자 값이 할당된 경도 및 위도 데이터의 삼각분할을 기반으로 지리적 맥락에서 색상이 있는 등고선을 그리십시오. {ProductName} 지도의 시리즈에 대해 자세히 알아보십시오!"
+keywords: "{Platform} 지도, 산점 등고선 시리즈, {ProductName}, Infragistics"
+license: commercial
+mentionedTypes: ["GeographicMap", "GeographicContourLineSeries", "CustomPaletteColorScale", "Series"]
+_language: ko
+llms:
+  description: "{Platform} 지도 컴포넌트에서 GeographicContourLineSeries를 사용하면, 각 점에 숫자 값이 할당된 경도 및 위도 데이터의 삼각분할을 기반으로 지리적 맥락에서 색상이 있는 등고선을 그릴 수 있습니다."
+platformType: xplat
+---
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+
+# {Platform} 지리 등고선 지도
+
+{Platform} 지도 컴포넌트에서는 `GeographicContourLineSeries`를 사용하여, 각 점에 숫자 값이 할당된 경도 및 위도 데이터의 삼각분할을 기반으로 지리적 맥락에서 색상이 있는 등고선을 그릴 수 있습니다. 이 유형의 지리 시리즈는 기온, 기압, 강수량, 인구 분포, 지형 데이터처럼 지리적 위치로 정의되는 흩어진 데이터를 렌더링하는 데 유용합니다.
+
+## {Platform} 지리 등고선 지도 예제
+
+
+<Sample src="/maps/geo-map/type-scatter-contour-series" height={500} alt="{Platform} 산점 등고선 시리즈 사용 예제" />
+
+
+
+
+<PlatformBlock for="Angular, React, WebComponents, Blazor">
+
+`GeographicContourLineSeries`는 데이터를 같은 값을 가진 데이터 점을 잇는 등고선 대신 채우기 척도를 사용해 색칠된 등고선으로 나타내고, 지리 산점 영역 시리즈는 색상 척도를 사용해 보간된 표면으로 나타낸다는 점을 제외하면 `GeographicScatterAreaSeries`와 매우 비슷하게 작동합니다.
+
+</PlatformBlock>
+
+## 데이터 요구 사항
+지도 컴포넌트의 다른 유형의 지리 시리즈와 마찬가지로, `GeographicContourLineSeries`에도 객체의 배열에 바인딩할 수 있는 `DataSource` 속성이 있습니다. 또한 항목 소스의 각 항목에는 지리적 위치(경도와 위도 좌표)를 저장하는 두 개의 데이터 열과, 지리적 위치와 연결된 값을 저장하는 하나의 데이터 열, 총 세 개의 데이터 열이 있어야 합니다. 이 데이터 열은 지리 시리즈의 `longitudeMemberPath`, `latitudeMemberPath`, `valueMemberPath` 속성으로 식별됩니다.
+`GeographicContourLineSeries`는 `trianglesSource` 속성에 삼각분할이 설정되지 않았다면 ItemsSource의 항목에 대해 내장된 데이터 삼각분할을 자동으로 수행합니다. 하지만 삼각분할 계산은 매우 시간이 많이 걸릴 수 있으므로, 특히 데이터 항목이 많을 때 이 속성에 `\TriangulationSource`를 지정하면 런타임 성능이 더 좋아집니다.
+
+## 데이터 바인딩
+다음 표는 데이터 바인딩에 사용되는 `GeographicContourLineSeries`의 속성을 요약합니다.
+
+| 속성 이름  | 속성 유형   | 설명   |
+|--------------|---------------| ---------------|
+|`DataSource`|any|`trianglesSource` 속성이 삼각분할 데이터를 제공하지 않으면 삼각분할을 수행할 데이터 항목의 소스입니다.|
+|`longitudeMemberPath`|string|`DataSource`에 바인딩된 모든 항목의 경도를 포함하는 속성의 이름입니다.|
+|`latitudeMemberPath`|string|`DataSource`에 바인딩된 모든 항목의 위도를 포함하는 속성의 이름입니다.|
+|`valueMemberPath`|string|각 데이터 항목의 위도와 경도 좌표에 있는 값을 포함하는 속성의 이름입니다. 이 숫자 값은 `fillScale` 속성이 설정되면 색상으로 변환됩니다.|
+|`trianglesSource`|any|삼각분할 데이터의 소스를 가져오거나 설정합니다. TriangulationSource 객체의 Triangles를 이 속성에 설정하면 런타임 성능과 지리 시리즈 렌더링이 모두 개선됩니다.|
+|`triangleVertexMemberPath1`|string|TrianglesSource 항목의 속성 이름으로, 각 삼각형에 대해 ItemsSource에서 첫 번째 꼭짓점 점의 인덱스를 포함합니다. 이 속성을 설정하는 것은 필수가 아닙니다. 사용자 지정 삼각분할 로직이 제공되지 않는 한 기본적으로 사용됩니다.|
+|`triangleVertexMemberPath2`|string| TrianglesSource 항목의 속성 이름으로, 각 삼각형에 대해 ItemsSource에서 첫 번째 꼭짓점 점의 인덱스를 포함합니다. 이 속성을 설정하는 것은 필수가 아닙니다. 사용자 지정 삼각분할 로직이 제공되지 않는 한 기본적으로 사용됩니다.|
+|`triangleVertexMemberPath3`|string|TrianglesSource 항목의 속성 이름으로, 각 삼각형에 대해 ItemsSource에서 첫 번째 꼭짓점 점의 인덱스를 포함합니다. 이 속성을 설정하는 것은 필수가 아닙니다. 사용자 지정 삼각분할 로직이 제공되지 않는 한 기본적으로 사용됩니다.|
+
+## 등고선 채우기 척도
+`GeographicContourLineSeries`의 `fillScale` 속성을 사용하여 지리 시리즈 등고선의 채우기 브러시를 결정합니다.
+제공되는 `ValueBrushScale 클래스는 대부분의 색상 지정 요구를 충족해야 하며, 사용자 지정 색상 지정 로직을 위한 애플리케이션은 ValueBrushScale 클래스를 상속할 수 있습니다.
+다음 표는 GeographicContourLineSeries의 표면 색상 지정에 영향을 주는 CustomPaletteColorScale의 속성을 나열합니다.
+
+| 속성 이름  | 속성 유형   | 설명   |
+|--------------|---------------| ---------------|
+|`GeographicMap.brushes`|BrushCollection|`GeographicContourLineSeries`의 등고선을 채우는 브러시의 컬렉션을 가져오거나 설정합니다|
+|`maximumValue`|double|채우기 척도에서 브러시를 할당할 가장 높은 값입니다.|
+|`minimumValue`|double|채우기 척도에서 브러시를 할당할 가장 낮은 값입니다.|
+
+## 코드 조각
+
+다음 코드는 세계의 지표 온도를 나타내는 삼각분할 데이터에 `GeographicContourLineSeries`를 바인딩하는 방법을 보여 줍니다.
+
+```json-snippet channel="auto" include="bindingImports" source="/maps/geo-map/type-scatter-contour-series"
+{
+    "type": "GeographicMap",
+    "name": "geoMap",
+    "height": "100%",
+    "width": "100%",
+    "zoomable": true,
+    "$setInCode": { "series": ["angular", "react", "webComponents"] },
+    "$assignInCode": { "series": ["angular", "react", "webComponents"] },
+    "series": [
+        {
+            "type": "GeographicContourLineSeries",
+            "name": "contourSeries",
+            "dataSourceRef": "WorldTemperatures",
+            "longitudeMemberPath": "Lon",
+            "latitudeMemberPath": "Lat",
+            "valueMemberPath": "Value",
+            "thickness": 4,
+            "$setInCode": { "fillScale": ["blazor"] },
+            "fillScale": {
+                "type": "ValueBrushScale",
+                "brushes": [
+                    "rgba(32, 146, 252, 0.5)",
+                    "rgba(14, 194, 14, 0.5)",
+                    "rgba(252, 120, 32, 0.5)",
+                    "rgba(252, 32, 32, 0.5)"
+                ],
+                "minimumValue": 0,
+                "maximumValue": 30
+            }
+        }
+    ]
+}
+```
+
+
+## API 참조
+
+`fillScale`<br />
+`GeographicContourLineSeries`<br />
+<PlatformBlock for="Angular, React, WebComponents, Blazor">`GeographicScatterAreaSeries`<br />
+</PlatformBlock>`ValueBrushScale`<br />

@@ -1,0 +1,278 @@
+---
+title: "Personalizar iconos de {Platform} {ComponentTitle} | Infragistics"
+description: "Configure iconos personalizados para la cuadrícula {Platform}."
+keywords: "iconos, iconos personalizados, igniteui para {Platform}, {ComponentKeywords}, {ProductName}, Infragistics"
+license: MIT
+mentionedTypes: ["Infragistics.Controls.Grid"]
+_language: es
+llms:
+  description: "Explica cómo sustituir los iconos predeterminados de la cuadrícula {ProductName} por iconos personalizados de otra colección de iconos."
+---
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+
+# Personalizar iconos de la cuadrícula {Platform}
+
+Los iconos de {ProductName} <ApiLink type="Grid" /> pueden personalizarse para usar iconos personalizados de otro conjunto de colecciones mediante los métodos de API expuestos:
+
+<PlatformBlock for="Angular,React,WebComponents">
+- <ApiLink type="registerIconFromText" />
+- <ApiLink type="registerIcon" />
+- <ApiLink type="setIconRef" />
+</PlatformBlock>
+<PlatformBlock for="Blazor">
+- <ApiLink pkg="core" type="Icon" member="RegisterIconFromText(string, string, string)" label="RegisterIconFromText" />
+- <ApiLink pkg="core" type="Icon" member="RegisterIcon(string, string, string)" label="RegisterIcon" />
+- <ApiLink pkg="core" type="Icon" member="SetIconRefAsync(string, string, IgbIconMeta)" label="SetIconRefAsync" />
+</PlatformBlock>
+
+Registrar un icono lo guarda en caché localmente, de modo que puede reutilizarse entre componentes que hagan referencia a ese icono por su nombre y el nombre de la colección. Establecer una referencia cambia qué icono, de qué colección, se usará al hacer referencia a ese icono por su nombre.
+
+
+<PlatformBlock for="WebComponents">
+
+
+
+```ts
+// Add a new 'material' icon called 'filter_list' from string
+registerIconFromText("filter_list", '<svg>...</svg>', "material");
+
+// Add a new 'material' icon called 'my-filter_list' from svg url
+registerIcon("filter_list", "url" , "material")
+
+// Sets the icon reference to the new registered icon.
+setIconRef('filter_list', 'default', {
+            name: 'filter_list',
+            collection: 'material',
+});
+
+```
+
+
+</PlatformBlock>
+
+
+
+<PlatformBlock for="React">
+
+
+
+```ts
+// Add a new 'material' icon called 'filter_list' from string
+registerIconFromText("filter_list", '<svg>...</svg>', "material");
+
+// Add a new 'material' icon called 'my-filter_list' from svg url
+registerIcon("filter_list", "url" , "material")
+
+// Sets the icon reference to the new registered icon.
+setIconRef('filter_list', 'default', {
+            name: 'filter_list',
+            collection: 'material',
+});
+```
+
+</PlatformBlock>
+
+
+
+<PlatformBlock for="Blazor">
+
+
+
+```razor
+@code {
+    private IgbIcon icon;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (this.icon != null && firstRender)
+        {
+            this.icon.EnsureReady().ContinueWith(new Action<Task>((e) =>
+            {
+                // Add a new 'material' icon called 'filter_list' from string
+                this.icon.RegisterIconFromText("filter_list", '<svg>...</svg>', "material");
+
+                // Add a new 'material' icon called 'filter_list' from svg url
+                this.icon.RegisterIcon("filter_list", "url" , "material")
+
+                // Sets the icon reference to the new registered icon.
+                this.icon.SetIconRef("filter_list", "default", new IgbIconMeta()
+                {
+                    Name = "filter_list",
+                    Collection = "material",
+                });
+            }));
+        }
+    }
+}
+
+```
+
+
+</PlatformBlock>
+
+
+## Ejemplo de personalización de iconos de {Platform}
+
+El ejemplo siguiente muestra cómo cambiar de los iconos material originales a iconos SVG personalizados de font awesome, y volver a material.
+
+<Sample src="/{GridSample}/change-icons-custom" height={600} alt="Ejemplo de personalización de iconos de {Platform} {ComponentTitle}" />
+
+
+## Iconos internos
+
+A continuación se enumeran todos los iconos internos. Alias es el nombre del icono por el que se puede hacer referencia a él. Target Icon es el nombre interno del icono y Target Collection es la colección en la que está registrado internamente.
+
+| Alias                            | Icono de destino           | Colección de destino |
+|----------------------------------|-----------------------|---------------|
+| **add**                          | add                   | material      |
+| **add_child**                    | add-child             | imx-icons     |
+| **add_row**                      | add-row               | imx-icons     |
+| **arrow_back**                   | arrow_back            | material      |
+| **arrow_drop_down**              | arrow_drop_up         | material      |
+| **arrow_forward**                | arrow_forward         | material      |
+| **arrow_next**                   | chevron_right         | material      |
+| **arrow_prev**                   | chevron_left          | material      |
+| **case_sensitive**               | case-sensitive        | imx-icons     |
+| **carousel_next**                | arrow_forward         | material      |
+| **carousel_prev**                | arrow_back            | material      |
+| **chevron_left**                 | chevron_left          | material      |
+| **chevron_right**                | chevron_right         | material      |
+| **clock**                        | access_time           | material      |
+| **close**                        | close                 | material      |
+| **collapse**                     | expand_less           | material      |
+| **confirm**                      | check                 | material      |
+| **date_range**                   | date_range            | material      |
+| **delete**                       | delete                | material      |
+| **drag_indicator**               | drag_indicator        | material      |
+| **edit**                         | edit                  | material      |
+| **error**                        | error                 | material      |
+| **expand**                       | expand_more           | material      |
+| **expand_more**                  | expand_more           | material      |
+| **file_download**                | file_download         | material      |
+| **filter_all**                   | select-all            | imx-icons     |
+| **filter_before**                | is-before             | imx-icons     |
+| **filter_contains**              | contains              | imx-icons     |
+| **filter_does_not_contain**      | does-not-contain      | imx-icons     |
+| **filter_empty**                 | is-empty              | imx-icons     |
+| **filter_equal**                 | equals                | imx-icons     |
+| **filter_false**                 | is-false              | imx-icons     |
+| **filter_greater_than**          | greater-than          | imx-icons     |
+| **filter_greater_than_or_equal** | greater-than-or-equal | imx-icons     |
+| **filter_in**                    | is-in                 | imx-icons     |
+| **filter_last_month**            | last-month            | imx-icons     |
+| **filter_last_year**             | last-year             | imx-icons     |
+| **filter_less_than**             | less-than             | imx-icons     |
+| **filter_less_than_or_equal**    | less-than-or-equal    | imx-icons     |
+| **filter_next_month**            | next-month            | imx-icons     |
+| **filter_next_year**             | next-year             | imx-icons     |
+| **filter_not_empty**             | not-empty             | imx-icons     |
+| **filter_not_equal**             | not-equal             | imx-icons     |
+| **filter_not_null**              | is-not-null           | imx-icons     |
+| **filter_null**                  | is-null               | imx-icons     |
+| **filter_starts_with**           | starts-with           | imx-icons     |
+| **filter_this_month**            | this-month            | imx-icons     |
+| **filter_this_year**             | this-year             | imx-icons     |
+| **filter_today**                 | today                 | imx-icons     |
+| **filter_true**                  | is-true               | imx-icons     |
+| **filter_yesterday**             | yesterday             | imx-icons     |
+| **first_page**                   | first_page            | material      |
+| **group_work**                   | group_work            | material      |
+| **hide**                         | visibility_off        | material      |
+| **import_export**                | import_export         | material      |
+| **input_collapse**               | arrow_drop_up         | material      |
+| **input_clear**                  | clear                 | material      |
+| **input_expand**                 | arrow_drop_down       | material      |
+| **jump_down**                    | jump-down             | imx-icons     |
+| **jump_up**                      | jump-up               | imx-icons     |
+| **last_page**                    | last_page             | material      |
+| **more_vert**                    | more_vert             | material      |
+| **next**                         | navigate_next         | material      |
+| **pin**                          | pin-left              | imx-icons     |
+| **prev**                         | navigate_before       | material      |
+| **refresh**                      | refresh               | material      |
+| **remove**                       | cancel                | material      |
+| **search**                       | search                | material      |
+| **selected**                     | done                  | material      |
+| **show**                         | visibility            | material      |
+| **sort_asc**                     | arrow_upward          | material      |
+| **sort_desc**                    | arrow_downward        | material      |
+| **functions**                    | functions             | material      |
+| **table_rows**                   | table_rows            | material      |
+| **today**                        | calendar_today        | material      |
+| **tree_collapse**                | expand_more           | material      |
+| **tree_expand**                  | chevron_right         | material      |
+| **unfold_less**                  | unfold_less           | material      |
+| **unfold_more**                  | unfold_more           | material      |
+| **unpin**                        | unpin-left            | imx-icons     |
+| **view_column**                  | view_column           | material      |
+
+Este es el desglose de todos los iconos según los usa el componente:
+
+## Grid
+
+| Icon                 | Descripción                                                                    |
+| -------------------- | ------------------------------------------------------------------------------ |
+| **add**              | Se usa en el menú de filtro de estilo Excel para añadir una entrada de filtro.                                 |
+| **arrow_back**       | Se usa en varios elementos de la interfaz para mover una columna hacia atrás.                     |
+| **arrow_drop_down**  | Se usa en varios botones para indicar menús conmutables.                           |
+| **arrow_forward**    | Se usa en varios elementos de la interfaz para mover una columna hacia delante.                      |
+| **cancel**           | Se usa en varios elementos de la interfaz para cancelar operaciones.                          |
+| **chevron_right**    | Se usa para indicar menús expandibles, como en el filtrado de estilo Excel.          |
+| **close**            | Se usa para cerrar un menú expandido.                                                |
+| **confirm**          | Se usa para confirmar una operación.                                                  |
+| **drag_indicator**   | Se usa para mostrar un tirador que indica que un elemento puede arrastrarse.                      |
+| **error**            | Se usa en las celdas editables para indicar una entrada de datos errónea.                       |
+| **expand_more**      | Lo usa el menú de filtrado de estilo Excel para indicar la adición de más filtros.     |
+| **file_download**    | Lo usa el exportador de filtros de estilo Excel.                                             |
+| **filter_**          | Se usa para varios operandos de filtrado.                                           |
+| **group_work**       | Lo usa el área de colocación de la agrupación.                                                |
+| **hide**             | Lo usan varios elementos de la interfaz para ocultar columnas.                                |
+| **import_export**    | Lo usa el selector de datos de pivot para mover elementos.                                    |
+| **input_clear**      | Lo usan los campos de entrada para borrar los datos introducidos.                                  |
+| **next**             | Lo usa el menú de la fila de filtrado para navegar entre los chips.                      |
+| **pin**              | Lo usan varios elementos de la interfaz para anclar columnas.                                |
+| **prev**             | Lo usa el menú de la fila de filtrado para navegar entre los chips.                      |
+| **remove**           | Lo usan varios elementos de la interfaz como indicador de eliminación.                            |
+| **refresh**          | Lo usa el menú de la fila de filtrado para volver a cargar los filtros.                          |
+| **selected**         | Lo usan varios elementos de la interfaz para indicar la selección activa.                     |
+| **show**             | Lo usan varios elementos de la interfaz para mostrar columnas.                               |
+| **sort_asc**         | Lo usan varios elementos de la interfaz para indicar la dirección de ordenación.                     |
+| **sort_desc**        | Lo usan varios elementos de la interfaz para indicar la dirección de ordenación.                     |
+| **functions**        | Lo usan la cuadrícula dinámica y los selectores de datos.                                     |
+| **table_rows**       | Lo usa el selector de datos de la cuadrícula dinámica.                                          |
+| **tree_collapse**    | Lo usa la estructura de tipo árbol para mostrar menos detalles.                              |
+| **tree_expand**      | Lo usa la estructura de tipo árbol para mostrar más detalles.                              |
+| **unpin**            | Lo usan varios elementos de la interfaz para anclar columnas.                                |
+| **unfold_less**      | Lo usa la cuadrícula jerárquica para contraer todas las filas.                            |
+| **unfold_more**      | Lo usa la cuadrícula jerárquica para expandir todas las filas.                              |
+| **view_column**      | Lo usa el selector de datos de pivot.                                               |
+
+## Paginator
+
+| Icon           | Descripción                                                  |
+| -------------- | ------------------------------------------------------------ |
+| **first_page** | Lo usa el botón para ir a la primera página.    |
+| **last_page**  | Lo usa el botón para ir a la última página.     |
+| **prev**       | Lo usa el botón para ir a la página anterior. |
+| **next**       | Lo usa el botón para ir a la página siguiente.     |
+
+## Action Strip
+
+| Icon          | Descripción              |
+| ------------- | ------------------------ |
+| **add_child** | Lo usa el menú emergente.  |
+| **add_row**   | Lo usa el menú emergente.  |
+| **more_vert** | Lo usa el menú emergente.  |
+
+
+## Referencias de API
+<ApiLink type="Grid" />
+## Recursos adicionales
+
+Nuestra comunidad está activa y siempre da la bienvenida a nuevas ideas.
+
+- [{ProductName} **Foros**]({ForumsLink})
+- [{ProductName} **GitHub**]({GithubLink})

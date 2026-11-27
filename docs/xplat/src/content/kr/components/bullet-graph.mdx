@@ -1,0 +1,405 @@
+---
+title: "{Platform} 불릿 그래프 | 데이터 시각화 도구 | Infragistics"
+description: "Infragistics의 {Platform} 불릿 그래프 컨트롤을 사용하면 범위를 표시하거나 여러 측정값을 비교하는 대시보드를 만들 수 있습니다. 데이터 시각화 도구를 살펴보십시오!"
+keywords: "{Platform} 불릿 그래프, 애니메이션, 레이블, 바늘, 눈금, 범위, 눈금 표시, Infragistics"
+license: commercial
+mentionedTypes: ["BulletGraph"]
+namespace: Infragistics.Controls.Gauges
+_language: ko
+llms:
+  description: "{Platform} 불릿 그래프 컴포넌트는 측정값을 척도와 비교하여 선형적이고 간결하게 표시합니다."
+platformType: xplat
+---
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+# {Platform} 불릿 그래프 개요
+
+{Platform} 불릿 그래프 컴포넌트는 측정값을 척도와 비교하여 선형적이고 간결하게 표시합니다.
+
+{ProductName} 불릿 그래프 컴포넌트를 사용하면 대시보드에서 사용되는 미터와 게이지를 간단하면서도 명확한 막대형 차트로 대체하여 매력적인 데이터 표현을 만들 수 있습니다. 불릿 그래프는 목표를 향한 진행 상황, 좋음/더 좋음/최고 범위를 표시하거나, 최소한의 가로 또는 세로 공간에서 여러 측정값을 비교하는 가장 효과적이고 효율적인 방법 중 하나입니다.
+
+## {Platform} 불릿 그래프 예제
+
+다음 샘플은 같은 `BulletGraph`에 여러 속성을 설정하여 완전히 다른 불릿 그래프로 바꿀 수 있는 방법을 보여 줍니다.
+
+<Sample src="/gauges/bullet-graph/animation" height={155} alt="{Platform} 불릿 그래프 예제" />
+
+
+
+
+불릿 그래프는 하나의 척도, 하나의 눈금 표시 세트, 하나의 레이블 세트를 지원합니다. 불릿 그래프 컴포넌트는 애니메이션 전환도 기본으로 지원합니다. 이 애니메이션은 `transitionDuration` 속성을 설정하여 쉽게 사용자 지정할 수 있습니다.
+불릿 그래프의 기능에는 구성 가능한 방향과 진행 방향, 바늘 같은 구성 가능한 시각 요소 등이 포함됩니다.
+
+
+<PlatformBlock for="Angular, React, WebComponents">
+
+
+## 종속성
+게이지 패키지를 설치할 때는 코어 패키지도 함께 설치해야 합니다.
+
+```cmd
+npm install --save {PackageCore}
+npm install --save {PackageGauges}
+```
+
+</PlatformBlock>
+
+
+<PlatformBlock for="Angular, React, WebComponents, Blazor">
+## 컴포넌트 모듈
+
+<PlatformBlock for="Angular, React, WebComponents">
+
+`BulletGraph`에는 다음 모듈이 필요합니다:
+
+```json-snippet source="/gauges/bullet-graph/animation" channel="modulesImports...moduleRegistration" exclude="Xaml"
+{
+    "descriptions": {
+        "content": {
+            "type": "BulletGraph",
+            "name": "graph"
+        }
+    },
+    "modules": [
+        "gauges/BulletGraphModule"
+    ],
+    "$modules": [
+        "+doc:modulesImports",
+        "+doc:moduleRegistration"
+    ]
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+{ProductName} 서비스를 등록합니다:
+
+```csharp
+// in Program.cs file
+
+builder.Services.AddIgniteUIBlazor();
+```
+
+`BulletGraph`의 클라이언트 리소스 모듈인 <ApiLink raw type="BulletGraphModule" /> 등록은 **선택 사항**입니다. 컴포넌트는 처음 렌더링될 때 리소스를 로드합니다. `builder.Services.AddIgniteUIBlazor(typeof(IgbBulletGraphModule))`에 나열하면 리소스를 미리 로드하거나 클라이언트에서만 생성되는 요소를 지원할 수 있습니다([컴포넌트 모듈](general-getting-started.mdx#컴포넌트-모듈) 참조).
+
+</PlatformBlock>
+
+</PlatformBlock>
+
+
+
+## 사용법
+
+다음 코드는 불릿 그래프 컴포넌트를 만들고, 성능 막대, 비교 측정 마커, 척도의 세 가지 비교 범위를 구성하는 과정을 보여 줍니다.
+
+
+```json-snippet
+{
+    "type": "BulletGraph",
+    "$styleOptions": {
+        "colorNotation": "hex",
+        "uppercaseHexColors": true
+    },
+    "height": "100px",
+    "width": "300px",
+    "minimumValue": 5,
+    "maximumValue": 55,
+    "value": 35,
+    "targetValue": 43,
+    "ranges": [
+        { "type": "LinearGraphRange", "startValue": 0, "endValue": 15, "brush": "#828181" },
+        { "type": "LinearGraphRange", "startValue": 15, "endValue": 30, "brush": "#AAAAAA" },
+        { "type": "LinearGraphRange", "startValue": 30, "endValue": 55, "brush": "#D0D0D0" }
+    ]
+}
+```
+
+
+## 비교 측정
+불릿 그래프는 성능 값과 목표 값, 두 가지 측정값을 표시할 수 있습니다.
+
+성능 값은 컴포넌트가 표시하는 주요 측정값이며 그래프 전체 길이를 따라 뻗는 막대로 시각화됩니다. 목표 값은 성능 값이 비교되는 측정값입니다. 성능 막대의 방향에 수직으로 뻗는 작은 블록으로 표시됩니다.
+
+```json-snippet source="/gauges/bullet-graph/measures"
+{
+    "type": "BulletGraph",
+    "height": "80px",
+    "width": "400px",
+    "minimumValue": 0,
+    "maximumValue": 100,
+
+    "value": 50,
+    "valueBrush": "DodgerBlue",
+    "valueStrokeThickness": 1,
+    "valueInnerExtent": 0.5,
+    "valueOuterExtent": 0.65,
+
+    "targetValue": 80,
+    "targetValueBreadth": 10,
+    "targetValueBrush": "LimeGreen",
+    "targetValueOutline": "LimeGreen",
+    "targetValueStrokeThickness": 1,
+    "targetValueInnerExtent": 0.3,
+    "targetValueOuterExtent": 0.85
+}
+```
+
+
+<Sample src="/gauges/bullet-graph/measures" height={125} alt="{Platform} 불릿 그래프 측정값" />
+
+
+## 강조 값
+
+불릿 그래프의 성능 값은 강조 값으로 표시되는 진행 상황을 보여 주도록 더 수정할 수 있습니다. 이 경우 `BulletGraph.value`가 더 낮은 불투명도로 나타납니다. 예를 들어 `BulletGraph.value`가 50이고 `highlightValue`를 25로 설정하면, `targetValue`의 값이 무엇으로 설정되어 있든 50%의 성능을 나타냅니다. 이를 사용하려면 먼저 `highlightValueDisplayMode`를 Overlay로 설정한 다음, `highlightValue`를 `BulletGraph.value`보다 낮은 값으로 적용하십시오.
+
+```json-snippet source="/gauges/bullet-graph/highlight-needle"
+{
+    "type": "BulletGraph",
+    "height": "80px",
+    "width": "400px",
+    "minimumValue": 0,
+    "maximumValue": 100,
+    "value": 50,
+    "targetValue": 90,
+    "interval": 10,
+    "labelInterval": 10,
+    "labelExtent": 0.025,
+    "labelsPreTerminal": 0,
+    "labelsPostInitial": 0,
+    "highlightValueDisplayMode": "Overlay",
+    "highlightValue": 25
+}
+```
+
+<Sample src="/gauges/bullet-graph/highlight-needle" height={125} alt="{Platform} 불릿 그래프 강조 바늘" />
+
+
+## 비교 범위
+범위는 척도상의 지정된 값 범위를 강조하는 시각 요소입니다. 그 목적은 성능 막대 측정값의 정성적 상태를 시각적으로 전달하는 동시에, 그 상태 안에 얼마나 머물러 있는지도 함께 보여 주는 것입니다.
+
+```json-snippet source="/gauges/bullet-graph/ranges"
+{
+    "type": "BulletGraph",
+    "height": "80px",
+    "width": "400px",
+    "minimumValue": 0,
+    "maximumValue": 100,
+    "value": 80,
+    "interval": 10,
+    "targetValue": 90,
+    "rangeBrushes":  [ "#C62828", "#F96232", "#FF9800" ],
+    "rangeOutlines": [ "#C62828", "#F96232", "#FF9800" ],
+    "ranges": [
+        { "type": "LinearGraphRange", "startValue": 0,  "endValue": 40,  "innerStartExtent": 0.075, "innerEndExtent": 0.075, "outerStartExtent": 0.95, "outerEndExtent": 0.95 },
+        { "type": "LinearGraphRange", "startValue": 40, "endValue": 70,  "innerStartExtent": 0.075, "innerEndExtent": 0.075, "outerStartExtent": 0.95, "outerEndExtent": 0.95 },
+        { "type": "LinearGraphRange", "startValue": 70, "endValue": 100, "innerStartExtent": 0.075, "innerEndExtent": 0.075, "outerStartExtent": 0.95, "outerEndExtent": 0.95 }
+    ]
+}
+```
+
+<Sample src="/gauges/bullet-graph/ranges" height={125} alt="{Platform} 불릿 그래프 범위" />
+
+
+
+## 눈금 표시
+눈금 표시는 불릿 그래프의 가독성을 높이기 위해 척도를 구간으로 시각적으로 나누는 역할을 합니다.
+- 주 눈금 표시 – 주 눈금 표시는 척도의 기본 구분선으로 사용됩니다. 나타나는 빈도, 범위, 스타일은 해당 속성을 설정하여 제어할 수 있습니다.
+- 보조 눈금 표시 – 보조 눈금 표시는 척도의 가독성을 추가로 높이는 데 사용될 수 있는 보조 눈금 표시이며, 주 눈금 표시와 비슷한 방식으로 사용자 지정할 수 있습니다.
+
+```json-snippet source="/gauges/bullet-graph/tickmarks"
+{
+    "type": "BulletGraph",
+    "height": "80px",
+    "width": "400px",
+    "minimumValue": 0,
+    "maximumValue": 100,
+    "value": 70,
+    "targetValue": 90,
+    "interval": 10,
+
+    "tickBrush": "DodgerBlue",
+    "ticksPreTerminal": 0,
+    "ticksPostInitial": 0,
+    "tickStrokeThickness": 2,
+    "tickStartExtent": 0.2,
+    "tickEndExtent": 0.075,
+
+    "minorTickCount": 4,
+    "minorTickBrush": "DarkViolet",
+    "minorTickStartExtent": 0.2,
+    "minorTickEndExtent": 0.1,
+    "minorTickStrokeThickness": 1
+}
+```
+
+
+<Sample src="/gauges/bullet-graph/tickmarks" height={125} alt="{Platform} 불릿 그래프 눈금 표시" />
+
+
+
+## 레이블
+레이블은 척도상의 측정값을 나타냅니다.
+
+```json-snippet source="/gauges/bullet-graph/labels"
+{
+    "type": "BulletGraph",
+    "height": "80px",
+    "width": "400px",
+    "minimumValue": 0,
+    "maximumValue": 100,
+    "value": 70,
+    "targetValue": 90,
+    "interval": 10,
+    "labelInterval": 10,
+    "labelExtent": 0.025,
+    "labelsPreTerminal": 0,
+    "labelsPostInitial": 0,
+    "fontBrush": "DodgerBlue",
+    "font": "11px Verdana"
+}
+```
+
+
+<Sample src="/gauges/bullet-graph/labels" height={125} alt="{Platform} 불릿 그래프 레이블" />
+
+
+
+## 배경
+배경 요소는 불릿 그래프 컴포넌트의 배경과 테두리를 나타냅니다. 항상 가장 먼저 렌더링되며, 레이블과 눈금 표시 등 나머지 모든 요소는 그 위에 겹쳐서 표시됩니다.
+
+```json-snippet source="/gauges/bullet-graph/background"
+{
+    "type": "BulletGraph",
+    "height": "80px",
+    "width": "400px",
+    "minimumValue": 0,
+    "maximumValue": 100,
+    "value": 70,
+    "targetValue": 90,
+    "interval": 10,
+    "backingBrush": "#bddcfc",
+    "backingOutline": "DodgerBlue",
+    "backingStrokeThickness": 4,
+    "backingInnerExtent": 0,
+    "backingOuterExtent": 1
+}
+```
+
+
+<Sample src="/gauges/bullet-graph/background" height={125} alt="{Platform} 불릿 그래프 배경" />
+
+
+
+## 척도
+척도는 게이지의 전체 값 범위를 강조하는 시각 요소입니다. 척도의 모양과 형태를 사용자 지정할 수 있습니다. 척도는 (`isScaleInverted` 속성을 사용하여) 반전할 수도 있으며, 이 경우 모든 레이블이 왼쪽에서 오른쪽이 아니라 오른쪽에서 왼쪽으로 렌더링됩니다.
+
+```json-snippet source="/gauges/bullet-graph/scale"
+{
+    "type": "BulletGraph",
+    "height": "80px",
+    "width": "400px",
+    "minimumValue": 0,
+    "maximumValue": 100,
+    "value": 70,
+    "targetValue": 90,
+    "interval": 10,
+    "isScaleInverted": false,
+    "scaleBackgroundBrush": "DodgerBlue",
+    "scaleBackgroundOutline": "DarkViolet",
+    "scaleBackgroundThickness": 2,
+    "scaleStartExtent": 0.05,
+    "scaleEndExtent": 0.95
+}
+```
+
+
+<Sample src="/gauges/bullet-graph/scale" height={125} alt="{Platform} 불릿 그래프 척도" />
+
+
+
+## 요약
+편의를 위해 위의 모든 코드 조각을 하나의 코드 블록으로 결합했습니다. 아래 코드를 프로젝트에 쉽게 복사하면 모든 기능과 시각 요소가 활성화된 불릿 그래프를 확인할 수 있습니다.
+
+```json-snippet
+{
+    "type": "BulletGraph",
+    "height": "80px",
+    "width": "400px",
+    "minimumValue": 0,
+    "maximumValue": 100,
+    "interval": 10,
+
+    "isScaleInverted": false,
+    "scaleBackgroundBrush": "DodgerBlue",
+    "scaleBackgroundOutline": "DarkViolet",
+    "scaleBackgroundThickness": 2,
+    "scaleStartExtent": 0.05,
+    "scaleEndExtent": 0.95,
+
+    "value": 50,
+    "valueBrush": "DodgerBlue",
+    "valueStrokeThickness": 1,
+    "valueInnerExtent": 0.5,
+    "valueOuterExtent": 0.65,
+
+    "targetValue": 80,
+    "targetValueBreadth": 10,
+    "targetValueBrush": "LimeGreen",
+    "targetValueOutline": "LimeGreen",
+    "targetValueStrokeThickness": 1,
+    "targetValueInnerExtent": 0.3,
+    "targetValueOuterExtent": 0.85,
+
+    "highlightValueDisplayMode": "Overlay",
+    "highlightValue": 25,
+
+    "labelInterval": 10,
+    "labelExtent": 0.025,
+    "labelsPreTerminal": 0,
+    "labelsPostInitial": 0,
+    "fontBrush": "DodgerBlue",
+    "font": "11px Verdana",
+
+    "backingBrush": "#bddcfc",
+    "backingOutline": "DodgerBlue",
+    "backingStrokeThickness": 4,
+    "backingInnerExtent": 0,
+    "backingOuterExtent": 1,
+
+    "tickBrush": "DodgerBlue",
+    "ticksPreTerminal": 0,
+    "ticksPostInitial": 0,
+    "tickStrokeThickness": 2,
+    "tickStartExtent": 0.2,
+    "tickEndExtent": 0.075,
+
+    "minorTickCount": 4,
+    "minorTickBrush": "DarkViolet",
+    "minorTickStartExtent": 0.2,
+    "minorTickEndExtent": 0.1,
+    "minorTickStrokeThickness": 1,
+
+    "rangeBrushes":  [ "#C62828", "#F96232", "#FF9800" ],
+    "rangeOutlines": [ "#C62828", "#F96232", "#FF9800" ],
+    "ranges": [
+        { "type": "LinearGraphRange", "startValue": 0,  "endValue": 40,  "innerStartExtent": 0.075, "innerEndExtent": 0.075, "outerStartExtent": 0.95, "outerEndExtent": 0.95 },
+        { "type": "LinearGraphRange", "startValue": 40, "endValue": 70,  "innerStartExtent": 0.075, "innerEndExtent": 0.075, "outerStartExtent": 0.95, "outerEndExtent": 0.95 },
+        { "type": "LinearGraphRange", "startValue": 70, "endValue": 100, "innerStartExtent": 0.075, "innerEndExtent": 0.075, "outerStartExtent": 0.95, "outerEndExtent": 0.95 }
+    ]
+}
+```
+
+
+## API 참조
+`BulletGraph`
+`LinearGraphRange`
+## 추가 리소스
+
+다른 유형의 게이지에 대한 자세한 내용은 다음 항목을 참조하십시오:
+
+- [선형 게이지](linear-gauge.mdx)
+- [방사형 게이지](radial-gauge.mdx)

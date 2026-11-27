@@ -1,0 +1,91 @@
+---
+title: "Carga a demanda de Tree Grid: Angular nativo | Ignite UI for Angular"
+description: "El Tree Grid de Ignite UI for Angular proporciona las herramientas necesarias para cargar datos hijos a demanda cuando se expande una fila padre. De este modo, el volumen de datos se reduce notablemente y solo se recupera cuando el usuario lo necesita."
+keywords: "Ignite UI for Angular, controles de interfaz, widgets de Angular, widgets web, widgets de interfaz, Angular, conjunto de componentes nativos de Angular, controles nativos de Angular, biblioteca de componentes nativos de Angular, componente Angular Tree Grid, componente Angular Tree Table, control Angular Tree Grid, control Angular Tree Table, Angular Tree Grid de alto rendimiento, Angular Tree Table de alto rendimiento, Tree Grid, Tree Table"
+license: commercial
+_language: es
+llms:
+  description: "El TreeGrid de Ignite UI for Angular puede renderizarse de forma que necesite la mínima cantidad de datos del servidor, para que el usuario pueda verlo lo antes posible."
+---
+
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+
+# Carga a demanda de Tree Grid
+
+El <ApiLink type="TreeGrid" /> de Ignite UI for Angular puede renderizarse de forma que necesite la mínima cantidad de datos del servidor, para que el usuario pueda verlo lo antes posible. Después, solo cuando el usuario expande una fila, se cargan los hijos de esa fila padre concreta. Este mecanismo, también conocido como carga a demanda, puede configurarse fácilmente para funcionar con cualquier dato remoto.
+
+## Ejemplo de Angular Tree Grid con carga a demanda
+
+
+<Sample src="/tree-grid/treegrid-load-on-demand" height={450} alt="Ejemplo de Angular Tree Grid con carga a demanda" />
+
+
+### Uso
+
+La función de carga a demanda es compatible con ambos tipos de fuentes de datos de Tree Grid: [`primary and foreign keys`](/treegrid/tree-grid#claves-primarias-y-foráneas) o [`child collection`](/treegrid/tree-grid#colección-hija). Solo necesita cargar en el Tree Grid los datos del nivel raíz y especificar las claves necesarias para uno de los tipos de fuente de datos. Para cargar las filas hijas cuando el usuario expande una fila, el Tree Grid proporciona la propiedad de entrada de callback <ApiLink type="TreeGrid" member="loadChildrenOnDemand" label="loadChildrenOnDemand" />.
+
+```html
+<igx-tree-grid #treeGrid [data]="data" primaryKey="ID" foreignKey="ParentID"
+        [loadChildrenOnDemand]="loadChildren">
+        ...
+</igx-tree-grid>
+```
+
+
+El callback <ApiLink type="TreeGrid" member="loadChildrenOnDemand" label="loadChildrenOnDemand" /> recibe dos parámetros:
+
+- parentID: el ID de la fila padre que se está expandiendo.
+- done: callback que debe llamarse con los hijos cuando se recuperen del servidor.
+
+```typescript
+public loadChildren = (parentID: any, done: (children: any[]) => void) => {
+    this.dataService.getData(parentID, (children) => done(children));
+}
+```
+
+Después de que el usuario haga clic en el icono de expandir, este se sustituye por un indicador de carga. Cuando se llama al callback `done`, el indicador de carga desaparece y se cargan los hijos. El Tree Grid añade los hijos a la fuente de datos subyacente y rellena automáticamente las claves necesarias.
+
+Si tiene una forma de indicar si una fila tiene hijos antes de expandirla, puede usar la propiedad de entrada <ApiLink type="TreeGrid" member="hasChildrenKey" label="hasChildrenKey" />. Así puede proporcionar una propiedad booleana de los objetos de datos que indique si debe mostrarse un indicador de expansión.
+
+```html
+<igx-tree-grid #treeGrid [data]="data" primaryKey="ID" foreignKey="ParentID"
+        [loadChildrenOnDemand]="loadChildren" hasChildrenKey="hasEmployees">
+        ...
+</igx-tree-grid>
+```
+
+Tenga en cuenta que establecer la propiedad <ApiLink type="TreeGrid" member="hasChildrenKey" label="hasChildrenKey" /> no es obligatorio. Si no la proporciona, se mostrarán indicadores de expansión en cada fila. Después de expandir una fila que no tiene hijos, sigue siendo necesario llamar al callback `done` con undefined o con un array vacío. En ese caso, después de que desaparezca el indicador de carga, el indicador de expansión nunca aparece.
+
+Si quiere proporcionar su propio indicador de carga personalizado, puede crear un ng-template y marcarlo con la directiva `igxRowLoadingIndicator`. El siguiente fragmento de código muestra cómo definir esa plantilla personalizada:
+
+```html
+<igx-tree-grid ...>
+
+    ...
+
+    <ng-template igxRowLoadingIndicator>
+        <igx-icon fontSet="material">loop</igx-icon>
+    </ng-template>
+</igx-tree-grid>
+```
+
+<DocsAside type="info">
+Este componente usa Material Icons. Añada el siguiente enlace a su `index.html`: `<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">`
+</DocsAside>
+
+## Referencias de API
+- <ApiLink type="TreeGrid" />
+- <ApiLink kind="sass" module="themes" type="function-grid-theme" label="Estilos de IgxGridComponent" />
+## Recursos adicionales
+
+
+- [Descripción general de Tree Grid](/treegrid/tree-grid)
+- [Virtualización y rendimiento de Tree Grid](/treegrid/virtualization)
+
+Nuestra comunidad está activa y siempre da la bienvenida a nuevas ideas.
+
+- [Ignite UI for Angular **Foros**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

@@ -1,0 +1,117 @@
+---
+title: "Redondeo en Sass"
+description: "Ignite UI for Angular le permite cambiar la forma de los componentes modificando su border-radius."
+keywords: "Ignite UI for Angular, controles de interfaz, widgets de Angular, widgets web, widgets de interfaz, Angular, Native Angular Components Suite, Native Angular Controls, Native Angular Components Library" 
+_language: es
+llms:
+  description: "Ignite UI for Angular le permite cambiar la forma de los componentes estableciendo su redondeo en un valor entre 0 y 1."
+---
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+# Redondeo
+
+<div class="highlight">
+Ignite UI for Angular le permite cambiar la forma de los componentes estableciendo su redondeo en un valor entre 0 y 1.
+</div>
+<igc-divider></igc-divider>
+
+## Descripción general
+
+El radio de borde se define en el [esquema de tema](https://github.com/IgniteUI/igniteui-theming/blob/18f878033898e1b6a3bb0ed28993e9a4037d1a80/sass/themes/schemas/components/light/_toast.scss#L44) del componente (vea el ejemplo siguiente). El radio de borde de cualquier componente definido de esta forma puede controlarse después mediante el parámetro `$roundness` del mixin <ApiLink kind="sass" module="themes" type="mixin-theme" label="theme" /> o con una única variable CSS llamada `--ig-radius-factor`.
+
+```scss
+$light-toast: extend(
+    $default-elevation-toast,
+    (
+        ...,
+        border-radius: (
+            border-radius: (
+                rem(26px),
+                rem(0),
+                rem(26px),
+            ),
+        ),
+    )
+);
+```
+
+Como puede ver en el ejemplo, el esquema de componente de <ApiLink kind="sass" module="themes" type="function-toast-theme" label="Toast" /> define el radio de borde como una lista de tres valores. El primer valor es el radio de borde predeterminado (es decir, cuando no se declara `$roundness` ni `--ig-radius-factor`). El segundo valor indica el radio de borde mínimo permitido (es decir, cuando `$roundness` o `--ig-radius-factor` se establece en `0`). Y el tercer valor indica el radio de borde máximo permitido (es decir, cuando `$roundness` o `--ig-radius-factor` se establece en `1`). En el componente toast, los valores predeterminado y máximo coinciden. Cualquier valor entre 0 y 1 asignado a `$roundness` o `--ig-radius factor` establecerá el radio de borde del toast como un porcentaje del valor máximo. Por ejemplo, si establece el valor en `.5`, el radio de borde del componente Toast será el 50 % de su radio de borde máximo permitido, que es de 13 píxeles.
+
+```scss
+// Make all components sharp by setting the roundness parameter to 0.
+@include theme(
+    ...,
+    $roundness: 0
+);
+```
+
+### ¿Cómo se usa?
+
+Veamos cómo podemos cambiar los valores predeterminados del toast del ejemplo anterior.
+
+Si quiere que el toast siga viéndose afectado por `$roundness` o por la variable `--ig-radius-factor` del tema resultante, use la función `border-radius` que proporciona el paquete Ignite UI for Angular.
+
+```scss
+// Change the default, min and max values,
+// while preserving customization via $roundness or --ig-radius-factor.
+igx-toast {
+  --border-radius: #{border-radius(rem(4px), rem(4px), rem(16px))};
+}
+```
+
+Si quiere que el border-radius sea un valor constante, sin verse afectado por los cambios de `--ig-radius-factor`, basta con pasarlo directamente al parámetro border-radius.
+
+```scss
+// Will be unaffected by changes to $roundess or --ig-radius-factor.
+igx-toast {
+  --border-radius: rem(4px);
+}
+```
+
+También podemos usar el mixin `border-radius` para asignar directamente la propiedad border-radius a los elementos.
+
+```scss
+button {
+    @include border-radius(rem(4px), rem(4px), rem(16px));
+}
+```
+
+Ahora `border-radius` del botón se verá afectado por las variables `$roundness` y `--ig-radius-factor`.
+
+<hr/>
+
+### Valores base del radio de borde
+
+La tabla siguiente muestra un extracto de algunos valores de radio de borde de componentes, tal como se definen en el esquema Material.
+
+| **Componente**         | **Radio mín./máx.** | **Radio predeterminado** |
+| :-------------------- | :----------------- | :----------------- |
+| **Botón (plano)**      |  0 / 20px          | 4px                |
+| **Botón (con relleno)** |  0 / 20px          | 4px                |
+| **Botón (Fab)**       |  12px / 28px       | 28px               |
+| **Botón (icono)**      |  0 / 18px          | 18px               |
+| **Grupo de botones**      |  0 / 20px          | 4px                |
+| **Chip**              |  0 / 20px          | 4px                |
+| **Tarjeta**              |  0 / 24px          | 4px                |
+| **Carrusel**          |  0 / 36px          | 0                  |
+| **Diálogo**            |  0 / 36px          | 4px                |
+| **Desplegable**         |  0 / 20px          | 4px                |
+| **Panel de expansión**   |  0 / 16px          | 0                  |
+| **Campo de entrada (borde)**     |  0 / 20px          | 4px                |
+| **Campo de entrada (caja)**        |  0 / 20px          | 4px 4px 0 0        |
+| **Campo de entrada (búsqueda)**     |  0 / 20px          | 4px                |
+| **Lista**              |  0 / 24px          | 0                  |
+| **Elemento de lista**         |  0 / 24px          | 0                  |
+| **Cajón de navegación**         |  0 / 36px          | 0                  |
+| **Snackbar**          |  0 / 24px          | 4px                |
+| **Información emergente**           |  0 / 16px          | 4px                |
+| **Toast**             |  0 / 26px          | 26px               |
+
+Consulte la documentación de <ApiLink kind="sass" module="schemas" label="Schema" /> de cada componente para saber cuáles son los valores de radio predeterminado y mínimo/máximo de cada tema.
+
+<hr/>
+
+Nuestra comunidad está activa y siempre da la bienvenida a nuevas ideas.
+
+- [Ignite UI for Angular **Foros**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

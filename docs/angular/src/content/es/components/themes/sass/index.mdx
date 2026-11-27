@@ -1,0 +1,85 @@
+---
+title: "Temas con Sass"
+description: "El tema de Ignite UI for Angular está creado con Sass y expone un amplio conjunto de funciones y mixins de API que facilitan cambiar el estilo de los componentes o de toda la aplicación."
+keywords: "Ignite UI for Angular, controles de interfaz, widgets de Angular, widgets web, widgets de interfaz, Angular, Native Angular Components Suite, Native Angular Controls, Native Angular Components Library, Native Angular Components, componente de temas de Angular, temas de Angular"
+_language: es
+llms:
+  description: "Ignite UI for Angular no oculta su API de temas en Sass, para que usted tenga control total del estilo de su aplicación."
+---
+
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+
+# Temas con Sass
+
+<div class="highlight">
+Ignite UI for Angular no oculta su API de temas en Sass, para que usted tenga control total del estilo de su aplicación. La API que exponemos es, en gran medida, la misma que usamos internamente para crear cada tema que incluimos en el producto. Es abstracta y permite personalizar el tema con distinto grado de detalle: desde un único componente hasta todo el conjunto de la aplicación.
+</div>
+<igc-divider></igc-divider>
+
+## Descripción general
+
+Como **IgniteUI for Angular** basa el diseño de sus componentes en los [principios de Material Design](https://material.io/guidelines/material-design/introduction.html), intentamos acercarnos todo lo posible a los colores, tamaños, tipografía y aspecto general de nuestros componentes a los que Google creó para nuestro tema predeterminado. El sistema Material Design cambia continuamente y no evita implementar cambios importantes, lo que afecta en última instancia a cómo escribimos y modificamos los estilos de los componentes que distribuimos. Con soporte para 3 temas adicionales, Microsoft Fluent, Bootstrap y nuestro propio sistema de diseño Indigo, adaptar Material Design no es una tarea sencilla. Nos obligó a crear una base muy modular, configurable y a la vez mantenible, a partir de la cual se pueden generar estilos de componente muy distintos entre sí. También debemos dar soporte tanto a navegadores antiguos como modernos, y Sass nos ha sido de gran ayuda en esta tarea, ya que nos ha dado herramientas para crear un sistema sólido de variables, funciones y mixins.
+
+Nuestro enfoque del tema se basa en varios conceptos: esquemas de tema, paletas, tipografía, redondeo, elevaciones y animaciones. Estos conceptos se combinan para producir el tema final. Cada concepto se desglosa, a su vez, para permitir un enfoque más detallado del estilo.
+
+Como queremos asegurar que ciertos aspectos de nuestro sistema de diseño se mantengan intactos, no le permitimos cambiar absolutamente todo ni reescribir por completo los estilos con la API que exponemos; no obstante, si investiga a fondo, podría hacerlo.
+
+Explicaremos con detalle cada concepto y las API relacionadas para que se sienta realmente en control de nuestro motor de temas.
+
+<DocsAside type="info">
+Aunque la biblioteca de temas [**Sass**](https://sass-lang.com) es potente, la mayoría de las personas solo necesitará modificar algunas variables CSS para personalizar el tema predeterminado. Le recomendamos leer primero la documentación de las variables CSS. Solo debería usar Sass si quiere modificar el tema generado en un nivel más profundo. Un buen ejemplo sería cuando necesita crear varias variantes reutilizables de tema para el mismo componente, o cuando quiere eliminar el CSS no usado para incluir solo los estilos de los componentes que usa su aplicación.
+</DocsAside>
+
+## Paletas
+
+El primer concepto que debemos entender son las paletas. Como en cualquier herramienta visual, los colores son el principal factor que diferencia una aplicación de otra. Las guías de Material Design prescriben paletas de colores predefinidas que varían en matiz, luminosidad y saturación para un color base determinado. Hay una buena razón para ello: quieren asegurar una buena coincidencia de colores y un buen contraste entre los colores de fondo y los colores del texto en primer plano. Esto es excelente, pero también limitante. Si quisiera tener su propia paleta personalizada basada en las guías de Material que se ajuste a su marca, probablemente no tendría suerte. Somos conscientes de este problema, así que creamos un algoritmo que genera paletas tipo Material a partir de colores base que usted proporciona. Además, generamos colores de texto de contraste para cada matiz de la paleta.
+
+## Esquemas
+
+El segundo concepto importante gira en torno a los esquemas de tema. Los esquemas de tema son como recetas para los temas de componente individuales. Indican a cada tema de componente qué colores de la paleta debe usar y cuáles deben ser el redondeo general y las sombras. Por ejemplo, un esquema de componente le dice a un tema de componente que el color de fondo de un elemento debe ser la variante `500` de la paleta `primary`, sin importar qué paleta le pase el usuario al tema de componente.
+
+## Tipografía
+
+La tipografía es un módulo independiente de nuestra biblioteca de temas en Sass y está desacoplada de los temas de componente individuales. Aunque tenemos una tipografía predeterminada elegida, queremos darle el poder de dar estilo a su aplicación de todas las formas posibles. La tipografía es una parte muy importante de eso. Ofrecemos un método para cambiar la familia tipográfica, los tamaños y los grosores de los encabezados, subencabezados, botones, texto de cuerpo, etc., de su aplicación.
+
+## Redondeo
+
+El sistema de temas en Sass define el redondeo mínimo y máximo de cada componente. Quizás le resulte más familiar el término `border-radius` en el contexto de CSS. El redondeo es similar en el sentido de que usa `border-radius` para dar estilo a los elementos del componente; sin embargo, en el contexto del sistema de temas, el redondeo es un número entre 0 y 1. Un componente con redondeo 0 usa el radio de borde mínimo definido por el tema del componente, que puede ser 0 o un valor distinto de cero. Del mismo modo, si establece el redondeo en 1, el radio de borde será el máximo permitido para el componente. Mientras que los radios de borde mínimo y máximo se definen en el propio tema del componente, el valor base de redondeo se establece en el esquema del componente.
+
+## Elevaciones
+
+Las elevaciones son las sombras que se asignan a las distintas partes de cada tema de componente. Se basan en 25 niveles (0-24) según lo prescrito por las guías de Material Design. Tener un número finito de sombras nos permite definir de forma coherente la jerarquía de profundidad en nuestras aplicaciones. En Sass se definen como un mapa de 24 niveles de elevación con `box-shadows` como valores, que luego se pasa a un tema de componente. Los esquemas de componente proporcionan al tema información genérica sobre los niveles de elevación que deben usar determinados elementos.
+
+## Animaciones
+
+Algunos componentes usan transiciones y animaciones de fotogramas clave para comunicar los cambios de estado de forma clara. Incluimos una gran biblioteca de animaciones de fotogramas clave y funciones de temporización que puede importar y usar en toda su aplicación. Están sujetas a eliminación de código no usado (tree shaking), así que incluir dos veces el mismo mixin de animación produce una única declaración CSS en su hoja de estilos final.
+
+## Temas
+
+Por último, tenemos los temas de componente. Las paletas, los esquemas, las elevaciones, el redondeo y las animaciones no servirían de mucho por separado si no los usara un tema. Ofrecemos temas para componentes individuales y un tema global que da estilo a toda la aplicación y a todos los componentes que contiene. Solo tiene que pasar la paleta y el esquema al tema global, y nosotros nos encargamos del resto. Por supuesto, puede dar estilo a cada componente individualmente según su gusto creando esquemas y elevaciones personalizados, y pasando valores distintos de redondeo y colores a los mixins de tema de componente.
+
+## Recursos adicionales
+
+<hr/>
+
+Aprenda los conceptos:
+
+- [Configuración](/themes/sass/configuration)
+- [Paletas](/themes/sass/palettes)
+- [Tipografía](/themes/sass/typography)
+- [Elevaciones](/themes/sass/elevations)
+- [Esquemas](/themes/sass/schemas)
+- [Animaciones](/themes/sass/animations)
+
+Aprenda a crear temas para toda la aplicación:
+
+- [Temas de aplicación](/themes/sass/global-themes)
+
+Aprenda a crear temas específicos de componente:
+
+- [Temas de componente](/themes/sass/component-themes)
+
+Nuestra comunidad está activa y siempre da la bienvenida a nuevas ideas.
+
+- [Ignite UI for Angular **Foros**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

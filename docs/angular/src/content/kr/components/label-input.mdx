@@ -1,0 +1,189 @@
+---
+title: "Angular Label 및 Input 디렉티브 - MIT 라이선스" 
+description: "Ignite UI for Angular Label 및 Input 디렉티브를 사용하면 개발자는 한 줄 또는 여러 줄 입력 요소를 꾸미고 스타일을 지정하며, 추가 CSS 스타일을 적용하고, 다른 컨트롤과 통합할 수 있습니다."
+keywords: "Ignite UI for Angular, UI 컨트롤, Angular 위젯, 웹 위젯, UI 위젯, Angular, Native Angular Components Suite, Angular UI 컴포넌트, Native Angular Components Library, Angular Label 컴포넌트, Angular Label 컨트롤, Angular Input 컴포넌트, Angular Input 컨트롤, Input 컴포넌트, Input 컨트롤, Label 컴포넌트, Label 컨트롤, Angular Input 디렉티브, Angular Label 디렉티브, Angular 폼, Angular 반응형 폼, Angular 폼 검증"
+license: MIT
+_language: ko
+llms:
+  description: "Ignite UI for Angular Input 및 Label 디렉티브는 igx-input-group 컴포넌트 안의 한 줄 또는 여러 줄 입력 요소를 꾸미고 스타일을 지정하는 데 사용됩니다."
+---
+
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+# Angular Label & Input 디렉티브 개요
+
+Ignite UI for Angular Input 및 Label 디렉티브는 `igx-input-group` 컴포넌트 안의 한 줄 또는 여러 줄 입력 요소를 꾸미고 스타일을 지정하는 데 사용됩니다.
+
+## Angular Label & Input 예제
+
+<Sample src="/data-entries/input-group-sample-1" height={100} alt="Angular Label & Input 예제" />
+
+<hr/>
+
+## Ignite UI for Angular Label & Input 시작하기
+
+Ignite UI for Angular Label 및 Input 디렉티브를 시작하려면 먼저 Ignite UI for Angular를 설치해야 합니다. 기존 Angular 애플리케이션에서 다음 명령을 입력하십시오:
+
+```cmd
+ng add igniteui-angular
+```
+
+Ignite UI for Angular에 대한 전체 소개는 [_시작하기_](/general/getting-started) 항목을 읽어 보십시오.
+
+다음 단계는 **app.module.ts** 파일에서 `IgxInputGroupModule`을 가져오는 것입니다.
+
+```typescript
+// app.module.ts
+
+import { FormsModule } from '@angular/forms';
+import { IgxInputGroupModule } from 'igniteui-angular/input-group';
+// import { IgxInputGroupModule } from '@infragistics/igniteui-angular'; for licensed package
+
+@NgModule({
+    ...
+    imports: [..., IgxInputGroupModule, FormsModule],
+    ...
+})
+export class AppModule {}
+```
+
+또는 `16.0.0` 버전부터는 `IgxLabelDirective`, `IgxInputDirective`, `IgxInputGroupComponent`를 독립형 종속성으로 가져올 수 있으며, 또는 [`IGX_INPUT_GROUP_DIRECTIVES`](https://github.com/IgniteUI/igniteui-angular/blob/master/projects/igniteui-angular/input-group/src/input-group/public_api.ts) 토큰을 사용하여 컴포넌트와 모든 지원 컴포넌트 및 디렉티브를 가져올 수 있습니다.
+
+```typescript
+// home.component.ts
+
+import { FormsModule } from '@angular/forms';
+import { IGX_INPUT_GROUP_DIRECTIVES } from 'igniteui-angular/input-group';
+// import { IGX_INPUT_GROUP_DIRECTIVES } from '@infragistics/igniteui-angular'; for licensed package
+
+@Component({
+  selector: 'app-home',
+  template: `
+    <igx-input-group>
+      <input igxInput name="fullName" type="text" [(ngModel)]="fullName" />
+      <label igxLabel for="fullName">Full Name</label>
+    </igx-input-group>
+  `,
+  styleUrls: ['home.component.scss'],
+  standalone: true,
+  imports: [IGX_INPUT_GROUP_DIRECTIVES, FormsModule],
+  /* or imports: [IgxInputGroupComponent, IgxLabelDirective, IgxInputDirective, FormsModule] */
+})
+export class HomeComponent {
+  public fullName = 'John Doe';
+}
+```
+
+이제 Ignite UI for Angular Input Group 모듈 또는 디렉티브를 가져왔으므로, `igxLabel` 및 `igxInput` 디렉티브와 `igx-input-group` 컴포넌트를 사용하기 시작할 수 있습니다.
+
+## Angular Label & Input 사용하기
+
+Label 및 Input 디렉티브의 기본 스타일은 Material Design
+[**지침**](https://material.io/guidelines/components/text-fields.html)의 텍스트 필드 사양을 따릅니다.
+
+<ApiLink type="InputDirective" label="igxInput" />과 <ApiLink type="LabelDirective" label="igxLabel" />를 사용하려면 이를 `<igx-input-group>` 컨테이너로 감싸야 합니다:
+
+```html
+<igx-input-group>
+  <input igxInput name="fullName" type="text" />
+  <label igxLabel for="fullName">Full Name</label>
+</igx-input-group>
+```
+
+`igxInput` 디렉티브는 한 줄 및 여러 줄 텍스트 필드 모두에서 `<input>` 및 `<textarea>` HTML 요소에 적용할 수 있습니다.
+
+### 검증
+
+<ApiLink type="InputDirective" member="required" label="required" /> 속성을 사용하여 `input`을(를) 검증할 수 있습니다. 이렇게 하면 레이블 옆에 별표가 추가되어 이 필드를 반드시 작성해야 함을 나타냅니다. 입력은 검증 통과 여부에 따라 녹색 또는 빨간색으로 바뀝니다.
+
+```html
+<igx-input-group>
+  <input igxInput name="fullName" type="text" required="required" />
+  <label igxLabel for="fullName">Full Name</label>
+</igx-input-group>
+```
+
+<Sample src="/data-entries/input-group-sample-2" height={100} alt="" />
+
+<hr/>
+
+### 데이터 바인딩
+
+Ignite UI for Angular Input 디렉티브는 단방향과 양방향 데이터 바인딩을 모두 지원합니다. 다음 코드는 `NgModel`을(를) 사용하여 양방향 데이터 바인딩을 추가하는 방법을 보여 줍니다:
+
+```typescript
+public user = {
+    fullName: ""
+};
+
+```
+
+마크업에서:
+
+```html
+<igx-input-group>
+  <input igxInput name="fullName" type="text" [(ngModel)]="user.fullName" required="required"/>
+  <label igxLabel for="fullName">Full Name</label>
+</igx-input-group>
+```
+
+### 포커스 & 텍스트 선택
+
+<ApiLink type="FocusDirective" /> 디렉티브를 사용하여 입력 요소에 `focus`을(를) 강제하는 로직을 추가할 수 있습니다.
+
+```html
+<igx-input-group>
+  <input igxInput [igxFocus]="isFocused" name="fullName" type="text" />
+  <label igxLabel for="fullName">Full Name</label>
+</igx-input-group>
+```
+
+<DocsAside type="info">
+<ApiLink type="FocusDirective" /> 디렉티브를 사용하려면 <ApiLink type="FocusDirective" />을(를) import해야 합니다.
+</DocsAside>
+
+`igxInput`로 표시된 입력 요소의 텍스트를 포커스 시 선택되도록 하려면 <ApiLink type="TextSelectionDirective" /> 디렉티브를 활성화해야 합니다.
+
+```html
+<igx-input-group>
+  <input igxInput [igxTextSelection]="true" [igxFocus]="isFocused" name="fullName" type="text"/>
+  <label igxLabel for="fullName">Full Name</label>
+</igx-input-group>
+
+<igx-input-group>
+  <input igxInput [igxTextSelection]="true" name="email" type="text" />
+  <label igxLabel for="email">Email</label>
+</igx-input-group>
+```
+
+<DocsAside type="info">
+<ApiLink type="TextSelectionDirective" /> 디렉티브를 사용하려면 <ApiLink type="TextSelectionDirective" />을(를) import해야 합니다.
+</DocsAside>
+
+<Sample src="/data-entries/input-text-selection" height={130} alt="" />
+
+<hr/>
+
+## Input Group
+
+Ignite UI for Angular Input Group 컴포넌트는 개발자가 사용하기 쉽고 보기 좋은 폼을 만들도록 돕습니다. 자세한 내용은 [Input Group 문서](/input-group)를 읽어 보십시오.
+
+## API 참조
+<hr/>
+- <ApiLink type="LabelDirective" />
+- <ApiLink type="InputDirective" />
+- <ApiLink type="InputGroup" />
+## 추가 리소스
+
+<hr/>
+
+관련 항목:
+
+- [Input Group](/input-group)
+
+커뮤니티는 활발하며 새로운 아이디어를 언제나 환영합니다.
+
+- [Ignite UI for Angular **포럼**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

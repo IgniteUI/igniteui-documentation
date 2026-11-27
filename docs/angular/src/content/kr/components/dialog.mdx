@@ -1,0 +1,371 @@
+---
+title: "Angular Dialog Window 컴포넌트 - MIT 라이선스" 
+description: "정보를 제공하는 대화 상자를 만들든 데이터 조작 창을 만들든, Ignite UI for Angular Dialog Window 컴포넌트는 빠른 처리를 위해 실시간으로 표시되는 정보를 관리할 수 있습니다."
+keywords: "Ignite UI for Angular, UI 컨트롤, Angular 위젯, 웹 위젯, UI 위젯, Angular, Native Angular Components Suite, Angular UI 컴포넌트, Native Angular Components Library, Angular Dialog Window 컴포넌트, Angular Dialog Window 컨트롤, Angular Dialog 컴포넌트"
+license: MIT
+_language: ko
+llms:
+  description: "Ignite UI for Angular Dialog Window 컴포넌트를 사용하여 메시지를 표시하거나 사용자가 작성할 양식을 제공하십시오."
+---
+
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+# Angular Dialog Window 컴포넌트 개요
+
+<div class="highlight">
+Ignite UI for Angular Dialog Window 컴포넌트를 사용하여 메시지를 표시하거나 사용자가 작성할 양식을 제공하십시오. 이 컴포넌트는 앱 콘텐츠 위 중앙에 대화 상자 창을 엽니다. 사용자가 취소할 수 있는 표준 경고 메시지도 제공할 수 있습니다.
+</div>
+
+## Angular Dialog Window 예제
+
+<Sample src="/interactions/dialog-sample-1" height={200} alt="Angular Dialog Window 예제" />
+
+<hr/>
+
+## Ignite UI for Angular Dialog Window 시작하기
+
+Ignite UI for Angular Dialog Window 컴포넌트를 시작하려면 먼저 Ignite UI for Angular를 설치해야 합니다. 기존 Angular 애플리케이션에서 다음 명령을 입력하십시오:
+
+```cmd
+ng add igniteui-angular
+```
+
+Ignite UI for Angular에 대한 전체 소개는 [_시작하기_](/general/getting-started) 항목을 읽어 보십시오.
+
+다음 단계는 **app.module.ts** 파일에서 `IgxDialogModule`을 가져오는 것입니다.
+
+```typescript
+// app.module.ts
+
+...
+import { IgxDialogModule } from 'igniteui-angular/dialog';
+// import { IgxDialogModule } from '@infragistics/igniteui-angular'; for licensed package
+
+@NgModule({
+    ...
+    imports: [..., IgxDialogModule],
+    ...
+})
+export class AppModule {}
+```
+
+또는 `16.0.0` 버전부터는 `IgxDialogComponent`을 독립형(standalone) 종속성으로 가져올 수 있으며, [`IGX_DIALOG_DIRECTIVES`](https://github.com/IgniteUI/igniteui-angular/blob/master/projects/igniteui-angular/dialog/src/dialog/public_api.ts) 토큰을 사용하여 컴포넌트와 모든 지원 컴포넌트 및 디렉티브를 가져올 수도 있습니다.
+
+```typescript
+// home.component.ts
+
+import { IGX_DIALOG_DIRECTIVES } from 'igniteui-angular/dialog';
+import { IgxButtonDirective } from 'igniteui-angular/directives';
+import { IgxRippleDirective } from 'igniteui-angular/directives';
+// import { IGX_DIALOG_DIRECTIVES, IgxButtonDirective, IgxRippleDirective } from '@infragistics/igniteui-angular'; for licensed package
+
+@Component({
+    selector: 'app-home',
+    template: `
+    <button igxButton="contained" igxRipple="white" (click)="alert.open()">Show Alert Dialog</button>
+
+    <igx-dialog #alert
+        title="Notification"
+        message="Your email has been sent successfully!"
+        leftButtonLabel="OK"
+        (leftButtonSelect)="alert.close()">
+    </igx-dialog>
+    `,
+    styleUrls: ['home.component.scss'],
+    standalone: true,
+    imports: [IGX_DIALOG_DIRECTIVES, IgxButtonDirective, IgxRippleDirective]
+    /* or imports: [IgxDialogComponent, IgxButtonDirective, IgxRippleDirective] */
+})
+export class HomeComponent {}
+```
+
+<DocsAside type="info">
+이 컴포넌트는 Material Icons를 사용합니다. 다음 링크를 `index.html`에 추가하십시오: `<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">`
+</DocsAside>
+
+이제 Ignite UI for Angular Dialog Window 모듈 또는 디렉티브를 가져왔으므로, `igx-dialog` 컴포넌트를 사용하기 시작할 수 있습니다.
+
+<hr/>
+
+## Angular Dialog Window 사용하기
+
+### 경고 대화 상자
+
+경고 대화 상자를 만들려면 이메일 컴포넌트의 템플릿에 다음 코드를 추가합니다. <ApiLink type="Dialog" member="title" label="title" />, <ApiLink type="Dialog" member="message" label="message" />,
+<ApiLink type="Dialog" member="leftButtonLabel" label="leftButtonLabel" />을(를) 설정하고 <ApiLink type="Dialog" member="leftButtonSelect" label="leftButtonSelect" /> 이벤트를 처리해야 합니다:
+
+```html
+{/*email.component.html*/}
+<button igxButton="contained" igxRipple="white" (click)="alert.open()">Show Alert Dialog</button>
+
+<igx-dialog #alert
+    title="Notification"
+    message="Your email has been sent successfully!"
+    leftButtonLabel="OK"
+    (leftButtonSelect)="alert.close()">
+</igx-dialog>
+```
+
+모든 것이 올바르게 되었다면 브라우저에서 위에 보이는 데모 샘플이 나타나야 합니다.
+
+<hr/>
+
+### 표준 대화 상자
+
+표준 대화 상자를 만들려면 파일 관리자 컴포넌트의 템플릿에 다음 코드를 추가합니다. <ApiLink type="Dialog" member="title" label="title" />, <ApiLink type="Dialog" member="message" label="message" />,
+<ApiLink type="Dialog" member="leftButtonLabel" label="leftButtonLabel" />, <ApiLink type="Dialog" member="rightButtonLabel" label="rightButtonLabel" />을(를) 설정하고 <ApiLink type="Dialog" member="leftButtonSelect" label="leftButtonSelect" /> 및 <ApiLink type="Dialog" member="rightButtonSelect" label="rightButtonSelect" /> 이벤트를 처리해야 합니다:
+
+```html
+{/*file-manager.component.html*/}
+<button igxButton="contained" igxRipple="white" (click)="dialog.open()">Show Confirmation Dialog</button>
+
+<igx-dialog #dialog title="Confirmation"
+    leftButtonLabel="Cancel"
+    (leftButtonSelect)="dialog.close()"
+    rightButtonLabel="OK"
+    (rightButtonSelect)="onDialogOKSelected($event)"
+    message="Are you sure you want to delete the Microsoft_Annual_Report_2015.pdf and Microsoft_Annual_Report_2015.pdf files?">
+</igx-dialog>
+```
+
+<Sample src="/interactions/dialog-sample-2" height={250} alt="" />
+
+<hr/>
+
+### 사용자 지정 대화 상자
+
+사용자 지정 대화 상자를 만들려면 로그인 컴포넌트의 템플릿에 다음 코드를 추가합니다. 대화 상자 제목 영역은 `igxDialogTitle` 디렉티브 또는 `igx-dialog-title` 선택기를 사용하여 사용자 지정할 수 있습니다. 작업 영역은 `igxDialogActions` 디렉티브 또는 `igx-dialog-actions` 선택기를 사용하여 사용자 지정할 수 있습니다.
+[**igxLabel**](/input-group) 및 [**igxInput**](/input-group) 디렉티브로 꾸민 레이블과 입력으로 구성된 두 개의 입력 그룹을 추가합니다.
+
+```html
+{/*sign-in.component.html*/}
+<button igxButton="contained" igxRipple="white" (click)="alert.open()">Show Custom Dialog</button>
+
+<igx-dialog #form [closeOnOutsideSelect]="true">
+    <igx-dialog-title>
+        <div class="dialog-container">
+
+            <igx-icon>vpn_key</igx-icon>
+            <div class="dialog-title">
+Sign In
+</div>
+        
+</div>
+    </igx-dialog-title>
+
+    <form class="signInForm">
+        <igx-input-group>
+            <igx-prefix>
+                <igx-icon>person</igx-icon>
+            </igx-prefix>
+            <label igxLabel for="username">Username</label>
+            <input igxInput id="username" type="text"/>
+        </igx-input-group>
+        <igx-input-group>
+            <igx-prefix>
+                <igx-icon>lock</igx-icon>
+            </igx-prefix>
+            <label igxLabel>Password</label>
+            <input igxInput id="password" type="password"/>
+        </igx-input-group>
+    </form>
+
+    <div igxDialogActions>
+        <button igxButton (click)="form.close()">CANCEL</button>
+        <button igxButton (click)="form.close()">SIGN IN</button>
+    
+</div>
+</igx-dialog>
+```
+
+<Sample src="/interactions/dialog-sample-3" height={300} alt="" />
+
+<hr/>
+
+### 위치 및 애니메이션 설정
+
+`igx-dialog`이(가) 표시되는 위치를 변경하는 방법은 두 가지입니다:
+
+- <ApiLink type="Dialog" member="open" label="open" /> 메서드를 사용하고 유효한 <ApiLink kind="interface" type="OverlaySettings" />을(를) 전달합니다. 예:
+
+```typescript
+import { PositionSettings, OverlaySettings, GlobalPositionStrategy, NoOpScrollStrategy, HorizontalAlignment, VerticalAlignment } from 'igniteui-angular/core';
+// import { PositionSettings, OverlaySettings, GlobalPositionStrategy, NoOpScrollStrategy, HorizontalAlignment, VerticalAlignment } from '@infragistics/igniteui-angular'; for licensed package
+
+@Component({...})
+export class HomeComponent {
+    public positionSettingsOnOpen: PositionSettings = {
+        horizontalDirection: HorizontalAlignment.Right,
+        verticalDirection: VerticalAlignment.Middle,
+        horizontalStartPoint: HorizontalAlignment.Right,
+        verticalStartPoint: VerticalAlignment.Middle,
+    };
+    public overlaySettings: OverlaySettings = {
+        positionStrategy: new GlobalPositionStrategy(this.positionSettingsOnOpen),
+        scrollStrategy: new NoOpScrollStrategy(),
+        modal: false,
+        closeOnOutsideClick: true
+    };
+
+    public openDialog() {
+        this.alert.open(this.overlaySettings);
+    }
+}
+```
+
+- <ApiLink type="Dialog" member="positionSettings" label="positionSettings" /> `@Input`을(를) 사용합니다. 예:
+
+```html
+<igx-dialog #alert title="Notification" [positionSettings]="positionSettings" >
+</igx-dialog>
+```
+
+```typescript
+import { useAnimation } from '@angular/animations';
+import { slideInTop, slideOutBottom } from 'igniteui-angular/animations';
+import { PositionSettings, HorizontalAlignment, VerticalAlignment } from 'igniteui-angular/core';
+// import { PositionSettings, HorizontalAlignment, VerticalAlignment } from '@infragistics/igniteui-angular'; for licensed package
+
+@Component({...})
+export class HomeComponent {
+    public positionSettings: PositionSettings = {
+        openAnimation: useAnimation(slideInTop, { params: { duration: '2000ms' } }),
+        closeAnimation: useAnimation(slideOutBottom, { params: { duration: '2000ms'} }),
+        horizontalDirection: HorizontalAlignment.Left,
+        verticalDirection: VerticalAlignment.Middle,
+        horizontalStartPoint: HorizontalAlignment.Left,
+        verticalStartPoint: VerticalAlignment.Middle,
+        minSize: { height: 100, width: 100 }
+    };
+}
+```
+
+<DocsAside type="info">
+애니메이션 설정도 같은 방식으로 적용해야 합니다. `openAnimation` 및 `closeAnimation` 속성을 사용하여 지속 시간과 같은 애니메이션 매개변수를 정의하십시오.
+</DocsAside>
+`params` 객체 예:
+
+```typescript
+params: {
+    delay: '0s',
+    duration: '350ms',
+    easing: EaseOut.quad,
+    endOpacity: 1,
+    fromPosition: 'translateX(-500px)',
+    startOpacity: 0,
+    toPosition: 'translateY(0)'
+}
+```
+
+### 대화 상자 안에서 포커스 가두기
+
+기본적으로 대화 상자가 열리면 Tab 키 포커스는 대화 상자 안에 갇힙니다. 즉, 사용자가 포커스 가능한 요소를 계속 Tab으로 이동해도 포커스가 요소를 벗어나지 않습니다. 포커스가 마지막 요소를 벗어나면 첫 번째 요소로 이동하고, SHIFT + TAB을 누르면 포커스가 첫 번째 요소를 벗어날 때 마지막 요소에 포커스가 가야 합니다. 대화 상자에 포커스 가능한 요소가 없으면 포커스는 대화 상자 컨테이너 자체에 갇힙니다. 이 동작은 <ApiLink type="Dialog" member="focusTrap" label="focusTrap" /> 속성을 설정하여 변경할 수 있습니다.
+
+## 스타일링
+
+### 대화 상자 테마 속성 매핑
+
+`$background` 속성을 변경하면 다음 종속 속성이 자동으로 업데이트됩니다:
+
+| 기본 속성 | 종속 속성 | 설명 |
+| --- | --- | --- |
+| **$background** | $title-color | 대화 상자 제목 텍스트의 색상입니다. |
+|  | $message-color | 대화 상자 메시지 텍스트의 색상입니다. |
+|  | $border-color | 대화 상자 컴포넌트에 사용되는 테두리 색상입니다. |
+
+대화 상자 창의 스타일링을 시작하려면 모든 테마 함수와 `tokens()` 믹스인을 내보내는 `index` 파일을 가져와야 합니다:
+
+```scss
+@use "igniteui-angular/theming" as *;
+
+// IMPORTANT: Prior to Ignite UI for Angular version 13 use:
+// @import '~igniteui-angular/lib/core/styles/themes/index';
+```
+
+가장 단순한 방법으로, <ApiLink kind="sass" module="themes" type="function-dialog-theme" label="dialog-theme" code={true} />을(를) 확장하고 대화 상자의 스타일을 지정하는 매개변수를 받는 새 테마를 만듭니다. `$background`을(를) 제공하면 테마가 전경 속성에 적합한 대비 색상을 자동으로 선택합니다. 다만 원하는 경우 직접 정의할 수도 있습니다.
+
+```scss
+$my-dialog-theme: dialog-theme(
+  $background: #011627,
+  $title-color: #ecaa53,
+  $border-radius: 5px,
+);
+```
+
+<DocsAside type="info">
+대화 상자 창 콘텐츠의 일부로 사용되는 추가 컴포넌트(예: [`IgxButton`](./inputs/button.mdx))의 스타일을 지정하려면, 해당 컴포넌트 전용 추가 테마를 만들고 이를 대화 상자 창의 범위 안에만 두어야 합니다(그래야 애플리케이션의 나머지 부분에는 영향을 주지 않습니다).
+</DocsAside>
+
+```scss
+$custom-button: contained-button-theme(
+  $background: #ecaa53,
+  $foreground: #011627,
+);
+```
+
+대화 상자 창은 [`IgxOverlayService`](/overlay)을(를) 사용하므로, 사용자 지정 테마가 스타일을 지정하려는 대화 상자 창까지 도달하도록 하려면 대화 상자 창이 표시될 때 DOM에 배치될 특정 outlet을 제공해야 합니다.
+
+```html
+<div igxOverlayOutlet>
+  <igx-dialog #dialog1>
+      {/* .... */}
+  </igx-dialog>
+</div>
+```
+
+<DocsAside type="info">
+[`IgxOverlayService`](/overlay)을 사용하여 표시되는 요소에 테마를 제공하는 다양한 방법에 대해 더 알아보려면 [오버레이 스타일링 항목](/overlay-styling)을 참조하십시오.
+</DocsAside>
+
+### 테마 포함하기
+
+<igc-divider></igc-divider>
+
+마지막 단계는 애플리케이션에 컴포넌트 테마를 **포함**하는 것입니다.
+
+```scss
+:host {
+    @include tokens($my-dialog-theme);
+}
+```
+
+<DocsAside type="info">
+일부 컴포넌트 템플릿에서는 Emulated View Encapsulation 때문에 생성된 토큰 선언이 중첩된 Ignite UI 요소에 도달하지 못할 수 있습니다. 테마가 적용되지 않으면 아래와 같이 `::ng-deep`을(를) 사용하거나 테마를 전역 스타일시트로 옮기십시오.
+</DocsAside>
+
+```scss
+:host {
+  ::ng-deep {
+    @include tokens($my-dialog-theme);
+  }
+}
+```
+
+### 데모
+
+<Sample src="/interactions/dialog-styling-sample" height={300} alt="" />
+
+<hr/>
+
+## API 참조
+<hr/>
+- <ApiLink type="Dialog" />
+- <ApiLink kind="sass" module="themes" type="function-dialog-theme" label="IgxDialogComponent 스타일" />
+- <ApiLink kind="interface" type="OverlaySettings" />
+- <ApiLink kind="sass" module="themes" type="function-overlay-theme" label="IgxOverlay 스타일" />
+## 테마 종속성
+
+- <ApiLink kind="sass" module="themes" type="function-button-theme" label="IgxButton 테마" />
+- <ApiLink kind="sass" module="themes" type="function-ripple-theme" label="IgxRipple 테마" />
+- <ApiLink kind="sass" module="themes" type="function-overlay-theme" label="IgxOverlay 테마" />
+
+## 추가 리소스
+
+<hr/>
+
+커뮤니티는 활발하며 새로운 아이디어를 언제나 환영합니다.
+
+- [Ignite UI for Angular **포럼**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

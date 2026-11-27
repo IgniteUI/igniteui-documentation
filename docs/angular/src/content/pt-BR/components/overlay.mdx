@@ -1,0 +1,354 @@
+---
+title: "Angular Overlay Service – Ignite UI for Angular | Infragistics | Licença MIT"
+description: "Oferece um serviço que permite aos desenvolvedores posicionar conteúdo acima de todos os outros componentes e conteúdos HTML da página. Vem com uma API robusta que permite uma configuração precisa do serviço."
+keywords: "Ignite UI for Angular, controles de UI, widgets Angular, widgets web, widgets de UI, Angular, Native Angular Components Suite, Native Angular Controls, Native Angular Components Library, componente Angular Overlay Service"
+license: MIT
+_language: pt-BR
+llms:
+  description: "O overlay service oferece uma forma fácil e rápida de renderizar conteúdo dinamicamente em primeiro plano em uma aplicação."
+---
+
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+# Overlay
+
+<div class="highlight">
+
+O overlay service oferece uma forma fácil e rápida de renderizar conteúdo dinamicamente em primeiro plano em uma aplicação. O conteúdo a ser renderizado, assim como a forma como ele é renderizado (por exemplo, posicionamento, animações e comportamentos de rolagem e clique), é altamente configurável e capaz de atender a todos os cenários possíveis.
+O overlay service está totalmente integrado à diretiva toggle.
+</div>
+<hr/>
+
+## Exemplo de overlay do Angular
+
+<Sample src="/interactions/overlay-sample-main-1" height={350} alt="Exemplo de overlay do Angular" />
+
+<hr/>
+
+## Primeiros passos
+
+Primeiro, precisamos importar o <ApiLink type="OverlayService" /> no componente e `inject` uma referência a ele no construtor do componente:
+
+```typescript
+
+import { Inject } from '@angular/core'
+import { IgxOverlayService } from 'igniteui-angular';
+
+...
+
+export class MyOverlayComponent {
+    constructor(
+        @Inject(IgxOverlayService) private overlayService: IgxOverlayService
+    ) {}
+}
+
+...
+```
+
+## Exibindo conteúdo
+
+O overlay service pode ser usado para exibir dinamicamente um `HTMLNode` ou até mesmo um componente Angular, anexando-o ao DOM do overlay.
+
+Depois de estabelecer uma referência ao serviço Overlay, ele pode ser usado para mostrar/ocultar conteúdo dinamicamente. Por exemplo, podemos passar um componente Angular para o método `attach`. Isso gerará um ID único, que podemos passar para o método `show` para exibir o componente. Ao exibir um componente Angular, um segundo parâmetro obrigatório `ViewContainerRef` deve ser passado no método `attach`.
+
+```typescript
+
+// my-overlay-component.component.ts
+import { MyDynamicComponent } from '../my-dynamic-component/my-dynamic-component.component';
+
+@Component({...})
+export class MyOverlayComponent {
+    private _overlayId = ''; // The unique identifier assigned to the component by the Overlay service
+
+    constructor(
+        @Inject(IgxOverlayService) private overlayService: IgxOverlayService,
+        private viewContainerRef: ViewContainerRef
+    ) {}
+
+    public showInOverlay() {
+        if (!this._overlayId) {
+            this._overlayId = this.overlayService.attach(MyDynamicComponent, this.viewContainerRef);
+        }
+        this.overlayService.show(this._overlayId);
+    }
+}
+```
+
+```HTML
+{/* my-overlay-component.component.html */}
+<div class='content'>
+...
+    <button (click)="showInOverlay()">Show Overlay</button>
+</div>
+
+```
+
+Se quisermos passar um `ElementRef` já existente da página para o <ApiLink type="OverlayService" />, podemos fazer isso assim:
+
+```HTML
+{/* my-overlay-component.component.html */}
+<div class='content'>
+    <button (click)="showInOverlay()">Show Overlay</button>
+</div>
+<div>
+    <img #exampleImage width='200px' src='../assets/example.png' title='Click Me!'>
+</div>
+```
+
+```typescript
+// my-overlay-component.component.ts
+import { Inject, ViewChild } from '@angular/core'
+
+@Component({...})
+export class MyOverlayComponent {
+    private _overlayId = ''; // The unique identifier assigned to the component by the Overlay service
+
+    @ViewChild('exampleImage', {read: ElementRef})
+    private exampleImage: ElementRef;
+    public showInOverlay() {
+        if (!this._overlayId) {
+            this._overlayId = this.overlayService.attach(this.exampleImage);
+        }
+        this.overlayService.show(this._overlayId);
+    }
+}
+```
+
+<hr/>
+
+O método <ApiLink type="OverlayService" member="attach" label="attach()" /> do Overlay Service tem duas sobrecargas:
+
+- `attach(element, settings?)`
+- `attach(component, viewContainerRef, settings?)`
+
+O primeiro parâmetro das duas sobrecargas é obrigatório e representa o conteúdo que será exibido no overlay. Há alguns cenários diferentes de como o conteúdo pode ser passado:
+
+- Uma definição de componente - ao passar um componente como primeiro argumento, o overlay service cria uma nova instância desse componente e anexa dinamicamente a sua `ElementRef` ao DOM `overlay`. Este método também aceita um segundo parâmetro obrigatório `ViewContainerRef`, que é uma referência ao contêiner onde a visualização host do componente criado será inserida.
+- Um `ElementRef` para um elemento DOM existente (ilustrado no exemplo acima) - qualquer visualização já renderizada na página pode ser passada pelo overlay service e renderizada no DOM do overlay.
+
+Em ambos os casos, o método <ApiLink type="OverlayService" member="attach" label="attach()" /> irá:
+
+- Obter a referência da visualização passada no Angular
+- Desanexar a visualização do DOM e deixar uma âncora em seu lugar
+- Reanexar a visualização ao overlay usando os <ApiLink type="OverlaySettings" kind="interface" /> fornecidos ou, na falta deles, os do overlay padrão
+
+Chamar <ApiLink type="OverlayService" member="show" label="show(id)" /> executará a animação de abertura, se houver, e mostrará o conteúdo anexado. Chamar <ApiLink type="OverlayService" member="hide" label="hide(id)" /> executará a animação de fechamento, se houver, e ocultará o conteúdo anexado.
+
+Por fim, chamar o método <ApiLink type="OverlayService" member="detach" label="detach(id)" /> reanexa a visualização ao seu local original no DOM. Se um componente tiver sido passado para o método <ApiLink type="OverlayService" member="attach" label="attach()" />, chamar <ApiLink type="OverlayService" member="detach" label="detach(id)" /> destruirá a instância criada.
+
+<hr/>
+
+## Anexando componentes
+
+Na demonstração abaixo, podemos passar o componente [IgxCard](/layouts/card#live-demo) pelo método <ApiLink type="OverlayService" member="attach" label="attach()" /> do Overlay Service para gerar um ID. Em seguida, chamamos o método <ApiLink type="OverlayService" member="show" label="show()" /> com o ID fornecido para anexar dinamicamente o card ao DOM, em um contêiner modal.
+
+<Sample src="/interactions/overlay-sample-main-1" height={400} alt="" />
+
+<hr/>
+
+## Configurações do overlay
+
+O método <ApiLink type="OverlayService" member="attach" label="attach()" /> também aceita um objeto do tipo <ApiLink type="OverlaySettings" kind="interface" />, que configura a forma como o conteúdo é mostrado. Se nenhum objeto for informado, o Overlay Service usará as suas configurações padrão para renderizar o conteúdo passado.
+
+Por exemplo, se quisermos que o conteúdo seja posicionado em relação a um elemento, podemos passar uma <ApiLink kind="interface" type="OverlaySettings" member="target" /> e um <ApiLink kind="interface" type="OverlaySettings" member="positioningStrategy" /> diferentes para o método <ApiLink type="OverlayService" member="attach" label="attach()" />, por exemplo, <ApiLink type="ConnectedPositioningStrategy" />. Para configurar a forma como o componente é mostrado, primeiro precisamos criar um objeto <ApiLink type="OverlaySettings" kind="interface" />:
+
+```typescript
+// my-overlay-component.component.ts
+// import the ConnectedPositioningStrategy class
+import { ConnectedPositioningStrategy } from 'igniteui-angular/core';
+// import { ConnectedPositioningStrategy } from '@infragistics/igniteui-angular'; for licensed package
+...
+export class MyOverlayComponent {
+
+    @ViewChild(`myAnchorButton`)
+    private myAnchorButton: ElementRef;
+    private _overlayId = ''; // The unique identifier assigned to the component by the Overlay service
+
+    public showInOverlay() {
+        if (!this._overlayId) {
+            this._overlayId = this.overlayService.attach(MyDynamicComponent, this.viewContainerRef, {
+                target: this.myAnchorButton.nativeElement,
+                positionStrategy: new ConnectedPositioningStrategy()
+            });
+        }
+        this.overlayService.show(this._overlayId);
+    }
+}
+```
+
+```HTML
+{/* my-overlay-component.component.html */}
+<div class='content'>
+...
+<button #myAnchorButton (click)="showInOverlay()">Show Overlay</button>
+</div>
+```
+
+Ao clicar no botão, `MyDynamicComponent` será exibido posicionado em relação ao botão.
+
+## Configurações predefinidas do overlay
+
+Os métodos <ApiLink type="OverlayService" member="createAbsolutePositionSettings" label="IgxOverlayService.createAbsolutePositionSettings()" /> e <ApiLink type="OverlayService" member="createRelativePositionSettings" label="IgxOverlayService.createRelativePositionSettings()" /> oferecem uma forma fácil de criar um <ApiLink type="OverlaySettings" kind="interface" /> com base em conjuntos de configurações predefinidos.
+
+O método <ApiLink type="OverlayService" member="createAbsolutePositionSettings" label="IgxOverlayService.createAbsolutePositionSettings()" /> cria <ApiLink type="OverlaySettings" kind="interface" /> não modais com <ApiLink type="GlobalPositionStrategy" /> ou <ApiLink type="ContainerPositionStrategy" /> caso o parâmetro `outlet` seja informado. A enumeração `AbsolutePosition` define as posições possíveis: `Center`, `Top` ou `Bottom`. A posição padrão é `Center`.
+
+```typescript
+const globalOverlaySettings = IgxOverlayService.createAbsoluteOverlaySettings(AbsolutePosition.Top);
+```
+
+O método <ApiLink type="OverlayService" member="createRelativePositionSettings" label="IgxOverlayService.createRelativePositionSettings()" /> cria <ApiLink type="OverlaySettings" kind="interface" /> com <ApiLink type="AutoPositionStrategy" />, <ApiLink type="ConnectedPositioningStrategy" /> ou <ApiLink type="ElasticPositionStrategy" />. Aceita target, position e strategy. O `target` é o ponto de anexação ou o elemento para o componente exibir. O `position` é uma enumeração `RelativePosition` com as seguintes opções: `Above`, `Below`, `Before`, `After` e `Default`. A opção `Default` posiciona o elemento abaixo do target, alinhado à esquerda. A estratégia de posicionamento pode ser definida pela enumeração `RelativePositionStrategy`, cujo valor padrão é `Auto`.
+
+```typescript
+const targetElement = this.myAnchorButton.nativeElement;
+const connectedOverlaySettings = IgxOverlayService.createRelativeOverlaySettings(
+        targetElement,
+        RelativePosition.Above,
+        RelativePositionStrategy.Connected);
+```
+
+### Demonstração
+
+<Sample src="/interactions/overlay-preset-settings-sample" height={750} alt="" />
+
+<hr/>
+
+## Ocultando o overlay
+
+O método <ApiLink type="OverlayService" member="hide" label="hide(id)" /> oculta o conteúdo do overlay. Todos os elementos renderizados pelo overlay service têm um ID único, atribuído pelo serviço. O método <ApiLink type="OverlayService" member="attach" label="attach()" /> retorna o identificador do conteúdo renderizado. Para ocultar o conteúdo, esse ID precisa ser passado para o método <ApiLink type="OverlayService" member="hide" label="hide(id)" /> do overlay. Para ocultar todos os overlays, pode-se chamar o método <ApiLink type="OverlayService" member="hideAll" label="hideAll()" />.
+
+Quando o conteúdo renderizado não for mais necessário, deve-se chamar o método <ApiLink type="OverlayService" member="detach" label="detach(id)" />. Esse método remove o conteúdo do overlay e, se aplicável, reanexa-o ao seu local original no DOM. O método <ApiLink type="OverlayService" member="detach" label="detach(id)" /> também aceita como parâmetro obrigatório o ID gerado pelo método <ApiLink type="OverlayService" member="attach" label="attach()" />. Para remover todos os overlays, pode-se chamar o método <ApiLink type="OverlayService" member="detachAll" label="detachAll()" />.
+
+Podemos modificar o método de overlay definido anteriormente para não apenas mostrar, mas também ocultar o elemento do overlay
+
+```typescript
+// my-overlay-component.component.ts
+// add an import for the definition of ConnectedPositioningStrategy class
+import { ConnectedPositioningStrategy } from 'igniteui-angular/core';
+// import { ConnectedPositioningStrategy } from '@infragistics/igniteui-angular'; for licensed package
+
+@Component({...})
+export class MyOverlayComponent implements OnDestroy {
+    private _overlayId = ''; // The unique identifier assigned to the component by the Overlay service
+    private _overlayShown = false; // Is the component rendered in the Overlay?
+
+    @ViewChild(`myAnchorButton`)
+    private myAnchorButton: ElementRef;
+
+    public toggleOverlay() {
+        if (!this._overlayShown) { // If the element is not visible, show it
+            //  generate ID
+            if (!this._overlayId) {
+                this._overlayId = this.overlayService.attach(MyDynamicComponent, this.viewContainerRef, {
+                    target: this.myAnchorButton.nativeElement,
+                    positionStrategy: new ConnectedPositioningStrategy({
+                        closeOnOutsideClick: false, // overlay will not close on outside clicks
+                        modal: false // overlay content will not be rendered in a modal dialog
+                    }) // The attach method returns an ID that can be used to reference the shown content
+                });
+            }
+
+            this.overlayService.show(this._overlayId);
+        } else {
+            this.overlayService.hide(this._overlayId); // If element if visible, hide it
+        }
+        this._overlayShown = !this._overlayShown;
+    }
+
+    // finally detach overlay content
+    public ngOnDestroy(): void {
+        if (this._overlayId) {
+            this.overlayService.detach(this._overlayId);
+            delete this._overlayId;
+        }
+    }
+}
+```
+
+```HTML
+{/* my-overlay-component.component.html */}
+<div class='content'>
+...
+    <button #myAnchorButton (click)="toggleOverlay()">Toggle Overlay</button>
+</div>
+```
+
+## Configurações de anexação
+
+Usando o parâmetro <ApiLink kind="interface" type="OverlaySettings" /> do método <ApiLink type="OverlayService" member="attach" label="attach()" />, podemos alterar a forma como o conteúdo é mostrado - por exemplo, onde o conteúdo é posicionado, como a rolagem deve se comportar e se o contêiner é modal ou não
+
+<Sample src="/interactions/overlay-sample-main-2" height={400} alt="" />
+
+<hr/>
+
+Se **nenhuma** <ApiLink kind="interface" type="OverlaySettings" /> for configurada, o elemento alternado recebe as **configurações de exibição padrão**:
+
+```typescript
+defaultOverlaySettings = {
+    positionStrategy: new GlobalPositionStrategy(),
+    scrollStrategy: new NoOpScrollStrategy(),
+    modal: true,
+    closeOnOutsideClick: true,
+    closeOnEscape: false
+};
+```
+
+<hr/>
+
+## Integração com igxToggle
+
+O <ApiLink type="ToggleDirective" /> está totalmente integrado à <ApiLink type="OverlayService" />. Assim, o método <ApiLink type="ToggleDirective" member="toggle" label="toggle()" /> da Toggle Directive permite passar configurações personalizadas de overlay ao alternar o conteúdo.
+
+Um exemplo de como passar configurações para o método do toggle é mostrado abaixo:
+
+```html
+{/* In example.component.html */}
+<div>
+    <button igxToggle (click)="callToggle()">Click me!</button>
+    <div [style.visibility]="collapsed ? 'hidden ' : 'visible'">
+        This content is toggle-able!
+    
+</div>
+</div>
+```
+
+```typescript
+// example.component.ts
+@Component({
+    selector: `example-component`,
+    template: `example.component.html`
+})
+export class ExampleComponent {
+    @ViewChild(IgxToggleDirective)
+    private toggleDirective: IgxToggleDirective;
+
+    public get collapsed(): boolean {
+        return this.toggleDirective.collapsed;
+    }
+
+    public callToggle(): void {
+        const overlaySettings: OverlaySettings = {
+            positionStrategy: new AutoPositionStrategy(),
+            scrollStrategy: new BlockScrollStrategy(),
+            modal: true,
+            closeOnOutsideClick: false
+        }
+        this.toggleDirective.toggle(overlaySettings)
+    }
+}
+```
+
+<hr/>
+
+## Premissas e limitações
+
+Se você exibir o overlay em uma saída e a saída for filha de um elemento com transform, perspective ou filter definidos no CSS, não será possível mostrar o overlay modal. O motivo é que, se uma dessas propriedades CSS estiver definida, o navegador cria um novo bloco contendor e o overlay fica limitado a esse bloco contendor, conforme descrito na [documentação de position do MDN](https://developer.mozilla.org/en-US/docs/Web/CSS/position#fixed).
+
+## Referências da API
+- <ApiLink type="OverlayService" />
+- <ApiLink kind="sass" module="themes" type="function-overlay-theme" label="Estilos do IgxOverlay" />
+## Recursos adicionais
+
+- [Estratégias de posicionamento](/overlay-position)
+- [Estratégias de rolagem](/overlay-scroll)
+- [Tópico de estilização](/overlay-styling)

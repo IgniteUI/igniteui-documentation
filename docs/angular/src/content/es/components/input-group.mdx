@@ -1,0 +1,749 @@
+---
+title: "Componente Angular Input Group | Ignite UI for Angular | Licencia MIT"
+description: "El componente Input Group de Ignite UI for Angular permite crear formularios fáciles de usar y estéticos, facilita la introducción de datos y ayuda a gestionar la validación y los errores."
+keywords: "Ignite UI for Angular, controles de interfaz, widgets de Angular, widgets web, widgets de interfaz, Angular, Native Angular Components Suite, componentes de interfaz de Angular, Native Angular Components Library, Native Angular Components, componente Angular Label, control Angular Label, componente Angular Input, control Angular Input, componente Input, control Input, componente Label, control Label, componente Angular Input Group, control Angular Input Group, directiva Angular Input, directiva Angular Label, formularios de Angular, formularios reactivos de Angular, validación de formularios de Angular"
+license: MIT
+_language: es
+llms:
+  description: "El componente IgxInputGroupComponent permite al usuario mejorar elementos de entrada como input, select, textarea, etc."
+---
+
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+# Descripción general del componente Angular Input Group
+
+El `IgxInputGroupComponent` permite al usuario mejorar elementos de entrada como input, select, textarea, etc. Esto se logra añadiendo contenido personalizado, como texto, iconos, botones, validación personalizada, etiqueta flotante, etc., a cualquiera de sus lados, como prefijo, sufijo o sugerencia.
+
+## Ejemplo de Angular Input Group
+
+<Sample src="/data-entries/input-group-sample-1" height={100} alt="Ejemplo de Angular Input Group" />
+
+<hr/>
+
+## Primeros pasos con Ignite UI for Angular Input Group
+
+Para empezar con el componente Ignite UI for Angular Input Group, primero debe instalar Ignite UI for Angular. En una aplicación Angular existente, escriba el siguiente comando:
+
+```cmd
+ng add igniteui-angular
+```
+
+Para una introducción completa a Ignite UI for Angular, lea el tema [_primeros pasos_](/general/getting-started).
+
+El siguiente paso es importar `IgxInputGroupModule` en el archivo **app.module.ts**.
+
+Tenga en cuenta que `IgxInputGroupComponent` también depende de **FormsModule** de Angular para que funcione un formulario basado en plantillas:
+
+```typescript
+// app.module.ts
+
+import { FormsModule } from '@angular/forms';
+import { IgxInputGroupModule } from 'igniteui-angular/input-group';
+// import { IgxInputGroupModule } from '@infragistics/igniteui-angular'; for licensed package
+
+@NgModule({
+    ...
+    imports: [..., IgxInputGroupModule, FormsModule],
+    ...
+})
+export class AppModule {}
+```
+
+Como alternativa, a partir de `16.0.0` puede importar `IgxInputGroupComponent` como dependencia independiente, o usar el token [`IGX_INPUT_GROUP_DIRECTIVES`](https://github.com/IgniteUI/igniteui-angular/blob/master/projects/igniteui-angular/input-group/src/input-group/public_api.ts) para importar el componente y todos sus componentes y directivas de apoyo.
+
+```typescript
+// home.component.ts
+
+import { FormsModule } from '@angular/forms';
+import { IGX_INPUT_GROUP_DIRECTIVES } from 'igniteui-angular/input-group';
+import { IgxIconComponent } from 'igniteui-angular/icon';
+// import { IGX_INPUT_GROUP_DIRECTIVES, IgxIconComponent } from '@infragistics/igniteui-angular'; for licensed package
+
+@Component({
+    selector: 'app-home',
+    template: `
+    <igx-input-group>
+        <igx-prefix>+359</igx-prefix>
+        <label igxLabel for="phone">Phone</label>
+        <input igxInput [(ngModel)]="value" name="phone" type="tel" maxlength="9" />
+        <igx-icon igxSuffix>phone</igx-icon>
+    </igx-input-group>
+    `,
+    styleUrls: ['home.component.scss'],
+    standalone: true,
+    imports: [IGX_INPUT_GROUP_DIRECTIVES, IgxIconComponent, FormsModule]
+    /* or imports: [IgxInputGroupComponent, IgxPrefixDirective, IgxLabelDirective, IgxInputDirective, IgxIconComponent, IgxSuffixDirective, FormsModule] */
+})
+export class HomeComponent {
+    public value = '123456789';
+}
+```
+
+<DocsAside type="info">
+Este componente usa Material Icons. Añada el siguiente enlace a su `index.html`: `<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">`
+</DocsAside>
+
+Ahora que ha importado el módulo o las directivas de Ignite UI for Angular Input Group, puede empezar a usar el componente `igx-input-group`.
+
+<DocsAside type="info">
+Para usar cualquiera de las directivas `igxInput`, `igxLabel`, `igx-prefix`, `igx-suffix` o `igx-hint`, debe envolverlas en un contenedor `<igx-input-group>`.
+</DocsAside>
+
+## Uso de Angular Input Group
+
+### Label & Input
+
+Puede leer sobre las directivas <ApiLink type="LabelDirective" label="igxLabel" /> y <ApiLink type="InputDirective" label="igxInput" />, así como sobre su validación, enlace de datos y API, en la [documentación de Label & Input](/label-input).
+
+### Prefijo y sufijo
+
+Las directivas `igx-prefix` o `igxPrefix` y `igx-suffix` o `igxSuffix` pueden contener elementos HTML, cadenas, iconos o incluso otros componentes, o estar adjuntas a ellos. En el siguiente ejemplo crearemos un campo de entrada nuevo con un **prefijo** de cadena y un **sufijo** de icono:
+
+```html
+<igx-input-group>
+    <igx-prefix>+359</igx-prefix>
+    <label igxLabel for="phone">Phone</label>
+    <input igxInput name="phone" type="tel" maxlength="9" />
+    <igx-icon igxSuffix>phone</igx-icon>
+</igx-input-group>
+```
+
+<Sample src="/data-entries/input-group-sample-3" height={110} alt="Ejemplo de Angular Input Group" />
+
+<hr/>
+
+### Sugerencias
+
+La directiva <ApiLink type="HintDirective" label="igx-hint" /> proporciona un texto de ayuda que se coloca debajo de la entrada. Puede aparecer al principio o al final de la entrada según el valor de la propiedad <ApiLink type="HintDirective" member="position" label="position" />. Vamos a añadir una sugerencia a nuestra entrada de teléfono:
+
+```html
+<igx-input-group>
+    <igx-prefix>+359</igx-prefix>
+    <label igxLabel for="phone">Phone</label>
+    <input igxInput name="phone" type="tel" />
+    <igx-suffix>
+        <igx-icon>phone</igx-icon>
+    </igx-suffix>
+    <igx-hint position="start">Ex.: +359 888 123 456</igx-hint>
+</igx-input-group>
+```
+
+Así se ve el campo de teléfono con la sugerencia:
+<Sample src="/data-entries/input-group-sample-4" height={110} alt="Ejemplo de Angular Input Group" />
+
+<hr/>
+
+### Tipos de entrada y token de tipo de Input Group
+
+Los estilos del input group pueden modificarse usando la propiedad <ApiLink type="InputGroup" member="type" label="type" /> del componente <ApiLink type="InputGroup" label="igxInputGroup" />. El componente input group admite los siguientes tipos: `line` (predeterminado si no se especifica el tipo), `border`, `box` y `search`. Los tipos `line`, `border` y `box` se han creado específicamente para los temas `Material Design`. Establecer esos tipos con otros temas no tendrá ningún efecto en el aspecto del input group.
+Ejemplo de cómo establecer un tipo concreto de forma declarativa:
+
+```html
+<igx-input-group type="border"></igx-input-group>
+```
+
+Usar el token de inyección <ApiLink kind="variable" type="IGX_INPUT_GROUP_TYPE" /> permite especificar un tipo a nivel de aplicación para todas las instancias de input-group. Ofrece una forma sencilla de dar estilo a todos los componentes relacionados a la vez.
+Para establecer el tipo, use el token de inyección <ApiLink kind="variable" type="IGX_INPUT_GROUP_TYPE" /> para crear un proveedor de DI.
+
+```typescript
+providers: [{provide: IGX_INPUT_GROUP_TYPE, useValue: 'box' }]
+```
+
+<DocsAside type="info">
+La propiedad <ApiLink type="InputGroup" member="type" label="type" /> tiene prioridad sobre un <ApiLink kind="variable" type="IGX_INPUT_GROUP_TYPE" />, así que un valor de token puede sobrescribirse a nivel de componente si la propiedad type se establece explícitamente.
+La mayoría de los controles de formulario de `igniteui-angular` usan internamente el componente input-group, o permiten una plantilla personalizada. Establecer un token global afectará también a esos componentes.
+</DocsAside>
+
+Ignite UI for Angular también proporciona estilos para la entrada de `type="file"` y admite todos los tipos y temas de input group; basta con añadir esto a su plantilla:
+
+```html
+<igx-input-group>
+    <input igxInput type="file" multiple />
+</igx-input-group>
+```
+
+<Sample src="/data-entries/input-group-sample-5" height={695} alt="" />
+
+### Tema de Input Group
+
+El componente input group admite varios temas: `material`, `fluent`, `bootstrap` y `indigo-design`; el <ApiLink type="InputGroup" member="theme" label="theme" /> se establece automáticamente durante la inicialización del componente y se infiere de la hoja de estilos que se usa actualmente. Si piensa admitir varios temas en su aplicación con cambio en tiempo de ejecución, puede establecer el tema explícitamente usando la propiedad de entrada `theme`.
+
+```html
+<igx-input-group theme="fluent">...</igx-input-group>
+```
+
+### Formularios tipados
+
+El componente Input Group de Ignite UI for Angular puede usarse dentro de formularios reactivos estrictamente tipados, que son los predeterminados desde Angular 14. Para saber más sobre los formularios tipados, puede consultar la [documentación oficial de Angular](https://angular.io/guide/typed-forms).
+
+<Sample src="/data-entries/typed-form" height={770} alt="" />
+
+## Validación
+
+Los siguientes ejemplos muestran cómo configurar la validación de entradas al usar [formularios basados en plantillas](https://angular.io/guide/forms) o [formularios reactivos](https://angular.io/guide/reactive-forms).
+
+### Formularios basados en plantillas
+
+La validación de formularios basados en plantillas se consigue añadiendo atributos de validación, por ejemplo `required`, `minlength`, etc., al elemento `input`.
+
+```html
+<form>
+    <igx-input-group>
+        <label igxLabel for="username">Username</label>
+        <input igxInput name="username" type="text" required />
+    </igx-input-group>
+
+    <igx-input-group>
+        <label igxLabel for="email">Email</label>
+        <input igxInput name="email" type="email" required email />
+    </igx-input-group>
+
+    <igx-input-group>
+        <label igxLabel for="password">Password</label>
+        <input igxInput name="password" type="password" required minlength="8" />
+    </igx-input-group>
+
+    <button igxButton="contained" igxRipple type="submit">Submit</button>
+</form>
+```
+
+El atributo `required` añade un asterisco junto a la etiqueta, para indicar que este campo debe rellenarse. Además, cuando el `input` tiene validación adicional, como `email` y `minlength`, esto puede permitir al desarrollador notificar al usuario final los requisitos adicionales mediante la directiva <ApiLink type="HintDirective" label="igx-hint" />.
+
+El siguiente ejemplo usa el enlace de datos bidireccional y muestra cómo inspeccionar el estado del control exportando `ngModel` a una variable local.
+
+```html
+<form #login="ngForm">
+    ...
+    <igx-input-group>
+        <label igxLabel for="email">Email</label>
+        <input igxInput name="email" type="email" [(ngModel)]="user.email" #email="ngModel" required email />
+        @if (email.errors?.email) {
+            <igx-hint>Please enter a valid email</igx-hint>
+        }
+    </igx-input-group>
+
+    <igx-input-group>
+        <label igxLabel for="password">Password</label>
+        <input igxInput name="password" type="password"
+            [(ngModel)]="user.password" #password="ngModel" required minlength="8" />
+        @if (password.errors?.minlength) {
+            <igx-hint>Password should be at least 8 characters</igx-hint>
+        }
+    </igx-input-group>
+
+    <button igxButton="contained" igxRipple type="submit">Submit</button>
+</form>
+```
+
+El usuario no debería poder enviar el formulario si alguno de sus controles no es válido. Esto puede lograrse activando o desactivando el botón de envío según el estado del formulario.
+
+El siguiente ejemplo muestra cómo inspeccionar el estado del formulario exportando `ngForm` a una variable local.
+
+```html
+<form #registrationForm="ngForm">
+    <igx-input-group>
+        <label igxLabel for="email">Email</label>
+        <input igxInput name="email" type="email" [(ngModel)]="user.email" #email="ngModel" required email />
+        @if (email.errors?.email) {
+            <igx-hint>Please enter a valid email</igx-hint>
+        }
+    </igx-input-group>
+    ...
+
+    <button igxButton="contained" igxRipple type="submit" [disabled]="!registrationForm.valid">Submit</button>
+</form>
+```
+
+El resultado de las configuraciones anteriores puede verse en el ejemplo siguiente. Empiece a escribir en los campos de correo electrónico y contraseña, y verá que <ApiLink type="HintDirective" label="igx-hint" /> aparece si los valores introducidos no son válidos. El ejemplo también muestra cómo alternar la visibilidad de la contraseña usando <ApiLink type="Icon" label="igx-icon" /> y la directiva [`igx-suffix`](#prefijo-y-sufijo).
+
+<Sample src="/data-entries/template-driven-form-validation" height={480} alt="" />
+
+### Formularios reactivos
+
+La validación de formularios reactivos se consigue añadiendo funciones de validación directamente al modelo del control del formulario en la clase del componente. Después de crear el control en la clase del componente, debe asociarse a un elemento de control de formulario en la plantilla.
+
+```ts
+public registrationForm: FormGroup<User>;
+
+constructor(fb: FormBuilder) {
+    this.registrationForm = fb.group({
+        username: ['', { nonNullable: true, validators: [Validators.required] }],
+        email: ['', { nonNullable: true, validators: [Validators.required, Validators.email] }],
+        password: ['', { nonNullable: true, validators: [Validators.required, Validators.minLength(8)] }]
+    });
+}
+```
+
+```html
+<form [formGroup]="registrationForm">
+    <igx-input-group>
+        <label igxLabel for="username">Username</label>
+        <input igxInput name="username" type="text" formControlName="username" />
+    </igx-input-group>
+
+    <igx-input-group>
+        <label igxLabel for="email">Email</label>
+        <input igxInput name="email" type="email" formControlName="email" />
+    </igx-input-group>
+
+    <igx-input-group>
+        <label igxLabel for="password">Password</label>
+        <input igxInput name="password" type="password" formControlName="password" />
+    </igx-input-group>
+
+    <button igxButton="contained" igxRipple type="submit">Submit</button>
+</form>
+```
+
+Igual que en el ejemplo de formularios basados en plantillas, cuando hay validación adicional como `email` y `minlength`, se puede usar una directiva <ApiLink type="HintDirective" label="igx-hint" /> para notificar al usuario final si la validación ha fallado.
+
+El siguiente ejemplo muestra cómo acceder al control mediante un método `get` e inspeccionar su estado. También muestra cómo activar o desactivar el botón de envío inspeccionando el estado de `FormGroup`.
+
+```ts
+public get email() {
+    return this.registrationForm.get('email');
+}
+
+public get password() {
+    return this.registrationForm.get('password');
+}
+```
+
+```html
+<form [formGroup]="registrationForm">
+    ...
+    <igx-input-group>
+        <label igxLabel for="email">Email</label>
+        <input igxInput name="email" type="email" formControlName="email" />
+        @if (email.errors?.email) {
+            <igx-hint>Please enter a valid email</igx-hint>
+        }
+    </igx-input-group>
+
+    <igx-input-group>
+        <label igxLabel for="password">Password</label>
+        <input igxInput name="password" type="password" formControlName="password" />
+        @if (password.errors?.minlength) {
+            <igx-hint>Password should be at least 8 characters</igx-hint>
+        }
+    </igx-input-group>
+
+    <button igxButton="contained" igxRipple type="submit" [disabled]="!registrationForm.valid">Submit</button>
+</form>
+```
+
+El resultado de las configuraciones anteriores puede verse en el ejemplo siguiente. Igual que en el ejemplo de formularios basados en plantillas, también muestra cómo alternar la visibilidad de la contraseña usando <ApiLink type="Icon" label="igx-icon" /> y la directiva [`igx-suffix`](#prefijo-y-sufijo).
+
+<Sample src="/data-entries/reactive-form-validation" height={480} alt="" />
+
+### Validadores personalizados
+
+Algunos campos de entrada pueden requerir una validación personalizada, que puede lograrse mediante validadores personalizados. Cuando el valor no es válido, el validador generará un conjunto de errores que puede usarse para mostrar un mensaje de error específico.
+
+A continuación se muestra un ejemplo de un validador sencillo de formularios reactivos personalizado, que comprueba si la dirección de correo electrónico introducida contiene un valor predefinido y genera distintos errores según el lugar donde aparezca ese valor.
+
+```ts
+public registrationForm: FormGroup<User>;
+
+constructor(fb: FormBuilder) {
+    this.registrationForm = fb.group({
+        email: ['', {
+            nonNullable: true,
+            validators: [
+                Validators.required,
+                Validators.email,
+                this.emailValidator('infragistics')
+            ]
+        }],
+        ...
+    });
+}
+
+private emailValidator(val: string): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+        const value = control.value?.toLowerCase();
+        const localPartRegex = new RegExp(`(?<=(${val})).*[@]`);
+        const domainRegex = new RegExp(`(?<=[@])(?=.*(${val}))`);
+        const returnObj: ValidatorErrors = {};
+
+        if (value && localPartRegex.test(value)) {
+            returnObj.localPart = true;
+        }
+        if (value && domainRegex.test(value)) {
+            returnObj.domain = true;
+        }
+
+        return returnObj;
+    }
+}
+```
+
+### Validación entre campos
+
+En algunos escenarios, la validación de un control puede depender del valor de otro. Para evaluar ambos controles en un único validador personalizado, la validación debe realizarse en un control ancestro común, es decir, el `FormGroup`. El validador obtiene los controles hijos llamando al método `get` de `FormGroup`, compara los valores y, si la validación falla, se genera un conjunto de errores para `FormGroup`.
+
+Esto solo establecerá el estado del formulario como no válido. Para establecer el estado del control, podemos usar el método [`setErrors`](https://angular.io/api/forms/AbstractControl#seterrors) y añadir manualmente los errores generados. Después, cuando la validación sea correcta, los errores pueden eliminarse usando el método [`setValue`](https://angular.io/api/forms/AbstractControl#setvalue), que volverá a ejecutar la validación del control para el valor indicado.
+
+El siguiente ejemplo muestra una validación entre campos en la que la contraseña no debe contener la dirección de correo electrónico y la contraseña repetida debe coincidir con la contraseña.
+
+```ts
+private passwordValidator(): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+        const email = control.get('email');
+        const password = control.get('password');
+        const repeatPassword = control.get('repeatPassword');
+        const returnObj: ValidatorErrors = {};
+
+        if (email.value
+            && password.value
+            && password.value.toLowerCase().includes(email.value)) {
+            password.setErrors({ ...password.errors, containsEmail: true });
+            returnObj.containsEmail = true;
+        }
+
+        if (password
+            && repeatPassword
+            && password.value !== repeatPassword.value) {
+            repeatPassword.setErrors({ ...repeatPassword.errors, mismatch: true });
+            returnObj.mismatch = true;
+        }
+
+        if (!returnObj.containsEmail && password.errors?.containsEmail) {
+            password.setValue(password.value);
+        }
+
+        if (!returnObj.mismatch && repeatPassword.errors?.mismatch) {
+            repeatPassword.setValue(repeatPassword.value);
+        }
+
+        return returnObj;
+    }
+}
+```
+
+Para añadir el validador personalizado a `FormGroup`, debe pasarse como segundo argumento al crear el formulario.
+
+```ts
+public registrationForm: FormGroup<User>;
+
+constructor(fb: FormBuilder) {
+    this.registrationForm = fb.group({
+        email: ['', {
+            nonNullable: true,
+            validators: [
+                Validators.required,
+                Validators.email,
+                this.emailValidator('infragistics')
+            ]
+        }],
+        ...
+    },
+    {
+        validators: [this.passwordValidator()]
+    });
+}
+```
+
+El siguiente ejemplo muestra cómo pueden usarse los validadores integrados en combinación con el validador personalizado `emailValidator` y la validación entre campos `passwordValidator` de los ejemplos anteriores.
+
+<Sample src="/data-entries/reactive-form-custom-validation" height={480} alt="" />
+
+## Estilos
+
+### Mapa de propiedades del tema de Input Group
+
+Al modificar una propiedad principal, todas las propiedades dependientes relacionadas se actualizan automáticamente:
+
+<div class="theme-switcher-wrapper">
+
+  {/*Theme Switcher Radios and Labels*/}
+  <input type="radio" name="theme" id="material" checked/>
+  <label for="material" class="switch-label">Material</label>
+  <input type="radio" name="theme" id="fluent"/>
+  <label for="fluent" class="switch-label">Fluent</label>
+  <input type="radio" name="theme" id="bootstrap"/>
+  <label for="bootstrap" class="switch-label">Bootstrap</label>
+  <input type="radio" name="theme" id="indigo"/>
+  <label for="indigo" class="switch-label">Indigo</label>
+
+  <div class="tables">
+
+    {/* Material Theme Table */}
+    <div class="theme-table material">
+
+        | Propiedad principal | Propiedad dependiente | Descripción |
+| --- | --- | --- |
+| **$box-background** | $box-background-hover | Fondo al pasar el puntero sobre el cuadro de entrada |
+|  | $box-background-focus | Fondo con foco del cuadro de entrada |
+|  | $box-disabled-background | Fondo del estado desactivado |
+|  | $placeholder-color | Color del texto de marcador de posición |
+|  | $hover-placeholder-color | Color al pasar el puntero sobre el texto de marcador de posición |
+|  | $idle-text-color | Color de texto predeterminado |
+|  | $filled-text-color | Color del texto cuando la entrada está rellena |
+|  | $filled-text-hover-color | Color del texto de la entrada en estado rellenado al pasar el puntero |
+|  | $focused-text-color | Color del texto cuando la entrada tiene el foco |
+|  | $idle-secondary-color | Color del texto secundario en reposo |
+|  | $input-prefix-color | Color del texto del prefijo dentro del cuadro de entrada |
+|  | $input-prefix-color--filled | Color del texto del prefijo cuando está rellena |
+|  | $input-prefix-color--focused | Color del texto del prefijo cuando tiene el foco |
+|  | $input-suffix-color | Color del texto del sufijo dentro del cuadro de entrada |
+|  | $input-suffix-color--filled | Color del texto del sufijo cuando está rellena |
+|  | $input-suffix-color--focused | Color del texto del sufijo cuando tiene el foco |
+|  | $disabled-placeholder-color | Color del marcador de posición cuando la entrada está desactivada |
+|  | $disabled-text-color | Color del texto cuando la entrada está desactivada |
+| **$idle-bottom-line-color** | $hover-bottom-line-color | Color al pasar el puntero sobre la línea inferior de la entrada |
+|  | $focused-bottom-line-color | Color con foco de la línea inferior |
+|  | $focused-secondary-color | El color de la etiqueta en estado con foco |
+|  | $border-color | El color del borde para los input groups de tipo border |
+|  | $focused-border-color | El color del borde de la entrada con foco para los input groups de tipo border |
+| **$border-color**| $hover-border-color | Color al pasar el puntero sobre el borde de la entrada |
+|  | $focused-border-color | Color del borde cuando la entrada tiene el foco |
+|  | $focused-secondary-color | El color de la etiqueta en estado con foco |
+| **$input-prefix-background** | $input-prefix-color | Color del texto del prefijo dentro del cuadro de entrada |
+|  | $input-prefix-background--filled | El color de fondo de un prefijo de entrada en estado rellenado |
+|  | $input-prefix-background--focused | El color de fondo de un prefijo de entrada en estado con foco |
+| **$input-suffix-background**| $input-suffix-color | Color del texto del sufijo dentro del cuadro de entrada |
+|  | $input-suffix-background--filled | El color de fondo de un sufijo de entrada en estado rellenado |
+|  | $input-suffix-background--focused | El color de fondo de un sufijo de entrada en estado con foco |
+| **$search-background** | $placeholder-color | Color del texto de marcador de posición dentro de la entrada de búsqueda |
+|  | $hover-placeholder-color | Color al pasar el puntero sobre el texto de marcador de posición |
+|  | $idle-text-color | Color del texto de la entrada de búsqueda |
+|  | $idle-secondary-color | Color del texto secundario en reposo |
+|  | $filled-text-color | Color del texto cuando la entrada de búsqueda está rellena |
+|  | $filled-text-hover-color | Color del texto al pasar el puntero cuando la entrada de búsqueda está rellena |
+|  | $focused-text-color | Color del texto cuando la entrada de búsqueda tiene el foco |
+|  | $input-prefix-color | Color del prefijo dentro de la búsqueda |
+|  | $input-suffix-color | Color del sufijo dentro de la búsqueda |
+|  | $input-prefix-color--filled | Color del prefijo cuando la entrada está rellena |
+|  | $input-suffix-color--filled | Color del sufijo cuando la entrada está rellena |
+|  | $input-prefix-color--focused | Color del prefijo cuando la entrada tiene el foco |
+|  | $input-suffix-color--focused | Color del sufijo cuando la entrada tiene el foco |
+|  | $search-disabled-background | Fondo cuando la entrada de búsqueda está desactivada |
+|  | $disabled-placeholder-color | Color del marcador de posición cuando está desactivada |
+|  | $disabled-text-color | Color del texto cuando está desactivada |
+
+</div>
+    {/* Fluent Theme Table */}
+    <div class="theme-table fluent">
+
+      | Propiedad principal | Propiedad dependiente | Descripción |
+| --- | --- | --- |
+| **$border-color** | $hover-border-color | Color al pasar el puntero sobre el borde de la entrada |
+|  | $focused-border-color | Color del borde cuando la entrada tiene el foco |
+|  | $focused-secondary-color | El color de la etiqueta en estado con foco |
+|**$input-prefix-background** | $input-suffix-background | El color de fondo de un sufijo de entrada en estado de reposo |
+|  | $input-prefix-color | Color del texto del prefijo dentro del cuadro de entrada |
+|  | $input-prefix-color--filled | Color del texto del prefijo cuando está rellena |
+| **$input-suffix-background** | $input-prefix-background | El color de fondo de un prefijo de entrada en estado de reposo |
+|  | $input-suffix-color | Color del texto del sufijo dentro del cuadro de entrada |
+|  | $input-suffix-color--filled | Color del texto del sufijo cuando está rellena |
+|**$search-background** | $placeholder-color | Color del texto de marcador de posición dentro de la entrada de búsqueda |
+|  | $hover-placeholder-color | Color al pasar el puntero sobre el texto de marcador de posición |
+|  | $idle-secondary-color | Color del texto secundario en reposo |
+|  | $idle-text-color | Color del texto de la entrada de búsqueda |
+|  | $filled-text-color | Color del texto cuando la entrada de búsqueda está rellena |
+|  | $filled-text-hover-color | Color del texto al pasar el puntero cuando la entrada de búsqueda está rellena |
+|  | $focused-text-color | Color del texto cuando la entrada de búsqueda tiene el foco |
+|  | $input-prefix-color | Color del prefijo dentro de la búsqueda |
+|  | $input-suffix-color | Color del sufijo dentro de la búsqueda |
+|  | $input-prefix-color--filled | Color del prefijo cuando la entrada está rellena |
+|  | $input-suffix-color--filled | Color del sufijo cuando la entrada está rellena |
+|  | $input-prefix-color--focused | Color del prefijo cuando la entrada tiene el foco |
+|  | $input-suffix-color--focused | Color del sufijo cuando la entrada tiene el foco |
+|  | $search-disabled-background | Fondo cuando la entrada de búsqueda está desactivada |
+|  | $disabled-placeholder-color | Color del marcador de posición cuando está desactivada |
+|  | $disabled-text-color | Color del texto cuando está desactivada |
+
+</div>
+    {/* Bootstrap Theme Table */}
+    <div class="theme-table bootstrap">
+
+      | Propiedad principal | Propiedad dependiente | Descripción |
+| --- | --- | --- |
+| **$border-color** | $focused-border-color | Color del borde cuando la entrada tiene el foco |
+|  | $focused-secondary-color | El color de la etiqueta en estado con foco |
+| **$input-prefix-background** | $input-suffix-background | El color de fondo de un sufijo de entrada en estado de reposo |
+|  | $input-prefix-color | Color del texto del prefijo dentro del cuadro de entrada |
+|  | $input-prefix-color--filled | Color del texto del prefijo cuando está rellena |
+| **$input-suffix-background**| $input-prefix-background | El color de fondo de un prefijo de entrada en estado de reposo |
+|  | $input-suffix-color | Color del texto del sufijo dentro del cuadro de entrada |
+|  | $input-suffix-color--filled | Color del texto del sufijo cuando está rellena |
+| **$search-background** | $placeholder-color | Color del texto de marcador de posición dentro de la entrada de búsqueda |
+|  | $hover-placeholder-color | Color al pasar el puntero sobre el texto de marcador de posición |
+|  | $idle-secondary-color | Color del texto secundario en reposo |
+|  | $idle-text-color | Color del texto de la entrada de búsqueda |
+|  | $filled-text-color | Color del texto cuando la entrada de búsqueda está rellena |
+|  | $filled-text-hover-color | Color del texto al pasar el puntero cuando la entrada de búsqueda está rellena |
+|  | $focused-text-color | Color del texto cuando la entrada de búsqueda tiene el foco |
+|  | $input-prefix-color | Color del prefijo dentro de la búsqueda |
+|  | $input-suffix-color | Color del sufijo dentro de la búsqueda |
+|  | $input-prefix-color--filled | Color del prefijo cuando la entrada está rellena |
+|  | $input-suffix-color--filled | Color del sufijo cuando la entrada está rellena |
+|  | $input-prefix-color--focused | Color del prefijo cuando la entrada tiene el foco |
+|  | $input-suffix-color--focused | Color del sufijo cuando la entrada tiene el foco |
+|  | $search-disabled-background | Fondo cuando la entrada de búsqueda está desactivada |
+|  | $disabled-placeholder-color | Color del marcador de posición cuando está desactivada |
+|  | $disabled-text-color | Color del texto cuando está desactivada |
+
+</div>
+    {/* Indigo Theme Table */}
+    <div class="theme-table indigo">
+
+      | Propiedad principal | Propiedad dependiente | Descripción |
+| --- | --- | --- |
+| **$idle-bottom-line-color** | $hover-bottom-line-color | Color al pasar el puntero sobre la línea inferior de la entrada |
+|  | $focused-bottom-line-color | Color con foco de la línea inferior |
+| **$border-color** | $hover-border-color | Color al pasar el puntero sobre el borde de la entrada |
+|  | $focused-border-color | Color del borde cuando la entrada tiene el foco |
+| **$input-prefix-background** | $input-prefix-color | Color del texto del prefijo dentro del cuadro de entrada |
+|  | $input-prefix-background--filled | El color de fondo de un prefijo de entrada en estado rellenado |
+|  | $input-prefix-background--focused | El color de fondo de un prefijo de entrada en estado con foco |
+|**$input-suffix-background** | $input-suffix-color | Color del texto del sufijo dentro del cuadro de entrada |
+|  | $input-suffix-background--filled | El color de fondo de un sufijo de entrada en estado rellenado |
+|  | $input-suffix-background--focused | El color de fondo de un sufijo de entrada en estado con foco |
+| **$search-background** | $placeholder-color | Color del texto de marcador de posición dentro de la entrada de búsqueda |
+|  | $hover-placeholder-color | Color al pasar el puntero sobre el texto de marcador de posición |
+|  | $box-background-hover | Fondo al pasar el puntero sobre la entrada de búsqueda |
+|  | $idle-text-color | Color del texto de la entrada de búsqueda |
+|  | $filled-text-color | Color del texto cuando la entrada de búsqueda está rellena |
+|  | $filled-text-hover-color | Color del texto al pasar el puntero cuando la entrada de búsqueda está rellena |
+|  | $focused-text-color | Color del texto cuando la entrada de búsqueda tiene el foco |
+|  | $input-prefix-color | Color del prefijo dentro de la búsqueda |
+|  | $input-suffix-color | Color del sufijo dentro de la búsqueda |
+|  | $search-disabled-background | Fondo cuando la entrada de búsqueda está desactivada |
+|  | $disabled-placeholder-color | Color del marcador de posición cuando está desactivada |
+|  | $disabled-text-color | Color del texto cuando está desactivada |
+
+</div>
+  
+</div>
+</div>
+
+Lo primero que hay que hacer para empezar a dar estilo al input group es incluir el archivo `index` en nuestro archivo de estilos:
+
+```scss
+@use "igniteui-angular/theming" as *;
+
+// IMPORTANT: Prior to Ignite UI for Angular version 13 use:
+// @import '~igniteui-angular/lib/core/styles/themes/index';
+```
+
+Para personalizar el aspecto de los input groups, puede crear un tema nuevo extendiendo <ApiLink kind="sass" module="themes" type="function-input-group-theme" label="input-group-theme" code={true} />. Este enfoque le permite sobrescribir solo los parámetros que quiere cambiar, mientras que el resto los gestiona automáticamente el tema base.
+
+Incluso especificando solo unos pocos parámetros principales, como los colores del borde o del fondo, obtendrá un input group con estilo completo y estilos coherentes según el estado (al pasar el puntero, con foco, etc.), aplicados automáticamente.
+
+Aquí tiene un ejemplo sencillo:
+
+```scss
+$custom-input-group: input-group-theme(
+    $box-background: #57a5cd,
+    $border-color: #57a5cd,
+);
+```
+
+El último paso es incluir el tema recién creado:
+
+```scss
+:host {
+  @include tokens($custom-input-group);
+}
+```
+
+En el ejemplo siguiente puede ver cómo usar el input group con variables CSS personalizadas permite crear un diseño que se parece visualmente al que usa el sistema de diseño [`Carbon`](https://carbondesignsystem.com/components/text-input/usage/#live-demo).
+
+<Sample src="/data-entries/input-group-style" height={230} alt="" />
+
+<DocsAside type="info">
+El ejemplo usa el esquema [Indigo Light](/themes/sass/schemas#esquemas-predefinidos).
+</DocsAside>
+
+<DocsAside type="info">
+Si su página incluye varios tipos de input groups, como `box`, `border`, `line` o `search`, lo mejor es acotar las variables de tema al tipo concreto de input group.
+</DocsAside>
+<br/>Por ejemplo:<br/>
+Use `.igx-input-group--box` al dar estilo a las entradas de tipo caja.
+Use `.igx-input-group--search` al dirigirse a las entradas de búsqueda.
+Esto ayuda a evitar conflictos de estilo entre los distintos tipos de entrada.
+Por ejemplo, establecer globalmente un `$box-background` oscuro podría hacer que los bordes de las entradas de tipo border o line se volvieran invisibles (normalmente aparecen en blanco).
+
+<hr/>
+
+### Dar estilo con Tailwind
+
+Puede dar estilo al input group usando nuestras clases de utilidad personalizadas de Tailwind. Asegúrese de [configurar Tailwind](/themes/tailwind) primero.
+
+Junto con la importación de tailwind en su hoja de estilos global, puede aplicar las utilidades de tema deseadas de la siguiente manera:
+
+```scss
+@import "tailwindcss";
+...
+@use 'igniteui-theming/tailwind/utilities/material.css';
+```
+
+El archivo de utilidades incluye las variantes de tema `light` y `dark`.
+
+- Use las clases `light-*` para el tema claro.
+- Use las clases `dark-*` para el tema oscuro.
+- Añada el nombre del componente después del prefijo, por ejemplo, `light-input-group`, `dark-input-group`.
+
+Una vez aplicadas, estas clases habilitan los cálculos dinámicos del tema. A partir de ahí, puede sobrescribir las variables CSS generadas usando `arbitrary properties`. Después de los dos puntos, indique cualquier formato de color CSS válido (HEX, variable CSS, RGB, etc.).
+
+Puede encontrar la lista completa de propiedades en <ApiLink kind="sass" module="themes" type="function-input-group-theme" label="input-group-theme" />. La sintaxis es la siguiente:
+
+```html
+<article class="sample-column">
+    <igx-input-group class="!light-input-group ![--box-background:#A3C7B2] ![--focused-secondary-color:#3A5444]" type="box">
+        <igx-prefix>+359</igx-prefix>
+        <label igxLabel for="phone">Phone</label>
+        <input type="tel" igxInput name="phone" />
+        <igx-suffix>
+            <igx-icon>phone</igx-icon>
+        </igx-suffix>
+        <igx-hint position="start">Ex.: +359 888 123 456</igx-hint>
+    </igx-input-group>
+
+    <igx-input-group class="!light-input-group ![--border-color:#7B9E89]" type="border">
+        ...
+    </igx-input-group>
+
+    <igx-input-group class="!light-input-group ![--search-background:#A3C7B2] ![--focused-secondary-color:#3A5444]" type="search">
+        ...
+    </igx-input-group>
+</article>
+```
+
+<DocsAside type="info">
+El signo de exclamación (`!`) es obligatorio para asegurar que la clase de utilidad tenga prioridad. Tailwind aplica los estilos por capas y, si no se marcan estos estilos como importantes, los sobrescribirá el tema predeterminado del componente.
+</DocsAside>
+
+Al final, sus entradas deberían tener este aspecto:
+
+<Sample src="/data-entries/input-group-tailwind-style" height={350} iframeOnly />
+
+## Referencias de API
+<hr/>
+- <ApiLink type="InputDirective" />
+- <ApiLink type="HintDirective" />
+- Tipos de IgxInputGroup
+- <ApiLink type="InputGroup" />
+- <ApiLink kind="sass" module="themes" type="function-input-group-theme" label="Estilos de IgxInputGroupComponent" />
+## Dependencias de temas
+
+- <ApiLink kind="sass" module="themes" type="function-button-theme" label="Tema de IgxButton" />
+- <ApiLink kind="sass" module="themes" type="function-icon-theme" label="Tema de IgxIcon" />
+
+## Recursos adicionales
+
+<hr/>
+
+Temas relacionados:
+
+- [Label & Input](/label-input)
+- [Integración de formularios reactivos](/angular-reactive-form-validation)
+
+Nuestra comunidad está activa y siempre da la bienvenida a nuevas ideas.
+
+- [Ignite UI for Angular **Foros**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

@@ -1,0 +1,459 @@
+---
+title: "Personalizar el tema de Ignite UI: Angular | Ignite UI for Angular"
+description: "El motor de temas de Ignite UI for Angular permite personalizar por completo el tema de la aplicación y optimizar el tamaño de las hojas de estilo."
+keywords: "Ignite UI for Angular, personalizar el tema de Ignite UI, optimizar el tema de Ignite UI, motor de temas de Angular, temas de Angular"
+_language: es
+llms:
+  description: "Este artículo le guiará por los detalles de la personalización del tema de su aplicación Ignite UI for Angular y de la optimización del tamaño de la hoja de estilos generada."
+---
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import { Image } from 'astro:assets';
+import gettingStartedAppbuilder from '../../../images/general/theming-walkthrough/getting-started-appbuilder.png';
+import gettingStartedRunningApp from '../../../images/general/theming-walkthrough/getting-started-running-app.png';
+import gettingStartedAppbuilderTheming from '../../../images/general/theming-walkthrough/getting-started-appbuilder-theming.png';
+import gettingStartedDarkApp from '../../../images/general/theming-walkthrough/getting-started-dark-app.png';
+import customizingUpdatedToolbar from '../../../images/general/theming-walkthrough/customizing-updated-toolbar.png';
+import customizingColorSchemaLight from '../../../images/general/theming-walkthrough/customizing-color-schema-light.png';
+import customizingColorSchemaDark from '../../../images/general/theming-walkthrough/customizing-color-schema-dark.png';
+
+# Personalizar el tema de Ignite UI for Angular
+
+Este artículo le guiará por los detalles de la personalización del tema de su aplicación Ignite UI for Angular y de la optimización del tamaño de la hoja de estilos generada. Muestra cómo funciona el motor de temas de Ignite UI for Angular y presenta su uso avanzado. Es muy útil tanto para personalizar por completo el estilo de los componentes, de modo que su aplicación Angular se adapte al aspecto que desea, como para optimizar su aplicación para el despliegue, reduciendo el tamaño de los estilos a lo que realmente usa la aplicación.
+
+<DocsAside type="info">
+Este documento describe el sistema de temas de Ignite UI for Angular desde la versión 15 en adelante. Los ejemplos incluyen tanto el uso de las API de Sass que proporciona el motor de temas como las variables CSS expuestas.
+</DocsAside>
+
+## Primeros pasos
+
+Usaremos [App Builder](https://www.infragistics.com/products/appbuilder) para generar una aplicación Angular y después modificaremos su estilo en el repositorio generado. Empezamos creando una aplicación nueva a partir de la plantilla "Header + mini nav + content + side pane" en App Builder y añadimos algunos componentes a la superficie de diseño.
+
+<Image src={gettingStartedAppbuilder} alt="Primeros pasos con App Builder" class="responsive-img" />
+
+Después generamos nuestra aplicación, con Angular como destino, en un repositorio de GitHub, sobre el que trabajaremos tanto desde App Builder como modificando el código generado. Tras clonar el repositorio y compilar el proyecto, obtenemos la aplicación Angular en ejecución en su estado inicial.
+
+<Image src={gettingStartedRunningApp} alt="Primeros pasos: ejecutar la aplicación" class="responsive-img" />
+
+Como puede ver, la aplicación tiene aplicado el tema predeterminado, que es la [variante material clara](/themes/sass/presets/material). El archivo `styles.scss` generado tiene este aspecto:
+
+```scss
+/* You can add global styles to this file, and also import other style files */
+
+@use "@infragistics/igniteui-angular/theming" as *;
+
+// Standard CSS normalize, remove if it is not required.
+@layer ig.reset {
+  @import "minireset.css";
+}
+
+@include core();
+@include typography();
+@include light-theme($light-material-palette);
+
+body {
+  background: hsla(var(--ig-surface-500));
+  color: var(--ig-surface-500-contrast);
+}
+
+html, body {
+  height: 100%;
+}
+
+.ig-typography {
+  h1, h2, h3, h4, h5, h6, p, .ig-typography__body-1 {
+    margin: 0;
+  }
+}
+
+.outer-wrapper > *:not(router-outlet) {
+  width: 100%;
+}
+```
+
+## Personalización del tema
+
+Queremos una variante oscura del mismo tema, añadir nuestra propia [paleta de colores](/themes/palettes) para ajustarla a nuestra marca y cambiar la fuente por `Poppins` en lugar de la predeterminada `Titillium Web`. Todo ello podemos cambiarlo directamente desde App Builder, y podemos enviar el cambio como pull request desde App Builder al repositorio.
+
+<Image src={gettingStartedAppbuilderTheming} alt="Primeros pasos: tema de App Builder" class="responsive-img" />
+
+El `styles.scss` actualizado tiene este aspecto:
+
+```scss
+@include core();
+@include typography($font-family: "Poppins");
+
+$custom-palette: palette(
+  $primary: #1028c7,
+  $secondary: #e0d94c,
+  $surface: #000,
+  $gray: #fff
+);
+
+@include theme(
+    $palette: $custom-palette, 
+    $schema: $dark-material-schema
+);
+```
+
+Como puede ver, el código generado cambió de `@include light-theme($light-material-palette);` específico, que es el [tema predeterminado](/themes/sass/presets/material) y la [paleta de colores](/themes/palettes), a una inclusión genérica <ApiLink kind="sass" module="themes" type="mixin-theme" label="theme()" code={true} />, que recibe como parámetros nuestra paleta de colores personalizada y un [esquema material oscuro](/themes/sass/schemas) para la estructura del tema. El resultado de la aplicación Angular en ejecución tiene ahora este aspecto:
+
+<Image src={gettingStartedDarkApp} alt="Primeros pasos: aplicación oscura" class="responsive-img" />
+
+Queremos profundizar y personalizar un [tema de componente](/themes/sass/component-themes) concreto de nuestra aplicación; para ello incorporaremos las variables CSS de un tema de componente individual, en este caso el tema de la barra de herramientas de la cuadrícula.
+
+```scss
+@include core();
+@include typography($font-family: "Poppins");
+
+$primary: #1028c7;
+
+/* All of the components will use this custom color palette */
+$custom-palette: palette(
+  $primary: $primary,
+  $secondary: #e0d94c,
+  $surface: #000,
+  $gray: #fff
+);
+
+@include theme(
+    $palette: $custom-palette, 
+    $schema: $dark-material-schema
+);
+
+/* Grid Toolbar */
+/* All grid toolbars will have custom background and elevations */
+$toolbar-theme: grid-toolbar-theme(
+  $background: $primary
+);
+
+@include tokens($toolbar-theme);
+/* END Grid Toolbar */
+```
+
+Y el resultado en nuestra aplicación tiene ahora este aspecto:
+
+<Image src={customizingUpdatedToolbar} alt="Personalización de la barra de herramientas actualizada" class="responsive-img" />
+
+El mismo proceso puede aplicarse para sobrescribir y personalizar individualmente cualquiera de los temas de componente.
+
+### Cambiar de temas personalizados en tiempo de ejecución
+
+Ahora profundicemos todavía más y creemos dos versiones personalizadas del tema, entre las que pueda cambiarse en tiempo de ejecución. Podemos hacerlo con el control o la preferencia del usuario, y dejar que cambie cuando quiera. Sin embargo, en el ejemplo usaremos la preferencia del usuario definida por el sistema operativo (claro u oscuro) para aplicar un tema que coincida con la configuración actual del sistema. Para ello necesitaremos dos paletas de colores:
+
+```scss
+@use "@infragistics/igniteui-angular/theming" as *;
+
+@layer ig.reset {
+  @import "minireset.css";
+}
+
+@include core();
+@include typography($font-family: "Poppins");
+
+$primary-dark: #1028c7;
+$primary-light: #3c55f1;
+$secondary-dark: #e0d94c;
+$secondary-light: #b4a904;
+
+$custom-palette-dark: palette(
+  $primary: $primary-dark,
+  $secondary: $secondary-dark,
+  $surface: #000,
+  $gray: #ccc
+);
+
+$custom-palette-light: palette(
+  $primary: $primary-light,
+  $secondary: $secondary-light,
+  $surface: #fff,
+  $gray: #222
+);
+```
+
+Después, la definición de nuestro tema irá en el ámbito general, que usaremos para la variante clara, y crearemos una sobrescritura de la paleta en una consulta `@media` cuando se detecte la preferencia de esquema de color oscuro del sistema operativo:
+
+```scss
+@include theme(
+  $palette: $custom-palette-light,
+  $schema: $light-material-schema
+);
+
+@media (prefers-color-scheme: light) {
+  /* Grid Toolbar override for light color scheme */
+  igx-grid-toolbar {
+    --background: #{$primary-light};
+    --title-text-color: #{adaptive-contrast($primary-light)};
+  }
+  /* END Grid Toolbar */
+}
+
+@media (prefers-color-scheme: dark) {
+  // changes native element schema (scrollbars, select, etc.)
+  :root {
+    color-scheme: dark;
+  }
+
+  @include palette($custom-palette-dark);
+
+  /* Grid Toolbar override for dark color scheme */
+  igx-grid-toolbar {
+    --background: #{$primary-dark};
+    --title-text-color: #{adaptive-contrast($primary-dark)};
+  }
+  /* END Grid Toolbar */
+}
+```
+
+<DocsAside type="info">
+He cambiado la sobrescritura del tema `igx-grid-toolbar` para sobrescribir solo dos de sus variables, en lugar de volver a incluir todas las variables del tema con <ApiLink kind="sass" module="themes" type="mixin-tokens" label="tokens" code={true} />.
+Todas las variables del tema pueden consultarse en <ApiLink kind="sass" module="themes" type="function-grid-toolbar-theme" label="documentación de la API de Sass correspondiente" /> y equivalen a las variables de Sass, pero con el prefijo `--` en lugar de `$`.
+</DocsAside>
+
+Y el resultado ahora, con el tema claro del sistema operativo, tiene este aspecto:
+
+<Image src={customizingColorSchemaLight} alt="Personalizar el esquema de color claro" class="responsive-img" />
+
+Y así se ve con el tema oscuro del sistema operativo:
+
+<Image src={customizingColorSchemaDark} alt="Personalizar el esquema de color oscuro" class="responsive-img" />
+
+<DocsAside type="info">
+El cambio completo en tiempo de ejecución, incluido el cambio del preajuste del esquema de tema de Ignite UI, solo es posible si se construyen dos temas completos. En el ejemplo anterior cambiamos las paletas de colores, pero el esquema de tema sigue siendo $light-material-schema, así que no se usan todos los tonos correctos de la paleta al cambiar a la paleta oscura.
+</DocsAside>
+
+### Qué se puede personalizar
+
+El tema de Ignite UI abstrae varias dimensiones del tema y ofrece capacidades de retematización muy sólidas. Desarrolladores y diseñadores pueden aprovechar las API del motor de temas para crear un diseño visual a medida de sus aplicaciones, lo que les da un aspecto único al usar Ignite UI for Angular. El motor de temas también expone variables de cada una de las dimensiones, que pueden usarse para aplicar el tema al resto de la estructura de la aplicación que no se construye directamente con componentes de Ignite UI for Angular. Las dimensiones expuestas para modificación son:
+
+- [Colores](/themes/sass/palettes) (paleta de colores)
+- [Forma](/themes/sass/roundness) (bordes y radios)
+- [Elevaciones](/themes/sass/elevations) (sombras)
+- [Tipografía](/themes/sass/typography) (fuentes y tamaños de fuente)
+- [Tamaño](/display-density) (el tamaño de la información que cabe en la pantalla)
+
+<DocsAside type="info">
+Si realmente quiere un diseño visual totalmente personalizado, tendrá que modificar todas las dimensiones de tema compatibles y aprovechar al máximo las API de Sass.
+Si solo necesita cambiar cosas como las fuentes y unos pocos colores, puede consultar la sección de paletas y tipografía. En la mayoría de los casos, bastará con cambiar algunas variables CSS sin necesidad de las API completas de Sass.
+Lo hemos hecho lo más detallado posible, de modo que las modificaciones puedan aplicarse sin efectos secundarios inesperados en el diseño visual de sus aplicaciones.
+</DocsAside>
+
+## Optimización del tema
+
+<DocsAside type="info">
+A partir de Ignite UI for Angular 22.1.0, los estilos estructurales de cada componente se incluyen en el paquete propio de cada componente, en lugar de en una única hoja de estilos global de todo o nada. Su herramienta de compilación (webpack, esbuild, etc.) incluye el CSS estructural solo para los componentes que importa su aplicación, de forma automática y sin configuración adicional por su parte.
+</DocsAside>
+
+Al llamar a `@include theme()` (junto con `core()` y `typography()`) se generan los **tokens** de diseño compartidos (las propiedades personalizadas CSS `--ig-*` que usa cada componente) para su hoja de estilos global. Como los estilos estructurales ya no residen aquí, esta salida es mucho más pequeña que una hoja de estilos que antes incluía el CSS estructural de todos los componentes, usados o no.
+
+Puede reducir todavía más la salida de tokens con el parámetro <ApiLink kind="sass" module="themes" type="mixin-theme" label="$exclude" code={true} />, que elimina los tokens de un componente indicado del preajuste global. Es útil cuando sabe que su aplicación nunca usará un componente determinado y no quiere incluir sus tokens. Como no es fácil encontrar y enumerar todos los componentes disponibles en el paquete, lo preferible es enumerar solo los componentes que usa. Exponemos la lista completa de componentes como una variable, a la que tiene acceso una vez que
+
+```scss
+@use "@infragistics/igniteui-angular/theming" as *;
+```
+
+El array de componentes se encuentra en `$components` y puede reducir <ApiLink kind="sass" module="themes" type="variable-dark-material-schema" label="esta lista" /> a los componentes que usa y excluir el resto, como en este ejemplo:
+
+```scss
+$include: (
+  igx-navbar,
+  igx-ripple,
+  igx-icon,
+  igx-button,
+  igx-input-group,
+  igx-combo,
+  igx-nav-drawer,
+  igx-grid,
+  igx-grid-toolbar
+);
+
+@include theme(
+  $palette: $custom-palette,
+  $schema: $dark-material-schema,
+  /* Removing all included components from the full list and excluding the rest  */
+  $exclude: map.keys(map.remove($components, $include...))
+);
+```
+
+<DocsAside type="info">
+Algunos temas de componente dependen de otros temas de componente.  
+Aunque excluya ciertos temas, se conservarán en la compilación si usa un tema de componente que depende de un tema excluido.
+</DocsAside>
+
+### Limitar el tema personalizado de una función a su ruta de carga diferida
+
+Incluso con la eliminación automática de código no usado, a menudo querrá mantener las **sobrescrituras personalizadas de tokens** de un componente cerca de la única función que las usa, en lugar de añadirlas a su hoja de estilos global, donde todas las vistas tendrían que cargarlas. Supongamos que sus instancias de `IgxTreeGridComponent` y `IgxComboComponent`, muy personalizadas para ajustarse a un diseño concreto, solo se usan dentro de una vista "Employees" y en ningún otro lugar de la aplicación. En lugar de definir sus colores personalizados en el `styles.scss` de toda la aplicación, puede colocar esas sobrescrituras junto a la propia función cargando esa vista de forma diferida como su propia ruta.
+
+Empezaremos creando un módulo nuevo y un módulo de enrutamiento nuevo en la carpeta del componente employees de nuestra aplicación.
+
+```typescript
+// employees.module.ts
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+
+import { EmployeesRoutingModule } from './employees-routing.module';
+import { EmployeesComponent } from './employees.component';
+import { IgxButtonModule, IgxComboModule, IgxTreeGridModule } from '@infragistics/igniteui-angular';
+
+
+@NgModule({
+  declarations: [
+    EmployeesComponent
+  ],
+  imports: [
+    CommonModule,
+    EmployeesRoutingModule,
+    IgxComboModule,
+    IgxTreeGridModule,
+    IgxButtonModule
+  ]
+})
+export class EmployeesModule { }
+```
+
+```typescript
+// employees-routing.module.ts
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+import { EmployeesComponent } from './employees.component';
+
+const routes: Routes = [{ path: '', component: EmployeesComponent }];
+
+@NgModule({
+  imports: [RouterModule.forChild(routes)],
+  exports: [RouterModule]
+})
+export class EmployeesRoutingModule { }
+```
+
+```typescript
+// Updated top-level app-routing.module.ts
+import { NgModule } from '@angular/core';
+import { Routes, RouterModule } from '@angular/router';
+
+import { PageNotFoundComponent } from './error-routing/not-found/not-found.component';
+import { UncaughtErrorComponent } from './error-routing/error/uncaught-error.component';
+import { ErrorRoutingModule } from './error-routing/error-routing.module';
+import { StatisticsComponent } from './statistics/statistics.component';
+
+export const routes: Routes = [
+  { path: '', redirectTo: 'statistics', pathMatch: 'full' },
+  { path: 'error', component: UncaughtErrorComponent },
+  // { path: 'employees', component: EmployeesComponent, data: { text: 'Employees' } },
+  // lazy-loading the employees route
+  { path: 'employees', loadChildren: () => import('./employees/employees.module').then(m => m.EmployeesModule) },
+  { path: 'statistics', component: StatisticsComponent, data: { text: 'Statistics' } },
+  { path: '**', component: PageNotFoundComponent } // must always be last
+];
+
+@NgModule({
+  imports: [RouterModule.forRoot(routes), ErrorRoutingModule],
+  exports: [RouterModule, ErrorRoutingModule]
+})
+export class AppRoutingModule {
+}
+```
+
+Ahora eliminamos las importaciones de `IgxTreeGridModule` y `IgxComboModule`, así como la declaración de `EmployeesComponent`, de nuestro `app.module.ts`, porque no los usamos en ninguna otra vista, y un componente solo puede declararse en un módulo.
+
+Después movemos los temas personalizados `igx-grid`, `igx-grid-toolbar` y `igx-combo` fuera de la hoja de estilos global y los colocamos junto al componente que los usa, en `employees.component.scss`. Usamos el modo con ámbito porque los componentes quedan excluidos de la salida global de `theme()` que se muestra abajo. Las propiedades personalizadas CSS normalmente se heredan a través de Emulated View Encapsulation; si un selector generado para un componente anidado no coincide, envuelva solo esa inclusión en `::ng-deep` o muévala a una hoja de estilos global:
+
+```scss
+/* employees.component.scss */
+@use "@infragistics/igniteui-angular/theming" as *;
+
+:host {
+  height: 100%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: stretch;
+  align-content: flex-start;
+
+  $primary: #1028c7;
+
+  @include tokens(
+    grid-theme(
+      $schema: $dark-material-schema,
+      $background: #1a1a1a,
+      $foreground: #fff,
+      $accent-color: $primary
+    ),
+    $mode: 'scoped'
+  );
+
+  @include tokens(
+    combo-theme(
+      $schema: $dark-material-schema,
+      $toggle-button-background: $primary
+    ),
+    $mode: 'scoped'
+  );
+
+  @include tokens(
+    grid-toolbar-theme(
+      $schema: $dark-material-schema,
+      $background: $primary
+    ),
+    $mode: 'scoped'
+  );
+}
+```
+
+Como la hoja de estilos de Employees ahora emite temas con ámbito completos, la hoja de estilos de nivel superior puede seguir excluyendo `igx-grid`, `igx-combo` y `igx-grid-toolbar` de su salida de tokens. Solo emite tokens globales para los componentes compartidos enumerados en `$include`:
+
+```scss
+/* Updated styles.scss */
+@use "sass:map";
+@use "@infragistics/igniteui-angular/theming" as *;
+
+@layer ig.reset {
+  @import "minireset.css";
+}
+
+@include core();
+@include typography($font-family: "Poppins");
+
+$primary: #1028c7;
+
+$custom-palette: palette(
+  $primary: $primary,
+  $secondary: #e0d94c,
+  $surface: #000,
+  $gray: #fff
+);
+
+$include: (
+  igx-navbar,
+  igx-ripple,
+  igx-icon,
+  igx-button,
+  igx-nav-drawer
+);
+
+@include theme(
+  $palette: $custom-palette,
+  $schema: $dark-material-schema,
+  $exclude: map.keys(map.remove($components, $include...))
+);
+```
+
+<DocsAside type="info">
+Probablemente quiera poner todas sus variables, como los valores de la paleta de colores, en un archivo `_variables.scss` aparte, que puede incluir desde varios componentes para reutilizar las variables.  
+</DocsAside>
+
+El resultado: la hoja de estilos global ya no contiene sobrescrituras de color que solo importan a la vista Employees y, como `IgxTreeGridComponent` y `IgxComboComponent` ahora solo los importa el `EmployeesModule` de carga diferida, sus estilos estructurales se descargan junto con el fragmento de ese módulo, solo cuando un usuario navega realmente a la vista Employees, en lugar de en cada carga de página.
+
+## Recursos adicionales
+
+Temas relacionados:
+
+- [Paletas](/themes/sass/palettes)
+- [Elevaciones](/themes/sass/elevations)
+- [Tipografía](/themes/sass/typography)
+- [Temas con Sass](/themes/sass)
+
+Nuestra comunidad está activa y siempre da la bienvenida a nuevas ideas.
+
+- [Ignite UI for Angular **Foros**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

@@ -1,0 +1,113 @@
+---
+title: "독립형 컴포넌트 사용 방법 - Angular | Ignite UI for Angular"
+description: "Ignite UI for Angular 컴포넌트를 독립형 컴포넌트로, 그리고 다른 독립형 컴포넌트의 종속성으로 사용하는 방법입니다."
+keywords: "Ignite UI for Angular, 독립형 컴포넌트, Angular 16, Angular 모듈"
+_language: ko
+llms:
+  description: "Angular 14는 NgModule 사용을 줄여 애플리케이션을 더 간단하게 만드는 방법인 독립형 컴포넌트 개념을 도입했습니다."
+---
+
+# Ignite UI for Angular에서 독립형 컴포넌트 사용하기
+
+Angular 14는 `NgModules`의 필요성을 줄여 애플리케이션을 더 간단하게 구축하는 방법인 [독립형 컴포넌트](https://angular.io/guide/standalone-components) 개념을 도입했습니다. 독립형 컴포넌트는 Angular 15까지 개발자 미리 보기 상태였습니다. 이 새로운 패러다임을 지원하기 위해, 모든 Ignite UI for Angular 컴포넌트는 이제 버전 `16.0.0`의 `standalone`로 내보내집니다. Angular 19부터는 모든 컴포넌트가 기본적으로 독립형입니다. 기존의 모든 `NgModules`는 이전 버전과의 호환성을 위해 라이브러리에서 여전히 내보내집니다. 하지만 더 이상 Ignite UI for Angular 컴포넌트를 선언하지 않습니다. 대신 `standalone` 컴포넌트를 import하고 export합니다.
+
+## 새로운 독립형 컴포넌트를 사용하는 방법
+
+Angular 16과 Ignite UI for Angular 16.0부터는 `standalone` 컴포넌트에 필요한 import를 `imports` 속성에 간단히 추가할 수 있습니다. 다음 예에서 `IGX_GRID_DIRECTIVES`을(를) 사용하면 그리드 관련 컴포넌트와 디렉티브를 모두 import할 수 있습니다.
+
+```typescript
+import { IGX_GRID_DIRECTIVES } from 'igniteui-angular/grids/grid';
+
+@Component({
+    selector: 'app-grid-sample',
+    styleUrls: ['grid.sample.scss'],
+    templateUrl: 'grid.sample.html',
+    imports: [IGX_GRID_DIRECTIVES, AsyncPipe]
+})
+```
+
+또는 `standalone` 컴포넌트가 사용하는 모든 컴포넌트를 개별적으로 import할 수도 있습니다. 다른 컴포넌트가 이 두 개만 사용하는 경우 `IgxGridComponent`와 `IgxColumnComponent`을(를) import하는 예는 다음과 같습니다.
+
+```typescript
+import { IgxGridComponent, IgxColumnComponent } from 'igniteui-angular/grids/grid';
+
+@Component({
+    selector: 'app-grid-sample',
+    styleUrls: ['grid.sample.scss'],
+    templateUrl: 'grid.sample.html',
+    imports: [IgxGridComponent, IgxColumnComponent, AsyncPipe]
+})
+```
+
+또한 기존의 모든 모듈은 유지되고 이제 독립형 컴포넌트만 import하고 export하므로, 독립형 컴포넌트에서도 이를 사용할 수 있습니다.
+
+```typescript
+// `NgModule` import of the `IgxGridModule` module, which is equivalent to IGX_GRID_DIRECTIVES in terms of exported components and directives.
+import { IgxGridModule } from 'igniteui-angular/grids/grid';
+
+@Component({
+    selector: 'app-grid-sample',
+    styleUrls: ['grid.sample.scss'],
+    templateUrl: 'grid.sample.html',
+    imports: [IgxGridModule, AsyncPipe]
+})
+```
+
+## 유틸리티 디렉티브
+
+앞의 예제에 나온 `IGX_GRID_DIRECTIVES`은(는) 그리드 관련 모든 컴포넌트와 디렉티브를 export하는 유틸리티 디렉티브입니다. 다음 표는 Ignite UI for Angular에서 사용할 수 있는 모든 새 유틸리티 디렉티브를 보여 줍니다.
+
+| 디렉티브 컬렉션                                                                                                                                                             | 설명                                                                     |
+| :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :------------------------------------------------------------------------------ |
+| [`IGX_ACCORDION_DIRECTIVES`](https://github.com/IgniteUI/igniteui-angular/blob/master/projects/igniteui-angular/accordion/src/accordion/public_api.ts)                           | 아코디언 관련 모든 컴포넌트와 디렉티브를 export합니다.                        |
+| [`IGX_ACTION_STRIP_DIRECTIVES`](https://github.com/IgniteUI/igniteui-angular/blob/master/projects/igniteui-angular/action-strip/src/action-strip/public_api.ts)                  | Action Strip 관련 모든 컴포넌트와 디렉티브를 export합니다.                     |
+| [`IGX_BANNER_DIRECTIVES`](https://github.com/IgniteUI/igniteui-angular/blob/master/projects/igniteui-angular/banner/src/banner/public_api.ts)                                    | Banner 관련 모든 컴포넌트와 디렉티브를 export합니다.                           |
+| [`IGX_BOTTOM_NAV_DIRECTIVES`](https://github.com/IgniteUI/igniteui-angular/blob/master/projects/igniteui-angular/bottom-nav/src/bottom-nav/public_api.ts)                        | 하단 내비게이션 관련 모든 컴포넌트와 디렉티브를 export합니다.                |
+| [`IGX_BUTTON_GROUP_DIRECTIVES`](https://github.com/IgniteUI/igniteui-angular/blob/master/projects/igniteui-angular/button-group/src/button-group/public_api.ts)                  | 버튼 그룹 관련 모든 컴포넌트와 디렉티브를 export합니다.                     |
+| [`IGX_CALENDAR_DIRECTIVES`](https://github.com/IgniteUI/igniteui-angular/blob/master/projects/igniteui-angular/calendar/src/calendar/public_api.ts)                              | 캘린더 관련 모든 컴포넌트와 디렉티브를 export합니다.                         |
+| [`IGX_CARD_DIRECTIVES`](https://github.com/IgniteUI/igniteui-angular/blob/master/projects/igniteui-angular/card/src/card/public_api.ts)                                          | 카드 관련 모든 컴포넌트와 디렉티브를 export합니다.                             |
+| [`IGX_CAROUSEL_DIRECTIVES`](https://github.com/IgniteUI/igniteui-angular/blob/master/projects/igniteui-angular/carousel/src/carousel/public_api.ts)                              | 캐러셀 관련 모든 컴포넌트와 디렉티브를 export합니다.                         |
+| [`IGX_CHIPS_DIRECTIVES`](https://github.com/IgniteUI/igniteui-angular/blob/master/projects/igniteui-angular/chips/src/chips/public_api.ts)                                       | Chip 관련 모든 컴포넌트와 디렉티브를 export합니다.                             |
+| [`IGX_CIRCULAR_PROGRESS_BAR_DIRECTIVES`](https://github.com/IgniteUI/igniteui-angular/blob/master/projects/igniteui-angular/progressbar/src/progressbar/public_api.ts)           | 원형 진행률 막대 관련 모든 컴포넌트와 디렉티브를 export합니다.            |
+| [`IGX_COMBO_DIRECTIVES`](https://github.com/IgniteUI/igniteui-angular/blob/master/projects/igniteui-angular/combo/src/combo/public_api.ts)                                       | Combo 관련 모든 컴포넌트와 디렉티브를 export합니다.                            |
+| [`IGX_DATE_PICKER_DIRECTIVES`](https://github.com/IgniteUI/igniteui-angular/blob/master/projects/igniteui-angular/date-picker/src/date-picker/public_api.ts)                     | Date picker 관련 모든 컴포넌트와 디렉티브를 export합니다.                      |
+| [`IGX_DATE_RANGE_PICKER_DIRECTIVES`](https://github.com/IgniteUI/igniteui-angular/blob/master/projects/igniteui-angular/date-picker/src/date-range-picker/public_api.ts)         | Date range picker 관련 모든 컴포넌트와 디렉티브를 export합니다.                |
+| [`IGX_DIALOG_DIRECTIVES`](https://github.com/IgniteUI/igniteui-angular/blob/master/projects/igniteui-angular/dialog/src/dialog/public_api.ts)                                    | Dialog 관련 모든 컴포넌트와 디렉티브를 export합니다.                           |
+| [`IGX_DRAG_DROP_DIRECTIVES`](https://github.com/IgniteUI/igniteui-angular/blob/master/projects/igniteui-angular/directives/src/directives/drag-drop/public_api.ts)               | 드래그 앤 드롭 관련 모든 컴포넌트와 디렉티브를 export합니다.                    |
+| [`IGX_DROP_DOWN_DIRECTIVES`](https://github.com/IgniteUI/igniteui-angular/blob/master/projects/igniteui-angular/drop-down/src/drop-down/public_api.ts)                           | Drop-down 관련 모든 컴포넌트와 디렉티브를 export합니다.                        |
+| [`IGX_EXPANSION_PANEL_DIRECTIVES`](https://github.com/IgniteUI/igniteui-angular/blob/master/projects/igniteui-angular/expansion-panel/src/expansion-panel/public_api.ts)         | Expansion panel 관련 모든 컴포넌트와 디렉티브를 export합니다.                  |
+| [`IGX_GRID_DIRECTIVES`](https://github.com/IgniteUI/igniteui-angular/blob/master/projects/igniteui-angular/grids/grid/src/grid.module.ts)                                        | 그리드 관련 모든 컴포넌트와 디렉티브를 export합니다.                             |
+| [`IGX_HIERARCHICAL_GRID_DIRECTIVES`](https://github.com/IgniteUI/igniteui-angular/blob/master/projects/igniteui-angular/grids/hierarchical-grid/src/hierarchical-grid.module.ts) | 계층형 그리드 관련 모든 컴포넌트와 디렉티브를 export합니다.                |
+| [`IGX_INPUT_GROUP_DIRECTIVES`](https://github.com/IgniteUI/igniteui-angular/blob/master/projects/igniteui-angular/input-group/src/input-group/public_api.ts)                     | Input group 관련 모든 컴포넌트와 디렉티브를 export합니다.                      |
+| [`IGX_LINEAR_PROGRESS_BAR_DIRECTIVES`](https://github.com/IgniteUI/igniteui-angular/blob/master/projects/igniteui-angular/progressbar/src/progressbar/public_api.ts)             | 선형 진행률 막대 관련 모든 컴포넌트와 디렉티브를 export합니다.              |
+| [`IGX_LIST_DIRECTIVES`](https://github.com/IgniteUI/igniteui-angular/blob/master/projects/igniteui-angular/list/src/list/public_api.ts)                                          | List 관련 모든 컴포넌트와 디렉티브를 export합니다.                             |
+| [`IGX_NAVBAR_DIRECTIVES`](https://github.com/IgniteUI/igniteui-angular/blob/master/projects/igniteui-angular/navbar/src/navbar/public_api.ts)                                    | Navbar 관련 모든 컴포넌트와 디렉티브를 export합니다.                           |
+| [`IGX_NAVIGATION_DRAWER_DIRECTIVES`](https://github.com/IgniteUI/igniteui-angular/blob/master/projects/igniteui-angular/navigation-drawer/src/navigation-drawer/public_api.ts)   | Navigation drawer 관련 모든 컴포넌트와 디렉티브를 export합니다.                |
+| [`IGX_PAGINATOR_DIRECTIVES`](https://github.com/IgniteUI/igniteui-angular/blob/master/projects/igniteui-angular/paginator/src/paginator/public_api.ts)                           | Paginator 관련 모든 컴포넌트와 디렉티브를 export합니다.                        |
+| [`IGX_PIVOT_GRID_DIRECTIVES`](https://github.com/IgniteUI/igniteui-angular/blob/master/projects/igniteui-angular/grids/pivot-grid/src/pivot-grid.module.ts)                      | Pivot grid 관련 모든 컴포넌트와 디렉티브를 export합니다.                       |
+| [`IGX_PROGRESS_BAR_DIRECTIVES`](https://github.com/IgniteUI/igniteui-angular/blob/master/projects/igniteui-angular/progressbar/src/progressbar/public_api.ts)                    | 선형 및 원형 진행률 막대 관련 모든 컴포넌트와 디렉티브를 export합니다. |
+| [`IGX_QUERY_BUILDER_DIRECTIVES`](https://github.com/IgniteUI/igniteui-angular/blob/master/projects/igniteui-angular/query-builder/src/query-builder/public_api.ts)               | Query builder 관련 모든 컴포넌트와 디렉티브를 export합니다.                    |
+| [`IGX_RADIO_GROUP_DIRECTIVES`](https://github.com/IgniteUI/igniteui-angular/blob/master/projects/igniteui-angular/radio/src/radio/radio-group/public_api.ts)                     | Radio group 관련 모든 컴포넌트와 디렉티브를 export합니다.                      |
+| [`IGX_SELECT_DIRECTIVES`](https://github.com/IgniteUI/igniteui-angular/blob/master/projects/igniteui-angular/select/src/select/public_api.ts)                                    | Select 관련 모든 컴포넌트와 디렉티브를 export합니다.                           |
+| [`IGX_SIMPLE_COMBO_DIRECTIVES`](https://github.com/IgniteUI/igniteui-angular/blob/master/projects/igniteui-angular/simple-combo/src/simple-combo/public_api.ts)                  | Simple combo 관련 모든 컴포넌트와 디렉티브를 export합니다.                     |
+| [`IGX_SLIDER_DIRECTIVES`](https://github.com/IgniteUI/igniteui-angular/blob/master/projects/igniteui-angular/slider/src/slider/public_api.ts)                                    | Slider 관련 모든 컴포넌트와 디렉티브를 export합니다.                           |
+| [`IGX_SPLITTER_DIRECTIVES`](https://github.com/IgniteUI/igniteui-angular/blob/master/projects/igniteui-angular/splitter/src/splitter/public_api.ts)                              | Splitter 관련 모든 컴포넌트와 디렉티브를 export합니다.                         |
+| [`IGX_STEPPER_DIRECTIVES`](https://github.com/IgniteUI/igniteui-angular/blob/master/projects/igniteui-angular/stepper/src/stepper/public_api.ts)                                 | Stepper 관련 모든 컴포넌트와 디렉티브를 export합니다.                          |
+| [`IGX_TABS_DIRECTIVES`](https://github.com/IgniteUI/igniteui-angular/blob/master/projects/igniteui-angular/tabs/src/tabs/tabs/public_api.ts)                                     | Tabs 관련 모든 컴포넌트와 디렉티브를 export합니다.                             |
+| [`IGX_TIME_PICKER_DIRECTIVES`](https://github.com/IgniteUI/igniteui-angular/blob/master/projects/igniteui-angular/time-picker/src/time-picker/public_api.ts)                     | Time picker 관련 모든 컴포넌트와 디렉티브를 export합니다.                      |
+| [`IGX_TOOLTIP_DIRECTIVES`](https://github.com/IgniteUI/igniteui-angular/blob/master/projects/igniteui-angular/directives/src/directives/tooltip/public_api.ts)                   | Tooltip 관련 모든 컴포넌트와 디렉티브를 export합니다.                          |
+| [`IGX_TREE_DIRECTIVES`](https://github.com/IgniteUI/igniteui-angular/blob/master/projects/igniteui-angular/tree/src/tree/public_api.ts)                                          | Tree-view 관련 모든 컴포넌트와 디렉티브를 export합니다.                        |
+| [`IGX_TREE_GRID_DIRECTIVES`](https://github.com/IgniteUI/igniteui-angular/blob/master/projects/igniteui-angular/grids/tree-grid/src/tree-grid.module.ts)                         | Tree grid 관련 모든 컴포넌트와 디렉티브를 export합니다.                        |
+
+## 추가 리소스
+
+관련 항목:
+
+- [독립형 컴포넌트](https://angular.io/guide/standalone-components)
+- [Ignite UI for Angular 시작하기](/general/getting-started)
+- [Angular의 서버 측 렌더링](/general/ssr-rendering)
+
+커뮤니티는 활발하며 새로운 아이디어를 언제나 환영합니다.
+
+- [Ignite UI for Angular **포럼**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

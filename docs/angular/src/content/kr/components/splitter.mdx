@@ -1,0 +1,354 @@
+---
+title: "Angular Splitter 컴포넌트 | 분할 창 | Ignite UI for Angular | Infragistics | MIT 라이선스"
+description: "Angular Splitter 컴포넌트를 사용하면 뷰를 가로 또는 세로로 여러 개의 접을 수 있는 분할 창으로 나누는 간단한 분할 레이아웃을 만들 수 있습니다."
+keywords: angular splitter, angular splitter component, angular split view component, angular ui components, igniteui for angular, infragistics
+license: MIT
+_language: ko
+llms:
+  description: "Ignite UI for Angular Splitter 컴포넌트는 크기를 조정하고, 펼치고, 접을 수 있는 여러 개의 세로 또는 가로로 배치된 창으로 나뉜 레이아웃을 만들 수 있게 합니다."
+---
+
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+# Angular Splitter 컴포넌트 개요
+
+Ignite UI for Angular Splitter 컴포넌트는 크기를 조정하고, 펼치고, 접을 수 있는 여러 개의 세로 또는 가로로 배치된 창으로 나뉜 레이아웃을 만들 수 있게 합니다. 이러한 상호 작용은 창 사이의 splitter 막대에 노출된 UI를 통해 수행됩니다. 아래 데모에서 간단한 Splitter 레이아웃을 확인할 수 있습니다.
+
+## Angular Splitter 예제
+
+<Sample src="/layouts/splitter-horizontal-sample" height={400} alt="Angular Splitter 예제" />
+
+<hr/>
+
+## Ignite UI for Angular Splitter 시작하기
+
+Ignite UI for Angular Splitter 컴포넌트를 시작하려면 먼저 Ignite UI for Angular를 설치해야 합니다. 기존 Angular 애플리케이션에서 다음 명령을 입력하십시오:
+
+```cmd
+ng add igniteui-angular
+```
+
+Ignite UI for Angular에 대한 전체 소개는 [_시작하기_](/general/getting-started) 항목을 읽어 보십시오.
+
+다음 단계는 **app.module.ts** 파일에서 `IgxSplitterModule`을 가져오는 것입니다.
+
+```typescript
+// app.module.ts
+...
+import { IgxSplitterModule } from 'igniteui-angular/splitter';
+// import { IgxSplitterModule } from '@infragistics/igniteui-angular'; for licensed package
+
+@NgModule({
+    ...
+    imports: [..., IgxSplitterModule],
+    ...
+})
+export class AppModule {}
+```
+
+또는 `16.0.0` 버전부터는 `IgxSplitterComponent`을 독립형(standalone) 종속성으로 가져올 수 있으며, [`IGX_SPLITTER_DIRECTIVES`](https://github.com/IgniteUI/igniteui-angular/blob/master/projects/igniteui-angular/splitter/src/splitter/public_api.ts) 토큰을 사용하여 컴포넌트와 모든 지원 컴포넌트 및 디렉티브를 가져올 수도 있습니다.
+
+```typescript
+// home.component.ts
+
+import { IGX_SPLITTER_DIRECTIVES } from 'igniteui-angular/splitter';
+// import { IGX_SPLITTER_DIRECTIVES } from '@infragistics/igniteui-angular'; for licensed package
+
+@Component({
+    selector: 'app-home',
+    template: `
+    <igx-splitter>
+        <igx-splitter-pane>
+            Pane 1
+        </igx-splitter-pane>
+        <igx-splitter-pane>
+            Pane 2
+        </igx-splitter-pane>
+    </igx-splitter>
+    `,
+    styleUrls: ['home.component.scss'],
+    standalone: true,
+    imports: [IGX_SPLITTER_DIRECTIVES]
+    /* or imports: [IgxSplitterComponent, IgxSplitterPaneComponent] */
+})
+export class HomeComponent {}
+```
+
+이제 Ignite UI for Angular Splitter 모듈 또는 디렉티브를 가져왔으므로 `igx-splitter` 컴포넌트를 사용할 수 있습니다.
+
+## Angular Splitter 사용하기
+
+**igxSplitter**는 **igx-splitter** 태그로 초기화됩니다. 하나의 **igx-splitter** 컴포넌트 아래에 여러 개의 splitter 창을 정의할 수 있습니다. 창의 콘텐츠는 템플릿화할 수 있으며 자체 크기 조절 가능한 컨테이너 안에 렌더링됩니다.
+
+```html
+{/* splitter.component.html */}
+<igx-splitter>
+    <igx-splitter-pane>
+        ...
+    </igx-splitter-pane>
+    <igx-splitter-pane>
+        ...
+    </igx-splitter-pane>
+    <igx-splitter-pane>
+        ...
+    </igx-splitter-pane>
+</igx-splitter>
+```
+
+### 방향
+
+splitter는 세로 또는 가로일 수 있으며, 이는 <ApiLink type="Splitter" member="type" label="type" /> 입력으로 정의됩니다. 기본값은 Vertical입니다.
+
+```typescript
+public type = SplitterType.Horizontal;
+```
+
+```html
+<igx-splitter [type]="type">
+    <igx-splitter-pane>
+        ...
+    </igx-splitter-pane>
+    <igx-splitter-pane>
+        ...
+    </igx-splitter-pane>
+</igx-splitter>
+```
+
+### 접을 수 있는 Splitter
+
+<ApiLink type="Splitter" member="nonCollapsible" label="nonCollapsible" /> 입력을 사용하여 splitter의 핸들과 펼치기 버튼을 표시하거나 숨겨서 splitter를 접을 수 있게 하거나 접을 수 없게 할 수 있습니다. 기본값은 false이므로 splitter는 접을 수 있습니다.
+
+```html
+<igx-splitter [nonCollapsible]="true">
+    <igx-splitter-pane>
+        ...
+    </igx-splitter-pane>
+    <igx-splitter-pane>
+        ...
+    </igx-splitter-pane>
+</igx-splitter>
+```
+
+<Sample src="/layouts/splitter-collapsible-sample" height={400} alt="" />
+
+### 창 구성하기
+
+**igxSplitterPane** 컴포넌트에는 여러 입력 속성이 있습니다. <ApiLink type="SplitterPane" member="size" label="size" /> 입력 속성을 사용하여 창의 초기 크기를 설정할 수 있습니다. <ApiLink type="SplitterPane" member="minSize" label="minSize" /> 및 <ApiLink type="SplitterPane" member="maxSize" label="maxSize" /> 입력 속성을 사용하여 창의 최소 또는 최대 허용 크기를 설정할 수 있습니다. `minSize` 및 `maxSize`을(를) 넘어서는 크기 조절은 허용되지 않습니다.
+
+```html
+<igx-splitter>
+    <igx-splitter-pane size='300px' minSize='100px'>
+        ...
+    </igx-splitter-pane>
+    <igx-splitter-pane size='300px' maxSize='500px'>
+        ...
+    </igx-splitter-pane>
+</igx-splitter>
+```
+
+<ApiLink type="SplitterPane" member="resizable" label="resizable" /> 입력 속성을 **false**로 설정하여 창의 크기 조절을 금지할 수도 있습니다.
+
+```html
+<igx-splitter>
+    <igx-splitter-pane [resizable]='false'>
+        ...
+    </igx-splitter-pane>
+    <igx-splitter-pane>
+        ...
+    </igx-splitter-pane>
+</igx-splitter>
+```
+
+### 중첩된 창
+
+splitter 컴포넌트를 중첩하여 splitter 창 안에 더 복잡한 레이아웃을 만들 수 있습니다.
+
+```typescript
+public typeHorizontal = SplitterType.Horizontal;
+public typeVertical = SplitterType.Vertical;
+```
+
+```html
+<igx-splitter style='height: 30vh;' [type]='typeHorizontal' >
+    <igx-splitter-pane>
+        <igx-splitter [type]='typeVertical' [style.width]='"100%"'>
+            <igx-splitter-pane>
+                Pane1.1
+            </igx-splitter-pane>
+            <igx-splitter-pane>
+                Pane1.2
+            </igx-splitter-pane>
+        </igx-splitter>
+    </igx-splitter-pane>
+    <igx-splitter-pane>
+        <igx-splitter [type]='typeVertical' [style.width]='"100%"'>
+            <igx-splitter-pane>
+                Pane2.1
+            </igx-splitter-pane>
+            <igx-splitter-pane>
+                Pane2.2
+            </igx-splitter-pane>
+        </igx-splitter>
+    </igx-splitter-pane>
+</igx-splitter>
+```
+
+### 데모
+
+<Sample src="/layouts/splitter-nested-sample" height={400} alt="" />
+
+## 키보드 탐색
+
+splitter 컴포넌트에서는 기본적으로 키보드 탐색을 사용할 수 있습니다. splitter 막대에 포커스를 두고 다음 키 조합 중 하나를 누르면, 설명된 동작이 수행됩니다.
+
+### 키 조합
+
+- `Arrow Up` - 세로 splitter에서 splitter 막대를 *위*로 이동합니다
+- `Arrow Down` - 세로 splitter에서 splitter 막대를 *아래*로 이동합니다
+- `Arrow Left` - 가로 splitter에서 splitter 막대를 *왼쪽*으로 이동합니다
+- `Arrow Right` - 가로 splitter에서 splitter 막대를 *오른쪽*으로 이동합니다
+- `Ctrl + Arrow Up` - 세로 splitter에서 창을 펼치거나 접습니다
+- `Ctrl + Arrow Down` - 세로 splitter에서 창을 펼치거나 접습니다
+- `Ctrl + Arrow Left` - 가로 splitter에서 창을 펼치거나 접습니다
+- `Ctrl + Arrow Right` - 가로 splitter에서 창을 펼치거나 접습니다
+
+## 스타일링
+
+### Splitter 테마 속성 맵
+
+기본 속성을 수정하면, 관련된 모든 종속 속성이 변경 사항을 반영하도록 자동으로 업데이트됩니다:
+
+<table>
+    <thead>
+      <tr>
+        <th>기본 속성</th>
+        <th>종속 속성</th>
+        <th>설명</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="primary">
+        <td><strong>$bar-color</strong></td>
+        <td>$handle-color</td>
+        <td>막대 드래그 핸들의 색상입니다</td>
+      </tr>
+      <tr class="dependent"><td></td><td>$expander-color</td><td>화살표 펼치기 버튼의 색상입니다</td></tr>
+      <tr class="dependent"><td></td><td>$focus-color</td><td>포커스된 splitter 막대에 사용되는 색상입니다</td></tr>
+    </tbody>
+</table>
+
+**igxSplitter** 컴포넌트의 스타일 지정을 시작하려면, 모든 테마 함수와 `tokens()` 믹스인이 내보내진 `index` 파일을 가져와야 합니다:
+
+```scss
+@use "igniteui-angular/theming" as *;
+
+// IMPORTANT: Prior to Ignite UI for Angular version 13 use:
+// @import '~igniteui-angular/lib/core/styles/themes/index';
+```
+
+<ApiLink kind="sass" module="themes" type="function-splitter-theme" label="splitter-theme" code={true} />을(를) 확장하는 새 테마를 만들어 splitter의 기본 스타일을 바꿀 수 있습니다. 기본 매개변수만 제공하면 테마가 상호 작용 상태에 필요한 모든 스타일을 자동으로 생성합니다.
+
+```scss
+// In splitter-styling-sample.component.scss
+
+$splitter-theme: splitter-theme(
+  $bar-color: #011627,
+  $handle-color: #ecaa53,
+  $expander-color: #ecaa53,
+  $size: 4px
+);
+```
+
+### CSS 변수 사용하기
+
+다음 단계는 사용자 지정 splitter 테마를 전달하는 것입니다:
+
+```scss
+:host {
+    @include tokens($custom-splitter-theme);
+}
+```
+
+### 데모
+
+새 테마를 적용한 최종 결과입니다.
+
+<Sample src="/layouts/splitter-styling-sample" height={400} alt="" />
+
+### Tailwind로 스타일링하기
+
+사용자 지정 Tailwind 유틸리티 클래스를 사용하여 splitter의 스타일을 지정할 수 있습니다. 먼저 [Tailwind를 설정](/themes/tailwind)했는지 확인하십시오.
+
+전역 스타일시트에 Tailwind를 가져온 다음, 다음과 같이 원하는 테마 유틸리티를 적용할 수 있습니다:
+
+```scss
+@import "tailwindcss";
+...
+@use 'igniteui-theming/tailwind/utilities/material.css';
+```
+
+유틸리티 파일에는 `light` 및 `dark` 테마 변형이 모두 포함되어 있습니다.
+
+- 밝은 테마에는 `light-*` 클래스를 사용하십시오.
+- 어두운 테마에는 `dark-*` 클래스를 사용하십시오.
+- 접두사 뒤에 컴포넌트 이름을 붙이십시오. 예: `light-splitter`, `dark-splitter`.
+
+적용하면 이 클래스는 동적 테마 계산을 가능하게 합니다. 그런 다음 `arbitrary properties`을 사용하여 생성된 CSS 변수를 재정의할 수 있습니다. 콜론 뒤에는 유효한 CSS 색상 형식(HEX, CSS 변수, RGB 등)을 입력하십시오.
+
+속성의 전체 목록은 <ApiLink kind="sass" module="themes" type="function-splitter-theme" label="splitter-theme" />에서 확인할 수 있습니다. 구문은 다음과 같습니다:
+
+```html
+<igx-splitter
+  class="!light-splitter ![--bar-color:#7B9E89]">
+  ...
+</igx-splitter>
+```
+
+<DocsAside type="info">
+유틸리티 클래스가 우선 적용되도록 느낌표(`!`)가 필요합니다. Tailwind는 스타일을 계층으로 적용하므로, 이 스타일을 중요(important)로 표시하지 않으면 컴포넌트의 기본 테마에 의해 재정의됩니다.
+</DocsAside>
+
+### 사용자 지정 크기 조정
+
+`igx-splitter`을(를) 직접 대상으로 하여 `--size` 변수를 사용할 수 있습니다:
+
+```scss
+igx-splitter {
+  --size: 10px;
+}
+```
+
+또는 범용 `--ig-splitter-size` 변수를 사용하여 모든 인스턴스를 대상으로 할 수 있습니다:
+
+```html
+<div class="my-app">
+
+  <igx-splitter></igx-splitter>
+</div>
+```
+
+```scss
+.my-app {
+  --ig-splitter-size: 10px;
+}
+```
+
+## API 참조
+<hr/>
+- <ApiLink type="Splitter" />
+- <ApiLink type="SplitterPane" />
+- <ApiLink type="SplitterType" kind="enum" />
+- <ApiLink kind="sass" module="themes" type="function-splitter-theme" label="IgxSplitterComponent 스타일" />
+<hr/>
+## 테마 종속성
+
+- <ApiLink kind="sass" module="themes" type="function-drop-down-theme" label="IgxDropDown 테마" />
+- <ApiLink kind="sass" module="themes" type="function-icon-theme" label="IgxIcon 스타일" />
+
+커뮤니티는 활발하며 새로운 아이디어를 언제나 환영합니다.
+
+- [Ignite UI for Angular **포럼**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)
+

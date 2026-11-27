@@ -1,0 +1,342 @@
+<ComponentBlock for="Grid">
+
+---
+title: "Filtrado avanzado en Angular Data Grid: Ignite UI for Angular"
+description: "Aprenda a configurar el filtrado avanzado de datos con la tabla de Angular. El filtrado avanzado de la cuadrícula es más cómodo y atractivo que nunca."
+keywords: "filtrado avanzado, igniteui for angular, infragistics"
+license: commercial
+_language: es
+llms:
+  description: "El filtrado avanzado proporciona un cuadro de diálogo que permite crear grupos con condiciones de filtrado en todas las columnas para cualquier tabla de Angular, como {ComponentTitle}."
+---
+
+
+
+</ComponentBlock>
+<ComponentBlock for="TreeGrid, HierarchicalGrid, PivotGrid">
+
+---
+title: "Filtrado avanzado en Angular Data Grid: Ignite UI for Angular"
+description: "Aprenda a configurar el filtrado avanzado de datos con la tabla de Angular. El filtrado avanzado de la cuadrícula es más cómodo y atractivo que nunca."
+keywords: "filtrado avanzado, igniteui for angular, infragistics"
+license: commercial
+_canonicalLink: grid/advanced-filtering
+_language: es
+llms:
+  description: "El filtrado avanzado proporciona un cuadro de diálogo que permite crear grupos con condiciones de filtrado en todas las columnas para cualquier tabla de Angular, como {ComponentTitle}."
+---
+
+</ComponentBlock>
+
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+# Filtrado avanzado de {ComponentTitle} en Angular
+
+El filtrado avanzado proporciona un cuadro de diálogo que permite crear grupos con condiciones de filtrado en todas las columnas para cualquier [tabla de Angular](https://www.infragistics.com/products/ignite-ui-angular/angular/components/grid/grid), como {ComponentTitle}.
+
+## Ejemplo de filtrado avanzado de {ComponentTitle} en Angular
+
+<ComponentBlock for="Grid">
+
+<Sample src="/grid/grid-advanced-filtering" height={530} alt="Ejemplo de filtrado avanzado de {ComponentTitle} en Angular" />
+
+</ComponentBlock>
+<ComponentBlock for="TreeGrid">
+
+<Sample src="/tree-grid/treegrid-advanced-filtering" height={510} alt="Ejemplo de filtrado avanzado de {ComponentTitle} en Angular" />
+
+</ComponentBlock>
+<ComponentBlock for="HierarchicalGrid">
+
+<Sample src="/hierarchical-grid/hierarchical-grid-advanced-filtering" height={630} alt="Ejemplo de filtrado avanzado de {ComponentTitle} en Angular" />
+
+</ComponentBlock>
+
+
+## Interacción
+
+Para abrir el cuadro de diálogo de filtrado avanzado, hay que hacer clic en el botón **Filtrado avanzado** de la barra de herramientas de la cuadrícula. El cuadro de diálogo usa el componente <ApiLink type="QueryBuilder" /> para generar, mostrar y editar la lógica de filtrado. Puede consultar [`Query Builder topic`](../query-builder.mdx#getting-started-with-ignite-ui-for-angular-query-builder) para ver los detalles del proceso de interacción.
+
+Para filtrar los datos cuando haya terminado de crear las condiciones y los grupos de filtrado, haga clic en el botón **Aplicar**. Si ha modificado el filtro avanzado, pero no quiere conservar los cambios, haga clic en el botón **Cancelar**. También puede borrar el filtro avanzado haciendo clic en el botón **Borrar filtro**.
+
+## Uso
+
+Para habilitar el filtrado avanzado, la propiedad de entrada <ApiLink type="{ComponentApiType}" member="allowAdvancedFiltering" label="allowAdvancedFiltering" /> debe establecerse en `true`.
+
+<ComponentBlock for="Grid">
+
+```html
+<igx-grid [data]="data" [autoGenerate]="true" [allowAdvancedFiltering]="true">
+    <igx-grid-toolbar></igx-grid-toolbar>
+</igx-grid>
+```
+
+</ComponentBlock>
+<ComponentBlock for="TreeGrid">
+
+```html
+<igx-tree-grid [data]="data" [autoGenerate]="true" [allowAdvancedFiltering]="true">
+    <igx-grid-toolbar></igx-grid-toolbar>
+</igx-tree-grid>
+```
+
+</ComponentBlock>
+<ComponentBlock for="HierarchicalGrid">
+
+```html
+<igx-hierarchical-grid [data]="data" [autoGenerate]="true" [allowAdvancedFiltering]="true">
+    <igx-grid-toolbar></igx-grid-toolbar>
+</igx-hierarchical-grid>
+```
+
+</ComponentBlock>
+
+El filtrado avanzado genera un <ApiLink type="FilteringExpressionsTree" /> que se almacena en la propiedad de entrada <ApiLink type="{ComponentApiType}" member="advancedFilteringExpressionsTree" label="advancedFilteringExpressionsTree" />. Puede usar esta propiedad para establecer un estado inicial del filtrado avanzado.
+
+<ComponentBlock for="Grid, TreeGrid, PivotGrid">
+
+```typescript
+ngAfterViewInit(): void {
+    const tree = new FilteringExpressionsTree(FilteringLogic.And);
+    tree.filteringOperands.push({
+        fieldName: 'ID',
+        condition: IgxStringFilteringOperand.instance().condition('contains'),
+        searchVal: 'a',
+        ignoreCase: true
+    });
+    const subTree = new FilteringExpressionsTree(FilteringLogic.Or);
+    subTree.filteringOperands.push({
+        fieldName: 'ContactTitle',
+        condition: IgxStringFilteringOperand.instance().condition('doesNotContain'),
+        searchVal: 'b',
+        ignoreCase: true
+    });
+    subTree.filteringOperands.push({
+        fieldName: 'CompanyName',
+        condition: IgxStringFilteringOperand.instance().condition('startsWith'),
+        searchVal: 'c',
+        ignoreCase: true
+    });
+    tree.filteringOperands.push(subTree);
+    
+    this.{ComponentObjectRef}.advancedFilteringExpressionsTree = tree;
+}
+```
+
+</ComponentBlock>
+
+<ComponentBlock for="HierarchicalGrid">
+
+```TypeScript
+ngAfterViewInit(): void {
+    const tree = new FilteringExpressionsTree(FilteringLogic.Or);
+    tree.filteringOperands.push({
+        fieldName: 'Artist',
+        condition: IgxStringFilteringOperand.instance().condition('startsWith'),
+        conditionName: IgxStringFilteringOperand.instance().condition('startsWith').name,
+        searchVal: 'A'
+    });
+    const subTree = new FilteringExpressionsTree(FilteringLogic.And);
+    subTree.filteringOperands.push({
+        fieldName: 'GrammyAwards',
+        condition: IgxNumberFilteringOperand.instance().condition('greaterThanOrEqualTo'),
+        conditionName: IgxNumberFilteringOperand.instance().condition('greaterThanOrEqualTo').name,
+        searchVal: 1
+    });
+    subTree.filteringOperands.push({
+        fieldName: 'Debut',
+        condition: IgxNumberFilteringOperand.instance().condition('lessThan'),
+        conditionName: IgxNumberFilteringOperand.instance().condition('lessThan').name,
+        searchVal: 2000
+    });
+    tree.filteringOperands.push(subTree);
+    this.{ComponentObjectRef}.advancedFilteringExpressionsTree = tree;
+}
+```
+
+El filtrado avanzado de `IgxHierarchicalGrid` puede usarse para filtrar los datos del grid raíz según los datos de los grids hijos, usando los operadores _IN / NOT-IN_. De esta forma pueden crearse subconsultas para definir una lógica de filtrado más compleja. Puede encontrar más información sobre esta funcionalidad en [`Query Builder's Using Sub-Queries section`](../query-builder-model.mdx#using-sub-queries). Este es un ejemplo de <ApiLink type="FilteringExpressionsTree" /> con una subconsulta:
+
+```TypeScript
+ngAfterViewInit(): void {
+    const albumsTree = new FilteringExpressionsTree(FilteringLogic.And, undefined, 'Albums', ['Artist']);
+    albumsTree.filteringOperands.push({
+        fieldName: 'LaunchDate',
+        condition: IgxDateFilteringOperand.instance().condition('after'),
+        conditionName: IgxDateFilteringOperand.instance().condition('after').name,
+        searchVal: new Date(2017, 1, 1)
+    });
+    const tree = new FilteringExpressionsTree(FilteringLogic.And);
+    tree.filteringOperands.push({
+        fieldName: 'Artist',
+        condition: IgxStringFilteringOperand.instance().condition('inQuery'),
+        conditionName: IgxStringFilteringOperand.instance().condition('inQuery').name,
+        searchTree: albumsTree
+    });
+    this.{ComponentObjectRef}.advancedFilteringExpressionsTree = tree;
+}
+```
+
+Si se usan datos remotos, el cuadro de diálogo de filtrado avanzado toma sus campos de las columnas declaradas en `IgxHierarchicalGrid` y en sus islas de filas, incluidas las islas de filas cuyos datos hijos aún no se han cargado. Consulte el tema [`Load on Demand`](../hierarchicalgrid/load-on-demand.mdx) para obtener una guía detallada.
+</ComponentBlock>
+
+Si no quiere mostrar la barra de herramientas {ComponentTitle}, puede usar los métodos <ApiLink type="{ComponentApiType}" member="openAdvancedFilteringDialog" label="openAdvancedFilteringDialog" /> y <ApiLink type="{ComponentApiType}" member="closeAdvancedFilteringDialog" label="closeAdvancedFilteringDialog" /> para abrir y cerrar el cuadro de diálogo de filtrado avanzado mediante programación.
+
+<DocsAside type="info">
+Puede habilitar tanto las interfaces de filtrado `quickFilter`/`excelStyleFilter` como la del filtrado avanzado en {ComponentTitle}. Ambas interfaces de filtrado funcionarán de forma independiente. El resultado final filtrado en {ComponentTitle} es la intersección de los resultados de los dos filtros.
+</DocsAside>
+
+## Filtrado avanzado externo
+
+Como se ve en la demostración anterior, el cuadro de diálogo de filtrado avanzado se aloja en una superposición encima de {ComponentTitle}. Cuando la configuración del cuadro de diálogo está lista, las acciones de aplicar o cerrar ocultan ese cuadro. Existe una forma de que el cuadro de diálogo permanezca siempre visible, usándolo como componente independiente. En la demostración siguiente, el cuadro de diálogo de filtrado avanzado se declara por separado de {ComponentTitle}.
+
+### Demostración
+
+<ComponentBlock for="Grid">
+
+<Sample src="/grid/grid-external-advanced-filtering" height={750} alt="" />
+
+</ComponentBlock>
+
+<ComponentBlock for="TreeGrid">
+
+<Sample src="/tree-grid/tree-grid-external-advanced-filtering" height={750} alt="" />
+
+</ComponentBlock>
+
+<ComponentBlock for="HierarchicalGrid">
+
+<Sample src="/hierarchical-grid/hierarchical-grid-external-advanced-filtering" height={750} alt="" />
+
+</ComponentBlock>
+
+### Uso
+
+Es muy sencillo configurar el filtrado avanzado para que funcione fuera de {ComponentTitle}. Solo tiene que crear el cuadro de diálogo y establecer su propiedad <ApiLink type="GridToolbarAdvancedFiltering" member="grid" label="grid" />:
+
+<ComponentBlock for="Grid">
+
+```html
+<igx-advanced-filtering-dialog [grid]="grid1">
+</igx-advanced-filtering-dialog>
+```
+
+</ComponentBlock>
+<ComponentBlock for="TreeGrid">
+
+```html
+<igx-advanced-filtering-dialog [grid]="treegrid1">
+</igx-advanced-filtering-dialog>
+```
+
+</ComponentBlock>
+<ComponentBlock for="HierarchicalGrid">
+
+```html
+<igx-advanced-filtering-dialog [grid]="hierarchicalGrid">
+</igx-advanced-filtering-dialog>
+```
+
+</ComponentBlock>
+
+También puede ver cómo nuestro [App Builder™ de arrastrar y soltar](https://www.infragistics.com/products/appbuilder) puede agilizar todo el proceso, desde el diseño hasta el código Angular.
+
+## Estilos
+
+Para empezar a dar estilo al cuadro de diálogo de filtrado avanzado, debemos importar el archivo `index`, donde se exportan todas las funciones de tema y el mixin `tokens()`:
+
+```scss
+@use "igniteui-angular/theming" as *;
+
+// IMPORTANT: Prior to Ignite UI for Angular version 13 use:
+// @import '~igniteui-angular/lib/core/styles/themes/index';
+```
+
+Como el cuadro de diálogo de filtrado avanzado usa el componente <ApiLink type="QueryBuilder" />, puede usar <ApiLink kind="sass" module="themes" type="query-builder-theme" label="query-builder-theme" code={true} /> para darle estilo. Para dar estilo al título de la cabecera, puede crear un tema personalizado que extienda <ApiLink kind="sass" module="themes" type="query-builder-theme" label="query-builder-theme" code={true} /> y establecer el parámetro `$header-foreground`.
+
+```scss
+$custom-query-builder: query-builder-theme(
+  $background: #1f2836,
+  $foreground: #f5f6e6,
+  $accent-color: #f5f6e6
+);
+```
+
+<DocsAside type="info">
+En lugar de codificar los valores de color como acabamos de hacer, podemos lograr más flexibilidad con los colores usando las funciones <ApiLink kind="sass" module="palettes" type="function-palette" label="palette" code={true} /> y <ApiLink kind="sass" module="palettes" type="function-color" label="color" code={true} />. Consulte el tema [`Palettes`](/themes/sass/palettes) para obtener orientación detallada sobre cómo usarlas.
+</DocsAside>
+
+El último paso es **incluir** el tema del componente en nuestra aplicación.
+
+```scss
+igx-advanced-filtering-dialog {
+  @include tokens($custom-query-builder);
+}
+```
+
+<DocsAside type="info">
+Incluimos el **query-builder-theme** creado dentro de `igx-advanced-filtering-dialog`, de modo que este tema personalizado afecte solo al generador de consultas anidado en el cuadro de diálogo de filtrado avanzado. De lo contrario, otros componentes de generador de consultas de la aplicación también se verían afectados.
+</DocsAside>
+
+<DocsAside type="info">
+En algunas plantillas de componentes, el encapsulado de vista emulado puede impedir que las declaraciones de tokens generadas lleguen a los elementos anidados de Ignite UI. Si el tema no surte efecto, use `::ng-deep` como se muestra a continuación o traslade el tema a una hoja de estilos global.
+</DocsAside>
+
+```scss
+:host {
+  ::ng-deep {
+    igx-advanced-filtering-dialog {
+      @include tokens($custom-query-builder);
+    }
+  }
+}
+```
+
+### Demostración
+
+<ComponentBlock for="Grid">
+
+<Sample src="/grid/grid-advanced-filtering-style" height={530} alt="" />
+
+</ComponentBlock>
+<ComponentBlock for="TreeGrid">
+
+<Sample src="/tree-grid/treegrid-advanced-filtering-style" height={510} alt="" />
+
+</ComponentBlock>
+<ComponentBlock for="HierarchicalGrid">
+
+<Sample src="/hierarchical-grid/hierarchical-grid-advanced-filtering-style" height={630} alt="" />
+
+</ComponentBlock>
+
+<DocsAside type="info">
+El ejemplo no se verá afectado por el tema global seleccionado en `Change Theme`.
+</DocsAside>
+
+## Referencias de API
+- <ApiLink type="Column" />
+- <ApiLink type="{ComponentApiType}" />
+- <ApiLink kind="sass" module="themes" type="function-grid-theme" label="Estilos de {ComponentName}Component" />
+## Recursos adicionales
+
+
+- [Descripción general de {ComponentTitle}](/{igPath}/{ComponentMainTopic})
+- [Filtrado al estilo de Excel](/{igPath}/excel-style-filtering)
+- [Paginación](/{igPath}/paging)
+<ComponentBlock for="Grid, TreeGrid, HierarchicalGrid">
+- [Filtrado](/{igPath}/filtering)
+- [Virtualización y rendimiento](/{igPath}/virtualization)
+- [Ordenación](/{igPath}/sorting)
+- [Resúmenes](/{igPath}/summaries)
+- [Movimiento de columnas](/{igPath}/column-moving)
+- [Anclaje de columnas](/{igPath}/column-pinning)
+- [Redimensionado de columnas](/{igPath}/column-resizing)
+- [Selección](/{igPath}/selection)
+</ComponentBlock>
+
+Nuestra comunidad está activa y siempre da la bienvenida a nuevas ideas.
+
+- [Ignite UI for Angular **Foros**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

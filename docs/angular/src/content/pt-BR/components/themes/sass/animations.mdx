@@ -1,0 +1,175 @@
+---
+title: "Animações"
+description: "O Ignite UI for Angular inclui mais de 100 animações predefinidas, criadas especialmente para uma melhor experiência do usuário."
+keywords: "Ignite UI for Angular, controles de UI, widgets Angular, widgets web, widgets de UI, Angular, Native Angular Components Suite, Native Angular Controls, Native Angular Components Library, animações"
+_language: pt-BR
+llms:
+  description: "O Ignite UI for Angular inclui mais de 100 animações predefinidas, criadas especialmente para uma melhor experiência do usuário."
+---
+
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+
+
+# Animações
+
+<div class="highlight">
+O Ignite UI for Angular inclui mais de 100 animações predefinidas, criadas especialmente para uma melhor experiência do usuário.
+</div>
+<igc-divider></igc-divider>
+
+## Animações Sass
+
+### Mixin de keyframes
+
+O mixin <ApiLink kind="sass" module="animations" type="mixin-keyframes" label="keyframes" /> do Ignite UI for Angular é usado para registrar novas animações de keyframes. O mixin recebe como parâmetro o nome de uma animação de keyframes e o adiciona à lista global de registro de keyframes. Dessa forma, os keyframes não são duplicados no CSS exportado quando a mesma animação de keyframes é incluída várias vezes.
+
+Por exemplo, ao fazer isto:
+
+```scss
+@include fade-in();
+@include fade-in();
+```
+
+Resultará em apenas uma regra `@keyframes` adicionada ao CSS gerado:
+
+```css
+@keyframes fade-in { ... }
+```
+
+Os seletores de keyframes para as etapas da animação, junto com os estilos CSS dos keyframes, são definidos dentro do corpo do mixin.
+
+Aqui está um exemplo de criação de um novo mixin de animação que pode ser usado com o nosso mixin `animation`.
+
+```scss
+@mixin fade-in-bottom {
+    @include keyframes(fade-in-bottom) {
+        0% {
+            transform: translateY(50px);
+            opacity: 0;
+        }
+
+        100% {
+            transform: translateY(0);
+            opacity: 1;
+        }
+    }
+} 
+```
+
+<hr/>
+
+### Mixin de animação
+
+O mixin <ApiLink kind="sass" module="animations" type="mixin-animation" label="animation" /> serve como um meio para animar elementos usando uma lista de propriedades de animação passadas como parâmetros. Os usuários podem especificar propriedades de animação como `name`, `duration`, `delay`, `direction`, `iteration count`, etc. Vários keyframes de animação podem ser passados para o mixin `animation`.
+
+```scss
+//include the 'fade-in-top' keyframes animation mixin
+@include fade-in-top();
+
+//include the animation mixin with parameters
+.my-class {
+    @include animation('fade-in-top' 3s $ease-out-quad infinite);
+}
+```
+
+<hr/>
+
+### Funções de temporização
+
+Incluímos uma lista de funções de temporização prontas para uso com os nossos mixins de keyframes. Leia a <ApiLink kind="sass" module="animations" label="documentation" /> para encontrar a lista completa de funções de temporização.
+
+<Sample src="/theming/animations-sample-2/" height={270} iframeOnly />
+<div>
+<button data-localize="codesandbox" disabled class="codesandbox-btn" data-iframe-id="animations-sample-2-iframe" data-demos-base-url="{environment:demosBaseUrl}">Ver no CodeSandbox</button>
+<button data-localize="stackblitz" disabled class="stackblitz-btn" data-iframe-id="animations-sample-2-iframe" data-demos-base-url="{environment:demosBaseUrl}">Ver no StackBlitz</button>
+</div>
+<hr/>
+
+## Animações do Angular
+
+Além dos keyframes e do mixin de animações do Sass, também incluímos animações do Angular predefinidas.
+
+<hr/>
+
+<Sample src="/theming/animations-sample-1/" height={470} iframeOnly />
+<div style="margin: 0; padding-top: 0.5rem">Gostou deste exemplo? Tenha acesso ao nosso conjunto completo de ferramentas Angular e comece a criar seus próprios aplicativos em minutos. <a class="no-external-icon mchNoDecorate trackCTA" target="_blank" href="https://www.infragistics.com/products/ignite-ui-angular/download" data-xd-ga-action="Download" data-xd-ga-label="Ignite UI for Angular">Baixe gratuitamente.</a></div>
+<div>
+<button data-localize="codesandbox" disabled class="codesandbox-btn" data-iframe-id="animations-sample-1-iframe" data-demos-base-url="{environment:demosBaseUrl}">Ver no CodeSandbox</button>
+<button data-localize="stackblitz" disabled class="stackblitz-btn" data-iframe-id="animations-sample-1-iframe" data-demos-base-url="{environment:demosBaseUrl}">Ver no StackBlitz</button>
+</div>
+
+### Uso
+
+As animações do Ignite UI for Angular são agrupadas em 8 categorias, de acordo com os seus efeitos visuais — `fade`, `flip`, `grow`, `miscellaneous`, `rotate`, `scale`, `slide` e `swing`. Cada grupo aceita um conjunto diferente de parâmetros, permitindo modificar o comportamento de qualquer uma das animações incluídas. Cada animação é um objeto [`AnimationReferenceMetadata`](https://angular.io/api/animations/AnimationReferenceMetadata), como o produzido pela função [`animation`](https://angular.io/api/animations/animation) fornecida pelo Angular.
+
+Se parâmetros forem anexados, eles funcionam como valores padrão. Quando uma animação é invocada pela função [`useAnimation`](https://angular.io/api/animations/useAnimation), os valores dos parâmetros podem ser passados diretamente. Se algum dos valores de parâmetro passados estiver ausente, os valores padrão serão usados.
+
+``` typescript
+import { transition, trigger, useAnimation } from '@angular/animations';
+import { fadeIn, fadeOut } from "igniteui-angular/animations/main";
+
+animations: [
+    trigger('fadeInOut', [
+            transition('void => *', [
+                useAnimation(fadeIn, {
+                    params: {
+                        duration: '.35s',
+                        easing: 'ease-out'
+                    }
+                })
+            ]),
+            transition('* => void', [
+                useAnimation(fadeOut, {
+                    params: {
+                        duration: '.2s',
+                        easing: 'ease-out'
+                    }
+                })
+            ])
+        ])
+]
+```
+
+### Funções de temporização
+
+O Ignite UI for Angular inclui um conjunto de funções de temporização que podem ser usadas para acelerar ou desacelerar uma animação no início ou no fim. Há três grupos principais de funções de temporização — `EaseIn`, `EaseOut` e `EaseInOut` —, cada um contendo as seguintes temporizações:
+
+- quad
+- cubic
+- quart
+- quint
+- sine
+- expo
+- circ
+- back
+
+Para usar uma função de temporização específica, primeiro importe-a:
+
+``` typescript
+import { EaseOut } from "igniteui-angular/animations/easings";
+```
+
+e depois use-a como valor do parâmetro easing em qualquer animação:
+
+``` typescript
+useAnimation(fadeIn, {
+    params: {
+        easing: EaseOut.back
+    }
+});
+```
+
+## Referências da API
+<igc-divider></igc-divider>
+- <ApiLink kind="sass" module="animations" label="Animations" />
+- `AnimationSettings`
+- `IAnimationParams`
+## Recursos adicionais
+
+<hr/>
+
+Nossa comunidade é ativa e sempre receptiva a novas ideias.
+
+- [Ignite UI for Angular **Fóruns**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

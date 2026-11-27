@@ -1,0 +1,590 @@
+---
+title: "Seleção do {Platform} {ComponentTitle} - {ProductName}"
+description: "Veja como é fácil selecionar dados na grade {ProductName} usando uma variedade de eventos, uma API rica ou interações simples com o mouse, como a seleção única."
+keywords: "{Platform}, {ComponentKeywords}, {ProductName}, Infragistics"
+license: commercial
+mentionedTypes: [{ComponentApiMembers}]
+sharedComponents: ["Grid", "TreeGrid", "PivotGrid", "HierarchicalGrid"]
+namespace: Infragistics.Controls
+_canonicalLink: "{CanonicalLinkToGridSelection}"
+_language: pt-BR
+llms:
+  description: "Com o recurso de Seleção do {ProductName} em {Platform} {ComponentTitle}, você pode interagir e manipular dados facilmente com interações simples do mouse."
+---
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+
+# {Platform} {ComponentTitle} visão geral da seleção
+
+Com o recurso de Seleção do {ProductName} em {Platform} {ComponentTitle}, você pode interagir e manipular dados facilmente com interações simples do mouse. Há três modos de seleção disponíveis:
+
+- Seleção de linhas
+- Seleção de células
+- Seleção de colunas
+
+Com a propriedade <ApiLink type="{ComponentName}" member="rowSelection" />, você pode especificar:
+
+- None
+- Única
+- Seleção múltipla
+
+## Exemplo de seleção do {Platform} {ComponentTitle}
+
+O exemplo abaixo demonstra três tipos de comportamento de **seleção de células** na <ApiLink type="{ComponentName}" />. Use os botões abaixo para ativar cada um dos modos de seleção disponíveis.
+
+<PlatformBlock for="Angular">
+Uma breve descrição será exibida a cada interação com um botão, por meio de uma caixa de mensagem snackbar.
+
+</PlatformBlock>
+
+<Sample src="/{ComponentSample}/cell-selection-mode" height={650} alt="Exemplo de seleção do {Platform} {ComponentTitle}" />
+
+## Opções de seleção do {Platform} {ComponentTitle}
+
+<ComponentBlock for="Grid, HierarchicalGrid">
+O componente {ProductName} <ApiLink type="{ComponentName}" /> oferece três modos de seleção diferentes: [Seleção de linhas](row-selection.mdx), [Seleção de células](cell-selection.mdx) e [Seleção de colunas](column-selection.mdx). Por padrão, somente o modo **Seleção de várias células** fica habilitado na <ApiLink type="{ComponentName}" />. Para alterar ou habilitar o modo de seleção, você pode usar as propriedades <ApiLink type="{ComponentName}" member="rowSelection" />, <ApiLink type="{ComponentName}" member="cellSelection" /> ou <ApiLink type="Column" member="selectable" />.
+
+</ComponentBlock>
+
+### Seleção de linhas do {Platform} {ComponentTitle}
+
+A propriedade <ApiLink type="{ComponentName}" member="rowSelection" /> permite especificar as seguintes opções:
+
+- `None` - a seleção de linhas ficaria desabilitada para a <ApiLink type="{ComponentName}" />.
+- `Single` - ficaria disponível a seleção de apenas uma linha dentro da <ApiLink type="{ComponentName}" />.
+- `Multiple` - a seleção de várias linhas ficaria disponível usando os seletores de linha, com uma combinação de teclas como <kbd>CTRL</kbd> + <kbd>click</kbd>, ou pressionando a <kbd>tecla de espaço</kbd> quando uma célula estiver com foco.
+
+<ComponentBlock for="TreeGrid, HierarchicalGrid">
+- `MultipleCascade` - é um modo de seleção em cascata, que resulta na seleção de todos os filhos na árvore abaixo do registro que o usuário seleciona por interação. Nesse modo, o estado de seleção de um pai depende inteiramente do estado de seleção de seus filhos.
+
+</ComponentBlock>
+
+> Consulte o tópico [Seleção de linhas](row-selection.mdx) para mais informações.
+
+### Seleção de células do {Platform} {ComponentTitle}
+
+A propriedade <ApiLink type="{ComponentName}" member="cellSelection" /> permite especificar as seguintes opções:
+
+- `None` - a seleção de células ficaria desabilitada para a <ApiLink type="{ComponentName}" />.
+- `Single` - ficaria disponível a seleção de apenas uma célula dentro da <ApiLink type="{ComponentName}" />.
+- `Multiple` - atualmente, este é o estado padrão da seleção na <ApiLink type="{ComponentName}" />. A seleção de várias células está disponível arrastando o mouse sobre as células, após clicar continuamente com o botão esquerdo do mouse.
+
+<ComponentBlock for="Grid, TreeGrid, HierarchicalGrid">
+> Consulte o tópico [Seleção de células](cell-selection.mdx) para mais informações.
+
+</ComponentBlock>
+
+### Seleção de colunas do {Platform} {ComponentTitle}
+
+A propriedade <ApiLink type="Column" member="selectable" /> permite especificar as seguintes opções para cada <ApiLink type="Column" />. A seleção de colunas correspondente será habilitada ou desabilitada se essa propriedade for definida como true ou false, respectivamente.
+
+Isso leva às três variações a seguir:
+
+- Seleção única - <kbd>clique do mouse</kbd> sobre a célula da coluna.
+- Seleção de múltiplas colunas - mantendo <kbd>CTRL</kbd> + <kbd>clique do mouse</kbd> sobre as células da coluna.
+- Seleção de intervalo de colunas - mantendo <kbd>SHIFT</kbd> + <kbd>clique do mouse</kbd>, seleciona tudo o que está entre elas.
+
+<ComponentBlock for="Grid, TreeGrid, HierarchicalGrid">
+> Consulte o tópico [Seleção de colunas](column-selection.mdx) para mais informações.
+
+</ComponentBlock>
+
+<ComponentBlock for="Grid">
+## Menu de contexto do {Platform} {ComponentTitle}
+
+Usando o evento <ApiLink type="{ComponentName}" member="contextMenu" />, você pode adicionar um menu de contexto personalizado para facilitar seu trabalho com <ApiLink type="{ComponentName}" />. Com um **clique com o botão direito** no corpo da grade, o evento emite a célula na qual foi disparado. O **menu de contexto** operará com a célula emitida.
+
+Se houver uma **seleção de várias células**, colocaremos uma lógica que verifica se a célula selecionada está na área da seleção de várias células. Se estiver, também emitiremos os valores das células selecionadas.
+
+Basicamente, a função principal ficará assim:
+
+<PlatformBlock for="Angular">
+```typescript
+public rightClick(eventArgs: any) {
+     // Prevent the default behavior of the right click
+    eventArgs.event.preventDefault();
+    this.multiCellArgs = {};
+    // If we have multi-cell selection, check if selected cell is within the ranges
+    if (this.multiCellSelection) {
+        const node = eventArgs.cell.selectionNode;
+        const isCellWithinRange = this.grid1.getSelectedRanges().some(range => {
+            if (node.column >= range.columnStart &&
+                node.column <= range.columnEnd &&
+                node.row >= range.rowStart &&
+                node.row <= range.rowEnd) {
+                return true;
+            }
+            return false;
+        })
+        // If the cell is within a multi-cell selection range, bind all the selected cells data
+        if (isCellWithinRange) {
+            this.multiCellArgs = { data: this.multiCellSelection.data };
+        }
+    }
+    // Set the position of the context menu
+    this.contextmenuX = eventArgs.event.clientX;
+    this.contextmenuY = eventArgs.event.clientY;
+    this.clickedCell = eventArgs.cell;
+    // Enable the context menu
+    this.contextmenu = true;
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+```ts
+    public rightClick(event: any) {
+        const eventArgs = event.detail;
+        eventArgs.event.preventDefault();
+        this.multiCellArgs = {};
+        if (this.multiCellSelection) {
+          const node = eventArgs.cell.selectionNode;
+          const isCellWithinRange = this.grid.getSelectedRanges().some((range) => {
+            if (
+              node.column >= range.columnStart &&
+              node.column <= range.columnEnd &&
+              node.row >= range.rowStart &&
+              node.row <= range.rowEnd
+            ) {
+              return true;
+            }
+            return false;
+          });
+          if (isCellWithinRange) {
+            this.multiCellArgs = { data: this.multiCellSelection.data };
+          }
+        }
+        this.contextmenuX = eventArgs.event.clientX;
+        this.contextmenuY = eventArgs.event.clientY;
+        this.clickedCell = eventArgs.cell;
+        this.toggleContextMenu();
+      }
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+const rightClick = (event: IgrGridContextMenuEventArgs) => {
+  const eventArgs = event.detail;
+  eventArgs.event.preventDefault();
+  const node = eventArgs.cell.cellID;
+  const isCellWithinRange = gridRef.current
+    .getSelectedRanges()
+    .some((range: any) => {
+      if (
+        node.columnID >= range.columnStart &&
+        node.columnID <= range.columnEnd &&
+        node.rowIndex >= range.rowStart &&
+        node.rowIndex <= range.rowEnd
+      ) {
+        return true;
+      }
+      return false;
+    });
+  setIsCellWithinRange(isCellWithinRange);
+  setClickedCell(eventArgs.cell);
+  openContextMenu(eventArgs.event.clientX, eventArgs.event.clientY);
+};
+```
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```csharp
+    public void RightClick(MouseEventArgs e)
+    {
+        this.MenuX = e.ClientX + "px";
+        this.MenuY = e.ClientY + "px";
+    }
+
+
+    public void onMenuShow(IgbGridCellEventArgs e)
+    {
+        IgbGridCellEventArgsDetail detail = e.Detail;
+        this.ShowMenu = true;
+        this.ClickedCell = detail.Cell;
+    }
+
+```
+</PlatformBlock>
+
+O menu de contexto terá as seguintes funções:
+
+- Copiar o _valor_ da célula selecionada.
+- Copiar o _dataRow_ da célula selecionada.
+- Se a célula selecionada estiver dentro de um **intervalo de seleção de várias células**, copiar todos os _dados selecionados_.
+
+<PlatformBlock for="Angular">
+```typescript
+//contextmenu.component.ts
+
+public copySelectedCellData(event) {
+    const selectedData = { [this.cell.column.field]: this.cell.value };
+    this.copyData(JSON.stringify({ [this.cell.column.field]: this.cell.value }));
+    this.onCellValueCopy.emit({ data: selectedData });
+}
+
+public copyRowData(event) {
+    const selectedData = this.cell.row.data ;
+    this.copyData(JSON.stringify(this.cell.row.data));
+    this.onCellValueCopy.emit({ data: selectedData });
+}
+
+public copySelectedCells(event) {
+    const selectedData = this.selectedCells.data;
+    this.copyData(JSON.stringify(selectedData));
+    this.onCellValueCopy.emit({ data: selectedData });
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+```ts
+    public copySelectedRowData() {
+        const selectedData = this.grid.getRowData(this.clickedCell.id.rowID);
+        this.copyData(selectedData);
+        const selectedDataArea = document.getElementById('selectedArea');
+        selectedDataArea.innerText = JSON.stringify(selectedData);
+        this.toggleContextMenu();
+    }
+
+    public copySelectedCellData() {
+        const selectedData = this.clickedCell.value;
+        this.copyData(selectedData);
+        const selectedDataArea = document.getElementById('selectedArea');
+        selectedDataArea.innerText = JSON.stringify(selectedData);
+        this.toggleContextMenu();
+    }
+
+
+    public copySelectedData() {
+        const selectedData = this.grid.getSelectedData();
+        this.copyData(selectedData);
+        const selectedDataArea = document.getElementById('selectedArea');
+        selectedDataArea.innerText = JSON.stringify(selectedData);
+
+        this.toggleContextMenu();
+    }
+
+    private copyData(data: any[]) {
+        const tempElement = document.createElement('input');
+        document.body.appendChild(tempElement);
+        tempElement.setAttribute('id', 'temp_id');
+        (document.getElementById('temp_id') as HTMLInputElement).value = JSON.stringify(data);
+        tempElement.select();
+        document.execCommand('copy');
+        document.body.removeChild(tempElement);
+    }
+
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+const copySelectedRowData = () => {
+  const selectedData = gridRef.current.getRowData(clickedCell.cellID.rowID);
+  copyData(selectedData);
+  closeContextMenu();
+};
+
+const copySelectedCellData = () => {
+  const selectedData = clickedCell.value;
+  copyData(selectedData);
+  closeContextMenu();
+};
+
+const copySelectedData = () => {
+  const selectedData = gridRef.current.getSelectedData(null, null);
+  copyData(selectedData);
+  closeContextMenu();
+};
+
+const copyData = (data: any[]) => {
+  const tempElement = document.createElement("input");
+  document.body.appendChild(tempElement);
+  tempElement.setAttribute("id", "temp_id");
+  (document.getElementById("temp_id") as HTMLInputElement).value =
+    JSON.stringify(data);
+  tempElement.select();
+  const dataStringified = JSON.stringify(data);
+  navigator.clipboard.writeText(dataStringified).catch((err) => {
+     console.error("Failed to copy: ", err);
+  });
+  document.body.removeChild(tempElement);
+  setSelectedData(dataStringified);
+};
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```csharp
+    public void CopyCellData()
+    {
+        this.ShowMenu = false;
+        this.SelectedData = this.ClickedCell.Value.ToString();
+        StateHasChanged();
+    }
+
+
+    public async void CopyRowData()
+    {
+        this.ShowMenu = false;
+        NwindDataItem rowData = this.NwindData.ElementAt(this.ClickedCell.Id.RowIndex);
+        this.SelectedData = JsonConvert.SerializeObject(rowData);
+        StateHasChanged();
+}
+
+    public async void CopyCellsData()
+    {
+        this.ShowMenu = false;
+        var selectedData = await this.grid.GetSelectedDataAsync(true, false);
+        this.SelectedData = JsonConvert.SerializeObject(selectedData);
+        StateHasChanged();
+    }
+
+```
+</PlatformBlock>
+
+O <ApiLink type="{ComponentName}" /> buscará os dados copiados e os colará em um elemento contêiner.
+
+O template que vamos usar para combinar o grid com o menu de contexto:
+
+<PlatformBlock for="Angular">
+```html
+<div class="wrapper">
+  <div class="grid__wrapper" (window:click)="disableContextMenu()">
+    <igx-grid
+      #grid1
+      [data]="data"
+      [autoGenerate]="false"
+      height="500px"
+      width="100%"
+      (contextMenu)="rightClick($event)"
+      (rangeSelected)="getCells($event)"
+      (selected)="cellSelection($event)"
+    >
+      <!-- Columns area -->
+    </igx-grid>
+    @if (contextmenu==true) {
+      <div>
+        <contextmenu
+          [x]="contextmenuX"
+          [y]="contextmenuY"
+          [cell]="clickedCell"
+          [selectedCells]="multiCellArgs"
+          (onCellValueCopy)="copy($event)"
+        >
+        </contextmenu>
+      </div>
+    }
+  <div class="selected-data-area">
+    <div>
+      <pre>{{copiedData}}</pre>
+    </div>
+  </div>
+</div>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+```html
+    <div class="container sample">
+      <div class="wrapper">
+        <igc-grid auto-generate="false" width="50%" height="100%" name="grid" id="grid">
+          <igc-column field="ProductID" header="Product ID">
+          </igc-column>
+          <igc-column field="ProductName" header="Product Name">
+          </igc-column>
+          <igc-column field="UnitsInStock" header="Units In Stock" data-type="number">
+          </igc-column>
+          <igc-column field="UnitPrice" header="Units Price" data-type="number">
+          </igc-column>
+          <igc-column field="Discontinued" data-type="boolean">
+          </igc-column>
+          <igc-column field="OrderDate" header="Order Date" data-type="date">
+          </igc-column>
+        </igc-grid>
+        <div id="selectedArea" class="selected-data-area">
+        </div>
+      </div>
+    </div>
+    <div id="menu" style="display: none;" class="contextmenu">
+      <span id="copySingleCell" class="item">
+        <igc-icon name="content_copy"></igc-icon>Copy Cell Data
+      </span>
+      <span id="copyRow" class="item">
+        <igc-icon name="content_copy"></igc-icon>Copy Row Data
+      </span>
+      <span id="copyMultiCells" class="item">
+        <igc-icon name="content_copy"></igc-icon>Copy Cells Data
+      </span>
+    </div>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+<>
+  <div className="container sample">
+    <div className="wrapper" onClick={closeContextMenu}>
+      <IgrGrid
+        autoGenerate={false}
+        data={northWindData}
+        primaryKey="ProductID"
+        ref={gridRef}
+        onContextMenu={rightClick}
+      >
+        <IgrColumn field="ProductID" header="Product ID"></IgrColumn>
+        <IgrColumn field="ProductName" header="Product Name"></IgrColumn>
+        <IgrColumn
+          field="UnitsInStock"
+          header="Units In Stock"
+          dataType="number"
+        ></IgrColumn>
+        <IgrColumn
+          field="UnitPrice"
+          header="Units Price"
+          dataType="number"
+        ></IgrColumn>
+        <IgrColumn field="Discontinued" dataType="boolean"></IgrColumn>
+        <IgrColumn
+          field="OrderDate"
+          header="Order Date"
+          dataType="date"
+        ></IgrColumn>
+      </IgrGrid>
+      <div className="selected-data-area">{selectedData}</div>
+    </div>
+  </div>
+  <div style={{ display: "none" }} className="contextmenu" ref={contextMenuRef}>
+    <span className="item" onClick={copySelectedCellData}>
+      <IgrIcon ref={iconRef} collection="material" name="content_copy"></IgrIcon>
+      Copy Cell Data
+    </span>
+    <span className="item" onClick={copySelectedRowData}>
+      <IgrIcon collection="material" name="content_copy"></IgrIcon>Copy Row Data
+    </span>
+    {isCellWithinRange && (
+      <span className="item" onClick={copySelectedData}>
+        <IgrIcon collection="material" name="content_copy"></IgrIcon>Copy Cells Data
+      </span>
+    )}
+  </div>
+</>
+```
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```razor
+<div class="container vertical">
+    <div class="wrapper" oncontextmenu="event.preventDefault()">
+        <IgbGrid AutoGenerate="false"
+                 CellSelection="GridSelectionMode.Multiple"
+                 ContextMenu="onMenuShow"
+                 @oncontextmenu="RightClick"
+                 Name="grid"
+                 @ref="grid"
+                 Data="NwindData">
+            <IgbColumn Field="ProductID"
+                       Header="Product ID">
+            </IgbColumn>
+
+            <IgbColumn Field="ProductName"
+                       Header="Product Name">
+            </IgbColumn>
+
+            <IgbColumn Field="UnitsInStock"
+                       Header="Units In Stock"
+                       DataType="GridColumnDataType.Number">
+            </IgbColumn>
+
+            <IgbColumn Field="UnitPrice"
+                       Header="Units Price"
+                       DataType="GridColumnDataType.Number">
+            </IgbColumn>
+
+            <IgbColumn Field="Discontinued"
+                       DataType="GridColumnDataType.Boolean">
+            </IgbColumn>
+
+            <IgbColumn Field="OrderDate"
+                       Header="Order Date"
+                       DataType="GridColumnDataType.Date">
+            </IgbColumn>
+
+        </IgbGrid>
+        <div class="selected-data-area">
+            @SelectedData
+        </div>
+        </div>
+        @if (ShowMenu)
+        {
+            <div id="menu" class="contextmenu" style="left: @MenuX; top: @MenuY">
+                <span id="copySingleCell" class="item" @onclick="CopyCellData">
+                    <IgbIcon @ref=icon IconName="content_copy" Collection="material"></IgbIcon>Copy Cell Data
+                </span>
+            <span id="copyRow" class="item" @onclick="CopyRowData">
+                    <IgbIcon IconName="content_copy" Collection="material"></IgbIcon>Copy Row Data
+                </span>
+            <span id="copyMultiCells" class="item" @onclick="CopyCellsData">
+                    <IgbIcon IconName="content_copy" Collection="material"></IgbIcon>Copy Cells Data
+                </span>
+            </div>
+        }
+</div>
+```
+</PlatformBlock>
+
+Selecione várias células e pressione o botão direito do mouse. O menu de contexto aparecerá e, após selecionar **Copiar dados das células**, os dados selecionados aparecerão na caixa vazia à direita.
+
+O resultado é:
+
+<Sample src="/{ComponentSample}/custom-context-menu" height={600} alt="Menu de contexto personalizado do {Platform} {ComponentTitle}" />
+
+</ComponentBlock>
+
+## Problemas conhecidos e limitações
+
+<PlatformBlock for="Angular">
+- Usar o <ApiLink type="{ComponentName}" /> com a Seleção habilitada no IE11 exige a importação explícita do polyfill de array no arquivo polyfill.ts da aplicação {Platform}. O IE11 não é mais suportado a partir da versão 13.0.0.
+
+```typescript
+import "core-js/es7/array";
+```
+
+</PlatformBlock>
+
+Quando o grid não tem <ApiLink type="{ComponentName}" member="primaryKey" /> definido e os cenários de dados remotos estão habilitados (quando paginação, ordenação, filtragem ou rolagem disparam requisições a um servidor remoto para obter os dados a serem exibidos no grid), uma linha perderá o seguinte estado após a conclusão de uma requisição de dados:
+
+- Seleção de linha
+- Expandir/recolher linha
+- Edição de linha
+- Fixação de linha
+
+## Referências da API
+<ApiLink type="{ComponentName}" />
+## Recursos adicionais
+
+<ComponentBlock for="Grid">
+- [Seleção de linhas](row-selection.mdx)
+- [Seleção de células](cell-selection.mdx)
+- [Paginação](paging.mdx)
+- [Filtragem](filtering.mdx)
+- [Ordenação](sorting.mdx)
+- [Resumos](summaries.mdx)
+- [Movimentação de colunas](column-moving.mdx)
+- [Virtualização e desempenho](virtualization.mdx)
+</ComponentBlock>
+
+Nossa comunidade é ativa e sempre receptiva a novas ideias.
+
+- [{ProductName} **Fóruns**]({ForumsLink})
+- [{ProductName} **GitHub**]({GithubLink})

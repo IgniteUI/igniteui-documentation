@@ -1,0 +1,191 @@
+---
+title: "인증 프로젝트 템플릿 | Ignite UI for Angular | Infragistics"
+description: "Ignite UI for Angular 인증 프로젝트 템플릿 가이드를 확인하십시오."
+keywords: igniteui for angular | angular schematics | templates | infragistics 
+_language: ko
+llms:
+  description: "Angular Schematics 또는 Ignite UI CLI로 Ignite UI for Angular 프로젝트를 만들 때, 지원되는 탐색 템플릿을 선택하면 인증을 추가 옵션으로 사용할 수 있습니다."
+---
+
+import { Image } from 'astro:assets';
+import igxSideAuthSteps from '../../../images/general/igx-side-auth-steps.png';
+import igxSideAuthQuestion from '../../../images/general/igx-side-auth-question.png';
+import igxSideAuthLoginButton from '../../../images/general/igx-side-auth-login-button.png';
+import igxSideAuthProfileAvatar from '../../../images/general/igx-side-auth-profile-avatar.png';
+import igxSideAuthLoginDialog from '../../../images/general/igx-side-auth-login-dialog.png';
+import igxSideAuthRegisterDialog from '../../../images/general/igx-side-auth-register-dialog.png';
+import igxSideAuthLoginGoogle from '../../../images/general/igx-side-auth-login-google.png';
+import igxSideAuthLoginSocials from '../../../images/general/igx-side-auth-login-socials.png';
+
+
+# 인증 프로젝트 템플릿
+
+Angular Schematics 또는 Ignite UI CLI로 Ignite UI for Angular 프로젝트를 만들 때, 지원되는 탐색 템플릿을 선택하면 인증을 추가 옵션으로 사용할 수 있습니다. 이는 클라이언트 측 인증 모듈의 기본 구현을 제공하며, 사용자 관리가 가능한 앱을 빠르게 시작하기 위해 추가 설정을 최소화하도록 설계되었습니다.
+
+## 인증 프로젝트 만들기
+
+### 대화형 마법사
+
+인증은 탐색 템플릿을 선택한 후 대화형 마법사의 추가 단계로 제공됩니다. 흐름은 다음과 같습니다:
+
+1. 프로젝트 템플릿을 선택합니다: **Empty Project**, **Side Navigation** 또는 **Side Navigation Mini**.
+2. **Side Navigation** 또는 **Side Navigation Mini**를 선택하면 마법사가 다음을 묻습니다: _"이 프로젝트에 인증을 추가하시겠습니까?"_
+3. **Empty Project**를 선택하면 인증 질문은 표시되지 않습니다.
+
+<Image src={igxSideAuthSteps} alt="단계별 경험" class="responsive-img" />
+
+예를 선택하면 인증이 적용된 두 가지 변형 중 하나가 생성됩니다:
+
+- **Side Navigation + Authentication** - 인증 모듈로 확장된 사이드 내비게이션 셸
+- **Side Navigation Mini + Authentication** - 인증 모듈로 확장된 간결한 사이드 내비게이션 셸
+
+<Image src={igxSideAuthQuestion} alt="인증 질문" class="responsive-img" />
+
+마법사 단계의 전체 안내는 [Ignite UI CLI를 사용한 단계별 가이드](./step-by-step-guide-using-cli.mdx) 또는 [Ignite UI for Angular Schematics를 사용한 단계별 가이드](./step-by-step-guide-using-angular-schematics.mdx)를 참조하십시오.
+
+### 직접 명령(고급)
+
+인증 템플릿 ID는 대화형 마법사에 표시되지 않습니다. 대화형 마법사에서 인증은 후속 옵션으로 제시되기 때문입니다. 하지만 이 ID는 비대화형 프로젝트 생성을 위해 `ig new` 또는 `ng new`에 직접 전달할 수도 있습니다.
+
+**사이드 탐색 + 인증 - Ignite UI CLI:**
+
+```bash
+ig new "Auth Project" --framework=angular --type=igx-ts --template=side-nav-auth
+```
+
+**사이드 탐색 + 인증 - Angular Schematics:**
+
+```bash
+ng new "Auth Project" --collection="@igniteui/angular-schematics" --template=side-nav-auth
+```
+
+**사이드 탐색 미니 + 인증 - Ignite UI CLI:**
+
+```bash
+ig new "Auth Project" --framework=angular --type=igx-ts --template=side-nav-mini-auth
+```
+
+**사이드 탐색 미니 + 인증 - Angular Schematics:**
+
+```bash
+ng new "Auth Project" --collection="@igniteui/angular-schematics" --template=side-nav-mini-auth
+```
+
+## 설명
+
+Side Navigation + Authentication과 Side Navigation Mini + Authentication 변형은 모두 각각의 내비게이션 기반 위에 구축되며, 앱의 내비게이션 바에 프로필 페이지와 로그인 영역을 추가합니다. 이 영역에는 로그인 버튼 또는 로그인한 사용자의 아바타가 표시됩니다:
+
+<Image src={igxSideAuthLoginButton} alt="로그인 바" class="responsive-img" />
+<Image src={igxSideAuthProfileAvatar} alt="프로필 바" class="responsive-img" />
+
+로그인 바에는 로그인 또는 가입을 위한 대화 상자도 통합되어 있습니다:
+
+<Image src={igxSideAuthLoginDialog} alt="로그인 대화 상자" class="responsive-img" />
+<Image src={igxSideAuthRegisterDialog} alt="가입 대화 상자" class="responsive-img" />
+
+이 프로젝트는 다양한 [외부 인증 공급자](#타사소셜-공급자-추가하기)도 지원합니다.
+
+## 코드에서
+
+사용자 관리와 관련된 모든 것은 `src/app/authentication` 폴더에 있습니다. 주요 내보내기는 다음과 같습니다:
+
+- `authentication.module.ts`의 `AuthenticationModule`은(는) 모든 컴포넌트와 서비스를 메인 앱 모듈로 내보냅니다.
+- `auth.guard.ts`은(는) 라우트에 적용할 수 있는 `AuthGuard`를 내보냅니다
+- `authentication-routing.module.ts`은(는) 로그인 관련 라우트를 설정합니다
+- `services/user.service.ts`의 `UserService`은(는) 현재 사용자 상태를 유지합니다
+- `services/authentication.service.ts`의 `AuthenticationService`은(는) 백엔드 API와 통신하는 데 사용됩니다
+- `services/external-auth.service.ts`의 `ExternalAuthService`은(는) 타사 로그인 공급자를 처리합니다
+
+## 필수 구성
+
+이 프로젝트는 REST API 서비스를 사용하는 단일 페이지 앱으로 설정되어 있으므로, `AuthenticationService`은(는) 다음 URL로 요청을 보내는 데 사용됩니다:
+
+- `/login` - 사용자 이름과 비밀번호로 로그인
+- `/register` - 사용자 세부 정보로 가입
+- `/extlogin` - 외부 소스의 사용자 정보를 전달
+
+모든 엔드포인트는 JSON Web Token(JWT) 또는 메시지가 포함된 오류 상태를 반환해야 합니다.
+
+> **참고:** 데모 목적으로 이 프로젝트에는 요청을 가로채는 `services/fake-backend.service.ts`가 있습니다. `authentication.module.ts`의 `BackendProvider`은(는) 운영 환경에서 **사용하면 안 됩니다**. 개발을 시작할 때 공급자와 파일을 모두 제거해야 합니다.
+
+모든 인증 모델과 마찬가지로 JWT를 사용하려면 보안 고려가 필요합니다. 특히 REST API에서 받은 토큰은 클라이언트에 저장됩니다. 개발 중 앱을 끊김 없이 다시 로드하기 위해 사용자 데이터는 브라우저의 로컬 저장소에 저장되는데, 이는 XSS 공격에 취약할 수 있습니다.
+
+> **참고:** 운영 환경에 배포하기 전에 로컬 저장소를 비활성화하십시오. 앱 요구 사항이 허용한다면 토큰을 메모리에만 보관하는 것을 고려하거나, 토큰을 보호하는 다른 방법을 택하십시오. 쿠키를 사용하는 것도 대안이 될 수 있습니다(CSRF 보호를 고려하십시오). 또한 토큰 서명을 나누거나, 강화된 쿠키에 추가 '지문'을 저장하는 방법도 있습니다.
+
+언제나 그렇듯이 보안 측면을 항상 평가하고 그에 맞게 조정하십시오. 제공되는 프로젝트 구조는 단지 출발점일 뿐입니다.
+
+
+## 타사(소셜) 공급자 추가하기
+
+외부 인증 서비스는 프로젝트의 앱 진입점에서 초기화됩니다. 정확한 위치는 프로젝트 생성 시 선택한 부트스트랩 유형에 따라 다릅니다:
+
+- **독립형 프로젝트**(기본값) — 초기화는 공급자 함수를 통해 `src/app/app.config.ts`에서 이루어집니다.
+- **NgModule 프로젝트**(`igx-ts-legacy`) — 초기화는 `AppModule` 생성자를 통해 `src/app/app.module.ts`에서 이루어집니다.
+
+두 경우 모두 패턴은 같습니다. 소셜 공급자 호출은 주석 처리되어 있으며 활성화할 준비가 되어 있습니다. 예를 들어 NgModule 프로젝트에서는 다음과 같습니다:
+
+```ts
+// in app.module.ts
+export class AppModule {
+  constructor(private externalAuthService: ExternalAuthService) {
+    // this.externalAuthService.addGoogle('<CLIENT_ID>');
+    // this.externalAuthService.addMicrosoft('<CLIENT_ID>');
+    // this.externalAuthService.addFacebook('<CLIENT_ID>');
+  }
+}
+```
+
+특정 타사 공급자로 사용자 로그인을 활성화하려면 해당 줄의 주석을 해제하고 `<CLIENT_ID>`을(를) 앱의 클라이언트 ID로 바꾸기만 하면 됩니다.
+예를 들어 Google 계정 로그인을 위해 ID를 얻어야 한다면, 다음에서 해당 공급자의 가이드를 따르십시오:
+
+- [자격 증명 얻기](https://developers.google.com/identity/protocols/OpenIDConnect#getcredentials)
+
+- [더 자세한 버전](https://support.google.com/cloud/answer/6158849?hl=en&ref_topic=6262490)
+
+리디렉션 URL과 허용된 도메인 출처는 프로젝트와 일치하도록 공급자별로 구성해야 한다는 점을 기억하십시오. 개발용 Google OAuth 2.0 클라이언트 ID를 만들 때는 리디렉션 URI로 `http://localhost:4200/redirect-google`을(를) 제공할 수 있습니다. 자세한 내용은 [리디렉션 URL](#공급자-세부-정보)을 참조하십시오.
+
+ID를 얻었다면(예: `123456789.apps.googleusercontent.com`), 다음과 같이 프로젝트의 Google 공급자를 활성화할 수 있습니다:
+
+```ts
+// in app.module.ts
+export class AppModule {
+  constructor(private externalAuthService: ExternalAuthService) {
+    this.externalAuthService.addGoogle('123456789.apps.googleusercontent.com');
+    // this.externalAuthService.addMicrosoft('<CLIENT_ID>');
+    // this.externalAuthService.addFacebook('<CLIENT_ID>');
+  }
+}
+```
+
+이렇게 하면 로그인 대화 상자에서 해당 버튼이 자동으로 활성화됩니다:
+
+<Image src={igxSideAuthLoginGoogle} alt="Google 로그인 버튼" class="responsive-img" />
+
+다음 가이드에 따라 [Microsoft](https://docs.microsoft.com/en-us/azure/active-directory/develop/v2-protocols-oidc)에 대해서도 같은 작업을 할 수 있습니다:
+
+https://docs.microsoft.com/en-us/azure/active-directory/develop/quickstart-v2-register-an-app
+
+Facebook의 경우는 다음과 같습니다:
+
+https://developers.facebook.com/docs/apps/#register
+
+
+공급자를 활성화하면 모든 버튼이 활성 상태가 됩니다:
+
+<Image src={igxSideAuthLoginSocials} alt="소셜 로그인 옵션" class="responsive-img" />
+
+### 공급자 세부 정보
+
+프로젝트 템플릿에 포함된 기본 공급자는 다음과 같습니다:
+
+| 공급자  | 용도               | 리디렉션 URL                    |
+| :-------- | :----------------- | :------------------------------ |
+| Google    | OpenID Connect*    | `<app root>/redirect-google`    |
+| Microsoft | OpenID Connect*    | `<app root>/redirect-microsoft` |
+| Facebook  | Facebook Connect** | `<app root>/redirect-facebook`  |
+
+앱이 호스팅되는 위치가 루트 URL을 결정합니다. 예를 들어 기본적으로 앱을 처음 실행하면 `http://localhost:4200`이(가) 됩니다.
+
+\* OpenID Connect 기능은 https://github.com/damienbod/angular-auth-oidc-client 라이브러리를 사용하여 구현되었습니다.
+
+\** Facebook Connect 기능은 Facebook JS SDK를 사용하여 구현되었습니다

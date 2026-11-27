@@ -1,0 +1,88 @@
+---
+title: "Estilo y temas de {Platform} | Elevaciones de {Platform} | Infragistics"
+description:
+keywords: "{ProductName}, Infragistics, elevaciones, estilo"
+license: MIT
+mentionedTypes: []
+_language: es
+llms:
+  description: "La implementación de las elevaciones en {ProductName} se inspira en las elevaciones de Material Design."
+---
+
+
+# Elevaciones en {ProductName}
+
+La implementación de las elevaciones en {ProductName} se inspira en las [Elevations in Material Design](https://material.io/design/environment/elevation.html#elevation-in-material-design). Se usan para establecer y mantener límites funcionales entre los árboles del Document Object Model y permitir un mejor encapsulamiento funcional.
+
+## Descripción general
+
+Las sombras de {ProductName} siguen de cerca las pautas de Material Design para establecer una jerarquía de profundidad basada en 25 niveles de elevación. El tamaño de la sombra proyectada está relacionado con el número del nivel de elevación: cuanto mayor es el número, mayor es la sombra. Las elevaciones de {ProductName} se exponen como variables CSS. Cada variable guarda un conjunto de 3 `box-shadows`. Estos `box-shadows` representan los elementos umbra, penumbra y antumbra, que son las propiedades de las sombras tal como se observan en el mundo real.
+
+Esta es una lista de las elevaciones en reposo usadas en varios componentes de {ProductName} en el tema Bootstrap, y los nombres de sus variables CSS correspondientes:
+
+| Componente                                       | Nivel de elevación predeterminado | Variable CSS       |
+| ----------------------------------------------- | ----------------------- | ------------------ |
+| Button                                          | 0                       | --ig-elevation-0  |
+| Tarjeta elevada                                   | 2                       | --ig-elevation-2  |
+| Toast, Snackbar                                 | 10                      | --ig-elevation-10 |
+| Navdrawer                                       | 16                      | --ig-elevation-16 |
+
+Como puede ver en la columna **CSS Variable**, todas las elevaciones se definen con el formato `--ig-elevation-[level]`. Como se ha dicho, el número de nivel de elevación va de 0 a 24 (ambos incluidos).
+
+## Uso
+
+Para empezar a usar elevaciones en sus propios componentes, solo necesita hacer referencia al nombre de la variable del nivel deseado:
+
+```css
+.custom-element {
+  box-shadow: var(--ig-elevation-6);
+}
+```
+
+Cambiar la elevación en un tema de componente existente funciona de forma similar:
+
+```css
+igc-navbar {
+  box-shadow: var(--ig-elevation-8);
+}
+```
+
+## Definir elevaciones
+
+Actualizar las elevaciones predeterminadas funciona de forma parecida a actualizar los colores de la paleta. Basta con reasignar la variable a otro valor. En el caso de las elevaciones, asegúrese de que el valor sea `box-shadow`.
+
+Ejemplo:
+
+```css
+:root {
+  --ig-elevation-1: 0 2px 6px 0 rgba(0, 0, 0, .18);
+  --ig-elevation-2: 0 3px 9px 0 rgba(0, 0, 0, .24);
+}
+```
+
+Ahora, todos los componentes que usan los niveles de elevación 1 y 2 tendrán sus sombras actualizadas.
+
+### Sombreado
+
+Puede sobrescribir las elevaciones definidas globalmente solo para un ámbito concreto. Ya hemos visto que Snackbar y Toast usan el nivel de elevación 10. Para cambiar las sombras de ambos, solo tiene que hacer lo siguiente:
+
+```css
+igc-snackbar,
+igc-toast {
+  --ig-elevation-10: 0 3px 9px 0 rgba(0, 0, 0, .24);
+}
+```
+
+Esto establecerá las sombras de toast y de snackbar en el valor asignado a `--ig-elevation-10`.
+
+## Usar el factor de elevación
+
+Además de los niveles de elevación, {ProductName} expone una variable CSS que facilita controlar el factor de elevación global. El valor predeterminado es 1, lo que significa que todas las sombras de los componentes serán iguales a las definidas en sus temas de componente. Si quiere quitar todas las sombras, basta con cambiar el valor de la propiedad a 0:
+
+```css
+:root {
+  --ig-elevation-factor: 0;
+}
+```
+
+`--ig-elevation-factor` también puede establecerse con un valor decimal o con un valor mayor que 1. Cuanto mayor sea el valor, mayor será la sombra.

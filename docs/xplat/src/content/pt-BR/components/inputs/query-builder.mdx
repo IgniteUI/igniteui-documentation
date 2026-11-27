@@ -1,0 +1,1111 @@
+---
+title: "Query Builder {Platform} | Infragistics"
+description: "O Query Builder {Platform} da Infragistics permite que os usuários criem consultas personalizadas complexas em aplicações angular, com uma ótima experiência de interface. Experimente agora."
+keywords: "Query Builder {Platform}, {ProductName}, Infragistics"
+license: MIT
+mentionedTypes: ["QueryBuilder"]
+_language: pt-BR
+llms:
+  description: "O Query Builder {ProductName} oferece uma interface rica que permite aos desenvolvedores criar consultas complexas de filtragem de dados para um conjunto de dados especificado."
+---
+
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+import { Image } from 'astro:assets';
+import queryBuilderDragAndDrop from '@xplat-images/general/query-builder-drag-and-drop.gif';
+import queryBuilderKeyboardDragAndDrop from '@xplat-images/general/query-builder-keyboard-drag-and-drop.gif';
+
+
+# Visão geral do Query Builder {Platform}
+
+O Query Builder {ProductName} oferece uma interface rica que permite aos desenvolvedores criar consultas complexas de filtragem de dados para um conjunto de dados especificado. Com este componente, você pode montar uma árvore de expressões e especificar condições AND/OR entre as expressões, com editores e listas de condições determinados pelo tipo de dado de cada campo. A árvore de expressões pode então ser facilmente transformada em uma consulta em um formato suportado pelo backend.
+
+<Sample src="/interactions/query-builder/overview" height={900} alt="Exemplo de visão geral do Query Builder {Platform}" />
+
+
+## Primeiros passos com o Query Builder {Platform}
+Para começar a usar o <ApiLink type="QueryBuilder" />, primeiro você precisa instalar o pacote `{ProductName}` executando o seguinte comando:
+
+
+<PlatformBlock for="WebComponents">
+
+
+
+```cmd
+npm install {PackageWebComponents} {PackageGrids}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```cmd
+dotnet add package IgniteUI.Blazor --version {PackageVerLatestShort}
+```
+
+Registre os serviços de {ProductName}:
+
+```csharp
+// in Program.cs file
+
+builder.Services.AddIgniteUIBlazor();
+```
+
+O registro de <ApiLink pkg="core" type="QueryBuilderModule" />, o módulo de recurso do cliente de <ApiLink type="QueryBuilder" />, é **opcional**: o componente carrega seus recursos na primeira vez em que é renderizado. Listá-lo em `builder.Services.AddIgniteUIBlazor(typeof(IgbQueryBuilderModule))` pode ser usado para pré-carregar recursos ou para dar suporte a elementos criados somente no cliente (veja [Módulos do componente](../general-getting-started.mdx#módulos-do-componente)).
+
+</PlatformBlock>
+
+
+
+<PlatformBlock for="React">
+
+
+```cmd
+npm install igniteui-react {PackageGrids}
+```
+
+</PlatformBlock>
+
+
+Você também precisa referenciar os estilos correspondentes de acordo com a configuração do seu projeto.
+
+<PlatformBlock for="React, WebComponents">
+
+```ts
+import 'igniteui-webcomponents-grids/grids/themes/light/bootstrap.css';
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<link href="_content/IgniteUI.Blazor/themes/light/bootstrap.css" rel="stylesheet" />
+```
+
+</PlatformBlock>
+
+## Usando o Query Builder {Platform}
+
+Se nenhuma árvore de expressões for definida inicialmente, você começa escolhendo uma entidade e quais de seus campos a consulta deve retornar. Depois disso, condições ou subgrupos podem ser adicionados.
+
+Para adicionar uma condição, você seleciona um campo, um operando baseado no tipo de dado do campo e um valor, caso o operando não seja unário. Os operandos `In` e `Not In` permitem criar uma consulta interna com condições para outra entidade, em vez de simplesmente informar um valor. Depois que a condição é confirmada, aparece um chip com as informações da condição. Ao clicar ou passar o mouse sobre o chip, você tem opções para modificá-lo ou adicionar outra condição ou grupo logo após ele.
+
+Clicar no botão (AND ou OR) colocado acima de cada grupo abre um menu com opções para alterar o tipo do grupo ou desagrupar as condições dentro dele.
+
+Como cada condição está relacionada a um campo específico de uma entidade determinada, trocar a entidade redefine todas as condições e grupos predefinidos.
+
+Você pode começar a usar o componente definindo a propriedade <ApiLink type="QueryBuilder" member="entities" label="Entities" /> como um array que descreve o nome da entidade e um array dos seus campos, em que cada campo é definido pelo seu nome e tipo de dado. Depois que um campo é selecionado, os operandos correspondentes são atribuídos automaticamente com base no tipo de dado.
+O Query Builder tem a propriedade <ApiLink type="QueryBuilder" member="expressionTree" label="ExpressionTree" />. Você pode usá-la para definir um estado inicial do controle e acessar a lógica de filtragem definida pelo usuário.
+
+
+<PlatformBlock for="WebComponents">
+
+
+```html
+<igc-query-builder id="queryBuilder">
+</igc-query-builder>
+```
+
+```ts
+private queryBuilder: IgcQueryBuilderComponent;
+public entities: any[] = [];
+public ordersFields: any[] = [];
+public expressionTree!: IgcExpressionTree;
+
+constructor() {
+  this.queryBuilder = document.getElementById('queryBuilder') as IgcQueryBuilderComponent;
+  this.initFields();
+}
+
+private initFields(): void {
+  this.ordersFields = [
+    { field: 'orderId', dataType: 'number' },
+    { field: 'customerId', dataType: 'string' },
+    { field: 'orderDate', dataType: 'date' }
+  ];
+
+  this.entities = [
+    { name: 'Orders', fields: this.ordersFields }
+  ];
+
+  const tree = new IgcFilteringExpressionsTree();
+  tree.operator = FilteringLogic.And;
+  tree.entity = 'Orders';
+
+  this.expressionTree = tree;
+  this.queryBuilder.entities = this.entities;
+  this.queryBuilder.expressionTree = this.expressionTree;
+}
+```
+
+A <ApiLink type="ExpressionTree" /> é uma propriedade vinculável, o que significa que você pode assinar o evento `ExpressionTreeChange` para receber notificações quando o usuário final alterar a interface, criando, editando ou removendo condições.
+
+```ts
+this.queryBuilder.addEventListener('expressionTreeChange', (e: CustomEvent<IgcExpressionTree>) => {
+  this.expressionTree = e.detail;
+  this.onExpressionTreeChange();
+});
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbQueryBuilder @ref="queryBuilder"
+    Entities="Entities"
+    ExpressionTree="ExpressionTree"
+    ExpressionTreeChangeScript="WebQueryBuilderExpressionTreeChange">
+</IgbQueryBuilder>
+
+@code {
+    private static readonly IgbFieldType[] OrderFields =
+    [
+        new() { Field = "orderId", DataType = GridColumnDataType.Number },
+        new() { Field = "customerId", DataType = GridColumnDataType.String },
+        new() { Field = "orderDate", DataType = GridColumnDataType.Date }
+    ];
+
+    private static readonly IgbEntityType[] Entities =
+    [
+        new() { Name = "Orders", Fields = OrderFields }
+    ];
+
+    private static readonly IgbExpressionTree ExpressionTree = new()
+    {
+        FilteringOperands = [],
+        Operator = FilteringLogic.And,
+        Entity = "Orders"
+    };
+
+    private IgbQueryBuilder queryBuilder;
+}
+```
+
+A <ApiLink type="ExpressionTree" /> é uma propriedade vinculável, o que significa que você pode usar `ExpressionTreeChangeScript` para receber notificações quando o usuário final alterar a interface, criando, editando ou removendo condições.
+
+
+```javascript
+// In JavaScript
+igRegisterScript("WebQueryBuilderExpressionTreeChange", (evtArgs) => {
+    const expressionTree = evtArgs.detail;
+    console.log("Expression tree changed:", expressionTree);
+}, false);
+```
+
+</PlatformBlock>
+
+
+
+<PlatformBlock for="React">
+
+
+
+```tsx
+const queryBuilderRef = useRef<IgrQueryBuilder>(null);
+
+const ordersFields: Field[] = [
+  { field: 'orderId', dataType: 'number' },
+  { field: 'customerId', dataType: 'string' },
+  { field: 'orderDate', dataType: 'date' }
+];
+
+const entities: Entity[] = [
+  { name: 'Orders', fields: ordersFields }
+];
+
+const onExpressionTreeChange = (newTree: IgrFilteringExpressionsTree) => {
+  // Handle expression tree changes
+  console.log('Expression tree changed:', newTree);
+};
+
+const handleExpressionTreeChange = (event: CustomEvent<IgrFilteringExpressionsTree>) => {
+  onExpressionTreeChange(event.detail);
+};
+
+useEffect(() => {
+  const tree = new IgrFilteringExpressionsTree();
+  tree.operator = FilteringLogic.And;
+  tree.entity = 'Orders';
+
+  if (queryBuilderRef.current) {
+    const queryBuilder = queryBuilderRef.current;
+    queryBuilder.entities = entities as any;
+    queryBuilder.expressionTree = tree;
+    queryBuilder.addEventListener('expressionTreeChange', handleExpressionTreeChange);
+  }
+
+  return () => {
+    if (queryBuilderRef.current) {
+      queryBuilderRef.current.removeEventListener('expressionTreeChange', handleExpressionTreeChange);
+    }
+  };
+}, []);
+
+return (
+  <div className="container sample">
+    <IgrQueryBuilder ref={queryBuilderRef} id="queryBuilder"></IgrQueryBuilder>
+  </div>
+);
+```
+
+A <ApiLink type="ExpressionTree" /> é uma propriedade vinculável, o que significa que você pode assinar o evento `ExpressionTreeChange` para receber notificações quando o usuário final alterar a interface, criando, editando ou removendo condições. O listener do evento é anexado em `useEffect` e removido na função de teardown retornada.
+
+```tsx
+const handleExpressionTreeChange = (event: CustomEvent<IgrFilteringExpressionsTree>) => {
+  onExpressionTreeChange(event.detail);
+};
+```
+
+</PlatformBlock>
+
+
+## Arrastar expressões
+
+Os chips de condição podem ser facilmente reposicionados por arrastar e soltar com o mouse ou por reordenação pelo teclado. Com isso, os usuários ajustam dinamicamente a lógica da consulta.
+
+- Arrastar um chip não altera a sua condição ou o seu conteúdo, apenas a sua posição.
+- O chip também pode ser arrastado ao longo de grupos e subgrupos. Por exemplo, agrupar ou desagrupar expressões é feito pela funcionalidade de arrastar expressões.
+Para agrupar condições já existentes, primeiro é preciso adicionar um novo grupo pelo botão de grupo 'add'. Depois, arrastando, as expressões necessárias podem ser movidas para esse grupo. Para desagrupar, você pode arrastar todas as condições para fora do grupo atual; quando a última condição for movida para fora, o grupo será excluído.
+
+<DocsAside type="info">
+Chips de uma árvore de consulta não podem ser arrastados para outra, por exemplo, do pai para o interno e vice-versa.
+</DocsAside>
+
+<Image src={queryBuilderDragAndDrop} alt="Exemplo animado de arrastar e soltar do Query Builder com o mouse" class="responsive-img" />
+
+## Interação pelo teclado
+
+**Combinações de teclas**
+
+- <kbd>Tab</kbd> / <kbd>Shift + Tab</kbd> - navega para o próximo/anterior chip, indicador de arrastar, botão de remover ou botão de expressão 'add'.
+- <kbd>Arrow Down</kbd>/<kbd>Arrow Up</kbd> - quando o indicador de arrastar do chip está com foco, o chip pode ser movido para cima/baixo.
+- <kbd>Space</kbd> / <kbd>Enter</kbd> - a expressão com foco entra no modo de edição. Se o chip tiver sido movido, isso confirma a sua nova posição.
+- <kbd>Esc</kbd> - a reordenação do chip é cancelada e ele volta à sua posição original.
+
+<DocsAside type="info">
+A reordenação pelo teclado oferece a mesma funcionalidade do arrastar e soltar com o mouse. Depois que um chip é movido, o usuário precisa confirmar a nova posição ou cancelar a reordenação.
+</DocsAside>
+
+<Image src={queryBuilderKeyboardDragAndDrop} alt="Exemplo animado de arrastar e soltar pelo teclado usando o Ignite UI for Angular Query Builder" class="responsive-img" />
+
+## Templates
+
+O Query Builder {ProductName} permite definir templates para o cabeçalho do componente e para o valor de pesquisa:
+
+### Template de cabeçalho
+
+Por padrão, o cabeçalho do <ApiLink type="QueryBuilder" /> não é exibido. Para defini-lo, o componente <ApiLink type="QueryBuilderHeader" /> deve ser adicionado dentro do query builder.
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-query-builder id="queryBuilder">
+  <igc-query-builder-header title="My Query Builder">
+  </igc-query-builder-header>
+</igc-query-builder>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbQueryBuilder Entities="Entities" ExpressionTree="ExpressionTree">
+    <IgbQueryBuilderHeader Title="My Query Builder"></IgbQueryBuilderHeader>
+</IgbQueryBuilder>
+```
+
+</PlatformBlock>
+
+### Template do valor de pesquisa
+
+<PlatformBlock for="React, WebComponents">
+
+O valor de pesquisa de uma condição pode receber template definindo a propriedade <ApiLink type="QueryBuilder" member="searchValueTemplate" label="SearchValueTemplate" /> como uma função que retorna um template lit-html.
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+No Blazor, use a propriedade `SearchValueTemplateScript` para referenciar uma função do lado do cliente registrada com `igRegisterScript`.
+
+</PlatformBlock>
+
+<DocsAside type="info">
+Ao usar `SearchValueTemplate`, você deve fornecer templates para todos os tipos de campo da sua entidade, ou o query builder não funcionará corretamente. É obrigatório implementar um template padrão/de fallback que trate quaisquer campos ou condições não cobertos pelos templates personalizados específicos. Sem isso, os usuários não poderão editar
+</DocsAside>
+condições desses campos.
+
+
+<PlatformBlock for="WebComponents">
+
+
+```ts
+constructor() {
+  this.queryBuilder = document.getElementById('queryBuilder') as IgcQueryBuilderComponent;
+  this.queryBuilder.searchValueTemplate = (ctx) => this.buildSearchValueTemplate(ctx);
+}
+
+private buildSearchValueTemplate(ctx: IgcQueryBuilderSearchValueContext) {
+  const field = ctx.selectedField?.field;
+  const condition = ctx.selectedCondition;
+  const matchesEqualityCondition = condition === 'equals' || condition === 'doesNotEqual';
+
+  if (!ctx.implicit) {
+      ctx.implicit = { value: null };
+  }
+
+  // Custom template for Region field
+  if (field === 'Region' && matchesEqualityCondition) {
+      return this.buildRegionSelect(ctx);
+  }
+
+  // Custom template for OrderStatus field
+  if (field === 'OrderStatus' && matchesEqualityCondition) {
+      return this.buildStatusRadios(ctx);
+  }
+
+  // Custom template for date fields
+  if (ctx.selectedField?.dataType === 'date') {
+      return this.buildDatePicker(ctx);
+  }
+
+  // Custom template for time fields
+  if (ctx.selectedField?.dataType === 'time') {
+      return this.buildTimeInput(ctx);
+  }
+
+  // Default template for all other fields (string, number, boolean, etc.)
+  // This ensures all fields have a functioning editor
+  return this.buildDefaultInput(ctx);
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbQueryBuilder @ref="queryBuilder"
+    Entities="Entities"
+    ExpressionTree="ExpressionTree"
+    ExpressionTreeChangeScript="WebQueryBuilderExpressionTreeChange"
+    SearchValueTemplateScript="SearchValueTemplate">
+    <IgbQueryBuilderHeader Title="Query Builder Template Sample"></IgbQueryBuilderHeader>
+</IgbQueryBuilder>
+```
+
+
+```javascript
+// In JavaScript
+igRegisterScript("SearchValueTemplate", (ctx) => {
+    const field = ctx.selectedField?.field;
+    const condition = ctx.selectedCondition;
+    const matchesEqualityCondition = condition === "equals" || condition === "doesNotEqual";
+
+    if (!ctx.implicit) {
+        ctx.implicit = { value: null };
+    }
+
+    if (field === "Region" && matchesEqualityCondition) {
+        return buildRegionSelect(ctx);
+    }
+
+    if (field === "OrderStatus" && matchesEqualityCondition) {
+        return buildStatusRadios(ctx);
+    }
+
+    if (ctx.selectedField?.dataType === "date") {
+        return buildDatePicker(ctx);
+    }
+
+    if (field === "RequiredTime") {
+        return buildTimeInput(ctx);
+    }
+
+    return buildDefaultInput(ctx, matchesEqualityCondition);
+}, false);
+```
+
+</PlatformBlock>
+
+
+
+<PlatformBlock for="React">
+
+
+```tsx
+<IgrQueryBuilder 
+  ref={queryBuilderRef} 
+  id="queryBuilder"
+  searchValueTemplate={buildSearchValueTemplate}>
+  <IgrQueryBuilderHeader title="Query Builder Template Sample"></IgrQueryBuilderHeader>
+</IgrQueryBuilder>
+```
+
+```tsx
+useEffect(() => {
+  if (queryBuilderRef.current) {
+    const queryBuilder = queryBuilderRef.current;
+    queryBuilder.entities = entities as any;
+    queryBuilder.expressionTree = tree;
+  }
+}, []);
+
+const buildSearchValueTemplate = (ctx: QueryBuilderSearchValueContext) => {
+  const field = ctx.selectedField?.field;
+  const condition = ctx.selectedCondition;
+  const matchesEqualityCondition = condition === 'equals' || condition === 'doesNotEqual';
+
+  if (!ctx.implicit) {
+    ctx.implicit = { value: null };
+  }
+
+  if (field === 'Region' && matchesEqualityCondition) {
+    return buildRegionSelect(ctx);
+  }
+
+  if (field === 'OrderStatus' && matchesEqualityCondition) {
+    return buildStatusRadios(ctx);
+  }
+
+  if (ctx.selectedField?.dataType === 'date') {
+    return buildDatePicker(ctx);
+  }
+
+  if (ctx.selectedField?.dataType === 'time') {
+    return buildTimeInput(ctx);
+  }
+
+  return buildDefaultInput(ctx, matchesEqualityCondition);
+};
+```
+
+</PlatformBlock>
+
+
+Abaixo há exemplos que mostram um template para cada tipo de editor:
+
+
+<PlatformBlock for="WebComponents">
+
+
+Para o exemplo de Region Select:
+
+```ts
+// Field definition
+{ field: 'Region', dataType: 'string' }
+
+// Template
+private buildRegionSelect(ctx: IgcQueryBuilderSearchValueContext) {
+  const currentValue = ctx?.implicit?.value?.value ?? '';
+
+  return html`
+    <igc-select
+      placeholder="Region"
+      .value=${currentValue}
+      @igcChange=${(event: CustomEvent<{ value: string }>) => {
+        const region = this.regionOptions.find(o => o.value === event.detail.value);
+        ctx.implicit.value = region ?? null;
+      }}>
+      ${this.regionOptions.map(option => html`
+        <igc-select-item value=${option.value}>${option.text}</igc-select-item>
+      `)}
+    </igc-select>
+  `;
+}
+```
+
+Para o exemplo de Status Radio Group:
+
+```ts
+// Field definition
+{ field: 'OrderStatus', dataType: 'number' }
+
+// Template
+private buildStatusRadios(ctx: IgcQueryBuilderSearchValueContext) {
+  const currentValue = ctx.implicit?.value?.toString() ?? '';
+
+  return html`
+    <igc-radio-group
+      .alignment=${"horizontal"}
+      .value=${currentValue}
+      @igcChange=${(event: CustomEvent<{ value: string }>) => {
+        ctx.implicit.value = Number(event.detail.value);
+      }}>
+      ${this.statusOptions.map(option => html`
+        <igc-radio
+          name="status"
+          value=${option.value}
+          ?checked=${option.value.toString() === currentValue}>
+          ${option.text}
+        </igc-radio>
+      `)}
+    </igc-radio-group>
+  `;
+}
+```
+
+Para o exemplo de Date Picker:
+
+```ts
+// Field definition
+{ field: 'OrderDate', dataType: 'date' }
+
+// Template
+private buildDatePicker(ctx: IgcQueryBuilderSearchValueContext) {
+  const currentValue = ctx.implicit?.value instanceof Date
+    ? ctx.implicit.value
+    : ctx.implicit?.value ? new Date(ctx.implicit.value) : null;
+
+  const allowedConditions = ['equals', 'doesNotEqual', 'before', 'after'];
+  const isEnabled = allowedConditions.includes(ctx.selectedCondition ?? '');
+
+  return html`
+    <igc-date-picker
+      .value=${currentValue}
+      .disabled=${!isEnabled}
+      @igcChange=${(event: CustomEvent) => {
+        ctx.implicit.value = event.detail;
+      }}>
+    </igc-date-picker>
+  `;
+}
+```
+
+Para o exemplo de Time Input:
+
+```ts
+// Field definition
+{ field: 'RequiredTime', dataType: 'time' }
+
+// Template
+private buildTimeInput(ctx: IgcQueryBuilderSearchValueContext) {
+  const currentValue = this.normalizeTimeValue(ctx.implicit?.value);
+  const allowedConditions = ['at', 'not_at', 'at_before', 'at_after', 'before', 'after'];
+  const isDisabled = !allowedConditions.includes(ctx.selectedCondition ?? '');
+
+  return html`
+    <igc-date-time-input
+      .inputFormat=${"hh:mm tt"}
+      .value=${currentValue}
+      .disabled=${isDisabled}
+      @igcChange=${(event: CustomEvent) => {
+        ctx.implicit.value = event.currentTarget.value;
+      }}>
+      <igc-icon slot="prefix" name="clock" collection="material"></igc-icon>
+    </igc-date-time-input>
+  `;
+}
+```
+
+Para o template padrão de Input:
+
+```ts
+// Field definitions for string, number, and boolean types
+{ field: 'ShipCountry', dataType: 'string' }
+{ field: 'OrderID', dataType: 'number' }
+{ field: 'IsRushOrder', dataType: 'boolean' }
+
+// Template that handles all these types
+private buildDefaultInput(ctx: IgcQueryBuilderSearchValueContext) {
+  const dataType = ctx.selectedField?.dataType;
+  const isNumber = dataType === 'number';
+  const isBoolean = dataType === 'boolean';
+  
+  const placeholder = ctx.selectedCondition === 'inQuery' || ctx.selectedCondition === 'notInQuery'
+    ? 'Sub-query results'
+    : 'Value';
+
+  const inputValue = ctx.implicit?.value ?? '';
+  const disabledConditions = ['empty', 'notEmpty', 'null', 'notNull', 'inQuery', 'notInQuery'];
+  const isDisabled = isBoolean || !ctx.selectedField || disabledConditions.includes(ctx.selectedCondition ?? '');
+
+  return html`
+    <igc-input 
+      .value=${inputValue}
+      ?disabled=${isDisabled}
+      placeholder=${placeholder}
+      type=${isNumber ? 'number' : 'text'}
+      @input=${(event: Event) => {
+        const target = event.target as HTMLInputElement;
+        ctx.implicit.value = isNumber
+          ? target.value === '' ? null : Number(target.value)
+          : target.value;
+      }}>
+    </igc-input>
+  `;
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+Para o exemplo de Region Select:
+
+```razor
+// Field definition
+new() { Field = "Region", DataType = GridColumnDataType.String }
+```
+
+
+```javascript
+// In JavaScript
+// Template
+function buildRegionSelect(ctx) {
+    const currentValue = ctx?.implicit?.value;
+    const changeHandler = (event) => {
+        const value = event && event.detail ? event.detail.value : null;
+        ctx.implicit.value = value;
+    };
+
+    return html`
+      <igc-select
+        placeholder="Region"
+        .value=${currentValue}
+        @igcChange=${changeHandler}>
+        ${regionOptions.map(option => html`
+          <igc-select-item value=${option.value}>${option.text}</igc-select-item>
+        `)}
+      </igc-select>
+    `;
+}
+```
+
+Para o exemplo de Status Radio Group:
+
+```razor
+// Field definition
+new() { Field = "OrderStatus", DataType = GridColumnDataType.String }
+```
+
+
+```javascript
+// In JavaScript
+// Template
+function buildStatusRadios(ctx) {
+    const implicitValue = ctx?.implicit?.value;
+    const currentValue = implicitValue == null ? '' : implicitValue.toString();
+
+    const changeHandler = (event) => {
+        const value = event && event.detail ? event.detail.value : undefined;
+        if (!value || ctx.implicit.value === value) {
+            return;
+        }
+        ctx.implicit.value = value;
+    };
+
+    return html`
+      <igc-radio-group
+        style="gap: 5px;"
+        .alignment=${"horizontal"}
+        .value=${currentValue}
+        @igcChange=${changeHandler}>
+        ${statusOptions.map(option => html`
+          <igc-radio
+            name="status"
+            value=${option.value}
+            ?checked=${option.value.toString() === currentValue}>
+            ${option.text}
+          </igc-radio>
+        `)}
+      </igc-radio-group>
+    `;
+}
+```
+
+Para o exemplo de Date Picker:
+
+```razor
+// Field definition
+new() { Field = "OrderDate", DataType = GridColumnDataType.Date }
+```
+
+
+```javascript
+// In JavaScript
+// Template
+function buildDatePicker(ctx) {
+    const implicitValue = ctx.implicit?.value;
+    const currentValue = implicitValue instanceof Date
+        ? implicitValue
+        : implicitValue
+            ? new Date(implicitValue)
+            : null;
+
+    const allowedConditions = ['equals', 'doesNotEqual', 'before', 'after'];
+    const isEnabled = allowedConditions.includes(ctx.selectedCondition ?? '');
+
+    return html`
+      <igc-date-picker
+        .value=${currentValue}
+        .disabled=${!isEnabled}
+        @click=${(event) => (event.currentTarget).show()}
+        @igcChange=${(event) => {
+            ctx.implicit.value = event.detail;
+        }}>
+      </igc-date-picker>
+    `;
+}
+```
+
+Para o exemplo de Time Input:
+
+```razor
+// Field definition
+new()
+{
+    Field = "RequiredTime",
+    DataType = GridColumnDataType.Time,
+    DefaultTimeFormat = "hh:mm tt"
+}
+```
+
+
+```javascript
+// In JavaScript
+// Template
+function buildTimeInput(ctx) {
+    const currentValue = normalizeTimeValue(ctx.implicit?.value);
+    const allowedConditions = ['at', 'not_at', 'at_before', 'at_after', 'before', 'after'];
+    const isDisabled = ctx.selectedField == null || !allowedConditions.includes(ctx.selectedCondition ?? '');
+
+    return html`
+      <igc-date-time-input
+        .inputFormat=${"hh:mm tt"}
+        .value=${currentValue}
+        .disabled=${isDisabled}
+        @igcChange=${(event) => {
+            const picker = event.currentTarget;
+            ctx.implicit.value = picker.value;
+        }}>
+        <igc-icon slot="prefix" name="clock" collection="material"></igc-icon>
+      </igc-date-time-input>
+    `;
+}
+```
+
+Para o template padrão de Input:
+
+```razor
+// Field definitions for string, number, and boolean types
+new() { Field = "ShipCountry", DataType = GridColumnDataType.String }
+new() { Field = "OrderID", DataType = GridColumnDataType.Number }
+new() { Field = "IsRushOrder", DataType = GridColumnDataType.Boolean }
+```
+
+
+```javascript
+// In JavaScript
+// Template that handles all these types
+function buildDefaultInput(ctx, equalityCondition) {
+    const selectedField = ctx.selectedField;
+    const dataType = selectedField?.dataType;
+    const isNumber = dataType === 'number';
+    const isBoolean = dataType === 'boolean';
+
+    const placeholder = ctx.selectedCondition === 'inQuery' || ctx.selectedCondition === 'notInQuery'
+        ? 'Sub-query results'
+        : 'Value';
+
+    const currentImplicitValue = ctx && ctx.implicit ? ctx.implicit.value : null;
+    const currentValue = typeof currentImplicitValue === 'object' && currentImplicitValue && 'text' in currentImplicitValue
+        ? equalityCondition ? currentImplicitValue.text : ''
+        : currentImplicitValue;
+
+    const inputValue = currentValue == null ? '' : currentValue;
+    const disabledConditions = ['empty', 'notEmpty', 'null', 'notNull', 'inQuery', 'notInQuery'];
+    const isDisabled = isBoolean || selectedField == null || disabledConditions.includes(ctx.selectedCondition ?? '');
+
+    return html`
+      <igc-input 
+        .value=${inputValue}
+        ?disabled=${isDisabled}
+        placeholder=${placeholder}
+        type=${isNumber ? 'number' : 'text'}
+        @input=${(event) => {
+            const target = event.target;
+            ctx.implicit.value = isNumber
+                ? target.value === '' ? null : Number(target.value)
+                : target.value;
+        }}>
+      </igc-input>
+    `;
+}
+```
+
+</PlatformBlock>
+
+
+
+<PlatformBlock for="React">
+
+
+Para o exemplo de Region Select:
+
+```tsx
+// Field definition
+{ field: 'Region', dataType: 'string' }
+
+// Template
+const buildRegionSelect = (ctx: QueryBuilderSearchValueContext) => {
+  const currentValue = ctx?.implicit?.value?.value ?? '';
+  const key = `region-select-${currentValue}`;
+
+  return (
+    <IgrSelect
+      className="qb-select"
+      key={key}
+      value={currentValue}
+      onChange={(sender: any) => {
+        const value = sender.detail.value;
+        const currentKey = ctx?.implicit?.value?.value ?? '';
+
+        if (!value || value === currentKey) return;
+
+        setTimeout(() => {
+          ctx.implicit.value = regionOptions.find(option => option.value === value) ?? null;
+        });
+      }}>
+      {regionOptions.map(option => (
+        <IgrSelectItem key={option.value} value={option.value}>
+          <span>{option.text}</span>
+        </IgrSelectItem>
+      ))}
+    </IgrSelect>
+  );
+};
+```
+
+Para o exemplo de Status Radio Group:
+
+```tsx
+// Field definition
+{ field: 'OrderStatus', dataType: 'number' }
+
+// Template
+const buildStatusRadios = (ctx: QueryBuilderSearchValueContext) => {
+  const implicitValue = ctx.implicit?.value;
+  const currentValue = implicitValue === null ? '' : implicitValue.toString();
+  const key = `status-radio-${currentValue}`;
+
+  return (
+    <IgrRadioGroup
+      key={key}
+      style={{ gap: '5px' }}
+      alignment="horizontal"
+      value={currentValue}
+      onChange={(sender: any) => {
+        const value = sender.detail;
+        if (value === undefined) return;
+
+        const numericValue = Number(value);
+        if (ctx.implicit.value === numericValue) return;
+
+        setTimeout(() => {
+          ctx.implicit.value = numericValue;
+        });
+      }}>
+      {statusOptions.map(option => (
+        <IgrRadio
+          key={option.value}
+          name="status"
+          value={option.value.toString()}
+          checked={option.value.toString() === currentValue}
+          labelText={option.text}>
+        </IgrRadio>
+      ))}
+    </IgrRadioGroup>
+  );
+};
+```
+
+Para o exemplo de Date Picker:
+
+```tsx
+// Field definition
+{ field: 'OrderDate', dataType: 'date' }
+
+// Template
+const buildDatePicker = (ctx: QueryBuilderSearchValueContext) => {
+  const implicitValue = ctx.implicit?.value;
+  const currentValue = implicitValue instanceof Date
+    ? implicitValue
+    : implicitValue
+      ? new Date(implicitValue)
+      : null;
+
+  const allowedConditions = ['equals', 'doesNotEqual', 'before', 'after'];
+  const isEnabled = allowedConditions.indexOf(ctx.selectedCondition ?? '') !== -1;
+  const key = `date-picker-${currentValue}`;
+
+  return (
+    <IgrDatePicker
+      key={key}
+      value={currentValue}
+      disabled={!isEnabled}
+      onChange={(sender: any) => {
+        setTimeout(() => {
+          ctx.implicit.value = sender.detail;
+        });
+      }}>
+    </IgrDatePicker>
+  );
+};
+```
+
+Para o exemplo de Time Input:
+
+```tsx
+// Field definition
+{ field: 'RequiredTime', dataType: 'time' }
+
+// Template
+const buildTimeInput = (ctx: QueryBuilderSearchValueContext) => {
+  const currentValue = normalizeTimeValue(ctx.implicit?.value);
+  const allowedConditions = ['at', 'not_at', 'at_before', 'at_after', 'before', 'after'];
+  const isDisabled = ctx.selectedField == null || allowedConditions.indexOf(ctx.selectedCondition ?? '') === -1;
+  const key = `time-input-${currentValue}`;
+
+  return (
+    <IgrDateTimeInput
+      key={key}
+      inputFormat="hh:mm tt"
+      value={currentValue}
+      disabled={isDisabled}
+      onChange={(sender: any) => {
+        setTimeout(() => {
+          ctx.implicit.value = sender.detail;
+        });
+      }}>
+      <div slot="prefix">
+        <IgrIcon name="clock" collection="material" />
+      </div>
+    </IgrDateTimeInput>
+  );
+};
+```
+
+Para o template padrão de Input:
+
+```tsx
+// Field definitions for string, number, and boolean types
+{ field: 'ShipCountry', dataType: 'string' }
+{ field: 'OrderID', dataType: 'number' }
+{ field: 'IsRushOrder', dataType: 'boolean' }
+
+// Template that handles all these types
+const buildDefaultInput = (ctx: QueryBuilderSearchValueContext, matchesEqualityCondition: boolean) => {
+  const selectedField = ctx.selectedField;
+  const dataType = selectedField?.dataType;
+  const isNumber = dataType === 'number';
+  const isBoolean = dataType === 'boolean';
+
+  const placeholder = ctx.selectedCondition === 'inQuery' || ctx.selectedCondition === 'notInQuery'
+    ? 'Sub-query results'
+    : 'Value';
+
+  const currentValue = typeof ctx.implicit?.value === 'object' && (ctx.implicit.value && 'text' in ctx.implicit.value)
+    ? matchesEqualityCondition ? ctx.implicit.value.text : ''
+    : ctx.implicit?.value;
+
+  const inputValue = currentValue == null ? '' : currentValue;
+  const disabledConditions = ['empty', 'notEmpty', 'null', 'notNull', 'inQuery', 'notInQuery'];
+  const isDisabled = isBoolean || selectedField == null || disabledConditions.indexOf(ctx.selectedCondition ?? '') !== -1;
+  const key = `default-input-${inputValue}`;
+
+  return (
+    <IgrInput 
+      key={key}
+      value={inputValue?.toString() || ''}
+      disabled={isDisabled}
+      placeholder={placeholder}
+      type={isNumber ? 'number' : 'text'}
+      onInput={(sender: any) => {
+        const value = sender.detail;
+        setTimeout(() => {
+          ctx.implicit.value = isNumber
+            ? value === '' ? null : Number(value)
+            : value;
+        });
+      }}>
+    </IgrInput>
+  );
+};
+```
+
+</PlatformBlock>
+
+
+### Formatador
+
+Para alterar a aparência do valor de pesquisa no chip exibido quando uma condição não está em modo de edição, você pode definir uma função formatter no array de campos. O valor de pesquisa pode ser acessado pelo argumento value da seguinte forma:
+
+
+<PlatformBlock for="React, WebComponents">
+
+
+```tsx
+const ordersFields = [
+  { field: 'OrderID', dataType: 'number' },
+  { field: 'ShipCountry', dataType: 'string' },
+  {
+    field: 'OrderDate',
+    dataType: 'date',
+    formatter: (value: any) => value.toLocaleDateString(queryBuilderRef.current?.locale, { 
+      month: 'short', 
+      day: 'numeric', 
+      year: 'numeric' 
+    })
+  },
+  {
+    field: 'Region',
+    dataType: 'string',
+    formatter: (value: any) => value?.text ?? value?.value ?? value
+  }
+];
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+private static readonly IgbFieldType[] OrderFields =
+[
+    new() { Field = "OrderID", DataType = GridColumnDataType.Number },
+    new() { Field = "ShipCountry", DataType = GridColumnDataType.String },
+    new()
+    {
+        Field = "OrderDate",
+        DataType = GridColumnDataType.Date,
+        PipeArgs = new IgbFieldPipeArgs { Format = "MMM d, y" }
+    },
+    new() { Field = "Region", DataType = GridColumnDataType.String }
+];
+```
+
+</PlatformBlock>
+
+
+### Demonstração
+
+Criamos este exemplo para mostrar as funcionalidades de template e de formatter para o cabeçalho e para o valor de pesquisa do componente Query Builder {Platform}.
+
+<Sample src="/interactions/query-builder/template" height={900} alt="Exemplo de template do Query Builder {Platform}" />
+
+
+## Referências da API
+<ApiLink type="QueryBuilder" />
+<ApiLink type="QueryBuilderHeader" />
+## Recursos adicionais
+
+Nossa comunidade é ativa e sempre receptiva a novas ideias.
+
+- [{ProductName} **Fóruns**]({ForumsLink})
+- [{ProductName} **GitHub**]({GithubLink})

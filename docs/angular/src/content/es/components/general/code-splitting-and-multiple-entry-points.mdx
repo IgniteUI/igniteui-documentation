@@ -1,0 +1,325 @@
+---
+title: "División de código y múltiples puntos de entrada | Ignite UI for Angular | Infragistics"
+description: "Aprenda a optimizar el tamaño del bundle de su aplicación Angular usando los múltiples puntos de entrada de Ignite UI for Angular para mejorar el tree-shaking y la división de código."
+keywords: "ignite ui for angular, división de código, puntos de entrada, tree-shaking, carga diferida, optimización de bundles"
+_language: es
+llms:
+  description: "A partir de la versión 21.0.0, Ignite UI for Angular admite múltiples puntos de entrada, lo que permite un mejor tree-shaking, la división de código y la carga diferida de componentes."
+---
+
+# División de código y múltiples puntos de entrada
+
+A partir de la versión 21.0.0, Ignite UI for Angular admite múltiples puntos de entrada, lo que permite un mejor tree-shaking, la división de código y la carga diferida de componentes. Esta mejora de la arquitectura le permite importar solo los componentes y las utilidades que necesita, lo que reduce de forma notable el tamaño del bundle de su aplicación.
+
+## Descripción general
+
+Antes, todos los componentes de Ignite UI for Angular se exportaban desde un único punto de entrada (`igniteui-angular`). Aunque resultaba cómodo, este enfoque agrupaba todos los componentes, lo que dificultaba que las herramientas de compilación eliminaran eficazmente el código no utilizado.
+
+Con la nueva arquitectura de múltiples puntos de entrada, cada componente o grupo de componentes relacionados tiene su propio punto de entrada dedicado. Esto permite que los empaquetadores modernos:
+
+- **Habiliten la división de código**: cada componente se puede cargar de forma diferida por separado, bajo demanda
+- **Reduzcan el tamaño inicial del bundle**: importe en la carga inicial solo lo que su aplicación necesita realmente
+- **Mejoren el rendimiento de la compilación**: los grafos de dependencias más pequeños dan lugar a compilaciones más rápidas
+
+## Ventajas
+
+✅ **División de código**: cada componente se puede cargar de forma diferida  
+✅ **Bundles iniciales más pequeños**: importe solo lo que necesita  
+✅ **Mejor rendimiento**: los bundles individuales más pequeños suponen tiempos de carga más rápidos  
+✅ **Arquitectura limpia**: sin dependencias circulares  
+✅ **Compatibilidad total con versiones anteriores**: el punto de entrada principal sigue funcionando  
+✅ **Importaciones de cuadrícula granulares**: cargue solo el tipo de cuadrícula que necesita
+
+## Estructura de los puntos de entrada
+
+### Puntos de entrada principales
+
+- `igniteui-angular/core`: utilidades principales, servicios y tipos base (por ejemplo, `IgxOverlayService`)
+- `igniteui-angular/directives`: directivas comunes
+
+### Puntos de entrada de componentes
+
+Cada componente tiene su propio punto de entrada con el patrón `igniteui-angular/<component-name>`:
+
+- `igniteui-angular/accordion`
+- `igniteui-angular/action-strip`
+- `igniteui-angular/avatar`
+- `igniteui-angular/badge`
+- `igniteui-angular/banner`
+- `igniteui-angular/bottom-nav`
+- `igniteui-angular/button`
+- `igniteui-angular/button-group`
+- `igniteui-angular/calendar`
+- `igniteui-angular/card`
+- `igniteui-angular/carousel`
+- `igniteui-angular/chat`
+- `igniteui-angular/checkbox`
+- `igniteui-angular/chips`
+- `igniteui-angular/combo`
+- `igniteui-angular/date-picker`
+- `igniteui-angular/date-range-picker`
+- `igniteui-angular/dialog`
+- `igniteui-angular/drop-down`
+- `igniteui-angular/expansion-panel`
+- `igniteui-angular/icon`
+- `igniteui-angular/input-group`
+- `igniteui-angular/list`
+- `igniteui-angular/navbar`
+- `igniteui-angular/navigation-drawer`
+- `igniteui-angular/paginator`
+- `igniteui-angular/progressbar`
+- `igniteui-angular/query-builder`
+- `igniteui-angular/radio`
+- `igniteui-angular/select`
+- `igniteui-angular/simple-combo`
+- `igniteui-angular/slider`
+- `igniteui-angular/snackbar`
+- `igniteui-angular/splitter`
+- `igniteui-angular/stepper`
+- `igniteui-angular/switch`
+- `igniteui-angular/tabs`
+- `igniteui-angular/time-picker`
+- `igniteui-angular/toast`
+- `igniteui-angular/tree`
+
+### Puntos de entrada de cuadrículas
+
+Los componentes de cuadrícula se dividen en puntos de entrada granulares para una división de código óptima:
+
+- `igniteui-angular/grids/core`: infraestructura compartida de cuadrículas (columnas, barra de herramientas, filtrado, ordenación, pipes y utilidades)
+- `igniteui-angular/grids/grid`: componente Data Grid (`IgxGridComponent`)
+- `igniteui-angular/grids/tree-grid`: componente Tree Grid (`IgxTreeGridComponent`)
+- `igniteui-angular/grids/hierarchical-grid`: componente Hierarchical Grid (`IgxHierarchicalGridComponent`, `IgxRowIslandComponent`)
+- `igniteui-angular/grids/pivot-grid`: componente Pivot Grid (`IgxPivotGridComponent`, `IgxPivotDataSelectorComponent`)
+
+## Migración
+
+### Migración automática
+
+El enfoque recomendado es migrar sus importaciones automáticamente durante el proceso de `ng update`. Al actualizar a la versión 21.0.0, se le pedirá que migre las importaciones:
+
+```cmd
+ng update igniteui-angular
+```
+
+Cuando se le pregunte, elija **"Yes"** para migrar las importaciones a los nuevos puntos de entrada y obtener tamaños de bundle óptimos.
+
+Como alternativa, puede ejecutar la migración por separado:
+
+```cmd
+ng update igniteui-angular --migrate-only --from=20.1.0 --to=21.0.0
+```
+
+### Migración manual
+
+Si prefiere migrar manualmente o necesita actualizar importaciones concretas, siga este patrón:
+
+#### Antes (v20.x y anteriores)
+
+```typescript
+import { 
+  IgxGridComponent,
+  IgxTreeGridComponent,
+  IgxInputDirective,
+  IgxBottomNavComponent,
+  Direction, 
+  GridBaseAPIService,
+  IgxOverlayService,
+  IFilteringExpression
+} from 'igniteui-angular';
+```
+
+#### Después (v21.0.0)
+
+```typescript
+import { IgxOverlayService, IFilteringExpression } from 'igniteui-angular/core';
+import { GridBaseAPIService } from 'igniteui-angular/grids/core';
+import { IgxGridComponent } from 'igniteui-angular/grids/grid';
+import { IgxTreeGridComponent } from 'igniteui-angular/grids/tree-grid';
+import { IgxInputDirective } from 'igniteui-angular/input-group';
+import { IgxBottomNavComponent } from 'igniteui-angular/bottom-nav';
+import { CarouselAnimationDirection } from 'igniteui-angular/carousel';
+```
+
+### Cambios de nombre de tipos
+
+Para evitar conflictos de nombres con la nueva arquitectura, algunos tipos se han renombrado:
+
+- `Direction` → `CarouselAnimationDirection` (en el punto de entrada de carousel)
+
+```typescript
+// Before
+import { Direction } from 'igniteui-angular';
+
+// After
+import { CarouselAnimationDirection } from 'igniteui-angular/carousel';
+```
+
+## Compatibilidad con versiones anteriores
+
+El punto de entrada principal (`igniteui-angular`) mantiene **compatibilidad total con versiones anteriores** al reexportar todos los puntos de entrada granulares. Puede seguir usando las importaciones del punto de entrada principal sin ningún cambio:
+
+```typescript
+// This still works and will continue to work
+import { IgxGridComponent, IgxButtonDirective } from 'igniteui-angular';
+```
+
+Sin embargo, **le recomendamos encarecidamente migrar a los nuevos puntos de entrada** para aprovechar un mejor tree-shaking y bundles más pequeños.
+
+## Ejemplos de uso
+
+### Ejemplo 1: uso sencillo de componentes
+
+Si solo necesita un botón y un campo de entrada, importe únicamente esos puntos de entrada:
+
+```typescript
+import { Component } from '@angular/core';
+import { IgxButtonDirective } from 'igniteui-angular/directives';
+import { 
+  IgxInputGroupComponent, 
+  IgxInputDirective, 
+  IgxLabelDirective 
+} from 'igniteui-angular/input-group';
+
+@Component({
+  selector: 'app-form',
+  standalone: true,
+  imports: [
+    IgxButtonDirective,
+    IgxInputGroupComponent,
+    IgxInputDirective,
+    IgxLabelDirective
+  ],
+  template: `
+    <igx-input-group>
+      <label igxLabel>Name</label>
+      <input igxInput type="text" />
+    </igx-input-group>
+    <button igxButton="contained">Submit</button>
+  `
+})
+export class FormComponent {}
+```
+
+### Ejemplo 2: cuadrícula con funciones específicas
+
+Importe solo el tipo de cuadrícula que necesita junto con las utilidades de cuadrícula principales:
+
+```typescript
+import { Component } from '@angular/core';
+import { IgxGridComponent } from 'igniteui-angular/grids/grid';
+import { IgxGridToolbarComponent } from 'igniteui-angular/grids/core';
+
+@Component({
+  selector: 'app-data-grid',
+  standalone: true,
+  imports: [IgxGridComponent, IgxGridToolbarComponent],
+  template: `
+    <igx-grid [data]="data" [autoGenerate]="true">
+      <igx-grid-toolbar></igx-grid-toolbar>
+    </igx-grid>
+  `
+})
+export class DataGridComponent {
+  public data = [
+    { id: 1, name: 'John' },
+    { id: 2, name: 'Jane' }
+  ];
+}
+```
+
+### Ejemplo 3: carga diferida de componentes
+
+Con los nuevos puntos de entrada, puede cargar componentes de forma diferida con facilidad:
+
+```typescript
+// app.routes.ts
+import { Routes } from '@angular/router';
+
+export const routes: Routes = [
+  {
+    path: 'grid',
+    loadComponent: () => 
+      import('./features/grid/grid.component')
+        .then(m => m.GridComponent)
+  },
+  {
+    path: 'tree-grid',
+    loadComponent: () => 
+      import('./features/tree-grid/tree-grid.component')
+        .then(m => m.TreeGridComponent)
+  }
+];
+```
+
+```typescript
+// features/grid/grid.component.ts
+import { Component } from '@angular/core';
+import { IgxGridComponent } from 'igniteui-angular/grids/grid';
+
+@Component({
+  selector: 'app-grid',
+  standalone: true,
+  imports: [IgxGridComponent],
+  template: `<igx-grid [data]="data" [autoGenerate]="true"></igx-grid>`
+})
+export class GridComponent {
+  public data = [];
+}
+```
+
+## Resumen de las opciones de migración
+
+Tiene tres opciones al actualizar a la versión 21.0.0:
+
+### Opción 1: migrar durante la actualización (recomendada)
+
+```cmd
+ng update igniteui-angular
+```
+
+Cuando se le pregunte, elija **"Yes"** para migrar las importaciones.
+
+### Opción 2: seguir usando el punto de entrada principal
+
+```cmd
+ng update igniteui-angular
+```
+
+Cuando se le pregunte, elija **"No"** para seguir usando el punto de entrada principal. La biblioteca sigue siendo totalmente compatible con versiones anteriores, pero no obtendrá tamaños de bundle óptimos.
+
+### Opción 3: migrar más tarde
+
+Actualice sin migrar (elija "No" cuando se le pregunte):
+
+```cmd
+ng update igniteui-angular
+```
+
+Migre manualmente más tarde:
+
+```cmd
+ng update igniteui-angular --migrate-only --from=20.1.0 --to=21.0.0
+```
+
+## Buenas prácticas
+
+1. **Use puntos de entrada específicos**: importe desde el punto de entrada más específico posible (por ejemplo, `igniteui-angular/grids/grid` en lugar de `igniteui-angular`)
+2. **Aproveche la carga diferida**: combine los puntos de entrada con la carga diferida de Angular para obtener un rendimiento aún mejor
+3. **Importe solo lo que necesite**: no importe el punto de entrada `core` completo si solo necesita un servicio
+4. **Revise el analizador de bundles**: use herramientas como [webpack-bundle-analyzer](https://www.npmjs.com/package/webpack-bundle-analyzer) para comprobar las mejoras de tamaño de sus bundles
+5. **Actualice con regularidad**: mantenga actualizada su versión de Ignite UI for Angular para beneficiarse de las últimas optimizaciones
+
+## Recursos adicionales
+
+- [Formato de paquete de Angular: puntos de entrada y división de código](https://angular.io/guide/angular-package-format#entrypoints-and-code-splitting)
+- [Guía de actualización de Ignite UI for Angular](/general/update-guide)
+- [CHANGELOG de Ignite UI for Angular](https://github.com/IgniteUI/igniteui-angular/blob/master/CHANGELOG.md)
+- [Repositorio de GitHub de Ignite UI for Angular](https://github.com/IgniteUI/igniteui-angular)
+
+## Referencias de API
+Para obtener información detallada sobre componentes concretos y sus API, consulte la documentación de componentes:
+- [Grid](/grid/grid)
+- [Tree Grid](/treegrid/tree-grid)
+- [Hierarchical Grid](/hierarchicalgrid/hierarchical-grid)
+- [Pivot Grid](/pivotgrid/pivot-grid)

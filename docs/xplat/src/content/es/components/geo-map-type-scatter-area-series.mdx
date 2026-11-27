@@ -1,0 +1,102 @@
+---
+title: "Mapa de {Platform} | Herramientas de visualización de datos | Series de áreas de dispersión | Enlace de datos | Infragistics"
+description: "Use la serie de áreas de dispersión del mapa de Infragistics {Platform} para dibujar una superficie de área coloreada basada en una triangulación de datos de longitud y latitud, con un valor numérico asignado a cada punto. ¡Obtenga más información sobre las series del mapa de {ProductName}!"
+keywords: "Mapa de {Platform}, serie de áreas de dispersión, {ProductName}, Infragistics"
+license: commercial
+mentionedTypes: ["GeographicMap", "GeographicScatterAreaSeries", "CustomPaletteColorScale", "Series"]
+_language: es
+llms:
+  description: "En el componente de mapa de {Platform} puede usar GeographicScatterAreaSeries para dibujar una superficie coloreada, en un contexto geográfico, basada en una triangulación de datos de longitud y latitud, con un valor numérico asignado a cada punto."
+platformType: xplat
+---
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+
+# Mapa de áreas geográficas de {Platform}
+
+En el componente de mapa de {Platform} puede usar `GeographicScatterAreaSeries` para dibujar una superficie coloreada, en un contexto geográfico, basada en una triangulación de datos de longitud y latitud, con un valor numérico asignado a cada punto. Este tipo de serie geográfica resulta útil para representar datos dispersos, definidos por ubicaciones geográficas, como la temperatura, la precipitación, la distribución de población, la contaminación del aire, etc.
+
+## Ejemplo de mapa de áreas geográficas de {Platform}
+
+
+<Sample src="/maps/geo-map/type-scatter-area-series" height={500} alt="Ejemplo de {Platform}: uso de la serie de áreas de dispersión" />
+
+
+
+
+`GeographicScatterAreaSeries` funciona de forma muy parecida a `GeographicContourLineSeries`, salvo que representa los datos como una superficie interpolada y coloreada en lugar de líneas de contorno que unen puntos de datos con los mismos valores.
+
+## Requisitos de datos
+Al igual que otros tipos de series geográficas del componente de mapa, `GeographicScatterAreaSeries` tiene la propiedad `DataSource`, que puede enlazarse a un array de objetos. Además, cada elemento del origen de elementos debe tener tres columnas de datos: dos que almacenan las coordenadas geográficas de longitud y latitud, y una columna de datos que almacena un valor asociado a la ubicación geográfica. Las propiedades `LongitudeMemberPath`, `LatitudeMemberPath` y `ColorMemberPath` de la serie geográfica identifican estas columnas de datos.
+`GeographicScatterAreaSeries` realiza automáticamente una triangulación de datos integrada en los elementos de ItemsSource si no se ha establecido ninguna triangulación en la propiedad `TrianglesSource`. Sin embargo, calcular la triangulación puede ser un proceso muy lento, por lo que el rendimiento en tiempo de ejecución será mejor si se especifica un TriangulationSource para esta propiedad, sobre todo cuando hay un gran número de elementos de datos.
+
+## Enlace de datos
+La tabla siguiente resume las propiedades de GeographicScatterAreaSeries usadas para el enlace de datos.
+
+| Nombre de la propiedad  | Tipo de propiedad   | Descripción   |
+|--------------|---------------| ---------------|
+|`DataSource`|cualquiera|El origen de los elementos de datos sobre el que realizar la triangulación si la propiedad `trianglesSource` no proporciona datos de triangulación.|
+|`longitudeMemberPath`|string|El nombre de la propiedad que contiene la longitud de todos los elementos enlazados a `DataSource`.|
+|`latitudeMemberPath`|string|El nombre de la propiedad que contiene la latitud de todos los elementos enlazados a `DataSource`.|
+|`colorMemberPath`|string|El nombre de la propiedad que contiene un valor en las coordenadas de latitud y longitud de cada elemento de datos. Este valor numérico se convertirá en un color cuando se establezca la propiedad `ColorScale`.|
+|`trianglesSource`|cualquiera|El origen de los datos de triangulación. Establecer Triangles del objeto `\TriangulationSource` en esta propiedad mejora tanto el rendimiento en tiempo de ejecución como el renderizado de la serie geográfica.|
+|`triangleVertexMemberPath1`|string|El nombre de la propiedad de los elementos `trianglesSource` que, para cada triángulo, contiene el índice del primer punto de vértice en ItemsSource. No es obligatorio establecer esta propiedad. Se toma por defecto, salvo que se proporcione una lógica de triangulación personalizada.|
+|`triangleVertexMemberPath2`|string|El nombre de la propiedad de los elementos `trianglesSource` que, para cada triángulo, contiene el índice del primer punto de vértice en ItemsSource. No es obligatorio establecer esta propiedad. Se toma por defecto, salvo que se proporcione una lógica de triangulación personalizada.|
+|`triangleVertexMemberPath3`|string|El nombre de la propiedad de los elementos `trianglesSource` que, para cada triángulo, contiene el índice del primer punto de vértice en ItemsSource. No es obligatorio establecer esta propiedad. Se toma por defecto, salvo que se proporcione una lógica de triangulación personalizada.|
+
+## Escala de color
+Use la propiedad ColorScale de `GeographicScatterAreaSeries` para resolver los valores de color de los puntos y, así, rellenar la superficie de la serie geográfica. Los colores se interpolan suavemente alrededor de la forma de la superficie aplicando a los datos de triangulación un rasterizador de triángulos píxel a píxel. Como el renderizado de la superficie es píxel a píxel, la escala de color usa colores en lugar de pinceles.
+La clase `CustomPaletteColorScale` proporcionada debería satisfacer la mayoría de las necesidades de color, pero la aplicación puede heredar la clase base ColorScale para una lógica de color personalizada.
+
+La tabla siguiente enumera las propiedades de `CustomPaletteColorScale` que afectan al color de la superficie de GeographicScatterAreaSeries.
+
+| Nombre de la propiedad  | Tipo de propiedad   | Descripción   |
+|--------------|---------------| ---------------|
+|`CustomPaletteColorScale.palette`| `ObservableCollection<Color>` |Obtiene o establece la colección de colores de la que se elige o entre la que se interpola.|
+|`interpolationMode`|`ColorScaleInterpolationMode`|Obtiene o establece el método que obtiene un color de la paleta.|
+|`maximumValue`|double|El valor más alto al que asignar un color. Cualquier valor mayor que este se mostrará como transparente.|
+|`minimumValue`|double|El valor más bajo al que asignar un color. Cualquier valor menor que este se mostrará como transparente.|
+
+## Fragmento de código
+El siguiente código muestra cómo enlazar `GeographicScatterAreaSeries` a datos de triangulación que representan las temperaturas superficiales del mundo.
+
+```json-snippet channel="auto" include="bindingImports" source="/maps/geo-map/type-scatter-area-series"
+{
+    "type": "GeographicMap",
+    "name": "geoMap",
+    "height": "100%",
+    "width": "100%",
+    "zoomable": true,
+    "$setInCode": { "series": ["angular", "react", "webComponents"] },
+    "$assignInCode": { "series": ["angular", "react", "webComponents"] },
+    "series": [
+        {
+            "type": "GeographicScatterAreaSeries",
+            "name": "areaSeries",
+            "dataSourceRef": "WorldTemperatures",
+            "longitudeMemberPath": "Lon",
+            "latitudeMemberPath": "Lat",
+            "colorMemberPath": "Value",
+            "$setInCode": { "colorScale": ["blazor"] },
+            "colorScale": {
+                "type": "CustomPaletteColorScale",
+                "palette": [
+                    "rgba(32, 146, 252, 0.5)",
+                    "rgba(14, 194, 14, 0.5)",
+                    "rgba(252, 120, 32, 0.5)",
+                    "rgba(252, 32, 32, 0.5)"
+                ],
+                "minimumValue": 0,
+                "maximumValue": 30
+            }
+        }
+    ]
+}
+```
+
+
+## Referencias de API
+`ColorScale`
+`CustomPaletteColorScale`
+`GeographicContourLineSeries`
+`GeographicScatterAreaSeries`

@@ -1,0 +1,576 @@
+---
+title: "Componente Angular Drop Down – Ignite UI For Angular - Licencia MIT" 
+description: "Añada interactividad y vea opciones de estilo para una lista desplazable de elementos en su aplicación. Empiece a usar ahora el componente Drop Down de Ignite UI for Angular."
+keywords: "Ignite UI for Angular, controles de interfaz, widgets de Angular, widgets web, widgets de interfaz, Angular, Native Angular Components Suite, componentes de interfaz de Angular, Native Angular Components Library, componente Angular Drop Down, control Angular Drop Down"
+license: MIT
+_language: es
+llms:
+  description: "Ignite UI for Angular Drop Down es un componente que muestra una lista desplegable de valores predefinidos y permite al usuario seleccionar fácilmente una opción con un clic."
+---
+
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+# Descripción general del componente Angular Drop Down
+
+<div class="highlight">
+Ignite UI for Angular Drop Down es un componente que muestra una lista desplegable de valores predefinidos y permite al usuario seleccionar fácilmente una opción con un clic. Se puede configurar rápidamente para que funcione como un menú desplegable, o bien usarlo para ofrecer información visual más útil agrupando datos. Con la agrupación se pueden usar tanto datos planos como jerárquicos. El componente Drop Down permite el enlace declarativo, lo que hace posible incrustar contenido adicional y enlaces. Además, deja margen para más personalización de la interfaz y para dar estilo a la apariencia de la lista desplegable de Angular. Además, incluye funciones clave como la navegación por teclado en la lista desplegable y la virtualización.
+</div>
+
+## Ejemplo de Angular Drop Down
+
+Este ejemplo de lista desplegable de Angular muestra las funcionalidades básicas de una lista desplegable. Haga clic en ella para desplegar las opciones predefinidas, seleccione un elemento y, a continuación, cierre la lista desplegable.
+
+<Sample src="/data-entries/dropdown-sample-1" height={200} alt="Ejemplo de Angular Drop Down" />
+
+<hr/>
+
+## Primeros pasos con Ignite UI for Angular Drop Down
+
+Para empezar con el componente Ignite UI for Angular Drop Down, primero debe instalar Ignite UI for Angular. En una aplicación Angular existente, escriba el siguiente comando:
+
+```cmd
+ng add igniteui-angular
+```
+
+Para una introducción completa a Ignite UI for Angular, lea el tema [_primeros pasos_](/general/getting-started).
+
+El siguiente paso es importar `IgxDropDownModule` en el archivo **app.module.ts**.
+
+```typescript
+// app.module.ts
+
+...
+import { IgxDropDownModule } from 'igniteui-angular/drop-down';
+// import { IgxDropDownModule } from '@infragistics/igniteui-angular'; for licensed package
+
+@NgModule({
+    ...
+    imports: [..., IgxDropDownModule],
+    ...
+})
+export class AppModule {}
+```
+
+Como alternativa, a partir de `16.0.0` puede importar `IgxDropDownComponent` como dependencia independiente, o usar el token [`IGX_DROP_DOWN_DIRECTIVES`](https://github.com/IgniteUI/igniteui-angular/blob/master/projects/igniteui-angular/drop-down/src/drop-down/public_api.ts) para importar el componente y todos sus componentes y directivas de apoyo.
+
+```typescript
+// home.component.ts
+
+import { NgFor } from '@angular/common';
+import { IGX_DROP_DOWN_DIRECTIVES } from 'igniteui-angular/drop-down';
+import { IgxToggleActionDirective } from 'igniteui-angular/directives';
+import { IgxButtonDirective } from 'igniteui-angular/directives';
+// import { IGX_DROP_DOWN_DIRECTIVES, IgxToggleActionDirective, IgxButtonDirective } from '@infragistics/igniteui-angular'; for licensed package
+
+@Component({
+  selector: 'app-home',
+  template: `
+    <button
+      igxButton="contained"
+      [igxToggleAction]="dropdown"
+      [igxDropDownItemNavigation]="dropdown"
+    >
+      Options
+    </button>
+    <igx-drop-down #dropdown>
+      <igx-drop-down-item *ngFor="let item of items">
+        {{ item.field }}
+      </igx-drop-down-item>
+    </igx-drop-down>
+  `,
+  styleUrls: ['home.component.scss'],
+  standalone: true,
+  imports: [ IGX_DROP_DOWN_DIRECTIVES, IgxToggleActionDirective, IgxButtonDirective, NgFor ],
+  /* or imports: [IgxDropDownComponent, IgxDropDownItemComponent, IgxToggleActionDirective, IgxButtonDirective, NgFor] */
+})
+export class HomeComponent {}
+```
+
+
+Ahora que ha importado el módulo o las directivas de Ignite UI for Angular Drop Down, puede empezar a usar el componente `igx-drop-down`.
+
+## Uso de Angular Drop Down
+
+### Añadir una lista desplegable
+
+Creemos una lista desplegable sencilla que ofrezca varias opciones entre las que elegir. Para ello, usaremos <ApiLink type="DropDown" />, así como <ApiLink type="ToggleActionDirective" /> para abrir y cerrar la lista desplegable.
+
+```html
+{/* dropdown.component.html */}
+<button igxButton="contained" [igxToggleAction]="dropdown" [igxDropDownItemNavigation]="dropdown">
+  Options
+</button>
+<igx-drop-down #dropdown>
+  <igx-drop-down-item *ngFor="let item of items">
+    {{ item.field }}
+  </igx-drop-down-item>
+</igx-drop-down>
+```
+
+```typescript
+// dropdown.component.ts
+@Component({...})
+export class MyDropDownComponent {
+    public items: Array<{ field: string }> = [
+        { field: 'Option 1' },
+        { field: 'Option 2' },
+        { field: 'Option 3' }
+    ];
+}
+```
+
+## Más ejemplos de Angular Drop Down
+
+La demostración predeterminada muestra el uso de una lista desplegable con alternancia en Angular, que permite a los usuarios finales desplegar todos los elementos predefinidos y elegir uno de ellos. Consulte el siguiente ejemplo y vea en acción la lista desplegable de Angular.
+
+### Elemento seleccionado predefinido
+
+Supongamos que queremos tener un elemento seleccionado predefinido. Una forma de hacerlo es gestionando el evento <ApiLink type="DropDown" member="opening" label="opening" /> del componente de lista desplegable.
+
+```html
+{/* dropdown.component.html */}
+<button igxButton="contained" [igxToggleAction]="dropdown" [igxDropDownItemNavigation]="dropdown">
+  Options
+</button>
+<igx-drop-down #dropdown (opening)="dropdown.setSelectedItem(0)">
+  <igx-drop-down-item *ngFor="let item of items">
+    {{ item.field }}
+  </igx-drop-down-item>
+</igx-drop-down>
+```
+
+```typescript
+// dropdown.component.ts
+export class MyDropDownComponent {
+  public items: Array<{ field: string }> = [
+    { field: 'Option 1' },
+    { field: 'Option 2' },
+    { field: 'Option 3' },
+  ];
+}
+```
+
+<Sample src="/data-entries/dropdown-sample-2" height={200} alt="" />
+
+<hr/>
+
+### Agrupar elementos
+
+Para ofrecer información visual más útil, use la propiedad <ApiLink type="DropDownItemComponent" member="isheader" label="isHeader" /> para agrupar los elementos semánticamente, o la propiedad <ApiLink type="DropDownItemComponent" member="disabled" label="disabled" /> para mostrar un elemento como no interactivo. También puede establecer la propiedad <ApiLink type="DropDownItemComponent" member="selected" label="selected" /> en un elemento concreto para que sea el elemento seleccionado. Los elementos `igx-drop-down` admiten de forma nativa las directivas `igxPrefix`, `igxSuffix` y `igx-divider`, que pueden contener o establecerse en elementos HTML u otros web components.
+
+```html
+{/* dropdown.component.html */}
+<button igxButton="contained" [igxToggleAction]="dropdown" [igxDropDownItemNavigation]="dropdown">
+  Countries
+</button>
+<igx-drop-down #dropdown [width]="'240px'">
+  <div class="drop-down__scroll-container">
+
+    <igx-drop-down-item *ngFor="let item of items" [disabled]="item.disabled" [isHeader]="item.header" [selected]="item.selected">
+      <igx-icon igxPrefix>place</igx-icon>
+      {{ item.field }}
+      <span igxSuffix>{{ item.code }}</span>
+      <igx-divider></igx-divider>
+    </igx-drop-down-item>
+  
+</div>
+</igx-drop-down>
+```
+
+<DocsAside type="info">
+Este componente usa Material Icons. Añada el siguiente enlace a su `index.html`: `<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">`
+</DocsAside>
+
+```typescript
+// dropdown.component.ts
+export class MyDropDownComponent {
+  public items: any[] = [
+    { field: 'European Union', code: 'EU', header: true },
+    { field: 'Germany', code: 'DE' },
+    { field: 'Bulgaria', code: 'BG', selected: true },
+    { field: 'France', code: 'FR', disabled: true },
+    { field: 'North America', code: 'NA', header: true },
+    { field: 'Canada', code: 'CA' },
+    { field: 'United States', code: 'US' },
+    { field: 'Mexico', code: 'MX' },
+  ];
+}
+```
+
+Si el ejemplo está configurado correctamente, debería mostrarse una lista de países agrupados bajo el encabezado Unión Europea, Francia como elemento no interactivo y Bulgaria como elemento seleccionado:
+
+<Sample src="/data-entries/dropdown-sample-3" height={310} alt="" />
+
+### Agrupar datos jerárquicos
+
+Los elementos `igx-drop-down` también se pueden agrupar usando el contenedor <ApiLink type="DropDownGroup" />, lo que facilita al usuario distinguir las distintas categorías. `igx-drop-down-item-group` acepta elementos `igx-drop-down-item` como contenido y los renderiza agrupados.
+
+```typescript
+// dropdown.component.ts
+export class MyCustomDropDownComponent {
+    ...
+    public foods: {
+        name: string,
+        entries: { name: string, refNo: string }[]
+    }[] = [
+    {
+        name: 'Vegetables',
+        entries: [{
+            name: 'Cucumber',
+            refNo: '00000'
+        }, {
+            name: 'Lettuce',
+            refNo: '00001'
+        },
+        ...]
+    }, {
+        name: 'Fruits',
+        entries: [{
+            name: 'Banana',
+            refNo: '10000'
+        }, {
+            name: 'Tomato',
+            refNo: '10001'
+        },
+        ...]
+    }, {
+        name: 'Meats',
+        entries: [{
+            name: 'Chicken',
+            refNo: '20000'
+        }, {
+            name: 'Beef',
+            refNo: '20001'
+        },
+        ...]
+    }];
+}
+```
+
+```html
+<igx-drop-down>
+  <igx-drop-down-item-group *ngFor="let foodGroup of foods" [label]="foodGroup.name">
+    <igx-drop-down-item *ngFor="let food of foodGroup.entries" [value]="food.refNo">
+      {{ food.name }}
+    </igx-drop-down-item>
+  </igx-drop-down-item-group>
+</igx-drop-down>
+```
+
+El grupo también tiene la funcionalidad adicional de desactivar los elementos que contiene. Por ejemplo, supongamos que no queremos que el grupo de alimentos `Meats` se pueda seleccionar en nuestra lista desplegable. En lugar de desactivar por separado todas las entradas de `Meats`, podemos desactivar el grupo, así como todos los elementos hijos:
+
+```html
+<igx-drop-down>
+  <igx-drop-down-item-group *ngFor="let foodGroup of foods" [label]="foodGroup.name" [disabled]="foodGroup.name === 'Meats'">
+    <igx-drop-down-item *ngFor="let food of foodGroup.entries" [value]="food.refNo">
+      {{ food.name }}
+    </igx-drop-down-item>
+  </igx-drop-down-item-group>
+</igx-drop-down>
+```
+
+Puede ver los resultados en el ejemplo siguiente:
+
+<Sample src="/data-entries/dropdown-sample-5" height={310} alt="" />
+
+### Drop Down como menú
+
+Puede configurar la lista desplegable para que se comporte como un menú. Para ello, establezca el miembro <ApiLink kind="interface" type="ISelectionEventArgs" member="cancel" /> de la interfaz <ApiLink type="ISelectionEventArgs" kind="interface" /> en _true_ en el controlador del evento <ApiLink type="DropDown" member="selectionChanging" label="selectionChanging" />. De este modo, el elemento seleccionado no se conserva al abrir el menú y las selecciones anteriores quedan invalidadas. Aun así, puede obtener el elemento pulsado mediante el valor del miembro <ApiLink kind="interface" type="ISelectionEventArgs" member="newSelection" /> del evento.
+
+```html
+{/* dropdown.component.html */}
+<div>
+  <igx-navbar title="Contacts">
+    <button
+      [igxToggleAction]="menu"
+      [igxToggleOutlet]="outlet"
+      [overlaySettings]="overlaySettings"
+      [igxDropDownItemNavigation]="menu"
+      igxIconButton="flat"
+    >
+      <igx-icon fontSet="material">more_vert</igx-icon>
+    </button>
+    <igx-drop-down #menu (selectionChanging)="selectionHandler($event)">
+      <igx-drop-down-item *ngFor="let item of items" [value]="item.text">
+        <div>{{ item.text }}
+</div>
+      </igx-drop-down-item>
+    </igx-drop-down>
+  </igx-navbar>
+
+  <div>
+    @if (text) {
+      <label igxLabel>{{ text }}</label>
+    }
+  
+</div>
+
+  <div igxOverlayOutlet #outlet="overlay-outlet"></div>
+</div>
+```
+
+```typescript
+// dropdown.component.ts
+export class MyMenuComponent {
+  public items: Array<{ text: string }> = [
+    { text: "Add New Contact" },
+    { text: "Edit Contact" },
+    { text: "Refresh" },
+    { text: "Help" },
+  ];
+  public text: string;
+  public overlaySettings = {
+    positionStrategy: new ConnectedPositioningStrategy({
+      horizontalDirection: HorizontalAlignment.Left,
+      horizontalStartPoint: HorizontalAlignment.Right,
+      verticalStartPoint: VerticalAlignment.Bottom,
+    }),
+    scrollStrategy: new NoOpScrollStrategy(),
+  };
+
+  public selectionHandler(eventArgs: ISelectionEventArgs) {
+    this.text = eventArgs.newSelection.value;
+    eventArgs.cancel = true;
+  }
+}
+```
+
+<Sample src="/data-entries/dropdown-menu" height={240} alt="" />
+
+### Menú desplegable de varios niveles
+
+El siguiente ejemplo muestra cómo implementar un menú desplegable de varios niveles que permite al usuario navegar de forma rápida y sencilla por una jerarquía de contenido, pasando el puntero sobre una serie de menús anidados.
+
+Para implementar el menú desplegable de varios niveles usaremos <ApiLink type="DropDown" />, así como una directiva personalizada y un servicio que se describen a continuación.
+
+Para configurar <ApiLink type="DropDownItemComponent" /> de forma que abra una lista desplegable adicional, añada la directiva `multiLevel` que gestione el <ApiLink kind="interface" type="OverlaySettings" label="configuración de superposiciones" /> de la lista desplegable anidada y controle su estado abierto o cerrado mediante su propiedad `innerDropdown`.
+
+```html
+<igx-drop-down #dropdown1>
+  <igx-drop-down-item [value]="'Web'" multiLevel [innerDropdown]="web">
+    Web <igx-icon igxSuffix>chevron_right</igx-icon>
+  </igx-drop-down-item>
+  ...
+</igx-drop-down>
+
+<igx-drop-down #web>
+  <igx-drop-down-item [value]="'App Builder'"> App Builder </igx-drop-down-item>
+  ...
+</igx-drop-down>
+```
+
+Para configurar la lista desplegable de varios niveles como un menú, debe gestionar el evento <ApiLink type="DropDown" member="selectionChanging" label="selectionChanging" /> de todas las listas desplegables de la jerarquía y cancelar el comportamiento predeterminado. Después, para gestionar correctamente la selección, puede usar el método `handleSelection` de `MultiLevelService`, y para evitar que la lista desplegable se cierre al hacer clic en un elemento del menú, puede usar los métodos `handleClosing` de `MultiLevelService`.
+
+```ts
+@ViewChildren(IgxDropDownComponent, { read: IgxDropDownComponent })
+private _dropdowns: QueryList<IgxDropDownComponent>;
+
+@ViewChild('dropdown1', { read: IgxDropDownComponent })
+private _multiLevelDropdown: IgxDropDownComponent;
+
+constructor(private _multiLevelService: MultiLevelService) { }
+
+public ngAfterViewInit(): void {
+    this._dropdowns.forEach((dropdown) => {
+        dropdown.selectionChanging.subscribe((args) => {
+            args.cancel = true;
+            const value = args.newSelection.value;
+            const categories = this._multiLevelService.categories;
+
+            if (categories.includes(value)) {
+                this.selection = '';
+                return;
+            }
+
+            if (this._multiLevelService.isMultiLevel(dropdown)) {
+                this._multiLevelService.handleSelection();
+            } else {
+                dropdown.close();
+            }
+
+            this.selection = value;
+        });
+    });
+
+    this._multiLevelDropdown.closing.subscribe((args) => {
+        this._multiLevelService.handleClosing(args);
+    });
+}
+```
+
+El resultado de las configuraciones anteriores se puede ver en el ejemplo siguiente.
+
+<Sample src="/data-entries/dropdown-multi-level-menu" height={400} alt="" />
+
+<DocsAside type="info">
+Para mostrar el componente Dropdown abierto desde el principio, se recomienda establecer el método open como callback del método requestAnimationFrame. Así se garantiza que el árbol del DOM se repinte y que todos los elementos queden posicionados correctamente.
+</DocsAside>
+
+### Directiva de navegación
+
+Use la directiva <ApiLink type="DropDownItemNavigationDirective" /> para habilitar la navegación por teclado del componente `igxDropDown`. Para que la directiva gestione todos los eventos disparados, debe aplicarse al elemento activo (con el foco) o a un contenedor principal. De forma predeterminada, una lista desplegable o sus elementos no toman el foco, así que la directiva puede colocarse en un `button` o en un `input` que controle la lista desplegable. El valor de la directiva de navegación debe apuntar a un componente que sea una instancia o un descendiente de la clase <ApiLink type="DropDownBaseDirective" />.
+
+El siguiente ejemplo muestra un campo de entrada que abre y cierra la instancia de `igxDropDown` al hacer clic. Si se aplica la directiva <ApiLink type="DropDownItemNavigationDirective" /> al propio campo de entrada, se habilitará la navegación por teclado con las teclas de flecha arriba y abajo. Esto depende del comportamiento predeterminado de la lista desplegable, con la propiedad <ApiLink type="DropDown" member="allowItemsFocus" label="allowItemsFocus" /> establecida en `false` para que el campo de entrada conserve el foco.
+
+```html
+{/* input-dropdown.component.html */}
+<igx-input-group #inputGroup [igxToggleAction]="dropDown">
+  <input
+    type="text"
+    igxInput
+    [igxDropDownItemNavigation]="dropDown"
+    readonly="true"
+    placeholder="choose an option"
+    [value]="dropDown.selectedItem?.value"
+    (keydown.ArrowDown)="openDropDown()"
+  />
+
+  <igx-suffix igxIconButton="flat" igxRipple>
+    <igx-icon>arrow_drop{{ dropDown.collapsed ? '_down' : '_up' }}</igx-icon>
+  </igx-suffix>
+</igx-input-group>
+
+<span>Selected: {{ dropDown.selectedItem?.value }}</span>
+<igx-drop-down #dropDown [width]="'160px'">
+  <igx-drop-down-item *ngFor="let item of items" [value]="item.field">
+    {{ item.field }}
+  </igx-drop-down-item>
+</igx-drop-down>
+```
+
+```typescript
+// input-dropdown.component.ts
+export class InputDropDownComponent {
+  @ViewChild(IgxDropDownComponent) public igxDropDown: IgxDropDownComponent;
+  @ViewChild('inputGroup', { read: IgxInputGroupComponent })
+  public inputGroup: IgxInputGroupComponent;
+
+  public items: Array<{ field: string }> = [
+    { field: 'Option 1' },
+    { field: 'Option 2' },
+    { field: 'Option 3' },
+  ];
+
+  public openDropDown() {
+    if (this.igxDropDown.collapsed) {
+      this.igxDropDown.open({
+        modal: false,
+        positionStrategy: new ConnectedPositioningStrategy({
+          target: this.inputGroup.element.nativeElement,
+        }),
+      });
+    }
+  }
+}
+```
+
+<Sample src="/data-entries/dropdown-sample-4" height={220} alt="" />
+
+<hr/>
+
+Aplicar la directiva garantiza que, como resultado de la navegación por teclado, se ejecuten las siguientes acciones:
+
+| Nombre         | Descripción                                              |
+| :----------- | :------------------------------------------------------- |
+| `Enter`      | Seleccionar un elemento de la lista desplegable y cerrarla. |
+| `Space`      | Seleccionar un elemento de la lista desplegable y cerrarla. |
+| `Esc`        | Cerrar la lista desplegable.                                    |
+| `Arrow Down` | Pasar al siguiente elemento del componente de destino.       |
+| `Arrow Up`   | Pasar al elemento anterior del componente de destino.   |
+| `End`        | Pasar al último elemento del componente de destino.       |
+| `Home`       | Pasar al primer elemento del componente de destino.      |
+
+Cuando la propiedad <ApiLink type="DropDown" member="allowItemsFocus" label="allowItemsFocus" /> está habilitada, los elementos de la lista desplegable adquieren un índice de tabulación y reciben el foco cuando están activos. Los elementos de la lista desplegable con foco son los que disparan eventos durante la navegación por teclado, por lo que la directiva de navegación debe aplicarse a cada elemento individual de la lista desplegable.
+
+```html
+<igx-input-group [igxToggleAction]="dropDown">
+  <input igxInput type="text" />
+</igx-input-group>
+<igx-drop-down #dropDown [allowItemsFocus]="true">
+  <igx-drop-down-item *ngFor="let p of provinceData" [igxDropDownItemNavigation]="dropDown">
+    {{ p }}
+  </igx-drop-down-item>
+</igx-drop-down>
+```
+
+## Estilos
+
+### Mapa de propiedades del tema de la lista desplegable
+
+Al modificar una propiedad principal, todas las propiedades dependientes relacionadas se actualizan automáticamente:
+
+| Propiedad principal | Propiedad dependiente | Descripción |
+| --- | --- | --- |
+| **$background-color** | $item-text-color | El color del texto de los elementos de la lista desplegable. |
+|  | $hover-item-background | El color de fondo de los elementos de la lista desplegable con el puntero encima. |
+|  | $focused-item-background | El color de fondo de los elementos de la lista desplegable con foco. |
+|  | $focused-item-text-color | El color del texto de los elementos de la lista desplegable con foco. |
+|  | $selected-item-background | El color de fondo del elemento seleccionado de la lista desplegable. |
+|  | $disabled-item-text-color | El color del texto de los elementos desactivados de la lista desplegable. |
+|  | $header-text-color | El color del texto de los encabezados de la lista desplegable. |
+| **$item-text-color** | $item-icon-color | El color de los iconos de los elementos de la lista desplegable. |
+|  | $hover-item-text-color | El color del texto de los elementos de la lista desplegable con el puntero encima. |
+|  | $hover-item-icon-color | El color de los iconos de los elementos de la lista desplegable con el puntero encima. |
+| **$selected-item-background** | $selected-item-text-color | El color del texto del elemento seleccionado de la lista desplegable. |
+|  | $selected-item-icon-color | El color del icono del elemento seleccionado de la lista desplegable. |
+|  | $selected-hover-item-background | El color de fondo del elemento seleccionado de la lista desplegable con el puntero encima. |
+|  | $selected-hover-item-text-color | El color del texto del elemento seleccionado de la lista desplegable con el puntero encima. |
+|  | $selected-hover-item-icon-color | El color del icono del elemento seleccionado de la lista desplegable con el puntero encima. |
+|  | $selected-focus-item-background | El color de fondo con foco del elemento seleccionado de la lista desplegable. |
+|  | $selected-focus-item-text-color | El color del texto con foco del elemento seleccionado de la lista desplegable. |
+|  | $focused-item-border-color | El color del borde con foco de los elementos de la lista desplegable. |
+
+Con [Ignite UI for Angular Theming](/themes) podemos cambiar en gran medida el aspecto de la lista desplegable. En primer lugar, para usar las funciones que expone el motor de temas, tenemos que importar el archivo `index` en nuestro archivo de estilos:
+
+```scss
+@use "igniteui-angular/theming" as *;
+
+// IMPORTANT: Prior to Ignite UI for Angular version 13 use:
+// @import '~igniteui-angular/lib/core/styles/themes/index';
+```
+
+Siguiendo el enfoque más sencillo, creamos un tema nuevo que extiende <ApiLink kind="sass" module="themes" type="function-drop-down-theme" label="drop-down-theme" code={true} /> y acepta algunos de los parámetros del tema predeterminado. Cuando se proporciona un color de fondo concreto, el tema calcula automáticamente los colores de estado y los colores de primer plano con el contraste adecuado. Al establecer la propiedad `$background`, obtendrá una lista desplegable con el estilo completo.
+
+```scss
+$custom-drop-down-theme: drop-down-theme(
+  $header-text-color: #345779,
+  $item-text-color: #2dabe8,
+  $hover-item-text-color: #345779,
+  $selected-item-background: #345779,
+);
+```
+
+El último paso es pasar el tema personalizado de la lista desplegable:
+
+```scss
+:host {
+  @include tokens($custom-drop-down-theme);
+}
+```
+
+### Demostración
+
+<Sample src="/data-entries/dropdown-styling" height={350} alt="" />
+
+<hr/>
+
+## Referencias de API
+- <ApiLink type="DropDown" />
+- <ApiLink kind="sass" module="themes" type="function-drop-down-theme" label="Estilos de IgxDropDownComponent" />
+- <ApiLink type="DropDownItem" />.
+- <ApiLink kind="interface" type="OverlaySettings" />
+- <ApiLink kind="sass" module="themes" type="function-overlay-theme" label="Estilos de IgxOverlay" />
+- <ApiLink type="Divider" />
+- <ApiLink kind="sass" module="themes" type="function-divider-theme" label="Estilos de IgxDividerComponent" />
+## Dependencias de temas
+
+- <ApiLink kind="sass" module="themes" type="function-overlay-theme" label="Tema de IgxOverlay" />
+
+## Recursos adicionales
+
+Nuestra comunidad está activa y siempre da la bienvenida a nuevas ideas.
+
+- [Ignite UI for Angular **Foros**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

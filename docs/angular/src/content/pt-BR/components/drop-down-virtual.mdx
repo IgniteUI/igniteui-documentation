@@ -1,0 +1,258 @@
+---
+title: "Componente Angular Drop Down – Ignite UI for Angular | Infragistics | Licença MIT"
+description: "Use o Virtualized Drop Down do Ignite UI for Angular para exibir uma lista muito grande de itens, com suporte à seleção de um único item."
+keywords: "Ignite UI for Angular, controles de UI, widgets Angular, widgets web, widgets de UI, Angular, Native Angular Components Suite, Native Angular Controls, Native Angular Components Library, componentes Drop Down do Angular, controles Drop Down do Angular, lista grande de itens de controle Angular, seleção única de controle Angular"
+license: MIT
+_language: pt-BR
+llms:
+  description: "O componente Ignite UI for Angular Drop Down pode hospedar o componente Virtual Scroll para exibir uma lista muito grande de itens para seleção."
+---
+
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+# Virtual Drop Down
+
+O componente Ignite UI for Angular Drop Down pode hospedar o componente [Virtual Scroll](./layouts/virtual-scroll.mdx) para exibir uma lista muito grande de itens para seleção. Somente os itens dentro da janela de visualização da lista suspensa são renderizados, enquanto a seleção e a navegação pelo teclado funcionam sobre a lista inteira.
+
+## Exemplo de Angular Virtual Drop Down
+
+<Sample src="/data-entries/dropdown-virtual" height={320} alt="Exemplo de Angular Virtual Drop Down" />
+
+## Uso
+
+### Primeiros passos
+
+Importe a lista suspensa junto com o <ApiLink type="VirtualScroll" /> e o `IgxVirtualItemDirective`, que marca o template de um item da lista:
+
+```typescript
+// drop-down-virtual.component.ts
+import { Component } from '@angular/core';
+import { IgxButtonDirective, IgxToggleActionDirective } from 'igniteui-angular/directives';
+import { IgxDropDownComponent, IgxDropDownItemComponent, IgxDropDownItemNavigationDirective } from 'igniteui-angular/drop-down';
+import { IgxVirtualItemDirective, IgxVirtualScrollComponent } from 'igniteui-angular/virtual-scroll';
+// import { IgxVirtualItemDirective, IgxVirtualScrollComponent } from '@infragistics/igniteui-angular'; for licensed package
+
+@Component({
+    selector: 'app-drop-down-virtual',
+    templateUrl: './drop-down-virtual.component.html',
+    styleUrls: ['./drop-down-virtual.component.scss'],
+    imports: [
+        IgxButtonDirective, IgxToggleActionDirective, IgxDropDownItemNavigationDirective,
+        IgxDropDownComponent, IgxDropDownItemComponent,
+        IgxVirtualScrollComponent, IgxVirtualItemDirective
+    ]
+})
+export class DropDownVirtualComponent { }
+```
+
+### Configuração do template
+
+Em seguida, coloque um `igx-virtual-scroll` dentro da lista suspensa e renderize cada item com um `ng-template` marcado com `igxVirtualItem`. A lista suspensa detecta o virtual scroll projetado e o usa para rolagem, navegação pelo teclado e seleção:
+
+```html
+<!-- drop-down-virtual.component.html -->
+<button igxButton [igxToggleAction]="dropdown" [igxDropDownItemNavigation]="dropdown">
+    Item Series
+</button>
+<igx-drop-down #dropdown>
+    <igx-virtual-scroll class="drop-down-virtual-wrapper" [data]="items" [estimatedItemSize]="itemHeight">
+        <ng-template igxVirtualItem let-item let-index="index">
+            <igx-drop-down-item [value]="item" [isHeader]="item.header" [disabled]="item.disabled" [index]="index">
+                {{ item.name }}
+            </igx-drop-down-item>
+        </ng-template>
+    </igx-virtual-scroll>
+</igx-drop-down>
+<div>Selected Model: <span>{{ dropdown.selectedItem?.value.name }}</span></div>
+```
+
+As entradas de `igx-virtual-scroll` usadas aqui são:
+
+- `data` - a lista inteira de itens. Ela é comparada por referência; por isso, atribua um novo array para alterá-la.
+- `estimatedItemSize` - a altura de um item (em `px`) antes de ele ser renderizado e medido. Defina-a como a altura real dos itens da lista suspensa, para que a barra de rolagem e a navegação pelo teclado fiquem precisas desde o início.
+
+Para garantir a unicidade dos itens, passe `item` dentro da entrada <ApiLink type="DropDownItemComponent" member="value" label="value" /> e `index` dentro da entrada <ApiLink type="DropDownItemComponent" member="index" label="index" /> de `igx-drop-down-item`.
+Para preservar a seleção durante a rolagem, o item da lista suspensa precisa ter uma referência aos itens de dados aos quais está vinculado.
+
+<DocsAside type="info">
+Para que a lista suspensa funcione com uma lista virtualizada de itens, as entradas <ApiLink type="DropDownItemComponent" member="value" label="value" /> e <ApiLink type="DropDownItemComponent" member="index" label="index" /> **devem** ser passadas para todos os itens.
+</DocsAside>
+<DocsAside type="info">
+É altamente recomendável que cada item tenha um valor único passado para a entrada `[value]`. Caso contrário, isso pode levar a resultados inesperados (seleção incorreta).
+</DocsAside>
+<DocsAside type="info">
+Quando a lista suspensa usa itens virtualizados, o tipo de <ApiLink type="DropDown" member="selecteditem" label="dropdown.selectedItem" /> passa a ser `{ value: any, index: number }`, em que `value` é uma referência ao item de dados passado dentro da entrada `[value]`, e `index` é o índice do item no conjunto de dados
+</DocsAside>
+
+### Definição do componente
+
+Dentro do componente, declare uma lista de tamanho moderadamente grande (contendo cabeçalhos e itens desabilitados), que será exibida na lista suspensa, e a altura de um item:
+
+```typescript
+// drop-down-virtual.component.ts
+export class DropDownVirtualComponent {
+  public items: DataItem[];
+  public itemHeight = 40;
+
+  constructor() {
+    const itemsCollection: DataItem[] = [];
+    for (let i = 0; i < 50; i++) {
+        const series = (i * 10).toString();
+        itemsCollection.push({
+            id: series,
+            name: `${series} Series`,
+            header: true,
+            disabled: false
+        });
+        for (let j = 0; j < 10; j++) {
+            itemsCollection.push({
+                id: `${series}_${j}`,
+                name: `Series ${series}, ${i * 10 + j} Model`,
+                header: false,
+                disabled: j % 9 === 0
+            });
+        }
+    }
+    this.items = itemsCollection;
+  }
+}
+```
+
+### Estilos
+
+O elemento `igx-virtual-scroll` é o contêiner de rolagem da lista; por isso, ele precisa de uma altura fixa. Não é necessário um elemento de invólucro nem uma regra `overflow`:
+
+```scss
+// drop-down-virtual.component.scss
+.drop-down-virtual-wrapper {
+    height: 240px;
+    width: 180px;
+}
+```
+
+## Dados remotos
+
+O `igx-drop-down` também oferece suporte ao carregamento de páginas de dados remotos. Vincule a entrada <ApiLink type="VirtualScroll" member="dataWindow" label="dataWindow" /> do virtual scroll à página carregada e carregue a próxima página do intervalo que a saída <ApiLink type="VirtualScroll" member="stateChange" label="stateChange" /> informar. A lista tem o tamanho de toda a coleção remota, então a barra de rolagem abrange todos os itens, enquanto apenas a página carregada fica na memória.
+
+### Template
+
+O template difere do exemplo anterior apenas na vinculação de dados: `dataWindow` ocupa o lugar de `data`, e `stateChange` solicita as páginas. A variável de template `index` é o índice do item em toda a coleção remota:
+
+```html
+<igx-drop-down #remoteDropDown>
+    <igx-virtual-scroll
+        class="drop-down-virtual-wrapper"
+        [dataWindow]="page()"
+        [estimatedItemSize]="itemHeight"
+        (stateChange)="onStateChange($event)">
+        <ng-template igxVirtualItem let-item let-index="index">
+            <igx-drop-down-item [value]="item.ProductName" [index]="index">
+                {{ item.ProductName }}
+            </igx-drop-down-item>
+        </ng-template>
+    </igx-virtual-scroll>
+</igx-drop-down>
+```
+
+### Carregando páginas
+
+Primeiro, defina um serviço remoto que retorne uma página da coleção junto com o número total de registros:
+
+```typescript
+// remote.service.ts
+import { HttpClient } from '@angular/common/http';
+import { Injectable, inject } from '@angular/core';
+import { Observable } from 'rxjs';
+
+@Injectable()
+export class RemoteService {
+    private http = inject(HttpClient);
+
+    // Assuming that the API service is RESTful and can take the following:
+    // skip: start index of the data that we fetch
+    // count: number of records we fetch
+    public getPage(skip: number, count: number): Observable<{ value: any[]; '@odata.count': number }> {
+        return this.http.get<{ value: any[]; '@odata.count': number }>(
+            `https://dummy.db/dummyEndpoint?$skip=${skip}&$top=${count}&$count=true`
+        );
+    }
+}
+```
+
+No componente, mantenha a página carregada em um signal do tipo `VirtualDataWindow`. Carregue a primeira página na inicialização, e uma nova sempre que `stateChange` informar um intervalo que a página carregada não cubra. Cancele a requisição anterior, para que uma resposta lenta não substitua uma página mais recente:
+
+```typescript
+// drop-down-remote.component.ts
+import { Component, OnDestroy, OnInit, inject, signal } from '@angular/core';
+import { VirtualDataWindow, VirtualScrollState } from 'igniteui-angular/virtual-scroll';
+import { Subscription } from 'rxjs';
+
+/** Extra records requested on each side of the range the viewport wants. */
+const BUFFER = 10;
+
+@Component({
+    providers: [RemoteService],
+    selector: 'app-drop-down-remote',
+    templateUrl: './drop-down-remote.component.html',
+    styleUrls: ['./drop-down-remote.component.scss'],
+    imports: [/* the same imports as in the local example */]
+})
+export class DropDownRemoteComponent implements OnInit, OnDestroy {
+    private remoteService = inject(RemoteService);
+    public itemHeight = 40;
+    public readonly page = signal<VirtualDataWindow<any>>({ items: [], startIndex: 0, totalCount: 0 });
+    private pending?: Subscription;
+
+    public ngOnInit() {
+        this.loadPage(0, 2 * BUFFER);
+    }
+
+    public onStateChange(state: VirtualScrollState) {
+        const page = this.page();
+        if (state.startIndex >= page.startIndex && state.endIndex < page.startIndex + page.items.length) {
+            return; // The loaded page already covers the range.
+        }
+        const startIndex = Math.max(0, state.startIndex - BUFFER);
+        this.loadPage(startIndex, state.endIndex - startIndex + 1 + BUFFER);
+    }
+
+    public ngOnDestroy() {
+        this.pending?.unsubscribe();
+    }
+
+    private loadPage(startIndex: number, count: number) {
+        this.pending?.unsubscribe();
+        this.pending = this.remoteService.getPage(startIndex, count).subscribe(data => {
+            this.page.set({ items: data.value, startIndex, totalCount: data['@odata.count'] });
+        });
+    }
+}
+```
+
+Quando a lista suspensa navega até um item que ainda não foi carregado, por exemplo, com a tecla `End`, o virtual scroll rola até ele, `stateChange` informa o novo intervalo, e a página que contém o item é carregada.
+
+### Virtualização remota - Demonstração
+
+O resultado da configuração acima é uma lista suspensa que carrega dinamicamente os dados que deve exibir, conforme o estado da barra de rolagem:
+
+<Sample src="/data-entries/dropdown-remote" height={400} alt="Angular Virtual Drop Down com dados remotos" />
+
+## Observações e limitações
+
+Usar a lista suspensa com uma lista virtualizada de itens impõe algumas limitações. Esteja atento aos seguintes pontos ao configurar uma lista suspensa com `igx-virtual-scroll`:
+
+- O elemento `igx-virtual-scroll` precisa ter uma `height` fixa, porque é o contêiner de rolagem da lista.
+- `<igx-drop-down-item-group>` não pode ser usado para agrupar itens quando a lista é virtualizada. Use a propriedade `isHeader` em vez disso
+- O acessor `items` retorna apenas a lista de itens da lista suspensa, sem os cabeçalhos, que estão atualmente na visualização virtualizada.
+- <ApiLink type="DropDown" member="selectedItem" label="dropdown.selectedItem" /> é do tipo `{ value: any, index: number }`
+- O objeto emitido por <ApiLink type="DropDown" member="selectionChanging" label="selectionChanging" /> muda para `const emittedEvent: { newSelection: { value: any, index: number }, oldSelection: { value: any, index: number }, cancel: boolean, }`
+- `dropdown.setSelectedItem` deve ser chamado com o **índice do item no conjunto de dados**
+- definir a entrada `[selected]` do item da lista suspensa **não** marca o item na seleção da lista suspensa
+
+A lista suspensa também funciona com a diretiva [`*igxFor`](./for-of.mdx) projetada, como nas versões anteriores. A diretiva está obsoleta em favor do Virtual Scroll, então use `igx-virtual-scroll` para novas listas suspensas.
+
+## Referências da API
+- <ApiLink type="VirtualScroll" />
+- <ApiLink type="DropDown" />

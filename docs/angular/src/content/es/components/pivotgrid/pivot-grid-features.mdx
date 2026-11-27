@@ -1,0 +1,226 @@
+---
+title: "Funciones de Angular Pivot Grid | Tablas dinámicas | Infragistics"
+description: "Cree cuadrículas y tablas dinámicas de Angular rápidas y responsivas con Ignite UI for Angular. Realice análisis de datos complejos mediante datos dinámicos."
+keywords: "angular pivot grid, Angular pivot table, ignite ui for angular, funciones de pivot grid, funciones de pivot"
+license: commercial
+_language: es
+llms:
+  description: "Las clases de componente de cuadrícula dinámica y de cuadrícula plana heredan de una base común y, por tanto, comparten parte de la funcionalidad y las funciones."
+---
+
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+
+
+# Funciones de Angular Pivot Grid
+
+Las clases de componente de cuadrícula dinámica y de cuadrícula plana heredan de una base común y, por tanto, comparten parte de la funcionalidad y las funciones.
+
+<DocsAside type="info">
+Algunas funciones no tienen un comportamiento útil en el contexto de una tabla dinámica y, por tanto, no pueden habilitarse para `IgxPivotGrid`. Entre ellas están:
+
+- Operaciones CRUD
+- Agrupación
+- Anclaje de filas/columnas
+- Resúmenes
+- Paginación
+</DocsAside>
+
+El componente Pivot Grid tiene funciones y capacidades adicionales relacionadas con sus dimensiones, según se describe a continuación.
+
+<Sample src="/pivot-grid/pivot-grid-features" height={870} alt="Ejemplo de Angular Pivot Grid con selector de pivot" />
+
+## Filtrado de dimensiones
+
+Todas las dimensiones (filtros, filas, columnas) pueden filtrarse mediante la interfaz de chips o la API. Esta funcionalidad está integrada y habilitada de forma predeterminada.
+
+<DocsAside type="info">
+Puede usar la dimensión de filtrado para excluir valores de datos que no forman parte de la vista dinámica.
+</DocsAside>
+
+La interfaz de filtrado puede abrirse mediante el icono de filtro del chip de la dimensión y permite el filtrado al estilo Excel de los valores únicos de la dimensión.
+
+<DocsAside type="info">
+Si no hay espacio suficiente para todos los chips de filtrado, la cuadrícula dinámica mostrará en un menú desplegable los que han quedado ocultos. Los usuarios finales pueden acceder a ellos y manipularlos allí.
+</DocsAside>
+
+Las dimensiones también pueden filtrarse inicialmente mediante la configuración de dimensiones en `pivotConfiguration`, con la propiedad `filter` de la dimensión.
+Puede establecerse en un `FilteringExpressionsTree` nuevo con la condición de filtro correspondiente, por ejemplo:
+
+```typescript
+public filterExpTree = new FilteringExpressionsTree(FilteringLogic.And);
+
+constructor() {
+    this.filterExpTree.filteringOperands = [
+        {
+            condition: IgxStringFilteringOperand.instance().condition('equals'),
+            fieldName: 'SellerName',
+            searchVal: 'Stanley'
+        }
+    ];
+}
+
+public pivotConfigHierarchy: IPivotConfiguration = {
+    filters: [
+        {
+            memberName: 'SellerName',
+            enabled: true,
+            filter: this.filterExpTree
+        }
+    ]
+}
+```
+
+## Ordenación de dimensiones
+
+Los valores de dimensión de `rows` o `columns` pueden ordenarse mediante el chip correspondiente o la API. Esta funcionalidad está integrada y habilitada de forma predeterminada.
+
+La dimensión se ordena al hacer clic en el chip correspondiente, y como resultado los valores de la dimensión se ordenan en sentido ascendente o descendente.
+
+La ordenación también puede aplicarse inicialmente mediante la propiedad `sortDirection` de la definición de la dimensión.
+
+```typescript
+public pivotConfigHierarchy: IPivotConfiguration = {
+    rows: [
+        {
+            memberName: 'SellerName',
+            enabled: true,
+            sortDirection: SortingDirection.Asc
+        }
+    ]
+}
+```
+
+## Redimensionado de dimensiones
+
+Las dimensiones de fila pueden redimensionarse de forma similar al redimensionado de columnas, mediante un indicador de redimensionado situado en el borde derecho de las celdas.
+También pueden ajustarse automáticamente de tamaño haciendo doble clic en el indicador de redimensionado, o usando la API correspondiente: `autoSizeRowDimension`.
+
+También puede establecerse inicialmente un tamaño distinto con la propiedad `width` disponible en la definición de la dimensión:
+
+```typescript
+public pivotConfigHierarchy: IPivotConfiguration = {
+    rows: [
+        {
+            memberName: 'Country',
+            enabled: true,
+            width: '400px'
+        }
+    ]
+}
+```
+
+<DocsAside type="info">
+A partir de la versión `18.0.0` de IgniteUI for Angular, el `width` de las dimensiones de fila también puede establecerse en `auto`.
+</DocsAside>
+
+## Selección de dimensiones
+
+Pivot Grid admite la selección única, que se habilita igual que en la cuadrícula base. Por ejemplo:
+
+```html
+<igx-pivot-grid #grid1 [rowSelection]="'single'" [data]="data" [pivotConfiguration]="pivotConfigHierarchy">
+</igx-pivot-grid>
+```
+
+Si hay varias dimensiones de fila o de columna que crean grupos que abarcan varias filas o columnas, la selección se aplica a todas las celdas que pertenecen al grupo seleccionado.
+
+## Modo supercompacto
+
+El componente `IgxPivotGrid` ofrece un `superCompactMode` `@Input`. Es adecuado para los casos que requieren que haya muchas celdas en pantalla a la vez. Si se habilita, la opción ignora la variable `ig-size` de la cuadrícula dinámica. Habilitar `superCompactMode` también establece la variable `ig-size` en `ig-size-small` para cada componente hijo (como `IgxChip`) que no tenga la opción `superCompactMode`.
+
+```html
+<igx-pivot-grid [superCompactMode]="true"></igx-pivot-grid>
+```
+
+## Columna de resumen adicional
+
+Cuando una dimensión `column` define una jerarquía, la cuadrícula dinámica renderiza una columna adicional de resumen o total, que acumula las agregaciones de todas las columnas del grupo. Cuando el grupo está contraído, solo permanece la columna de resumen. Y cuando el grupo está expandido, la columna de resumen adicional aparece al final del grupo.
+
+## Encabezados de dimensiones de fila
+
+A partir de la versión `18.0.0` de IgniteUI for Angular, los encabezados de los valores de las dimensiones de fila pueden habilitarse mediante la opción `pivotUI`:
+
+```html
+<igx-pivot-grid [pivotUI]="{ showRowHeaders: true }">
+</igx-pivot-grid>
+```
+
+## Disposición de las dimensiones de fila
+
+`IgxPivotGridComponent` admite dos formas de renderizar las dimensiones de fila. Esto puede controlarse estableciendo la propiedad `rowLayout` de la opción `pivotUI`.
+
+```html
+  <igx-pivot-grid [pivotUI]="pivotUI">
+  </igx-pivot-grid>
+```
+
+```typescript
+public pivotUI: IPivotUISettings = { rowLayout: PivotRowLayoutType.Horizontal };
+```
+
+La disposición predeterminada de la cuadrícula es `Vertical`. En este modo, la jerarquía de dimensiones se expande verticalmente. La alternativa es `Horizontal`. En este modo, los hijos de una única dimensión de fila, cuando se expanden, se muestran horizontalmente dentro de la misma disposición de varias filas padre. En el siguiente ejemplo puede alternar entre los dos modos para compararlos.
+
+Tenga en cuenta que, en el modo `Horizontal`, los agregados de la dimensión de fila padre no son visibles salvo que la fila padre esté contraída.
+Para mostrar la dimensión padre en un resumen de fila, puede habilitarse la propiedad `horizontalSummary` para la dimensión correspondiente.
+
+```ts
+rows: [
+    {
+        memberFunction: () => 'All Products',
+        memberName: 'AllProducts',
+        enabled: true,
+        horizontalSummary: true,
+        width: "150px",
+        childLevel: {
+            //...
+        }
+    }
+]
+```
+
+Además, la posición del resumen puede cambiarse mediante la propiedad `horizontalSummariesPosition` de la opción `pivotUI`. Puede establecerse en `Top` (predeterminado) o en `Bottom`.
+
+```ts
+public pivotUI: IPivotUISettings = { rowLayout: PivotRowLayoutType.Horizontal, horizontalSummariesPosition: PivotSummaryPosition.Bottom };
+```
+
+<DocsAside type="info">
+Las opciones relacionadas con el resumen de fila, `horizontalSummary` y `horizontalSummariesPosition`, solo son aplicables al modo de disposición `Horizontal`.
+</DocsAside>
+
+<Sample src="/pivot-grid/pivot-grid-layout" height={870} alt="Angular Pivot Grid con disposición horizontal de dimensiones de fila" />
+
+## Interacciones
+
+### Navegación por teclado
+
+La navegación por teclado en `IgxPivotGrid` funciona de forma similar a la de `IgxGrid`. La cuadrícula dinámica se divide en tres áreas: `rows`, `columns` y `values`. Las áreas de `rows` y `columns` se consideran encabezados a efectos de navegación, mientras que el área de `values` es el cuerpo.
+Las flechas del teclado permiten desplazarse por el elemento activo solo dentro del área actual.
+
+### Arrastrar y soltar dimensiones
+
+Las dimensiones se representan mediante chips, que pueden arrastrarse y soltarse.
+Todos los chips pueden cambiar su orden dentro de su área mediante arrastrar y soltar.
+Los chips de `rows`, `column` y `filter` (chips de dimensión) pueden moverse desde cualquiera de esas áreas a cualquier otra y en cualquier posición.
+Los chips de estas áreas no pueden moverse al área `values`, y los chips del área `values` no pueden moverse a ninguna de las áreas de dimensión.
+
+<DocsAside type="info">
+Los chips de Pivot Grid no pueden moverse al Pivot Data Selector, y los elementos del Pivot Data Selector no pueden moverse a Pivot Grid.
+</DocsAside>
+
+## Referencias de API
+- <ApiLink type="PivotGrid" />
+- <ApiLink type="PivotDataSelector" />
+## Recursos adicionales
+
+
+- [Descripción general de Angular Pivot Grid](/pivotgrid/pivot-grid)
+- [Agregaciones personalizadas de Angular Pivot Grid](/pivotgrid/pivot-grid-custom)
+
+Nuestra comunidad está activa y siempre da la bienvenida a nuevas ideas.
+
+- [Ignite UI for Angular **Foros**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

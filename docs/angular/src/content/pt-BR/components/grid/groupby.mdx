@@ -1,0 +1,511 @@
+---
+title: "Angular Grid Group By | Agrupar por vários campos | Infragistics"
+description: "Configure o agrupamento no Angular, que permite visualizar registros de dados em uma tabela Angular e visualizar os dados agrupados em um grupo de colunas separado e prático."
+keywords: angular group by, igniteui for angular, infragistics
+license: commercial
+_language: pt-BR
+llms:
+  description: "Um comportamento de Agrupar por em uma Tabela ou Grade de UI do Ignite UI for Angular cria linhas de dados agrupadas com base nos valores das colunas."
+---
+
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+
+
+# Agrupamento no Angular Grid
+
+Um comportamento de Agrupar por em uma Tabela ou Grade de UI do Ignite UI for Angular cria linhas de dados agrupadas com base nos valores das colunas. O Agrupar por em <ApiLink type="Grid" /> permite visualizar os grupos em uma estrutura hierárquica. As linhas de dados agrupadas podem ser expandidas ou recolhidas, e a ordem de agrupamento pode ser alterada pela UI ou pela API. Quando a seleção de linhas está habilitada, um seletor de linha de grupo é renderizado na área mais à esquerda da linha do grupo. Se a propriedade <ApiLink type="Grid" member="rowSelection" /> for definida como single, as caixas de seleção ficam desabilitadas e servem apenas como indicação do grupo em que a seleção está. Se a propriedade <ApiLink type="Grid" member="rowSelection" /> for definida como multiple, clicar no seletor de linha de grupo seleciona todos os registros pertencentes a esse grupo.
+
+## Exemplo de Angular Grid Group By
+
+Este exemplo apresenta os recursos de agrupamento de uma grande quantidade de dados. Arrastar os cabeçalhos das colunas para o topo (área de agrupamento) permite que os usuários vejam os dados da coluna selecionada em uma estrutura hierárquica. Eles podem agrupar por vários campos arrastando mais cabeçalhos de colunas para o topo. Essas opções de agrupamento são úteis quando você tem tabelas com muitas linhas e colunas e os usuários querem apresentar os dados de forma muito mais rápida e visualmente agradável.
+
+
+<Sample src="/grid/grid-groupby" height={605} alt="Exemplo de Angular Grid Group By" />
+
+
+## Estado inicial de agrupamento
+
+É possível definir um agrupamento inicial da grade atribuindo um array de expressões à propriedade <ApiLink type="Grid" member="groupingExpressions" /> da grade.
+
+```typescript
+public ngOnInit() {
+    grid.groupingExpressions = [
+        { fieldName: 'ProductName', dir: SortingDirection.Desc },
+        { fieldName: 'Released', dir: SortingDirection.Desc }
+    ];
+}
+```
+
+As expressões de agrupamento implementam a interface <ApiLink kind="interface" type="ISortingExpression" />.
+
+## API de Agrupar por
+
+### API de agrupamento
+
+O agrupamento está disponível pela UI e por uma API robusta exposta pelo componente de grade. Os desenvolvedores podem permitir que os usuários finais agrupem os dados da grade por determinadas colunas, definindo a propriedade <ApiLink type="Column" member="groupable" /> de cada coluna como `true`.
+
+```html
+<igx-grid [data]="data">
+    <igx-column *ngFor="let c of columns" [field]="c.field" [groupable]="true">
+    </igx-column>
+</igx-grid>
+```
+
+```typescript
+public ngOnInit() {
+    grid.columns.forEach((column) => {
+        column.groupable = true;
+    });
+}
+```
+
+Durante a execução, as expressões podem ser obtidas e definidas pela propriedade <ApiLink type="Grid" member="groupingExpressions" />. Se precisar adicionar ou alterar uma expressão existente, você também pode usar o método <ApiLink type="Grid" member="groupby" /> com uma única <ApiLink kind="interface" type="ISortingExpression" /> ou um array delas.
+
+```typescript
+grid.groupBy({ fieldName: 'ProductName', dir: SortingDirection.Desc, ignoreCase: true });
+```
+
+<DocsAside type="info">
+Até agora, agrupamento e ordenação funcionavam em conjunto. Na versão 13.2, foi introduzido um novo comportamento que desacopla o agrupamento da ordenação. Por exemplo, limpar o agrupamento não limpará as expressões de ordenação da grade, e vice-versa. Ainda assim, se uma coluna estiver ordenada e agrupada ao mesmo tempo, as expressões de agrupamento têm precedência.
+</DocsAside>
+
+### API de expandir/recolher
+
+Além das expressões de agrupamento, você também pode controlar os estados de expansão das linhas de grupo. Eles são armazenados em uma propriedade separada do componente <ApiLink type="Grid" />, <ApiLink type="Grid" member="groupingExpansionState" />. Uma linha de grupo é identificada de forma única com base no nome do campo para o qual foi criada e no valor que representa em cada nível de agrupamento. Isso significa que a assinatura de uma interface de estado de expansão é a seguinte:
+
+```typescript
+export interface IGroupByKey {
+    fieldName: string;
+    value: any;
+}
+
+export interface IGroupByExpandState {
+    hierarchy: Array<IGroupByKey>;
+    expanded: boolean;
+}
+```
+
+Assim como em <ApiLink type="Grid" member="groupingExpressions" />, definir uma lista de <ApiLink kind="interface" type="IGroupByExpandState" /> diretamente em <ApiLink type="Grid" member="groupingExpansionState" /> alterará a expansão de acordo. Além disso, <ApiLink type="Grid" /> expõe um método que alterna um grupo pela instância do registro do grupo.
+
+```typescript
+    const groupRow = this.grid.groupsRecords.find(r => r.value === "France");
+    const groupRow = this.grid.getRowByIndex(0).groupRow;
+    grid.toggleGroup(groupRow);
+    groupRow.expanded = false;
+```
+
+Os grupos podem ser criados expandidos (_**padrão**_) ou recolhidos, e os estados de expansão geralmente conterão apenas o estado oposto ao comportamento padrão. Você pode controlar se os grupos devem ser criados expandidos ou não pela propriedade <ApiLink type="Grid" member="groupsExpanded" />.
+
+### API para selecionar/desmarcar todas as linhas de um grupo
+
+Selecionar/desmarcar todas as linhas de um grupo está disponível pelos métodos de API <ApiLink type="Grid" member="selectRowsInGroup" /> e <ApiLink type="Grid" member="deselectRowsInGroup" />.
+
+O trecho de código abaixo pode ser usado para selecionar todas as linhas de um grupo, usando o método <ApiLink type="Grid" member="selectRowsInGroup" /> da instância do registro do grupo. Além disso, o segundo parâmetro desse método é uma propriedade booleana, com a qual você pode escolher se a seleção de linhas anterior será limpa ou não. A seleção anterior é preservada por padrão.
+
+```typescript
+    const groupRow = this.grid.groupsRecords.find(r => r.value === "France");
+    const groupRow = this.grid.getRowByIndex(0).groupRow;
+    grid.selectRowsInGroup(groupRow);
+```
+
+Se precisar desmarcar todas as linhas de um grupo programaticamente, você pode usar o método <ApiLink type="Grid" member="deselectRowsInGroup" />.
+
+```typescript
+    const groupRow = this.grid.groupsRecords.find(r => r.value === "France");
+    const groupRow = this.grid.getRowByIndex(0).groupRow;
+    grid.deselectRowsInGroup(groupRow);
+```
+
+## Templates
+
+### Templates de linha de grupo
+
+A linha de grupo, com exceção da UI de expandir/recolher, é totalmente transformável em template. Por padrão, ela renderiza um ícone de agrupamento e exibe o nome do campo e o valor que representa. O registro de agrupamento em que o template é renderizado tem a seguinte assinatura:
+
+```typescript
+export interface IGroupByRecord {
+    expression: ISortingExpression;
+    level: number;
+    records: GroupedRecords;
+    value: any;
+    groupParent: IGroupByRecord;
+    groups?: IGroupByRecord[];
+}
+```
+
+Como exemplo, o template a seguir tornaria o resumo das linhas de grupo mais detalhado:
+
+```html
+<ng-template igxGroupByRow let-groupRow>
+    <span>Total items with value: {{ groupRow.value }} are {{ groupRow.records.length }}</span>
+</ng-template>
+```
+
+### Templates do seletor de linha de grupo
+
+Como mencionado acima, a linha de grupo, com exceção da UI de expandir/recolher, é totalmente transformável em template. Para criar um template personalizado do seletor de linha de grupo dentro da grade, declare um `<ng-template>` com a diretiva `igxGroupByRowSelector`. A partir do template, você pode acessar a variável de contexto fornecida implicitamente, com propriedades que informam o estado da linha de Agrupar por.
+
+A propriedade `selectedCount` mostra quantos dos registros do grupo estão selecionados no momento, enquanto `totalCount` mostra quantos registros pertencem ao grupo.
+
+```html
+<ng-template igxGroupByRowSelector let-groupByRowContext>
+    {{ groupByRowContext.selectedCount }} / {{ groupByRowContext.totalCount  }}
+</ng-template>
+```
+
+A propriedade `groupRow` retorna uma referência à linha do grupo.
+
+```html
+<ng-template igxGroupByRowSelector let-groupByRowContext>
+    <div (click)="handleGroupByRowSelectorClick($event, groupByRowContext.groupRow)">Handle groupRow</div>
+</ng-template>
+```
+
+As propriedades `selectedCount` e `totalCount` podem ser usadas para determinar se o seletor de linha de Agrupar por deve estar marcado ou indeterminado (parcialmente selecionado).
+
+```html
+<igx-grid #grid [data]="gridData" primaryKey="ProductID" rowSelection="multiple">
+    <!-- ... -->
+    <ng-template igxGroupByRowSelector let-context>
+        <igx-checkbox
+            [checked]=" context.selectedCount > 0 && context.selectedCount === context.totalCount"
+            [indeterminate]="context.selectedCount > 0 && context.selectedCount !== context.totalCount">
+        </igx-checkbox>
+    </ng-template>
+</igx-grid>
+```
+
+## Angular Grid Group By com paginação
+
+As linhas de grupo participam do processo de paginação junto com as linhas de dados. Elas contam para o tamanho da página em cada página. As linhas recolhidas não são incluídas no processo de paginação. Qualquer operação de expandir ou recolher força a Paginação a recalcular o número de páginas e ajustar o índice da página, se necessário.
+Grupos que abrangem várias páginas são divididos entre elas. A linha do grupo fica visível somente na página em que começa e não se repete nas páginas seguintes. As informações de resumo das linhas de grupo são calculadas com base no grupo inteiro e não são afetadas pela Paginação.
+
+### Exemplo de agrupamento com paginação no Angular
+
+
+<Sample src="/grid/grid-groupby-paging" height={605} alt="Exemplo de agrupamento com paginação em grade Angular" />
+
+
+## Agrupar por com resumos
+
+A integração entre Agrupar por e Resumos é descrita no tópico [Resumos](/grid/summaries#resumos-com-group-by).
+
+## Navegação pelo teclado
+
+A UI de agrupamento oferece suporte às seguintes interações pelo teclado:
+
+- Para linhas de grupo (o foco deve estar na linha ou na célula de expandir/recolher)
+  - <kbd>ALT</kbd> + <kbd>RIGHT</kbd> - expande o grupo
+  - <kbd>ALT</kbd> + <kbd>LEFT</kbd> - recolhe o grupo
+  - <kbd>SPACE</kbd> - seleciona todas as linhas do grupo, se a propriedade <kbd>rowSelection</kbd> estiver definida como multiple
+
+- Para componentes <ApiLink type="Chip" /> de grupo na área de Agrupar por (o foco deve estar no chip)
+  - <kbd>SHIFT</kbd> + <kbd>LEFT</kbd> - move o chip focado para a esquerda, alterando a ordem de agrupamento, se possível
+  - <kbd>SHIFT</kbd> + <kbd>RIGHT</kbd> - move o chip focado para a direita, alterando a ordem de agrupamento, se possível
+  - <kbd>SPACE</kbd> - altera a direção da ordenação
+  - <kbd>DELETE</kbd> - desagrupa o campo
+  - Os elementos separados do chip também podem receber o foco e podem ser usados com a tecla <kbd>ENTER</kbd>.
+
+## Agrupamento personalizado no Angular Grid
+
+O igxGrid permite definir agrupamento personalizado por coluna ou por expressão de agrupamento, o que fornece agrupamento com base em uma condição personalizada. Isso é útil quando você precisa agrupar objetos complexos ou para outros cenários específicos da aplicação.
+
+<DocsAside type="info">
+Para implementar o agrupamento personalizado, os dados precisam primeiro ser ordenados adequadamente. Por isso, você também pode precisar aplicar uma estratégia de ordenação personalizada que estenda a classe base <ApiLink type="DefaultSortingStrategy" />. Depois que os dados forem ordenados, os grupos personalizados podem ser determinados especificando um <ApiLink kind="interface" type="IGroupingExpression" member="groupingComparer" /> para a coluna ou para a expressão de agrupamento específica.
+</DocsAside>
+
+A demonstração abaixo mostra o agrupamento personalizado por `Date`, em que os valores de data são ordenados e agrupados por Dia, Semana, Mês ou Ano, com base no modo de agrupamento selecionado pelo usuário.
+
+### Exemplo de agrupamento personalizado no Angular
+
+
+<Sample src="/grid/grid-groupby-custom" height={605} alt="Exemplo de agrupamento personalizado no Angular" />
+
+
+A demonstração define estratégias de ordenação personalizadas para as diferentes condições de data.
+Cada estratégia personalizada estende a classe base <ApiLink type="DefaultSortingStrategy" /> e define o método <ApiLink type="DefaultSortingStrategy" member="compareValues" />, que é a função de comparação personalizada usada ao ordenar os valores. Além disso, ela extrai da data os valores necessários para a comparação.
+
+```typescript
+class BaseSortingStrategy extends DefaultSortingStrategy {
+
+    public getParsedDate(date: any) {
+        return {
+            day: date.getDay(),
+            month: date.getMonth() + 1,
+            year: date.getFullYear()
+        };
+    }
+
+    compareValues(a: any, b: any) {
+        const dateA = this.getParsedDate(a);
+        const dateB = this.getParsedDate(b);
+        return dateA.year < dateB.year ?
+            -1 : dateA.year > dateB.year ?
+            1 : dateA.month  < dateB.month ?
+            -1 : dateA.month > dateB.month ?
+            1 : 0;
+    }
+}
+
+class DaySortingStrategy extends BaseSortingStrategy {
+    compareValues(a: any, b: any) {
+        const dateA = this.getParsedDate(a);
+        const dateB = this.getParsedDate(b);
+        return dateA.year < dateB.year ?
+            -1 : dateA.year > dateB.year ?
+            1 : dateA.month  < dateB.month ?
+            -1 : dateA.month > dateB.month ?
+            1 : dateA.day < dateB.day ?
+            -1 : dateA.day > dateB.day ?
+            1 : 0;
+    }
+}
+
+class WeekSortingStrategy extends BaseSortingStrategy {
+
+    public getWeekOfDate(a: any) {
+       return parseInt(new DatePipe("en-US").transform(a, 'w'), 10);
+    }
+
+    compareValues(a: any, b: any) {
+        const dateA = this.getParsedDate(a);
+        const dateB = this.getParsedDate(b);
+        const weekA = this.getWeekOfDate(a);
+        const weekB = this.getWeekOfDate(b);
+        return dateA.year < dateB.year ?
+            -1 : dateA.year > dateB.year ?
+            1 : weekA < weekB ?
+            -1 : weekA > weekB ?
+            1 : 0;
+    }
+}
+```
+
+Uma função <ApiLink kind="interface" type="IGroupingExpression" member="groupingComparer" /> é definida para as expressões de agrupamento, que determina os itens pertencentes ao mesmo grupo com base no modo de agrupamento selecionado. Os valores nos dados ordenados para os quais essa função retorna 0 são marcados como parte do mesmo grupo.
+
+```typescript
+ groupingComparer: (a, b) => {
+    const dateA = this.sortingStrategy.getParsedDate(a);
+    const dateB = this.sortingStrategy.getParsedDate(b);
+    if (this.groupByMode === 'Month') {
+        return dateA.month === dateB.month ? 0 : -1;
+    } else if (this.groupByMode === "Year") {
+        return dateA.year === dateB.year ? 0 : -1;
+    } else if (this.groupByMode === "Week") {
+        return this.sortingStrategy.getWeekOfDate(a) === this.sortingStrategy.getWeekOfDate(b) ? 0 : -1;
+    }
+    return dateA.day === dateB.day && dateA.month === dateB.month ? 0 : -1;
+}
+```
+
+A partir da versão 15.1.0, você também pode usar a estratégia de ordenação integrada `GroupMemberCountSortingStrategy` para ordenar itens com base na quantidade de membros.
+
+```typescript
+public sortByGroup() {
+        const expressions = this.grid1.groupingExpressions;
+        if (expressions.length) {
+            const fieldName = expressions[0].fieldName;
+            const dir = expressions[0].dir === SortingDirection.Asc ? SortingDirection.Desc : SortingDirection.Asc;
+            this.grid1.groupBy({ fieldName, dir, ignoreCase: false, strategy: GroupMemberCountSortingStrategy.instance() });
+        }
+    }
+```
+
+## Estilização
+
+O igxGrid permite a estilização por meio do [`Ignite UI for Angular Theme Library`](/themes/sass/component-themes). A propriedade <ApiLink kind="sass" module="themes" type="function-grid-theme" label="grid-theme" code={true} /> da grade expõe uma grande variedade de propriedades, que permitem personalizar todos os recursos da grade.
+
+Nas etapas abaixo, vamos percorrer as etapas de personalização da estilização de Agrupar por da grade.
+
+### Importando o tema global
+
+Para começar a personalização do recurso Agrupar por, você precisa importar o arquivo `index`, onde estão localizadas todas as funções de estilo e mixins.
+
+```scss
+@use "igniteui-angular/theming" as *;
+
+// IMPORTANT: Prior to Ignite UI for Angular version 13 use:
+// @import '~igniteui-angular/lib/core/styles/themes/index';
+```
+
+### Definindo um tema personalizado
+
+Em seguida, crie um novo tema que estenda o <ApiLink kind="sass" module="themes" type="function-grid-theme" label="grid-theme" code={true} /> e aceite os parâmetros necessários para personalizar o Agrupar por como desejado. Você também precisa estender o <ApiLink kind="sass" module="themes" type="function-chip-theme" label="chip-theme" code={true} />, porque ele é usado no recurso Agrupar por.
+
+```scss
+
+$custom-theme: grid-theme(
+  $group-row-background: #494949,
+  $group-row-selected-background: #383838,
+  $group-label-column-name-text: #f8f8f8,
+  $group-label-icon: #ffcd0f,
+  $group-label-text: #f8f8f8,
+  $group-count-background: #ffcd0f,
+  $group-count-text-color: #000,
+  $expand-icon-color: #ffcd0f,
+  $expand-icon-hover-color: rgb(223, 181, 13),
+  $cell-active-border-color: #ffcd0f,
+  $row-selected-background: #fff6d3,
+  $row-selected-text-color: #000,
+  $drop-indicator-color: #ffcd0f
+);
+
+/* Chip theme will style the chips in the Group By area */
+$custom-chips-theme: chip-theme(
+  $background: #494949,
+  $text-color: #f8f8f8,
+  $hover-text-color: #e7e7e7
+);
+```
+
+### Definindo uma paleta de cores personalizada
+
+Na abordagem que descrevemos acima, os valores de cor estavam fixos no código. Como alternativa, você pode obter mais flexibilidade usando as funções <ApiLink kind="sass" module="palettes" type="function-palette" label="palette" code={true} /> e <ApiLink kind="sass" module="palettes" type="function-color" label="color" code={true} />.
+`palette` gera uma paleta de cores com base nas cores primária, secundária e de superfície informadas.  
+
+```scss
+$black-color: #292826;
+$yellow-color: #ffcd0f;
+$grey-color: #efefef;
+
+$custom-palette: palette(
+  $primary: $black-color, 
+  $secondary: $yellow-color, 
+  $surface: $grey-color
+);
+```
+
+Depois que uma paleta personalizada é gerada, a função `color` pode ser usada para obter diferentes variações das cores primária e secundária.
+  
+```scss
+$custom-theme: grid-theme(
+  $group-row-background: color($custom-palette, "primary", 300),
+  $group-row-selected-background: color($custom-palette, "primary", 400),
+  $group-label-column-name-text:contrast-color($custom-palette, "primary", 500),
+  $group-label-icon: color($custom-palette, "secondary", 600),
+  $group-label-text:contrast-color($custom-palette, "primary", 500),
+  $group-count-background: color($custom-palette, "secondary", 600),
+  $group-count-text-color: color($custom-palette, "primary", 400),
+  $expand-icon-color: color($custom-palette, "secondary", 600),
+  $expand-icon-hover-color: color($custom-palette, "secondary", 300),
+  $cell-active-border-color: color($custom-palette, "secondary", 600)
+);
+
+$custom-chips-theme: chip-theme(
+  $background: color($custom-palette, "primary", 300),
+  $text-color:contrast-color($custom-palette, "primary", 500),
+  $hover-text-color:contrast-color($custom-palette, "primary", 600)
+);
+```
+
+### Definindo schemas personalizados
+
+Você pode ir ainda mais longe e criar uma estrutura flexível que tenha todos os benefícios de um [**schema**](/themes/sass/schemas). O **schema** é a receita de um tema.
+Estenda um dos dois schemas predefinidos, fornecidos para cada componente. No nosso caso, usaríamos <ApiLink kind="sass" module="schemas" type="variable-light-material-schema" label="light-grid" code={true} />.
+
+```scss
+$custom-grid-schema: extend(
+  map.get('grid', $light-material-schema),
+  (
+    group-row-background: (color:('secondary', 100)),
+    group-row-selected-background: (color:('primary', 400)),
+    group-label-column-name-text: (color:('primary', 600)),
+    group-label-icon: (color:('primary', 600)),
+    group-label-text: (color:('secondary', 700)),
+    group-count-background: (color:('primary', 600)),
+    group-count-text-color: (color:('secondary', 400)),
+    expand-icon-color: (color:('primary', 600)),
+    expand-icon-hover-color: (color:('primary', 400))
+  )
+);
+```
+
+Para que o schema personalizado seja aplicado, é preciso estender os globais (<ApiLink kind="sass" module="schemas" type="variable-light-material-schema" label="light" code={true} /> ou <ApiLink kind="sass" module="schemas" type="variable-dark-material-schema" label="dark" code={true} />). Todo o processo consiste em fornecer a um componente um schema personalizado e, depois, adicioná-lo ao respectivo tema do componente.
+
+```scss
+$my-custom-schema: extend(
+  $light-material-schema, 
+  ( 
+    grid: $custom-grid-schema
+  )
+);
+
+$custom-theme: grid-theme(
+  $palette: $custom-palette,
+  $schema: $my-custom-schema
+);
+```
+
+### Aplicando o tema personalizado
+
+A forma mais fácil de aplicar o seu tema é com uma instrução `sass` `@include` no arquivo de estilos globais:
+
+```scss
+:host {
+  @include tokens($custom-theme);
+  @include tokens($custom-chips-theme);
+}
+```
+
+### Tema de componente com escopo
+
+Para que o tema personalizado afete apenas um componente específico, você pode mover todos os estilos que acabou de definir do arquivo de estilos globais para o arquivo de estilos do componente personalizado (incluindo a importação do arquivo `index`).
+
+Dessa forma, por causa do [ViewEncapsulation](https://angular.io/api/core/Component#encapsulation) do Angular, os seus estilos serão aplicados somente ao seu componente personalizado.
+
+Dependendo de onde os chips agrupados são renderizados, o Emulated View Encapsulation pode impedir que as declarações de token deles sejam correspondidas. Se o tema do chip não tiver efeito, use `::ng-deep` para esse tema aninhado ou mova-o para uma folha de estilos global:
+
+```scss
+:host {
+  @include tokens($custom-theme);
+
+  ::ng-deep {
+    @include tokens($custom-chips-theme);
+  }
+}
+```
+
+### Demonstração
+
+
+<Sample src="/grid/grid-groupby-styling" height={570} alt="" />
+
+<DocsAside type="info">
+A demonstração não será afetada pelo tema global selecionado em `Change Theme`.
+</DocsAside>
+
+## Limitações conhecidas
+
+| Limitação                               | Descrição                                             |
+| :--------------------------------------- | :------------------------------------------------------ |
+| A quantidade máxima de colunas agrupadas é 10. | Se mais de 10 colunas forem agrupadas, um erro é lançado. |
+
+## Referências da API
+- <ApiLink type="Grid" />
+- <ApiLink type="GroupByRow" />
+- <ApiLink kind="sass" module="themes" type="function-grid-theme" label="Estilos do IgxGridComponent" />
+- <ApiLink kind="interface" type="ISortingExpression" />
+- <ApiLink type="Column" />
+- <ApiLink kind="interface" type="IGroupByExpandState" />
+- <ApiLink type="Chip" />
+- <ApiLink kind="sass" module="themes" type="function-chip-theme" label="Estilos do IgxChipComponent" />
+## Recursos adicionais
+
+
+- [Visão geral da Grid](/grid/grid)
+- [Virtualização e desempenho](/grid/virtualization)
+- [Paginação](/grid/paging)
+- [Filtragem](/grid/filtering)
+- [Ordenação](/grid/sorting)
+- [Movimentação de colunas](/grid/column-moving)
+- [Resumos](/grid/summaries)
+- [Redimensionamento de colunas](/grid/column-resizing)
+- [Seleção](/grid/selection)
+
+Nossa comunidade é ativa e sempre receptiva a novas ideias.
+
+- [Ignite UI for Angular **Fóruns**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

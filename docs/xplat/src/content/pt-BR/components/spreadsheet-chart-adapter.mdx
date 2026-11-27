@@ -1,0 +1,229 @@
+---
+title: "Spreadsheet do {Platform} | Adaptador de gráficos | Infragistics"
+description: "Exiba gráficos como colunas, linhas e áreas no controle spreadsheet {Platform} da Infragistics. Saiba como integrar gráficos ao seu spreadsheet {ProductName}!"
+keywords: "Planilha estilo Excel, adaptador de gráficos, {ProductName}, Infragistics"
+license: commercial
+mentionedTypes: ["Spreadsheet", "Worksheet", "WorksheetShapeCollection", "WorksheetChart"]
+_language: pt-BR
+llms:
+  description: "O componente Spreadsheet do {Platform} permite exibir gráficos na sua planilha."
+platformType: xplat-unmapped
+---
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+# Adaptador de gráficos do Spreadsheet do {Platform}
+
+O componente Spreadsheet do {Platform} permite exibir gráficos na sua <ApiLink type="Spreadsheet" />.
+
+## Exemplo de adaptador de gráficos do Spreadsheet do {Platform}
+
+<Sample src="/excel/spreadsheet/adapter-chart" height={500} alt="Exemplo de adaptador de gráficos do Spreadsheet do {Platform}" />
+
+
+## Visão geral do adaptador de gráficos
+
+Usando
+<ApiLink type="SpreadsheetChartAdapterBase" />
+você pode exibir os gráficos na planilha. Os adaptadores de gráfico do spreadsheet criam e inicializam elementos de gráfico para a planilha com base em uma instância de Infragistics.Documents.Excel.WorksheetChart.
+
+Para adicionar um WorksheetChart a uma planilha, você deve usar o método <ApiLink type="WorksheetShapeCollection" member="addChart" label="AddChart" /> da coleção Shapes da planilha. Você pode encontrar mais detalhes sobre como adicionar gráficos no Excel abaixo.
+
+Aqui está a descrição passo a passo:
+
+1. Adicione a referência ao SpreadsheetChartAdapterModule ao seu projeto
+2. Crie uma instância da classe SpreadsheetChartAdapter atribuindo-a ao Spreadsheet
+3. Execute a sua aplicação e carregue uma planilha que contenha um gráfico.
+
+## Tipos de gráfico compatíveis
+
+Há mais de 35 tipos de gráfico compatíveis com os ChartAdapters do Spreadsheet, incluindo Linha, Área, Coluna e Rosca. Veja a lista completa aqui:
+
+- Gráficos de colunas
+  - Coluna agrupada
+  - Coluna empilhada
+  - Coluna empilhada 100%
+- Gráficos de linhas
+  - Linha
+  - Linha com marcadores
+  - Linha empilhada
+  - Linha empilhada com marcadores
+  - Linha empilhada 100%
+  - Linha empilhada 100% com marcadores
+- Gráficos de pizza
+- Gráficos de rosca
+- Gráficos de barras
+  - Barra agrupada
+  - Barra empilhada
+  - Barra empilhada 100%
+  - Gráficos de área
+  - Área
+  - Área empilhada
+  - Área empilhada 100%
+- Gráficos XY (dispersão) e de bolhas
+  - Dispersão (somente com marcador)
+  - Dispersão com linhas suavizadas
+  - Dispersão com linhas suavizadas e marcadores
+  - Dispersão com linhas retas
+  - Dispersão com linhas retas e marcadores
+  - Bolhas (sem efeitos)
+  - Bubble3DEffect
+- Gráficos de ações
+  - Alta-baixa-fechamento
+  - Abertura-alta-baixa-fechamento
+  - Volume-alta-baixa-fechamento
+  - Volume-abertura-alta-baixa-fechamento
+- Gráficos de radar
+  - Radar sem marcadores
+  - Radar com marcadores
+  - Radar preenchido
+- Gráficos combinados
+  - Gráfico de colunas e linhas com eixo X compartilhado
+  - Gráfico de colunas e linhas e um segundo eixo X
+  - Área empilhada e colunas
+  - Combinação personalizada
+
+## Dependências
+
+<DocsAside type="info">
+
+No trecho de código a seguir, uma classe externa [ExcelUtility](./excel-utility.mdx) é usada para salvar e carregar um <ApiLink type="Spreadsheet" member="workbook" label="Workbook" />.
+</DocsAside>
+
+Ao configurar o seu controle spreadsheet {Platform} para adicionar gráficos, você precisará importar a classe <ApiLink type="SpreadsheetChartAdapter" /> assim:
+
+<PlatformBlock for="Angular">
+
+```ts
+import { IgxSpreadsheetChartAdapterModule } from 'igniteui-angular-spreadsheet-chart-adapter';
+import { SpreadsheetChartAdapter } from 'igniteui-angular-spreadsheet-chart-adapter';
+
+import { ChartTitle, ChartType, FormattedString, Workbook } from 'igniteui-angular-excel';
+import { ExcelUtility } from "ExcelUtility";
+import { Worksheet } from 'igniteui-angular-excel';
+import { WorksheetCell } from 'igniteui-angular-excel';
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```ts
+import { IgrExcelXlsxModule } from 'igniteui-react-excel';
+import { IgrExcelCoreModule } from 'igniteui-react-excel';
+import { IgrExcelModule } from 'igniteui-react-excel';
+
+import { IgrSpreadsheetChartAdapterModule } from 'igniteui-react-spreadsheet-chart-adapter';
+import { SpreadsheetChartAdapter } from 'igniteui-react-spreadsheet-chart-adapter';
+
+import { ExcelUtility } from "ExcelUtility";
+
+import { Worksheet } from 'igniteui-react-excel';
+import { WorksheetCell } from 'igniteui-react-excel';
+import { ChartType, ChartTitle, FormattedString, Workbook } from 'igniteui-react-excel';
+
+IgrExcelCoreModule.register();
+IgrExcelModule.register();
+IgrExcelXlsxModule.register();
+IgrSpreadsheetModule.register();
+IgrSpreadsheetChartAdapterModule.register();
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```ts
+// Module Manager for registering the modules of the chart
+import { ModuleManager } from 'igniteui-webcomponents-core';
+
+import { IgcExcelXlsxModule } from 'igniteui-webcomponents-excel';
+import { IgcExcelCoreModule } from 'igniteui-webcomponents-excel';
+import { IgcExcelModule } from 'igniteui-webcomponents-excel';
+
+import { IgcSpreadsheetChartAdapterModule } from 'igniteui-webcomponents-spreadsheet-chart-adapter';
+import { SpreadsheetChartAdapter } from 'igniteui-webcomponents-spreadsheet-chart-adapter';
+
+import { ExcelUtility } from "ExcelUtility";
+
+import { Worksheet } from 'igniteui-webcomponents-excel';
+import { WorksheetCell } from 'igniteui-webcomponents-excel';
+import { ChartType, ChartTitle, FormattedString, Workbook } from 'igniteui-webcomponents-excel';
+
+// register the modules
+ModuleManager.register(
+    IgcExcelCoreModule,
+    IgcExcelModule,
+    IgcExcelXlsxModule,
+    IgcSpreadsheetModule,
+    IgcSpreadsheetChartAdapterModule
+);
+```
+
+</PlatformBlock>
+
+## Trecho de código
+
+O trecho de código a seguir demonstra como adicionar gráficos à planilha que está sendo exibida no controle <ApiLink type="Spreadsheet" />:
+
+```typescript
+this.spreadsheet.chartAdapter = new SpreadsheetChartAdapter();
+
+ExcelUtility.loadFromUrl(process.env.PUBLIC_URL + "/ExcelFiles/ChartData.xlsx").then((w) => {
+    this.spreadsheet.workbook = w;
+
+    const sheet: Worksheet = this.spreadsheet.workbook.worksheets(0);
+
+    sheet.defaultColumnWidth = 500 * 20;
+    sheet.rows(0).height = 150 * 20;
+
+    const cell1: WorksheetCell = sheet.getCell("A1");
+    const cell2: WorksheetCell = sheet.getCell("B1");
+    const cell3: WorksheetCell = sheet.getCell("C1");
+    const cell4: WorksheetCell = sheet.getCell("D1");
+
+    const dataCellAddress = "A4:D6";
+
+    const chart1 = sheet.shapes().addChart(ChartType.Line, cell1, { x: 0, y: 0 }, cell1, { x: 100, y: 100 });
+
+    const title: {Platform} ChartTitle = new ChartTitle();
+    title.text = new FormattedString("Line Chart");
+    chart1.chartTitle = title;
+
+    chart1.setSourceData(dataCellAddress, true);
+
+    const chart2 = sheet.shapes().addChart(ChartType.ColumnClustered, cell2, { x: 0, y: 0 }, cell2, { x: 100, y: 100 });
+
+    const title2: ChartTitle = new ChartTitle();
+    title2.text = new FormattedString("Column Chart");
+    chart2.chartTitle = title2;
+
+    chart2.setSourceData(dataCellAddress, true);
+
+    const chart3 = sheet.shapes().addChart(ChartType.Area, cell3, { x: 0, y: 0 }, cell3, { x: 100, y: 100 });
+
+    const title3: ChartTitle = new ChartTitle();
+    title3.text = new FormattedString("Area Chart");
+    chart3.chartTitle = title3;
+
+    chart3.setSourceData(dataCellAddress, true);
+
+    const chart4 = sheet.shapes().addChart(ChartType.Pie, cell4, { x: 0, y: 0 }, cell4, { x: 100, y: 100 });
+
+    const title4: ChartTitle = new ChartTitle();
+    title4.text = new FormattedString("Pie Chart");
+    chart4.chartTitle = title4;
+
+    chart4.setSourceData(dataCellAddress, true);
+});
+```
+
+
+## Referências da API
+
+<ApiLink type="SpreadsheetChartAdapterBase" />
+<br />
+<ApiLink type="Spreadsheet" /><br />
+<ApiLink type="Workbook" /><br />

@@ -16,6 +16,7 @@ import { Schema } from 'astro-seo-schema';
 import { sidebar as sidebarData, title as siteTitle, navLang } from 'virtual:docs-template/site-meta';
 import { getBreadcrumb } from 'igniteui-astro-components/lib/sidebar/helpers';
 import type { SidebarEntry } from 'igniteui-astro-components/lib/sidebar/types';
+import { LANGUAGE_TAGS, type NavLang } from '../../platform';
 
 export interface Props {
   title?: string | null;
@@ -28,9 +29,8 @@ const { title, description, currentSlug = '' } = Astro.props;
 const pageUrl = Astro.url.href;
 const resolvedSidebar = sidebarData as SidebarEntry[];
 
-// Map internal locale codes to BCP-47 language tags.
-const langMap: Record<string, string> = { en: 'en', jp: 'ja', kr: 'ko' };
-const inLanguage = langMap[navLang] ?? 'en';
+// The content folder's BCP-47 language tag (`jp` is `ja`, `kr` is `ko`).
+const inLanguage = LANGUAGE_TAGS[navLang as NavLang] ?? 'en';
 
 // Build breadcrumb labels: [siteTitle, ...crumb labels]
 const crumbLabels = currentSlug ? getBreadcrumb(resolvedSidebar, currentSlug) : [];

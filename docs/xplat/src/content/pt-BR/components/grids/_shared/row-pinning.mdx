@@ -1,0 +1,749 @@
+---
+title: "Fixação de linhas em do {Platform} {ComponentTitle} - {ProductName}"
+description: "Use o recurso de fixação de linhas do {Platform} para bloquear linhas com uma API rica e fácil de usar. Permita que os usuários fixem linhas em uma ordem específica ou as dupliquem em uma área especial."
+keywords: "{Platform}, {ComponentKeywords}, {ProductName}, Infragistics"
+license: commercial
+mentionedTypes: [{ComponentApiMembers}]
+sharedComponents: ["Grid", "TreeGrid", "HierarchicalGrid"]
+namespace: Infragistics.Controls
+_canonicalLink: "{CanonicalLinkToGridRowPinning}"
+_language: pt-BR
+llms:
+  description: "O recurso de Fixação de linhas do {ProductName} em {Platform} {ComponentTitle} permite fixar uma ou várias linhas no topo ou na base da grade."
+---
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+
+# Fixação de linhas do {Platform} {ComponentTitle}
+
+O recurso de Fixação de linhas do {ProductName} em {Platform} {ComponentTitle} permite fixar uma ou várias linhas no topo ou na base da grade. A fixação de linhas permite que os usuários fixem linhas em uma ordem específica, duplicando-as em uma área especial que fica sempre visível, mesmo quando eles rolam a <ApiLink type="{ComponentName}" /> verticalmente. O {Platform} {ComponentTitle} tem uma interface de fixação de linhas integrada, que é habilitada inicializando um componente <ApiLink type="ActionStrip" /> no contexto de {ComponentTitle}. Além disso, você pode definir uma interface personalizada e alterar o estado de fixação das linhas pela API de Fixação de linhas.
+
+## Exemplo de fixação de linhas do {Platform} {ComponentTitle}
+
+<Sample src="/{ComponentSample}/row-pinning-options" height={600} alt="Exemplo de fixação de linhas do {Platform} {ComponentTitle}" />
+
+## Interface de fixação de linhas
+
+A interface integrada de fixação de linhas é habilitada adicionando um componente <ApiLink type="ActionStrip" /> com o componente <ApiLink type="GridPinningActions" />. O action strip é exibido automaticamente ao passar o mouse sobre uma linha e mostra um ícone de botão de fixar ou desafixar, conforme o estado da linha para a qual é exibido. Uma ação adicional, que permite rolar a cópia da linha fixada para a área visível, também é exibida para cada linha fixada.
+
+<PlatformBlock for="Angular">
+```html
+<{ComponentSelector} [data]="data" [autoGenerate]="false">
+    <igx-column *ngFor="let c of columns" [field]="c.field" [header]="c.field">
+    </igx-column>
+    <igx-action-strip #actionStrip>
+        <igx-grid-pinning-actions></igx-grid-pinning-actions>
+        <igx-grid-editing-actions></igx-grid-editing-actions>
+    </igx-action-strip>
+</{ComponentSelector}>
+```
+</PlatformBlock>
+<ComponentBlock for="Grid, HierarchicalGrid, TreeGrid">
+<PlatformBlock for="Blazor">
+```razor
+    <{ComponentSelector} Width="100%"  
+             Height="100%"
+             PrimaryKey="Key"
+             AutoGenerate=true
+             Data=northwindEmployees
+             RowEditable=true>
+        <IgbColumn Field="ID" Editable=false></IgbColumn>
+        <IgbColumn Field="ContactName"></IgbColumn>
+        <IgbColumn Field="ContactTitle"></IgbColumn>
+        <IgbColumn Field="City" Sortable=true></IgbColumn>
+        <IgbColumn Field="CompanyName" Sortable=true></IgbColumn>
+        <IgbColumn Field="Fax" Sortable=true></IgbColumn>
+        <IgbColumn Field="Address" Sortable=true></IgbColumn>
+        <IgbColumn Field="PostalCode" Sortable=true></IgbColumn>
+        <IgbColumn Field="Country" Sortable=true></IgbColumn>
+        <IgbColumn Field="Phone" Sortable=true></IgbColumn>
+        <IgbActionStrip>
+            <IgbGridPinningActions></IgbGridPinningActions>
+            <IgbGridEditingActions></IgbGridEditingActions>
+        </IgbActionStrip>
+    </{ComponentSelector}>
+```
+</PlatformBlock>
+</ComponentBlock>
+
+<PlatformBlock for="WebComponents">
+<ComponentBlock for="Grid, HierarchicalGrid, TreeGrid">
+```html
+<{ComponentSelector} auto-generate="false">
+    <igc-column field="Name" header="Full Name"></igc-column>
+    <igc-action-strip>
+        <igc-grid-pinning-actions></igc-grid-pinning-actions>
+        <igc-grid-editing-actions></igc-grid-editing-actions>
+    </igc-action-strip>
+</{ComponentSelector}>
+```
+</ComponentBlock>
+</PlatformBlock>
+
+<ComponentBlock for="Grid, HierarchicalGrid, TreeGrid">
+<PlatformBlock for="React">
+```tsx
+<{ComponentSelector}>
+    <IgrColumn field="Country" header="Country"> </IgrColumn>
+    <IgrActionStrip>
+        <IgrGridPinningActions></IgrGridPinningActions>
+        <IgrGridEditingActions></IgrGridEditingActions>
+    </IgrActionStrip>
+</{ComponentSelector}>
+```
+</PlatformBlock>
+</ComponentBlock>
+
+## API de fixação de linhas
+
+A fixação de linhas é controlada pela entrada <ApiLink type="RowDirective" member="pinned" /> do `Row`. Por padrão, as linhas fixadas são renderizadas na parte superior do <ApiLink type="{ComponentName}" /> e permanecem fixas durante a rolagem vertical das linhas não fixadas no corpo do <ApiLink type="{ComponentName}" />.
+
+<PlatformBlock for="Angular, WebComponents">
+```typescript
+this.grid.getRowByIndex(0).pinned = true;
+```
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+gridRef.current.getRowByIndex(0).pinned = true;
+```
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```csharp
+this.Grid.PinRowAsync("ALFKI", 0);
+```
+</PlatformBlock>
+
+Você também pode usar os métodos <ApiLink type="{ComponentName}" member="pinRow" label="PinRow" /> ou <ApiLink type="{ComponentName}" member="unpinRow" label="UnpinRow" /> do <ApiLink type="{ComponentName}" /> para fixar ou desafixar registros pelo ID:
+
+<PlatformBlock for="Angular, WebComponents">
+```typescript
+this.grid.pinRow('ALFKI');
+this.grid.unpinRow('ALFKI');
+```
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+gridRef.current.pinRow('ALFKI');
+gridRef.current.unpinRow('ALFKI');
+```
+</PlatformBlock>
+<PlatformBlock for="Blazor">
+```csharp
+this.Grid.PinRowAsync("ALFKI", 0);
+this.Grid.UnpinRowAsync("ALFKI");
+```
+</PlatformBlock>
+
+Observe que o ID da linha é o valor da chave primária, definido pelo <ApiLink type="{ComponentName}" member="primaryKey" /> do grid, ou a própria instância do registro. Ambos os métodos retornam um valor booleano indicando se a operação correspondente foi bem-sucedida. Normalmente, a falha ocorre porque a linha já está no estado desejado.
+
+Uma linha é fixada abaixo da última linha fixada. Para alterar a ordem das linhas fixadas, você pode se inscrever no evento <ApiLink type="{ComponentName}" member="rowPinning" /> e alterar a propriedade <ApiLink type="PinRowEventArgs" /> dos argumentos do evento para o índice de posição desejado.
+
+<PlatformBlock for="Angular">
+```html
+<{ComponentSelector} #grid1 [data]="data" [autoGenerate]="true" (rowPinning)="rowPinning($event)">
+</{ComponentSelector}>
+```
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+```html
+<{ComponentSelector} id="grid" auto-generate="true">
+</{ComponentSelector}>
+```
+
+```typescript
+constructor() {
+    var grid1 = document.getElementById('grid1') as {ComponentName}Component;
+    grid1.data = this.data;
+    grid1.addEventListener("rowPinning", this.rowPinning);
+}
+
+public rowPinning(event) {
+    event.detail.insertAtIndex = 0;
+}
+```
+
+</PlatformBlock>
+
+<ComponentBlock for="Grid, HierarchicalGrid, TreeGrid">
+<PlatformBlock for="React">
+```tsx
+const rowPinning = (event: IgrPinRowEventArgs) => {
+    event.detail.insertAtIndex = 0;
+}
+
+<{ComponentSelector} autoGenerate={true} onRowPinning={rowPinning}>
+</{ComponentSelector}>
+
+```
+</PlatformBlock>
+</ComponentBlock>
+
+<PlatformBlock for="Blazor">
+```razor
+<{ComponentSelector} Width="100%"
+             Id="grid"
+             RowPinningScript="rowPinningHandler"
+             Height="100%"
+             PrimaryKey="Key"
+             AutoGenerate="true"
+             Data="northwindEmployees">
+</{ComponentSelector}>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```javascript
+// In JavaScript
+function rowPinningHandler(event) {
+    event.detail.insertAtIndex = 0;
+}
+
+igRegisterScript("rowPinningHandler", rowPinningHandler, false);
+
+```
+
+</PlatformBlock>
+
+## Posição da fixação
+
+Você pode alterar a posição da fixação de linhas pela opção de configuração <ApiLink type="{ComponentName}" member="pinning" />. Ela permite definir a posição da área de fixação como Top ou Bottom.
+Quando definida como Bottom, as linhas fixadas são renderizadas na parte inferior do grid, depois das linhas não fixadas. As linhas não fixadas podem ser roladas verticalmente, enquanto as linhas fixadas permanecem fixas na parte inferior.
+
+<PlatformBlock for="Angular">
+```html
+<{ComponentSelector} [data]="data" [autoGenerate]="true" [pinning]="pinningConfig"></{ComponentSelector}>
+```
+
+```typescript
+public pinningConfig: IPinningConfig = { rows: RowPinningPosition.Bottom };
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+```html
+<{ComponentSelector} id="dataGrid" auto-generate="true"></{ComponentSelector}>
+```
+
+```typescript
+var grid = document.getElementById('dataGrid') as {ComponentName}Component;
+grid.pinning = { rows: RowPinningPosition.Bottom };
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```razor
+    <{ComponentSelector} Id="grid"
+            Width="100%"
+            Height="100%"
+            Pinning=PinningConfig
+            PrimaryKey="Key"
+            AutoGenerate=true
+            Data=northwindEmployees>
+    </{ComponentSelector}>
+    @code {
+        public string Key = "ID";
+        private Northwind.EmployeesType[] northwindEmployees = Array.Empty<Northwind.EmployeesType>();
+        public IgbPinningConfig PinningConfig = new IgbPinningConfig()
+        {
+            Rows = RowPinningPosition.Bottom
+        };
+        protected override async Task OnInitializedAsync()
+        {
+            northwindEmployees = await this.northwindService.GetEmployees() ?? northwindEmployees;
+        }
+    }
+```
+</PlatformBlock>
+
+<ComponentBlock for="Grid, TreeGrid, HierarchicalGrid">
+<PlatformBlock for="React">
+```tsx
+const pinning: IgrPinningConfig = { rows : RowPinningPosition.Bottom };
+
+<{ComponentSelector} ref={gridRef} autoGenerate={true} pinning={pinning}>
+</{ComponentSelector}>
+
+```
+</PlatformBlock>
+</ComponentBlock>
+
+## Interface personalizada de fixação de linhas
+
+Você pode definir a sua interface personalizada e alterar o estado de fixação das linhas pela API relacionada.
+
+### Por meio de coluna extra com ícone
+
+Digamos que, em vez de um action strip, você queira mostrar um ícone de fixação em cada linha, permitindo que o usuário final clique e altere o estado de fixação de uma linha específica.
+Isso pode ser feito adicionando uma coluna extra com um template de célula contendo o ícone personalizado.
+
+<ComponentBlock for="Grid, TreeGrid">
+<PlatformBlock for="Blazor">
+```razor
+<IgbColumn Width="70px" BodyTemplateScript="WebGridRowPinCellTemplate"/>
+
+```
+
+```javascript
+// In Javascript
+
+igRegisterScript("WebGridRowPinCellTemplate", (ctx) => {
+    var html = window.igTemplating.html;
+    window.toggleRowPin = function toggleRowPin(index) {
+        var grid = document.getElementsByTagName("igc-grid")[0];
+        grid.getRowByIndex(index).pinned = !grid.getRowByIndex(index).pinned;
+    }
+    const index = ctx.cell.id.rowIndex;
+    return html`<div>
+    <span onpointerdown='toggleRowPin("${index}")'>📌</span>
+</div>`;
+}, false);
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+```html
+<{ComponentSelector} [data]="data" [primaryKey]="'ID'" [autoGenerate]="false">
+    <igx-column width="70px">
+        <ng-template igxCell let-cell="cell" let-val>
+            <igx-icon class="pin-icon" (mousedown)="togglePinning(cell.row, $event)">
+                {{cell.row.pinned ? 'lock' : 'lock_open'}}
+            </igx-icon>
+        </ng-template>
+    </igx-column>
+    <igx-column *ngFor="let c of columns" [field]="c.field" [header]="c.field">
+    </igx-column>
+</{ComponentSelector}>
+```
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+```typescript
+public togglePinning(row: IgxGridRow, event) {
+    event.preventDefault();
+    if (row.pinned) {
+        row.unpin();
+    } else {
+        row.pin();
+    }
+}
+```
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+```html
+<{ComponentSelector} id="grid" primary-key="ID" auto-generate="false">
+    <igc-column id="column1" name="column1"></igc-column>
+</{ComponentSelector}>
+```
+
+```typescript
+constructor() {
+    var grid = document.getElementById('grid') as {ComponentName}Component;
+    var column = document.getElementById('column1') as IgcColumnComponent;
+
+    grid.data = this.data;
+    column.bodyTemplate = this.pinCellTemplate;
+}
+
+public pinCellTemplate = (ctx: IgcCellTemplateContext) => {
+   const index = ctx.cell.id.rowIndex;
+    return html`<span @pointerdown=${(e: any) => this.togglePinning(index)}>📌</span>`;
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+const cellPinCellTemplate = (ctx: IgrCellTemplateContext) => {
+    const index = ctx.cell.row.index;
+    return (
+        <>
+            <span onPointerDown={(e: any) => toggleRowPin(index)}>📌</span>
+        </>
+    );
+}
+
+<{ComponentSelector} primaryKey="ID" autoGenerate={false}>
+    <IgrColumn width="70px" bodyTemplate={cellPinCellTemplate}>
+    </IgrColumn>
+</{ComponentSelector}>
+
+```
+</PlatformBlock>
+
+</ComponentBlock>
+
+<ComponentBlock for="HierarchicalGrid">
+<PlatformBlock for="Blazor">
+```razor
+<IgbColumn Width="70px" BodyTemplateScript="WebHierarchicalGridRowPinCellTemplate"/>
+
+```
+
+```javascript
+// In Javascript
+
+igRegisterScript("WebHierarchicalGridRowPinCellTemplate", (ctx) => {
+    var html = window.igTemplating.html;
+    window.toggleRowPin = function toggleRowPin(row) {
+        row.pinned = !row.pinned;
+    }
+    const row = ctx.cell.row;
+    return html`<div>
+    <span onpointerdown='toggleRowPin("${row}")'>📌</span>
+</div>`;
+}, false);
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+```html
+<{ComponentSelector} [data]="data" [primaryKey]="'ID'" [autoGenerate]="false">
+    <igx-column width="70px">
+        <ng-template igxCell let-cell="cell" let-val>
+            <igx-icon class="pin-icon" (mousedown)="togglePinning(cell.row, $event)">
+                {{cell.row.pinned ? 'lock' : 'lock_open'}}
+            </igx-icon>
+        </ng-template>
+    </igx-column>
+    <igx-column *ngFor="let c of columns" [field]="c.field" [header]="c.field">
+    </igx-column>
+    <igx-row-island [key]="'Orders'" [autoGenerate]="true">
+    </igx-row-island>
+</{ComponentSelector}>
+```
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+```typescript
+public togglePinning(row: IgxGridRow, event) {
+    event.preventDefault();
+    if (row.pinned) {
+        row.unpin();
+    } else {
+        row.pin();
+    }
+}
+```
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+```html
+<{ComponentSelector} id="grid" primary-key="ID" auto-generate="false">
+    <igc-column id="column1" name="column1"></igc-column>
+     <igc-row-island child-data-key="Orders" auto-generate="true">
+    </igc-row-island>
+</{ComponentSelector}>
+```
+
+```typescript
+constructor() {
+    var grid = document.getElementById('grid') as {ComponentName}Component;
+    var column = document.getElementById('column1') as IgcColumnComponent;
+
+    grid.data = this.data;
+    column.bodyTemplate = this.pinCellTemplate;
+}
+
+public pinCellTemplate = (ctx: IgcCellTemplateContext) => {
+   const row = ctx.cell.row;
+    return html`<span @pointerdown=${(e: any) => this.togglePinning(row)}>📌</span>`;
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+const cellPinCellTemplate = (ctx: IgrCellTemplateContext) => {
+    const row = ctx.cell.row;
+    return (
+        <>
+            <span onPointerDown={(e: any) => toggleRowPin(row)}>📌</span>
+        </>
+    );
+}
+
+<{ComponentSelector} primaryKey="ID" autoGenerate={false}>
+    <IgrColumn width="70px" bodyTemplate={cellPinCellTemplate}>
+    </IgrColumn>
+    <IgrRowIsland childDataKey="Orders" autoGenerate={true}></IgrRowIsland>
+</{ComponentSelector}>
+
+```
+</PlatformBlock>
+</ComponentBlock>
+
+
+<ComponentBlock for="Grid, TreeGrid">
+Ao clicar no ícone personalizado, o estado de fixação da linha correspondente pode ser alterado usando os métodos de API da linha.
+<PlatformBlock for="Angular, WebComponents">
+```typescript
+public togglePinning(index: number) {
+    var grid = document.getElementsByTagName("{ComponentSelector}")[0] as {ComponentName}Component;
+    grid.getRowByIndex(index).pinned = !grid.getRowByIndex(index).pinned;
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+const toggleRowPin = (index: number) => {
+  const grid = grid1Ref.current;
+  grid.getRowByIndex(index).pinned = !grid.getRowByIndex(index).pinned;
+}
+```
+</PlatformBlock>
+</ComponentBlock>
+
+<ComponentBlock for="HierarchicalGrid">
+Ao clicar no ícone personalizado, o estado de fixação da linha correspondente pode ser alterado usando os métodos de API da linha.
+<PlatformBlock for="WebComponents">
+```typescript
+public togglePinning(row: IgcRowType) {
+    row.pinned = !row.pinned;
+}
+```
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+const toggleRowPin = (row: IgrRowType) => {
+  row.pinned = !row.pinned;
+}
+```
+</PlatformBlock>
+</ComponentBlock>
+
+#### Demonstração
+
+<Sample src="/{ComponentSample}/row-pinning-extra-column" height={600} alt="Exemplo de fixação de linhas com coluna extra do {Platform} {ComponentTitle}" />
+
+<ComponentBlock for="Grid">
+<PlatformBlock for="Angular">
+### Via arrasto de linha
+
+Digamos que você queira poder arrastar e soltar diretamente uma linha entre as linhas fixadas e não fixadas, para alterar o seu estado de fixação.
+Isso pode ser obtido habilitando o recurso de arrastar linhas e fixando/desafixando as linhas pela API ao soltar.
+
+Primeiro, o grid deve ser marcado como área de soltar usando a diretiva `igxDrop`, e a funcionalidade de arrastar linhas deve ser habilitada pela opção `rowDraggable`.
+
+```html
+<igx-grid [data]="data" [autoGenerate]="true" [rowDraggable]="true"
+    [primaryKey]="'ID'" igxDrop (dropped)="onDropAllowed($event)">
+</igx-grid>
+```
+
+Depois, o evento `dropped` pode ser usado para tratar a lógica de reordenação e de fixar/desafixar.
+
+```typescript
+public onDropAllowed(args) {
+    const event = args.originalEvent;
+    let currRowPinnedIndex;
+    const currRowIndex = this.getCurrentRowIndex(this.grid.rowList.toArray(),
+        { x: event.clientX, y: event.clientY });
+    if (currRowIndex === -1) { return; }
+
+    const currRowID = this.getCurrentRowID(this.grid.rowList.toArray(),
+        { x: event.clientX, y: event.clientY });
+
+    const currentRow = this.grid.rowList.toArray().find((r) => r.rowID === currRowID);
+    if (currentRow.pinned) {
+        currRowPinnedIndex = this.grid.pinnedRows.indexOf(this.grid.pinnedRows.find((r) => r.rowID === currRowID));
+    }
+    // remove the row that was dragged and place it onto its new location
+    this.grid.deleteRow(args.dragData.key);
+    this.data.splice(currRowIndex, 0, args.dragData.data);
+    if (currentRow.pinned && !args.dragData.pinned) {
+        this.grid.pinRow(args.dragData.key, currRowPinnedIndex);
+    } else if (!currentRow.pinned && args.dragData.pinned) {
+        this.grid.unpinRow(args.dragData.key);
+    } else if (currentRow.pinned && args.dragData.pinned) {
+        this.grid.unpinRow(args.dragData.key);
+        this.grid.pinRow(args.dragData.key, currRowPinnedIndex);
+    }
+}
+```
+
+Isso permitirá reordenar as linhas e movê-las entre as coleções de linhas fixadas e não fixadas.
+
+#### Demonstração
+
+<Sample src="/{ComponentSample}/row-pinning-drag" height={510} alt="Exemplo de fixação de linhas com arrasto do {Platform} {ComponentTitle}" />
+
+</PlatformBlock>
+
+</ComponentBlock>
+
+## Limitações da fixação de linhas
+
+- Somente registros que existem na fonte de dados podem ser fixados.
+- O estado de fixação de linhas não é exportado para o Excel. O grid é exportado como se nenhuma fixação de linhas tivesse sido aplicada.
+- As cópias das linhas fixadas na área rolável do grid são parte integrante de como outros recursos do grid alcançam a sua funcionalidade na presença de linhas fixadas; por isso, a sua criação não pode ser desabilitada, nem elas podem ser removidas.
+- Como a Seleção de linhas funciona inteiramente com IDs de linha, selecionar linhas fixadas também seleciona suas cópias (e vice-versa). Além disso, a seleção por intervalo (por exemplo, usando <kbd>SHIFT</kbd> + clique) dentro da área fixada funciona da mesma forma que selecionar um intervalo de linhas na área rolável. A seleção resultante inclui todas as linhas entre elas, mesmo que não estejam fixadas no momento. Obter as linhas selecionadas pela API retorna apenas uma instância de cada registro selecionado.
+
+<PlatformBlock for="Angular">
+- Devido à forma como as linhas fixadas são armazenadas internamente, para poderem aparecer tanto na área fixada quanto na não fixada do grid, a fixação de linhas não é suportada quando os registros do grid são buscados sob demanda em um endpoint remoto (virtualização remota).
+- Quando o grid não tem <ApiLink type="{ComponentName}" member="primaryKey" /> definido e os cenários de dados remotos estão habilitados (quando paginação, ordenação, filtragem ou rolagem disparam requisições a um servidor remoto para obter os dados a serem exibidos no grid), uma linha perderá o seguinte estado após a conclusão de uma requisição de dados:
+  - Seleção de linha
+  - Expandir/recolher linha
+  - Edição de linha
+  - Fixação de linha
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents, Blazor, React">
+## Estilização
+
+Além dos temas predefinidos, a grade pode ser personalizada ainda mais definindo algumas das propriedades CSS disponíveis. Para criar um tema completo a partir de apenas algumas cores, consulte o [tópico de temas](theming.mdx).
+Se você quiser alterar algumas das cores, primeiro é preciso definir uma classe para a grade:
+
+<PlatformBlock for="WebComponents">
+```html
+<{ComponentSelector} class="grid"></{ComponentSelector}>
+```
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```razor
+<{ComponentSelector} class="grid"></{ComponentSelector}>
+```
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+<{ComponentSelector} className="grid"></{ComponentSelector}>
+```
+</PlatformBlock>
+
+Em seguida, defina as propriedades CSS relacionadas para essa classe:
+
+```css
+.grid {
+    --ig-grid-pinned-border-width: 5px;
+    --ig-grid-pinned-border-style: double;
+    --ig-grid-pinned-border-color: #FFCD0F;
+    --ig-grid-cell-active-border-color: #FFCD0F;
+}
+```
+
+### Demonstração
+
+<Sample src="/{ComponentSample}/row-pinning-style" height={540} alt="Exemplo de estilização de fixação de linhas do {Platform} {ComponentTitle}" />
+
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+## Estilização
+
+O <ApiLink type="{ComponentName}" /> permite estilização por meio da [{ProductName} Theme Library](../themes/styles.mdx). O {ComponentTitle} de <ApiLink type="function-grid-theme" label="theme" kind="sass" module="index.html" /> expõe uma grande variedade de propriedades, que permitem personalizar todos os recursos do {ComponentTitle}.
+
+A seguir, vamos percorrer os passos para personalizar a estilização da fixação de linhas do {ComponentTitle}.
+
+### Importando a biblioteca de estilos
+
+Para começar a personalizar o recurso de fixação de linhas, você precisa importar o arquivo `index`, onde estão todas as funções e mixins de estilização.
+
+```scss
+@use "igniteui-{Platform}/theming" as *;
+
+// IMPORTANT: Prior to {ProductName} version 13 use:
+// @import '~igniteui-{Platform}/lib/core/styles/themes/index';
+```
+
+### Definindo um tema
+
+Em seguida, crie um novo tema que estenda o <ApiLink type="function-grid-theme" label="grid-theme" kind="sass" module="index.html" /> e aceite os parâmetros necessários para personalizar o recurso de fixação de linhas como desejar.
+
+```scss
+$custom-grid-theme: grid-theme(
+    /* Pinning properties that affect styling */
+    $pinned-border-width: 5px,
+    $pinned-border-style: double,
+    $pinned-border-color: #FFCD0F,
+    $cell-active-border-color: #FFCD0F
+    /* add other features properties here... */
+);
+```
+
+### Usando variáveis CSS
+
+A última etapa é passar o tema personalizado do grid:
+
+```scss
+@include tokens($custom-grid-theme);
+```
+
+### Usando Mixins
+
+Para estilizar componentes no Internet Explorer 11, é preciso usar uma abordagem diferente, já que ele não oferece suporte a variáveis CSS.
+
+Se o componente usar um ViewEncapsulation [Emulated](../themes/styles.mdx#view-encapsulation), é necessário `penetrate` essa encapsulação usando `::ng-deep`. Porém, para evitar que o tema personalizado vaze para outros componentes, certifique-se de incluir o seletor `:host` antes de `::ng-deep`:
+
+```scss
+:host {
+    ::ng-deep {
+        // Pass the custom grid theme to the `igx-grid` mixin
+        @include grid($custom-grid-theme);
+    }
+}
+```
+
+### Demonstração
+
+
+<Sample src="/{ComponentSample}/row-pinning-style" height={540} alt="Exemplo de estilização de fixação de linhas do {Platform} {ComponentTitle}" />
+
+
+
+<DocsAside type="info">
+O exemplo não será afetado pelo tema global selecionado em **Change Theme**.
+</DocsAside>
+
+</PlatformBlock>
+
+## Referências da API
+
+<ApiLink type="{ComponentName}" /><br />
+<PlatformBlock for="Angular,React,WebComponents">
+  <ApiLink type="GridRowComponent" />
+</PlatformBlock>
+<PlatformBlock for="Blazor">
+  <ApiLink type="GridRow" />
+</PlatformBlock><br />
+<ApiLink type="RowType" /><br />
+
+## Recursos adicionais
+
+<ComponentBlock for="Grid">
+- [Virtualização e desempenho](virtualization.mdx)
+- [Paginação](paging.mdx)
+- [Filtragem](filtering.mdx)
+- [Ordenação](sorting.mdx)
+- [Resumos](summaries.mdx)
+- [Movimentação de colunas](column-moving.mdx)
+- [Redimensionamento de colunas](column-resizing.mdx)
+- [Seleção](selection.mdx)
+</ComponentBlock>
+
+Nossa comunidade é ativa e sempre receptiva a novas ideias.
+
+- [{ProductName} **Fóruns**]({ForumsLink})
+- [{ProductName} **GitHub**]({GithubLink})

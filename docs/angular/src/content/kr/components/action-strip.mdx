@@ -1,0 +1,235 @@
+---
+title: "Angular Action Strip 컴포넌트 – Ignite UI for Angular | Infragistics | MIT 라이선스" 
+description: "Action Strip는 하나 이상의 작업을 위한 템플릿 영역입니다. Action Strip는 대상을 덮어씌우므로 relative 컨테이너 안에 있어야 합니다."
+keywords: "Angular Action Strip 컴포넌트, Angular Action Strip 디렉티브, Angular Action Strip 컨트롤, Ignite UI for Angular, UI 컨트롤, Angular 위젯, 웹 위젯, UI 위젯, Angular, Angular UI 컴포넌트"
+license: MIT
+_language: ko
+llms:
+  description: "Ignite UI for Angular Action Strip 컴포넌트는 사용자 상호 작용(예: 마우스 오버) 시 특정 대상 컨테이너 위에 추가 UI와 기능을 표시할 수 있도록, 하나 이상의 작업을 포함하는 오버레이 영역을 제공합니다."
+---
+
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+# Angular Action Strip 디렉티브 개요
+
+<div class="highlight">
+
+Ignite UI for Angular Action Strip 컴포넌트는 사용자 상호 작용(예: 마우스 오버) 시 특정 대상 컨테이너 위에 추가 UI와 기능을 표시할 수 있도록, 하나 이상의 작업을 포함하는 오버레이 영역을 제공합니다. Action Strip가 이 컨테이너를 덮으므로 컨테이너는 relative로 위치를 지정해야 하며, Action Strip 자체는 absolute로 위치가 지정됩니다. Action Strip에 가려져도 대상 컨테이너에 대한 주요 상호 작용과 사용자 접근은 그대로 유지됩니다.
+</div>
+
+## Angular Action Strip 예제
+
+<Sample src="/menus/action-strip-paragraph" height={400} alt="Angular Action Strip 예제" />
+
+<hr/>
+
+## Ignite UI for Angular Action Strip 시작하기
+
+Ignite UI for Angular Action Strip 컴포넌트를 시작하려면 먼저 Ignite UI for Angular를 설치해야 합니다. 기존 Angular 애플리케이션에서 다음 명령을 입력합니다:
+
+```cmd
+ng add igniteui-angular
+```
+
+Ignite UI for Angular에 대한 전체 소개는 [_시작하기_](/general/getting-started) 항목을 읽어 보십시오.
+
+다음 단계는 **app.module.ts** 파일에서 `IgxActionStripModule`을 가져오는 것입니다.
+
+```typescript
+// app.module.ts
+
+...
+import { IgxActionStripModule } from 'igniteui-angular/action-strip';
+// import { IgxActionStripModule } from '@infragistics/igniteui-angular'; for licensed package
+
+@NgModule({
+    ...
+    imports: [..., IgxActionStripModule],
+    ...
+})
+export class AppModule {}
+```
+
+또는 `16.0.0` 버전부터는 `IgxActionStripComponent`을 독립형(standalone) 종속성으로 가져올 수 있으며, [`IGX_ACTION_STRIP_DIRECTIVES`](https://github.com/IgniteUI/igniteui-angular/blob/master/projects/igniteui-angular/action-strip/src/action-strip/public_api.ts) 토큰을 사용하여 컴포넌트와 모든 지원 컴포넌트 및 디렉티브를 가져올 수도 있습니다.
+
+```typescript
+// home.component.ts
+
+...
+import { IGX_ACTION_STRIP_DIRECTIVES } from 'igniteui-angular/action-strip';
+import { IgxButtonDirective } from 'igniteui-angular/directives';
+import { IgxIconComponent } from 'igniteui-angular/icon';
+// import { IGX_ACTION_STRIP_DIRECTIVES, IgxButtonDirective, IgxIconComponent } from '@infragistics/igniteui-angular'; for licensed package
+
+@Component({
+    selector: 'app-home',
+    template: `
+    <div style="width:100px; height:100px;">
+        <igx-action-strip>
+            <button igxButton (click)="makeTextBold()">
+                <igx-icon>format_bold</igx-icon>
+            </button>
+        </igx-action-strip>
+    <div>
+    `,
+    styleUrls: ['home.component.scss'],
+    standalone: true,
+    imports: [IGX_ACTION_STRIP_DIRECTIVES, IgxButtonDirective, IgxIconComponent]
+    /* or imports: [IgxActionStripComponent, IgxButtonDirective, IgxIconComponent] */
+})
+export class HomeComponent {}
+```
+
+
+<DocsAside type="info">
+이 컴포넌트는 Material Icons를 사용합니다. 다음 링크를 `index.html`에 추가하십시오: `<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">`
+</DocsAside>
+
+이제 Ignite UI for Angular Action Strip 모듈 또는 디렉티브를 가져왔으므로, `igx-action-strip` 컴포넌트의 기본 구성부터 시작할 수 있습니다.
+
+## Angular Action Strip 컴포넌트 사용하기
+
+Action Strip를 올바르게 초기화하고 위치시키려면, 상대 위치(relative)로 지정된 컨테이너 안에 넣어야 합니다:
+
+```html
+<div style="position:relative; width:100px; height:100px;">
+  <igx-action-strip>
+    <button igxButton (click)="makeTextBold()">
+      <igx-icon>format_bold</igx-icon>
+    </button>
+  </igx-action-strip>
+</div>
+```
+
+기본적으로 Action Strip는 표시되지 않지만, <ApiLink type="ActionStrip" member="hidden" label="hidden" /> @Input 속성으로 설정할 수 있습니다.
+
+### 메뉴 모양과 동작
+
+작업 항목이 세 개를 초과하는 경우에는 <ApiLink type="ActionStripMenuItemDirective" /> 디렉티브를 사용하는 것이 가장 좋습니다. Action Strip 안에서 `*igxActionStripMenuItem` 구조 디렉티브가 표시된 항목은 드롭다운에 표시되며, 마지막 작업을 나타내는 세 점 더보기 버튼을 누르면 나타납니다.
+
+```html
+<div style="position:relative; width:100px; height:100px;">
+  <igx-action-strip>
+    <button *igxActionStripMenuItem igxButton (click)="alignTextLeft()">
+      <igx-icon>format_align_left</igx-icon>
+    </button>
+    <button *igxActionStripMenuItem igxButton (click)="alignTextCenter()">
+      <igx-icon>format_align_center</igx-icon>
+    </button>
+    <button *igxActionStripMenuItem igxButton (click)="alignTextRight()">
+      <igx-icon>format_align_right</igx-icon>
+    </button>
+  </igx-action-strip>
+</div>
+```
+
+<Sample src="/menus/action-strip-paragraph-menu" height={400} alt="" />
+
+### Action Strip 재사용하기
+
+같은 Action Strip 인스턴스는 해당 작업들이 동시에 보일 필요가 없다면 문서의 여러 위치에서 사용할 수 있습니다.
+Action Strip는 <ApiLink type="ActionStrip" member="context" label="context" />을 변경하여 상위 컨테이너를 바꿀 수 있습니다.
+이를 수행하는 가장 좋은 방법은 <ApiLink type="ActionStrip" member="show" label="show" /> API 메서드를 사용하고 `context`을 인수로 전달하는 것입니다. `context`는 컴포넌트의 인스턴스여야 하며, `ElementRef` 타입의 접근 가능한 `element` 속성을 가져야 합니다.
+
+<DocsAside type="info">
+`show` API 메서드는 [Angular Renderer2](https://angular.io/api/core/Renderer2)를 사용하여 Action Strip를 해당 `element`에 추가합니다.
+</DocsAside>
+
+## Grid에서 사용하기
+
+Action Strip는 IgxGrid에 추가 기능과 UI를 제공합니다.
+이는 그리드 작업 컴포넌트를 통해 활용할 수 있으며, 기본 제공 컴포넌트는 다음 두 가지입니다:
+
+- <ApiLink type="GridEditingActions" /> - 그리드 편집과 관련된 기능과 UI를 포함합니다. 그리드의 `rowEditable` 옵션 값과 행 삭제 허용 여부에 따라 셀 또는 행의 편집 모드를 빠르게 전환할 수 있습니다.
+- <ApiLink type="GridPinningActions" /> - 그리드 행 고정과 관련된 기능과 UI를 포함합니다. 행을 빠르게 고정하고, 고정된 행과 비활성화된 대응 행 사이를 이동할 수 있습니다.
+
+```html
+<igx-grid [data]="data" [rowEditable]="true" [primaryKey]="'ID'">
+  <igx-column *ngFor="let c of columns" [field]="c.field"> </igx-column>
+
+  <igx-action-strip #actionStrip>
+    <igx-grid-pinning-actions></igx-grid-pinning-actions>
+    <igx-grid-editing-actions></igx-grid-editing-actions>
+  </igx-action-strip>
+</igx-grid>
+```
+
+<DocsAside type="info">
+이 컴포넌트들은 <ApiLink type="GridActionsBaseDirective" />을 상속하며, 사용자 지정 그리드 작업 컴포넌트를 만들 때에는 `IgxGridActionsBaseDirective`도 상속해야 합니다.
+</DocsAside>
+<DocsAside type="info">
+`IgxActionStripComponent`이(가) 그리드의 하위 컴포넌트이면, 행에 마우스를 올릴 때 UI가 자동으로 표시됩니다.
+</DocsAside>
+
+<Sample src="/grid/grid-action-strip" height={600} alt="" />
+
+<DocsAside type="info">
+그리드 컴포넌트에서 ActionStrip을 사용하는 방법에 대한 자세한 내용은 [Grid Row Actions 문서](./grid/row-actions.mdx)를 참조하십시오.
+</DocsAside>
+
+## 스타일링
+
+Action Strip를 사용자 지정하려면 먼저 모든 스타일 함수와 믹스인이 들어 있는 `index` 파일을 가져와야 합니다.
+
+```scss
+@use "igniteui-angular/theming" as *;
+
+// IMPORTANT: Prior to Ignite UI for Angular version 13 use:
+// @import '~igniteui-angular/lib/core/styles/themes/index';
+```
+
+다음으로, `action-strip-theme`을 확장하고 변경하려는 매개변수를 전달하는 새 테마를 만들어야 합니다:
+
+```scss
+$custom-strip: action-strip-theme(
+  $background: rgba(109, 121, 147, 0.2),
+  $actions-background: rgba(#011627, 0.9),
+  $actions-border-radius: 0
+);
+```
+
+마지막 단계는 새로 만든 컴포넌트 테마를 애플리케이션에 포함하는 것입니다.
+
+```scss
+:host {
+  @include tokens($custom-strip);
+}
+```
+
+<Sample src="/menus/action-strip-styling" height={400} alt="" />
+
+## API 및 스타일 참조
+
+Action Strip API에 대한 자세한 내용은 다음 링크를 참조하십시오:
+
+- <ApiLink type="ActionStrip" />
+
+이 Action Strip 레이아웃은 다음의 기본 제공 CSS 스타일을 활용하여 구현했습니다:
+
+- <ApiLink kind="sass" module="themes" type="function-action-strip-theme" label="IgxActionStripComponent 스타일" code={true} />
+
+Action Strip 안에서 사용할 수 있는 추가 컴포넌트 및/또는 디렉티브:
+
+- <ApiLink type="GridActionsBaseDirective" />
+- <ApiLink type="GridPinningActions" />
+- <ApiLink type="GridEditingActions" />
+- <ApiLink type="Divider" />
+
+<igc-divider></igc-divider>
+
+## 테마 종속성
+
+- <ApiLink kind="sass" module="themes" type="function-button-theme" label="IgxButton 테마" />
+- <ApiLink kind="sass" module="themes" type="function-ripple-theme" label="IgxRipple 테마" />
+- <ApiLink kind="sass" module="themes" type="function-drop-down-theme" label="IgxDropDown 테마" />
+- <ApiLink kind="sass" module="themes" type="function-icon-theme" label="IgxIcon 테마" />
+
+## 추가 리소스
+
+<hr/>
+커뮤니티는 활발하며 새로운 아이디어를 언제나 환영합니다.
+
+- [Ignite UI for Angular **포럼**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

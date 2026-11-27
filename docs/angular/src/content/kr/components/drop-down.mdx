@@ -1,0 +1,576 @@
+---
+title: "Angular Drop Down 컴포넌트 – Ignite UI For Angular - MIT 라이선스" 
+description: "앱의 스크롤 가능한 항목 목록에 상호 작용 기능을 추가하고 스타일링 옵션을 확인하십시오. 지금 Ignite UI for Angular의 Drop Down 컴포넌트를 사용해 시작하십시오."
+keywords: "Ignite UI for Angular, UI 컨트롤, Angular 위젯, 웹 위젯, UI 위젯, Angular, Native Angular Components Suite, Angular UI 컴포넌트, Native Angular Components Library, Angular Drop Down 컴포넌트, Angular Drop Down 컨트롤"
+license: MIT
+_language: ko
+llms:
+  description: "Ignite UI for Angular Drop Down은 미리 정의된 값의 목록을 토글 방식으로 표시하고, 사용자가 클릭 한 번으로 단일 옵션 항목을 쉽게 선택할 수 있도록 하는 컴포넌트입니다."
+---
+
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+# Angular Drop Down 컴포넌트 개요
+
+<div class="highlight">
+Ignite UI for Angular Drop Down은 미리 정의된 값의 목록을 토글 방식으로 표시하고, 사용자가 클릭 한 번으로 단일 옵션 항목을 쉽게 선택할 수 있도록 하는 컴포넌트입니다. 드롭다운 메뉴로 동작하도록 빠르게 구성할 수 있으며, 데이터를 그룹화하여 더 유용한 시각 정보를 제공하는 데에도 사용할 수 있습니다. 그룹화에는 평면 데이터와 계층 데이터를 모두 사용할 수 있습니다. Drop Down 컴포넌트는 선언적 바인딩을 지원하므로 추가 콘텐츠와 링크를 포함할 수 있습니다. 또한 Angular 드롭다운 목록의 모양을 추가로 UI 사용자 지정하고 스타일을 지정할 여지도 남겨 둡니다. 이 밖에도 키보드 드롭다운 탐색과 가상화 같은 핵심 기능을 갖추고 있습니다.
+</div>
+
+## Angular Drop Down 예제
+
+이 Angular 드롭다운 예제는 드롭다운 목록의 기본 기능을 보여 줍니다. 드롭다운을 클릭하여 미리 설정된 옵션을 펼치고, 항목을 선택한 다음 드롭다운을 닫으십시오.
+
+<Sample src="/data-entries/dropdown-sample-1" height={200} alt="Angular Drop Down 예제" />
+
+<hr/>
+
+## Ignite UI for Angular Drop Down 시작하기
+
+Ignite UI for Angular Drop Down 컴포넌트를 시작하려면 먼저 Ignite UI for Angular를 설치해야 합니다. 기존 Angular 애플리케이션에서 다음 명령을 입력하십시오:
+
+```cmd
+ng add igniteui-angular
+```
+
+Ignite UI for Angular에 대한 전체 소개는 [_시작하기_](/general/getting-started) 항목을 읽어 보십시오.
+
+다음 단계는 **app.module.ts** 파일에서 `IgxDropDownModule`을 가져오는 것입니다.
+
+```typescript
+// app.module.ts
+
+...
+import { IgxDropDownModule } from 'igniteui-angular/drop-down';
+// import { IgxDropDownModule } from '@infragistics/igniteui-angular'; for licensed package
+
+@NgModule({
+    ...
+    imports: [..., IgxDropDownModule],
+    ...
+})
+export class AppModule {}
+```
+
+또는 `16.0.0` 버전부터는 `IgxDropDownComponent`을 독립형(standalone) 종속성으로 가져올 수 있으며, [`IGX_DROP_DOWN_DIRECTIVES`](https://github.com/IgniteUI/igniteui-angular/blob/master/projects/igniteui-angular/drop-down/src/drop-down/public_api.ts) 토큰을 사용하여 컴포넌트와 모든 지원 컴포넌트 및 디렉티브를 가져올 수도 있습니다.
+
+```typescript
+// home.component.ts
+
+import { NgFor } from '@angular/common';
+import { IGX_DROP_DOWN_DIRECTIVES } from 'igniteui-angular/drop-down';
+import { IgxToggleActionDirective } from 'igniteui-angular/directives';
+import { IgxButtonDirective } from 'igniteui-angular/directives';
+// import { IGX_DROP_DOWN_DIRECTIVES, IgxToggleActionDirective, IgxButtonDirective } from '@infragistics/igniteui-angular'; for licensed package
+
+@Component({
+  selector: 'app-home',
+  template: `
+    <button
+      igxButton="contained"
+      [igxToggleAction]="dropdown"
+      [igxDropDownItemNavigation]="dropdown"
+    >
+      Options
+    </button>
+    <igx-drop-down #dropdown>
+      <igx-drop-down-item *ngFor="let item of items">
+        {{ item.field }}
+      </igx-drop-down-item>
+    </igx-drop-down>
+  `,
+  styleUrls: ['home.component.scss'],
+  standalone: true,
+  imports: [ IGX_DROP_DOWN_DIRECTIVES, IgxToggleActionDirective, IgxButtonDirective, NgFor ],
+  /* or imports: [IgxDropDownComponent, IgxDropDownItemComponent, IgxToggleActionDirective, IgxButtonDirective, NgFor] */
+})
+export class HomeComponent {}
+```
+
+
+이제 Ignite UI for Angular Drop Down 모듈 또는 디렉티브를 가져왔으므로, `igx-drop-down` 컴포넌트를 사용하기 시작할 수 있습니다.
+
+## Angular Drop Down 사용하기
+
+### 드롭다운 추가하기
+
+선택할 여러 옵션 항목을 제공하는 간단한 드롭다운을 만들어 보겠습니다. 이를 위해 드롭다운을 열고 닫는 <ApiLink type="DropDown" />과 <ApiLink type="ToggleActionDirective" />를 사용하겠습니다.
+
+```html
+{/* dropdown.component.html */}
+<button igxButton="contained" [igxToggleAction]="dropdown" [igxDropDownItemNavigation]="dropdown">
+  Options
+</button>
+<igx-drop-down #dropdown>
+  <igx-drop-down-item *ngFor="let item of items">
+    {{ item.field }}
+  </igx-drop-down-item>
+</igx-drop-down>
+```
+
+```typescript
+// dropdown.component.ts
+@Component({...})
+export class MyDropDownComponent {
+    public items: Array<{ field: string }> = [
+        { field: 'Option 1' },
+        { field: 'Option 2' },
+        { field: 'Option 3' }
+    ];
+}
+```
+
+## 더 많은 Angular Drop Down 예제
+
+기본 데모는 최종 사용자가 미리 정의된 모든 항목을 펼쳐서 그중 하나를 선택할 수 있는 토글 가능한 Angular 드롭다운 목록의 사용법을 보여 줍니다. 다음 예제를 확인하고 Angular 드롭다운 목록이 동작하는 모습을 보십시오.
+
+### 미리 선택된 항목
+
+미리 선택된 항목을 설정하고 싶다고 가정해 보겠습니다. 이를 구현하는 한 가지 방법은 드롭다운 컴포넌트의 <ApiLink type="DropDown" member="opening" label="opening" /> 이벤트를 처리하는 것입니다.
+
+```html
+{/* dropdown.component.html */}
+<button igxButton="contained" [igxToggleAction]="dropdown" [igxDropDownItemNavigation]="dropdown">
+  Options
+</button>
+<igx-drop-down #dropdown (opening)="dropdown.setSelectedItem(0)">
+  <igx-drop-down-item *ngFor="let item of items">
+    {{ item.field }}
+  </igx-drop-down-item>
+</igx-drop-down>
+```
+
+```typescript
+// dropdown.component.ts
+export class MyDropDownComponent {
+  public items: Array<{ field: string }> = [
+    { field: 'Option 1' },
+    { field: 'Option 2' },
+    { field: 'Option 3' },
+  ];
+}
+```
+
+<Sample src="/data-entries/dropdown-sample-2" height={200} alt="" />
+
+<hr/>
+
+### 항목 그룹화
+
+더 유용한 시각 정보를 제공하려면 <ApiLink type="DropDownItemComponent" member="isheader" label="isHeader" /> 속성을 사용하여 항목을 의미적으로 그룹화하거나, <ApiLink type="DropDownItemComponent" member="disabled" label="disabled" /> 속성을 사용하여 항목을 상호 작용할 수 없는 상태로 표시할 수 있습니다. 특정 항목에 <ApiLink type="DropDownItemComponent" member="selected" label="selected" /> 속성을 설정하여 선택된 항목으로 만들 수도 있습니다. `igx-drop-down` 항목은 HTML 요소나 다른 웹 컴포넌트를 포함하거나 설정할 수 있는 `igxPrefix`, `igxSuffix`, `igx-divider` 디렉티브를 기본으로 지원합니다.
+
+```html
+{/* dropdown.component.html */}
+<button igxButton="contained" [igxToggleAction]="dropdown" [igxDropDownItemNavigation]="dropdown">
+  Countries
+</button>
+<igx-drop-down #dropdown [width]="'240px'">
+  <div class="drop-down__scroll-container">
+
+    <igx-drop-down-item *ngFor="let item of items" [disabled]="item.disabled" [isHeader]="item.header" [selected]="item.selected">
+      <igx-icon igxPrefix>place</igx-icon>
+      {{ item.field }}
+      <span igxSuffix>{{ item.code }}</span>
+      <igx-divider></igx-divider>
+    </igx-drop-down-item>
+  
+</div>
+</igx-drop-down>
+```
+
+<DocsAside type="info">
+이 컴포넌트는 Material Icons를 사용합니다. 다음 링크를 `index.html`에 추가하십시오: `<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">`
+</DocsAside>
+
+```typescript
+// dropdown.component.ts
+export class MyDropDownComponent {
+  public items: any[] = [
+    { field: 'European Union', code: 'EU', header: true },
+    { field: 'Germany', code: 'DE' },
+    { field: 'Bulgaria', code: 'BG', selected: true },
+    { field: 'France', code: 'FR', disabled: true },
+    { field: 'North America', code: 'NA', header: true },
+    { field: 'Canada', code: 'CA' },
+    { field: 'United States', code: 'US' },
+    { field: 'Mexico', code: 'MX' },
+  ];
+}
+```
+
+샘플이 올바르게 구성되었다면, 유럽 연합 헤더 아래에 국가 목록이 그룹으로 표시되고, 프랑스는 상호 작용할 수 없는 항목으로, 불가리아는 선택된 항목으로 표시되어야 합니다:
+
+<Sample src="/data-entries/dropdown-sample-3" height={310} alt="" />
+
+### 계층 데이터 그룹화
+
+`igx-drop-down` 항목은 <ApiLink type="DropDownGroup" /> 컨테이너를 사용하여 그룹화할 수도 있으므로, 사용자가 서로 다른 범주를 쉽게 구분할 수 있습니다. `igx-drop-down-item-group`은(는) 콘텐츠로 `igx-drop-down-item` 요소를 받아 그룹화된 형태로 렌더링합니다.
+
+```typescript
+// dropdown.component.ts
+export class MyCustomDropDownComponent {
+    ...
+    public foods: {
+        name: string,
+        entries: { name: string, refNo: string }[]
+    }[] = [
+    {
+        name: 'Vegetables',
+        entries: [{
+            name: 'Cucumber',
+            refNo: '00000'
+        }, {
+            name: 'Lettuce',
+            refNo: '00001'
+        },
+        ...]
+    }, {
+        name: 'Fruits',
+        entries: [{
+            name: 'Banana',
+            refNo: '10000'
+        }, {
+            name: 'Tomato',
+            refNo: '10001'
+        },
+        ...]
+    }, {
+        name: 'Meats',
+        entries: [{
+            name: 'Chicken',
+            refNo: '20000'
+        }, {
+            name: 'Beef',
+            refNo: '20001'
+        },
+        ...]
+    }];
+}
+```
+
+```html
+<igx-drop-down>
+  <igx-drop-down-item-group *ngFor="let foodGroup of foods" [label]="foodGroup.name">
+    <igx-drop-down-item *ngFor="let food of foodGroup.entries" [value]="food.refNo">
+      {{ food.name }}
+    </igx-drop-down-item>
+  </igx-drop-down-item-group>
+</igx-drop-down>
+```
+
+그룹에는 본문 안의 항목을 비활성화하는 추가 기능도 있습니다. 예를 들어 드롭다운에서 `Meats` 음식 그룹을 선택할 수 없도록 하고 싶다고 가정해 보겠습니다. `Meats`의 모든 항목을 개별적으로 비활성화하는 대신, 그룹을 비활성화하면 그 안의 모든 하위 항목도 함께 비활성화됩니다:
+
+```html
+<igx-drop-down>
+  <igx-drop-down-item-group *ngFor="let foodGroup of foods" [label]="foodGroup.name" [disabled]="foodGroup.name === 'Meats'">
+    <igx-drop-down-item *ngFor="let food of foodGroup.entries" [value]="food.refNo">
+      {{ food.name }}
+    </igx-drop-down-item>
+  </igx-drop-down-item-group>
+</igx-drop-down>
+```
+
+아래 샘플에서 결과를 확인할 수 있습니다:
+
+<Sample src="/data-entries/dropdown-sample-5" height={310} alt="" />
+
+### 메뉴로 사용하는 드롭다운
+
+드롭다운이 메뉴처럼 동작하도록 구성할 수 있습니다. 이를 위해 <ApiLink type="DropDown" member="selectionChanging" label="selectionChanging" /> 이벤트 핸들러에서 <ApiLink type="ISelectionEventArgs" kind="interface" /> 인터페이스의 <ApiLink kind="interface" type="ISelectionEventArgs" member="cancel" /> 멤버를 *true*로 설정하십시오. 이렇게 하면 메뉴를 열 때 선택된 항목이 유지되지 않고 이전 선택은 무효화됩니다. 그래도 이벤트의 <ApiLink kind="interface" type="ISelectionEventArgs" member="newSelection" /> 멤버 값을 통해 클릭된 항목을 얻을 수 있습니다.
+
+```html
+{/* dropdown.component.html */}
+<div>
+  <igx-navbar title="Contacts">
+    <button
+      [igxToggleAction]="menu"
+      [igxToggleOutlet]="outlet"
+      [overlaySettings]="overlaySettings"
+      [igxDropDownItemNavigation]="menu"
+      igxIconButton="flat"
+    >
+      <igx-icon fontSet="material">more_vert</igx-icon>
+    </button>
+    <igx-drop-down #menu (selectionChanging)="selectionHandler($event)">
+      <igx-drop-down-item *ngFor="let item of items" [value]="item.text">
+        <div>{{ item.text }}
+</div>
+      </igx-drop-down-item>
+    </igx-drop-down>
+  </igx-navbar>
+
+  <div>
+    @if (text) {
+      <label igxLabel>{{ text }}</label>
+    }
+  
+</div>
+
+  <div igxOverlayOutlet #outlet="overlay-outlet"></div>
+</div>
+```
+
+```typescript
+// dropdown.component.ts
+export class MyMenuComponent {
+  public items: Array<{ text: string }> = [
+    { text: "Add New Contact" },
+    { text: "Edit Contact" },
+    { text: "Refresh" },
+    { text: "Help" },
+  ];
+  public text: string;
+  public overlaySettings = {
+    positionStrategy: new ConnectedPositioningStrategy({
+      horizontalDirection: HorizontalAlignment.Left,
+      horizontalStartPoint: HorizontalAlignment.Right,
+      verticalStartPoint: VerticalAlignment.Bottom,
+    }),
+    scrollStrategy: new NoOpScrollStrategy(),
+  };
+
+  public selectionHandler(eventArgs: ISelectionEventArgs) {
+    this.text = eventArgs.newSelection.value;
+    eventArgs.cancel = true;
+  }
+}
+```
+
+<Sample src="/data-entries/dropdown-menu" height={240} alt="" />
+
+### 다단계 드롭다운 메뉴
+
+다음 샘플은 중첩된 메뉴 위에 마우스를 올리는 것만으로 콘텐츠의 계층 구조를 빠르고 쉽게 탐색할 수 있는 다단계 드롭다운 메뉴를 구현하는 방법을 보여 줍니다.
+
+다단계 드롭다운 메뉴를 구현하기 위해서는 <ApiLink type="DropDown" />과 아래에 설명된 사용자 지정 디렉티브 및 서비스를 사용합니다.
+
+<ApiLink type="DropDownItemComponent" />이(가) 추가 드롭다운을 열도록 구성하려면, 중첩된 드롭다운의 <ApiLink kind="interface" type="OverlaySettings" label="오버레이 설정" />을(를) 처리하고 그 `innerDropdown` 속성을 통해 열림/닫힘 상태를 관리하는 `multiLevel` 디렉티브를 추가하십시오.
+
+```html
+<igx-drop-down #dropdown1>
+  <igx-drop-down-item [value]="'Web'" multiLevel [innerDropdown]="web">
+    Web <igx-icon igxSuffix>chevron_right</igx-icon>
+  </igx-drop-down-item>
+  ...
+</igx-drop-down>
+
+<igx-drop-down #web>
+  <igx-drop-down-item [value]="'App Builder'"> App Builder </igx-drop-down-item>
+  ...
+</igx-drop-down>
+```
+
+다단계 드롭다운이 메뉴처럼 동작하도록 구성하려면, 계층 안의 모든 드롭다운의 <ApiLink type="DropDown" member="selectionChanging" label="selectionChanging" /> 이벤트를 처리하고 기본 동작을 취소해야 합니다. 그런 다음 선택을 올바르게 처리하려면 `MultiLevelService`의 `handleSelection` 메서드를 사용할 수 있으며, 메뉴 항목을 클릭할 때 드롭다운이 닫히는 것을 막으려면 `MultiLevelService`의 `handleClosing` 메서드를 사용할 수 있습니다.
+
+```ts
+@ViewChildren(IgxDropDownComponent, { read: IgxDropDownComponent })
+private _dropdowns: QueryList<IgxDropDownComponent>;
+
+@ViewChild('dropdown1', { read: IgxDropDownComponent })
+private _multiLevelDropdown: IgxDropDownComponent;
+
+constructor(private _multiLevelService: MultiLevelService) { }
+
+public ngAfterViewInit(): void {
+    this._dropdowns.forEach((dropdown) => {
+        dropdown.selectionChanging.subscribe((args) => {
+            args.cancel = true;
+            const value = args.newSelection.value;
+            const categories = this._multiLevelService.categories;
+
+            if (categories.includes(value)) {
+                this.selection = '';
+                return;
+            }
+
+            if (this._multiLevelService.isMultiLevel(dropdown)) {
+                this._multiLevelService.handleSelection();
+            } else {
+                dropdown.close();
+            }
+
+            this.selection = value;
+        });
+    });
+
+    this._multiLevelDropdown.closing.subscribe((args) => {
+        this._multiLevelService.handleClosing(args);
+    });
+}
+```
+
+위 구성의 결과는 아래 샘플에서 확인할 수 있습니다.
+
+<Sample src="/data-entries/dropdown-multi-level-menu" height={400} alt="" />
+
+<DocsAside type="info">
+처음부터 열려 있는 Dropdown 컴포넌트를 표시하려면, requestAnimationFrame 메서드의 콜백으로 open 메서드를 설정하는 것을 권장합니다. 이렇게 하면 DOM 트리가 다시 그려지고 모든 요소가 올바르게 위치하도록 보장됩니다.
+</DocsAside>
+
+### 탐색 디렉티브
+
+`igxDropDown` 컴포넌트의 키보드 탐색을 활성화하려면 <ApiLink type="DropDownItemNavigationDirective" /> 디렉티브를 사용하십시오. 디렉티브가 발생하는 모든 이벤트를 처리하려면 활성(포커스된) 요소 또는 상위 컨테이너에 적용해야 합니다. 기본적으로 드롭다운이나 그 항목은 포커스를 받지 않으므로, 드롭다운을 제어하는 `button` 또는 `input`에 디렉티브를 둘 수 있습니다. 탐색 디렉티브의 값은 <ApiLink type="DropDownBaseDirective" /> 클래스의 인스턴스이거나 그 하위 클래스인 컴포넌트를 대상으로 해야 합니다.
+
+다음 샘플은 클릭할 때 `igxDropDown` 인스턴스를 열고 닫는 입력을 보여 줍니다. 입력 자체에 <ApiLink type="DropDownItemNavigationDirective" /> 디렉티브를 적용하면 위쪽 및 아래쪽 화살표 키를 사용할 때 키보드 탐색이 활성화됩니다. 이는 입력이 포커스를 유지하도록 <ApiLink type="DropDown" member="allowItemsFocus" label="allowItemsFocus" /> 속성이 `false`(으)로 설정된 기본 드롭다운 동작에 의존합니다.
+
+```html
+{/* input-dropdown.component.html */}
+<igx-input-group #inputGroup [igxToggleAction]="dropDown">
+  <input
+    type="text"
+    igxInput
+    [igxDropDownItemNavigation]="dropDown"
+    readonly="true"
+    placeholder="choose an option"
+    [value]="dropDown.selectedItem?.value"
+    (keydown.ArrowDown)="openDropDown()"
+  />
+
+  <igx-suffix igxIconButton="flat" igxRipple>
+    <igx-icon>arrow_drop{{ dropDown.collapsed ? '_down' : '_up' }}</igx-icon>
+  </igx-suffix>
+</igx-input-group>
+
+<span>Selected: {{ dropDown.selectedItem?.value }}</span>
+<igx-drop-down #dropDown [width]="'160px'">
+  <igx-drop-down-item *ngFor="let item of items" [value]="item.field">
+    {{ item.field }}
+  </igx-drop-down-item>
+</igx-drop-down>
+```
+
+```typescript
+// input-dropdown.component.ts
+export class InputDropDownComponent {
+  @ViewChild(IgxDropDownComponent) public igxDropDown: IgxDropDownComponent;
+  @ViewChild('inputGroup', { read: IgxInputGroupComponent })
+  public inputGroup: IgxInputGroupComponent;
+
+  public items: Array<{ field: string }> = [
+    { field: 'Option 1' },
+    { field: 'Option 2' },
+    { field: 'Option 3' },
+  ];
+
+  public openDropDown() {
+    if (this.igxDropDown.collapsed) {
+      this.igxDropDown.open({
+        modal: false,
+        positionStrategy: new ConnectedPositioningStrategy({
+          target: this.inputGroup.element.nativeElement,
+        }),
+      });
+    }
+  }
+}
+```
+
+<Sample src="/data-entries/dropdown-sample-4" height={220} alt="" />
+
+<hr/>
+
+디렉티브를 적용하면 키보드 탐색의 결과로 다음 작업이 실행됩니다:
+
+| 이름         | 설명                                              |
+| :----------- | :------------------------------------------------------- |
+| `Enter`      | 드롭다운에서 항목을 선택하고 드롭다운을 닫습니다. |
+| `Space`      | 드롭다운에서 항목을 선택하고 드롭다운을 닫습니다. |
+| `Esc`        | 드롭다운을 닫습니다.                                    |
+| `Arrow Down` | 대상 컴포넌트의 다음 항목으로 이동합니다.       |
+| `Arrow Up`   | 대상 컴포넌트의 이전 항목으로 이동합니다.   |
+| `End`        | 대상 컴포넌트의 마지막 항목으로 이동합니다.       |
+| `Home`       | 대상 컴포넌트의 첫 번째 항목으로 이동합니다.      |
+
+<ApiLink type="DropDown" member="allowItemsFocus" label="allowItemsFocus" /> 속성이 활성화되면 드롭다운 항목은 tab index를 갖고, 활성 상태일 때 포커스를 받습니다. 키보드 탐색 중 이벤트를 발생시키는 것은 포커스된 드롭다운 항목이므로, 탐색 디렉티브는 개별 드롭다운 항목에 적용해야 합니다.
+
+```html
+<igx-input-group [igxToggleAction]="dropDown">
+  <input igxInput type="text" />
+</igx-input-group>
+<igx-drop-down #dropDown [allowItemsFocus]="true">
+  <igx-drop-down-item *ngFor="let p of provinceData" [igxDropDownItemNavigation]="dropDown">
+    {{ p }}
+  </igx-drop-down-item>
+</igx-drop-down>
+```
+
+## 스타일링
+
+### 드롭다운 테마 속성 매핑
+
+기본 속성을 수정하면 관련된 모든 종속 속성이 자동으로 업데이트됩니다:
+
+| 기본 속성 | 종속 속성 | 설명 |
+| --- | --- | --- |
+| **$background-color** | $item-text-color | 드롭다운 항목 텍스트의 색상입니다. |
+|  | $hover-item-background | 드롭다운 마우스 오버 항목의 배경색입니다. |
+|  | $focused-item-background | 드롭다운 포커스된 항목의 배경색입니다. |
+|  | $focused-item-text-color | 드롭다운 포커스된 항목의 텍스트 색상입니다. |
+|  | $selected-item-background | 드롭다운 선택된 항목의 배경색입니다. |
+|  | $disabled-item-text-color | 드롭다운 비활성화된 항목의 텍스트 색상입니다. |
+|  | $header-text-color | 드롭다운 헤더의 텍스트 색상입니다. |
+| **$item-text-color** | $item-icon-color | 드롭다운 항목 아이콘의 색상입니다. |
+|  | $hover-item-text-color | 드롭다운 항목의 마우스 오버 텍스트 색상입니다. |
+|  | $hover-item-icon-color | 드롭다운 항목의 마우스 오버 아이콘 색상입니다. |
+| **$selected-item-background** | $selected-item-text-color | 드롭다운 선택된 항목의 텍스트 색상입니다. |
+|  | $selected-item-icon-color | 드롭다운 선택된 항목의 아이콘 색상입니다. |
+|  | $selected-hover-item-background | 드롭다운 선택된 항목의 마우스 오버 배경색입니다. |
+|  | $selected-hover-item-text-color | 드롭다운 선택된 항목의 마우스 오버 텍스트 색상입니다. |
+|  | $selected-hover-item-icon-color | 드롭다운 선택된 항목의 마우스 오버 아이콘 색상입니다. |
+|  | $selected-focus-item-background | 드롭다운 선택된 항목의 포커스 배경색입니다. |
+|  | $selected-focus-item-text-color | 드롭다운 선택된 항목의 포커스 텍스트 색상입니다. |
+|  | $focused-item-border-color | 드롭다운 항목 포커스 테두리 색상입니다. |
+
+[Ignite UI for Angular Theming](/themes)을 사용하면 드롭다운의 모양을 크게 바꿀 수 있습니다. 먼저 테마 엔진이 제공하는 함수를 사용하려면 스타일 파일에서 `index` 파일을 가져와야 합니다:
+
+```scss
+@use "igniteui-angular/theming" as *;
+
+// IMPORTANT: Prior to Ignite UI for Angular version 13 use:
+// @import '~igniteui-angular/lib/core/styles/themes/index';
+```
+
+가장 단순한 방법으로, <ApiLink kind="sass" module="themes" type="function-drop-down-theme" label="drop-down-theme" code={true} />을(를) 확장하고 기본 테마의 매개변수 일부를 받는 새 테마를 만듭니다. 특정 배경색을 제공하면 테마가 상태 색상과 적절한 대비 전경색을 자동으로 계산합니다. `$background` 속성을 설정하면 완전히 스타일이 적용된 드롭다운을 얻을 수 있습니다.
+
+```scss
+$custom-drop-down-theme: drop-down-theme(
+  $header-text-color: #345779,
+  $item-text-color: #2dabe8,
+  $hover-item-text-color: #345779,
+  $selected-item-background: #345779,
+);
+```
+
+마지막 단계는 사용자 지정 드롭다운 테마를 전달하는 것입니다:
+
+```scss
+:host {
+  @include tokens($custom-drop-down-theme);
+}
+```
+
+### 데모
+
+<Sample src="/data-entries/dropdown-styling" height={350} alt="" />
+
+<hr/>
+
+## API 참조
+- <ApiLink type="DropDown" />
+- <ApiLink kind="sass" module="themes" type="function-drop-down-theme" label="IgxDropDownComponent 스타일" />
+- <ApiLink type="DropDownItem" />.
+- <ApiLink kind="interface" type="OverlaySettings" />
+- <ApiLink kind="sass" module="themes" type="function-overlay-theme" label="IgxOverlay 스타일" />
+- <ApiLink type="Divider" />
+- <ApiLink kind="sass" module="themes" type="function-divider-theme" label="IgxDividerComponent 스타일" />
+## 테마 종속성
+
+- <ApiLink kind="sass" module="themes" type="function-overlay-theme" label="IgxOverlay 테마" />
+
+## 추가 리소스
+
+커뮤니티는 활발하며 새로운 아이디어를 언제나 환영합니다.
+
+- [Ignite UI for Angular **포럼**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

@@ -1,0 +1,278 @@
+---
+title: "{Platform} {GridLiteTitle} 셀 템플릿 | {ProductName} | MIT 라이선스"
+description: "사용자 지정 Grid Lite 셀 렌더러를 구성하고 사용자 지정합니다. 오픈 소스 {Platform} {GridLiteTitle}로 앱을 만드십시오. 지금 사용해 보십시오."
+keywords: "셀 템플릿, {Platform}, {ComponentKeywords}, {ProductName}, Infragistics"
+mentionedTypes: [{ComponentApiMembers}]
+namespace: Infragistics.Controls
+license: MIT
+_language: ko
+llms:
+  description: "기본적으로 그리드는 열의 필드를 사용해 셀 안에 값을 문자열로 렌더링합니다."
+---
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+
+# 열 셀 템플릿
+
+기본적으로 그리드는 열의 필드를 사용해 셀 안에 값을 문자열로 렌더링합니다. 기본적인 시나리오에는 이것으로 충분하지만, 렌더링되는 출력을 사용자 지정하고 싶거나 최종 출력이 여러 데이터 필드의 조합이라면 셀 템플릿을 사용자 지정할 수 있습니다.
+
+이를 위해 열의 `cellTemplate` 속성을 설정하십시오.
+
+
+<PlatformBlock for="WebComponents">
+
+
+
+```typescript
+// Get a reference to the column element
+const column = document.querySelector('igc-grid-lite-column[field="price"]');
+
+// Set the cellTemplate property
+column.cellTemplate = (params: IgcCellContext<T, K>) => { return html`<!-- template content -->`};
+```
+
+</PlatformBlock>
+<PlatformBlock for="React">
+
+```tsx
+// Define cellTemplate function
+const currencyCellTemplate = (ctx: IgrCellContext) => (
+  {/* Template contents */}
+);
+
+// Set the cellTemplate property
+return (
+  <IgrGridLite data={data} id="grid-lite">
+    <IgrGridLiteColumn
+      field="price"
+      header="Price"
+      dataType="number"
+      cellTemplate={currencyCellTemplate}
+    ></IgrGridLiteColumn>
+  </IgrGridLite>
+);
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<!-- Templates TBD in Blazor -->
+<IgbGridLiteColumn Field="Price"></IgbGridLiteColumn>
+```
+
+</PlatformBlock>
+
+## 서식 지정 함수로 사용하기
+
+서식 지정이 필요한 간단한 시나리오에서는 서식이 지정된 값을 반환하기만 하면 됩니다. 다음은 숫자 값을 로캘 통화 형식으로 표시하는 예입니다:
+
+<PlatformBlock for="WebComponents">
+
+```typescript
+const { format: asCurrency } = new Intl.NumberFormat('en-150', { style: 'currency', currency: 'EUR' });
+
+// Get a reference to the column element
+const column = document.querySelector('igc-grid-lite-column');
+
+// Return the custom currency formatted value
+column.cellTemplate = (params) => asCurrency(params.value); // => "€123,456.79"
+```
+
+</PlatformBlock>
+<PlatformBlock for="React">
+
+```tsx
+const formatCurrency = new Intl.NumberFormat("en-150", {
+  style: "currency",
+  currency: "EUR",
+});
+
+// Return the custom currency formatted value
+const currencyCellTemplate = (ctx: IgrCellContext) => (
+  <span>{formatCurrency(ctx.value)}</span>
+);
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<!-- Templates TBD in Blazor -->
+<IgbGridLiteColumn Field="Price"></IgbGridLiteColumn>
+```
+
+</PlatformBlock>
+
+데이터 소스에 있는 여러 필드의 값을 결합할 수도 있습니다.
+{/*TODO:
+Refer to the API documentation for `GridLiteCellContext` for more information.*/}
+
+<PlatformBlock for="WebComponents">
+
+```typescript
+const { format: asCurrency } = new Intl.NumberFormat('en-150', { style: 'currency', currency: 'EUR' });
+
+// Get a reference to the column element
+const column = document.querySelector('igc-grid-lite-column');
+
+// Return the custom currency formatted value
+column.cellTemplate = ({value, row}) => asCurrency(value * row.data.count);
+```
+
+</PlatformBlock>
+<PlatformBlock for="React">
+
+```tsx
+const { format: asCurrency } = new Intl.NumberFormat("en-150", {
+  style: "currency",
+  currency: "EUR",
+});
+
+// Return the custom currency formatted value
+const totalCellTemplate = (ctx: IgrCellContext) => (
+  <span>{asCurrency(ctx.value * ctx.row.data.count)}</span>
+);
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<!-- Templates TBD in Blazor -->
+<IgbGridLiteColumn Field="Price"></IgbGridLiteColumn>
+```
+
+</PlatformBlock>
+
+## 사용자 지정 DOM 템플릿
+
+`cellTemplate` 속성을 값 포맷터로 사용하는 것 외에도, 셀 컨테이너 안에 렌더링될 자체 DOM 템플릿을 만들 수도 있습니다.
+
+<PlatformBlock for="WebComponents">
+선언적 DOM 조각을 만들기 위해 <a href="https://lit.dev/" target="_blank">Lit</a>과 그 <a href="https://lit.dev/docs/templates/expressions/" target="_blank">태그 템플릿 구문</a>이 제공하는 기능을 재사용하기로 했습니다.
+
+</PlatformBlock>
+
+
+표준 DOM 요소뿐만 아니라 다른 라이브러리의 웹 컴포넌트도 템플릿으로 만들 수 있습니다.
+
+<PlatformBlock for="WebComponents">
+
+
+```typescript
+// Import the `html` tag function from the Lit package.
+import { html } from "lit";
+
+// Get a reference to the column element
+const column = document.querySelector('igc-grid-lite-column[field="rating"]');
+
+// Use another web component to represent the `rating` value in the grid
+column.cellTemplate = ({ value }) => html`<igc-rating readonly value=${value}></igc-rating>`;
+```
+
+
+</PlatformBlock>
+<PlatformBlock for="React">
+
+
+```tsx
+// Import defineComponents and an igniteui-webcomponents component such as the rating component.
+import { defineComponents, IgcRatingComponent } from "igniteui-webcomponents";
+
+defineComponents(IgcRatingComponent);
+
+// Use the web component as you would normally inside the react cell template
+const satisfactionCellTemplate = (ctx: IgrCellContext) => (
+  <span>
+    <igc-rating readonly value={ctx.value}></igc-rating>
+  </span>
+);
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+
+```razor
+<!-- Templates TBD in Blazor -->
+<IgbGridLiteColumn Field="Rating"></IgbGridLiteColumn>
+```
+
+
+</PlatformBlock>
+
+<DocsAside type="info">
+템플릿이 복잡하고 관여도가 높을수록 성능 비용이 커진다는 점을 기억하십시오. 성능이 중요하다면 복잡한 DOM 구조는 피하십시오.
+</DocsAside>
+
+## 셀 컨텍스트 객체
+
+사용자 지정 셀 렌더러는 다음 속성을 가진 `GridLiteCellContext` 객체를 매개변수로 받습니다:
+
+<PlatformBlock for="React, WebComponents">
+```typescript
+/**
+ * Context object for the row cell template callback.
+ */
+export interface GridLiteCellContext<
+  T extends object,
+  K extends Keys<T> = Keys<T>
+> {
+  /**
+   * The cell element parent of the template.
+   */
+  parent: GridLiteCell<T>;
+  /**
+   * The row element containing the cell.
+   */
+  row: GridLiteRow<T>;
+  /**
+   * The current configuration for the column.
+   */
+  column: ColumnConfiguration<T, K>;
+  /**
+   * The value from the data source for this cell.
+   */
+  value: PropertyType<T, K>;
+}
+```
+</PlatformBlock>
+
+<Sample src="/{GridLiteSample}/column-config-basic" height={600} alt="{Platform} {GridLiteTitle} 열 구성 기본" />
+
+
+<PlatformBlock for="WebComponents, Blazor">
+
+## API 참조
+
+<PlatformBlock for="WebComponents">
+<ApiLink type="GridLite" /><br />
+<ApiLink type="GridLiteColumn" /><br />
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+<ApiLink type="GridLite<TItem>" /><br />
+<ApiLink type="GridLiteColumn" /><br />
+
+</PlatformBlock>
+
+</PlatformBlock>
+
+## 추가 리소스
+
+- [열 구성](./column-configuration.mdx)
+- [정렬](./sorting.mdx)
+- [필터링](./filtering.mdx)
+- [테마 및 스타일링](./theming.mdx)
+
+커뮤니티는 활발하며 새로운 아이디어를 언제나 환영합니다.
+
+- [{GridLiteTitle} **GitHub**]({GithubLinkLite})

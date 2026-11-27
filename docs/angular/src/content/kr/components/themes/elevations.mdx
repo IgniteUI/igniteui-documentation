@@ -1,0 +1,102 @@
+---
+title: "고도(그림자)"
+description:
+keywords: "Ignite UI for Angular, UI 컨트롤, Angular 위젯, 웹 위젯, UI 위젯, Angular, Native Angular Components Suite, Native Angular Controls, Native Angular Components Library"
+_language: ko
+llms:
+  description: "고도는 DOM 트리 사이에 기능적 경계를 설정하고 유지하여 더 나은 기능적 캡슐화를 가능하게 하는 데 사용됩니다."
+---
+
+# 고도
+
+<div class="highlight">
+
+
+고도는 DOM 트리 사이에 기능적 경계를 설정하고 유지하여 더 나은 기능적 캡슐화를 가능하게 하는 데 사용됩니다. Ignite UI for Angular의 고도 구현은 [Material Design의 고도](https://material.io/design/environment/elevation.html#elevation-in-material-design)를 본떠 만들어졌습니다.
+
+</div>
+<igc-divider></igc-divider>
+
+## 개요
+
+Ignite UI for Angular의 그림자는 25단계의 고도 수준을 기반으로 깊이 계층을 설정하는 Material Design 지침을 충실히 따릅니다. 드리워지는 그림자의 크기는 고도 수준 번호와 관련되어 있습니다. 고도 수준 번호가 높을수록 그림자는 커집니다. Ignite UI for Angular의 고도는 CSS 변수로 노출됩니다. 각 변수는 3개의 `box-shadows`로 구성된 집합을 저장합니다. 이 `box-shadows`는 실제 세계에서 관찰되는 그림자의 속성인 본그림자(umbra), 반그림자(penumbra), 외곽그림자(antumbra) 요소를 나타냅니다.
+
+다음은 Material 테마에서 Ignite UI for Angular의 여러 컴포넌트가 사용하는 정지 상태 고도 목록과 해당 CSS 변수 이름입니다:
+
+| 컴포넌트                                          | 기본 고도 수준 | CSS 변수      |
+| :------------------------------------------------- | :---------------------- | :---------------- |
+| banner, button, toast                              | 0                       | --ig-elevation-0  |
+| badge, carousel buttons, search input              | 1                       | --ig-elevation-1  |
+| button group, contained button, card, grid, switch | 2                       | --ig-elevation-2  |
+| navbar, snackbar                                   | 4                       | --ig-elevation-4  |
+| floating action button,                            | 6                       | --ig-elevation-6  |
+| bottom navigation, ghost chip, dropdown            | 8                       | --ig-elevation-8  |
+| navdrawer                                          | 16                      | --ig-elevation-16 |
+| dialog                                             | 24                      | --ig-elevation-24 |
+
+`CSS Variable` 열에서 볼 수 있듯이, 모든 고도는 다음 형식 `--ig-elevation-[level]`로 정의됩니다. 앞서 언급했듯이 고도 수준 번호는 0부터 24까지(포함)입니다.
+
+## 사용법
+
+자신의 컴포넌트에서 고도를 사용하기 시작하려면 원하는 수준의 변수 이름을 참조하기만 하면 됩니다.
+
+```css
+.floaty-element {
+  box-shadow: var(--ig-elevation-6);
+}
+```
+
+기존 컴포넌트 테마의 고도를 바꾸는 것도 비슷한 방식으로 작동합니다.
+
+```css
+[igxButton="contained"] {
+  --resting-shadow: var(--ig-elevation-4);
+  --hover-shadow: var(--ig-elevation-12);
+  --focus-shadow: var(--ig-elevation-12);
+}
+```
+
+각 컴포넌트 테마 문서에는 각 상태에서 사용되는 기본 고도가 나열되어 있습니다. 고도가 나열되어 있지 않다면, 그 컴포넌트는 미리 정의된 고도 수준을 전혀 사용하지 않는 것입니다.
+
+## 고도 정의하기
+
+기본 고도를 업데이트하는 방법은 팔레트 색상을 업데이트하는 방법과 비슷합니다. 변수를 다른 값으로 다시 할당하기만 하면 됩니다. 고도의 경우 값이 `box-shadow`이어야 한다는 점을 확인하십시오.
+
+예:
+
+```css
+/* styles.css */
+:root {
+    --ig-elevation-1: 0 2px 6px 0 rgba(0, 0, 0, .18);
+    --ig-elevation-2: 0 3px 9px 0 rgba(0, 0, 0, .24);
+}
+```
+
+이제 고도 수준 1과 2를 사용하는 모든 컴포넌트의 그림자가 업데이트됩니다.
+
+### 그림자 적용
+
+전역으로 설정된 고도를 특정 범위에 대해서만 그림자로 덮어쓸 수 있습니다. 버튼 컴포넌트는 정지 상태에 고도 수준 2를 사용한다는 것을 이미 보았습니다. 수준 2는 card 및 grid 컴포넌트에서도 사용됩니다. 따라서 세 컴포넌트의 그림자를 모두 바꾸려면 다음만 하면 됩니다:
+
+```css
+[igxButton="contained"],
+igx-grid,
+igx-card {
+    --ig-elevation-2: 0 3px 9px 0 rgba(0, 0, 0, .24);
+}
+```
+
+이렇게 하면 contained button과 card의 `--resting-shadow`, grid의 `--grid-shadow`가 `--ig-elevation-2`에 할당된 값으로 설정됩니다.
+
+Sass를 사용하면 고도를 더 강력한 방식으로 만들고 사용할 수도 있습니다. 자세한 내용은 아래 관련 주제를 확인하십시오.
+
+## 추가 리소스
+
+관련 항목:
+
+- [Sass로 고도 설정하기](/themes/sass/elevations)
+
+커뮤니티는 활발하며 새로운 아이디어를 언제나 환영합니다.
+
+- [Ignite UI for Angular **포럼**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

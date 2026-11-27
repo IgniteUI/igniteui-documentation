@@ -1,0 +1,1043 @@
+---
+title: "가상 스크롤"
+description: "Virtual Scroll은 뷰포트의 항목과 약간의 버퍼만 렌더링하므로 큰 목록도 부드럽게 스크롤되는 컴포넌트입니다."
+keywords: "{Platform} Virtual Scroll, 가상화, 가상 목록, 큰 목록, 무한 스크롤, 원격 데이터, {ProductName}"
+last_updated: "2026-09-25"
+license: MIT
+mentionedTypes: ["VirtualScroll"]
+relatedComponents: ["List", "Grid", "Card"]
+_language: ko
+llms:
+  description: "{ProductName} Virtual Scroll은 뷰포트의 항목과 구성 가능한 버퍼만 DOM에 유지하여 큰 목록을 렌더링하는 컴포넌트입니다."
+---
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+import Anatomy from 'igniteui-astro-components/components/mdx/Anatomy.astro';
+import Faq from 'igniteui-astro-components/components/mdx/Faq.astro';
+import FaqItem from 'igniteui-astro-components/components/mdx/FaqItem.astro';
+import { Image } from 'astro:assets';
+import virtualScrollAnatomy from '@xplat-images/anatomy-content-light/virtual-scroll-lt-a.png';
+import virtualScrollDo from '@xplat-images/virtual-scroll/virtual-scroll-do.png';
+import virtualScrollDoNot from '@xplat-images/virtual-scroll/virtual-scroll-do-not.png';
+
+# Virtual Scroll 컴포넌트
+
+{ProductName} Virtual Scroll은 뷰포트의 항목과 구성 가능한 버퍼만 DOM에 유지하여 큰 목록을 렌더링하는 컴포넌트입니다. 스크롤바는 여전히 전체 컬렉션을 나타내므로, 십만 개 항목의 가상 목록도 일반 목록처럼 스크롤됩니다.
+
+## 라이브 데모
+
+<PlatformBlock for="Angular">
+
+<Sample src="/data-display/virtual-scroll-overview" height={560} alt="직원 10만 명이 있는 Angular Virtual Scroll" />
+
+</PlatformBlock>
+
+<PlatformBlock for="React, WebComponents">
+
+<Sample src="/layouts/virtual-scroll/overview" height={560} alt="직원 10만 명이 있는 {Platform} Virtual Scroll" />
+
+</PlatformBlock>
+
+## 구조
+
+{Platform} Virtual Scroll은 보이는 항목과 구성 가능한 버퍼를 렌더링하며, 트랙은 전체 컬렉션의 스크롤 범위를 유지합니다.
+
+<Anatomy
+  class="virtual-scroll-anatomy"
+  src={virtualScrollAnatomy.src}
+  alt="{Platform} Virtual Scroll 구성 요소: 호스트, 트랙, 콘텐츠 요소, 항목 래퍼 및 오버스캔 버퍼"
+/>
+
+<style>{`
+  .virtual-scroll-anatomy {
+    --igd-anatomy-padding: 64px 32px;
+  }
+
+  .virtual-scroll-anatomy .igd-anatomy__image {
+    max-width: 520px;
+  }
+`}</style>
+
+<span class="ig-typography__body-2" style="display: block; margin-bottom: 24px;"><strong>1. 호스트:</strong> 스크롤 컨테이너입니다. 고정 높이(가로일 때는 너비)가 보이는 항목 수를 결정합니다.<br />
+<strong>2. 트랙:</strong> 전체 컬렉션의 예상 길이에 맞춰진 spacer로, 스크롤바가 모든 항목을 나타내도록 합니다.<br />
+<strong>3. 콘텐츠 요소:</strong> 렌더링된 항목만 담습니다. 뷰포트 위쪽에 있는 첫 번째 렌더링 버퍼 항목에서 시작하며, 렌더링된 항목에서 크기를 가져옵니다.<br />
+<strong>4. 항목 래퍼:</strong> 렌더링된 항목마다 하나씩 있습니다. 항목 템플릿을 호스팅하며 측정되는 상자입니다.<br />
+<strong>5. 오버스캔 버퍼:</strong> 뷰포트의 각 가장자리 바깥쪽에 렌더링되는 <code>overScan</code> 항목(기본값 2개)입니다.</span>
+
+<PlatformBlock for="Angular">
+
+```text
+igx-virtual-scroll                      — scrollable viewport (role="list")
+└── .igx-virtual-scroll__track          — provides the collection's scroll range
+    └── .igx-virtual-scroll__content    — positions the rendered window
+        └── .igx-virtual-item           — one wrapper per rendered item (data-index); hosts the item template
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React, WebComponents">
+
+```text
+igc-virtual-scroll                            — scrollable viewport
+└── [part="virtualization-track"]             — provides the collection's scroll range
+    └── [part="virtualization-content"]       — positions the rendered window
+        └── div[data-vs-index]                — one wrapper per rendered item; hosts the item template
+```
+
+</PlatformBlock>
+
+## 시작하기
+
+<PlatformBlock for="Angular">
+
+[시작하기](../general/getting-started.mdx) 항목에 따라 {ProductName}을(를) 설정한 다음, 항목 템플릿을 표시하는 <ApiLink type="VirtualScroll" />과(와) `IgxVirtualItemDirective`을(를) 가져오십시오.
+
+```ts
+import { Component } from '@angular/core';
+import { IgxVirtualItemDirective, IgxVirtualScrollComponent } from 'igniteui-angular/virtual-scroll';
+
+@Component({
+    selector: 'app-employees',
+    imports: [IgxVirtualScrollComponent, IgxVirtualItemDirective],
+    templateUrl: './employees.component.html'
+})
+export class EmployeesComponent {
+    public items = Array.from({ length: 100_000 }, (_, i) => ({ name: `Item ${i}` }));
+}
+```
+
+```html
+<igx-virtual-scroll [data]="items" style="height: 400px">
+    <ng-template igxVirtualItem let-item let-index="index">
+        <div class="row">{{ index }}: {{ item.name }}</div>
+    </ng-template>
+</igx-virtual-scroll>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+[시작하기](../general-getting-started.mdx) 항목에 따라 {ProductName}을(를) 설정한 다음, <ApiLink type="VirtualScroll" />을(를) 등록하고 항목 템플릿과 데이터를 지정하십시오.
+
+```ts
+import { defineComponents, IgcVirtualScrollComponent } from 'igniteui-webcomponents';
+import type { VirtualScrollItemContext } from 'igniteui-webcomponents';
+import { html } from 'lit';
+
+defineComponents(IgcVirtualScrollComponent);
+
+const virtualScroll = document.querySelector('igc-virtual-scroll') as IgcVirtualScrollComponent<Item>;
+virtualScroll.itemTemplate = (ctx: VirtualScrollItemContext<Item>) =>
+    html`<div class="row">${ctx.index}: ${ctx.value.name}</div>`;
+virtualScroll.data = Array.from({ length: 100_000 }, (_, i) => ({ name: `Item ${i}` }));
+```
+
+```html
+<igc-virtual-scroll style="height: 400px"></igc-virtual-scroll>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+[시작하기](../general-getting-started.mdx) 항목에 따라 {ProductName}을(를) 설정한 다음, <ApiLink type="VirtualScroll" />을(를) 가져와 항목 템플릿과 데이터를 지정하십시오. React 래퍼는 모듈이 로드될 때 기반 요소를 등록하므로 별도의 등록 호출은 필요하지 않습니다:
+
+```tsx
+import { IgrVirtualScroll } from 'igniteui-react';
+import type { VirtualScrollItemContext } from 'igniteui-react';
+
+const items = Array.from({ length: 100_000 }, (_, i) => ({ name: `Item ${i}` }));
+
+export function Employees() {
+    return (
+        <IgrVirtualScroll
+            data={items}
+            itemTemplate={(ctx: VirtualScrollItemContext<Item>) => (
+                <div className="row">{ctx.index}: {ctx.value.name}</div>
+            )}
+            style={{ height: '400px' }}
+        />
+    );
+}
+```
+
+</PlatformBlock>
+
+Virtual Scroll 호스트에는 세로 스크롤을 위한 고정 높이 또는 가로 스크롤을 위한 고정 너비가 필요합니다. 콘텐츠에 맞춰 커지는 호스트는 모든 항목을 렌더링하므로 목록이 가상화되지 않습니다.
+
+### 사전 요구 사항 및 버전 호환성
+
+<PlatformBlock for="Angular">
+
+| 요구 사항 | 값 |
+| --- | --- |
+| 패키지 | `igniteui-angular` (MIT) |
+| 진입점 | `igniteui-angular/virtual-scroll` |
+| 컴포넌트가 포함된 첫 번째 릴리스 | 22.2.0 |
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+| 요구 사항 | 값 |
+| --- | --- |
+| 패키지 | `igniteui-webcomponents` (MIT) |
+| 컴포넌트가 포함된 첫 번째 릴리스 | 7.3.0 |
+| 항목 템플릿 | Lit의 `html` 태그입니다. `lit`은(는) `igniteui-webcomponents`의 종속성이며, 직접 가져올 때는 자신의 종속성에 추가하십시오. |
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+| 요구 사항 | 값 |
+| --- | --- |
+| 패키지 | `igniteui-react` (MIT) |
+| 컴포넌트가 포함된 첫 번째 릴리스 | 19.9.0 |
+| 피어 패키지 | `react` 및 `react-dom` 18 또는 19 |
+| 항목 템플릿 | 함수에서 반환되는 JSX입니다. `igniteui-webcomponents`은(는) `igniteui-react`의 종속성으로 들어오므로 직접 설치할 필요가 없습니다. |
+| 테마 | 테마 스타일시트를 한 번 가져오십시오. 예를 들면 `igniteui-webcomponents/themes/light/bootstrap.css`입니다. |
+
+</PlatformBlock>
+
+## 사용법
+
+### 항목 템플릿
+
+Virtual Scroll 항목 템플릿은 항목과 전체 컬렉션에서의 위치를 받습니다. 번갈아 나오는 스타일이나 `aria-posinset` 및 `aria-setsize`처럼 위치에 따라 달라지는 콘텐츠에는 인덱스와 전체 개수를 사용하십시오.
+
+<PlatformBlock for="Angular">
+
+`ng-template`을 `igxVirtualItem`로 표시하십시오. 또는 다른 곳에 정의된 템플릿을 <ApiLink type="VirtualScroll" member="itemTemplate" label="itemTemplate" />를 통해 전달할 수 있으며, 이 방식이 우선합니다. 템플릿 컨텍스트는 `$implicit`(항목), `index`, `count`, `first`, `last`, `even`, `odd`를 제공합니다.
+
+```html
+<igx-list>
+    <igx-virtual-scroll role="presentation" [data]="employees" [estimatedItemSize]="64" style="height: 480px">
+        <ng-template igxVirtualItem let-employee let-index="index" let-count="count">
+            <igx-list-item [attr.aria-posinset]="index + 1" [attr.aria-setsize]="count">
+                <igx-avatar igxListThumbnail shape="circle" [initials]="employee.initials"></igx-avatar>
+                <span igxListLineTitle>{{ employee.name }}</span>
+                <span igxListLineSubTitle>{{ employee.email }}</span>
+            </igx-list-item>
+        </ng-template>
+    </igx-virtual-scroll>
+</igx-list>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+<ApiLink type="VirtualScroll" member="itemTemplate" label="itemTemplate" />을(를) Lit 템플릿을 반환하는 함수로 설정하십시오. 이 함수는 `value`(항목), `index`, `count`, `isFirst`, `isLast`을(를) 가진 `VirtualScrollItemContext`를 받습니다. 항목 템플릿이 없으면 컴포넌트는 아무것도 렌더링하지 않습니다.
+
+```ts
+virtualScroll.itemTemplate = (ctx: VirtualScrollItemContext<Employee>) => html`
+    <igc-list-item aria-posinset=${ctx.index + 1} aria-setsize=${ctx.count}>
+        <igc-avatar slot="start" shape="circle" initials=${ctx.value.initials}></igc-avatar>
+        <span slot="title">${ctx.value.name}</span>
+        <span slot="subtitle">${ctx.value.email}</span>
+    </igc-list-item>
+`;
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+<ApiLink type="VirtualScroll" member="itemTemplate" label="itemTemplate" />을(를) JSX를 반환하는 함수로 설정하십시오. 이 함수는 `value`(항목), `index`, `count`, `isFirst`, `isLast`을(를) 가진 `VirtualScrollItemContext`를 받습니다. 항목 템플릿이 없으면 컴포넌트는 아무것도 렌더링하지 않습니다.
+
+```tsx
+<IgrVirtualScroll
+    data={employees}
+    estimatedItemSize={64}
+    itemTemplate={(ctx: VirtualScrollItemContext<Employee>) => (
+        <IgrListItem ariaPosinset={ctx.index + 1} ariaSetsize={ctx.count}>
+            <IgrAvatar slot="start" shape="circle" initials={ctx.value.initials} />
+            <span slot="title">{ctx.value.name}</span>
+            <span slot="subtitle">{ctx.value.email}</span>
+        </IgrListItem>
+    )}
+    style={{ height: '480px' }}
+/>
+```
+
+</PlatformBlock>
+
+### 데이터
+
+Virtual Scroll <ApiLink type="VirtualScroll" member="data" label="data" /> 컬렉션은 참조로 비교됩니다. 목록을 업데이트하려면 새 배열을 할당하십시오. 예를 들어 `push`로 바인딩된 배열을 제자리에서 변경하면 목록이 업데이트되지 않습니다.
+
+<PlatformBlock for="Angular">
+
+```ts
+this.employees = [...this.employees, newEmployee];
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```ts
+virtualScroll.data = [...virtualScroll.data, newEmployee];
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+setEmployees(current => [...current, newEmployee]);
+```
+
+</PlatformBlock>
+
+`data`이(가) 변경되면 컴포넌트는 첫 번째 변경된 인덱스 이전 항목의 측정된 크기를 유지하고, 나머지는 렌더링될 때 다시 측정합니다. 추가하면 기존 측정값이 모두 유지되며, 교체, 필터링 또는 정렬하면 첫 번째 변경된 항목부터의 측정값이 버려집니다.
+
+<PlatformBlock for="React, WebComponents">
+
+항목은 해당 키가 렌더링된 창 안에 있는 동안 자신의 요소를 유지합니다. <ApiLink type="VirtualScroll" member="keyFunction" label="keyFunction" />이 없으면 인덱스가 키가 되므로, 정렬, 삽입 또는 제거 후에도 인덱스의 요소는 그대로 있고 새 항목을 표시합니다. `data` 안에서 항목이 이동할 때는 `keyFunction`에서 안정적인 ID를 반환하십시오:
+
+```ts
+virtualScroll.keyFunction = (employee) => employee.id;
+```
+
+</PlatformBlock>
+
+### 예상 항목 크기
+
+Virtual Scroll <ApiLink type="VirtualScroll" member="estimatedItemSize" label="estimatedItemSize" />은(는) 항목이 렌더링되고 측정되기 전까지 항목이 가지는 픽셀 단위 크기입니다(기본값은 `50`). 항목마다 크기가 다를 수 있으며, 측정된 각 크기가 예상값을 대체합니다.
+
+<PlatformBlock for="Angular">
+
+항목을 측정하기 전에도 스크롤바와 `scrollToIndex`이(가) 정확하도록, 예상값은 평균 항목 크기에 가깝게 설정하십시오.
+
+</PlatformBlock>
+
+<PlatformBlock for="React, WebComponents">
+
+첫 렌더링이 실제 콘텐츠 근처에서 시작되도록 예상값은 평균 항목 크기에 가깝게 설정하십시오. 항목을 측정하고 나면 그 평균이 아직 측정되지 않은 항목의 예상값을 대체하므로, 예상값이 맞지 않더라도 스크롤바와 `scrollToIndex`이(가) 스스로 보정됩니다.
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+```html
+<igx-virtual-scroll [data]="employees" [estimatedItemSize]="80" style="height: 480px">...</igx-virtual-scroll>
+```
+
+<Sample src="/data-display/virtual-scroll-variable-size" height={560} alt="항목 높이가 다양한 Angular Virtual Scroll" />
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-virtual-scroll estimated-item-size="80" style="height: 480px"></igc-virtual-scroll>
+```
+
+<Sample src="/layouts/virtual-scroll/variable-size" height={560} alt="항목 높이가 다양한 {Platform} Virtual Scroll" />
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrVirtualScroll data={employees} estimatedItemSize={80} style={{ height: '480px' }} />
+```
+
+<Sample src="/layouts/virtual-scroll/variable-size" height={560} alt="항목 높이가 다양한 {Platform} Virtual Scroll" />
+
+</PlatformBlock>
+
+항목은 테두리 상자로 측정되므로 여백은 항목 크기에 포함되지 않습니다. 여백 대신 패딩이나 항목 안의 `gap`으로 간격을 두십시오.
+
+### 방향
+
+Virtual Scroll <ApiLink type="VirtualScroll" member="orientation" label="orientation" />은(는) 스크롤 축을 설정합니다. 기본값은 `vertical`이고, 다른 값은 `horizontal`입니다. 가로 목록에서는 각 항목에 너비를, 호스트에는 높이를 지정하십시오. 오른쪽에서 왼쪽으로 쓰는 환경에서는 가로 스크롤과 항목 위치가 좌우 반전됩니다.
+
+<PlatformBlock for="Angular">
+
+```html
+<igx-virtual-scroll orientation="horizontal" [data]="employees" [estimatedItemSize]="220" style="height: 200px">
+    <ng-template igxVirtualItem let-employee>
+        <div style="width: 220px">...</div>
+    </ng-template>
+</igx-virtual-scroll>
+```
+
+<Sample src="/data-display/virtual-scroll-horizontal" height={260} alt="가로 카드가 있는 Angular Virtual Scroll" />
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-virtual-scroll orientation="horizontal" estimated-item-size="220" style="height: 200px"></igc-virtual-scroll>
+```
+
+<Sample src="/layouts/virtual-scroll/horizontal" height={260} alt="가로 카드가 있는 {Platform} Virtual Scroll" />
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrVirtualScroll
+    orientation="horizontal"
+    data={employees}
+    estimatedItemSize={220}
+    itemTemplate={ctx => <div style={{ width: '220px' }}>...</div>}
+    style={{ height: '200px' }}
+/>
+```
+
+<Sample src="/layouts/virtual-scroll/horizontal" height={260} alt="가로 카드가 있는 {Platform} Virtual Scroll" />
+
+</PlatformBlock>
+
+### 오버스캔
+
+Virtual Scroll <ApiLink type="VirtualScroll" member="overScan" label="overScan" />은(는) 뷰포트의 각 가장자리 바깥쪽에 렌더링되는 추가 항목 수입니다(기본값은 `2`). 값이 크면 빠르게 스크롤할 때 빈 영역이 줄어들지만, 렌더링되는 요소가 더 많아집니다.
+
+<PlatformBlock for="Angular">
+
+```html
+<igx-virtual-scroll [data]="items" [overScan]="6" style="height: 400px">...</igx-virtual-scroll>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-virtual-scroll over-scan="6" style="height: 400px"></igc-virtual-scroll>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrVirtualScroll data={items} overScan={6} style={{ height: '400px' }} />
+```
+
+</PlatformBlock>
+
+### 인덱스로 스크롤
+
+Virtual Scroll <ApiLink type="VirtualScroll" member="scrollToIndex" label="scrollToIndex" /> 메서드는 항목이 보이도록 스크롤합니다. 옵션은 기본 `scrollIntoView`의 옵션과 같습니다: `block`(`start`, `center`, `end` 또는 `nearest`), 가로 목록용 `inline`, 그리고 `behavior`(`auto` 또는 `smooth`). 렌더링되지 않은 항목은 예상 크기만 가지므로, 컴포넌트는 도착한 위치에서 항목을 측정하고 위치를 보정합니다. 반환된 Promise는 최종 위치에서 해결됩니다.
+
+<PlatformBlock for="Angular">
+
+```ts
+private readonly virtualScroll = viewChild.required(IgxVirtualScrollComponent);
+
+public async goTo(index: number): Promise<void> {
+    await this.virtualScroll().scrollToIndex(index, { block: 'center' });
+}
+```
+
+<Sample src="/data-display/virtual-scroll-scroll-to-index" height={620} alt="인덱스로 스크롤하는 Angular Virtual Scroll" />
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```ts
+await virtualScroll.scrollToIndex(index, { block: 'center' });
+```
+
+<Sample src="/layouts/virtual-scroll/scroll-to-index" height={620} alt="인덱스로 스크롤하는 {Platform} Virtual Scroll" />
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+const virtualScroll = useRef<IgrVirtualScroll>(null);
+
+async function goTo(index: number): Promise<void> {
+    await virtualScroll.current?.scrollToIndex(index, { block: 'center' });
+}
+```
+
+<Sample src="/layouts/virtual-scroll/scroll-to-index" height={620} alt="인덱스로 스크롤하는 {Platform} Virtual Scroll" />
+
+</PlatformBlock>
+
+`block: 'nearest'`을(를) 사용하면 항목이 이미 완전히 보이는 경우 위치가 바뀌지 않습니다. 컬렉션 범위 밖의 인덱스는 첫 번째 또는 마지막 항목으로 고정됩니다.
+
+### 무한 스크롤
+
+<PlatformBlock for="Angular">
+
+Virtual Scroll <ApiLink type="VirtualScroll" member="dataRequest" label="dataRequest" /> 출력은 원격 데이터에서 추가 전용 로딩을 지원합니다. 렌더링된 창이 `data`의 끝에 가까워지거나, 첫 렌더링에서 로드된 항목이 뷰포트를 채우지 못하면 발생합니다. 요청한 항목을 새 배열로 추가하십시오:
+
+```html
+<igx-virtual-scroll [data]="employees()" [estimatedItemSize]="64" (dataRequest)="loadMore($event)" style="height: 440px">
+    <ng-template igxVirtualItem let-employee>...</ng-template>
+</igx-virtual-scroll>
+```
+
+```ts
+public readonly employees = signal<Employee[]>(firstPage);
+
+public loadMore(request: VirtualScrollDataRequest): void {
+    this.service.fetch(request.startIndex, request.count).subscribe(page => {
+        this.employees.update(current => [...current, ...page]);
+    });
+}
+```
+
+<Sample src="/data-display/virtual-scroll-infinite-scroll" height={560} alt="스크롤하는 동안 항목을 더 불러오는 Angular Virtual Scroll" />
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+Virtual Scroll `igcDataRequest` 이벤트는 원격 데이터에서 추가 전용 로딩을 지원합니다. 렌더링된 창이 `data`의 끝에 가까워지거나, 첫 렌더링에서 로드된 항목이 뷰포트를 채우지 못하면 발생합니다. 요청한 항목을 새 배열로 추가하십시오:
+
+```ts
+virtualScroll.addEventListener('igcDataRequest', (event: CustomEvent<VirtualScrollDataRequest>) => {
+    const { startIndex, count } = event.detail;
+    fetchEmployees(startIndex, count).then(page => {
+        virtualScroll.data = [...virtualScroll.data, ...page];
+    });
+});
+```
+
+<Sample src="/layouts/virtual-scroll/infinite-scroll" height={560} alt="스크롤하는 동안 항목을 더 불러오는 {Platform} Virtual Scroll" />
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+Virtual Scroll `onDataRequest` 이벤트는 원격 데이터에서 추가 전용 로딩을 지원합니다. 렌더링된 창이 `data`의 끝에 가까워지거나, 첫 렌더링에서 로드된 항목이 뷰포트를 채우지 못하면 발생합니다. 요청한 항목을 새 배열로 추가하십시오:
+
+```tsx
+<IgrVirtualScroll
+    data={employees}
+    estimatedItemSize={64}
+    onDataRequest={async (event: CustomEvent<VirtualScrollDataRequest>) => {
+        const { startIndex, count } = event.detail;
+        const page = await fetchEmployees(startIndex, count);
+        setEmployees(current => [...current, ...page]);
+    }}
+    style={{ height: '440px' }}
+/>
+```
+
+<Sample src="/layouts/virtual-scroll/infinite-scroll" height={560} alt="스크롤하는 동안 항목을 더 불러오는 {Platform} Virtual Scroll" />
+
+</PlatformBlock>
+
+데이터 요청은 한 번에 하나만 대기하며, 다음 요청은 다음 `data` 변경 뒤에 이어집니다. 빈 `data`에서는 요청이 발생하지 않으므로 첫 페이지는 직접 로드하십시오. 소스에 항목이 더 없으면 추가를 멈추십시오. 컴포넌트는 같은 시작 인덱스를 다시 요청하지 않습니다.
+
+<PlatformBlock for="Angular">
+
+### 페이지 단위 데이터
+
+Angular Virtual Scroll의 <ApiLink type="VirtualScroll" member="dataWindow" label="dataWindow" /> 입력은 `data` 대신 더 큰 컬렉션의 한 페이지를 바인딩합니다. 목록 길이는 `totalCount`과(와) 같으므로, 스크롤바는 전체 컬렉션을 나타내며 페이지만 메모리에 있습니다. 페이지가 다루지 않는 인덱스는 아무것도 렌더링하지 않습니다.
+
+```ts
+interface VirtualDataWindow<T> {
+    readonly items: readonly T[]; // the loaded page
+    readonly startIndex: number;  // the index of items[0] in the whole collection
+    readonly totalCount: number;  // the size of the whole collection
+}
+```
+
+<ApiLink type="VirtualScroll" member="stateChange" label="stateChange" />이(가) 알려 주는 범위에서 다음 페이지를 로드하십시오. 느린 응답이 더 최신 페이지를 덮어쓰지 않도록 이전 요청은 취소하십시오:
+
+```html
+<igx-virtual-scroll [dataWindow]="page()" [estimatedItemSize]="64" (stateChange)="onStateChange($event)" style="height: 440px">
+    <ng-template igxVirtualItem let-employee>...</ng-template>
+</igx-virtual-scroll>
+```
+
+```ts
+public readonly page = signal<VirtualDataWindow<Employee>>({ items: [], startIndex: 0, totalCount: 100_000 });
+private pending?: Subscription;
+
+public onStateChange(state: VirtualScrollState): void {
+    const page = this.page();
+    if (state.startIndex >= page.startIndex && state.endIndex < page.startIndex + page.items.length) {
+        return; // The loaded page already covers the range.
+    }
+
+    const startIndex = Math.max(0, state.startIndex - 30);
+    const count = state.endIndex + 30 - startIndex + 1;
+
+    this.pending?.unsubscribe();
+    this.pending = this.service.fetch(startIndex, count).subscribe(result => {
+        this.page.set({ items: result.items, startIndex, totalCount: result.total });
+    });
+}
+```
+
+<Sample src="/data-display/virtual-scroll-paged-data" height={560} alt="원격 컬렉션의 페이지를 로드하는 Angular Virtual Scroll" />
+
+`totalCount`이(가) 같은 동안에는 측정된 크기가 인덱스별로 유지됩니다. 필터링된 결과처럼 `totalCount`이(가) 다른 페이지는 다시 측정됩니다. `dataWindow`이(가) 바인딩된 동안에는 `dataRequest`이(가) 발생하지 않습니다. 컴포넌트는 인덱스마다 하나의 크기 항목을 저장하므로 메모리는 `totalCount`에 따라 늘어나며, 항목 백만 개당 약 17MB입니다.
+
+</PlatformBlock>
+
+### 레이아웃 완료
+
+Virtual Scroll <ApiLink type="VirtualScroll" member="layoutComplete" label="layoutComplete" /> 속성은 현재 렌더링, 그로 인해 시작되는 측정, 그리고 그 측정이 예약한 렌더링이 모두 끝나면 해결되는 Promise입니다. `data` 변경, 스크롤 또는 크기 조정 후 렌더링된 항목을 읽기 전에 이를 await하십시오.
+
+<PlatformBlock for="Angular">
+
+```ts
+this.employees = await firstValueFrom(this.service.fetchAll());
+await this.virtualScroll().layoutComplete;
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```ts
+virtualScroll.data = await fetchEmployees();
+await virtualScroll.layoutComplete;
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+setEmployees(await fetchEmployees());
+await virtualScroll.current?.layoutComplete;
+```
+
+</PlatformBlock>
+
+### 사용 여부
+
+Virtual Scroll은 보통 긴 목록의 스크롤 컨테이너로 사용되며, 뷰포트의 항목과 약간의 버퍼만 DOM에 유지합니다. 한 번에 렌더링해도 될 만큼 짧은 목록에는 사용하지 마십시오. 항목 템플릿을 작성할 때는 각 항목의 상태를 요소가 아니라 데이터에 두십시오. 항목 요소는 재사용되므로, 템플릿이 바인딩하지 않은 DOM 상태는 그 요소를 넘겨받은 항목에 그대로 보이게 됩니다.
+
+<style>{`
+  .vs-guidance {
+    /* The screenshots are exported at this width; the panel is capped to it so
+       the card and its label share one edge. */
+    --vs-card-width: 537px;
+
+    display: grid;
+    /* Tracks are exactly the card width, not 1fr, so the gap between the two
+       panels is the 26px of the design rather than 26px plus leftover track. */
+    grid-template-columns: repeat(auto-fit, minmax(min(var(--vs-card-width), 100%), var(--vs-card-width)));
+
+    /* The tracks are a fixed width, so centre them when the pair is narrower
+       than the content column instead of leaving the slack on one side. */
+    justify-content: center;
+    grid-template-rows: auto auto;
+    gap: 26px;
+    align-items: stretch;
+    width: 100%;
+
+    /* Roomier than the 26px the page gives its other blocks: this one is a
+       pair of tall images, so it needs more air before the next section. */
+    margin: 0 0 48px;
+    isolation: isolate;
+  }
+
+  .vs-guidance__panel {
+    display: grid;
+    grid-row: span 2;
+    grid-template-rows: subgrid;
+    gap: 26px;
+    margin: 0;
+    min-width: 0;
+  }
+
+  .vs-guidance__frame {
+    display: grid;
+    place-items: center;
+    min-height: 0;
+  }
+
+  .vs-guidance__frame img {
+    display: block;
+    width: 100%;
+    height: auto;
+    max-height: 100%;
+    object-fit: contain;
+    margin: 0;
+    border-radius: 4px;
+  }
+
+  .vs-guidance__caption {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin: 0;
+    padding: 0;
+    text-align: start;
+  }
+
+  .vs-guidance__label {
+    font-weight: 600;
+  }
+
+  .vs-guidance__caption p {
+    margin: 0;
+    font-size: 14px;
+  }
+
+  .vs-guidance__panel--do .vs-guidance__label {
+    color: light-dark(var(--ig-success-700), var(--ig-success-100));
+  }
+
+  .vs-guidance__panel--dont .vs-guidance__label {
+    color: light-dark(var(--ig-error-700), var(--ig-error-300));
+  }
+`}</style>
+
+<div class="vs-guidance">
+<figure class="vs-guidance__panel vs-guidance__panel--do">
+<div class="vs-guidance__frame">
+<Image src={virtualScrollDo} alt="직원 10만 명의 목록을 보여 주는 {Platform} Virtual Scroll" />
+</div>
+<figcaption class="vs-guidance__caption">
+<span class="vs-guidance__label">사용</span>
+
+디렉터리, 피드, 로그 또는 카드 띠처럼 한 번에 렌더링하기에는 너무 큰 긴 목록에 Virtual Scroll을 사용하십시오. 스크롤 중에 원격 데이터를 불러오는 목록도 포함됩니다.
+
+</figcaption>
+</figure>
+<figure class="vs-guidance__panel vs-guidance__panel--dont">
+<div class="vs-guidance__frame">
+<Image src={virtualScrollDoNot} alt="직원 다섯 명의 목록에 사용된 {Platform} Virtual Scroll" />
+</div>
+<figcaption class="vs-guidance__caption">
+<span class="vs-guidance__label">사용하지 않음</span>
+
+<PlatformBlock for="Angular">
+
+짧은 목록은 [List](../list.mdx)와 `@for`로 직접 렌더링하십시오. 열, 정렬 또는 필터링이 있는 표 형식 데이터에는 [{Platform} Data Grid](../grid/grid.mdx)를 사용하십시오. 소수의 풍부한 항목은 가상화 없이 [Card](./card.mdx) 요소로 표시하십시오.
+
+</PlatformBlock>
+
+<PlatformBlock for="React, WebComponents">
+
+짧은 목록은 [List](../grids/list.mdx)로 직접 렌더링하십시오. 열, 정렬 또는 필터링이 있는 표 형식 데이터에는 [{Platform} Data Grid](../grids/data-grid.mdx)를 사용하십시오. 소수의 풍부한 항목은 가상화 없이 [Card](./card.mdx) 요소로 표시하십시오.
+
+</PlatformBlock>
+
+</figcaption>
+</figure>
+</div>
+
+## 속성
+
+<PlatformBlock for="Angular">
+
+| 이름 | 타입 | 기본값 | 설명 |
+| --- | --- | --- | --- |
+| <ApiLink type="VirtualScroll" member="data" label="data" /> | `T[]` | `[]` | 가상화할 컬렉션입니다. 참조로 비교됩니다. |
+| <ApiLink type="VirtualScroll" member="dataWindow" label="dataWindow" /> | `VirtualDataWindow<T> \| null` | `null` | 더 큰 컬렉션의 한 페이지입니다. 설정되어 있는 동안에는 `data` 대신 사용됩니다. |
+| <ApiLink type="VirtualScroll" member="orientation" label="orientation" /> | `'vertical' \| 'horizontal'` | `'vertical'` | 스크롤 축입니다. |
+| <ApiLink type="VirtualScroll" member="overScan" label="overScan" /> | `number` | `2` | 뷰포트의 각 가장자리 바깥쪽에 렌더링되는 추가 항목입니다. |
+| <ApiLink type="VirtualScroll" member="estimatedItemSize" label="estimatedItemSize" /> | `number` | `50` | 측정되기 전 항목의 픽셀 단위 크기입니다. 0 이하의 값이면 `50`을(를) 사용합니다. |
+| <ApiLink type="VirtualScroll" member="itemTemplate" label="itemTemplate" /> | `TemplateRef<IgxVsItemContext<T>> \| null` | `null` | 항목 템플릿입니다. 프로젝션된 `ng-template[igxVirtualItem]`보다 우선합니다. |
+| <ApiLink type="VirtualScroll" member="layoutComplete" label="layoutComplete" /> | `Promise<void>` (읽기 전용) | — | 렌더링과 항목 측정이 안정되면 해결됩니다. |
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+| 이름 | 타입 | 기본값 | 설명 |
+| --- | --- | --- | --- |
+| <ApiLink type="VirtualScroll" member="data" label="data" /> | `T[]` | `[]` | 가상화할 컬렉션입니다. 참조로 비교됩니다. 속성 전용입니다. |
+| <ApiLink type="VirtualScroll" member="orientation" label="orientation" /> | `'vertical' \| 'horizontal'` | `'vertical'` | 스크롤 축입니다. 속성: `orientation`. |
+| <ApiLink type="VirtualScroll" member="overScan" label="overScan" /> | `number` | `2` | 뷰포트의 각 가장자리 바깥쪽에 렌더링되는 추가 항목입니다. 속성: `over-scan`. |
+| <ApiLink type="VirtualScroll" member="estimatedItemSize" label="estimatedItemSize" /> | `number` | `50` | 측정되기 전 항목의 픽셀 단위 크기입니다. 0 이하의 값이면 `50`을(를) 사용합니다. 속성: `estimated-item-size`. |
+| <ApiLink type="VirtualScroll" member="itemTemplate" label="itemTemplate" /> | `VirtualScrollItemTemplate<T> \| null` | `null` | 각 항목을 렌더링하는 함수입니다. 속성 전용입니다. |
+| <ApiLink type="VirtualScroll" member="keyFunction" label="keyFunction" /> | `VirtualScrollKeyFunction<T> \| null` | `null` | 항목의 키를 반환하므로, `data`에서 항목이 이동해도 그 요소를 유지합니다. 없으면 인덱스가 키가 됩니다. 속성 전용입니다. |
+| <ApiLink type="VirtualScroll" member="layoutComplete" label="layoutComplete" /> | `Promise<void>` (읽기 전용) | — | 렌더링과 항목 측정이 안정되면 해결됩니다. |
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+| 이름 | 타입 | 기본값 | 설명 |
+| --- | --- | --- | --- |
+| <ApiLink type="VirtualScroll" member="data" label="data" /> | `any[]` | `[]` | 가상화할 컬렉션입니다. 참조로 비교됩니다. |
+| <ApiLink type="VirtualScroll" member="orientation" label="orientation" /> | `'vertical' \| 'horizontal'` | `'vertical'` | 스크롤 축입니다. |
+| <ApiLink type="VirtualScroll" member="overScan" label="overScan" /> | `number` | `2` | 뷰포트의 각 가장자리 바깥쪽에 렌더링되는 추가 항목입니다. |
+| <ApiLink type="VirtualScroll" member="estimatedItemSize" label="estimatedItemSize" /> | `number` | `50` | 측정되기 전 항목의 픽셀 단위 크기입니다. 0 이하의 값이면 `50`을(를) 사용합니다. |
+| <ApiLink type="VirtualScroll" member="itemTemplate" label="itemTemplate" /> | `(ctx: VirtualScrollItemContext) => ReactNode` | `null` | 각 항목을 렌더링하는 함수입니다. |
+| <ApiLink type="VirtualScroll" member="keyFunction" label="keyFunction" /> | `(item, index) => unknown` | `null` | 항목의 키를 반환하므로, `data`에서 항목이 이동해도 그 요소를 유지합니다. 없으면 인덱스가 키가 됩니다. |
+| <ApiLink type="VirtualScroll" member="layoutComplete" label="layoutComplete" /> | `Promise<void>` (읽기 전용) | — | 렌더링과 항목 측정이 안정되면 해결됩니다. 속성이 아니라 ref에서 읽으십시오. |
+
+</PlatformBlock>
+
+## 메서드
+
+| 이름 | 반환 | 설명 |
+| --- | --- | --- |
+| <ApiLink type="VirtualScroll" member="scrollToIndex" label="scrollToIndex(index: number, options?: ScrollIntoViewOptions)" /> | `Promise<void>` | `index`의 항목이 보이도록 스크롤하며, 보정된 위치가 안정되면 해결됩니다. |
+
+## 이벤트
+
+<PlatformBlock for="Angular">
+
+| 이름 | 페이로드 | 설명 |
+| --- | --- | --- |
+| <ApiLink type="VirtualScroll" member="stateChange" label="stateChange" /> | `VirtualScrollState` | 렌더링된 창이 바뀌면 발생합니다: `startIndex`, `endIndex`, `viewportSize`, `totalSize`. |
+| <ApiLink type="VirtualScroll" member="dataRequest" label="dataRequest" /> | `VirtualScrollDataRequest` | 렌더링된 창이 `data`의 끝에 가까워지면 발생합니다: `startIndex`, `count`. `dataWindow`이(가) 바인딩된 동안에는 발생하지 않습니다. |
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+| 이름 | 세부 정보 | 설명 |
+| --- | --- | --- |
+| `igcStateChange` | `VirtualScrollState` | 렌더링된 창이 바뀌면 발생합니다: `startIndex`, `endIndex`, `viewportSize`, `totalSize`. |
+| `igcDataRequest` | `VirtualScrollDataRequest` | 렌더링된 창이 `data`의 끝에 가까워지면 발생합니다: `startIndex`, `count`. |
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+| 이름 | 인수 | 설명 |
+| --- | --- | --- |
+| `onStateChange` | `CustomEvent<VirtualScrollState>` | 렌더링된 창이 바뀌면 발생합니다. `event.detail`은(는) `startIndex`, `endIndex`, `viewportSize`, `totalSize`를 전달합니다. |
+| `onDataRequest` | `CustomEvent<VirtualScrollDataRequest>` | 렌더링된 창이 `data`의 끝에 가까워지면 발생합니다. `event.detail`은(는) `startIndex`과(와) `count`를 전달합니다. |
+
+핸들러는 기본 `CustomEvent`을(를) 받으므로, 페이로드는 `event.detail`에서 읽으십시오.
+
+</PlatformBlock>
+
+## 스타일링
+
+{Platform} Virtual Scroll에는 자체 테마가 없습니다. 뷰포트 레이아웃만 담당하며, 렌더링된 항목은 항목 템플릿의 요소와 컴포넌트에서 스타일을 가져옵니다.
+
+<PlatformBlock for="Angular">
+
+[구성 요소](#구조)의 클래스를 사용하여 호스트 크기를 지정하고 렌더링된 항목을 대상으로 지정하십시오:
+
+```scss
+.employees igx-virtual-scroll {
+    block-size: 480px;
+}
+
+.employees .igx-virtual-item:nth-child(even) {
+    background: var(--ig-gray-100);
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React, WebComponents">
+
+컴포넌트는 라이트 DOM에 렌더링하므로 일반 선택기로 렌더링된 항목에 접근할 수 있습니다. 기본 스타일은 호스트의 높이를 `18.75rem`(으)로 설정합니다. 뷰포트 크기를 지정하려면 높이를 재정의하십시오.
+
+```css
+igc-virtual-scroll.employees {
+    height: 480px;
+}
+
+igc-virtual-scroll.employees [data-vs-index]:nth-child(even) {
+    background: var(--ig-gray-100);
+}
+```
+
+</PlatformBlock>
+
+## 접근성
+
+{Platform} Virtual Scroll은 렌더링된 창만 DOM에 유지하므로, 항목 템플릿은 각 항목의 전체 컬렉션 내 위치를 노출해야 합니다.
+
+### 키보드 상호 작용
+
+{Platform} Virtual Scroll은 키 핸들러를 추가하지 않습니다. 호스트는 기본 스크롤 컨테이너이며, 포커스를 받은 스크롤 컨테이너는 브라우저의 키로 스크롤됩니다:
+
+| 키 | 동작 |
+| --- | --- |
+| 위쪽 화살표 / 아래쪽 화살표 | 세로 목록을 스크롤합니다. |
+| 왼쪽 화살표 / 오른쪽 화살표 | 가로 목록을 스크롤합니다. |
+| Page Up / Page Down | 대략 뷰포트 한 화면만큼 스크롤합니다. |
+| Home / End | 컬렉션의 시작 또는 끝으로 스크롤합니다. |
+
+호스트에는 `tabindex`이(가) 없습니다. 포커스할 수 있는 콘텐츠가 없는 스크롤 컨테이너가 포커스를 받을 수 있는지는 브라우저마다 다르므로, 항목에 포커스할 수 있는 요소가 없다면 호스트에 `tabindex="0"`을(를) 설정하십시오. 항목 안의 포커스는 그 항목이 렌더링된 창을 벗어나면 유지되지 않으므로, 그 전에 포커스를 의도적으로 옮기십시오.
+
+### 화면 읽기 프로그램 / ARIA
+
+<PlatformBlock for="Angular">
+
+- 호스트에는 `role="list"`이(가) 있으며, 트랙, 콘텐츠 요소, 항목 래퍼에는 `role="presentation"`이(가) 있습니다. `igx-list-item`과 같이 `role="listitem"`을(를) 렌더링하는 항목은 그 목록의 항목으로 노출됩니다.
+- `igx-list`처럼 이미 목록 시맨틱을 제공하는 컨테이너 안에서는 항목이 두 번째 목록 안에 중첩되지 않도록 호스트에 `role="presentation"`을(를) 설정하십시오.
+- `index`과(와) `count` 템플릿 변수를 `aria-posinset`과(와) `aria-setsize`에 매핑하십시오.
+- 포커스할 수 있는 호스트에는 `aria-label` 또는 `aria-labelledby`로 접근 가능한 이름을 주십시오.
+
+</PlatformBlock>
+
+<PlatformBlock for="React, WebComponents">
+
+- 트랙, 콘텐츠 요소, 항목 래퍼에는 `role="presentation"`이(가) 있습니다. 호스트에는 역할이 없으므로, `igc-list` 같은 목록 역할을 가진 요소 안에 배치하거나, 항목이 `role="listitem"`을(를) 렌더링할 때 `role="list"`을(를) 주십시오.
+- `index`과(와) `count` 컨텍스트 속성을 `aria-posinset`과(와) `aria-setsize`에 매핑하십시오.
+- 포커스할 수 있는 호스트에는 `role="list"` 같은 접근 가능한 이름을 지원하는 역할을 주고, `aria-label` 또는 `aria-labelledby`로 이름을 붙이십시오.
+
+</PlatformBlock>
+
+### 접근성 준수
+
+Infragistics는 [접근성 준수](../interactivity/accessibility-compliance.mdx) 항목에서 {ProductName}이(가) 목표로 하는 접근성 표준을 문서화합니다. 이 항목은 Virtual Scroll에 대한 적합성 주장을 하지 않습니다. 표는 컴포넌트가 제공하는 기능을 나열하며, 그 뒤의 목록은 애플리케이션이 추가해야 할 내용을 다룹니다.
+
+| 기준 | 컴포넌트가 요구 사항을 지원하는 방식 |
+| --- | --- |
+| [1.3.1 정보와 관계](https://www.w3.org/WAI/WCAG21/Understanding/info-and-relationships) | 래퍼는 표현용이므로, 목록 구조는 호스트와 항목 템플릿에서 나옵니다. 항목 템플릿은 `aria-posinset`과(와) `aria-setsize`로 각 항목의 위치를 노출할 수 있습니다. |
+| [2.1.1 키보드](https://www.w3.org/WAI/WCAG21/Understanding/keyboard) | 호스트는 기본 스크롤 컨테이너이며, 포커스를 받으면 키보드로 스크롤됩니다. 키보드로 도달할 수 있는지는 애플리케이션에 따라 다릅니다. 아래 목록을 참조하십시오. |
+
+사용자의 책임:
+
+- 항목에 포커스할 수 있는 요소가 없다면 `tabindex="0"`로 호스트에 키보드로 도달할 수 있게 하고, 접근 가능한 이름을 주십시오.
+- 항목 템플릿에서 `aria-posinset`과(와) `aria-setsize`로 항목 위치를 노출하십시오.
+- 항목 템플릿에 맞는 목록 시맨틱을 제공하세요([스크린 리더 / ARIA](#화면-읽기-프로그램--aria) 참조).
+- 선택 같은 애플리케이션 상태는 렌더링된 항목 요소가 아니라 데이터에 두십시오.
+
+## 문제 해결
+
+### Virtual Scroll이 항목을 렌더링하지 않는 이유는 무엇입니까?
+
+호스트에 스크롤 축 방향의 크기가 없거나, 항목 템플릿이 없거나, `data`이(가) 비어 있기 때문입니다. 호스트에 고정 높이(세로) 또는 너비(가로)를 지정하고, 항목 템플릿을 설정하고, 바인딩된 컬렉션을 확인하십시오.
+
+### 항목을 추가해도 목록이 업데이트되지 않는 이유는 무엇입니까?
+
+Virtual Scroll은 `data`을(를) 참조로 비교하므로, 제자리에서 바꾼 변경은 감지되지 않습니다. 예를 들어 `[...items, newItem]`처럼 새 배열을 할당하십시오.
+
+### 스크롤하는 동안 스크롤바 크기가 바뀌는 이유는 무엇입니까?
+
+아직 렌더링되지 않은 항목은 `estimatedItemSize`을(를) 사용하며, 항목이 측정되면서 전체 크기가 보정됩니다.
+
+<PlatformBlock for="Angular">
+
+`estimatedItemSize`을(를) 평균 항목 크기에 가깝게 설정하십시오.
+
+</PlatformBlock>
+
+<PlatformBlock for="React, WebComponents">
+
+그러면 측정된 평균 크기가 아직 측정되지 않은 항목의 예상값을 대체하므로, 스크롤하는 동안 보정이 안정됩니다. 첫 렌더링이 실제 콘텐츠 근처에서 시작되도록 `estimatedItemSize`을(를) 평균 항목 크기에 가깝게 설정하십시오.
+
+</PlatformBlock>
+
+### 목록 아래쪽으로 갈수록 항목이 자리에서 벗어나는 이유는 무엇입니까?
+
+여백은 항목의 측정 크기에 포함되지 않습니다. 항목 여백은 패딩이나 항목 안의 `gap`으로 바꾸십시오.
+
+<PlatformBlock for="Angular">
+
+### 드롭다운이나 대화 상자 안의 목록이 항목을 한 프레임 늦게 표시하는 이유는 무엇입니까?
+
+열릴 때까지 숨겨진 컨테이너는 그것을 드러내는 변경 감지 단계에서 크기가 없으므로, 호스트는 그 렌더링 후에 측정되고 항목은 다음 프레임에 렌더링됩니다. `layoutComplete`이(가) 완료된 후에 렌더링된 항목을 읽으십시오.
+
+### igxForOf 목록을 Virtual Scroll로 어떻게 바꿉니까?
+
+Virtual Scroll은 런타임에 항목 크기를 측정하고 자체 스크롤 컨테이너를 만들므로, `igxForOf`의 컨테이너 크기와 스크롤 컨테이너 입력에 해당하는 것이 없습니다. `igxForOf` 디렉티브는 Virtual Scroll로 대체되어 더 이상 권장되지 않습니다. 기존 목록은 계속 작동하지만, 한 축만 가상화하는 새 목록에는 Virtual Scroll을 사용하십시오.
+
+| igxForOf | 가상 스크롤 |
+| --- | --- |
+| `*igxFor="let item of data"` | `ng-template igxVirtualItem`가 있는 `[data]="data"` |
+| `igxForScrollOrientation` | `orientation` |
+| `igxForContainerSize` | CSS로 설정한 호스트의 높이 또는 너비 |
+| `igxForItemSize` | `estimatedItemSize` (시작 예상값이며, 항목은 측정됩니다) |
+| `igxForScrollContainer` | 필요 없음: 호스트가 스크롤 컨테이너입니다 |
+| `scrollTo(index)` | Promise를 반환하는 `scrollToIndex(index, options)` |
+| `chunkLoad`, `chunkPreload` | `stateChange` |
+| 원격 데이터용 `igxForTotalItemCount` | 추가 전용 로딩을 위해 `dataWindow`과(와) `totalCount`, 또는 `data`과(와) `dataRequest` |
+| `index`, `count`, `first`, `last`, `even`, `odd` | 같은 템플릿 변수 |
+
+그리드는 자체 행 및 열 가상화를 유지합니다. [그리드 가상화](../grid/virtualization.mdx)를 참조하십시오.
+
+</PlatformBlock>
+
+## 알려진 제한 사항
+
+- {Platform} Virtual Scroll은 한 축만 가상화합니다. 행과 열을 모두 가상화하려면 그리드가 필요합니다.
+- 창이 이동하면 항목 요소가 재사용되므로, 바인딩되지 않은 `checked`이 없는 체크박스처럼 항목 템플릿이 바인딩하지 않은 DOM 상태는 그 요소를 넘겨받은 항목에 나타납니다. 모든 항목 상태를 바인딩하고, 사용자 변경 사항은 항목에 다시 기록하십시오.
+
+<PlatformBlock for="Angular">
+
+- `dataWindow`을(를) 사용할 때 `totalCount`은(는) 유지하면서 같은 인덱스에 다른 레코드를 두는 페이지는, 그 행이 다시 렌더링될 때까지 이전 레코드의 측정된 크기를 유지합니다.
+
+</PlatformBlock>
+
+## API 참조
+
+- <ApiLink type="VirtualScroll" />
+
+## 종속성
+
+<PlatformBlock for="Angular">
+
+Angular Virtual Scroll은 다른 컴포넌트에 의존하지 않습니다. `igniteui-angular/virtual-scroll`에서 `IgxVirtualScrollComponent`과(와) `IgxVirtualItemDirective`을(를) 가져오십시오. 구조적 스타일은 컴포넌트와 함께 제공됩니다.
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+{Platform} Virtual Scroll은 다른 컴포넌트에 의존하지 않으며 자체 테마도 필요하지 않습니다. 항목 템플릿을 렌더링하기 위해 `lit`을(를) 사용하며, 항목 템플릿의 컴포넌트에는 테마 스타일시트가 필요합니다.
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+{Platform} Virtual Scroll은 다른 컴포넌트에 의존하지 않으며 자체 테마도 필요하지 않습니다. `igniteui-react`은(는) `igniteui-webcomponents`과(와) `lit`을(를) 가져오며, 항목 템플릿의 컴포넌트에는 테마 스타일시트가 필요합니다.
+
+</PlatformBlock>
+
+## 추가 리소스
+
+- [{ProductName} **포럼**]({ForumsLink})
+- [{ProductName} **GitHub**]({GithubLink})
+
+## 관련 컴포넌트
+
+<PlatformBlock for="Angular">
+
+- [List](../list.mdx) - 짧은 목록이나 가상화된 목록의 컨테이너로 List를 사용하십시오.
+- [Data Grid](../grid/grid.mdx) - 열, 정렬 또는 필터링이 있는 표 형식 데이터에는 Data Grid를 사용하십시오.
+- [Card](./card.mdx) - 소수의 풍부한 항목에는 카드를 사용하거나, 가로 Virtual Scroll의 항목으로 사용하십시오.
+- [Virtual ForOf Directive](../for-of.mdx) - 기존 목록이 사용하는 디렉티브 기반 가상화입니다.
+
+</PlatformBlock>
+
+<PlatformBlock for="React, WebComponents">
+
+- [List](../grids/list.mdx) - 짧은 목록이나 가상화된 목록의 컨테이너로 List를 사용하십시오.
+- [Data Grid](../grids/data-grid.mdx) - 열, 정렬 또는 필터링이 있는 표 형식 데이터에는 Data Grid를 사용하십시오.
+- [Card](./card.mdx) - 소수의 풍부한 항목에는 카드를 사용하거나, 가로 Virtual Scroll의 항목으로 사용하십시오.
+
+</PlatformBlock>
+
+## FAQ
+
+<Faq>
+  <FaqItem question="Virtual Scroll은 몇 개의 항목까지 처리할 수 있습니까?" indicatorPosition="end">
+    {Platform} Virtual Scroll은 뷰포트의 항목과 오버스캔 버퍼만 DOM에 유지하므로, 컬렉션의 크기가 렌더링되는 요소 수를 바꾸지 않습니다. 컬렉션의 전체 크기가 브라우저의 스크롤 한계를 넘으면, Virtual Scroll은 컬렉션을 브라우저가 지원하는 스크롤 범위에 매핑합니다.
+  </FaqItem>
+  <FaqItem question="Virtual Scroll 항목의 크기가 모두 같아야 합니까?" indicatorPosition="end">
+    {Platform} Virtual Scroll의 항목은 렌더링된 후 각각 측정되므로 크기가 다를 수 있습니다. 항목이 측정되기 전에도 스크롤바가 정확하도록 `estimatedItemSize`을(를) 평균 항목 크기에 가깝게 설정하십시오.
+    <PlatformBlock for="React, WebComponents">
+    항목이 측정되고 나면 그 평균이 아직 측정되지 않은 항목의 예상값을 대체합니다.
+    </PlatformBlock>
+  </FaqItem>
+  <FaqItem question="Virtual Scroll을 특정 항목으로 스크롤하려면 어떻게 합니까?" indicatorPosition="end">
+    항목 인덱스와 선택적 `block` 및 `behavior` 옵션을 사용하여 {Platform} Virtual Scroll의 `scrollToIndex` 메서드를 호출하십시오. 이 메서드는 보정된 위치가 안정되면 해결되는 Promise를 반환합니다.
+  </FaqItem>
+  <FaqItem question="사용자가 스크롤하는 동안 원격 데이터를 Virtual Scroll에 어떻게 로드합니까?" indicatorPosition="end">
+    <PlatformBlock for="Angular">
+    Angular Virtual Scroll은 두 가지 모델을 지원합니다. 추가 전용 로딩에는 `dataRequest`을(를) 처리하고, 요청한 항목을 포함한 새 배열을 할당하십시오. 한 번에 한 페이지씩 읽는 컬렉션에는 `dataWindow`에 바인딩하고, `stateChange`이(가) 알려 주는 범위를 로드하십시오.
+    </PlatformBlock>
+    <PlatformBlock for="WebComponents">
+    {Platform} Virtual Scroll은 `igcDataRequest` 이벤트를 통해 추가 전용 로딩을 지원합니다. 이벤트를 처리하고, 요청한 항목을 포함한 새 배열을 `data`에 할당하십시오.
+    </PlatformBlock>
+
+    <PlatformBlock for="React">
+    {Platform} Virtual Scroll은 `onDataRequest` 이벤트를 통해 추가 전용 로딩을 지원합니다. 이벤트를 처리하고, 요청한 항목을 포함한 새 배열을 `data`에 할당하십시오.
+    </PlatformBlock>
+  </FaqItem>
+</Faq>

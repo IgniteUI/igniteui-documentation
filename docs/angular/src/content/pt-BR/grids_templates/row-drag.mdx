@@ -1,0 +1,896 @@
+<ComponentBlock for="Grid">
+
+---
+title: "Arrastar linhas no Angular Data Grid - Ignite UI for Angular"
+description: "Arrastar linhas no Angular Data Grid é usado para reorganizar rapidamente as linhas, arrastando-as com o mouse. Veja como configurar o arrastar de linhas no seu projeto."
+keywords: "componente de arrastar angular, componente material, ignite ui for angular, infragistics"
+license: commercial
+_language: pt-BR
+llms:
+  description: "No {ComponentTitle} do Ignite UI for Angular, o RowDrag é inicializado no componente raiz {ComponentSelector} e é configurável pela entrada rowDraggable."
+---
+
+</ComponentBlock>
+<ComponentBlock for="TreeGrid">
+
+---
+title: "Arrastar linhas no Angular Tree Grid - Ignite UI for Angular"
+description: "Arrastar linhas no Angular Tree Grid é usado para reorganizar rapidamente as linhas, arrastando-as com o mouse. Veja como configurar o arrastar de linhas no seu projeto."
+keywords: "componente de arrastar angular, componente material, ignite ui for angular, infragistics"
+license: commercial
+_canonicalLink: grid/row-drag
+_language: pt-BR
+llms:
+  description: "No {ComponentTitle} do Ignite UI for Angular, o RowDrag é inicializado no componente raiz {ComponentSelector} e é configurável pela entrada rowDraggable."
+---
+
+</ComponentBlock>
+<ComponentBlock for="HierarchicalGrid">
+
+---
+title: "Arrastar linhas no Angular Hierarchical Grid - Ignite UI for Angular"
+description: "Arrastar linhas no Angular Hierarchical Grid é usado para reorganizar rapidamente as linhas, arrastando-as com o mouse. Veja como configurar o arrastar de linhas no seu projeto."
+keywords: "componente de arrastar angular, componente material, ignite ui for angular, infragistics"
+license: commercial
+_canonicalLink: grid/row-drag
+_language: pt-BR
+llms:
+  description: "No {ComponentTitle} do Ignite UI for Angular, o RowDrag é inicializado no componente raiz {ComponentSelector} e é configurável pela entrada rowDraggable."
+---
+
+</ComponentBlock>
+
+
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+# Arrastar linhas no {ComponentTitle} do Angular
+
+No {ComponentTitle} do Ignite UI for Angular, o **RowDrag** é inicializado no componente raiz `{ComponentSelector}` e é configurável pela entrada <ApiLink type="{ComponentApiType}" member="rowDraggable" label="rowDraggable" />. Ao habilitar o arrastar de linhas, os usuários recebem uma alça de arrastar em cada linha, com a qual podem iniciar o arrasto de uma linha.
+
+## Exemplo de arrastar linhas do {ComponentTitle} do Angular
+
+<ComponentBlock for="Grid">
+
+<Sample src="/grid/grid-row-drag-base" height={550} alt="Exemplo de arrastar linhas do {ComponentTitle} do Angular" />
+
+</ComponentBlock>
+
+<ComponentBlock for="TreeGrid">
+
+<Sample src="/tree-grid/tree-grid-row-drag-base" height={560} alt="Exemplo de arrastar linhas do {ComponentTitle} do Angular" />
+
+</ComponentBlock>
+
+<ComponentBlock for="HierarchicalGrid">
+
+<Sample src="/hierarchical-grid/hierarchical-row-drag-base" height={560} alt="Exemplo de arrastar linhas do {ComponentTitle} do Angular" />
+
+</ComponentBlock>
+
+## Configuração
+
+Para habilitar o arrastar de linhas no seu `{ComponentSelector}`, basta definir a propriedade <ApiLink type="{ComponentApiType}" member="rowDraggable" label="rowDraggable" /> do grid como **`true`**. Depois disso, uma alça de arrastar será exibida em cada linha. Essa alça pode ser usada para iniciar o arrasto de linhas.
+
+```html
+<{ComponentSelector} [rowDraggable]="true">
+ ...
+</{ComponentSelector}>
+```
+
+Clicar na alça de arrastar e _mover o cursor_ com o botão pressionado fará com que o evento <ApiLink type="{ComponentApiType}" member="rowDragStart" label="rowDragStart" /> do grid seja disparado. Soltar o clique a qualquer momento fará com que o evento <ApiLink type="{ComponentApiType}" member="rowDragEnd" label="rowDragEnd" /> seja disparado.
+
+A seguir, há um passo a passo de como configurar um `{ComponentSelector}` para oferecer suporte ao arrastar de linhas e como tratar corretamente o evento de soltar.
+
+<ComponentBlock for="TreeGrid, HierarchicalGrid">
+
+Neste exemplo, vamos tratar do arrasto de uma linha de um grid para uma área designada e, ao soltá-la, removê-la do grid.
+</ComponentBlock>
+<ComponentBlock for="Grid">
+
+Neste exemplo, vamos tratar do arrasto de uma linha de um grid para outro, removendo-a da primeira fonte de dados e adicionando-a à segunda.
+</ComponentBlock>
+
+### Áreas de soltar
+
+Habilitar o arrastar de linhas foi bem fácil, mas agora precisamos configurar como tratar a _soltura_ das linhas.
+Podemos definir onde queremos que as linhas sejam soltas usando a [`igxDrop` diretiva](/drag-drop).
+
+Primeiro, precisamos importar o `IgxDragDropModule` no nosso módulo da aplicação:
+
+```typescript
+import { ..., IgxDragDropModule } from 'igniteui-angular/directives';
+// import { ..., IgxDragDropModule } from '@infragistics/igniteui-angular'; for licensed package
+...
+@NgModule({
+    imports: [..., IgxDragDropModule]
+})
+```
+
+Depois, no nosso template, definimos uma área de soltar usando o seletor da diretiva:
+
+<ComponentBlock for="TreeGrid, HierarchicalGrid">
+
+```html
+<div class="drop-area" igxDrop (enter)="onEnterAllowed($event)" (leave)="onLeaveAllowed($event)"
+(dropped)="onDropAllowed($event)">
+    <igx-icon>delete</igx-icon>
+    <div>Drag a row here to delete it</div>
+</div>
+```
+
+</ComponentBlock>
+<ComponentBlock for="Grid">
+
+Neste caso, a nossa área de soltar será um segundo grid inteiro, onde soltaremos as linhas.
+
+```html
+<igx-grid #targetGrid igxDrop [data]="data2" [autoGenerate]="false" [emptyGridTemplate]="dragHereTemplate"
+    (enter)="onEnterAllowed($event)" (leave)="onLeaveAllowed($event)" (dropped)="onDropAllowed($event)" [primaryKey]="'ID'">
+    ...
+</igx-grid>
+```
+
+Como o grid estará inicialmente vazio, também definimos um template que seja mais significativo para o usuário:
+
+```html
+<ng-template #dragHereTemplate>
+    Drop a row to add it to the grid
+</ng-template>
+```
+
+</ComponentBlock>
+
+Você pode habilitar a animação quando uma linha for solta em uma área não soltável, usando o parâmetro `animation` do evento <ApiLink type="{ComponentApiType}" member="rowDragEnd" label="rowDragEnd" />. Se definido como true, a linha arrastada voltará animada à sua posição original quando for solta sobre uma área não soltável.
+
+Você pode habilitar a animação assim:
+
+```typescript
+export class {ComponentName}RowDragComponent {
+
+    public onRowDragEnd(args) {
+        args.animation = true;
+    }
+
+}
+```
+
+### Manipuladores de eventos da área de soltar
+
+Depois de definir a área de soltar no template, precisamos declarar os manipuladores dos eventos <ApiLink type="DropDirective" member="enter" label="enter" />, <ApiLink type="DropDirective" member="leave" label="leave" /> e <ApiLink type="DropDirective" member="dropped" label="dropped" /> do `igxDrop` no arquivo `.ts` do componente.
+
+Primeiro, vamos ver os nossos manipuladores `enter` e `leave`. Nesses métodos, queremos apenas alterar o ícone do _fantasma_ do arrasto, para indicar ao usuário que ele está sobre uma área que permite soltar a linha:
+
+```typescript
+export class {ComponentName}RowDragComponent {
+    public onEnterAllowed(args) {
+        this.changeGhostIcon(args.drag.ghostElement, DragIcon.ALLOW);
+    }
+
+    public onLeaveAllowed(args) {
+        this.changeGhostIcon(args.drag.ghostElement, DragIcon.DEFAULT);
+    }
+
+    private changeGhostIcon(ghost, icon: string) {
+        if (ghost) {
+            const currentIcon = ghost.querySelector('.igx-grid__drag-indicator > igx-icon');
+            if (currentIcon) {
+                currentIcon.innerText = icon;
+            }
+        }
+    }
+}
+```
+
+O método `changeGhostIcon` **privado** apenas altera o ícone dentro do fantasma do arrasto. A lógica do método encontra o elemento que contém o ícone (usando a classe `igx-grid__drag-indicator` aplicada ao contêiner do indicador de arrasto) e altera o texto interno desse elemento para o texto passado.
+Os próprios ícones vêm do [`material` font set](https://material.io/tools/icons/) e são definidos em um **`enum`** separado:
+<ComponentBlock for="TreeGrid, HierarchicalGrid">
+
+```typescript
+enum DragIcon {
+    DEFAULT = 'drag_indicator',
+    ALLOW = 'remove'
+}
+```
+
+</ComponentBlock>
+<ComponentBlock for="Grid">
+
+```typescript
+enum DragIcon {
+    DEFAULT = 'drag_indicator',
+    ALLOW = 'add'
+}
+```
+
+</ComponentBlock>
+
+Em seguida, precisamos definir o que deve acontecer quando o usuário realmente _solta_ a linha dentro da área de soltar.
+<ComponentBlock for="TreeGrid, HierarchicalGrid">
+
+```typescript
+export class {ComponentName}RowDragComponent {
+
+    public onDropAllowed(args: IDropDroppedEventArgs) {
+        const draggedRow: RowType = args.dragData;
+        draggedRow.delete();
+    }
+
+}
+```
+
+</ComponentBlock>
+<ComponentBlock for="TreeGrid">
+Quando a linha é solta, basta chamar o método <ApiLink type="GridRow" label="delete()" /> da linha
+</ComponentBlock>
+<ComponentBlock for="HierarchicalGrid">
+Quando a linha é solta, basta chamar o método <ApiLink type="{ComponentApiType}Row" label="delete()" /> da linha
+</ComponentBlock>
+
+<ComponentBlock for="Grid">
+
+```typescript
+export class {ComponentName}RowDragComponent {
+    @ViewChild('sourceGrid', { read: IgxGridComponent }) public sourceGrid: IgxGridComponent;
+    @ViewChild('targetGrid', { read: IgxGridComponent }) public targetGrid: IgxGridComponent;
+
+    public onDropAllowed(args) {
+        this.targetGrid.addRow(args.dragData.data);
+        this.sourceGrid.deleteRow(args.dragData.key);
+    }
+}
+```
+
+Definimos uma referência a cada um dos nossos grids por meio do decorador `ViewChild` e tratamos a soltura da seguinte forma:
+
+- adicionar uma linha ao `targetGrid` com os dados da linha que está sendo solta
+- remover a linha arrastada do `sourceGrid`
+</ComponentBlock>
+
+<DocsAside type="info">
+Ao usar os dados da linha a partir dos argumentos do evento (`args.dragData.data`) ou de qualquer outra propriedade da linha, observe que a linha inteira é passada nos argumentos como referência; por isso, se quiser diferenciá-los dos dados do grid de origem, você deve clonar os dados de que precisa.
+</DocsAside>
+
+### Personalizando o fantasma do arrasto
+
+O fantasma do arrasto pode ter template definido usando a diretiva `IgxRowDragGhost`, aplicada a um `<ng-template>` dentro do corpo do `{ComponentSelector}`:
+
+```html
+<{ComponentSelector}>
+...
+   <ng-template igxRowDragGhost>
+        <div>
+            <igx-icon fontSet="material">arrow_right_alt</igx-icon>
+        </div>
+    </ng-template>
+...
+</{ComponentSelector}>
+```
+
+O resultado da configuração pode ser visto abaixo, em um `{ComponentSelector}` com arrastar de linhas e seleção múltipla habilitados. A demonstração mostra a quantidade de linhas que estão sendo arrastadas no momento:
+
+#### Demonstração de exemplo
+
+<ComponentBlock for="Grid">
+
+<Sample src="/grid/grid-multiple-row-drag" height={600} alt="" />
+
+</ComponentBlock>
+<ComponentBlock for="TreeGrid">
+
+<Sample src="/tree-grid/tree-grid-multi-row-drag" height={600} alt="" />
+
+</ComponentBlock>
+
+<ComponentBlock for="HierarchicalGrid">
+
+O fantasma do arrasto pode ter template definido em cada nível do grid, tornando possível ter vários templates de fantasma ou fornecer um template apenas para uma única row island.
+
+```html
+<{ComponentSelector}>
+...
+    <ng-template igxRowDragGhost>
+        <div>
+            <igx-icon fontSet="material">arrow_right_alt</igx-icon> 
+        </div>
+    </ng-template>
+    <igx-row-island>
+        ...
+        <ng-template IgxRowDragGhost>
+            <img src="smile.gif" height="42" width="42">
+        </ng-template>
+    </igx-row-island>
+...
+</{ComponentSelector}>
+```
+
+<Sample src="/hierarchical-grid/hierarchical-grid-multi-row-drag" height={600} alt="" />
+
+</ComponentBlock>
+
+### Personalizando o ícone de arrastar
+
+O ícone da alça de arrastar pode ter template definido usando o <ApiLink type="{ComponentApiType}" member="dragIndicatorIconTemplate" label="dragIndicatorIconTemplate" /> do grid. No exemplo que estamos construindo, vamos trocar o ícone padrão (`drag_indicator`) por `drag_handle`.
+Para isso, podemos usar o `igxDragIndicatorIcon` para passar um template dentro do corpo do `{ComponentSelector}`:
+
+```html
+<{ComponentSelector}>
+...
+    <ng-template igxDragIndicatorIcon>
+        <igx-icon>drag_handle</igx-icon>
+    </ng-template>
+...
+</{ComponentSelector}>
+```
+
+Depois de definir o novo template de ícone, também precisamos ajustar o ícone `DEFAULT` no nosso `DragIcon enum`, para que ele seja corretamente alterado pelo método `changeIcon`:
+
+```typescript
+enum DragIcon {
+    DEFAULT = "drag_handle",
+    ...
+}
+```
+
+<ComponentBlock for="TreeGrid, HierarchicalGrid">
+
+### Estilizando a área de soltar
+
+Depois que os nossos manipuladores de soltura estiverem configurados corretamente, resta apenas estilizar um pouco a área de soltar:
+
+```css
+.drop-area {
+    width: 160px;
+    height: 160px;
+    background-color: #d3d3d3;
+    border: 1px dashed #131313;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-flow: column;
+    text-align: center;
+    margin: 8px;
+}
+
+:host {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-flow: column;
+    width: 100%;
+}
+```
+
+O resultado pode ser visto na demonstração abaixo:
+</ComponentBlock>
+<ComponentBlock for="Grid">
+
+Depois que os nossos manipuladores de soltura estiverem configurados corretamente, está tudo pronto!
+O resultado da configuração pode ser visto abaixo:
+</ComponentBlock>
+
+#### Demonstração de exemplo
+
+<ComponentBlock for="Grid">
+
+<Sample src="/grid/grid-row-drag-to-grid" height={550} alt="" />
+
+</ComponentBlock>
+
+<ComponentBlock for="TreeGrid">
+
+<Sample src="/tree-grid/tree-grid-row-drag" height={560} alt="" />
+
+</ComponentBlock>
+
+<ComponentBlock for="HierarchicalGrid">
+
+<Sample src="/hierarchical-grid/hierarchical-grid-row-drag" height={560} alt="" />
+
+</ComponentBlock>
+
+## Demonstração do aplicativo
+
+<ComponentBlock for="Grid">
+
+### Usando eventos de arrastar linhas
+
+A demonstração a seguir mostra como usar as informações do evento de arrastar linhas para alterar os dois estados de um componente personalizado, onde a linha é solta, e do próprio grid de origem.
+Tente arrastar as luas do grid e soltá-las nos planetas correspondentes. O fundo do fantasma do arrasto muda dinamicamente, conforme o planeta sob o mouse. Se você acertar, a linha no grid será selecionada e o arrasto será desabilitado para ela. Clicar nos planetas fornecerá informações úteis.
+
+<Sample src="/grid/grid-row-drag" height={560} alt="" />
+
+<DocsAside type="info">
+As classes aplicadas ao fantasma do arrasto de linhas, usadas na demonstração acima, usam o modificador ::ng-deep, porque o arrasto de linhas é um recurso interno do grid e não pode ser acessado no nível da aplicação, devido ao encapsulamento do CSS.
+</DocsAside>
+</ComponentBlock>
+
+### Demonstração de reordenação de linhas
+
+Com a ajuda dos eventos de arrastar linhas do grid e da diretiva `igxDrop`, você pode criar um grid que permite reordenar as linhas arrastando-as.
+
+Como todas as ações acontecerão _dentro_ do corpo do grid, é ali que você deve anexar a diretiva `igxDrop`:
+
+<ComponentBlock for="Grid">
+
+```html
+<igx-grid #grid [data]="data" [rowDraggable]="true" [primaryKey]="'ID'" igxDrop (dropped)="onDropAllowed($event)">
+    ...
+</igx-grid>
+```
+
+</ComponentBlock>
+<ComponentBlock for="TreeGrid">
+
+```html
+<igx-tree-grid igxPreventDocumentScroll  #treeGrid [data]="localData" [rowDraggable]="true" foreignKey="ParentID"
+    [primaryKey]="'ID'" (rowDragStart)="rowDragStart($event)" igxDrop (dropped)="dropInGrid($event)">
+    ...
+</igx-tree-grid>
+```
+
+</ComponentBlock>
+<ComponentBlock for="HierarchicalGrid">
+
+```html
+<igx-hierarchical-grid #grid [data]="localData" [primaryKey]="'id'"
+    [rowDraggable]="true" (rowDragStart)="rowDragStart($event)" igxDrop (dropped)="rowDrop($event)">
+    ...
+</igx-hierarchical-grid>
+```
+
+</ComponentBlock>
+
+<DocsAside type="info">
+Certifique-se de que haja um `primaryKey` especificado para o grid! A lógica precisa de um identificador exclusivo para as linhas, para que possam ser reordenadas corretamente
+</DocsAside>
+
+Depois que `rowDraggable` estiver habilitado e uma zona de soltar tiver sido definida, você precisa implementar um manipulador simples para o evento de soltar. Quando uma linha for arrastada, verifique o seguinte:
+<ComponentBlock for="Grid">
+
+- A linha foi solta dentro do grid?
+- Se sim, em qual _outra_ linha a linha arrastada foi solta?
+- Depois de encontrar a linha _alvo_, troque a posição dos registros no array `data`
+</ComponentBlock>
+<ComponentBlock for="TreeGrid, HierarchicalGrid">
+
+- A linha está expandida? Se sim, recolha-a.
+- A linha foi solta dentro do grid?
+- Se sim, em qual _outra_ linha a linha arrastada foi solta?
+- Depois de encontrar a linha _alvo_, troque a posição dos registros no array `data`
+- A linha estava selecionada inicialmente? Se sim, marque-a como selecionada.
+</ComponentBlock>
+
+Abaixo, você pode ver isso implementado no arquivo `.ts` do componente:
+
+<ComponentBlock for="Grid">
+
+```typescript
+export class GridRowReorderComponent {
+    public onDropAllowed(args) {
+        const event = args.originalEvent;
+        const currRowIndex = this.getCurrentRowIndex(this.grid.rowList.toArray(),
+            { x: event.clientX, y: event.clientY });
+        if (currRowIndex === -1) { return; }
+        this.grid.deleteRow(args.dragData.key);
+        this.data.splice(currRowIndex, 0, args.dragData.data);
+    }
+
+    private getCurrentRowIndex(rowList, cursorPosition) {
+        for (const row of rowList) {
+            const rowRect = row.nativeElement.getBoundingClientRect();
+            if (cursorPosition.y > rowRect.top + window.scrollY && cursorPosition.y < rowRect.bottom + window.scrollY &&
+                cursorPosition.x > rowRect.left + window.scrollX && cursorPosition.x < rowRect.right + window.scrollX) {
+                return this.data.indexOf(this.data.find((r) => r.rowID === row.rowID));
+            }
+        }
+
+        return -1;
+    }
+}
+```
+
+</ComponentBlock>
+<ComponentBlock for="TreeGrid">
+
+```typescript
+export class TreeGridRowReorderComponent {
+    public rowDragStart(args: any): void {
+        const targetRow = args.dragData;
+        if (targetRow.expanded) {
+            this.treeGrid.collapseRow(targetrow.key);
+        }
+    }
+
+    public dropInGrid(args: IDropDroppedEventArgs): void {
+        const draggedRow = args.dragData;
+        const event = args.originalEvent;
+        const cursorPosition: Point = { x: event.clientX, y: event.clientY };
+        this.moveRow(draggedRow, cursorPosition);
+    }
+
+    private moveRow(draggedRow: RowType, cursorPosition: Point): void {
+        const row = this.catchCursorPosOnElem(this.treeGrid.rowList.toArray(), cursorPosition);
+        if (!row) { return; }
+        if (row.data.ParentID === -1) {
+            this.performDrop(draggedRow, row).ParentID = -1;
+        } else {
+            if (row.data.ParentID === draggedrow.data.ParentID) {
+                this.performDrop(draggedRow, row);
+            } else {
+                const rowIndex = this.getRowIndex(draggedrow.data);
+                this.localData[rowIndex].ParentID = row.data.ParentID;
+            }
+        }
+        if (draggedRow.selected) {
+            this.treeGrid.selectRows([this.treeGrid.rowList.toArray()
+                .find((r) => r.rowID === draggedrow.key).rowID], false);
+        }
+
+        this.localData = [...this.localData];
+    }
+
+    private performDrop(
+        draggedRow: IgxTreeGridRowComponent, targetRow: IgxTreeGridRowComponent) {
+        const draggedRowIndex = this.getRowIndex(draggedrow.data);
+        const targetRowIndex: number = this.getRowIndex(targetrow.data);
+        if (draggedRowIndex === -1 || targetRowIndex === -1) { return; }
+        this.localData.splice(draggedRowIndex, 1);
+        this.localData.splice(targetRowIndex, 0, draggedrow.data);
+        return this.localData[targetRowIndex];
+    }
+
+    private getRowIndex(rowData: any): number {
+        return this.localData.indexOf(rowData);
+    }
+
+    private catchCursorPosOnElem(rowListArr: IgxTreeGridRowComponent[], cursorPosition: Point)
+        : IgxTreeGridRowComponent {
+        for (const row of rowListArr) {
+            const rowRect = row.nativeElement.getBoundingClientRect();
+            if (cursorPosition.y > rowRect.top + window.scrollY && cursorPosition.y < rowRect.bottom + window.scrollY &&
+                cursorPosition.x > rowRect.left + window.scrollX && cursorPosition.x < rowRect.right + window.scrollX) {
+                return row;
+            }
+        }
+
+        return null;
+    }
+}
+```
+
+</ComponentBlock>
+<ComponentBlock for="HierarchicalGrid">
+
+```typescript
+export class HGridRowReorderComponent {
+    public rowDragStart(args: any): void {
+        const targetRow = args.dragData;
+        if (targetRow.expanded) {
+            targetRow.expanded = false;
+        }
+    }
+
+    public rowDrop(args: IDropDroppedEventArgs): void {
+        const targetRow = args.dragData;
+        const event = args.originalEvent;
+        const cursorPosition: Point = { x: event.clientX, y: event.clientY };
+        this.moveRow(targetRow, cursorPosition);
+    }
+
+    private moveRow(draggedRow: RowType, cursorPosition: Point): void {
+        // const parent: IgxHierarchicalGridComponent = (draggedRow as any).grid;
+        // const parent = args.drag.ghostContext.grid;
+        const parent = this.hGrid;
+        const rowIndex: number = this.getTargetRowIndex(parent.rowList.toArray(), cursorPosition);
+        if (rowIndex === -1) { return; }
+        const wasSelected = draggedRow.selected;
+        draggedRow.delete();
+        parent.data.splice(rowIndex, 0, draggedRow.data);
+        if (wasSelected) {
+            parent.selectRows([parent.rowList.toArray()
+                .find((r) => r.rowID === draggedRow.key).rowID], false);
+        }
+    }
+
+    private getTargetRowIndex(rowListArr: RowType[], cursorPosition: Point): number {
+        const targetElem: IgxHierarchicalRowComponent = this.catchCursorPosOnElem(rowListArr, cursorPosition);
+        return rowListArr.indexOf(rowListArr.find((r) => r.rowData.id === targetElem.rowData.id));
+    }
+
+    private catchCursorPosOnElem(rowListArr: any[], cursorPosition: Point)
+        : IgxHierarchicalRowComponent {
+        for (const row of rowListArr) {
+            const rowRect = row.nativeElement.getBoundingClientRect();
+            if (cursorPosition.y > rowRect.top + window.scrollY && cursorPosition.y < rowRect.bottom + window.scrollY &&
+                cursorPosition.x > rowRect.left + window.scrollX && cursorPosition.x < rowRect.right + window.scrollX) {
+                return row;
+            } else if (row === rowListArr[rowListArr.length - 1] && cursorPosition.y > rowRect.bottom) {
+                return row;
+            }
+        }
+    }
+}
+```
+
+</ComponentBlock>
+
+Com esses poucos passos simples, você configurou um grid que permite reordenar linhas por arrastar e soltar! Você pode ver o código acima em funcionamento na demonstração a seguir.
+<ComponentBlock for="Grid">
+
+Segurando o ícone de arrastar, você pode mover uma linha para qualquer lugar do grid:
+
+<Sample src="/grid/grid-row-reorder" height={830} alt="" />
+
+</ComponentBlock>
+<ComponentBlock for="TreeGrid">
+
+Observe que também habilitamos a seleção de linhas e preservamos a seleção ao soltar a linha arrastada.
+
+<Sample src="/tree-grid/tree-grid-row-reordering" height={560} alt="" />
+
+</ComponentBlock>
+<ComponentBlock for="HierarchicalGrid">
+
+Observe que também habilitamos a seleção de linhas e preservamos a seleção ao soltar a linha arrastada.
+
+<Sample src="/hierarchical-grid/hierarchical-row-reorder" height={560} alt="" />
+
+</ComponentBlock>
+
+<ComponentBlock for="Grid">
+
+### Melhorando a UX em cenários de arrastar linhas
+
+Poder obter o índice da linha que está atualmente sob o cursor oferece a oportunidade de criar funcionalidades personalizadas ricas e melhorar a UX da sua aplicação. Por exemplo, você pode alterar o fantasma do arrasto ou exibir um indicador de soltura, com base na posição da linha arrastada sobre o grid. Outro comportamento útil que pode ser obtido dessa forma é rolar o grid para cima ou para baixo durante o arrasto de uma linha, ao atingir a borda do grid.
+
+A seguir, há trechos de exemplo de algumas implementações personalizadas que você pode obter conhecendo a posição da linha.
+
+#### Alterando o fantasma do arrasto com base na posição do cursor
+
+Nos trechos abaixo, você vê como alterar o texto dentro do fantasma do arrasto para exibir o nome da linha sob o cursor.
+
+Primeiro, você especifica um template que deseja usar para o fantasma do arrasto. A propriedade `dropName` mudará dinamicamente, obtendo o nome da linha sobre a qual o cursor está passando:
+
+```html
+<ng-template igxRowDragGhost>
+    <div class="customGhost">
+        <div>{{ dropName }}</div>
+    </div>
+</ng-template>
+```
+
+Em seguida, defina um método que retorne a instância da linha sobre a qual você está (semelhante ao usado na [demonstração de reordenação de linhas](#demonstração-de-reordenação-de-linhas)):
+
+```typescript
+class MyRowGhostComponent {
+    private getRowDataAtPoint(rowList: IgxGridRowComponent[], cursorPosition: Point): any {
+        for (const row of rowList) {
+            const rowRect = row.nativeElement.getBoundingClientRect();
+            if (cursorPosition.y > rowRect.top + window.scrollY && cursorPosition.y < rowRect.bottom + window.scrollY &&
+                cursorPosition.x > rowRect.left + window.scrollX && cursorPosition.x < rowRect.right + window.scrollX) {
+                return this.data.find((r) => r.rowID === row.rowID);
+            }
+        }
+        return null;
+    }
+}
+```
+
+Por fim, criamos um método que será usado para tratar o evento <ApiLink type="DragDirective" member="dragMove" label="IgxDragDirective.dragMove" /> (emitido para a linha arrastada). O método alterará o valor da propriedade usada no template `igxRowDragGhost` e forçará uma nova renderização.
+Queremos nos inscrever no evento `dragMove` apenas da linha específica que estamos arrastando, e cancelar a inscrição (para evitar vazamentos de memória) toda vez que uma linha for solta.
+
+```typescript
+class MyRowGhostComponent {
+    public ngAfterViewInit(): void {
+        this.grid.rowDragStart.pipe(takeUntil(this.destroy$)).subscribe(this.onRowDragStart.bind(this));
+    }
+
+    private onRowDragStart(e: IRowDragStartEventArgs) {
+        if (e !== null) {
+            this._draggedRow = e.dragData.rowData;
+        }
+        const directive = e.dragDirective;
+        directive.dragMove
+            .pipe(takeUntil(this.grid.rowDragEnd))
+            .subscribe(this.onDragMove.bind(this));
+    }
+
+    private onDragMove(args: IDragMoveEventArgs) {
+        const cursorPosition = this.getCursorPosition(args.originalEvent);
+        const hoveredRowData = this.getRowDataAtPoint(
+            this.grid.rowList.toArray(),
+            cursorPosition
+        );
+        if (!hoveredRowData) {
+            args.cancel = true;
+            return;
+        }
+        const rowID = hoveredRowData.ID;
+        if (rowID !== null) {
+            let newName = this.dropName;
+            if (rowID !== -1) {
+                const targetRow = this.grid.rowList.find((e) => {
+                    return e.rowData.ID === rowID;
+                });
+                newName = targetRow?.rowData.Name;
+            }
+            if (newName !== this.dropName) {
+                this.dropName = newName;
+                args.owner.cdr.detectChanges();
+            }
+        }
+    }
+}
+
+```
+
+#### Exibindo um indicador de soltura com base na posição do cursor
+
+Na demonstração da próxima seção, você vê como exibir um indicador de onde a linha arrastada seria solta. Você pode personalizar esse indicador como quiser — pode ser uma linha de espaço reservado, posicionada onde a linha arrastada seria solta, ou um estilo de borda indicando se a linha arrastada seria solta acima ou abaixo da linha sob o mouse, etc.
+
+Para acompanhar a posição do cursor, nos vinculamos ao evento `dragMove` do <ApiLink type="DragDirective" member="dragMove" label="IgxDragDirective" /> quando começamos a arrastar uma linha.
+
+<DocsAside type="info">
+Certifique-se de que haja um `primaryKey` especificado para o grid! A lógica precisa de um identificador exclusivo para as linhas, para que possam ser reordenadas corretamente
+</DocsAside>
+
+```typescript
+public ngAfterViewInit() {
+  this.grid.rowDragStart
+    .pipe(takeUntil(this.destroy$))
+    .subscribe(this.handleRowStart.bind(this));
+}
+
+private handleRowStart(e: IRowDragStartEventArgs): void {
+  if (e !== null) {
+    this._draggedRow = e.dragData.data;
+  }
+  const directive = e.dragDirective;
+  directive.dragMove
+    .pipe(takeUntil(this.grid.rowDragEnd))
+    .subscribe(this.handleDragMove.bind(this));
+}
+
+private handleDragMove(event: IDragMoveEventArgs): void {
+  this.handleOver(event);
+}
+
+private handleOver(event: IDragMoveEventArgs) {
+  const ghostRect = event.owner.ghostElement.getBoundingClientRect();
+  const rowIndex = this.getRowIndexAtPoint(this.grid.rowList.toArray(), {
+    x: ghostRect.x,
+    y: ghostRect.y
+  });
+  if (rowIndex === -1) {
+    return;
+  }
+  const rowElement = this.grid.rowList.find(
+    e => e.rowData.ID === this.grid.data[rowIndex].ID
+  );
+  if (rowElement) {
+    this.changeHighlightedElement(rowElement.element.nativeElement);
+  }
+}
+
+private clearHighlightElement(): void {
+  if (this.highlightedRow !== undefined) {
+    this.renderer.removeClass(this.highlightedRow, 'underlined-class');
+  }
+}
+
+private setHightlightElement(newElement: HTMLElement) {
+  this.renderer.addClass(newElement, 'underlined-class');
+  this.highlightedRow = newElement;
+}
+
+private changeHighlightedElement(newElement: HTMLElement) {
+  if (newElement !== undefined) {
+    if (newElement !== this.highlightedRow) {
+      this.clearHighlightElement();
+      this.setHightlightElement(newElement);
+    } else {
+      return;
+    }
+  }
+}
+```
+
+
+#### Rolando o grid durante o arrasto de linhas
+
+Um cenário muito útil é poder rolar o grid quando a linha arrastada atinge a sua borda superior ou inferior. Isso permite reordenar linhas fora da viewport atual quando a quantidade de linhas do grid exige uma barra de rolagem.
+
+A seguir, um exemplo dos dois métodos que usamos para verificar se chegamos à borda da viewport e para rolá-la, se necessário. O `isGridScrolledToEdge` aceita um parâmetro — a direção em que queremos rolar o grid (1 para "Down", -1 para "Up") — e retorna `true` se alcançamos a última linha nessa direção. O método `scrollGrid` tentará rolar o grid em uma direção (1 ou -1), não fazendo nada se o grid já estiver na _borda_ dessa direção.
+
+```typescript
+class MyGridScrollComponent {
+    private isGridScrolledToEdge(dir: 1 | -1): boolean {
+        if (this.grid.data[0] === this.grid.rowList.first.data && dir === -1) {
+            return true;
+        }
+        if (
+            this.grid.data[this.grid.data.length - 1] === this.grid.rowList.last.data &&
+            dir === 1
+        ) {
+            return true;
+        }
+        return false;
+    }
+
+    private scrollGrid(dir: 1 | -1): void {
+        if (!this.isGridScrolledToEdge(dir)) {
+            if (dir === 1) {
+                this.grid.verticalScrollContainer.scrollNext();
+            } else {
+                this.grid.verticalScrollContainer.scrollPrev();
+            }
+        }
+    }
+}
+
+```
+
+Ainda vamos nos inscrever no evento `dragMove` da linha específica, da mesma forma que no exemplo anterior. Como `dragMove` é disparado somente quando o cursor realmente se move, queremos uma forma simples e prática de rolar automaticamente o grid quando a linha estiver em uma das bordas, mas o usuário **não** mover o mouse. Para isso, adicionaremos um método adicional que configurará um `interval`, rolando automaticamente o grid a cada `500ms`.
+
+Criamos e nos inscrevemos no `interval` quando o ponteiro atinge a borda do grid, e cancelamos a inscrição (`unsubscribe`) desse `interval` toda vez que o mouse se move ou a linha é solta (independentemente da posição do cursor).
+
+```typescript
+class MyGridScrollComponent {
+    public ngAfterViewInit() {
+        this.grid.rowDragStart
+            .pipe(takeUntil(this.destroy$))
+            .subscribe(this.onDragStart.bind(this));
+        this.grid.rowDragEnd
+            .pipe(takeUntil(this.destroy$))
+            .subscribe(() => this.unsubInterval());
+    }
+
+    private onDragMove(event: IDragMoveEventArgs): void {
+        this.unsubInterval();
+        const dir = this.isPointOnGridEdge(event.pageY);
+        if (!dir) {
+            return;
+        }
+        this.scrollGrid(dir);
+        if (!this.intervalSub) {
+            this.interval$ = interval(500);
+            this.intervalSub = this.interval$.subscribe(() => this.scrollGrid(dir));
+        }
+    }
+
+    private unsubInterval(): void {
+        if (this.intervalSub) {
+            this.intervalSub.unsubscribe();
+            this.intervalSub = null;
+        }
+    }
+}
+```
+
+A seguir, o exemplo de ambos os cenários descritos acima — exibir um indicador de soltura e rolar a viewport quando a borda é atingida.
+
+<Sample src="/grid/grid-drop-indicator" height={830} alt="" />
+</ComponentBlock>
+
+
+
+## Limitações
+
+Atualmente, não há limitações conhecidas para a diretiva `rowDraggable`.
+
+## Referências da API
+- <ApiLink type="{ComponentApiType}" member="rowDraggable" label="rowDraggable" />
+- <ApiLink type="{ComponentApiType}" member="rowDragStart" label="rowDragStart" />
+- <ApiLink type="{ComponentApiType}" member="rowDragEnd" label="rowDragEnd" />
+- <ApiLink type="{ComponentApiType}" />
+## Recursos adicionais
+
+
+- [Visão geral do {ComponentTitle}](/{igPath}/{ComponentMainTopic})
+
+Nossa comunidade é ativa e sempre receptiva a novas ideias.
+
+- [Ignite UI for Angular **Fóruns**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

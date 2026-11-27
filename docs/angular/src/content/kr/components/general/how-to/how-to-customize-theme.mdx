@@ -1,0 +1,459 @@
+---
+title: "Ignite UI 테마 사용자 지정 - Angular | Ignite UI for Angular"
+description: "Ignite UI for Angular 테마 엔진은 애플리케이션 전체의 테마 사용자 지정과 스타일 크기 최적화를 가능하게 합니다."
+keywords: "Ignite UI for Angular, Ignite UI 테마 사용자 지정, Ignite UI 테마 최적화, Angular 테마 엔진, Angular 테마"
+_language: ko
+llms:
+  description: "이 문서는 Ignite UI for Angular 애플리케이션의 테마를 사용자 지정하고 생성된 스타일시트의 크기를 최적화하는 세부 사항을 안내합니다."
+---
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import { Image } from 'astro:assets';
+import gettingStartedAppbuilder from '../../../images/general/theming-walkthrough/getting-started-appbuilder.png';
+import gettingStartedRunningApp from '../../../images/general/theming-walkthrough/getting-started-running-app.png';
+import gettingStartedAppbuilderTheming from '../../../images/general/theming-walkthrough/getting-started-appbuilder-theming.png';
+import gettingStartedDarkApp from '../../../images/general/theming-walkthrough/getting-started-dark-app.png';
+import customizingUpdatedToolbar from '../../../images/general/theming-walkthrough/customizing-updated-toolbar.png';
+import customizingColorSchemaLight from '../../../images/general/theming-walkthrough/customizing-color-schema-light.png';
+import customizingColorSchemaDark from '../../../images/general/theming-walkthrough/customizing-color-schema-dark.png';
+
+# Ignite UI for Angular 테마 사용자 지정하기
+
+이 문서는 Ignite UI for Angular 애플리케이션의 테마를 사용자 지정하고 생성된 스타일시트의 크기를 최적화하는 세부 사항을 안내합니다. Ignite UI for Angular 테마 엔진이 어떻게 동작하는지 보여 주고, 고급 사용법을 제시합니다. 이 문서는 Angular 애플리케이션을 원하는 모양과 느낌에 맞추기 위해 컴포넌트 스타일을 완전히 사용자 지정하는 경우와, 스타일 크기를 앱이 사용하는 것만으로 줄여 배포에 최적화하는 경우 모두에 매우 유용합니다.
+
+<DocsAside type="info">
+이 문서는 버전 15부터의 Ignite UI for Angular 테마 시스템을 설명합니다. 예제에는 테마 엔진이 제공하는 Sass API와 노출된 CSS 변수를 사용하는 방법이 모두 포함되어 있습니다.
+</DocsAside>
+
+## 시작하기
+
+[App Builder](https://www.infragistics.com/products/appbuilder)를 사용하여 Angular 애플리케이션을 만든 다음, 생성된 저장소에서 스타일을 수정합니다. 먼저 App Builder에서 "Header + mini nav + content + side pane" 템플릿으로 새 앱을 만들고 디자인 화면에 컴포넌트 몇 개를 추가합니다.
+
+<Image src={gettingStartedAppbuilder} alt="App Builder 시작하기" class="responsive-img" />
+
+그다음 대상을 Angular로 설정하여 앱을 GitHub 저장소로 생성합니다. 그 위에서 App Builder와 생성된 코드 자체를 함께 수정하며 작업합니다. 저장소를 복제하고 프로젝트를 빌드하면 초기 상태의 실행 중인 Angular 애플리케이션을 볼 수 있습니다.
+
+<Image src={gettingStartedRunningApp} alt="실행 중인 앱 시작하기" class="responsive-img" />
+
+보시다시피 애플리케이션에는 기본 테마인 [material light 변형](/themes/sass/presets/material)이 적용되어 있습니다. 생성된 `styles.scss` 파일은 다음과 같습니다:
+
+```scss
+/* You can add global styles to this file, and also import other style files */
+
+@use "@infragistics/igniteui-angular/theming" as *;
+
+// Standard CSS normalize, remove if it is not required.
+@layer ig.reset {
+  @import "minireset.css";
+}
+
+@include core();
+@include typography();
+@include light-theme($light-material-palette);
+
+body {
+  background: hsla(var(--ig-surface-500));
+  color: var(--ig-surface-500-contrast);
+}
+
+html, body {
+  height: 100%;
+}
+
+.ig-typography {
+  h1, h2, h3, h4, h5, h6, p, .ig-typography__body-1 {
+    margin: 0;
+  }
+}
+
+.outer-wrapper > *:not(router-outlet) {
+  width: 100%;
+}
+```
+
+## 테마 사용자 지정
+
+같은 테마의 어두운 변형이 필요하고, 브랜드에 맞도록 자체 [색상 팔레트](/themes/palettes)를 추가하며, 글꼴을 기본 `Titillium Web` 대신 `Poppins`(으)로 바꾸고 싶습니다. 이 모든 것은 App Builder에서 직접 변경할 수 있으며, App Builder에서 저장소로 변경 사항을 pull request로 보낼 수 있습니다.
+
+<Image src={gettingStartedAppbuilderTheming} alt="App Builder 테마 시작하기" class="responsive-img" />
+
+업데이트된 `styles.scss`은 다음과 같습니다:
+
+```scss
+@include core();
+@include typography($font-family: "Poppins");
+
+$custom-palette: palette(
+  $primary: #1028c7,
+  $secondary: #e0d94c,
+  $surface: #000,
+  $gray: #fff
+);
+
+@include theme(
+    $palette: $custom-palette, 
+    $schema: $dark-material-schema
+);
+```
+
+보시다시피 코드 생성은 특정 `@include light-theme($light-material-palette);`([기본 테마](/themes/sass/presets/material)와 [색상 팔레트](/themes/palettes))에서, 테마 구조에 대한 사용자 지정 색상 팔레트와 [어두운 material 스키마](/themes/sass/schemas)를 매개변수로 제공하는 일반적인 <ApiLink kind="sass" module="themes" type="mixin-theme" label="theme()" code={true} /> include로 바뀌었습니다. 실행 중인 Angular 앱의 결과는 이제 다음과 같습니다:
+
+<Image src={gettingStartedDarkApp} alt="어두운 앱 시작하기" class="responsive-img" />
+
+애플리케이션의 특정 [컴포넌트 테마](/themes/sass/component-themes)를 더 깊이 사용자 지정하려면, 개별 컴포넌트 테마(이 경우 그리드 도구 모음 테마)의 CSS 변수를 가져오는 방식을 사용합니다.
+
+```scss
+@include core();
+@include typography($font-family: "Poppins");
+
+$primary: #1028c7;
+
+/* All of the components will use this custom color palette */
+$custom-palette: palette(
+  $primary: $primary,
+  $secondary: #e0d94c,
+  $surface: #000,
+  $gray: #fff
+);
+
+@include theme(
+    $palette: $custom-palette, 
+    $schema: $dark-material-schema
+);
+
+/* Grid Toolbar */
+/* All grid toolbars will have custom background and elevations */
+$toolbar-theme: grid-toolbar-theme(
+  $background: $primary
+);
+
+@include tokens($toolbar-theme);
+/* END Grid Toolbar */
+```
+
+이제 앱의 결과는 다음과 같습니다:
+
+<Image src={customizingUpdatedToolbar} alt="업데이트된 도구 모음 사용자 지정하기" class="responsive-img" />
+
+같은 과정을 적용하여 어떤 컴포넌트 테마든 개별적으로 재정의하고 사용자 지정할 수 있습니다.
+
+### 실행 중에 사용자 지정 테마 전환하기
+
+이제 더 깊이 들어가서, 실행 중에 전환할 수 있는 테마의 사용자 지정 버전 두 개를 만들어 보겠습니다. 사용자 제어 또는 사용자 설정으로 이를 구현하여 사용자가 언제든지 전환할 수 있게 할 수 있습니다. 하지만 이 예제에서는 현재 OS 설정과 맞는 테마를 적용하기 위해 OS에 정의된 사용자 설정(밝음 또는 어두움)을 사용합니다. 이를 위해 두 개의 색상 팔레트가 필요합니다:
+
+```scss
+@use "@infragistics/igniteui-angular/theming" as *;
+
+@layer ig.reset {
+  @import "minireset.css";
+}
+
+@include core();
+@include typography($font-family: "Poppins");
+
+$primary-dark: #1028c7;
+$primary-light: #3c55f1;
+$secondary-dark: #e0d94c;
+$secondary-light: #b4a904;
+
+$custom-palette-dark: palette(
+  $primary: $primary-dark,
+  $secondary: $secondary-dark,
+  $surface: #000,
+  $gray: #ccc
+);
+
+$custom-palette-light: palette(
+  $primary: $primary-light,
+  $secondary: $secondary-light,
+  $surface: #fff,
+  $gray: #222
+);
+```
+
+그런 다음 테마 정의는 일반 범위에 두고 밝은 변형에 사용하며, 어두운 색상 스키마 OS 설정이 감지되면 `@media` 쿼리에서 팔레트 재정의를 만듭니다:
+
+```scss
+@include theme(
+  $palette: $custom-palette-light,
+  $schema: $light-material-schema
+);
+
+@media (prefers-color-scheme: light) {
+  /* Grid Toolbar override for light color scheme */
+  igx-grid-toolbar {
+    --background: #{$primary-light};
+    --title-text-color: #{adaptive-contrast($primary-light)};
+  }
+  /* END Grid Toolbar */
+}
+
+@media (prefers-color-scheme: dark) {
+  // changes native element schema (scrollbars, select, etc.)
+  :root {
+    color-scheme: dark;
+  }
+
+  @include palette($custom-palette-dark);
+
+  /* Grid Toolbar override for dark color scheme */
+  igx-grid-toolbar {
+    --background: #{$primary-dark};
+    --title-text-color: #{adaptive-contrast($primary-dark)};
+  }
+  /* END Grid Toolbar */
+}
+```
+
+<DocsAside type="info">
+<ApiLink kind="sass" module="themes" type="mixin-tokens" label="tokens" code={true} />를 사용하여 모든 테마 변수를 다시 include하는 대신, `igx-grid-toolbar` 테마 재정의를 두 개의 변수만 재정의하도록 바꾸었습니다.
+모든 테마 변수는 <ApiLink kind="sass" module="themes" type="function-grid-toolbar-theme" label="해당 Sass API 문서" />에서 찾을 수 있으며, Sass 변수와 같지만 `$` 대신 `--` 접두사가 붙습니다.
+</DocsAside>
+
+밝은 OS 테마에서의 결과는 이제 다음과 같습니다:
+
+<Image src={customizingColorSchemaLight} alt="밝은 색상 스키마 사용자 지정하기" class="responsive-img" />
+
+어두운 OS 테마에서는 다음과 같이 보입니다:
+
+<Image src={customizingColorSchemaDark} alt="어두운 색상 스키마 사용자 지정하기" class="responsive-img" />
+
+<DocsAside type="info">
+Ignite UI 테마 스키마 프리셋 전환을 포함한 완전한 실행 중 전환은 두 개의 전체 테마가 만들어진 경우에만 가능합니다. 위 예제에서는 색상 팔레트만 전환하고 있으며, 테마 스키마는 $light-material-schema로 그대로 유지됩니다. 따라서 어두운 색상 팔레트로 전환할 때 팔레트의 올바른 명도 단계가 모두 사용되지는 않습니다.
+</DocsAside>
+
+### 무엇을 사용자 지정할 수 있는가
+
+Ignite UI 테마는 여러 차원의 테마를 추상화하여 매우 강력한 재테마 기능을 제공합니다. 개발자와 디자이너는 테마 엔진 API를 활용하여 애플리케이션에 맞춘 시각 디자인을 만들 수 있으므로, Ignite UI for Angular를 사용할 때 고유한 모양과 느낌을 얻을 수 있습니다. 테마 엔진은 각 차원의 변수도 노출하며, 이 변수는 Ignite UI for Angular 컴포넌트를 UI로 직접 구성하지 않은 나머지 애플리케이션 구조에도 테마를 적용하는 데 사용할 수 있습니다. 수정할 수 있도록 노출된 차원은 다음과 같습니다:
+
+- [색상](/themes/sass/palettes)(색상 팔레트)
+- [모양](/themes/sass/roundness)(테두리와 반경)
+- [고도](/themes/sass/elevations)(그림자)
+- [타이포그래피](/themes/sass/typography)(글꼴과 글꼴 크기)
+- [크기](/display-density)(화면에 맞춰지는 정보의 크기)
+
+<DocsAside type="info">
+완전히 사용자 지정된 시각 디자인이 정말 필요하다면, 지원되는 모든 테마 차원을 수정해야 하며 Sass API를 최대한 활용해야 합니다.
+글꼴과 몇 가지 색상처럼 간단한 것만 바꾸면 된다면, 팔레트와 타이포그래피 섹션을 보면 됩니다. 대부분의 경우 몇 개의 CSS 변수만 바꾸면 되며 전체 Sass API는 필요하지 않습니다.
+수정이 애플리케이션 시각 디자인에 예기치 않은 부작용을 일으키지 않도록 가능한 한 세분화하여 설계했습니다.
+</DocsAside>
+
+## 테마 최적화
+
+<DocsAside type="info">
+Ignite UI for Angular 22.1.0부터 컴포넌트의 구조적 스타일은 모든 것이 포함되거나 전혀 포함되지 않는 단일 전역 스타일시트가 아니라 각 컴포넌트의 번들 안에 포함됩니다. 빌드 도구(webpack, esbuild 등)는 애플리케이션이 실제로 import하는 컴포넌트의 구조적 CSS만 자동으로 포함하며, 별도의 추가 구성은 필요하지 않습니다.
+</DocsAside>
+
+`@include theme()`을(를) 호출하면(`core()` 및 `typography()`와 함께) 전역 스타일시트용으로 공유 디자인 **토큰**, 즉 모든 컴포넌트가 사용하는 `--ig-*` CSS 사용자 지정 속성이 생성됩니다. 구조적 스타일은 더 이상 여기에 포함되지 않으므로, 이 출력은 사용 여부와 관계없이 모든 컴포넌트의 구조적 CSS를 묶던 이전 스타일시트보다 이미 훨씬 작습니다.
+
+<ApiLink kind="sass" module="themes" type="mixin-theme" label="$exclude" code={true} /> 매개변수를 사용하여 토큰 출력을 더 줄일 수 있으며, 이 매개변수는 나열된 컴포넌트의 토큰을 전역 프리셋에서 제거합니다. 애플리케이션이 특정 컴포넌트를 절대 사용하지 않을 것을 알고 있고 그 토큰을 배포하고 싶지 않을 때 유용합니다. 패키지에서 사용 가능한 모든 컴포넌트를 찾아 나열하기는 쉽지 않으므로, 사용하는 컴포넌트를 나열할 수 있다면 그것이 더 좋습니다. 전체 컴포넌트 목록은 변수로 제공되며, 다음에 접근할 수 있습니다:
+
+```scss
+@use "@infragistics/igniteui-angular/theming" as *;
+```
+
+컴포넌트 배열은 `$components`에 있으며, 다음 예처럼 <ApiLink kind="sass" module="themes" type="variable-dark-material-schema" label="이 목록" />를 사용하는 컴포넌트로 줄이고 나머지는 모두 제외할 수 있습니다:
+
+```scss
+$include: (
+  igx-navbar,
+  igx-ripple,
+  igx-icon,
+  igx-button,
+  igx-input-group,
+  igx-combo,
+  igx-nav-drawer,
+  igx-grid,
+  igx-grid-toolbar
+);
+
+@include theme(
+  $palette: $custom-palette,
+  $schema: $dark-material-schema,
+  /* Removing all included components from the full list and excluding the rest  */
+  $exclude: map.keys(map.remove($components, $include...))
+);
+```
+
+<DocsAside type="info">
+일부 컴포넌트 테마는 다른 컴포넌트 테마에 의존합니다.  
+테마를 제외하더라도, 제외된 테마에 의존하는 컴포넌트 테마를 사용하면 빌드에서 그 테마가 유지됩니다.
+</DocsAside>
+
+### 기능의 사용자 지정 테마를 지연 로드되는 라우트에 한정하기
+
+자동 트리 셰이킹이 있더라도, 컴포넌트의 **사용자 지정 토큰 재정의**는 모든 뷰가 이를 가지고 있어야 하는 전역 스타일시트에 추가하는 대신, 이를 사용하는 한 기능 가까이에 유지하고 싶을 때가 많습니다. 특정 디자인에 맞게 풍부하게 사용자 지정한 `IgxTreeGridComponent`와 `IgxComboComponent` 인스턴스가 앱의 "Employees" 뷰 안에서만 사용되고 다른 곳에서는 사용되지 않는다고 가정해 보겠습니다. 앱 전체의 `styles.scss`에 사용자 지정 색상을 정의하는 대신, 그 뷰를 자체 라우트로 지연 로드하여 해당 재정의를 기능 자체와 함께 배치할 수 있습니다.
+
+먼저 앱의 employees 컴포넌트 폴더에 새 모듈과 새 라우팅 모듈을 만들겠습니다.
+
+```typescript
+// employees.module.ts
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+
+import { EmployeesRoutingModule } from './employees-routing.module';
+import { EmployeesComponent } from './employees.component';
+import { IgxButtonModule, IgxComboModule, IgxTreeGridModule } from '@infragistics/igniteui-angular';
+
+
+@NgModule({
+  declarations: [
+    EmployeesComponent
+  ],
+  imports: [
+    CommonModule,
+    EmployeesRoutingModule,
+    IgxComboModule,
+    IgxTreeGridModule,
+    IgxButtonModule
+  ]
+})
+export class EmployeesModule { }
+```
+
+```typescript
+// employees-routing.module.ts
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+import { EmployeesComponent } from './employees.component';
+
+const routes: Routes = [{ path: '', component: EmployeesComponent }];
+
+@NgModule({
+  imports: [RouterModule.forChild(routes)],
+  exports: [RouterModule]
+})
+export class EmployeesRoutingModule { }
+```
+
+```typescript
+// Updated top-level app-routing.module.ts
+import { NgModule } from '@angular/core';
+import { Routes, RouterModule } from '@angular/router';
+
+import { PageNotFoundComponent } from './error-routing/not-found/not-found.component';
+import { UncaughtErrorComponent } from './error-routing/error/uncaught-error.component';
+import { ErrorRoutingModule } from './error-routing/error-routing.module';
+import { StatisticsComponent } from './statistics/statistics.component';
+
+export const routes: Routes = [
+  { path: '', redirectTo: 'statistics', pathMatch: 'full' },
+  { path: 'error', component: UncaughtErrorComponent },
+  // { path: 'employees', component: EmployeesComponent, data: { text: 'Employees' } },
+  // lazy-loading the employees route
+  { path: 'employees', loadChildren: () => import('./employees/employees.module').then(m => m.EmployeesModule) },
+  { path: 'statistics', component: StatisticsComponent, data: { text: 'Statistics' } },
+  { path: '**', component: PageNotFoundComponent } // must always be last
+];
+
+@NgModule({
+  imports: [RouterModule.forRoot(routes), ErrorRoutingModule],
+  exports: [RouterModule, ErrorRoutingModule]
+})
+export class AppRoutingModule {
+}
+```
+
+이제 `app.module.ts`에서 `IgxTreeGridModule`과 `IgxComboModule` import, 그리고 `EmployeesComponent` 선언을 제거합니다. 다른 뷰에서는 사용하지 않으며, 컴포넌트는 하나의 모듈에서만 선언할 수 있기 때문입니다.
+
+그다음 사용자 지정 `igx-grid`, `igx-grid-toolbar`, `igx-combo` 테마를 전역 스타일시트에서 옮겨 이를 사용하는 컴포넌트와 함께 `employees.component.scss`에 배치합니다. 컴포넌트는 아래의 전역 `theme()` 출력에서 제외되므로 범위 모드를 사용합니다. CSS 사용자 지정 속성은 보통 Emulated View Encapsulation을 통해 상속됩니다. 중첩된 컴포넌트의 생성된 선택기가 일치하지 않으면, 그 include만 `::ng-deep`로 감싸거나 전역 스타일시트로 옮기십시오:
+
+```scss
+/* employees.component.scss */
+@use "@infragistics/igniteui-angular/theming" as *;
+
+:host {
+  height: 100%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: stretch;
+  align-content: flex-start;
+
+  $primary: #1028c7;
+
+  @include tokens(
+    grid-theme(
+      $schema: $dark-material-schema,
+      $background: #1a1a1a,
+      $foreground: #fff,
+      $accent-color: $primary
+    ),
+    $mode: 'scoped'
+  );
+
+  @include tokens(
+    combo-theme(
+      $schema: $dark-material-schema,
+      $toggle-button-background: $primary
+    ),
+    $mode: 'scoped'
+  );
+
+  @include tokens(
+    grid-toolbar-theme(
+      $schema: $dark-material-schema,
+      $background: $primary
+    ),
+    $mode: 'scoped'
+  );
+}
+```
+
+Employees 스타일시트가 이제 완전한 범위 테마를 출력하므로, 최상위 스타일시트는 토큰 출력에서 `igx-grid`, `igx-combo`, `igx-grid-toolbar`를 계속 제외할 수 있습니다. `$include`에 나열된 공유 컴포넌트에 대해서만 전역 토큰을 출력합니다:
+
+```scss
+/* Updated styles.scss */
+@use "sass:map";
+@use "@infragistics/igniteui-angular/theming" as *;
+
+@layer ig.reset {
+  @import "minireset.css";
+}
+
+@include core();
+@include typography($font-family: "Poppins");
+
+$primary: #1028c7;
+
+$custom-palette: palette(
+  $primary: $primary,
+  $secondary: #e0d94c,
+  $surface: #000,
+  $gray: #fff
+);
+
+$include: (
+  igx-navbar,
+  igx-ripple,
+  igx-icon,
+  igx-button,
+  igx-nav-drawer
+);
+
+@include theme(
+  $palette: $custom-palette,
+  $schema: $dark-material-schema,
+  $exclude: map.keys(map.remove($components, $include...))
+);
+```
+
+<DocsAside type="info">
+색상 팔레트 값처럼 모든 변수는 별도의 `_variables.scss` 파일에 두는 것이 좋습니다. 이 파일은 여러 컴포넌트에서 include하여 변수를 재사용할 수 있습니다.  
+</DocsAside>
+
+결과적으로 전역 스타일시트에는 Employees 뷰에서만 중요한 색상 재정의가 더 이상 포함되지 않습니다. 또한 `IgxTreeGridComponent`과 `IgxComboComponent`는 이제 지연 로드되는 `EmployeesModule`에서만 import되므로, 구조적 스타일은 모든 페이지 로드마다가 아니라 사용자가 실제로 Employees 뷰로 이동할 때만 해당 모듈의 청크와 함께 가져옵니다.
+
+## 추가 리소스
+
+관련 항목:
+
+- [팔레트](/themes/sass/palettes)
+- [고도](/themes/sass/elevations)
+- [타이포그래피](/themes/sass/typography)
+- [Sass로 테마 적용하기](/themes/sass)
+
+커뮤니티는 활발하며 새로운 아이디어를 언제나 환영합니다.
+
+- [Ignite UI for Angular **포럼**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

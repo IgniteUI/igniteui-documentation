@@ -1,0 +1,1397 @@
+---
+title: "Componente Rating {Platform}"
+description: "O Rating {ProductName} é um input associado a formulários para selecionar ou visualizar uma pontuação em uma escala de estrelas ou símbolos personalizados, com passos de meia estrela."
+keywords: "Rating {Platform}, {ProductName}, avaliação por estrelas, avaliação por meia estrela, símbolos de avaliação"
+license: MIT
+last_updated: "2026-10-07"
+relatedComponents: ["Slider", "RadioGroup"]
+mentionedTypes: ["Rating", "RatingSymbol"]
+_language: pt-BR
+llms:
+  description: "O Rating {ProductName} é um componente associado a formulários que permite aos usuários visualizar e selecionar uma pontuação em uma escala de estrelas ou símbolos personalizados."
+---
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+import Anatomy from 'igniteui-astro-components/components/mdx/Anatomy.astro';
+import Faq from 'igniteui-astro-components/components/mdx/Faq.astro';
+import FaqItem from 'igniteui-astro-components/components/mdx/FaqItem.astro';
+import { Image } from 'astro:assets';
+import ratingAnatomy from '@xplat-images/anatomy-content-light/rating-lt-a.png';
+import ratingDoSymbol from '@xplat-images/rating/rating-do-1.png';
+import ratingDoNotSymbol from '@xplat-images/rating/rating-do-not-1.png';
+import ratingDoContrast from '@xplat-images/rating/rating-do-2.png';
+import ratingDoNotContrast from '@xplat-images/rating/rating-do-not-2.png';
+
+# Rating
+
+O Rating {ProductName} é um componente associado a formulários que permite aos usuários visualizar e selecionar uma pontuação em uma escala de estrelas ou símbolos personalizados.
+
+<PlatformBlock for="Angular">
+
+No Angular, o Rating é o web component `igc-rating` de `igniteui-webcomponents`. Vincule-o aos formulários do Angular com `IgcFormControlDirective`.
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+O Rating oferece suporte a meia estrela e a outros valores fracionários, pré-visualização ao passar o mouse, seleção única de símbolos distintos e entrada completa pelo teclado.
+
+</PlatformBlock>
+
+## Demo ao vivo
+
+<PlatformBlock for="Angular">
+
+<Sample src="/data-entries/rating-overview" showThemePicker height={300} noBorder={false} spacing="md" alt="Exemplo de visão geral do Rating {Platform}" />
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+<Sample src="/inputs/rating/overview" showThemePicker height={300} noBorder={false} spacing="md" alt="Exemplo de visão geral do Rating {Platform}" />
+
+</PlatformBlock>
+
+## Anatomia
+
+O Rating é composto por Label e Value, em que o Value é o número da escala de avaliação. O rótulo aparece quando você define `label`. Defina `max` para alterar a quantidade de símbolos (5 por padrão).
+
+<Anatomy
+  class="rating-anatomy"
+  name="Rating"
+  description="O componente Rating exibe um rótulo e uma linha de símbolos que são preenchidos até o valor atual."
+  src={ratingAnatomy.src}
+  alt="Anatomia do Rating, mostrando o rótulo e os símbolos de estrela cheia, parcialmente preenchida e vazia"
+/>
+
+<style>{`
+  .rating-anatomy {
+    --igd-anatomy-padding: 64px 32px;
+  }
+
+  .rating-anatomy .igd-anatomy__image {
+    max-width: 257.5px;
+  }
+`}</style>
+
+<span class="ig-typography__body-2" style="display: block; margin-bottom: 24px;"><strong>1. Rótulo (opcional):</strong> descreve o que o usuário está avaliando<br />
+<strong>2. Ícone de avaliação:</strong> indica item selecionado<br />
+<strong>3. Ícone de avaliação:</strong> indica item meio selecionado<br />
+<strong>4. Ícone de avaliação:</strong> indica item não selecionado</span>
+
+O elemento `igc-rating` renderiza o rótulo e um slider que contém os símbolos. Sem símbolos projetados, ele renderiza uma estrela para cada ponto de `max`:
+
+```text
+igc-rating
+└─ #shadow-root
+   ├─ label[part="label"]                    // hidden when label isn't set
+   └─ div[part="base"][role="slider"]
+      ├─ div[part="symbols"]                 // aria-hidden="true"
+      │  └─ slot[name="symbol"]              // projected igc-rating-symbol elements
+      │     └─ igc-rating-symbol × max       // default stars when nothing is projected
+      │        └─ #shadow-root
+      │           ├─ div[part="symbol full"]   // star_filled icon, clipped to the value
+      │           └─ div[part="symbol empty"]  // star_outlined icon, clipped to the rest
+      └─ label[part="value-label"]
+         └─ slot[name="value-label"]         // hidden when the slot is empty
+```
+
+Cada `igc-rating-symbol` renderiza o seu slot padrão na parte `full` e o seu slot `empty` na parte `empty`.
+
+## Primeiros passos
+
+Para usar o Rating {Platform}, siga o <PlatformBlock for="Angular">[{ProductName} Primeiros passos](../general/getting-started.mdx)</PlatformBlock><PlatformBlock for="React,WebComponents,Blazor">[{ProductName} Primeiros passos](../general-getting-started.mdx)</PlatformBlock> tópico para a configuração básica do projeto e, em seguida, adicione o componente para a sua plataforma de destino.
+
+<PlatformBlock for="WebComponents">
+
+Instale o pacote **{PackageCommon}**:
+
+```cmd
+npm install {PackageCommon}
+```
+
+Em seguida, importe o <ApiLink pkg="core" type="Rating" />, o CSS do seu tema e registre o componente. O registro também registra os elementos `igc-rating-symbol` e `igc-icon`:
+
+```ts
+import { defineComponents, IgcRatingComponent } from 'igniteui-webcomponents';
+import 'igniteui-webcomponents/themes/light/bootstrap.css';
+
+defineComponents(IgcRatingComponent);
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+Instale o pacote **{PackageCommon}**:
+
+```cmd
+npm install {PackageCommon}
+```
+
+Em seguida, importe o wrapper do <ApiLink pkg="core" type="Rating" /> e o CSS do tema:
+
+```tsx
+import { IgrRating } from 'igniteui-react';
+import 'igniteui-webcomponents/themes/light/bootstrap.css';
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+Registre os serviços de {ProductName}:
+
+```csharp
+// in Program.cs file
+
+builder.Services.AddIgniteUIBlazor();
+```
+
+O registro de <ApiLink pkg="core" type="RatingModule" />, o módulo de recurso do cliente de <ApiLink pkg="core" type="Rating" />, é **opcional**: o componente carrega seus recursos na primeira vez em que é renderizado. Listá-lo em `builder.Services.AddIgniteUIBlazor(typeof(IgbRatingModule))` pode ser usado para pré-carregar recursos ou para dar suporte a elementos criados somente no cliente (veja [Módulos do componente](../general-getting-started.mdx#módulos-do-componente)).
+
+Em seguida, adicione a folha de estilos do tema à sua página host:
+
+```razor
+<link href="_content/IgniteUI.Blazor/themes/light/bootstrap.css" rel="stylesheet" />
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+Se o seu projeto ainda não usa o {ProductName}, execute `ng add igniteui-angular`. Depois, instale o pacote **{PackageComponents}**, que fornece o Rating:
+
+```cmd
+npm install {PackageComponents}
+```
+
+Registre o `IgcRatingComponent` e adicione `CUSTOM_ELEMENTS_SCHEMA` ao componente do Angular que renderiza o `igc-rating`:
+
+```ts
+import { Component, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { defineComponents, IgcRatingComponent } from 'igniteui-webcomponents';
+
+defineComponents(IgcRatingComponent);
+
+@Component({
+    selector: 'app-product-rating',
+    template: '<igc-rating label="Rate this product"></igc-rating>',
+    schemas: [CUSTOM_ELEMENTS_SCHEMA]
+})
+export class ProductRatingComponent {}
+```
+
+O tema {ProductName} estiliza o `igc-rating`; por isso, o Rating segue o tema que você inclui com o mixin `theme()`.
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+Após o registro, renderize o <ApiLink pkg="core" type="Rating" /> com um rótulo:
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-rating label="Rate this product"></igc-rating>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrRating label="Rate this product" />
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbRating Label="Rate this product" />
+```
+
+</PlatformBlock>
+
+O Rating renderiza cinco estrelas e começa com um valor de 0.
+
+## Uso
+
+Use o Rating {Platform} para coletar uma pontuação para um produto, um serviço ou uma experiência, ou para mostrar uma pontuação média que os usuários não podem alterar.
+
+### Pré-visualização ao passar o mouse
+
+Defina `hoverPreview` para preencher os símbolos até o valor sob o ponteiro antes de o usuário clicar. Quando o ponteiro sai dos símbolos, o Rating {Platform} mostra o seu valor novamente. Um Rating somente leitura ou desabilitado não mostra pré-visualização.
+
+<PlatformBlock for="WebComponents">
+
+Enquanto a pré-visualização está ativa, o Rating emite `igcHover` com o valor sob o ponteiro:
+
+```html
+<igc-rating hover-preview label="Rate this article"></igc-rating>
+<span id="hint"></span>
+```
+
+```ts
+const rating = document.querySelector('igc-rating')!;
+const hint = document.getElementById('hint')!;
+
+rating.addEventListener('igcHover', (event) => {
+  hint.textContent = `${event.detail} stars`;
+});
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+Enquanto a pré-visualização está ativa, o Rating chama `onHover` com o valor sob o ponteiro:
+
+```tsx
+<IgrRating
+  hoverPreview={true}
+  label="Rate this article"
+  onHover={(e: CustomEvent<number>) => setHint(`${e.detail} stars`)}
+/>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+Enquanto a pré-visualização está ativa, o Rating dispara `Hover` com o valor sob o ponteiro:
+
+```razor
+<IgbRating HoverPreview="true" Label="Rate this article" Hover="OnHover" />
+
+@code {
+    private string Hint { get; set; }
+
+    private void OnHover(IgbNumberEventArgs e)
+    {
+        Hint = $"{e.Detail} stars";
+    }
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+Enquanto a pré-visualização está ativa, o Rating emite `igcHover` com o valor sob o ponteiro:
+
+```html
+<igc-rating hover-preview label="Rate this article" (igcHover)="onHover($event)"></igc-rating>
+```
+
+```ts
+public hint = '';
+
+public onHover(event: Event) {
+    this.hint = `${(event as CustomEvent<number>).detail} stars`;
+}
+```
+
+</PlatformBlock>
+
+### Redefinir
+
+Por padrão, um clique no valor atual mantém o valor. Defina `allowReset` para redefinir o Rating {Platform} para 0 quando o usuário clicar novamente no valor atual.
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-rating allow-reset label="Rate this song"></igc-rating>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrRating allowReset={true} label="Rate this song" />
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbRating AllowReset="true" Label="Rate this song" />
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+```html
+<igc-rating allow-reset label="Rate this song"></igc-rating>
+```
+
+</PlatformBlock>
+
+### Somente leitura
+
+Defina `readOnly` para mostrar uma pontuação que os usuários não podem alterar, como a média de todas as avaliações. O valor pode ser qualquer número do intervalo; por isso, um valor de 4.3 preenche quatro símbolos e 30% do quinto. Um Rating {Platform} somente leitura permanece na ordem de tabulação<PlatformBlock for="React,WebComponents,Angular">, e as tecnologias assistivas o anunciam como somente leitura</PlatformBlock>.
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-rating readonly value="4.3" label="Average rating"></igc-rating>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrRating readOnly={true} value={4.3} label="Average rating" />
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbRating ReadOnly="true" Value="4.3" Label="Average rating" />
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+```html
+<igc-rating readonly value="4.3" label="Average rating"></igc-rating>
+```
+
+</PlatformBlock>
+
+### Layout
+
+A propriedade `label` renderiza um rótulo visível acima dos símbolos e dá nome ao Rating {Platform} para as tecnologias assistivas. Para mostrar conteúdo personalizado ao lado dos símbolos, como a pontuação atual, coloque-o no slot `value-label`:
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-rating value="4" label="Rate this product">
+  <span slot="value-label">4 of 5</span>
+</igc-rating>
+```
+
+Atualize o conteúdo do slot no handler `igcChange` para mantê-lo sincronizado com o valor.
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrRating value={score} label="Rate this product" onChange={(e: CustomEvent<number>) => setScore(e.detail)}>
+  <span slot="value-label">{score} of 5</span>
+</IgrRating>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbRating @bind-Value="Score" Label="Rate this product">
+    <span slot="value-label">@Score of 5</span>
+</IgbRating>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+```html
+<igc-rating [value]="score" label="Rate this product" (igcChange)="onScoreChange($event)">
+  <span slot="value-label">{{ score }} of 5</span>
+</igc-rating>
+```
+
+</PlatformBlock>
+
+Dê a cada Rating {Platform} um nome acessível e descreva o seu valor com palavras que se encaixem na escala.
+
+<PlatformBlock for="React,WebComponents,Angular">
+
+Quando o Rating não tiver um `label` visível, defina `aria-label` nele ou, com o `igniteui-webcomponents` 7.4.1 e posteriores, associe a ele um elemento `<label>`. As tecnologias assistivas leem o valor como "3 of 5" por padrão. Defina `valueFormat` para substituir esse texto: o Rating substitui `{0}` pelo valor e `{1}` por `max`, o que também permite localizar o texto.
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+As tecnologias assistivas leem o valor como "3 of 5" por padrão. Defina <ApiLink pkg="core" type="Rating" member="ValueFormat" label="ValueFormat" /> para substituir esse texto: o Rating substitui `{0}` pelo valor e `{1}` por `Max`, o que também permite localizar o texto.
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-rating aria-label="Delivery speed" value-format="{0} out of {1} stars"></igc-rating>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrRating aria-label="Delivery speed" valueFormat="{0} out of {1} stars" />
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbRating Label="Delivery speed" ValueFormat="{0} out of {1} stars" />
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+```html
+<igc-rating aria-label="Delivery speed" value-format="{0} out of {1} stars"></igc-rating>
+```
+
+</PlatformBlock>
+
+Deixe `label` sem definir para ocultar o rótulo, ou use o slot `value-label` para mostrar a pontuação.
+
+<PlatformBlock for="Angular">
+
+<Sample src="/data-entries/rating-layout" showThemePicker height={200} noBorder={false} spacing="md" alt="Rating {Platform} com o rótulo ligado e desligado" />
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+<Sample src="/inputs/rating/layout" showThemePicker height={200} noBorder={false} spacing="md" alt="Rating {Platform} com o rótulo ligado e desligado" />
+
+</PlatformBlock>
+
+### Estados de interação
+
+O Rating {Platform} vem habilitado por padrão. Defina `disabled` para desativá-lo:
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-rating disabled value="3" label="Rate this product"></igc-rating>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrRating disabled={true} value={3} label="Rate this product" />
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbRating Disabled="true" Value="3" Label="Rate this product" />
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+```html
+<igc-rating disabled value="3" label="Rate this product"></igc-rating>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+<Sample src="/data-entries/rating-interaction-states" showThemePicker height={200} noBorder={false} spacing="md" alt="Rating {Platform} nos estados habilitado, somente leitura e desabilitado" />
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+<Sample src="/inputs/rating/interaction-states" showThemePicker height={200} noBorder={false} spacing="md" alt="Rating {Platform} nos estados habilitado, somente leitura e desabilitado" />
+
+</PlatformBlock>
+
+### Estado vazio/cheio
+
+O `value` do Rating {Platform} define o quanto os seus símbolos estão preenchidos. Um valor de 0, o padrão, mostra todos os símbolos vazios, e um valor igual a `max` mostra todos os símbolos cheios.
+
+<PlatformBlock for="WebComponents">
+
+Defina o valor e o máximo como atributos, e escute `igcChange` para obter o valor que o usuário seleciona:
+
+```html
+<igc-rating value="3" max="10" label="Rate this movie"></igc-rating>
+```
+
+```ts
+const rating = document.querySelector('igc-rating')!;
+
+rating.addEventListener('igcChange', (event) => {
+  console.log(`New rating: ${event.detail}`);
+});
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+Mantenha o valor no estado e atualize-o no handler `onChange`:
+
+```tsx
+import { useState } from 'react';
+import { IgrRating } from 'igniteui-react';
+
+export default function MovieRating() {
+  const [score, setScore] = useState(3);
+
+  return (
+    <IgrRating
+      value={score}
+      max={10}
+      label="Rate this movie"
+      onChange={(e: CustomEvent<number>) => setScore(e.detail)}
+    />
+  );
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+Vincule o valor com `@bind-Value`:
+
+```razor
+<IgbRating @bind-Value="Score" Max="10" Label="Rate this movie" />
+
+@code {
+    private double Score { get; set; } = 3;
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+Vincule o valor como propriedade e atualize-o no handler `igcChange`:
+
+```html
+<igc-rating [value]="score" max="10" label="Rate this movie" (igcChange)="onScoreChange($event)"></igc-rating>
+```
+
+```ts
+public score = 3;
+
+public onScoreChange(event: Event) {
+    this.score = (event as CustomEvent<number>).detail;
+}
+```
+
+</PlatformBlock>
+
+Defina `step` como `0.5` para permitir que os usuários selecionem meias estrelas:
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-rating step="0.5" value="3.5" label="Rate your stay"></igc-rating>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrRating step={0.5} value={3.5} label="Rate your stay" />
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbRating Step="0.5" Value="3.5" Label="Rate your stay" />
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+```html
+<igc-rating step="0.5" value="3.5" label="Rate your stay"></igc-rating>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+<Sample src="/data-entries/rating-states" showThemePicker height={200} noBorder={false} spacing="md" alt="Rating {Platform} nos estados vazio, meio cheio e cheio" />
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+<Sample src="/inputs/rating/states" showThemePicker height={200} noBorder={false} spacing="md" alt="Rating {Platform} nos estados vazio, meio cheio e cheio" />
+
+</PlatformBlock>
+
+### Tamanho
+
+O Rating está disponível em três tamanhos: Small, Medium e Large. Os tamanhos small, medium e large renderizam símbolos de 18px, 24px e 36px, e o Rating {Platform} usa o tamanho medium por padrão. Defina a variável CSS `--ig-size` como `--ig-size-small`, `--ig-size-medium` ou `--ig-size-large` para escolher um tamanho. Para um tamanho fora destas predefinições, defina `--ig-rating-symbol-size`:
+
+```css
+.rating-small {
+  --ig-size: var(--ig-size-small);
+}
+
+.rating-large {
+  --ig-size: var(--ig-size-large);
+}
+
+.rating-custom {
+  --ig-rating-symbol-size: 3rem;
+}
+```
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-rating class="rating-large" label="Rate this product"></igc-rating>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrRating className="rating-large" label="Rate this product" />
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbRating Class="rating-large" Label="Rate this product" />
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+```html
+<igc-rating class="rating-large" label="Rate this product"></igc-rating>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+<Sample src="/data-entries/rating-size" showThemePicker height={250} noBorder={false} spacing="md" alt="Exemplo de tamanho do Rating {Platform}" />
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+<Sample src="/inputs/rating/size" showThemePicker height={250} noBorder={false} spacing="md" alt="Exemplo de tamanho do Rating {Platform}" />
+
+</PlatformBlock>
+
+### Símbolos
+
+Por padrão, o Rating {Platform} renderiza ícones de estrela. Para usar outros símbolos, coloque um <PlatformBlock for="Angular">elemento `igc-rating-symbol`</PlatformBlock><PlatformBlock for="React,WebComponents,Blazor"><ApiLink pkg="core" type="RatingSymbol" /></PlatformBlock> para cada ponto da escala dentro do Rating. Cada símbolo de avaliação mostra o seu conteúdo do slot padrão na parte do símbolo que o valor cobre, e o conteúdo do seu slot `empty` no restante; por isso, preencha os dois slots, mesmo com o mesmo conteúdo. A quantidade de símbolos de avaliação define `max`, e o Rating ignora o `max` que você definiu.
+
+<PlatformBlock for="WebComponents">
+
+A avaliação a seguir usa ícones de coração registrados. Registre os ícones primeiro, conforme descrito no tópico [Icon](../layouts/icon.mdx):
+
+```html
+<igc-rating label="Rate this recipe">
+  <igc-rating-symbol>
+    <igc-icon name="favorite" collection="material"></igc-icon>
+    <igc-icon name="favorite_border" collection="material" slot="empty"></igc-icon>
+  </igc-rating-symbol>
+  <igc-rating-symbol>
+    <igc-icon name="favorite" collection="material"></igc-icon>
+    <igc-icon name="favorite_border" collection="material" slot="empty"></igc-icon>
+  </igc-rating-symbol>
+  <igc-rating-symbol>
+    <igc-icon name="favorite" collection="material"></igc-icon>
+    <igc-icon name="favorite_border" collection="material" slot="empty"></igc-icon>
+  </igc-rating-symbol>
+  <igc-rating-symbol>
+    <igc-icon name="favorite" collection="material"></igc-icon>
+    <igc-icon name="favorite_border" collection="material" slot="empty"></igc-icon>
+  </igc-rating-symbol>
+  <igc-rating-symbol>
+    <igc-icon name="favorite" collection="material"></igc-icon>
+    <igc-icon name="favorite_border" collection="material" slot="empty"></igc-icon>
+  </igc-rating-symbol>
+</igc-rating>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+A avaliação a seguir usa ícones de coração registrados. Registre os ícones primeiro, conforme descrito no tópico [Icon](../layouts/icon.mdx):
+
+```tsx
+import { IgrIcon, IgrRating, IgrRatingSymbol } from 'igniteui-react';
+
+<IgrRating label="Rate this recipe">
+  {[1, 2, 3, 4, 5].map((i) => (
+    <IgrRatingSymbol key={i}>
+      <IgrIcon name="favorite" collection="material" />
+      <IgrIcon name="favorite_border" collection="material" slot="empty" />
+    </IgrRatingSymbol>
+  ))}
+</IgrRating>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+A avaliação a seguir usa ícones de coração registrados. Registre os ícones primeiro, conforme descrito no tópico [Icon](../layouts/icon.mdx):
+
+```razor
+<IgbRating Label="Rate this recipe">
+    @for (var i = 0; i < 5; i++)
+    {
+        <IgbRatingSymbol>
+            <IgbIcon IconName="favorite" Collection="material" />
+            <IgbIcon IconName="favorite_border" Collection="material" slot="empty" />
+        </IgbRatingSymbol>
+    }
+</IgbRating>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+A avaliação a seguir usa ícones de coração que você registra com `registerIconFromText` de `igniteui-webcomponents`. Use `igc-icon` nos símbolos de avaliação, porque o Rating dimensiona os elementos `igc-icon` para o tamanho do símbolo:
+
+```html
+<igc-rating label="Rate this recipe">
+  @for (i of [1, 2, 3, 4, 5]; track i) {
+    <igc-rating-symbol>
+      <igc-icon name="favorite" collection="material"></igc-icon>
+      <igc-icon name="favorite_border" collection="material" slot="empty"></igc-icon>
+    </igc-rating-symbol>
+  }
+</igc-rating>
+```
+
+</PlatformBlock>
+
+O Rating colore os ícones e o texto com as cores de símbolo cheio e vazio do tema. Ele renderiza conteúdo diferente de um Icon no slot `empty` em escala de cinza; por isso, o mesmo emoji nos dois slots parece selecionado ou vazio.
+
+### Seleção única
+
+Defina `single` para mostrar somente o símbolo selecionado como cheio. Use a seleção única com símbolos que representem, cada um, um valor distinto, como uma escala de rostos. Na seleção única, o {Platform} Rating usa um `step` de 1 e arredonda um valor fracionário para cima.
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-rating single label="How was your experience?">
+  <igc-rating-symbol><span>😣</span><span slot="empty">😣</span></igc-rating-symbol>
+  <igc-rating-symbol><span>😔</span><span slot="empty">😔</span></igc-rating-symbol>
+  <igc-rating-symbol><span>😐</span><span slot="empty">😐</span></igc-rating-symbol>
+  <igc-rating-symbol><span>🙂</span><span slot="empty">🙂</span></igc-rating-symbol>
+  <igc-rating-symbol><span>😆</span><span slot="empty">😆</span></igc-rating-symbol>
+</igc-rating>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+const faces = ['😣', '😔', '😐', '🙂', '😆'];
+
+<IgrRating single={true} label="How was your experience?">
+  {faces.map((face) => (
+    <IgrRatingSymbol key={face}>
+      <span>{face}</span>
+      <span slot="empty">{face}</span>
+    </IgrRatingSymbol>
+  ))}
+</IgrRating>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbRating Single="true" Label="How was your experience?">
+    @foreach (var face in Faces)
+    {
+        <IgbRatingSymbol>
+            <span>@face</span>
+            <span slot="empty">@face</span>
+        </IgbRatingSymbol>
+    }
+</IgbRating>
+
+@code {
+    private readonly string[] Faces = { "😣", "😔", "😐", "🙂", "😆" };
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+```html
+<igc-rating single label="How was your experience?">
+  @for (face of faces; track face) {
+    <igc-rating-symbol>
+      <span>{{ face }}</span>
+      <span slot="empty">{{ face }}</span>
+    </igc-rating-symbol>
+  }
+</igc-rating>
+```
+
+```ts
+public faces = ['😣', '😔', '😐', '🙂', '😆'];
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents">
+
+### Formulários
+
+O Rating {Platform} é um elemento associado a formulários. Dentro de um `<form>`, ele envia o seu valor como texto sob o seu `name`.
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+A redefinição de um formulário restaura o valor que o atributo `value` define:
+
+```html
+<form>
+  <igc-rating name="score" value="4" label="Rate your stay"></igc-rating>
+  <button type="submit">Send</button>
+  <button type="reset">Reset</button>
+</form>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<form
+  onSubmit={(e) => {
+    e.preventDefault();
+    console.log(new FormData(e.currentTarget).get('score'));
+  }}
+>
+  <IgrRating name="score" label="Rate your stay" />
+  <button type="submit">Send</button>
+</form>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+### Formulários
+
+Use o componente `EditForm` do Blazor e vincule o valor do Rating a uma propriedade do seu modelo com `@bind-Value`. O binding atualiza o modelo por meio do evento `ValueChanged` quando o usuário altera o valor:
+
+```razor
+<EditForm Model="Review" OnSubmit="Submit">
+    <IgbRating @bind-Value="Review.Score" Label="Rate your stay" />
+    <button type="submit">Send</button>
+</EditForm>
+
+@code {
+    private ReviewModel Review { get; set; } = new();
+
+    private void Submit()
+    {
+        // Review.Score holds the value that the user selected.
+    }
+
+    public class ReviewModel
+    {
+        public double Score { get; set; }
+    }
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+### Formulários
+
+Para vincular o Rating com `ngModel` ou `formControlName`, o Angular precisa de uma implementação da sua interface `ControlValueAccessor`. O {ProductName} a fornece como a diretiva standalone `IgcFormControlDirective`, que se associa a elementos `igc-rating` com `ngModel` ou `formControlName`. Importe-a junto com `FormsModule` ou `ReactiveFormsModule`:
+
+```ts
+import { Component, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { IgcFormControlDirective } from 'igniteui-angular/directives';
+// import { IgcFormControlDirective } from '@infragistics/igniteui-angular/directives'; for licensed package
+
+@Component({
+    selector: 'app-review-form',
+    template: `
+        <form>
+            <igc-rating name="userRating" [(ngModel)]="review.rating" label="Your rating"></igc-rating>
+        </form>
+    `,
+    imports: [FormsModule, IgcFormControlDirective],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA]
+})
+export class ReviewFormComponent {
+    public review = { rating: 0 };
+}
+```
+
+Com formulários reativos, vincule o Rating com `formControlName`:
+
+```html
+<form [formGroup]="reviewForm">
+  <igc-rating formControlName="rating" label="Your rating"></igc-rating>
+</form>
+```
+
+A diretiva atualiza o modelo em `igcChange`, marca o controle como tocado quando o Rating perde o foco, e desabilita o Rating quando você desabilita o controle de formulário.
+
+</PlatformBlock>
+
+O Rating não tem validação `required`. Para exigir uma pontuação, verifique se o valor é maior que 0 antes de enviar os dados.
+
+### Faça/Não faça
+
+A estrela é um símbolo de classificação muito reconhecível, e as pessoas podem não associar outros símbolos a uma escala de avaliação. Se você substituir a estrela por um símbolo personalizado, certifique-se de que a sua finalidade fique clara. Evite cores com pouco contraste, como tons semelhantes da mesma cor ou combinações que criem aberrações cromáticas. As seleções de ícones devem ser destacadas e ter uma aparência visualmente distinta e boa.
+
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin: 24px 0 16px;">
+  <Image src={ratingDoSymbol} alt="Rating com quatro de cinco estrelas laranjas selecionadas, sob o rótulo Avalie a sua experiência" class="responsive-img" style="display: block; width: 100%; height: auto;" />
+  <Image src={ratingDoNotSymbol} alt="Rating que usa símbolos de losango em círculos, em vez de estrelas" class="responsive-img" style="display: block; width: 100%; height: auto;" />
+</div>
+
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin-bottom: 32px;">
+  <div>
+    <p style="color: light-dark(var(--ig-success-700), var(--ig-success-100)); font-weight: 600; margin: 0 0 8px;">Faça</p>
+    <p style="margin: 0;">Use estrelas ou outro símbolo que os usuários associem a uma escala de avaliação.</p>
+  </div>
+  <div>
+    <p style="color: light-dark(var(--ig-error-700), var(--ig-error-300)); font-weight: 600; margin: 0 0 8px;">Não faça</p>
+    <p style="margin: 0;">Evite símbolos cujo significado como pontuação não seja claro.</p>
+  </div>
+</div>
+
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin: 24px 0 16px;">
+  <Image src={ratingDoContrast} alt="Rating com quatro estrelas laranjas selecionadas, que se destacam de uma estrela cinza com contorno" class="responsive-img" style="display: block; width: 100%; height: auto;" />
+  <Image src={ratingDoNotContrast} alt="Rating com estrelas selecionadas em cinza claro, difíceis de distinguir das estrelas vazias cinza" class="responsive-img" style="display: block; width: 100%; height: auto;" />
+</div>
+
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin-bottom: 32px;">
+  <div>
+    <p style="color: light-dark(var(--ig-success-700), var(--ig-success-100)); font-weight: 600; margin: 0 0 8px;">Faça</p>
+    <p style="margin: 0;">Faça os símbolos selecionados se destacarem dos vazios.</p>
+  </div>
+  <div>
+    <p style="color: light-dark(var(--ig-error-700), var(--ig-error-300)); font-weight: 600; margin: 0 0 8px;">Não faça</p>
+    <p style="margin: 0;">Evite tons semelhantes para os símbolos selecionados e os vazios.</p>
+  </div>
+</div>
+
+## Propriedades
+
+O {Platform} Rating expõe as propriedades a seguir. Veja a referência da API para as definições completas dos tipos.
+
+| Nome | Tipo | Padrão | Descrição |
+| --- | --- | --- | --- |
+| <PlatformBlock for="React,WebComponents,Blazor"><ApiLink pkg="core" type="Rating" member="value" label="value" /></PlatformBlock><PlatformBlock for="Angular">[`value`]({environment:infragisticsBaseUrl}/api/webcomponents/igniteui-webcomponents/latest/classes/IgcRatingComponent#value)</PlatformBlock> | `number` | `0` | O valor atual, de 0 até o valor máximo. |
+| <PlatformBlock for="React,WebComponents,Blazor"><ApiLink pkg="core" type="Rating" member="max" label="max" /></PlatformBlock><PlatformBlock for="Angular">[`max`]({environment:infragisticsBaseUrl}/api/webcomponents/igniteui-webcomponents/latest/classes/IgcRatingComponent#max)</PlatformBlock> | `number` | `5` | O valor máximo e a quantidade de símbolos padrão. Os símbolos de avaliação projetados definem esse valor com a sua contagem. |
+| <PlatformBlock for="React,WebComponents,Blazor"><ApiLink pkg="core" type="Rating" member="step" label="step" /></PlatformBlock><PlatformBlock for="Angular">[`step`]({environment:infragisticsBaseUrl}/api/webcomponents/igniteui-webcomponents/latest/classes/IgcRatingComponent#step)</PlatformBlock> | `number` | `1` | A menor variação do valor, de 0.001 a 1. |
+| <PlatformBlock for="React,WebComponents,Blazor"><ApiLink pkg="core" type="Rating" member="label" label="label" /></PlatformBlock><PlatformBlock for="Angular">[`label`]({environment:infragisticsBaseUrl}/api/webcomponents/igniteui-webcomponents/latest/classes/IgcRatingComponent#label)</PlatformBlock> | `string` | — | O rótulo visível, que também dá nome à avaliação. |
+| <PlatformBlock for="React,WebComponents,Blazor"><ApiLink pkg="core" type="Rating" member="valueFormat" label="valueFormat" /></PlatformBlock><PlatformBlock for="Angular">[`valueFormat`]({environment:infragisticsBaseUrl}/api/webcomponents/igniteui-webcomponents/latest/classes/IgcRatingComponent#valueFormat)</PlatformBlock> | `string` | — | O formato de `aria-valuetext`. `{0}` representa o valor e `{1}` representa o valor máximo. |
+| <PlatformBlock for="React,WebComponents,Blazor"><ApiLink pkg="core" type="Rating" member="hoverPreview" label="hoverPreview" /></PlatformBlock><PlatformBlock for="Angular">[`hoverPreview`]({environment:infragisticsBaseUrl}/api/webcomponents/igniteui-webcomponents/latest/classes/IgcRatingComponent#hoverPreview)</PlatformBlock> | `boolean` | `false` | Se a avaliação pré-visualiza o valor sob o ponteiro. |
+| <PlatformBlock for="React,WebComponents,Blazor"><ApiLink pkg="core" type="Rating" member="readOnly" label="readOnly" /></PlatformBlock><PlatformBlock for="Angular">[`readOnly`]({environment:infragisticsBaseUrl}/api/webcomponents/igniteui-webcomponents/latest/classes/IgcRatingComponent#readOnly)</PlatformBlock> | `boolean` | `false` | Se o usuário não pode alterar o valor. |
+| <PlatformBlock for="React,WebComponents,Blazor"><ApiLink pkg="core" type="Rating" member="single" label="single" /></PlatformBlock><PlatformBlock for="Angular">[`single`]({environment:infragisticsBaseUrl}/api/webcomponents/igniteui-webcomponents/latest/classes/IgcRatingComponent#single)</PlatformBlock> | `boolean` | `false` | Se somente o símbolo selecionado é mostrado como cheio. |
+| <PlatformBlock for="React,WebComponents,Blazor"><ApiLink pkg="core" type="Rating" member="allowReset" label="allowReset" /></PlatformBlock><PlatformBlock for="Angular">[`allowReset`]({environment:infragisticsBaseUrl}/api/webcomponents/igniteui-webcomponents/latest/classes/IgcRatingComponent#allowReset)</PlatformBlock> | `boolean` | `false` | Se um clique no valor atual redefine a avaliação para 0. |
+| <PlatformBlock for="WebComponents,Blazor"><ApiLink pkg="core" type="Rating" member="disabled" label="disabled" /></PlatformBlock><PlatformBlock for="React">`disabled`</PlatformBlock><PlatformBlock for="Angular">[`disabled`]({environment:infragisticsBaseUrl}/api/webcomponents/igniteui-webcomponents/latest/classes/IgcRatingComponent#disabled)</PlatformBlock> | `boolean` | `false` | Se a avaliação está desabilitada. |
+| <PlatformBlock for="WebComponents,Blazor"><ApiLink pkg="core" type="Rating" member="invalid" label="invalid" /></PlatformBlock><PlatformBlock for="React">`invalid`</PlatformBlock><PlatformBlock for="Angular">[`invalid`]({environment:infragisticsBaseUrl}/api/webcomponents/igniteui-webcomponents/latest/classes/IgcRatingComponent#invalid)</PlatformBlock> | `boolean` | `false` | Marca a avaliação como inválida por meio do estado personalizado `ig-invalid`. Os temas do Rating não estilizam esse estado. |
+<PlatformBlock for="Angular,React,WebComponents">| <PlatformBlock for="WebComponents"><ApiLink pkg="core" type="Rating" member="name" label="name" /></PlatformBlock><PlatformBlock for="React">`name`</PlatformBlock><PlatformBlock for="Angular">[`name`]({environment:infragisticsBaseUrl}/api/webcomponents/igniteui-webcomponents/latest/classes/IgcRatingComponent#name)</PlatformBlock> | `string` | — | O nome sob o qual um formulário envia o valor. |</PlatformBlock>
+
+## Métodos
+
+O Rating {Platform} expõe os métodos a seguir. Os métodos de passo alteram o valor sem emitir um evento de mudança.
+
+| Método | Descrição |
+| --- | --- |
+| <PlatformBlock for="React,WebComponents"><ApiLink pkg="core" type="Rating" member="stepUp" label="stepUp" /></PlatformBlock><PlatformBlock for="Angular">[`stepUp`]({environment:infragisticsBaseUrl}/api/webcomponents/igniteui-webcomponents/latest/classes/IgcRatingComponent#stepUp)</PlatformBlock><PlatformBlock for="Blazor"><ApiLink pkg="core" type="Rating" member="StepUp" label="StepUp" />, <ApiLink pkg="core" type="Rating" member="StepUpAsync" label="StepUpAsync" /></PlatformBlock> | Aumenta o valor pelo número de passos informado.<PlatformBlock for="Angular,React,WebComponents"> O número tem como padrão 1.</PlatformBlock> |
+| <PlatformBlock for="React,WebComponents"><ApiLink pkg="core" type="Rating" member="stepDown" label="stepDown" /></PlatformBlock><PlatformBlock for="Angular">[`stepDown`]({environment:infragisticsBaseUrl}/api/webcomponents/igniteui-webcomponents/latest/classes/IgcRatingComponent#stepDown)</PlatformBlock><PlatformBlock for="Blazor"><ApiLink pkg="core" type="Rating" member="StepDown" label="StepDown" />, <ApiLink pkg="core" type="Rating" member="StepDownAsync" label="StepDownAsync" /></PlatformBlock> | Diminui o valor pelo número de passos informado.<PlatformBlock for="Angular,React,WebComponents"> O número tem como padrão 1.</PlatformBlock> |
+| <PlatformBlock for="WebComponents"><ApiLink pkg="core" type="Rating" member="checkValidity" label="checkValidity" /></PlatformBlock><PlatformBlock for="React">`checkValidity`</PlatformBlock><PlatformBlock for="Angular">[`checkValidity`]({environment:infragisticsBaseUrl}/api/webcomponents/igniteui-webcomponents/latest/classes/IgcRatingComponent#checkValidity)</PlatformBlock><PlatformBlock for="Blazor"><ApiLink pkg="core" type="Rating" member="CheckValidity" label="CheckValidity" />, <ApiLink pkg="core" type="Rating" member="CheckValidityAsync" label="CheckValidityAsync" /></PlatformBlock> | Retorna se o valor é válido, e emite `invalid` quando não é. |
+| <PlatformBlock for="WebComponents"><ApiLink pkg="core" type="Rating" member="reportValidity" label="reportValidity" /></PlatformBlock><PlatformBlock for="React">`reportValidity`</PlatformBlock><PlatformBlock for="Angular">[`reportValidity`]({environment:infragisticsBaseUrl}/api/webcomponents/igniteui-webcomponents/latest/classes/IgcRatingComponent#reportValidity)</PlatformBlock><PlatformBlock for="Blazor"><ApiLink pkg="core" type="Rating" member="ReportValidity" label="ReportValidity" />, <ApiLink pkg="core" type="Rating" member="ReportValidityAsync" label="ReportValidityAsync" /></PlatformBlock> | Retorna se o valor é válido, e mostra a mensagem de validação do navegador quando não é. |
+| <PlatformBlock for="WebComponents"><ApiLink pkg="core" type="Rating" member="setCustomValidity" label="setCustomValidity" /></PlatformBlock><PlatformBlock for="React">`setCustomValidity`</PlatformBlock><PlatformBlock for="Angular">[`setCustomValidity`]({environment:infragisticsBaseUrl}/api/webcomponents/igniteui-webcomponents/latest/classes/IgcRatingComponent#setCustomValidity)</PlatformBlock><PlatformBlock for="Blazor"><ApiLink pkg="core" type="Rating" member="SetCustomValidity" label="SetCustomValidity" />, <ApiLink pkg="core" type="Rating" member="SetCustomValidityAsync" label="SetCustomValidityAsync" /></PlatformBlock> | Define uma mensagem de validação personalizada. A avaliação fica inválida enquanto a mensagem não estiver vazia. |
+
+## Eventos
+
+O Rating {Platform} emite os eventos a seguir. Ele não os emite quando você define o valor ou chama um método.
+
+| Nome | Tipo | Descrição |
+| --- | --- | --- |
+| <PlatformBlock for="WebComponents,Angular">`igcChange`</PlatformBlock><PlatformBlock for="React"><ApiLink pkg="core" type="Rating" member="onChange" label="onChange" /></PlatformBlock><PlatformBlock for="Blazor"><ApiLink pkg="core" type="Rating" member="Change" label="Change" /></PlatformBlock> | <PlatformBlock for="Angular,React,WebComponents">`CustomEvent<number>`</PlatformBlock><PlatformBlock for="Blazor">`EventCallback<IgbNumberEventArgs>`</PlatformBlock> | Emitido quando o usuário altera o valor. O detalhe do evento contém o novo valor. |
+| <PlatformBlock for="WebComponents,Angular">`igcHover`</PlatformBlock><PlatformBlock for="React"><ApiLink pkg="core" type="Rating" member="onHover" label="onHover" /></PlatformBlock><PlatformBlock for="Blazor"><ApiLink pkg="core" type="Rating" member="Hover" label="Hover" /></PlatformBlock> | <PlatformBlock for="Angular,React,WebComponents">`CustomEvent<number>`</PlatformBlock><PlatformBlock for="Blazor">`EventCallback<IgbNumberEventArgs>`</PlatformBlock> | Emitido quando a pré-visualização ao passar o mouse está ativa e o ponteiro se move para outro valor. O detalhe do evento contém o valor sob o ponteiro. |
+<PlatformBlock for="Blazor">| <ApiLink pkg="core" type="Rating" member="ValueChanged" label="ValueChanged" /> | `EventCallback<double>` | Emitido com o novo valor. Use-o por meio de `@bind-Value`. |</PlatformBlock>
+
+## Estilização
+
+O Rating {Platform} obtém as suas cores e o tamanho dos símbolos do tema. Altere-os com as variáveis CSS a seguir:
+
+| Variável | o que muda |
+| --- | --- |
+| `--ig-rating-symbol-full-color` | A cor dos símbolos cheios: as estrelas padrão, os ícones e o texto. |
+| `--ig-rating-symbol-empty-color` | A cor dos símbolos vazios. |
+| `--ig-rating-label-color` | A cor do rótulo. |
+| `--ig-rating-value-label` | A cor do rótulo do valor. |
+| `--ig-rating-symbol-size` | O tamanho dos símbolos. |
+| `--ig-size` | A predefinição de tamanho: `--ig-size-small`, `--ig-size-medium` ou `--ig-size-large`. |
+| `--ig-rating-disabled-full-symbol-color` | A cor dos símbolos cheios quando a avaliação está desabilitada. |
+| `--ig-rating-disabled-empty-symbol-color` | A cor dos símbolos vazios quando a avaliação está desabilitada. |
+| `--ig-rating-disabled-label-color` | A cor do rótulo e do rótulo do valor quando a avaliação está desabilitada. |
+| `--ig-rating-symbol-full-filter` | O filtro CSS dos símbolos cheios que não são ícones, como emojis, quando a avaliação está desabilitada. |
+| `--ig-rating-symbol-empty-filter` | O filtro CSS dos símbolos vazios que não são ícones, como emojis, quando a avaliação está desabilitada. |
+
+O elemento `igc-rating` expõe as partes CSS a seguir:
+
+| Parte | o que estiliza |
+| --- | --- |
+| `base` | O slider que contém os símbolos e o rótulo do valor. |
+| `label` | O rótulo. |
+| `value-label` | O contêiner do slot `value-label`. |
+| `symbols` | O contêiner de todos os símbolos. |
+| `symbol` | Cada símbolo padrão. |
+| `full` | A camada cheia de cada símbolo padrão. |
+| `empty` | A camada vazia de cada símbolo padrão. |
+
+O elemento `igc-rating` exporta as partes `symbol`, `full` e `empty` apenas das suas estrelas padrão. Para estilizar os símbolos de avaliação projetados, use as partes `symbol`, `full` e `empty` do elemento `igc-rating-symbol`.
+
+### Temas em Sass
+
+Crie um tema com a função <PlatformBlock for="Angular"><ApiLink kind="sass" module="themes" type="function-rating-theme" label="rating-theme" code={true} /></PlatformBlock><PlatformBlock for="React,WebComponents,Blazor">`rating-theme`</PlatformBlock> função e inclua-a com o mixin `tokens()`. A função aceita parâmetros como `$symbol-full-color`, `$symbol-empty-color`, `$label-color` e `$symbol-size`, e o mixin emite as variáveis `--ig-rating-*` correspondentes no escopo em que for incluído.
+
+<PlatformBlock for="Angular">
+
+```scss
+@use "igniteui-angular/theming" as *;
+
+$custom-rating-theme: rating-theme(
+  $symbol-full-color: #e41c77,
+  $symbol-empty-color: #a9b8cc,
+  $label-color: #344b65
+);
+
+:host {
+  @include tokens($custom-rating-theme);
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+As funções Sass vêm do pacote `igniteui-theming`. Veja o tópico [Temas](../themes/overview.mdx) para a configuração do Sass.
+
+```scss
+@use "igniteui-theming" as *;
+
+$custom-rating-theme: rating-theme(
+  $symbol-full-color: #e41c77,
+  $symbol-empty-color: #a9b8cc,
+  $label-color: #344b65
+);
+
+:root {
+  @include tokens($custom-rating-theme);
+}
+```
+
+</PlatformBlock>
+
+### Variáveis CSS
+
+Defina as variáveis CSS em um Rating ou em um contêiner quando precisar de estilização local, sem uma etapa de build com Sass, e use as partes CSS para outros estilos:
+
+```css
+igc-rating {
+  --ig-rating-symbol-full-color: #e41c77;
+  --ig-rating-symbol-empty-color: #a9b8cc;
+}
+
+igc-rating::part(label) {
+  font-weight: 600;
+}
+
+igc-rating-symbol::part(empty) {
+  opacity: 0.6;
+}
+```
+
+<PlatformBlock for="Angular">
+
+<Sample src="/data-entries/rating-styling" height={200} noBackground={false} noBorder={false} spacing="md" alt="Exemplo de estilização do Rating {Platform}" />
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+<Sample src="/inputs/rating/styling" height={200} noBackground={false} noBorder={false} spacing="md" alt="Exemplo de estilização do Rating {Platform}" />
+
+</PlatformBlock>
+
+### Estilizando com Tailwind
+
+Você pode estilizar o Rating {Platform} com propriedades arbitrárias do Tailwind que definem as suas variáveis CSS. Certifique-se de [configurar o Tailwind](../themes/tailwind.mdx) primeiro:
+
+<PlatformBlock for="WebComponents,Angular">
+
+```html
+<igc-rating
+  label="Rate this product"
+  class="[--ig-rating-symbol-full-color:#7B9E89] [--ig-rating-symbol-size:2rem]"
+></igc-rating>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrRating
+  label="Rate this product"
+  className="[--ig-rating-symbol-full-color:#7B9E89] [--ig-rating-symbol-size:2rem]"
+/>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbRating Label="Rate this product" Class="[--ig-rating-symbol-full-color:#7B9E89] [--ig-rating-symbol-size:2rem]" />
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+<Sample src="/data-entries/rating-tailwind-styling" height={300} noBackground={false} noBorder={false} spacing="md" alt="Exemplo de estilização com Tailwind do Rating {Platform}" />
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+<Sample src="/inputs/rating/tailwind-styling" height={300} noBackground={false} noBorder={false} spacing="md" alt="Exemplo de estilização com Tailwind do Rating {Platform}" />
+
+</PlatformBlock>
+
+## Acessibilidade
+
+O Rating {Platform} é um slider: os usuários o alcançam com a tecla Tab, alteram o seu valor com as teclas de seta, e ouvem o valor por meio dos seus atributos ARIA.
+
+### Interação por teclado
+
+O Rating {Platform} é uma única parada de tabulação, porque somente o elemento slider dentro dele, a parte `base`, recebe o foco. Um Rating desabilitado sai da ordem de tabulação. Um Rating somente leitura permanece na ordem de tabulação, mas ignora as teclas a seguir, que mantêm as suas ações padrão do navegador, como a rolagem da página.
+
+| Tecla | Ação |
+| --- | --- |
+| <kbd>Tab</kbd> / <kbd>Shift</kbd> + <kbd>Tab</kbd> | Move o foco para o elemento focável seguinte ou anterior. O Rating não trata essas teclas; por isso, nunca prende o foco. |
+| <kbd>Seta para a direita</kbd> | Aumenta o valor em um passo. Em um layout da direita para a esquerda, diminui. |
+| <kbd>Seta para a esquerda</kbd> | Diminui o valor em um passo. Em um layout da direita para a esquerda, aumenta. |
+| <kbd>Seta para cima</kbd> | Aumenta o valor em um passo. |
+| <kbd>Seta para baixo</kbd> | Diminui o valor em um passo. |
+| <kbd>Home</kbd> | Define o valor como um passo, o menor valor que um clique pode selecionar. |
+| <kbd>End</kbd> | Define o valor como o valor máximo. |
+
+O Rating {Platform} trata estas teclas em `keydown`:
+
+- Ele impede a sua ação padrão, para que as teclas de seta, Home e End não rolem a página enquanto o Rating tem o foco.
+- Uma tecla que você mantém pressionada repete a sua ação.
+- Uma tecla que você pressiona junto com Shift, Ctrl, Alt ou Meta não faz nada.
+- O valor permanece entre 0 e o valor máximo. Uma tecla que levaria o valor além de um limite mantém o valor e não emite evento.
+- Cada tecla que altera o valor emite o evento de mudança.
+
+Com o ponteiro, um clique seleciona o valor sob o ponteiro, arredondado para o próximo passo. Um Rating somente leitura ou desabilitado ignora cliques.
+
+### Leitores de tela / ARIA
+
+O Rating {Platform} renderiza um elemento focável, a parte `base`, com a função `slider`. O seu `tabindex` é `0`, ou `-1` quando o Rating está desabilitado, e ele carrega os atributos de valor a seguir:
+
+| Atributo | Valor |
+| --- | --- |
+| `aria-valuemin` | `0` |
+| `aria-valuemax` | O valor máximo |
+| `aria-valuenow` | O valor, incluindo frações como `4.3` |
+| `aria-valuetext` | "3 of 5" por padrão, ou o texto `valueFormat` |
+
+<PlatformBlock for="React,WebComponents,Angular">
+
+Com o `igniteui-webcomponents` 7.3.0 e posteriores, o slider também define `aria-disabled` e `aria-readonly` para expor os estados desabilitado e somente leitura. Com a versão 7.4.1 e posteriores, o slider obtém o seu nome acessível do primeiro dos seguintes:
+
+1. O atributo `aria-labelledby` do host.
+2. Um elemento `<label>` que é vinculado por meio de `for`, ou que envolve o Rating. Um clique no rótulo dá foco ao slider.
+3. A propriedade `label`, que renderiza um rótulo visível que o slider referencia por meio de `aria-labelledby`.
+4. O atributo `aria-label` do host. O slider o ignora quando a propriedade `label` está definida.
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+A propriedade `Label` renderiza um rótulo visível que o slider referencia por meio de `aria-labelledby`, o que dá ao slider o seu nome acessível.
+
+</PlatformBlock>
+
+O Rating {Platform} também se comporta da seguinte forma para as tecnologias assistivas:
+
+- A parte `symbols` define `aria-hidden="true"`; por isso, os símbolos, incluindo ícones e emojis projetados, ficam ocultos e não precisam de alternativas textuais. O valor chega às tecnologias assistivas somente por meio de `aria-valuenow` e `aria-valuetext`.
+- O slot `value-label` é renderizado dentro do slider. Os leitores de tela leem o valor a partir de `aria-valuetext`; por isso, descreva o valor com `valueFormat`, e não com o conteúdo do slot.
+- O Rating não usa uma região ao vivo. Um valor alterado chega às tecnologias assistivas somente pelos atributos do slider.
+- O Rating não define `aria-invalid`; por isso, uma mensagem de validação personalizada não é exposta como estado inválido.
+
+### Conformidade de acessibilidade
+
+A Infragistics documenta o suporte de acessibilidade do {ProductName} para as áreas das diretrizes da Seção 508 e da WCAG 2.1 no tópico [Conformidade de acessibilidade](../interactivity/accessibility-compliance.mdx).
+
+| Critério | Como o componente atende |
+| --- | --- |
+| [1.1.1 Conteúdo não textual](https://www.w3.org/WAI/WCAG21/Understanding/non-text-content) | Os símbolos ficam ocultos das tecnologias assistivas, e o slider expõe o valor como texto por meio de `aria-valuetext`. |
+| [1.3.1 Informações e relações](https://www.w3.org/WAI/WCAG21/Understanding/info-and-relationships) | O rótulo visível da propriedade `label` é associado ao slider por meio de `aria-labelledby`. |
+| [1.4.1 Uso de cor](https://www.w3.org/WAI/WCAG21/Understanding/use-of-color) | Os símbolos padrão mostram uma estrela preenchida para a parte selecionada da escala e uma estrela com contorno para o restante; por isso, o valor não depende apenas da cor. |
+| [2.1.1 Teclado](https://www.w3.org/WAI/WCAG21/Understanding/keyboard) | As teclas de seta, Home e End alteram o valor; por isso, os usuários podem avaliar sem um ponteiro. |
+| [2.1.2 Sem armadilha de teclado](https://www.w3.org/WAI/WCAG21/Understanding/no-keyboard-trap) | O Rating é uma única parada de tabulação e não trata a tecla Tab; por isso, Tab e Shift + Tab movem o foco para fora dele. |
+| [2.4.7 Foco visível](https://www.w3.org/WAI/WCAG21/Understanding/focus-visible) | Os temas do Rating não removem o indicador de foco do navegador do slider com foco. |
+| [4.1.2 Nome, função, valor](https://www.w3.org/WAI/WCAG21/Understanding/name-role-value) | O slider expõe a função `slider`, o seu valor por meio de `aria-valuenow` e `aria-valuetext`, e o nome que você fornecer.<PlatformBlock for="React,WebComponents,Angular"> Com o `igniteui-webcomponents` 7.3.0 e posteriores, ele também expõe os estados desabilitado e somente leitura.</PlatformBlock> |
+
+Suas responsabilidades:
+
+- Dê nome a cada Rating com a propriedade `label`<PlatformBlock for="React,WebComponents,Angular">, a um elemento `<label>` associado, ou a `aria-label`</PlatformBlock>. Veja [Layout](#layout).
+- Defina `valueFormat` quando "3 of 5" não descrever a escala, ou quando a página usar outro idioma.
+- Com símbolos personalizados, faça os símbolos cheios e vazios diferirem em forma ou preenchimento, e não apenas na cor, e mantenha uma razão de contraste de pelo menos 3:1 em relação ao fundo, conforme exige o [1.4.11 Contraste de conteúdo não textual](https://www.w3.org/WAI/WCAG21/Understanding/non-text-contrast).
+- Ao reestilizar a parte `base`, mantenha um indicador de foco visível.
+- Mantenha os alvos de ponteiro grandes o suficiente. Cada valor é um alvo tão largo quanto um símbolo, ou meio símbolo, com um passo de 0.5. O tamanho small renderiza símbolos de 18px, abaixo dos 24 por 24 pixels CSS de [2.5.8 Tamanho do alvo (mínimo)](https://www.w3.org/WAI/WCAG22/Understanding/target-size-minimum); por isso, prefira os tamanhos medium ou large para entrada por ponteiro e por toque.
+- Não coloque informações apenas na pré-visualização ao passar o mouse, porque os usuários de teclado não as veem.
+- Quando você validar a avaliação com uma mensagem de validação personalizada, mostre também a mensagem como texto ao lado do Rating, conforme exige o [3.3.1 Identificação de erro](https://www.w3.org/WAI/WCAG21/Understanding/error-identification), porque o Rating não define `aria-invalid`.
+
+Diferenças em relação ao [padrão WAI-ARIA slider](https://www.w3.org/WAI/ARIA/apg/patterns/slider/):
+
+- <kbd>Home</kbd> define o valor como um passo, em vez de `aria-valuemin`, que é 0. Use <kbd>Seta para baixo</kbd> para chegar a 0.
+- O Rating não oferece suporte a <kbd>Page Up</kbd> e <kbd>Page Down</kbd>, que o padrão lista como teclas opcionais.
+
+## Solução de problemas
+
+Use estas respostas quando um Rating {Platform} não se comportar como esperado.
+
+### Por que o evento de mudança não é disparado quando defino o valor?
+
+O Rating {Platform} emite o evento de mudança somente para a entrada do usuário: um clique ou uma tecla. Definir o valor no código, ou chamar os métodos de passo, altera o valor sem o evento; por isso, atualize o seu próprio estado no lugar em que define o valor.
+
+### Por que um clique no valor atual não redefine a avaliação?
+
+O Rating {Platform} mantém o valor em um clique no valor atual, a menos que você defina `allowReset`. Antes do `igniteui-webcomponents` 4.7.0, um clique no valor atual sempre redefinia a avaliação; defina `allowReset` para manter esse comportamento após uma atualização.
+
+### Por que o evento de hover não é disparado?
+
+O Rating {Platform} emite o evento de hover somente enquanto `hoverPreview` está ligado, e não quando o Rating é somente leitura ou está desabilitado. Defina `hoverPreview` para receber o evento.
+
+## Referências da API
+
+A referência da API do Rating {Platform} lista a superfície completa da API para a plataforma de destino.
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+- <ApiLink pkg="core" type="Rating" />
+- <ApiLink pkg="core" type="RatingSymbol" />
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+- [`IgcRatingComponent`]({environment:infragisticsBaseUrl}/api/webcomponents/igniteui-webcomponents/latest/classes/IgcRatingComponent)
+- [`IgcRatingSymbolComponent`]({environment:infragisticsBaseUrl}/api/webcomponents/igniteui-webcomponents/latest/classes/IgcRatingSymbolComponent)
+- <ApiLink type="IgcFormControlDirective" prefixed={false} suffix={false} label="IgcFormControlDirective" />
+- <ApiLink kind="sass" module="themes" type="function-rating-theme" label="rating-theme" />
+
+</PlatformBlock>
+
+## Dependências
+
+O Rating {Platform} exige um tema para aplicar as suas cores e os seus tamanhos de símbolo. Veja a configuração específica do framework em <PlatformBlock for="Angular">[**Primeiros passos**](../general/getting-started.mdx)</PlatformBlock><PlatformBlock for="React,WebComponents,Blazor">[**Primeiros passos**](../general-getting-started.mdx)</PlatformBlock>.
+
+<PlatformBlock for="Angular">
+
+O Rating exige o pacote `igniteui-webcomponents`, e o binding de formulários do Angular exige o `IgcFormControlDirective`. O mixin `theme()` de {ProductName} inclui os estilos do `igc-rating`, a menos que você exclua `igc-rating` pelo seu parâmetro `$exclude`.
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+O registro do `IgcRatingComponent` também registra os elementos `igc-rating-symbol` e `igc-icon` que o Rating renderiza.
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+Registre também o `IgbIconModule` quando colocar elementos `IgbIcon` nos símbolos de avaliação.
+
+</PlatformBlock>
+
+## Recursos adicionais
+
+Os recursos a seguir oferecem mais orientações sobre o Rating {Platform} e suporte ao projeto:
+
+- [Rating - Componente do design system](https://www.infragistics.com/products/indigo-design/help/components/rating)
+- [{ProductName} **Fóruns**]({ForumsLink})
+- [{ProductName} **GitHub**]({GithubLink})
+
+## Componentes relacionados
+
+O Rating {Platform} coleta uma pontuação em uma escala de símbolos. Use estes componentes quando a entrada precisar de outra forma:
+
+- <PlatformBlock for="Angular">[Slider](../slider/slider.mdx)</PlatformBlock><PlatformBlock for="React,WebComponents,Blazor">[Slider](./slider.mdx)</PlatformBlock> - Use Slider quando os usuários escolherem um número preciso em um intervalo contínuo, como um preço ou um volume.
+- [Radio Group](./radio.mdx) - use Radio Group quando cada opção precisar de um rótulo de texto, como Ruim, Regular e Bom.
+- [Icon](../layouts/icon.mdx) - use Icon para desenhar os símbolos personalizados de um Rating.
+
+## Perguntas frequentes
+
+Estas perguntas cobrem cenários comuns de configuração, acessibilidade e uso do Rating {Platform}.
+
+<Faq>
+  <FaqItem question="Os usuários podem selecionar meias estrelas?" indicatorPosition="end">
+    Sim. Defina a propriedade `step` do Rating {Platform} como `0.5`, e um clique na metade esquerda de uma estrela seleciona o valor de meia estrela em um layout da esquerda para a direita. As teclas de seta então alteram o valor do Rating {Platform} em passos de 0.5.
+  </FaqItem>
+  <FaqItem question="Como mostro uma avaliação média que os usuários não podem alterar?" indicatorPosition="end">
+    Defina a propriedade `readOnly` do Rating {Platform} e defina o seu valor como a média, como 4.3. O Rating {Platform} preenche os símbolos em parte para um valor fracionário, continua focável e ignora cliques e teclas.
+  </FaqItem>
+  <FaqItem question="O Rating é acessível para usuários de teclado e de leitor de tela?" indicatorPosition="end">
+    Sim. O Rating {Platform} é uma única parada de tabulação com a função `slider`; as teclas de seta, Home e End alteram o seu valor, e os leitores de tela leem o valor por meio de `aria-valuetext`. Dê ao Rating {Platform} um nome acessível com a propriedade `label` ou com `aria-label`, e defina `valueFormat` para descrever o valor em palavras.
+  </FaqItem>
+  <FaqItem question="O Rating funciona com formulários?" indicatorPosition="end">
+    <PlatformBlock for="Angular">Sim. Importe o `IgcFormControlDirective` de `igniteui-angular/directives` para vincular o Rating do Angular com `ngModel` ou `formControlName`. A diretiva atualiza o modelo quando o usuário altera o valor, e desabilita o Rating quando você desabilita o controle de formulário.</PlatformBlock><PlatformBlock for="React,WebComponents">Sim. O Rating {Platform} é um elemento associado a formulários; por isso, um `<form>` envia o seu valor sob o seu `name`. Um `<fieldset>` desabilitado também desabilita o Rating {Platform}.</PlatformBlock><PlatformBlock for="Blazor">Sim. Coloque o Rating do Blazor em um `EditForm` do Blazor e vincule o seu valor a uma propriedade do seu modelo com `@bind-Value`. O binding atualiza o modelo por meio do evento `ValueChanged` quando o usuário altera o valor.</PlatformBlock>
+  </FaqItem>
+</Faq>

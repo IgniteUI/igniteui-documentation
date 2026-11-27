@@ -1,0 +1,133 @@
+---
+title: "Elevaciones/sombras"
+description:
+keywords: "Ignite UI for Angular, controles de interfaz, widgets de Angular, widgets web, widgets de interfaz, Angular, Native Angular Components Suite, Native Angular Controls, Native Angular Components Library"
+_language: es
+llms:
+  description: "Las elevaciones se usan para establecer y mantener límites funcionales entre los árboles del Document Object Model, con el fin de lograr un mejor encapsulado funcional."
+---
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+# Elevaciones
+
+<div class="highlight">
+Las elevaciones se usan para establecer y mantener límites funcionales entre los árboles del Document Object Model, con el fin de lograr un mejor encapsulado funcional. Puede crear conjuntos de elevaciones usando nuestra biblioteca de temas de Sass.
+</div>
+<igc-divider></igc-divider>
+
+## Descripción general
+
+Las elevaciones en Ignite UI for Angular se declaran como un mapa de 25 elementos. Cada elemento es un par clave-valor, donde la clave es el nombre del nivel de elevación (0..24) y el valor es una lista de 3 declaraciones `box-shadow`. Le permitimos generar conjuntos nuevos de elevaciones en los que puede definir el color de las sombras. Además, exponemos funciones para obtener un nivel de elevación concreto del mapa de elevaciones. Exponemos una variable global `$elevations` que se usa de forma predeterminada en los componentes. Si aún no ha leído la [documentación](/themes/elevations) sobre las variables CSS relacionadas con las elevaciones, le sugerimos que la lea antes de seguir.
+
+## Uso
+
+La siguiente sección muestra cómo crear y obtener elevaciones personalizadas.
+
+### Configurar las elevaciones
+
+Para cambiar los colores que usan los ajustes predefinidos de elevación, tiene que configurar el módulo de ajustes preestablecidos de elevación.
+
+```scss
+// Define the 3 elevation colors
+@use 'igniteui-theming/sass/elevations/presets' as * with(
+    $color-1: rgb(153, 191, 170), // Umbra
+    $color-2: rgb(92, 134, 141), // Penumbra
+    $color-3: rgb(92, 61, 70) // Ambient
+);
+
+@include elevations($material-elevations);
+```
+
+### Obtener elevaciones
+
+Para obtener un conjunto de box-shadows del mapa de elevaciones, puede pasar hasta dos argumentos a la función `elevation`: un mapa de elevaciones y el nivel de elevación deseado. Devuelve una lista de 3 box-shadows para el nivel indicado.
+
+Si quiere obtener la elevación del mapa `$elevations` predeterminado, puede omitir el primer argumento.
+
+```scss
+// Returns elevation 1 shadows
+$elevation-1: elevation(1);
+
+// Returns elevation 1 shadows
+$my-elevation-1: elevation($name: 1);
+```
+
+### Pasar elevaciones a los temas
+
+Varios mixins de tema le permiten pasar un mapa de elevaciones. En particular, `theme` tiene un parámetro llamado `$elevations` que permite actualizar las elevaciones de todos los temas de componente.
+
+Obligue a todos los temas de componente a usar sus elevaciones personalizadas:
+
+```scss
+@include theme(
+    //...
+    $elevations: $my-elevations
+);
+```
+
+Además de esto, puede indicar al tema que ignore las elevaciones o que no las use por completo:
+
+```scss
+@include theme(
+    //...
+    $elevations: $my-elevations,
+    $elevation: false // disables all elevations
+);
+```
+
+Como la función `elevation` devuelve una lista de box-shadows, puede usar el valor devuelto por esa función para modificar solo ciertas elevaciones en sus temas de componente.
+
+```scss
+$card-theme: card-theme(
+    $resting-shadow: elevation(10)
+);
+
+:host {
+  @include tokens($card-theme);
+}
+```
+
+También puede pasar box-shadows simples sin usar la función `elevation`:
+
+```scss
+$card-theme: card-theme(
+    $resting-shadow: 0 10px 10px 10px #666
+);
+
+.my-card {
+  @include tokens($card-theme);
+}
+```
+
+<hr/>
+
+## Elevaciones personalizadas
+
+Es posible crear un mapa de elevaciones que no se ajuste a las [Pautas de Material Design](https://material.io/design/environment/elevation.html) generadas por la función `elevations`. Asegúrese de que sus mapas de elevación personalizados contengan al menos 25 niveles de elevación. Esta es la firma del mapa de elevaciones que esperan nuestros temas para compilarse correctamente:
+
+```scss
+// Omitted levels 2 through 23 for brevity
+$elevations: (
+    0: box-shadow(...),
+    1: box-shadow(...),
+    ...
+    24: box-shadow(...)
+);
+```
+
+## Declaraciones de esquema de elevación
+
+Los niveles de elevación también se usan en las declaraciones de esquema de tema. Más información en la sección [Esquema](/themes/sass/schemas) de la documentación.
+<hr/>
+
+## Referencias de API
+- <ApiLink kind="sass" module="elevations" type="mixin-elevations" label="Crear elevaciones" />
+- <ApiLink kind="sass" module="elevations" type="function-elevation" label="Obtener elevaciones" />
+## Recursos adicionales
+
+<hr/>
+
+Nuestra comunidad está activa y siempre da la bienvenida a nuevas ideas.
+
+- [Ignite UI for Angular **Foros**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

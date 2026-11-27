@@ -1,0 +1,1440 @@
+---
+title: "Componente {Platform} Tabs"
+description: "El componente {ProductName} Tabs organiza el contenido relacionado en pestañas, muestra el contenido de la pestaña seleccionada y añade botones de desplazamiento cuando las pestañas no caben."
+keywords: "{Platform} Tabs, {ProductName}, encabezado de pestaña, panel de pestaña, botones de desplazamiento"
+license: MIT
+last_updated: "2026-11-11"
+relatedComponents: ["Stepper", "Accordion"]
+mentionedTypes: ["Tabs", "Tab"]
+_language: es
+llms:
+  description: "El componente {ProductName} Tabs organiza el contenido relacionado del mismo nivel jerárquico en pestañas y muestra el contenido de la pestaña seleccionada."
+platformType: web-only
+---
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+import Anatomy from 'igniteui-astro-components/components/mdx/Anatomy.astro';
+import DoDont from 'igniteui-astro-components/components/mdx/DoDont.astro';
+import Faq from 'igniteui-astro-components/components/mdx/Faq.astro';
+import FaqItem from 'igniteui-astro-components/components/mdx/FaqItem.astro';
+import tabsAnatomy from '@xplat-images/anatomy-content-light/tabs-lt-a.png';
+import tabsDoInformation from '@xplat-images/tabs/tabs-do-1.png';
+import tabsDoNotWorkflow from '@xplat-images/tabs/tabs-do-not-1.png';
+import tabsDoContent from '@xplat-images/tabs/tabs-do-2.png';
+import tabsDoNotMixedContent from '@xplat-images/tabs/tabs-do-not-2.png';
+
+# Tabs
+
+El componente {ProductName} Tabs organiza el contenido relacionado del mismo nivel jerárquico en pestañas y muestra el contenido de la pestaña seleccionada.
+
+<PlatformBlock for="Angular">
+
+El selector del componente Tabs de Angular es `igx-tabs`. Cada `igx-tab-item` que contiene tiene un encabezado de pestaña y el contenido que muestra el componente Tabs cuando se selecciona la pestaña.
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+Cada pestaña contiene su encabezado y su contenido en un único elemento. El componente Tabs admite la navegación por teclado y muestra botones de desplazamiento cuando los encabezados de las pestañas no caben.
+
+</PlatformBlock>
+
+## Demostración en vivo
+
+<PlatformBlock for="Angular">
+
+<Sample src="/layouts/tabs-overview" showThemePicker height={380} noBorder={false} spacing="md" alt="Ejemplo de {Platform} Tabs con tres pestañas que filtran una lista de personas por equipo" />
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+<Sample src="/layouts/tabs/overview" showThemePicker height={380} noBorder={false} spacing="md" alt="Ejemplo de {Platform} Tabs con tres pestañas que filtran una lista de personas por equipo" />
+
+</PlatformBlock>
+
+## Anatomía
+
+El componente {Platform} Tabs se compone de un contenedor con elementos de pestaña, botones de desplazamiento opcionales y un área de contenido para la pestaña seleccionada.
+
+<Anatomy
+  class="tabs-anatomy"
+  name="Tabs"
+  description="El componente Tabs muestra una fila de encabezados de pestaña encima del área de contenido de la pestaña seleccionada."
+  src={tabsAnatomy.src}
+  alt="Anatomía de Tabs que muestra los botones de desplazamiento, las pestañas inactivas y activas, una pestaña con iconos izquierdo, superior y derecho, y el área de contenido"
+/>
+
+<style>{`
+  .tabs-anatomy {
+    --igd-anatomy-padding: 64px 32px;
+  }
+
+  .tabs-anatomy .igd-anatomy__image {
+    max-width: 701px;
+  }
+`}</style>
+
+<span class="ig-typography__body-2" style="display: block; margin-bottom: 24px;"><strong>1. Contenedor de Tabs:</strong> agrupa y alinea todos los elementos de pestaña<br />
+<strong>2. Botón de encabezado (opcional):</strong> aparecen flechas de navegación para las pestañas que no son visibles en el contenedor de pestañas<br />
+<strong>3. Etiqueta:</strong> texto que nombra la pestaña e indica qué contenido abre<br />
+<strong>4. Elemento de pestaña activo:</strong> un único elemento de pestaña seleccionable que está activo<br />
+<strong>5. Icono izquierdo (opcional):</strong> icono que se muestra antes de la etiqueta para aportar contexto a la pestaña<br />
+<strong>6. Icono superior (opcional):</strong> icono que se muestra encima de la etiqueta para aportar contexto a la pestaña<br />
+<strong>7. Icono derecho (opcional):</strong> icono que se muestra después de la etiqueta para aportar contexto a la pestaña<br />
+<strong>8. Área de contenido:</strong> el panel donde se muestra el contenido de la pestaña seleccionada</span>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+El elemento `igc-tabs` renderiza la franja de encabezados y los botones de desplazamiento. Cada `igc-tab` renderiza su propio encabezado y su contenido, y el componente Tabs coloca el contenido de todas las pestañas debajo de la franja de encabezados<PlatformBlock for="WebComponents">, o junto a ella cuando los encabezados de las pestañas forman una columna</PlatformBlock>:
+
+```text
+igc-tabs[role="tablist"]
+└─ #shadow-root
+   └─ div[part="tabs"]                                 // the scrollable header strip
+      └─ div[part="inner"]
+         ├─ igc-icon-button[part="start-scroll-button"] // rendered when the headers overflow
+         ├─ slot                                       // the igc-tab elements
+         │  └─ igc-tab
+         │     └─ #shadow-root
+         │        ├─ div[part="tab-header"][role="tab"]
+         │        │  └─ div[part="base"]
+         │        │     ├─ slot[name="prefix"][part="prefix"]
+         │        │     ├─ div[part="content"]
+         │        │     │  └─ slot[name="label"]        // falls back to the label property
+         │        │     └─ slot[name="suffix"][part="suffix"]
+         │        └─ div[part="tab-body"][role="tabpanel"] // visible only for the selected tab
+         │           └─ slot                           // the content of the tab
+         ├─ igc-icon-button[part="end-scroll-button"]   // rendered when the headers overflow
+         └─ div[part="selected-indicator"]
+            └─ span                                    // follows the selected tab header
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+El elemento `igx-tabs` renderiza la franja de encabezados a partir del `igx-tab-header` de cada elemento de pestaña, y el área de contenido a partir del `igx-tab-content` de cada elemento de pestaña:
+
+```text
+igx-tabs.igx-tabs
+├─ div.igx-tabs-header
+│  ├─ button.igx-tabs-header-button                 // start scroll button, hidden when the headers fit
+│  ├─ div.igx-tabs-header__content
+│  │  └─ div.igx-tabs-header__wrapper[role="tablist"]
+│  │     ├─ div.igx-tabs-header-scroll
+│  │     │  └─ igx-tab-header[role="tab"]          // one for each igx-tab-item
+│  │     │     ├─ [igxPrefix]
+│  │     │     ├─ div.igx-tab-header__inner        // [igxTabHeaderIcon] above [igxTabHeaderLabel]
+│  │     │     └─ [igxSuffix]
+│  │     └─ div.igx-tabs-header__active-indicator
+│  └─ button.igx-tabs-header-button                 // end scroll button, hidden when the headers fit
+└─ div.igx-tabs-content
+   └─ igx-tab-content[role="tabpanel"]             // one for each igx-tab-item; renders its content only when selected
+```
+
+</PlatformBlock>
+
+## Primeros pasos
+
+Para usar {Platform} Tabs, siga el tema <PlatformBlock for="Angular">[{ProductName} Primeros pasos](../general/getting-started.mdx)</PlatformBlock><PlatformBlock for="React,WebComponents,Blazor">[{ProductName} Primeros pasos](../general-getting-started.mdx)</PlatformBlock> para la configuración básica del proyecto y, después, añada el componente para su plataforma de destino.
+
+<PlatformBlock for="WebComponents">
+
+Instale el paquete **{PackageCommon}**:
+
+```cmd
+npm install {PackageCommon}
+```
+
+tema para la configuración básica del proyecto. Después, importe <ApiLink pkg="core" type="Tabs" />, su CSS de tema y registre el componente. El registro también registra los elementos `igc-tab` y `igc-icon-button`:
+
+```ts
+import { defineComponents, IgcTabsComponent } from 'igniteui-webcomponents';
+import 'igniteui-webcomponents/themes/light/bootstrap.css';
+
+defineComponents(IgcTabsComponent);
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+Instale el paquete **{PackageCommon}**:
+
+```cmd
+npm install {PackageCommon}
+```
+
+A continuación, importe los wrappers <ApiLink pkg="core" type="Tabs" /> y <ApiLink pkg="core" type="Tab" /> y el CSS del tema:
+
+```tsx
+import { IgrTabs, IgrTab } from 'igniteui-react';
+import 'igniteui-webcomponents/themes/light/bootstrap.css';
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+Registre los servicios de {ProductName}:
+
+```csharp
+// in Program.cs file
+
+builder.Services.AddIgniteUIBlazor();
+```
+
+Registrar <ApiLink pkg="core" type="TabsModule" />, el módulo de recursos de cliente de <ApiLink pkg="core" type="Tabs" />, es **opcional**: el componente carga sus recursos la primera vez que se muestra. Incluirlo en `builder.Services.AddIgniteUIBlazor(typeof(IgbTabsModule))` sirve para precargar recursos o para admitir elementos creados solo en el cliente (véase [Módulos de componentes](../general-getting-started.mdx#módulos-de-componentes)).
+
+A continuación, enlace el archivo CSS del tema en la página host de la aplicación (**wwwroot/index.html** en una aplicación Blazor WebAssembly independiente o Blazor Hybrid, **Pages/_Host.cshtml** en una aplicación Blazor Server, **Components/App.razor** en una aplicación Blazor Web App):
+
+```razor
+<link href="_content/IgniteUI.Blazor/themes/light/bootstrap.css" rel="stylesheet" />
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+Si su proyecto todavía no usa {ProductName}, ejecute `ng add igniteui-angular`. Después importe el token `IGX_TABS_DIRECTIVES` y añádalo a `imports` de su componente. El token incluye los componentes <ApiLink pkg="core" type="Tabs" />, de elemento de pestaña, de encabezado y de contenido, las directivas de etiqueta e icono del encabezado, y las directivas de prefijo y de sufijo:
+
+```ts
+import { Component } from '@angular/core';
+import { IGX_TABS_DIRECTIVES } from 'igniteui-angular/tabs';
+// import { IGX_TABS_DIRECTIVES } from '@infragistics/igniteui-angular/tabs'; for licensed package
+
+@Component({
+    selector: 'app-home',
+    template: `
+        <igx-tabs>
+            <igx-tab-item>
+                <igx-tab-header>
+                    <span igxTabHeaderLabel>Overview</span>
+                </igx-tab-header>
+                <igx-tab-content>The overview content.</igx-tab-content>
+            </igx-tab-item>
+            <igx-tab-item>
+                <igx-tab-header>
+                    <span igxTabHeaderLabel>Details</span>
+                </igx-tab-header>
+                <igx-tab-content>The details content.</igx-tab-content>
+            </igx-tab-item>
+        </igx-tabs>
+    `,
+    imports: [IGX_TABS_DIRECTIVES]
+})
+export class HomeComponent {}
+```
+
+Cuando no hay ningún elemento de pestaña seleccionado y los elementos tienen contenido, el componente Tabs de Angular selecciona el primer elemento de pestaña al inicializarse.
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+Después del registro, renderice <ApiLink pkg="core" type="Tabs" /> con un <ApiLink pkg="core" type="Tab" /> para cada sección. La etiqueta de una pestaña se convierte en su encabezado, y los hijos de la pestaña se convierten en su contenido:
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-tabs>
+  <igc-tab label="Overview">
+    <p>The overview content.</p>
+  </igc-tab>
+  <igc-tab label="Details">
+    <p>The details content.</p>
+  </igc-tab>
+</igc-tabs>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrTabs>
+  <IgrTab label="Overview">
+    <p>The overview content.</p>
+  </IgrTab>
+  <IgrTab label="Details">
+    <p>The details content.</p>
+  </IgrTab>
+</IgrTabs>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbTabs>
+    <IgbTab Label="Overview">
+        <p>The overview content.</p>
+    </IgbTab>
+    <IgbTab Label="Details">
+        <p>The details content.</p>
+    </IgbTab>
+</IgbTabs>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+Cuando no hay ninguna pestaña seleccionada en el primer renderizado, el componente {Platform} Tabs selecciona la primera pestaña habilitada. Si más adelante establece `selected` en `false` en la pestaña seleccionada, no queda ninguna pestaña seleccionada.
+
+</PlatformBlock>
+
+## Uso
+
+Use {Platform} Tabs para organizar distintas vistas de la misma información o para cambiar entre conjuntos de datos similares o relacionados.
+
+### Tipo
+
+Las pestañas están disponibles en dos tipos: corta, que muestra solo texto de forma predeterminada, con la opción de tener iconos de prefijo y de sufijo, y alta, que además tiene un tercer icono adicional encima del texto.
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+Para una pestaña corta, establezca la `label` de la pestaña. Para una pestaña alta, coloque en su lugar un Icon y un `<span>` en el slot `label`, y el componente Tabs mostrará el icono encima del texto. El slot `label` tiene prioridad sobre la propiedad `label`. Registre antes los iconos, como se describe en el tema [Icon](./icon.mdx):
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-tabs>
+  <igc-tab label="Cart"></igc-tab>
+  <igc-tab label="Shipping"></igc-tab>
+</igc-tabs>
+
+<igc-tabs>
+  <igc-tab>
+    <igc-icon slot="label" name="shopping_basket" collection="material"></igc-icon>
+    <span slot="label">Cart</span>
+  </igc-tab>
+  <igc-tab>
+    <igc-icon slot="label" name="delivery" collection="material"></igc-icon>
+    <span slot="label">Shipping</span>
+  </igc-tab>
+</igc-tabs>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrTabs>
+  <IgrTab label="Cart" />
+  <IgrTab label="Shipping" />
+</IgrTabs>
+
+<IgrTabs>
+  <IgrTab>
+    <IgrIcon slot="label" name="shopping_basket" collection="material" />
+    <span slot="label">Cart</span>
+  </IgrTab>
+  <IgrTab>
+    <IgrIcon slot="label" name="delivery" collection="material" />
+    <span slot="label">Shipping</span>
+  </IgrTab>
+</IgrTabs>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbTabs>
+    <IgbTab Label="Cart" />
+    <IgbTab Label="Shipping" />
+</IgbTabs>
+
+<IgbTabs>
+    <IgbTab>
+        <IgbIcon slot="label" IconName="shopping_basket" Collection="material" />
+        <span slot="label">Cart</span>
+    </IgbTab>
+    <IgbTab>
+        <IgbIcon slot="label" IconName="delivery" Collection="material" />
+        <span slot="label">Shipping</span>
+    </IgbTab>
+</IgbTabs>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+Para mostrar contenido antes y después de la etiqueta, como un icono o un badge, colóquelo en los slots `prefix` y `suffix` de la pestaña:
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-tab>
+  <igc-icon slot="prefix" name="inbox" collection="material"></igc-icon>
+  <span slot="label">Inbox</span>
+  <igc-badge slot="suffix">12</igc-badge>
+</igc-tab>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrTab>
+  <IgrIcon slot="prefix" name="inbox" collection="material" />
+  <span slot="label">Inbox</span>
+  <IgrBadge slot="suffix">12</IgrBadge>
+</IgrTab>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbTab>
+    <IgbIcon slot="prefix" IconName="inbox" Collection="material" />
+    <span slot="label">Inbox</span>
+    <IgbBadge slot="suffix">12</IgbBadge>
+</IgbTab>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+Para una pestaña corta, coloque un `<span>` con la directiva <ApiLink pkg="core" type="TabHeaderLabelDirective" label="igxTabHeaderLabel" /> en el `igx-tab-header`. Para una pestaña alta, añada también un `igx-icon` con la directiva <ApiLink pkg="core" type="TabHeaderIconDirective" label="igxTabHeaderIcon" />, y el componente Tabs mostrará el icono encima del texto. Añada `IgxIconComponent` a `imports` de su componente junto a `IGX_TABS_DIRECTIVES`:
+
+```html
+<igx-tabs>
+  <igx-tab-item>
+    <igx-tab-header>
+      <igx-icon igxTabHeaderIcon>shopping_basket</igx-icon>
+      <span igxTabHeaderLabel>Cart</span>
+    </igx-tab-header>
+    <igx-tab-content>The cart content.</igx-tab-content>
+  </igx-tab-item>
+  <igx-tab-item>
+    <igx-tab-header>
+      <igx-icon igxTabHeaderIcon>local_shipping</igx-icon>
+      <span igxTabHeaderLabel>Shipping</span>
+    </igx-tab-header>
+    <igx-tab-content>The shipping content.</igx-tab-content>
+  </igx-tab-item>
+</igx-tabs>
+```
+
+Para mostrar contenido antes y después de la etiqueta, como un icono o un badge, añádalo a `igx-tab-header` con las directivas `igxPrefix` y `igxSuffix`. El badge siguiente también necesita `IgxBadgeComponent` en `imports`:
+
+```html
+<igx-tab-header>
+  <igx-icon igxPrefix>inbox</igx-icon>
+  <span igxTabHeaderLabel>Inbox</span>
+  <igx-badge igxSuffix [value]="12"></igx-badge>
+</igx-tab-header>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+<Sample src="/layouts/tabs-type" showThemePicker height={360} noBorder={false} spacing="md" alt="{Platform} Tabs en los tipos corto y alto" />
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+<Sample src="/layouts/tabs/type" showThemePicker height={360} noBorder={false} spacing="md" alt="{Platform} Tabs en los tipos corto y alto" />
+
+</PlatformBlock>
+
+### Adaptabilidad
+
+Las pestañas pueden ajustarse al contenido (Content Fit) para ocupar el espacio horizontal disponible adaptando su ancho, o tener un tamaño fijo (Fixed) con botones de desplazamiento para navegar por un gran número de elementos de pestaña. Así se puede mostrar más contenido que con el otro modo en el mismo espacio total.
+
+El <PlatformBlock for="Angular"><ApiLink pkg="core" type="Tabs" member="tabAlignment" label="tabAlignment" /></PlatformBlock><PlatformBlock for="React,WebComponents,Blazor"><ApiLink pkg="core" type="Tabs" member="alignment" label="alignment" /></PlatformBlock> La propiedad establece cómo organiza el componente {Platform} Tabs los encabezados de las pestañas:
+
+- `start` (predeterminado): cada encabezado de pestaña tiene el ancho de su contenido, y los encabezados empiezan en el borde inicial de Tabs.
+- `center`: cada encabezado de pestaña tiene el ancho de su contenido, y los encabezados quedan centrados.
+- `end`: cada encabezado de pestaña tiene el ancho de su contenido, y los encabezados terminan en el borde final de Tabs.
+- `justify`: los encabezados de las pestañas se estiran para ocupar el ancho de Tabs. Úselo para el modo Content Fit.
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-tabs alignment="justify">
+  <igc-tab label="Podcasts"></igc-tab>
+  <igc-tab label="Playlists"></igc-tab>
+  <igc-tab label="Genres"></igc-tab>
+</igc-tabs>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrTabs alignment="justify">
+  <IgrTab label="Podcasts" />
+  <IgrTab label="Playlists" />
+  <IgrTab label="Genres" />
+</IgrTabs>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbTabs Alignment="TabsAlignment.Justify">
+    <IgbTab Label="Podcasts" />
+    <IgbTab Label="Playlists" />
+    <IgbTab Label="Genres" />
+</IgbTabs>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+```html
+<igx-tabs tabAlignment="justify">
+  <igx-tab-item>
+    <igx-tab-header><span igxTabHeaderLabel>Podcasts</span></igx-tab-header>
+    <igx-tab-content>The podcasts content.</igx-tab-content>
+  </igx-tab-item>
+  <igx-tab-item>
+    <igx-tab-header><span igxTabHeaderLabel>Playlists</span></igx-tab-header>
+    <igx-tab-content>The playlists content.</igx-tab-content>
+  </igx-tab-item>
+</igx-tabs>
+```
+
+</PlatformBlock>
+
+Cuando los encabezados de las pestañas no caben, el componente {Platform} Tabs muestra un botón de desplazamiento en cada extremo de la franja de encabezados, que es el modo Fixed. Un botón de desplazamiento desplaza la franja hasta el siguiente encabezado de pestaña que queda fuera de vista en su dirección, y se deshabilita cuando la franja llega a ese extremo. Cuando el usuario selecciona una pestaña, el componente Tabs desplaza su encabezado a la vista.
+
+<PlatformBlock for="Angular">
+
+<Sample src="/layouts/tabs-responsiveness" showThemePicker height={350} noBorder={false} spacing="md" alt="{Platform} Tabs en los modos Content Fit y Fixed" />
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+<Sample src="/layouts/tabs/responsiveness" showThemePicker height={350} noBorder={false} spacing="md" alt="{Platform} Tabs en los modos Content Fit y Fixed" />
+
+</PlatformBlock>
+
+### Cantidad
+
+En la mayoría de los casos, Tabs debe contener entre dos y cinco elementos. Si su caso de uso requiere más de cinco pestañas, considere el modo Fixed explicado anteriormente.
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+Puede añadir y eliminar pestañas en tiempo de ejecución. Una pestaña que añada con `selected` establecido se convierte en la pestaña seleccionada, y cuando elimina la pestaña seleccionada, el componente {Platform} Tabs selecciona la primera pestaña habilitada.
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+Puede añadir y eliminar elementos de pestaña en tiempo de ejecución, por ejemplo con `@for`. Cuando elimina el elemento de pestaña seleccionado, el componente Tabs de Angular selecciona el elemento que ocupa su índice, o el último elemento de pestaña si el eliminado era el último.
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+<Sample src="/layouts/tabs-amount" showThemePicker height={460} noBorder={false} spacing="md" alt="{Platform} Tabs con dos, cinco y más de cinco pestañas" />
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+<Sample src="/layouts/tabs/amount" showThemePicker height={460} noBorder={false} spacing="md" alt="{Platform} Tabs con dos, cinco y más de cinco pestañas" />
+
+</PlatformBlock>
+
+### Estados
+
+Los elementos de pestaña admiten los estados Active, Inactive, Active y hover, Inactive y hover y Disabled. En Tabs siempre hay una pestaña activa y un número arbitrario de pestañas inactivas y deshabilitadas.
+
+Establezca `selected` en una pestaña para convertirla en la pestaña activa, y `disabled` para desactivarla. Los usuarios no pueden seleccionar una pestaña deshabilitada, y la navegación por teclado la omite.<PlatformBlock for="React,WebComponents,Blazor"> Cuando deshabilita la pestaña seleccionada, el componente {Platform} Tabs selecciona la primera pestaña habilitada.</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-tabs>
+  <igc-tab label="Overview"></igc-tab>
+  <igc-tab label="Activity" selected></igc-tab>
+  <igc-tab label="Billing" disabled></igc-tab>
+</igc-tabs>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrTabs>
+  <IgrTab label="Overview" />
+  <IgrTab label="Activity" selected={true} />
+  <IgrTab label="Billing" disabled={true} />
+</IgrTabs>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbTabs>
+    <IgbTab Label="Overview" />
+    <IgbTab Label="Activity" Selected="true" />
+    <IgbTab Label="Billing" Disabled="true" />
+</IgbTabs>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+```html
+<igx-tabs>
+  <igx-tab-item>
+    <igx-tab-header><span igxTabHeaderLabel>Overview</span></igx-tab-header>
+    <igx-tab-content>The overview content.</igx-tab-content>
+  </igx-tab-item>
+  <igx-tab-item selected>
+    <igx-tab-header><span igxTabHeaderLabel>Activity</span></igx-tab-header>
+    <igx-tab-content>The activity content.</igx-tab-content>
+  </igx-tab-item>
+  <igx-tab-item disabled>
+    <igx-tab-header><span igxTabHeaderLabel>Billing</span></igx-tab-header>
+    <igx-tab-content>The billing content.</igx-tab-content>
+  </igx-tab-item>
+</igx-tabs>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+<Sample src="/layouts/tabs-states" showThemePicker height={300} noBorder={false} spacing="md" alt="{Platform} Tabs con pestañas activas, inactivas, con hover y deshabilitadas" />
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+<Sample src="/layouts/tabs/states" showThemePicker height={300} noBorder={false} spacing="md" alt="{Platform} Tabs con pestañas activas, inactivas, con hover y deshabilitadas" />
+
+</PlatformBlock>
+
+{/*
+headerPosition: igniteui-react and IgniteUI.Blazor don't have it yet, so its content is gated to
+Angular and WebComponents. When they ship it, add React and Blazor snippets and samples to the
+Header Position section below, add a row to the Blazor Properties table, and add React and Blazor
+to every Angular,WebComponents and WebComponents block about the header position or a column of
+tab headers: Anatomy, Header Position, Properties, Keyboard Interaction, Screen Readers / ARIA,
+Accessibility Compliance, API References and FAQ.
+*/}
+
+<PlatformBlock for="Angular,WebComponents">
+
+### Posición del encabezado
+
+Establezca <ApiLink pkg="core" type="Tabs" member="headerPosition" label="headerPosition" /> en el componente {Platform} Tabs en `start` o en `end` para pestañas verticales: una columna de encabezados de pestaña antes o después del contenido en la dirección del texto. El valor predeterminado, `top`, los mantiene en una fila encima del contenido. <PlatformBlock for="Angular">La entrada `headerPosition` requiere `igniteui-angular` 22.3.0 o posterior.</PlatformBlock><PlatformBlock for="WebComponents">La propiedad `headerPosition` requiere `igniteui-webcomponents` 7.5.0 o posterior.</PlatformBlock>
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-tabs header-position="start" style="height: 11rem">
+  <igc-tab label="Profile">
+    <p>Update your name, photo, and contact details.</p>
+  </igc-tab>
+  <igc-tab label="Security">
+    <p>Change your password and sign-in options.</p>
+  </igc-tab>
+  <igc-tab label="Notifications">
+    <p>Choose which updates you receive by email.</p>
+  </igc-tab>
+</igc-tabs>
+```
+
+```ts
+import type { TabsHeaderPosition } from 'igniteui-webcomponents';
+
+const tabs = document.querySelector('igc-tabs')!;
+const position: TabsHeaderPosition = 'end';
+tabs.headerPosition = position;
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+```html
+<igx-tabs headerPosition="start" style="height: 11rem">
+  <igx-tab-item>
+    <igx-tab-header><span igxTabHeaderLabel>Profile</span></igx-tab-header>
+    <igx-tab-content>Update your name, photo, and contact details.</igx-tab-content>
+  </igx-tab-item>
+  <igx-tab-item>
+    <igx-tab-header><span igxTabHeaderLabel>Security</span></igx-tab-header>
+    <igx-tab-content>Change your password and sign-in options.</igx-tab-content>
+  </igx-tab-item>
+  <igx-tab-item>
+    <igx-tab-header><span igxTabHeaderLabel>Notifications</span></igx-tab-header>
+    <igx-tab-content>Choose which updates you receive by email.</igx-tab-content>
+  </igx-tab-item>
+</igx-tabs>
+```
+
+Con `strictTemplates`, un valor enlazado escrito como `string` no compila. Escríbalo como `IgxTabsHeaderPosition`:
+
+```ts
+import { IgxTabsHeaderPosition } from 'igniteui-angular/tabs';
+
+public position: IgxTabsHeaderPosition = IgxTabsHeaderPosition.end;
+```
+
+```html
+<igx-tabs [headerPosition]="position">...</igx-tabs>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular,WebComponents">
+
+Sin una altura, el componente {Platform} Tabs crece con su columna de encabezados de pestaña o con el contenido de la pestaña seleccionada, lo que sea más alto. Para limitarlo, establezca un `height` o un `max-height` en el componente. El contenido de una pestaña más alta se desplazará entonces dentro del componente.<PlatformBlock for="WebComponents"> Un `max-height` en un contenedor no limita el componente.</PlatformBlock> En una columna, cada encabezado de pestaña ocupa el ancho de la columna, y <PlatformBlock for="Angular">`tabAlignment`</PlatformBlock><PlatformBlock for="WebComponents">`alignment`</PlatformBlock> se aplica a lo largo de la altura. La rueda del ratón y el tacto no desplazan los encabezados de pestaña de una columna, pero sí lo hacen los botones de desplazamiento y el teclado.
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+Para mostrar vistas enrutadas junto a una columna de encabezados de pestaña, coloque el componente Tabs de Angular y un elemento que contenga el `router-outlet` en un contenedor con `display: flex`, y dé a ese elemento `flex: 1` y `min-width: 0`.
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+<Sample src="/layouts/tabs-header-position" showThemePicker height={340} noBorder={false} spacing="md" alt="{Platform} Tabs con botones Top, Start y End que mueven los encabezados de pestaña entre una fila encima del contenido y una columna en su lado inicial o final" />
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+<Sample src="/layouts/tabs/header-position" showThemePicker height={340} noBorder={false} spacing="md" alt="{Platform} Tabs con botones de opción Top, Start y End que mueven los encabezados de pestaña entre una fila encima del contenido y una columna en su lado inicial o final" />
+
+</PlatformBlock>
+
+### Selección
+
+<PlatformBlock for="WebComponents">
+
+El componente {Platform} Tabs emite `igcChange` con la pestaña recién seleccionada cuando el usuario selecciona una pestaña con un clic o con una tecla. Para seleccionar una pestaña desde el código, llame a <ApiLink pkg="core" type="Tabs" member="select" label="select" /> con la pestaña, o con su `id` o su `label`. Lea la pestaña seleccionada desde <ApiLink pkg="core" type="Tabs" member="selectedTab" label="selectedTab" />:
+
+```html
+<igc-tabs>
+  <igc-tab id="overview" label="Overview"></igc-tab>
+  <igc-tab id="details" label="Details"></igc-tab>
+</igc-tabs>
+```
+
+```ts
+const tabs = document.querySelector('igc-tabs')!;
+
+tabs.addEventListener('igcChange', (event) => {
+  console.log(`Selected: ${event.detail.label}`);
+});
+
+tabs.select('details');
+console.log(tabs.selectedTab?.label); // "Details"
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+El componente {Platform} Tabs llama a `onChange` con la pestaña recién seleccionada cuando el usuario selecciona una pestaña con un clic o con una tecla. Para seleccionar una pestaña desde el código, llame a <ApiLink pkg="core" type="Tabs" member="select" label="select" /> con la pestaña, o con su `id` o su `label`:
+
+```tsx
+import { useRef } from 'react';
+import { IgrTab, IgrTabs } from 'igniteui-react';
+
+export default function ProfileTabs() {
+  const tabsRef = useRef<IgrTabs>(null);
+
+  return (
+    <>
+      <IgrTabs ref={tabsRef} onChange={(e: CustomEvent<IgrTab>) => console.log(e.detail.label)}>
+        <IgrTab label="Overview" />
+        <IgrTab label="Details" />
+      </IgrTabs>
+      <button onClick={() => tabsRef.current?.select('Details')}>Show details</button>
+    </>
+  );
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+El componente {Platform} Tabs dispara `Change` con la pestaña recién seleccionada cuando el usuario selecciona una pestaña con un clic o con una tecla. Para seleccionar una pestaña desde el código, llame a <ApiLink pkg="core" type="Tabs" member="SelectAsync" label="SelectAsync" /> con el `id` o el `Label` de la pestaña:
+
+```razor
+<IgbTabs @ref="Tabs" Change="OnTabChange">
+    <IgbTab Label="Overview" />
+    <IgbTab Label="Details" />
+</IgbTabs>
+
+<button @onclick="ShowDetails">Show details</button>
+
+@code {
+    private IgbTabs Tabs { get; set; }
+
+    private async Task ShowDetails()
+    {
+        await Tabs.SelectAsync("Details");
+    }
+
+    private void OnTabChange(IgbTabComponentEventArgs e)
+    {
+        Console.WriteLine(e.Detail.Label);
+    }
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+Seleccionar una pestaña desde el código, o establecer `selected` en una pestaña, cambia la selección sin disparar el evento de cambio. El componente Tabs ignora las pestañas deshabilitadas y los valores que no coinciden con ninguna pestaña.
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+Enlace <ApiLink pkg="core" type="Tabs" member="selectedIndex" label="selectedIndex" /> para leer y establecer el índice de la pestaña seleccionada. El componente Tabs de Angular emite <ApiLink pkg="core" type="Tabs" member="selectedIndexChanging" label="selectedIndexChanging" /> antes de que cambie la selección, y puede cancelar el cambio en su manejador:
+
+```html
+<igx-tabs [(selectedIndex)]="selectedIndex" (selectedIndexChanging)="onSelectedIndexChanging($event)">
+  <igx-tab-item>
+    <igx-tab-header><span igxTabHeaderLabel>Profile</span></igx-tab-header>
+    <igx-tab-content>The profile form.</igx-tab-content>
+  </igx-tab-item>
+  <igx-tab-item>
+    <igx-tab-header><span igxTabHeaderLabel>Billing</span></igx-tab-header>
+    <igx-tab-content>The billing form.</igx-tab-content>
+  </igx-tab-item>
+</igx-tabs>
+```
+
+```ts
+import { ITabsSelectedIndexChangingEventArgs } from 'igniteui-angular/tabs';
+
+public selectedIndex = 0;
+public hasUnsavedChanges = false;
+
+public onSelectedIndexChanging(event: ITabsSelectedIndexChangingEventArgs) {
+    if (this.hasUnsavedChanges) {
+        event.cancel = true;
+    }
+}
+```
+
+Después de que cambie la selección, el componente Tabs de Angular emite <ApiLink pkg="core" type="Tabs" member="selectedItemChange" label="selectedItemChange" /> con el elemento de pestaña anterior y el nuevo. Estos eventos también se disparan cuando establece `selectedIndex` desde el código.
+
+</PlatformBlock>
+
+### Activación
+
+De forma predeterminada, el componente {Platform} Tabs selecciona una pestaña en cuanto las teclas de flecha, Home o End mueven el foco a su encabezado. Establezca <ApiLink pkg="core" type="Tabs" member="activation" label="activation" /> en `manual` para que estas teclas solo muevan el foco, y para seleccionar la pestaña enfocada con Enter o Space. Use la activación manual cuando mostrar el contenido de una pestaña sea lento, por ejemplo cuando carga datos.
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-tabs activation="manual">
+  <igc-tab label="Overview"></igc-tab>
+  <igc-tab label="Reports"></igc-tab>
+</igc-tabs>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrTabs activation="manual">
+  <IgrTab label="Overview" />
+  <IgrTab label="Reports" />
+</IgrTabs>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbTabs Activation="TabsActivation.Manual">
+    <IgbTab Label="Overview" />
+    <IgbTab Label="Reports" />
+</IgbTabs>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+```html
+<igx-tabs activation="manual">
+  ...
+</igx-tabs>
+```
+
+</PlatformBlock>
+
+### Qué hacer y qué no
+
+Las pestañas son adecuadas para organizar información, y conviene evitar usarlas para diseñar flujos de trabajo y acciones que siguen una secuencia lógica, por ejemplo un proceso de compra o un asistente de configuración. Al usar pestañas cortas, nunca combine en la misma barra una pestaña de texto con una pestaña de icono. Elija uno de los dos modos de contenido y úselo de forma coherente para todos los elementos de la barra.
+
+<DoDont
+  doSrc={tabsDoInformation}
+  doAlt="Pestañas llamadas Products, Cart y Orders sobre una imagen de producto"
+  dontSrc={tabsDoNotWorkflow}
+  dontAlt="Pestañas llamadas Extras, Payment y Address usadas como los pasos de un flujo de pedido"
+>
+<Fragment slot="do">
+
+Use pestañas para organizar información relacionada.
+
+</Fragment>
+<Fragment slot="dont">
+
+Evite las pestañas para los pasos de un flujo de trabajo secuencial, como un proceso de compra.
+
+</Fragment>
+</DoDont>
+
+<DoDont
+  doSrc={tabsDoContent}
+  doAlt="Pestañas llamadas Podcasts, Playlists y Genres que usan todas etiquetas de texto"
+  dontSrc={tabsDoNotMixedContent}
+  dontAlt="Pestañas que combinan las etiquetas de texto Podcasts y Playlists con una pestaña de icono de nota musical"
+>
+<Fragment slot="do">
+
+Use el mismo modo de contenido, texto o iconos, para todas las pestañas de una barra.
+
+</Fragment>
+<Fragment slot="dont">
+
+Evite combinar pestañas de texto y pestañas de icono en la misma barra.
+
+</Fragment>
+</DoDont>
+
+## Propiedades
+
+El componente {Platform} Tabs expone las siguientes propiedades. Consulte la referencia de la API para ver las definiciones de tipos completas.
+
+<PlatformBlock for="React,WebComponents">
+
+| Nombre | Tipo | Valor predeterminado | Descripción |
+| --- | --- | --- | --- |
+| <ApiLink pkg="core" type="Tabs" member="alignment" label="alignment" /> | `'start' \| 'end' \| 'center' \| 'justify'` | `'start'` | Cómo se disponen los encabezados de las pestañas en la franja de encabezados. |
+<PlatformBlock for="WebComponents">| <ApiLink pkg="core" type="Tabs" member="headerPosition" label="headerPosition" /> | `'top' \| 'start' \| 'end'` | `'top'` | Dónde se colocan los encabezados de las pestañas: una fila encima del contenido, o una columna antes o después de él. El atributo correspondiente es `header-position`. |
+</PlatformBlock>| <ApiLink pkg="core" type="Tabs" member="activation" label="activation" /> | `'auto' \| 'manual'` | `'auto'` | Indica si mover el foco a un encabezado de pestaña con el teclado también selecciona la pestaña. |
+| <ApiLink pkg="core" type="Tabs" member="selectedTab" label="selectedTab" /> | <PlatformBlock for="WebComponents">`IgcTabComponent \| null`</PlatformBlock><PlatformBlock for="React">`IgrTab \| null`</PlatformBlock> | `null` | Solo lectura. La pestaña seleccionada. |
+| <ApiLink pkg="core" type="Tabs" member="selected" label="selected" /> | `string` | `''` | Solo lectura. El `label` de la pestaña seleccionada, o su `id` cuando la pestaña no tiene `label`. |
+| <ApiLink pkg="core" type="Tabs" member="tabs" label="tabs" /> | <PlatformBlock for="WebComponents">`IgcTabComponent[]`</PlatformBlock><PlatformBlock for="React">`IgrTab[]`</PlatformBlock> | — | Solo lectura. Las pestañas que son hijos directos de Tabs. |
+| <ApiLink pkg="core" type="Tab" member="label" label="Tab.label" /> | `string` | `''` | El texto del encabezado de la pestaña. El slot `label` tiene prioridad sobre él. |
+| <ApiLink pkg="core" type="Tab" member="selected" label="Tab.selected" /> | `boolean` | `false` | Indica si la pestaña está seleccionada. |
+| <ApiLink pkg="core" type="Tab" member="disabled" label="Tab.disabled" /> | `boolean` | `false` | Indica si la pestaña está deshabilitada. |
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+| Nombre | Tipo | Valor predeterminado | Descripción |
+| --- | --- | --- | --- |
+| <ApiLink pkg="core" type="Tabs" member="Alignment" label="Alignment" /> | `TabsAlignment` | `Start` | Cómo se disponen los encabezados de las pestañas en la franja de encabezados. |
+| <ApiLink pkg="core" type="Tabs" member="Activation" label="Activation" /> | `TabsActivation` | `Auto` | Indica si mover el foco a un encabezado de pestaña con el teclado también selecciona la pestaña. |
+| <ApiLink pkg="core" type="Tab" member="Label" label="IgbTab.Label" /> | `string` | — | El texto del encabezado de la pestaña. El slot `label` tiene prioridad sobre él. |
+| <ApiLink pkg="core" type="Tab" member="Selected" label="IgbTab.Selected" /> | `bool` | `false` | Indica si la pestaña está seleccionada. |
+| <ApiLink pkg="core" type="Tab" member="Disabled" label="IgbTab.Disabled" /> | `bool` | `false` | Indica si la pestaña está deshabilitada. |
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+| Nombre | Tipo | Valor predeterminado | Descripción |
+| --- | --- | --- | --- |
+| <ApiLink pkg="core" type="Tabs" member="selectedIndex" label="selectedIndex" /> | `number` | `-1` | El índice del elemento de pestaña seleccionado. Cuando no hay ningún elemento de pestaña seleccionado y los elementos tienen contenido, el componente Tabs selecciona el primer elemento de pestaña. Admite enlace bidireccional. |
+| <ApiLink pkg="core" type="Tabs" member="tabAlignment" label="tabAlignment" /> | `'start' \| 'end' \| 'center' \| 'justify'` | `'start'` | Cómo se disponen los encabezados de las pestañas en la franja de encabezados. |
+| <ApiLink pkg="core" type="Tabs" member="headerPosition" label="headerPosition" /> | `'top' \| 'start' \| 'end'` | `'top'` | Dónde se colocan los encabezados de las pestañas: una fila encima del contenido, o una columna antes o después de él. |
+| <ApiLink pkg="core" type="Tabs" member="activation" label="activation" /> | `'auto' \| 'manual'` | `'auto'` | Indica si mover el foco a un encabezado de pestaña con el teclado también selecciona la pestaña. |
+| <ApiLink pkg="core" type="Tabs" member="disableAnimation" label="disableAnimation" /> | `boolean` | `false` | Indica si se desactiva la animación del contenido al cambiar la selección. |
+| <ApiLink pkg="core" type="Tabs" member="selectedItem" label="selectedItem" /> | `IgxTabItemDirective` | — | Solo lectura. El elemento de pestaña seleccionado. |
+| <ApiLink pkg="core" type="Tabs" member="items" label="items" /> | `QueryList<IgxTabItemDirective>` | — | Solo lectura. Los elementos de pestaña de Tabs. |
+| <ApiLink pkg="core" type="TabItem" member="selected" label="TabItem.selected" /> | `boolean` | `false` | Indica si el elemento de pestaña está seleccionado. Admite enlace bidireccional. |
+| <ApiLink pkg="core" type="TabItem" member="disabled" label="TabItem.disabled" /> | `boolean` | `false` | Indica si el elemento de pestaña está deshabilitado. |
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+## Métodos
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents">
+
+El componente {Platform} Tabs expone el siguiente método. Cambia la selección sin emitir el evento de cambio.
+
+| Método | Descripción |
+| --- | --- |
+| <ApiLink pkg="core" type="Tabs" member="select" label="select" /> | Selecciona la pestaña que pasa, o la pestaña cuyo `id` o `label` coincide con la cadena que pasa. Ignora las pestañas deshabilitadas y las cadenas que no coinciden con ninguna pestaña. |
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+El componente {Platform} Tabs expone los siguientes métodos. Cada método tiene también una versión síncrona sin el sufijo `Async`.
+
+| Método | Descripción |
+| --- | --- |
+| <ApiLink pkg="core" type="Tabs" member="SelectAsync" label="SelectAsync" /> | Selecciona la pestaña cuyo `id` o `Label` coincide con la cadena que pasa, sin disparar `Change`. Ignora las pestañas deshabilitadas y las cadenas que no coinciden con ninguna pestaña. |
+| <ApiLink pkg="core" type="Tabs" member="GetSelectedAsync" label="GetSelectedAsync" /> | Devuelve el `Label` de la pestaña seleccionada, o su `id` cuando la pestaña no tiene `Label`. |
+
+</PlatformBlock>
+
+## Eventos
+
+El componente {Platform} Tabs emite los siguientes eventos.
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+| Nombre | Tipo | Descripción |
+| --- | --- | --- |
+| <PlatformBlock for="WebComponents">`igcChange`</PlatformBlock><PlatformBlock for="React"><ApiLink pkg="core" type="Tabs" member="onChange" label="onChange" /></PlatformBlock><PlatformBlock for="Blazor"><ApiLink pkg="core" type="Tabs" member="Change" label="Change" /></PlatformBlock> | <PlatformBlock for="WebComponents">`CustomEvent<IgcTabComponent>`</PlatformBlock><PlatformBlock for="React">`CustomEvent<IgrTab>`</PlatformBlock><PlatformBlock for="Blazor">`EventCallback<IgbTabComponentEventArgs>`</PlatformBlock> | Se emite cuando el usuario selecciona una pestaña con un clic o con una tecla. El detalle del evento contiene la pestaña seleccionada. |
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+| Nombre | Descripción |
+| --- | --- |
+| <ApiLink pkg="core" type="Tabs" member="selectedIndexChanging" label="selectedIndexChanging" /> | Se emite con <ApiLink type="ITabsSelectedIndexChangingEventArgs" kind="interface" label="ITabsSelectedIndexChangingEventArgs" /> antes de que cambie el índice seleccionado. Establezca `cancel` para conservar la pestaña actual, o cambie `newIndex` para seleccionar otra pestaña. |
+| <ApiLink pkg="core" type="Tabs" member="selectedIndexChange" label="selectedIndexChange" /> | Se emite con el nuevo índice, un `number`, después de que cambie el índice seleccionado. Habilita el enlace bidireccional de `[(selectedIndex)]`. |
+| <ApiLink pkg="core" type="Tabs" member="selectedItemChange" label="selectedItemChange" /> | Se emite con <ApiLink type="ITabsSelectedItemChangeEventArgs" kind="interface" label="ITabsSelectedItemChangeEventArgs" />, que contiene el elemento de pestaña anterior y el nuevo, después de que cambie el elemento de pestaña seleccionado. |
+| <ApiLink pkg="core" type="TabItem" member="selectedChange" label="TabItem.selectedChange" /> | Se emite con un `boolean` cuando el elemento de pestaña se selecciona o se deselecciona. Habilita el enlace bidireccional de `[(selected)]`. |
+
+</PlatformBlock>
+
+## Estilos
+
+El componente {Platform} Tabs toma sus colores del tema. Cámbielos con las siguientes variables CSS:
+
+| Variable | Qué cambia |
+| --- | --- |
+| `--ig-tabs-item-background` | El fondo de los encabezados de las pestañas. |
+| `--ig-tabs-item-text-color` | El color del texto de los encabezados de las pestañas. |
+| `--ig-tabs-item-icon-color` | El color del icono de los encabezados de las pestañas. |
+| `--ig-tabs-item-hover-background` | El fondo de un encabezado de pestaña con hover o con el foco. |
+| `--ig-tabs-item-hover-color` | El color del texto de un encabezado de pestaña con hover o con el foco. |
+| `--ig-tabs-item-active-background` | El fondo del encabezado de la pestaña seleccionada. |
+| `--ig-tabs-item-active-color` | El color del texto del encabezado de la pestaña seleccionada. |
+| `--ig-tabs-item-active-icon-color` | El color del icono del encabezado de la pestaña seleccionada. |
+| `--ig-tabs-item-disabled-color` | El color del texto de un encabezado de pestaña deshabilitado. |
+| `--ig-tabs-item-disabled-icon-color` | El color del icono de un encabezado de pestaña deshabilitado. |
+| `--ig-tabs-indicator-color` | El color del indicador del encabezado de la pestaña seleccionada. |
+| `--ig-tabs-button-background` | El fondo de los botones de desplazamiento. |
+| `--ig-tabs-button-color` | El color del icono de los botones de desplazamiento. |
+| `--ig-tabs-button-hover-background` | El fondo de un botón de desplazamiento con hover. |
+| `--ig-tabs-button-disabled-color` | El color del icono de un botón de desplazamiento deshabilitado. |
+<PlatformBlock for="Angular">| `--ig-tabs-header-background` | El fondo de la franja de encabezados detrás de los encabezados de las pestañas. |</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+El elemento `igc-tabs` expone las siguientes partes CSS:
+
+| Parte | Qué estiliza |
+| --- | --- |
+| `start-scroll-button` | El botón de desplazamiento de inicio. |
+| `end-scroll-button` | El botón de desplazamiento de fin. |
+| `selected-indicator` | El indicador del encabezado de la pestaña seleccionada. |
+
+El elemento `igc-tab` expone las siguientes partes CSS:
+
+| Parte | Qué estiliza |
+| --- | --- |
+| `tab-header` | El encabezado de la pestaña. |
+| `prefix` | El contenedor del slot `prefix`. |
+| `content` | El contenedor del slot `label`. |
+| `suffix` | El contenedor del slot `suffix`. |
+| `tab-body` | El contenido de la pestaña, que solo es visible para la pestaña seleccionada. |
+
+</PlatformBlock>
+
+### Temas con Sass
+
+Cuando modifica una propiedad primaria, todas las propiedades dependientes relacionadas se actualizan automáticamente para reflejar el cambio. Los parámetros primarios de la <PlatformBlock for="Angular"><ApiLink kind="sass" module="themes" type="function-tabs-theme" label="tabs-theme" code={true} /></PlatformBlock><PlatformBlock for="React,WebComponents,Blazor">`tabs-theme`</PlatformBlock> función son `$item-background`, a partir del cual el tema deriva los colores de todos los estados de las pestañas, y `$item-active-color`, a partir del cual deriva el color del indicador. Cree un tema con la función e inclúyalo con el mixin `tokens()`, que emite las variables `--ig-tabs-*` correspondientes en el ámbito en el que lo incluya.
+
+<PlatformBlock for="Angular">
+
+```scss
+@use "igniteui-angular/theming" as *;
+
+$custom-tabs-theme: tabs-theme(
+  $item-background: #292826,
+  $item-active-color: #f4d45c
+);
+
+:host {
+  @include tokens($custom-tabs-theme);
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+Las funciones de Sass proceden del paquete `igniteui-theming`. Consulte el tema [Temas](../themes/overview.mdx) para la configuración de Sass.
+
+```scss
+@use "igniteui-theming" as *;
+
+$custom-tabs-theme: tabs-theme(
+  $item-background: #292826,
+  $item-active-color: #f4d45c
+);
+
+:root {
+  @include tokens($custom-tabs-theme);
+}
+```
+
+</PlatformBlock>
+
+### Variables CSS
+
+Establezca las variables CSS en un componente Tabs o en un contenedor cuando necesite un estilo local sin un paso de compilación de Sass:
+
+```css
+.profile-tabs {
+  --ig-tabs-item-active-color: #e41c77;
+  --ig-tabs-indicator-color: #e41c77;
+}
+```
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+Use las partes CSS para otros estilos:
+
+```css
+igc-tab::part(tab-header) {
+  font-weight: 600;
+}
+
+igc-tabs::part(selected-indicator) {
+  opacity: 0.8;
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+<Sample src="/layouts/tabs-styling" height={400} noBackground={false} noBorder={false} spacing="md" alt="Ejemplo de estilo de {Platform} Tabs" />
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+<Sample src="/layouts/tabs/styling" height={400} noBackground={false} noBorder={false} spacing="md" alt="Ejemplo de estilo de {Platform} Tabs" />
+
+</PlatformBlock>
+
+### Dar estilo con Tailwind
+
+Puede dar estilo a {Platform} Tabs con nuestras clases de utilidad personalizadas de Tailwind. Asegúrese de [configurar Tailwind](../themes/tailwind.mdx) primero.
+
+<PlatformBlock for="Angular">
+
+Importe las utilidades de Ignite UI en su hoja de estilos global:
+
+```css
+@import "tailwindcss";
+@import "igniteui-theming/tailwind/utilities/material.css";
+```
+
+Use la clase `light-tabs` o `dark-tabs` para el tema correspondiente, y sobrescriba las variables CSS generadas con propiedades arbitrarias:
+
+```html
+<igx-tabs class="!light-tabs ![--item-background:#011627] ![--item-active-color:#FF8040]">
+  ...
+</igx-tabs>
+```
+
+El signo de exclamación (`!`) da prioridad a la utilidad de Tailwind sobre los estilos predeterminados del tema de Tabs.
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+Establezca las variables CSS de `--ig-tabs-*` con propiedades arbitrarias de Tailwind:
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-tabs class="[--ig-tabs-item-background:#011627] [--ig-tabs-item-active-color:#FF8040] [--ig-tabs-indicator-color:#FF8040]">
+  ...
+</igc-tabs>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrTabs className="[--ig-tabs-item-background:#011627] [--ig-tabs-item-active-color:#FF8040] [--ig-tabs-indicator-color:#FF8040]">
+  ...
+</IgrTabs>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbTabs Class="[--ig-tabs-item-background:#011627] [--ig-tabs-item-active-color:#FF8040] [--ig-tabs-indicator-color:#FF8040]">
+    ...
+</IgbTabs>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+<Sample src="/layouts/tabs-tailwind-styling" height={290} noBackground={false} noBorder={false} spacing="md" alt="Ejemplo de estilo de {Platform} Tabs con Tailwind" />
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+<Sample src="/layouts/tabs/tailwind-styling" height={290} noBackground={false} noBorder={false} spacing="md" alt="Ejemplo de estilo de {Platform} Tabs con Tailwind" />
+
+</PlatformBlock>
+
+## Accesibilidad
+
+El componente {Platform} Tabs usa los roles del patrón de pestañas de WAI-ARIA: los usuarios llegan a los encabezados de las pestañas con la tecla Tab, se mueven entre ellos con las teclas de flecha y seleccionan una pestaña para mostrar su contenido.
+
+### Interacción por teclado
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+La franja de encabezados del componente {Platform} Tabs es una única parada de tabulación: solo el encabezado de la pestaña seleccionada está en el orden de tabulación, o el primer encabezado de pestaña habilitado cuando no hay ninguna pestaña seleccionada. El contenido de la pestaña seleccionada es la siguiente parada de tabulación. Las siguientes teclas funcionan mientras un encabezado de pestaña tiene el foco:
+
+| Clave | Acción |
+| --- | --- |
+| <kbd>Tab</kbd> / <kbd>Shift</kbd> + <kbd>Tab</kbd> | Mueve el foco fuera de la franja de encabezados, al contenido de la pestaña seleccionada o al elemento enfocable anterior. El componente Tabs no gestiona estas teclas. |
+| <kbd>Arrow Right</kbd> | Mueve el foco al siguiente encabezado de pestaña habilitado, y desde el último al primero. En un diseño de derecha a izquierda, lo mueve al anterior. Con la activación `auto`, también selecciona la pestaña.<PlatformBlock for="WebComponents"> En una columna de encabezados de pestaña, el componente Tabs no gestiona esta tecla.</PlatformBlock> |
+| <kbd>Arrow Left</kbd> | Mueve el foco al encabezado de pestaña habilitado anterior, y desde el primero al último. En un diseño de derecha a izquierda, lo mueve al siguiente. Con la activación `auto`, también selecciona la pestaña.<PlatformBlock for="WebComponents"> En una columna de encabezados de pestaña, el componente Tabs no gestiona esta tecla.</PlatformBlock> |
+<PlatformBlock for="WebComponents">| <kbd>Arrow Down</kbd> | En una columna de encabezados de pestaña, mueve el foco al siguiente encabezado de pestaña habilitado, y desde el último al primero. Con la activación `auto`, también selecciona la pestaña. |
+| <kbd>Arrow Up</kbd> | En una columna de encabezados de pestaña, mueve el foco al encabezado de pestaña habilitado anterior, y desde el primero al último. Con la activación `auto`, también selecciona la pestaña. |
+</PlatformBlock>| <kbd>Home</kbd> | Mueve el foco al primer encabezado de pestaña habilitado. Con la activación `auto`, también selecciona la pestaña. |
+| <kbd>End</kbd> | Mueve el foco al último encabezado de pestaña habilitado. Con la activación `auto`, también selecciona la pestaña. |
+| <kbd>Enter</kbd> / <kbd>Space</kbd> | Selecciona la pestaña enfocada. |
+
+El componente {Platform} Tabs gestiona estas teclas en `keydown`:
+
+- Impide su acción predeterminada, de modo que las teclas de flecha que mueven el foco, Home, End y Space no desplazan la página.
+- Una tecla que se mantiene pulsada no repite su acción.
+- Una tecla que se pulsa junto con Shift, Ctrl, Alt o Meta no hace nada.
+- El componente Tabs desplaza a la vista el encabezado que recibe el foco.
+
+Con un puntero, un clic en un encabezado de pestaña enfoca y selecciona la pestaña. Una pestaña deshabilitada ignora los clics. Los botones de desplazamiento no están en el orden de tabulación.
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+Solo el encabezado de la pestaña seleccionada del componente Tabs de Angular está en el orden de tabulación, por lo que la franja de encabezados es una única parada de tabulación. Cuando no hay ningún elemento de pestaña seleccionado, ningún encabezado de pestaña está en el orden de tabulación. El contenido de la pestaña seleccionada es la siguiente parada de tabulación. Las siguientes teclas funcionan mientras un encabezado de pestaña tiene el foco:
+
+| Clave | Acción |
+| --- | --- |
+| <kbd>Tab</kbd> / <kbd>Shift</kbd> + <kbd>Tab</kbd> | Mueve el foco fuera de la franja de encabezados, al contenido de la pestaña seleccionada o al elemento enfocable anterior. El componente Tabs no gestiona estas teclas. |
+| <kbd>Arrow Right</kbd> | Mueve el foco al siguiente encabezado de pestaña habilitado, y desde el último al primero. En un diseño de derecha a izquierda, lo mueve al anterior. Con la activación `auto`, también selecciona la pestaña. En una columna de encabezados de pestaña, el componente Tabs no gestiona esta tecla. |
+| <kbd>Arrow Left</kbd> | Mueve el foco al encabezado de pestaña habilitado anterior, y desde el primero al último. En un diseño de derecha a izquierda, lo mueve al siguiente. Con la activación `auto`, también selecciona la pestaña. En una columna de encabezados de pestaña, el componente Tabs no gestiona esta tecla. |
+| <kbd>Arrow Down</kbd> | En una columna de encabezados de pestaña, mueve el foco al siguiente encabezado de pestaña habilitado, y desde el último al primero. Con la activación `auto`, también selecciona la pestaña. |
+| <kbd>Arrow Up</kbd> | En una columna de encabezados de pestaña, mueve el foco al encabezado de pestaña habilitado anterior, y desde el primero al último. Con la activación `auto`, también selecciona la pestaña. |
+| <kbd>Home</kbd> | Mueve el foco al primer encabezado de pestaña habilitado. Con la activación `auto`, también selecciona la pestaña. |
+| <kbd>End</kbd> | Mueve el foco al último encabezado de pestaña habilitado. Con la activación `auto`, también selecciona la pestaña. |
+| <kbd>Enter</kbd> / <kbd>Space</kbd> | Con la activación `manual`, selecciona la pestaña enfocada haciendo clic en su encabezado. |
+
+Con un puntero, un clic en un encabezado de pestaña selecciona la pestaña cuando el elemento de pestaña tiene contenido. Un encabezado de pestaña deshabilitado ignora los clics. Los botones de desplazamiento no están en el orden de tabulación.
+
+</PlatformBlock>
+
+### Lectores de pantalla / ARIA
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+El componente {Platform} Tabs renderiza los siguientes roles y atributos:
+
+| Elemento | Rol | Atributos |
+| --- | --- | --- |
+| `igc-tabs` | `tablist` | `aria-orientation="horizontal"`<PlatformBlock for="WebComponents">, o `aria-orientation="vertical"` en una columna de encabezados de pestaña</PlatformBlock>, establecido mediante los internals del elemento |
+| La parte `tab-header` de cada pestaña | `tab` | `aria-selected`, `aria-disabled`, `aria-controls` que apunta al contenido de la pestaña, `aria-posinset` y `aria-setsize` |
+| La parte `tab-body` de cada pestaña | `tabpanel` | `aria-labelledby` que apunta al encabezado de la pestaña |
+
+El componente {Platform} Tabs también se comporta de la siguiente manera para la tecnología de asistencia:
+
+- Una pestaña toma su nombre accesible del contenido de su encabezado: la propiedad `label` o el slot `label`, y el contenido de los slots `prefix` y `suffix`.
+- El contenido de las pestañas que no están seleccionadas está oculto y `inert`, de modo que la tecnología de asistencia y el teclado lo omiten.
+- Los atributos `aria-posinset` y `aria-setsize` de cada encabezado de pestaña indican a los lectores de pantalla la posición de la pestaña dentro del conjunto, por ejemplo «2 de 3».
+- El componente Tabs no usa una región live. Un cambio de selección llega a la tecnología de asistencia a través del estado `aria-selected` y del foco.
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+El componente Tabs de Angular renderiza los siguientes roles y atributos:
+
+| Elemento | Rol | Atributos |
+| --- | --- | --- |
+| El elemento `div.igx-tabs-header__wrapper` del encabezado | `tablist` | `aria-orientation="horizontal"`, o `aria-orientation="vertical"` en una columna de encabezados de pestaña |
+| `igx-tab-header` | `tab` | `aria-selected`, `aria-disabled` y, cuando el elemento de pestaña tiene contenido, un `id` y un `aria-controls` que apunta al contenido |
+| `igx-tab-content` | `tabpanel` | `aria-labelledby` que apunta al encabezado del elemento de pestaña |
+
+El componente Tabs de Angular también se comporta de la siguiente manera para la tecnología de asistencia:
+
+- Una pestaña toma su nombre accesible del contenido de su `igx-tab-header`.
+- El componente Tabs renderiza solo el contenido del elemento de pestaña seleccionado, de modo que el contenido de los demás elementos de pestaña no está en el DOM.
+- Los elementos de pestaña sin `igx-tab-content`, como las pestañas que controlan el router, no reciben `id` ni `aria-controls`.
+- El componente Tabs no usa una región live. Un cambio de selección llega a la tecnología de asistencia a través del estado `aria-selected` y del foco.
+
+</PlatformBlock>
+
+### Cumplimiento de accesibilidad
+
+Infragistics documenta la compatibilidad de accesibilidad de {ProductName} con las áreas de las pautas de la Sección 508 y WCAG 2.1 en el tema [Cumplimiento de accesibilidad](../interactivity/accessibility-compliance.mdx).
+
+| Criterio | Cómo cumple el componente |
+| --- | --- |
+| [1.3.1 Información y relaciones](https://www.w3.org/WAI/WCAG21/Understanding/info-and-relationships) | Los roles `tablist`, `tab` y `tabpanel` exponen la estructura, y cada panel de pestaña está etiquetado por su encabezado de pestaña mediante `aria-labelledby`. |
+| [1.4.1 Uso del color](https://www.w3.org/WAI/WCAG21/Understanding/use-of-color) | En los temas Material, Fluent e Indigo, el encabezado de la pestaña seleccionada muestra debajo una línea indicadora<PlatformBlock for="Angular,WebComponents">, o junto a él en una columna de encabezados de pestaña</PlatformBlock>, de modo que la selección no depende solo del color. |
+| [2.1.1 Teclado](https://www.w3.org/WAI/WCAG21/Understanding/keyboard) | Las teclas de flecha, Home y End se mueven entre los encabezados de las pestañas, y Enter y Space seleccionan la pestaña enfocada<PlatformBlock for="Angular"> con la activación `manual`</PlatformBlock>. |
+| [2.1.2 Sin trampa de teclado](https://www.w3.org/WAI/WCAG21/Understanding/no-keyboard-trap) | El componente Tabs no gestiona la tecla Tab, así que Tab y Shift + Tab mueven el foco fuera de la franja de encabezados. |
+| [2.4.3 Orden de foco](https://www.w3.org/WAI/WCAG21/Understanding/focus-order) | La franja de encabezados es una única parada de tabulación, seguida del contenido de la pestaña seleccionada. |
+| [2.4.7 Foco visible](https://www.w3.org/WAI/WCAG21/Understanding/focus-visible) | El encabezado de pestaña enfocado toma los colores de hover del tema, de modo que destaca frente a los demás encabezados de pestaña. |
+| [4.1.2 Nombre, función, valor](https://www.w3.org/WAI/WCAG21/Understanding/name-role-value) | Cada encabezado de pestaña expone el rol `tab`, un nombre a partir de su contenido, y sus estados seleccionado y deshabilitado mediante `aria-selected` y `aria-disabled`. |
+
+Sus responsabilidades:
+
+- Dé a cada pestaña una etiqueta de texto que nombre su contenido. Una pestaña toma su nombre accesible de su contenido de encabezado, así que un encabezado con solo un icono necesita una alternativa textual. Consulte [Tipos](#tipo).
+- Al sustituir los colores del tema, mantenga una proporción de contraste de al menos 3:1 entre el indicador seleccionado y el fondo, como exige [1.4.11 Non-text Contrast](https://www.w3.org/WAI/WCAG21/Understanding/non-text-contrast), y asegúrese de que el encabezado de la pestaña enfocada se distinga de los demás encabezados.
+- No use Tabs para los pasos de un proceso secuencial. Use un Stepper, que comunica el orden de los pasos.
+<PlatformBlock for="Angular">- Mantenga seleccionado un elemento de pestaña, para que los usuarios de teclado puedan llegar a la franja de encabezados, y establezca la activación `manual` en las pestañas que controlan el router.</PlatformBlock>
+
+## Referencias de API
+
+La referencia de la API de {Platform} Tabs enumera la superficie completa de la API para la plataforma de destino.
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+- <ApiLink pkg="core" type="Tabs" />
+<PlatformBlock for="WebComponents">- <ApiLink pkg="core" type="Tabs" member="headerPosition" label="Tabs.headerPosition" />
+</PlatformBlock>- <ApiLink pkg="core" type="Tab" />
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+- <ApiLink pkg="core" type="Tabs" label="IgxTabsComponent" />
+- <ApiLink pkg="core" type="Tabs" member="headerPosition" label="IgxTabsComponent.headerPosition" />
+- <ApiLink pkg="core" type="TabsHeaderPosition" kind="type" label="IgxTabsHeaderPosition" />
+- <ApiLink pkg="core" type="TabItem" label="IgxTabItemComponent" />
+- <ApiLink pkg="core" type="TabHeader" label="IgxTabHeaderComponent" />
+- <ApiLink pkg="core" type="TabContent" label="IgxTabContentComponent" />
+- <ApiLink pkg="core" type="TabHeaderLabelDirective" />
+- <ApiLink pkg="core" type="TabHeaderIconDirective" />
+- <ApiLink kind="sass" module="themes" type="function-tabs-theme" label="tabs-theme" />
+
+</PlatformBlock>
+
+## Dependencias
+
+El componente {Platform} Tabs requiere un tema para aplicar sus colores y tamaños. Consulte la configuración específica de cada framework en <PlatformBlock for="Angular">[**Primeros pasos**](../general/getting-started.mdx)</PlatformBlock><PlatformBlock for="React,WebComponents,Blazor">[**Primeros pasos**](../general-getting-started.mdx)</PlatformBlock>.
+
+<PlatformBlock for="Angular">
+
+Los botones de desplazamiento de Tabs de Angular usan Icon Button e Icon, y el mixin `theme()` incluye sus estilos junto con los de Tabs.
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+El registro de `IgcTabsComponent` también registra el elemento `igc-tab` y el elemento `igc-icon-button` de los botones de desplazamiento. Registre por separado los componentes que coloque en las pestañas, como Icon.
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+Registre por separado los módulos de los componentes que coloque en las pestañas, como `IgbIconModule`.
+
+</PlatformBlock>
+
+## Recursos adicionales
+
+Los siguientes recursos ofrecen más orientación sobre {Platform} Tabs y soporte del proyecto:
+
+- [Tabs: componente del sistema de diseño](https://www.infragistics.com/products/indigo-design/help/components/tabs)
+- [{ProductName} **Foros**]({ForumsLink})
+- [{ProductName} **GitHub**]({GithubLink})
+
+## Componentes relacionados
+
+El componente {Platform} Tabs muestra una sección de contenido relacionado cada vez. Use estos componentes cuando el contenido necesite otra estructura:
+
+- <PlatformBlock for="Angular">[Stepper](../stepper.mdx)</PlatformBlock><PlatformBlock for="React,WebComponents,Blazor">[Stepper](./stepper.mdx)</PlatformBlock> - Use Stepper cuando los usuarios completen una secuencia de pasos, como un proceso de compra.
+- [Accordion](./accordion.mdx): use Accordion cuando los usuarios necesiten expandir varias secciones de una lista vertical al mismo tiempo.
+<PlatformBlock for="Angular">- [Bottom Navigation](../tabbar.mdx): use Bottom Navigation para cambiar entre las vistas de nivel superior de una aplicación móvil desde la parte inferior de la pantalla.</PlatformBlock>
+
+## Preguntas frecuentes
+
+Estas preguntas cubren los escenarios habituales de configuración, accesibilidad y uso de {Platform} Tabs.
+
+<Faq>
+  <FaqItem question="¿Cómo selecciono una pestaña desde el código?" indicatorPosition="end">
+    <PlatformBlock for="Angular">Establezca la propiedad `selectedIndex` de Tabs de Angular, o establezca la entrada `selected` de un elemento de pestaña en `true`. El componente Tabs de Angular emite `selectedIndexChanging` y `selectedItemChange` también para estos cambios.</PlatformBlock><PlatformBlock for="React,WebComponents">Llame al método `select` de {Platform} Tabs con una pestaña, o con el `id` o el `label` de una pestaña, o establezca `selected` en la pestaña. El componente {Platform} Tabs no emite el evento de cambio para una selección que haga desde el código.</PlatformBlock><PlatformBlock for="Blazor">Llame al método `SelectAsync` de Blazor Tabs con el `id` o el `Label` de una pestaña, o establezca `Selected` en la pestaña. El componente Blazor Tabs no dispara `Change` para una selección que haga desde el código.</PlatformBlock>
+  </FaqItem>
+  <FaqItem question="¿Puedo impedir que los usuarios cambien a otra pestaña?" indicatorPosition="end">
+    <PlatformBlock for="Angular">Sí. Gestione el evento `selectedIndexChanging` de Tabs de Angular y establezca `cancel` en `true` para conservar la pestaña actual, por ejemplo mientras un formulario que contiene tiene cambios sin guardar. Para que una pestaña no esté disponible en ningún momento, establezca `disabled` en el elemento de pestaña.</PlatformBlock><PlatformBlock for="React,WebComponents,Blazor">El evento de cambio del componente {Platform} Tabs no es cancelable, porque el componente {Platform} Tabs lo emite después de que cambie la selección. Establezca `disabled` en las pestañas que los usuarios no deben abrir, y habilítelas cuando estén disponibles.</PlatformBlock>
+  </FaqItem>
+  <FaqItem question="¿Mantiene el componente Tabs en el DOM el contenido de las pestañas ocultas?" indicatorPosition="end">
+    <PlatformBlock for="Angular">No. El componente Tabs de Angular añade al DOM el contenido del elemento de pestaña seleccionado y elimina de él el contenido de los demás elementos de pestaña. El código que consulta el DOM, como `document.querySelector`, solo encuentra el contenido del elemento de pestaña seleccionado.</PlatformBlock><PlatformBlock for="React,WebComponents,Blazor">Sí. El componente {Platform} Tabs mantiene en el DOM el contenido de todas las pestañas, oculta el contenido de las pestañas que no están seleccionadas y lo hace `inert`, de modo que los usuarios y la tecnología de asistencia no pueden acceder a él hasta que se selecciona su pestaña.</PlatformBlock>
+  </FaqItem>
+  <FaqItem question="¿Debo usar Tabs para un proceso de compra u otro proceso paso a paso?" indicatorPosition="end">
+    No. El componente {Platform} Tabs organiza información relacionada a la que los usuarios pueden acceder en cualquier orden, y no comunica un orden de pasos. Use {Platform} Stepper para un proceso secuencial, como una compra o un asistente de configuración.
+  </FaqItem>
+  <PlatformBlock for="Angular,WebComponents"><FaqItem question="¿Cómo creo pestañas verticales?" indicatorPosition="end">
+    Establezca la propiedad `headerPosition`<PlatformBlock for="WebComponents"> (el atributo `header-position` en HTML)</PlatformBlock> de {Platform} Tabs en `start` o en `end` para mostrar los encabezados de las pestañas en una columna antes o después del contenido. Dé al {Platform} Tabs una altura para mantener fijo su tamaño.
+  </FaqItem></PlatformBlock>
+</Faq>

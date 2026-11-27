@@ -1,0 +1,1561 @@
+---
+title: "Edição de células do {Platform} {ComponentTitle} - {ProductName}"
+description: "O {ComponentTitle} usa edição dentro da própria célula. Ele tem um template padrão de edição de célula, mas também permite definir templates personalizados para a ação de atualização de dados. Experimente agora!"
+keywords: "manipulação de dados, edição estilo excel, {Platform}, {ComponentKeywords}, {ProductName}, Infragistics"
+license: commercial
+mentionedTypes: [{ComponentApiMembers}]
+sharedComponents: ["Grid", "TreeGrid", "HierarchicalGrid"]
+namespace: Infragistics.Controls
+_canonicalLink: "{CanonicalLinkToGridCellEditing}"
+_language: pt-BR
+llms:
+  description: "A edição de células do {ProductName} em {Platform} {ComponentTitle} oferece uma ótima capacidade de manipulação do conteúdo de células individuais dentro do componente {Platform} {ComponentTitle} e vem com uma API poderosa para operações CRUD no React."
+---
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+
+# Edição de células do {Platform} {ComponentTitle}
+
+A edição de células do {ProductName} em {Platform} {ComponentTitle} oferece uma ótima capacidade de manipulação do conteúdo de células individuais dentro do componente {Platform} {ComponentTitle} e vem com uma API poderosa para operações CRUD no React. É um recurso fundamental em aplicativos como planilhas, tabelas de dados e grades de dados, que permite aos usuários adicionar, editar ou atualizar dados em células específicas.
+Por padrão, a Grid em {ProductName} é usada na edição de células. E, devido ao **template padrão de edição de células**, haverá editores diferentes conforme o tipo de dado da coluna, no topo do formulário.
+
+Além disso, você pode definir templates personalizados para as ações de atualização de dados e substituir o comportamento padrão para confirmar ou descartar quaisquer alterações.
+
+## Exemplo de edição de células e templates de edição do {Platform} {ComponentTitle}
+
+<Sample src="/{ComponentSample}/editing-columns" height={700} alt="Exemplo de edição de células e templates de edição do {Platform} {ComponentTitle}" />
+
+<PlatformBlock for="Angular">
+<DocsAside type="info">
+Ao usar o <ApiLink type="{ComponentName}" member="cellEditor" /> com qualquer tipo de componente editor, o fluxo de navegação pelo teclado será interrompido. O mesmo se aplica à edição direta da célula personalizada que entra no modo de edição. Isso acontece porque o **foco** permanece no **elemento da célula**, e não no componente editor que adicionamos. Por isso, devemos aproveitar a diretiva `Focus`, que move o foco diretamente para o componente dentro da célula e preserva **um fluxo de edição fluido** da célula/linha.
+</DocsAside>
+
+</PlatformBlock>
+
+## Edição de células
+
+### Edição pela UI
+
+Você pode entrar no modo de edição de uma célula específica, quando uma célula editável está com foco, de uma das seguintes formas:
+- com um duplo clique;
+- com um clique simples — o clique simples entra no modo de edição somente se a célula selecionada anteriormente estava em modo de edição e a célula selecionada no momento for editável. Se a célula selecionada anteriormente não estava em modo de edição, o clique simples apenas seleciona a célula, sem entrar no modo de edição;
+- ao pressionar a tecla <kbd>ENTER</kbd>;
+- ao pressionar a tecla <kbd>F2</kbd>;
+
+Você pode sair do modo de edição **sem confirmar** as alterações de uma das seguintes formas:
+- ao pressionar a tecla <kbd>Escape</kbd>;
+- ao realizar operações de **ordenação**, **filtragem**, **pesquisa** e **ocultação**;
+
+Você pode sair do modo de edição e **confirmar** as alterações de uma das seguintes formas:
+- ao pressionar a tecla <kbd>ENTER</kbd>;
+- ao pressionar a tecla <kbd>F2</kbd>;
+- ao pressionar a tecla <kbd>TAB</kbd>;
+- com um clique simples em outra célula — quando você clica em outra célula no <ApiLink type="{ComponentName}" />, as suas alterações são enviadas.
+- operações como paginação, redimensionamento, fixação ou movimentação saem do modo de edição e as alterações são enviadas.
+
+
+<DocsAside type="info">
+A célula permanece em modo de edição quando você rola na vertical ou na horizontal, ou clica fora do <ApiLink type="{ComponentName}" />. Isso vale tanto para a edição de célula quanto para a edição de linha.
+</DocsAside>
+
+### Edição pela API
+
+Você também pode modificar o valor da célula pela API <ApiLink type="{ComponentName}" />, mas somente se a chave primária estiver definida:
+
+<ComponentBlock for="Grid">
+<PlatformBlock for="Angular, WebComponents">
+```typescript
+public updateCell() {
+    this.grid1.updateCell(newValue, rowID, 'ReorderLevel');
+}
+```
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```csharp
+this.grid.UpdateCell(newValue, rowID, 'ReorderLevel')
+```
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```typescript
+function updateCell() {
+    grid1Ref.current.updateCell(newValue, rowID, 'ReorderLevel');
+}
+```
+</PlatformBlock>
+
+</ComponentBlock>
+
+<ComponentBlock for="TreeGrid">
+```typescript
+public updateCell() {
+    this.treeGrid.updateCell(newValue, rowID, 'Age');
+}
+```
+
+<PlatformBlock for="Blazor">
+```razor
+@code {
+    this.treeGrid.UpdateCell(newValue, rowID, 'ReorderLevel');
+}
+```
+</PlatformBlock>
+</ComponentBlock>
+
+<ComponentBlock for="HierarchicalGrid">
+<PlatformBlock for="Angular, WebComponents">
+```typescript
+public updateCell() {
+    this.hierarchicalGrid.updateCell(newValue, rowID, 'Age');
+}
+```
+</PlatformBlock>
+
+
+<PlatformBlock for="Blazor">
+```razor
+@code {
+    this.hierarchicalGrid.UpdateCell(newValue, rowID, 'ReorderLevel');
+}
+```
+</PlatformBlock>
+</ComponentBlock>
+
+Outra forma de atualizar a célula é diretamente pelo método <ApiLink type="CellType" member="update" label="Update" /> de `Cell`:
+
+<ComponentBlock for="Grid">
+<PlatformBlock for="Angular, WebComponents">
+```typescript
+public updateCell() {
+    const cell = this.grid1.getCellByColumn(rowIndex, 'ReorderLevel');
+    // You can also get cell by rowID if primary key is defined
+    // cell = this.grid1.getCellByKey(rowID, 'ReorderLevel');
+    cell.update(70);
+}
+```
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```razor
+@code {
+    private UpdateCell() {
+        IgbCell cell = this.grid1.GetCellByColumn(rowIndex, "ReorderLevel");
+        cell.Update(70);
+    }
+}
+```
+</PlatformBlock>
+<PlatformBlock for="React">
+```typescript
+function updateCell() {
+    const cell = grid1Ref.current.getCellByColumn(rowIndex, 'ReorderLevel');
+    // You can also get cell by rowID if primary key is defined
+    // cell = grid1Ref.current.getCellByKey(rowID, 'ReorderLevel');
+    cell.update(70);
+}
+```
+</PlatformBlock>
+
+</ComponentBlock>
+
+<ComponentBlock for="TreeGrid">
+```typescript
+public updateCell() {
+    const cell = this.treeGrid.getCellByColumn(rowIndex, 'Age');
+    // You can also get cell by rowID if primary key is defined
+    // const cell = this.treeGrid.getCellByKey(rowID, 'Age');
+    cell.update(9999);
+}
+```
+
+<PlatformBlock for="Blazor">
+```razor
+@code {
+    private UpdateCell() {
+        IgbCell cell = this.treeGrid.GetCellByColumn(rowIndex, "Age");
+        cell.Update(9999);
+    }
+}
+```
+</PlatformBlock>
+</ComponentBlock>
+
+<ComponentBlock for="HierarchicalGrid">
+<PlatformBlock for="Angular, WebComponents">
+```typescript
+public updateCell() {
+    const cell = this.hierarchicalGrid.getCellByColumn(rowIndex, 'ReorderLevel');
+    // You can also get cell by rowID if primary key is defined
+    // cell = this.hierarchicalGrid.getCellByKey(rowID, 'ReorderLevel');
+    cell.update(70);
+}
+```
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```razor
+@code {
+    private UpdateCell() {
+        IgbCell cell = this.hierarchicalGrid.GetCellByColumn(rowIndex, "ReorderLevel");
+        cell.Update(70);
+    }
+}
+```
+</PlatformBlock>
+</ComponentBlock>
+
+
+### Templates de edição de célula
+
+Você pode ver e saber mais sobre os templates padrão de edição de célula no [tópico geral de edição](editing.mdx#templates-de-edição).
+
+<PlatformBlock for="Angular">
+Se você quiser fornecer um template personalizado que será aplicado quando uma célula estiver em modo de edição, pode usar o `CellTemplateDirective`. Para isso, é preciso passar um **ng-template** marcado com a diretiva <ApiLink type="{ComponentName}" member="cellEditor" /> e vincular corretamente o seu controle personalizado à <ApiLink type="CellType" member="editValue" /> da célula:
+
+```html
+<igx-column field="class" header="Class" [editable]="true">
+    <ng-template igxCellEditor let-cell="cell" let-value>
+        <igx-select class="cell-select" [(ngModel)]="cell.editValue" [igxFocus]="true">
+            <igx-select-item *ngFor="let class of classes" [value]="class">
+                {{ class }}
+            </igx-select-item>
+        </igx-select>
+    </ng-template>
+</igx-column>
+```
+
+<PlatformBlock for="WebComponents">
+```html
+<igc-column id="class" field="class" header="Class" editable="true">
+</igc-column>
+```
+</PlatformBlock>
+
+```ts
+constructor() {
+    const classColumn = document.getElementById('class') as IgcColumnComponent;
+
+    this._bind = () => {
+        classColumn.inlineEditorTemplateRef = this.classEditTemplate;
+    }
+    this._bind();
+}
+
+public classEditTemplate = (ctx: IgcCellTemplateContext) => {
+    return html`
+        <igc-select class="cell-select" value="${ctx.cell.value}" >
+        </igc-select>
+    `;
+}
+```
+
+Este código é usado no exemplo abaixo, que implementa um [SelectComponent](../select.mdx) nas células das colunas `Race`, `Class` e `Alignment`.
+
+<Sample src="/{ComponentSample}/cell-selection-style" height={625} alt="Exemplo de Select do {Platform} {ComponentTitle}" />
+
+<DocsAside type="info">
+Quaisquer alterações feitas no <ApiLink type="{ComponentName}" member="editValue" /> da célula no modo de edição disparam o [evento de edição](editing.mdx#event-arguments-and-sequence) apropriado ao sair e são aplicadas ao estado da transação, se as transações estiverem habilitadas.
+</DocsAside>
+
+<DocsAside type="info">
+O template de célula `Cell` controla como as células de uma coluna são exibidas fora do modo de edição.
+A diretiva de template de edição de célula <ApiLink type="{ComponentName}" member="cellEditor" /> controla como as células de uma coluna são exibidas no modo de edição e controla o valor de edição da célula editada.
+</DocsAside>
+
+<DocsAside type="info">
+Ao usar o <ApiLink type="{ComponentName}" member="cellEditor" /> com qualquer tipo de componente editor, o fluxo de navegação pelo teclado será interrompido. O mesmo se aplica à edição direta da célula personalizada que entra no modo de edição. Isso acontece porque o **foco** permanece no **elemento da célula**, e não no componente editor que adicionamos. Por isso, devemos aproveitar a diretiva `Focus`, que move o foco diretamente para o componente dentro da célula e preserva **um fluxo de edição fluido** da célula/linha.
+</DocsAside>
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor, WebComponents">
+Se você quiser fornecer um template personalizado que será aplicado a uma célula, pode passar esse template para a própria célula ou para o seu cabeçalho. Primeiro, crie a coluna como de costume:
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+<ComponentBlock for="Grid">
+```razor
+<IgbColumn
+    Field="Race"
+    DataType="GridColumnDataType.String"
+    InlineEditorTemplateScript="WebGridCellEditCellTemplate"
+    Editable="true"
+    Name="column1"
+    @ref="column1">
+</IgbColumn>
+```
+</ComponentBlock>
+
+<ComponentBlock for="TreeGrid">
+```razor
+<IgbColumn
+    Field="Category"
+    DataType="GridColumnDataType.String"
+    InlineEditorTemplateScript="WebGridCellEditCellTemplate"
+    Editable="true"
+    Name="column1"
+    @ref="column1">
+</IgbColumn>
+```
+</ComponentBlock>
+
+<ComponentBlock for="HierarchicalGrid">
+```razor
+<IgbColumn
+    Field="Age"
+    DataType="GridColumnDataType.String"
+    InlineEditorTemplateScript="WebGridCellEditCellTemplate"
+    Editable="true"
+    Name="column1"
+    @ref="column1">
+</IgbColumn>
+```
+</ComponentBlock>
+
+e passe o template:
+
+```javascript
+
+igRegisterScript("WebGridCellEditCellTemplate", (ctx) => {
+    let cellValues = [];
+    let uniqueValues = [];
+    for(const i of ctx.cell.grid.data){
+        const field = ctx.cell.column.field;
+        if(uniqueValues.indexOf(i[field]) === -1 )
+        {
+            cellValues.push(html`<igc-select-item value=${i[field]}>${(i[field])}</igc-select-item>`);
+            uniqueValues.push(i[field]);
+        }
+    }
+    return html`<div>
+    <igc-select position-strategy="fixed" @igcChange=${ e => ctx.cell.editValue = e.detail.value}>
+          ${cellValues}
+    </igc-select>
+</div>`;
+}, false);
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+<ComponentBlock for="Grid">
+```html
+<igc-column
+    field="Race"
+    data-type="string"
+    editable="true"
+    id="column1">
+</igc-column>
+```
+
+e passe os templates para esta coluna no arquivo index.ts:
+
+```typescript
+constructor() {
+    var grid1 = document.getElementById('grid1') as {ComponentName}Component;
+    var column1 = document.getElementById('column1') as IgcColumnComponent;
+    var column2 = document.getElementById('column2') as IgcColumnComponent;
+    var column3 = document.getElementById('column3') as IgcColumnComponent;
+
+    grid1.data = this.webGridCellEditSampleRoleplay;
+    column1.inlineEditorTemplate = this.webGridCellEditCellTemplate;
+    column2.inlineEditorTemplate = this.webGridCellEditCellTemplate;
+    column3.inlineEditorTemplate = this.webGridCellEditCellTemplate;
+}
+
+
+public webGridCellEditCellTemplate = (ctx: IgcCellTemplateContext) => {
+    let cellValues: any = [];
+    let uniqueValues: any = [];
+    for(const i of (this.webGridCellEditSampleRoleplay as any)){
+        const field: string = ctx.cell.column.field;
+        if(uniqueValues.indexOf(i[field]) === -1 )
+        {
+            cellValues.push(html`<igc-select-item value=${i[field]}>${(i[field])}</igc-select-item>`);
+            uniqueValues.push(i[field]);
+        }
+    }
+    return html`
+        <igc-select style="width:100%; height:100%" size="large" @igcChange=${(e: any) => ctx.cell.editValue = e.detail.value}>
+            ${cellValues}
+        </igc-select>
+    `;
+}
+```
+
+</ComponentBlock>
+
+<ComponentBlock for="TreeGrid">
+```html
+<igc-column
+    field="Category"
+    data-type="string"
+    editable="true"
+    id="column1">
+</igc-column>
+```
+
+e passe os templates para esta coluna no arquivo index.ts:
+
+```ts
+
+constructor() {
+    var treeGrid = document.getElementById('treeGrid') as IgcTreeGridComponent;
+    var column1 = document.getElementById('column1') as IgcColumnComponent;
+
+    treeGrid.data = this.webGridCellEditSampleRoleplay;
+    column1.inlineEditorTemplate = this.webGridCellEditCellTemplate;
+    column2.inlineEditorTemplate = this.webGridCellEditCellTemplate;
+    column3.inlineEditorTemplate = this.webGridCellEditCellTemplate;
+}
+
+public webGridCellEditCellTemplate = (ctx: IgcCellTemplateContext) => {
+    let cellValues: any = [];
+    let uniqueValues: any = [];
+    for(const i of (this.webGridCellEditSampleRoleplay as any)){
+        const field: string = ctx.cell.column.field;
+        if(uniqueValues.indexOf(i[field]) === -1 )
+        {
+            cellValues.push(html`<igc-select-item value=${i[field]}>${(i[field])}</igc-select-item>`);
+            uniqueValues.push(i[field]);
+        }
+    }
+    return html`
+    <igc-select style="width:100%; height:100%" size="large" @igcChange=${(e: any) => ctx.cell.editValue = e.detail.value}>
+            ${cellValues}
+    </igc-select>
+    `;
+}
+```
+
+</ComponentBlock>
+
+<ComponentBlock for="HierarchicalGrid">
+```html
+<igc-column
+    field="Age"
+    data-type="string"
+    editable="true"
+    id="column1">
+</igc-column>
+```
+
+e passe os templates para esta coluna no arquivo index.ts:
+
+```ts
+
+constructor() {
+    var hierarchicalGrid = document.getElementById('hierarchicalGrid') as IgcHierarchicalGridComponent;
+    var column1 = document.getElementById('column1') as IgcColumnComponent;
+
+    hierarchicalGrid.data = this.singersData;
+    column1.inlineEditorTemplate = this.webGridCellEditCellTemplate;
+}
+
+public webGridCellEditCellTemplate = (ctx: IgcCellTemplateContext) => {
+    let cellValues: any = [];
+    let uniqueValues: any = [];
+    for(const i of (this.singersData as any)){
+        const field: string = ctx.cell.column.field;
+        if(uniqueValues.indexOf(i[field]) === -1 )
+        {
+            cellValues.push(html`<igc-select-item value=${i[field]}>${(i[field])}</igc-select-item>`);
+            uniqueValues.push(i[field]);
+        }
+    }
+    return html`
+    <igc-select style="width:100%; height:100%" size="large" @igcChange=${(e: any) => ctx.cell.editValue = e.detail.value}>
+            ${cellValues}
+    </igc-select>
+    `;
+}
+```
+
+</ComponentBlock>
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+Se você quiser fornecer um template personalizado que será aplicado a uma célula, pode passar esse template para a própria célula ou para o seu cabeçalho. Primeiro, crie a coluna como de costume:
+
+```tsx
+<IgrColumn
+    field="race"
+    header="Race"
+    dataType="string"
+    editable={true}
+    inlineEditorTemplate={this.webGridCellEditCellTemplate}>
+</IgrColumn>
+```
+
+e passe os templates para esta coluna no arquivo index.ts:
+
+```typescript
+public webGridCellEditCellTemplate = (e: IgrCellTemplateContext) => {
+    let cellValues: any = [];
+    let uniqueValues: any = [];
+    const cell = e.cell;
+    const colIndex = cell.id.columnID;
+    const field: string = this.grid1.getColumnByVisibleIndex(colIndex).field;
+    let index = 0;
+    for (const i of this.roleplayDataStats as any) {
+      if (uniqueValues.indexOf(i[field]) === -1) {
+        cellValues.push(
+          <>
+            <IgrSelectItem
+              selected={e.cell.value == i[field]}
+              value={i[field]}
+            >
+              <div>{i[field]}</div>
+            </IgrSelectItem>
+          </>
+        );
+        uniqueValues.push(i[field]);
+      }
+      index++;
+    }
+    return (
+      <>
+        <IgrSelect
+          onChange={(x: any) => {
+            setTimeout(() => {
+              cell.editValue = x.target.value;
+            });
+          }}
+        >
+          {cellValues}
+        </IgrSelect>
+      </>
+    );
+  };
+```
+
+</PlatformBlock>
+
+Um exemplo funcional do que foi descrito acima pode ser encontrado aqui, para consulta:
+
+<Sample src="/{ComponentSample}/cell-editing-sample" height={650} alt="Exemplo de template de edição de células do {Platform} {ComponentTitle}" />
+
+<PlatformBlock for="Angular">
+Para mais informações sobre como configurar colunas e os seus templates, consulte a documentação de [configuração de colunas do Grid](../grid/grid.mdx#angular-grid-column-configuration).
+
+</PlatformBlock>
+
+<ComponentBlock for="Grid">
+### Edição estilo Excel do {ComponentTitle}
+
+
+Usar a edição estilo Excel permite ao usuário navegar pelas células como faria no Excel, editando-as com grande rapidez.
+
+Implementar essa funcionalidade personalizada pode ser feito usando os eventos do <ApiLink type="{ComponentName}" />. Primeiro, conectamos os eventos keydown da grade e, a partir daí, podemos implementar duas funcionalidades:
+
+<PlatformBlock for="React">
+```tsx
+const gridRef = useRef<IgrGrid>();
+useEffect(() => {
+    gridRef.current.addEventListener("keydown", handleKeyDown);
+    return () => {
+        gridRef.current.removeEventListener("keydown", handleKeyDown);
+    };
+}, []);
+<IgrGrid ref={gridRef} autoGenerate={false} data={nwindData} primaryKey="ProductID">
+</IgrGrid>
+```
+
+<DocsAside type="info">
+Estamos usando o evento keydown nativo do navegador, em vez do evento sintético onKeyDown do React. Quando uma célula entra no modo de edição e a tecla ENTER é pressionada para ir para a próxima linha, o recurso de edição da grade atualiza o valor da célula e fecha o modo de edição. Como resultado, o elemento de entrada usado para edição é removido do DOM. Devido às otimizações do sistema de eventos do React, o evento sintético onKeyDown não se propaga até a grade, porque o elemento não existe mais na árvore do React naquele momento. Por isso, é necessário usar o listener de evento nativo para garantir o comportamento esperado.
+</DocsAside>
+
+</PlatformBlock>
+
+- Modo de edição constante
+
+<PlatformBlock for="Angular, WebComponents">
+```typescript
+public keydownHandler(event) {
+  const key = event.keyCode;
+  const grid = this.grid;
+  const activeElem = grid.navigation.activeNode;
+
+  if ((key >= 48 && key <= 57) ||
+      (key >= 65 && key <= 90) ||
+      (key >= 97 && key <= 122)) {
+        // Number or Alphabet upper case or Alphabet lower case
+        const columnName = grid.getColumnByVisibleIndex(activeElem.column).field;
+        const cell = grid.getCellByColumn(activeElem.row, columnName);
+        if (cell && !grid.crudService.cellInEditMode) {
+            grid.crudService.enterEditMode(cell);
+            cell.editValue = event.key;
+        }
+    }
+}
+
+```
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```typescript
+function handleKeyDown(event: KeyBoardEvent) {
+    const code = event.code;
+    const grid = event.currentTarget as IgrGrid;
+    const activeElem = grid.selectedCells[0];
+
+    if ((event.code >= "Digit0" && event.code <= "Digit9") || (event.code >= "KeyA" && event.code <= "KeyZ")
+        || (event.code >= "Numpad0" && event.code <= "Numpad9" && event.code !== "Enter" && event.code !== "NumpadEnter")) {
+        if (activeElem && !activeElem.editMode) {
+            activeElem.editMode = true;
+            activeElem.editValue = event.key;
+        } else if (activeElem && activeElem.editMode) {
+            event.preventDefault();
+            activeElem.editValue = activeElem.editValue + event.key;
+        }
+    }
+}
+```
+
+</PlatformBlock>
+
+- Navegação com <kbd>ENTER</kbd>/<kbd>SHIFT</kbd> + <kbd>ENTER</kbd>
+
+<PlatformBlock for="Angular, WebComponents">
+```typescript
+if (key == 13) {
+    let thisRow = activeElem.row;
+    const column = activeElem.column;
+    const rowInfo = grid.dataView;
+
+    // to find the next eligible cell, we will use a custom method that will check the next suitable index
+    let nextRow = this.getNextEditableRowIndex(thisRow, rowInfo, event.shiftKey);
+
+    // and then we will navigate to it using the grid's built in method navigateTo
+    this.grid.navigateTo(nextRow, column, (obj) => {
+        obj.target.activate();
+        this.grid.clearCellSelection();
+        this.cdr.detectChanges();
+    });
+}
+
+```
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```typescript
+if (code === "Enter" || code === "NumpadEnter") {
+    const thisRow = activeElem.row.index;
+    const dataView = grid.dataView;
+    const nextRowIndex = getNextEditableRowIndex(thisRow, dataView, event.shiftKey);
+
+    grid.navigateTo(nextRowIndex, activeElem.column.visibleIndex, (obj: any) => {
+        obj.target.activate();
+        grid.endEdit(true);
+        grid.markForCheck();
+    });
+}
+```
+
+</PlatformBlock>
+
+As partes-chave para encontrar o próximo índice elegível são:
+
+<PlatformBlock for="Angular, WebComponents, React">
+```typescript
+//first we check if the currently selected cell is the first or the last
+if (currentRowIndex < 0 || (currentRowIndex === 0 && previous) || (currentRowIndex >= dataView.length - 1 && !previous)) {
+    return currentRowIndex;
+}
+// in case using shift + enter combination, we look for the first suitable cell going up the field
+if (previous) {
+    return  dataView.findLastIndex((rec, index) => index < currentRowIndex && this.isEditableDataRecordAtIndex(index, dataView));
+}
+// or for the next one down the field
+return dataView.findIndex((rec, index) => index > currentRowIndex && this.isEditableDataRecordAtIndex(index, dataView));
+```
+</PlatformBlock>
+
+Consulte o exemplo completo para mais referências:
+
+#### Exemplo de edição no estilo Excel da {Platform} Grid
+
+<PlatformBlock for="React">
+<Sample src="/{ComponentSample}/editing-excel-style" height={550} alt="{Platform} {ComponentTitle} Exemplo de edição no estilo Excel" />
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents, Blazor">
+<Sample src="/{ComponentSample}/editing-excel-style-custom" height={550} alt="{Platform} {ComponentTitle} Exemplo de edição no estilo Excel" />
+</PlatformBlock>
+
+Os principais benefícios da abordagem acima incluem:
+
+- Modo de edição constante: digitar enquanto uma célula está selecionada entra imediatamente no modo de edição com o valor digitado, substituindo o existente
+- As linhas que não são de dados são ignoradas ao navegar com <kbd>ENTER</kbd>/<kbd>SHIFT</kbd> + <kbd>ENTER</kbd>. Isso permite que os usuários percorram rapidamente os seus valores.
+
+</ComponentBlock>
+
+## Operações CRUD
+
+<DocsAside type="info">
+Tenha em mente que, ao executar alguma **operação CRUD**, todos os pipes aplicados, como **filtragem**, **ordenação** e **agrupamento**, serão reaplicados, e a sua visualização será atualizada automaticamente.
+</DocsAside>
+
+O <ApiLink type="{ComponentName}" /> oferece uma API direta para operações CRUD básicas.
+
+### Adicionando um novo registro
+
+O componente <ApiLink type="{ComponentName}" /> expõe o método <ApiLink type="{ComponentName}" member="addRow" label="AddRow" />, que adiciona os dados informados à própria fonte de dados.
+
+<ComponentBlock for="Grid">
+<PlatformBlock for="Angular, WebComponents">
+```typescript
+// Adding a new record
+// Assuming we have a `getNewRecord` method returning the new row data.
+const record = this.getNewRecord();
+this.grid.addRow(record);
+```
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```razor
+@code {
+    //Assuming we have a `GetNewRecord` method returning the new row data.
+    const record = this.GetNewRecord();
+    this.GridRef.AddRow(record);
+}
+```
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```typescript
+// Adding a new record
+// Assuming we have a `getNewRecord` method returning the new row data.
+const record = getNewRecord();
+grid1Ref.current.addRow(record);
+```
+</PlatformBlock>
+
+</ComponentBlock>
+
+<ComponentBlock for="TreeGrid">
+```typescript
+public addNewChildRow() {
+    // Adding a new record
+    // Assuming we have a `getNewRecord` method returning the new row data
+    // And specifying the parentRowID.
+    const record = this.getNewRecord();
+    this.treeGrid.addRow(record, 1);
+}
+```
+
+<PlatformBlock for="Blazor">
+```razor
+//Assuming we have a `GetNewRecord` method returning the new row data.
+const record = this.GetNewRecord();
+this.TreeGridRef.AddRow(record);
+```
+</PlatformBlock>
+</ComponentBlock>
+
+<ComponentBlock for="HierarchicalGrid">
+<PlatformBlock for="Angular, WebComponents">
+```typescript
+public addRow() {
+    // Adding a new record
+    // Assuming we have a `getNewRecord` method returning the new row data
+    const record = this.getNewRecord();
+    this.hierarchicalGrid.addRow(record);
+}
+```
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```razor
+@code {
+    //Assuming we have a `GetNewRecord` method returning the new row data.
+    const record = this.GetNewRecord();
+    this.HierarchicalGridRef.AddRow(record);
+}
+```
+</PlatformBlock>
+</ComponentBlock>
+
+### Atualizando dados no {ComponentTitle}
+
+A atualização de dados no {ComponentTitle} é feita pelos métodos <ApiLink type="{ComponentName}" member="updateRow" /> e <ApiLink type="{ComponentName}" member="updateCell" />, mas **somente se a PrimaryKey da grade estiver definida**. Você também pode atualizar diretamente o valor de uma célula e/ou de uma linha por meio dos respectivos métodos **update**.
+
+<ComponentBlock for="Grid">
+<PlatformBlock for="Angular, WebComponents">
+```typescript
+// Updating the whole row
+this.grid.updateRow(newData, this.selectedCell.cellID.rowID);
+
+// Just a particular cell through the Grid API
+this.grid.updateCell(newData, this.selectedCell.cellID.rowID, this.selectedCell.column.field);
+
+// Directly using the cell `update` method
+this.selectedCell.update(newData);
+
+// Directly using the row `update` method
+const row = this.grid.getRowByKey(rowID);
+row.update(newData);
+
+```
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```typescript
+// Updating the whole row
+grid1Ref.current.updateRow(newData, this.selectedCell.cellID.rowID);
+
+// Just a particular cell through the Grid API
+grid1Ref.current.updateCell(newData, this.selectedCell.cellID.rowID, this.selectedCell.column.field);
+
+// Directly using the cell `update` method
+selectedCell.update(newData);
+
+// Directly using the row `update` method
+const row = grid1Ref.current.getRowByKey(rowID);
+row.update(newData);
+```
+
+</PlatformBlock>
+
+
+<PlatformBlock for="Blazor">
+```razor
+@code {
+    // Updating the whole row
+    this.grid.UpdateRow(newData, this.selectedCell.cellID.rowID);
+
+    // Just a particular cell through the Grid API
+    this.grid.UpdateCell(newData, this.selectedCell.cellID.rowID, this.selectedCell.column.field);
+
+    // Directly using the cell `update` method
+    this.selectedCell.Update(newData);
+
+    // Directly using the row `update` method
+    IgbRowType row = this.grid.GetRowByKey(rowID);
+    row.Update(newData);
+}
+
+```
+</PlatformBlock>
+</ComponentBlock>
+
+<ComponentBlock for="TreeGrid">
+<PlatformBlock for="WebComponents">
+```typescript
+// Updating the whole row
+this.treeGrid.updateRow(newData, this.selectedCell.cellID.rowID);
+
+// Just a particular cell through the Tree Grid API
+this.treeGrid.updateCell(newData, this.selectedCell.cellID.rowID, this.selectedCell.column.field);
+
+// Directly using the cell `update` method
+this.selectedCell.update(newData);
+
+// Directly using the row `update` method
+const row = this.treeGrid.getRowByKey(rowID);
+row.update(newData);
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```razor
+@code {
+    // Updating the whole row
+    this.treeGrid.UpdateRow(newData, this.selectedCell.cellID.rowID);
+
+    // Just a particular cell through the Tree Grid API
+    this.treeGrid.UpdateCell(newData, this.selectedCell.cellID.rowID, this.selectedCell.column.field);
+
+    // Directly using the cell `update` method
+    this.selectedCell.Update(newData);
+
+    // Directly using the row `update` method
+    IgbRowType row = this.treeGrid.GetRowByKey(rowID);
+    row.Update(newData);
+}
+
+```
+</PlatformBlock>
+
+</ComponentBlock>
+
+<ComponentBlock for="HierarchicalGrid">
+<PlatformBlock for="Angular, WebComponents">
+```typescript
+// Updating the whole row
+this.hierarchicalGrid.updateRow(newData, this.selectedCell.cellID.rowID);
+
+// Just a particular cell through the Grid API
+this.hierarchicalGrid.updateCell(newData, this.selectedCell.cellID.rowID, this.selectedCell.column.field);
+
+// Directly using the cell `update` method
+this.selectedCell.update(newData);
+
+// Directly using the row `update` method
+const row = this.hierarchicalGrid.getRowByKey(rowID);
+row.update(newData);
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```razor
+@code {
+    // Updating the whole row
+    this.hierarchicalGrid.UpdateRow(newData, this.selectedCell.cellID.rowID);
+
+    // Just a particular cell through the Tree Grid API
+    this.hierarchicalGrid.UpdateCell(newData, this.selectedCell.cellID.rowID, this.selectedCell.column.field);
+
+    // Directly using the cell `update` method
+    this.selectedCell.Update(newData);
+
+    // Directly using the row `update` method
+    IgbRowType row = this.hierarchicalGrid.GetRowByKey(rowID);
+    row.Update(newData);
+}
+
+```
+</PlatformBlock>
+</ComponentBlock>
+
+### Excluindo dados do {ComponentTitle}
+
+Tenha em mente que o método <ApiLink type="{ComponentName}" member="deleteRow" label="DeleteRow" /> só removerá a linha especificada se uma <ApiLink type="{ComponentName}" member="primaryKey" /> estiver definida.
+
+<ComponentBlock for="Grid">
+<PlatformBlock for="Angular, WebComponents">
+```typescript
+// Delete row through Grid API
+this.grid.deleteRow(this.selectedCell.cellID.rowID);
+// Delete row through row object
+const row = this.grid.getRowByIndex(rowIndex);
+row.delete();
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```typescript
+// Delete row through Grid API
+grid1Ref.current.deleteRow(selectedCell.cellID.rowID);
+// Delete row through row object
+const row = grid1Ref.current.getRowByIndex(rowIndex);
+row.delete();
+```
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```razor
+@code {
+    // Delete row through Grid API
+    this.grid.DeleteRow(this.selectedCell.cellID.rowID);
+    // Delete row through row object
+    IgbRowType row = this.grid.GetRowByIndex(rowIndex);
+    row.Del();
+}
+```
+</PlatformBlock>
+
+</ComponentBlock>
+
+<ComponentBlock for="TreeGrid">
+<PlatformBlock for="WebComponents">
+```typescript
+// Delete row through Tree Grid API
+this.treeGrid.deleteRow(this.selectedCell.cellID.rowID);
+// Delete row through row object
+const row = this.treeGrid.getRowByIndex(rowIndex);
+row.delete();
+```
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```razor
+@code {
+    // Delete row through Tree Grid API
+    this.treeGrid.DeleteRow(this.selectedCell.cellID.rowID);
+    // Delete row through row object
+    IgbRowType row = this.treeGrid.GetRowByIndex(rowIndex);
+    row.Del();
+}
+```
+</PlatformBlock>
+</ComponentBlock>
+
+<ComponentBlock for="HierarchicalGrid">
+<PlatformBlock for="WebComponents">
+```typescript
+// Delete row through Grid API
+this.hierarchicalGrid.deleteRow(this.selectedCell.cellID.rowID);
+// Delete row through row object
+const row = this.hierarchicalGrid.getRowByIndex(rowIndex);
+row.delete();
+```
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```typescript
+// Delete row through Grid API
+this.hierarchicalGrid.deleteRow(this.selectedCell.cellID.rowID);
+// Delete row through row object
+const row = this.hierarchicalGrid.getRowByIndex(rowIndex);
+row.delete();
+```
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```razor
+@code {
+    // Delete row through Grid API
+    this.hierarchicalGrid.DeleteRow(this.selectedCell.cellID.rowID);
+    // Delete row through row object
+    IgbRowType row = this.hierarchicalGrid.GetRowByIndex(rowIndex);
+    row.Del();
+}
+```
+</PlatformBlock>
+</ComponentBlock>
+
+Estes podem ser ligados a interações do usuário, não necessariamente relacionadas ao <ApiLink type="{ComponentName}" />, por exemplo, um clique em um botão:
+
+<PlatformBlock for="Angular">
+```html
+<button igxButton igxRipple (click)="deleteRow($event)">Delete Row</button>
+```
+</PlatformBlock>
+
+### Validação de célula no evento de edição
+
+Usando os eventos de edição do <ApiLink type="{ComponentName}" />, podemos alterar a forma como o usuário interage com o <ApiLink type="{ComponentName}" />.
+
+Neste exemplo, validaremos uma célula com base nos dados digitados nela, vinculando-nos ao evento <ApiLink type="{ComponentName}" member="cellEdit" />. Se o novo valor da célula não atender aos critérios predefinidos, impediremos que ele chegue à fonte de dados, cancelando o evento.
+
+<PlatformBlock for="Angular">
+Também exibiremos uma mensagem de erro personalizada usando o [Toast](../../notifications/toast.mdx).
+
+</PlatformBlock>
+
+A primeira coisa que precisamos fazer é vincular ao evento da grade:
+
+<PlatformBlock for="Angular">
+```html
+<{ComponentSelector} (cellEdit)="handleCellEdit($event)">
+</{ComponentSelector}>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+<{ComponentSelector} onCellEdit={handleCellEdit}>
+</{ComponentSelector}>
+```
+</PlatformBlock>
+
+<PlatformBlock for="Blazor, WebComponents">
+```razor
+<{ComponentSelector} CellEditScript="HandleCellEdit" />
+```
+
+<ComponentBlock for="Grid">
+
+<PlatformBlock for="WebComponents">
+```typescript
+constructor() {
+    var grid = document.getElementById('grid') as IgcGridComponent;
+    this.webGridCellEdit = this.webGridCellEdit.bind(this);
+    grid.addEventListener("cellEdit", this.webGridCellEdit);
+}
+```
+</PlatformBlock>
+</ComponentBlock>
+
+<ComponentBlock for="TreeGrid">
+<PlatformBlock for="WebComponents">
+```typescript
+constructor() {
+    var treeGrid = document.getElementById('treeGrid') as IgcTreeGridComponent;
+    this.webTreeGridCellEdit = this.webTreeGridCellEdit.bind(this);
+    treeGrid.addEventListener("cellEdit", this.webTreeGridCellEdit);
+}
+```
+</PlatformBlock>
+</ComponentBlock>
+
+<ComponentBlock for="HierarchicalGrid">
+<PlatformBlock for="WebComponents">
+```ts
+constructor() {
+    var hGrid = document.getElementById('hGrid') as IgcHierarchicalGridComponent;
+    this.webHierarchicalGridCellEdit = this.webHierarchicalGridCellEdit.bind(this);
+    hGrid.addEventListener("cellEdit", this.webHierarchicalGridCellEdit);
+}
+```
+</PlatformBlock>
+</ComponentBlock>
+
+</PlatformBlock>
+
+O <ApiLink type="{ComponentName}" member="cellEdit" /> é emitido sempre que o valor de **qualquer** célula está prestes a ser confirmado. Na nossa definição de **CellEdit**, precisamos garantir que verificamos a nossa coluna específica antes de executar qualquer ação:
+
+<ComponentBlock for="Grid">
+<PlatformBlock for="Angular">
+```typescript
+export class MyGridEventsComponent {
+    public handleCellEdit(event: IGridEditEventArgs): void {
+        const column = event.column;
+        if (column.field === 'UnitsOnOrder') {
+            const rowData = event.rowData;
+            if (!rowData) {
+                return;
+            }
+            if (event.newValue > rowData.UnitsInStock) {
+                event.cancel = true;
+                this.toast.open();
+            }
+        }
+    }
+}
+```
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+```typescript
+public webGridCellEdit(event: CustomEvent<IgcGridEditEventArgs>): void {
+    const column = event.detail.column;
+    if (column.field === 'UnitsOnOrder') {
+            const rowData = event.detail.rowData;
+            if (!rowData) {
+                return;
+            }
+            if (event.detail.newValue > rowData.UnitsInStock) {
+                event.cancel = true;
+                alert("You cannot order more than the units in stock!");
+            }
+    }
+}
+
+```
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```typescript
+function handleCellEdit(args: IgrGridEditEventArgs): void {
+    const column = args.detail.column;
+
+    if (column.field === 'UnitsOnOrder') {
+        const rowData = args.detail.rowData;
+        if (!rowData) {
+            return;
+        }
+        if (args.detail.newValue > rowData.UnitsInStock) {
+            args.detail.cancel = true;
+            alert("You cannot order more than the units in stock!");
+        }
+    }
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```javascript
+// In JavaScript
+igRegisterScript("HandleCellEdit", (ev) => {
+    var d = ev.detail;
+    if (d.column != null && d.column.field == "UnitsOnOrder") {
+        if (d.newValue > d.rowData.UnitsInStock) {
+            d.cancel = true;
+            alert("You cannot order more than the units in stock!")
+        }
+    }
+}, false);
+```
+
+</PlatformBlock>
+
+Se o valor digitado em uma célula da coluna **Units On Order** for maior que a quantidade disponível (o valor em **Units in Stock**), a edição será cancelada e o usuário será alertado sobre o cancelamento.
+
+</ComponentBlock>
+
+<ComponentBlock for="TreeGrid">
+<PlatformBlock for="WebComponents">
+```typescript
+public webTreeGridCellEdit(event: CustomEvent<IgcGridEditEventArgs>): void {
+    const column = event.detail.column;
+
+    if (column.field === 'Age') {
+        if (event.detail.newValue < 18) {
+            event.detail.cancel = true;
+            alert('Employees must be at least 18 years old!');
+        }
+    } else if (column.field === 'HireDate') {
+        if (event.detail.newValue > new Date().getTime()) {
+            event.detail.cancel = true;
+            alert('The employee hire date must be in the past!');
+        }
+    }
+}
+
+```
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```javascript
+// In JavaScript
+igRegisterScript("HandleCellEdit", (ev) => {
+    const column = event.detail.column;
+
+    if (column.field === 'Age') {
+        if (event.detail.newValue < 18) {
+            event.detail.cancel = true;
+            alert('Employees must be at least 18 years old!');
+        }
+    } else if (column.field === 'HireDate') {
+        if (event.detail.newValue > new Date().getTime()) {
+            event.detail.cancel = true;
+            alert('The employee hire date must be in the past!');
+        }
+    }
+}, false);
+```
+
+</PlatformBlock>
+
+</ComponentBlock>
+
+<PlatformBlock for="React">
+<ComponentBlock for="TreeGrid">
+```tsx
+public webTreeGridCellEdit(args: IgrGridEditEventArgs): void {
+    const column = args.detail.column;
+
+    if (column.field === 'Age') {
+        if (args.detail.newValue < 18) {
+            args.detail.cancel = true;
+            alert('Employees must be at least 18 years old!');
+        }
+    } else if (column.field === 'HireDate') {
+        if (args.detail.newValue > new Date().getTime()) {
+            args.detail.cancel = true;
+            alert('The employee hire date must be in the past!');
+        }
+    }
+}
+
+```
+</ComponentBlock>
+</PlatformBlock>
+<PlatformBlock for="WebComponents, React, Blazor">
+<ComponentBlock for="HierarchicalGrid">
+Se o valor digitado em uma célula da coluna **Units On Order** for maior que a quantidade disponível (o valor em **Units in Stock**), a edição será cancelada e o usuário será alertado sobre o cancelamento.
+</ComponentBlock>
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+Aqui, estamos validando duas colunas. Se o usuário tentar definir um valor inválido para a **Idade** de um funcionário (abaixo de 18) ou para a sua **Data de contratação** (uma data futura), a edição será cancelada (o valor não será enviado) e será exibido um toast com uma mensagem de erro.
+
+</PlatformBlock>
+
+<ComponentBlock for="HierarchicalGrid">
+<PlatformBlock for="WebComponents">
+```typescript
+ public webGridEditingEventsCellEdit(args: CustomEvent<IgcGridEditEventArgs>): void {
+    var d = args.detail;
+    if (d.column != null && d.column.field == "UnitsOnOrder") {
+        if (d.newValue > d.rowData.UnitsInStock) {
+            d.cancel = true;
+            alert("You cannot order more than the units in stock!")
+        }
+    }
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```javascript
+// In JavaScript
+igRegisterScript("WebGridEditingEventsCellEdit", (ev) => {
+    var d = ev.detail;
+
+    if (d.column != null && d.column.field == "UnitsOnOrder") {
+        if (d.newValue > d.rowData.UnitsInStock) {
+            d.cancel = true;
+            alert("You cannot order more than the units in stock!")
+        }
+    }
+}, false);
+
+```
+
+</PlatformBlock>
+
+
+</ComponentBlock>
+
+<PlatformBlock for="React">
+<ComponentBlock for="HierarchicalGrid">
+```tsx
+public handleCellEdit(event: IgrGridEditEventArgs): void {
+    const detail = event.detail;
+    if (detail.column != null && detail.column.field == "UnitsOnOrder") {
+        if (detail.newValue > detail.rowData.UnitsInStock) {
+            detail.cancel = true;
+            alert("You cannot order more than the units in stock!");
+        }
+    }
+}
+```
+
+</ComponentBlock>
+</PlatformBlock>
+
+O resultado da validação acima aplicada ao nosso <ApiLink type="{ComponentName}" /> pode ser visto na demonstração abaixo:
+
+<Sample src="/{ComponentSample}/editing-events" height={650} alt="Exemplo de evento de edição do {Platform} {ComponentTitle}" />
+
+## Estilização
+
+<PlatformBlock for="WebComponents, Blazor, React">
+Além dos temas predefinidos, a grade pode ser personalizada ainda mais definindo algumas das propriedades CSS disponíveis. Para criar um tema completo a partir de apenas algumas cores, consulte o [tópico de temas](theming.mdx).
+Se você quiser alterar algumas das cores, primeiro é preciso definir uma classe para a grade:
+
+<ComponentBlock for="Grid">
+<PlatformBlock for="WebComponents">
+```html
+<igc-grid class="grid"></igc-grid>
+```
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```razor
+<IgbGrid Class="grid"></IgbGrid>
+```
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+<IgrGrid className="grid"></IgrGrid>
+```
+</PlatformBlock>
+
+Em seguida, defina as propriedades CSS relacionadas para essa classe:
+
+```css
+.grid {
+    --ig-grid-edit-mode-color: #FFA500;
+    --ig-grid-cell-active-border-color: #FFA500;
+    --ig-grid-cell-editing-background: #add8e6;
+}
+```
+
+</ComponentBlock>
+
+<ComponentBlock for="TreeGrid">
+<PlatformBlock for="WebComponents">
+```html
+<igc-tree-grid class="treeGrid"></igc-tree-grid>
+```
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```razor
+<IgbTreeGrid Class="treeGrid"></IgbTreeGrid>
+```
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+<IgrTreeGrid className="treeGrid"></IgrTreeGrid>
+```
+</PlatformBlock>
+
+Em seguida, defina as propriedades CSS relacionadas para essa classe:
+
+```css
+.treeGrid {
+    --ig-grid-edit-mode-color: #FFA500;
+    --ig-grid-cell-active-border-color: #FFA500;
+    --ig-grid-cell-editing-background: #add8e6;
+}
+```
+
+</ComponentBlock>
+
+<ComponentBlock for="HierarchicalGrid">
+<PlatformBlock for="WebComponents">
+```html
+<igc-hierarchical-grid class="hierarchicalGrid"></igc-hierarchical-grid>
+```
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```razor
+<IgbHierarchicalGrid Class="hierarchicalGrid"></IgbHierarchicalGrid>
+```
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+<IgrHierarchicalGrid className="hierarchicalGrid"></IgrHierarchicalGrid>
+```
+</PlatformBlock>
+
+Em seguida, defina as propriedades CSS relacionadas para essa classe:
+
+```css
+.hierarchicalGrid {
+    --ig-grid-edit-mode-color: #FFA500;
+    --ig-grid-cell-active-border-color: #FFA500;
+    --ig-grid-cell-editing-background: #add8e6;
+}
+```
+
+</ComponentBlock>
+
+### Exemplo de estilização
+
+<Sample src="/{ComponentSample}/cell-editing-styling" height={650} alt="{Platform} {ComponentTitle} Exemplo de estilização da edição de células" />
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+O <ApiLink type="{ComponentName}" /> permite estilizar as suas células por meio da [{ProductName} Theme Library](../themes/styles.mdx). A propriedade <ApiLink type="function-grid-theme" label="theme" kind="sass" module="index.html" /> da grade expõe uma ampla gama de propriedades, que permitem ao usuário estilizar muitos aspectos diferentes da grade.
+
+Nas etapas abaixo, vamos ver como estilizar a célula do grid em modo de edição e como restringir esses estilos a um escopo.
+
+Para usar a [Ignite UI Theming Library](../themes/styles.mdx), primeiro precisamos importar o arquivo de tema `index` nos nossos estilos globais:
+
+
+### Importando a biblioteca de estilos
+
+```scss
+@use "igniteui-angular/theming" as *;
+
+// IMPORTANT: Prior to {ProductName} version 13 use:
+// @import '~igniteui-angular/lib/core/styles/themes/index';
+```
+
+Agora podemos usar todas as funções expostas pelo mecanismo de temas {ProductName}.
+
+### Definindo uma paleta
+
+Depois de importar corretamente o arquivo de índice, criamos uma paleta personalizada que podemos usar. Vamos definir duas cores que gostamos e usá-las para criar uma paleta com [igx-palette](../themes/palettes.mdx):
+
+```scss
+$white: #fff;
+$blue: #4567bb;
+
+$color-palette: palette($primary: $white, $secondary: $blue);
+```
+
+### Definindo temas
+
+Agora podemos definir o tema usando a nossa paleta. As células são estilizadas pelo <ApiLink type="function-grid-theme" label="grid-theme" kind="sass" module="index.html" />; por isso, podemos usá-lo para gerar um tema para o nosso <ApiLink type="{ComponentName}" />:
+
+```scss
+$custom-grid-theme: grid-theme(
+    $cell-editing-background: $blue,
+    $cell-edited-value-color: $white,
+    $cell-active-border-color: $white,
+    $edit-mode-color: color($color-palette, "secondary", 200)
+);
+```
+
+### Aplicando o tema
+
+A forma mais fácil de aplicar o nosso tema é com uma instrução `sass` `@include` no arquivo de estilos globais:
+
+```scss
+@include grid($custom-grid-theme);
+```
+
+Desta forma, o tema será aplicado a **todas** as grades do nosso aplicativo. Se quisermos aplicar essa estilização personalizada apenas a um componente específico, precisamos limitar o escopo do tema.
+
+### Tema limitado ao componente
+
+Para que o tema personalizado afete apenas o nosso componente específico, podemos mover todos os estilos que acabamos de definir do arquivo de estilos globais para o arquivo de estilo do nosso componente personalizado (incluindo o [import](#importing-style-library) do arquivo `index`).
+
+Desta forma, por causa do {Platform} [ViewEncapsulation](https://angular.io/api/core/Component#encapsulation), os nossos estilos serão aplicados apenas ao nosso componente personalizado.
+
+ <DocsAside type="info">
+ Se o componente estiver usando um ViewEncapsulation [Emulated](../themes/styles.mdx#view-encapsulation), é necessário atravessar esse encapsulamento usando `::ng-deep` para estilizar a grade.
+ </DocsAside>
+
+ <DocsAside type="info">
+ Envolvemos a instrução em um seletor `:host` para impedir que os nossos estilos afetem elementos fora do nosso componente:
+ </DocsAside>
+
+```scss
+:host {
+    ::ng-deep {
+            @include grid($custom-grid-theme);
+        }
+    }
+}
+```
+
+### Demonstração de estilização
+
+Além dos passos acima, também podemos estilizar os controles usados nos templates de edição das células: [igx-input-group](../input-group.mdx#styling), [igx-datepicker](../date-picker.mdx#styling) e [igx-checkbox](/inputs/checkbox#styling)
+
+<Sample src="/{ComponentSample}/editing-style" height={700} alt="{Platform} {ComponentTitle} Exemplo de estilização da edição" />
+
+<DocsAside type="info">
+O exemplo não será afetado pelo tema global selecionado em **Change Theme**.
+</DocsAside>
+
+</PlatformBlock>
+
+## Referências da API
+<ApiLink type="{ComponentName}" />
+<ApiLink type="Column" />
+<ApiLink pkg="core" type="DatePicker" />
+## Recursos adicionais
+
+<PlatformBlock for="Angular">
+
+- [Crie operações CRUD com a Grid](../general/how-to/how-to-perform-crud.mdx)
+
+
+- [Virtualização e desempenho](virtualization.mdx)
+- [Paginação](paging.mdx)
+- [Filtragem](filtering.mdx)
+- [Ordenação](sorting.mdx)
+- [Resumos](summaries.mdx)
+- [Fixação de colunas](column-pinning.mdx)
+- [Redimensionamento de colunas](column-resizing.mdx)
+- [Seleção](selection.mdx)
+<ComponentBlock for=" HierarchicalGrid">
+[Pesquisa](search.mdx)
+</ComponentBlock>
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor, WebComponents, React">
+<ComponentBlock for="Grid">
+- [Virtualização e desempenho](virtualization.mdx)
+- [Paginação](paging.mdx)
+- [Filtragem](filtering.mdx)
+- [Ordenação](sorting.mdx)
+- [Resumos](summaries.mdx)
+- [Fixação de colunas](column-pinning.mdx)
+- [Redimensionamento de colunas](column-resizing.mdx)
+- [Seleção](selection.mdx)
+- [Pesquisa](search.mdx)
+</ComponentBlock>
+
+</PlatformBlock>

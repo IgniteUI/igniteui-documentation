@@ -1,0 +1,104 @@
+---
+title: "Cuadrícula maestro-detalle de Angular - Ignite UI for Angular"
+description: "Defina una plantilla de vista de detalle expandible para los datos de las filas con la cuadrícula Ignite UI Angular. Resulta útil para mostrar datos al estilo maestro-detalle en una estructura jerárquica."
+keywords: "maestro detalle, igniteui for angular, infragistics"
+license: commercial
+_language: es
+llms:
+  description: "El componente igxGrid admite especificar una plantilla de detalle que muestra información adicional de una fila concreta expandiendo o contrayendo su contenido."
+---
+
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+
+# Cuadrícula maestro-detalle de Angular
+
+El componente `igxGrid` admite especificar una plantilla de detalle que muestra información adicional de una fila concreta expandiendo o contrayendo su contenido. Cuando se especifica, cada registro actúa como maestro, que al expandirse muestra una plantilla de detalles personalizable con los datos contextuales del registro actual.
+
+Este modo es útil cuando necesita mostrar datos al estilo maestro-detalle en una estructura jerárquica.
+
+## Ejemplo de cuadrícula maestro-detalle de Angular
+
+
+<Sample lob src="/grid/grid-master-detail" height={600} alt="Ejemplo de cuadrícula maestro-detalle de Angular" />
+
+
+## Configuración
+
+Para configurar `igxGrid` de forma que se muestre en modo maestro-detalle, debe especificar una plantilla dentro de la cuadrícula, marcada con la directiva `igxGridDetail`:
+
+```html
+ <igx-grid ... >
+         <ng-template igxGridDetail let-dataItem>
+              <!-- Custom detail template content here -->
+        </ng-template>
+    </igx-grid>
+```
+
+El contexto de la plantilla son los datos del registro maestro, de modo que los valores del registro maestro pueden mostrarse en la plantilla de detalle. Por ejemplo:
+
+```html
+    <igx-grid ... >
+         <ng-template igxGridDetail let-dataItem>
+            @if (dataItem.Category) {
+                <div>
+                    <header>{{dataItem.Category.CategoryName}}</header>
+                    <span>{{dataItem.Category.Description}}</span>
+                </div>
+            }
+        </ng-template>
+    </igx-grid>
+```
+
+
+## API
+
+Los estados de expansión pueden controlarse mediante la entrada <ApiLink type="Grid" member="expansionStates" label="expansionStates" /> de `igxGrid`. Los estados se almacenan en pares clave-valor [identificador de fila, estado de expansión]. La propiedad obtiene y establece los estados de expansión actuales y admite el enlace bidireccional:
+
+```html
+  <igx-grid [(expansionStates)]='expansionState' >
+    ...
+  </igx-grid>
+```
+
+También se exponen métodos adicionales de la API para controlar los estados de expansión:
+
+- <ApiLink type="Grid" member="expandAll" label="expandAll" />
+- <ApiLink type="Grid" member="collapseAll" label="collapseAll" />
+- <ApiLink type="Grid" member="toggleRow" label="toggleRow" />
+- <ApiLink type="Grid" member="expandRow" label="expandRow" />
+- <ApiLink type="Grid" member="collapseRow" label="collapseRow" />
+
+## Navegación por teclado
+
+- Cuando el foco está en una fila de detalle:
+
+  - `Arrow Up`: se desplaza una fila hacia arriba, enfocando una celda de la fila anterior.
+  - `Arrow Down`: se desplaza una fila hacia abajo, enfocando una celda de la fila siguiente.
+  - `Tab`: permite que el foco pase al siguiente elemento enfocable dentro de la plantilla si hay elementos enfocables; en caso contrario, pasa a la siguiente fila de la cuadrícula.
+  - `Shift + Tab`: mueve el foco a la fila anterior.
+
+- Cuando el foco está en una fila de datos con expansor:
+  - `Alt + Arrow Right/ Down`: expande la fila.
+  - `Alt + Arrow Left/Down`: contrae la fila.
+
+## Problemas conocidos y limitaciones
+
+
+| Limitaciones conocidas                                                                                                                                                  | Descripción                                                                                          |
+| :----------------------------------------------------------------------------------------------------------------------------------------------------------------- | :--------------------------------------------------------------------------------------------------- |
+| La navegación con tabulación dentro de la plantilla de detalle personalizada puede no actualizar la posición de desplazamiento de la cuadrícula maestra si el siguiente elemento enfocado está fuera del área visible. | La navegación con tabulación dentro de la plantilla de detalle personalizada se deja en manos del navegador.                          |
+| La plantilla de detalle no se exportará a Excel.                                                                                                                    | Como la plantilla de detalle puede contener cualquier tipo de contenido, no podemos exportarla a Excel de forma nativa. |
+| La función de búsqueda no resaltará los elementos de la plantilla de detalle.                                                                                          |                                                                                                      |
+
+
+
+## Referencias de API
+- <ApiLink type="Grid" />
+- <ApiLink kind="sass" module="themes" type="function-grid-theme" label="Estilos de IgxGridComponent" />
+- <ApiLink type="Column" />
+- <ApiLink type="GridRow" />
+- <ApiLink type="TreeGridRow" />
+- <ApiLink type="HierarchicalGridRow" />
+- <ApiLink type="GridCell" />

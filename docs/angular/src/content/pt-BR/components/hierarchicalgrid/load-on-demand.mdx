@@ -1,0 +1,194 @@
+---
+title: "Grade hierárquica com carregamento sob demanda - Native Angular | Ignite UI for Angular"
+description: "A Grade Hierárquica do Ignite UI for Angular oferece as ferramentas necessárias para carregar dados sob demanda para cada grade filha que for expandida. Assim, o volume de dados é muito reduzido e pode ser obtido somente quando o usuário precisar."
+keywords: "Ignite UI for Angular, controles de UI, widgets Angular, widgets web, widgets de UI, Angular, Native Angular Components Suite, Native Angular Controls, Native Angular Components Library, componente Angular Hierarchical Grid, componente Angular Hierarchical Data Table, controle Angular Hierarchical Grid, controle Angular Hierarchical Data Table, Angular High Performance Hierarchical Grid, Angular High Performance Hierarchical Data Table, Hierarchical Grid, Hierarchical Data Table"
+license: commercial
+_language: pt-BR
+llms:
+  description: "O HierarchicalGrid do Ignite UI for Angular permite renderização rápida, solicitando a menor quantidade possível de dados do servidor, para que o usuário veja o resultado na tela e interaja com os dados visíveis o mais rápido possível."
+---
+
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+import { Image } from 'astro:assets';
+import hgridDatabase from '../../images/hgrid-database.jpg';
+
+
+# Grade Hierárquica com carregamento sob demanda
+
+O <ApiLink type="HierarchicalGrid" /> do Ignite UI for Angular permite renderização rápida, solicitando a menor quantidade possível de dados do servidor, para que o usuário veja o resultado na tela e interaja com os dados visíveis o mais rápido possível. Inicialmente, apenas os dados da grade raiz são obtidos e renderizados; somente depois que o usuário expande uma linha que contém uma grade filha é que ele recebe os dados dessa grade filha específica. Esse mecanismo, também conhecido como Carregamento sob demanda, pode ser facilmente configurado para funcionar com qualquer dado remoto.
+
+Este tópico demonstra como configurar o carregamento sob demanda, solicitando dados de uma [Northwind WebAPI](https://data-northwind.indigo.design/swagger/index.html). Aqui está a demonstração funcionando; depois, vamos percorrê-la passo a passo e descrever o processo de criação.
+
+## Exemplo de carregamento sob demanda da grade hierárquica do Angular
+
+<Sample src="/hierarchical-grid/hierarchical-grid-lod" height={620} alt="Exemplo de carregamento sob demanda da grade hierárquica do Angular" />
+
+
+### Configuração da Grade Hierárquica
+
+Vamos configurar a nossa grade hierárquica. Primeiro, definiremos o template da grade hierárquica com os níveis de hierarquia que esperamos ter. Sabemos que a nossa grade raiz <ApiLink type="HierarchicalGrid" member="primaryKey" label="primaryKey" /> para os clientes é a `customerId`, para os pedidos deles no primeiro nível - `orderId` e, respectivamente, para os detalhes dos pedidos - `productId`. Conhecer cada tabela do banco de dados e suas chaves nos permite definir o nosso template inicial:
+
+```html
+<igx-hierarchical-grid #hGrid [primaryKey]="'customerId'" [autoGenerate]="true" [height]="'600px'" [width]="'100%'">
+    <igx-row-island [key]="'Orders'" [primaryKey]="'orderId'" [autoGenerate]="true">
+        <igx-row-island [key]="'Details'" [primaryKey]="'productId'" [autoGenerate]="true">
+        </igx-row-island>
+    </igx-row-island>
+</igx-hierarchical-grid>
+```
+
+Definiremos facilmente os dados da grade raiz depois de obter os seus dados do endpoint no nosso código, já que podemos usar a referência `#hGrid`. Definir os dados de qualquer filho que tenha sido expandido é um pouco diferente.
+
+Quando uma linha é expandida pela primeira vez, uma nova `IgxHierarchicalGrid` filha é renderizada para ela, e precisamos obter a referência da grade recém-criada para definir os seus dados. Por isso, cada componente <ApiLink type="RowIsland" /> fornece o evento <ApiLink type="RowIsland" member="gridCreated" label="gridCreated" />, que é disparado quando uma nova grade filha é criada para aquele row island específico. Podemos usar isso para obter a referência de que precisamos para a nova grade, solicitar os seus dados ao endpoint e aplicá-los.
+
+Podemos usar um único método para todos os row islands, já que o endpoint só precisa da chave do row island, da chave primária da linha pai e do seu identificador único. Todas essas informações podem ser acessadas diretamente pelos argumentos do evento.
+
+#### Configuração do indicador de carregamento
+
+Agora vamos melhorar a experiência do usuário, informando que os dados ainda estão sendo carregados, para que ele não precise olhar para uma grade vazia enquanto isso. Por isso, o <ApiLink type="HierarchicalGrid" /> oferece suporte a um indicador de carregamento, que pode ser exibido enquanto a grade estiver vazia.
+
+Exibimos um indicador de carregamento definindo a propriedade <ApiLink type="HierarchicalGrid" member="isLoading" label="isLoading" /> como `true` enquanto não há dados. Precisamos defini-la inicialmente para a grade raiz e também ao criar novas grades filhas, até que os dados delas sejam carregados. Poderíamos sempre defini-la como `true` no nosso template, mas queremos ocultá-la (definindo-a como `false`) e exibir que a grade não tem dados se o serviço retornar um array vazio.
+
+Por fim, vamos desligar a propriedade <ApiLink type="Grid" member="autoGenerate" label="autoGenerate" /> e definir a coleção de colunas no markup.
+
+O arquivo de template `hierarchical-grid-lod.component.html`, depois de todas as alterações, ficaria assim:
+
+```html
+    <igx-hierarchical-grid #hGrid [data]="remoteData" [isLoading]="true" [primaryKey]="'customerId'" [autoGenerate]="false" [height]="'580px'" [width]="'100%'" [igxPreventDocumentScroll]="true" [allowAdvancedFiltering]="true" (advancedFilteringExpressionsTreeChange)="refreshRootGridData()">
+            <igx-grid-toolbar></igx-grid-toolbar>
+
+            <igx-column field="customerId" [dataType]="'string'"></igx-column>
+            <igx-column field="companyName" [dataType]="'string'"></igx-column>
+            <igx-column field="contactName" [dataType]="'string'"></igx-column>
+            <igx-column field="contactTitle" [dataType]="'string'"></igx-column>
+
+        <igx-row-island #rowIsland1 [key]="'Orders'" [primaryKey]="'orderId'" [autoGenerate]="false" (gridCreated)="gridCreated($event)">
+            <igx-column field="orderId" [dataType]="'number'"></igx-column>
+            <igx-column field="customerId" [dataType]="'string'"></igx-column>
+            <igx-column field="shipVia" [dataType]="'string'"></igx-column>
+            <igx-column field="freight" [dataType]="'number'"></igx-column>
+
+            <igx-row-island #rowIsland2 [key]="'Details'" [primaryKey]="'productId'" [autoGenerate]="false" (gridCreated)="gridCreated($event)">
+                <igx-column field="orderId" [dataType]="'number'"></igx-column>
+                <igx-column field="productId" [dataType]="'number'"></igx-column>
+                <igx-column field="unitPrice" [dataType]="'number'"></igx-column>
+                <igx-column field="quantity" [dataType]="'number'"></igx-column>
+                <igx-column field="discount" [dataType]="'number'"></igx-column>
+            </igx-row-island>
+        </igx-row-island>
+    </igx-hierarchical-grid>
+```
+
+### Filtragem avançada
+
+A caixa de diálogo de Filtragem Avançada do `IgxHierarchicalGrid` obtém os seus campos das colunas declaradas na grade raiz e em cada row island. Isso inclui row islands aninhados cujos dados filhos ainda não foram carregados; por isso, expressões de filtro com consultas aninhadas podem ser criadas antes que qualquer grade filha seja expandida.
+
+A caixa de diálogo oferece as condições e o editor que correspondem ao `dataType` de uma coluna; uma coluna sem `dataType` é tratada como string. Somente as colunas declaradas estão disponíveis na caixa de diálogo.
+
+#### Definindo o filtro inicial
+
+Agora vamos adicionar regras de filtragem iniciais à nossa grade, para que a grade raiz seja filtrada quando for carregada pela primeira vez. Vamos criar um <ApiLink type="FilteringExpressionsTree" /> e defini-lo na propriedade <ApiLink type="HierarchicalGrid" member="advancedFilteringExpressionsTree" label="advancedFilteringExpressionsTree" /> do `IgxHierarchicalGrid`, usando o gancho de ciclo de vida `ngOnInit`.
+
+Digamos que queremos filtrar os clientes que têm pedidos com frete de pelo menos `500`. Vamos aproveitar a capacidade de criar consultas aninhadas nas expressões de filtragem, e este é o resultado:
+
+```TypeScript
+public ngOnInit() {
+    const ordersTree = new FilteringExpressionsTree(FilteringLogic.And, undefined, 'Orders', ['customerId']);
+    ordersTree.filteringOperands.push({
+        fieldName: 'freight',
+        ignoreCase: false,
+        condition: IgxNumberFilteringOperand.instance().condition('greaterThanOrEqualTo'),
+        conditionName: IgxNumberFilteringOperand.instance().condition('greaterThanOrEqualTo').name,
+        searchVal: 500
+    });
+
+    const customersTree = new FilteringExpressionsTree(FilteringLogic.And, undefined, 'Customers', ['customerId', 'companyName', 'contactName', 'contactTitle']);
+    customersTree.filteringOperands.push({
+        fieldName: 'customerId',
+        condition: IgxStringFilteringOperand.instance().condition('inQuery'),
+        conditionName: IgxStringFilteringOperand.instance().condition('inQuery').name,
+        ignoreCase: false,
+        searchTree: ordersTree
+    });
+    this.hGrid.advancedFilteringExpressionsTree = customersTree;
+}
+```
+
+### Conectando ao endpoint
+
+Vamos nos comunicar com o endpoint pelo protocolo HTTP, usando a interface XMLHttpRequest que os navegadores oferecem. Para fazer isso com mais facilidade, usaremos o módulo [`HttpClient`](https://angular.io/api/common/http/HttpClient) do Angular, que oferece uma API HTTP de cliente simplificada.
+
+#### Obtendo os dados da grade raiz
+
+A [Northwind WebAPI](https://data-northwind.indigo.design/swagger/index.html) nos oferece um endpoint POST que aceita um `IFilteringExpressionsTree` como parâmetro, e vamos usá-lo para aproveitar a funcionalidade de Filtragem Avançada no `IgxHierarchicalGrid` e filtrar os registros da grade raiz. O endpoint precisa do nome da tabela raiz no `entity` da árvore de expressões. Uma árvore de expressões criada ou editada na caixa de diálogo de Filtragem Avançada não tem `entity` para a grade raiz, porque a grade não conhece esse nome; por isso, nós o definimos ao enviar a requisição. Faremos isso no método `refreshRootGridData`:
+
+```typescript
+public refreshRootGridData() {
+    const tree = this.hGrid.advancedFilteringExpressionsTree;
+    this.hGrid.isLoading = true;
+    if (tree) {
+        const query = { ...tree, entity: 'Customers' };
+        this.http.post(`${API_ENDPOINT}/QueryBuilder/ExecuteQuery`, query).subscribe(data =>{
+            this.remoteData = Object.values(data)[0];
+            this.hGrid.isLoading = false;
+            this.hGrid.cdr.detectChanges();
+        });
+    } else {
+        this.http.get(`${API_ENDPOINT}/Customers`).subscribe(data => {
+            this.remoteData = Object.values(data);
+            this.hGrid.isLoading = false;
+            this.hGrid.cdr.detectChanges();
+        });
+    }
+}
+```
+
+Como você pode ver, `this.http` será uma referência ao nosso módulo `HttpCLient`. O método `subscribe` faz parte do Observable do Angular e é usado para tratar a resposta assíncrona da requisição HTTP. Quando os dados são recebidos, ele atribui os dados obtidos à grade correspondente, atualiza o estado de carregamento para false e dispara a detecção de mudanças para garantir que a UI reflita as alterações.
+
+Para carregar os dados depois que a grade raiz é renderizada inicialmente, vamos usar o gancho de ciclo de vida `ngAfterViewInit` e chamar o método `refreshRootGridData`:
+
+````TypeScript
+public ngAfterViewInit() {
+    this.refreshRootGridData();
+}
+````
+
+#### Obtendo os dados das grades filhas
+
+A seguir, definiremos como montar a nossa URL para a requisição GET, a fim de obter os dados das grades filhas. Esta é a representação visual das relações entre as tabelas:
+
+<Image src={hgridDatabase} alt="Banco de dados hierárquico relacional" class="responsive-img" />
+
+Por fim, precisamos implementar o nosso método `gridCreated`, que vai solicitar os dados de qualquer nova grade filha criada. Será semelhante a obter os dados da grade de nível raiz; só que, desta vez, usaremos os dados fornecidos no evento <ApiLink type="RowIsland" member="gridCreated" label="gridCreated" /> e montaremos a nossa URL com eles:
+
+````TypeScript
+public gridCreated(event: IGridCreatedEventArgs) {
+    event.grid.isLoading = true;
+    const url = this.buildUrl(event);
+    this.http.get(url).subscribe(data => {
+        event.grid.data = Object.values(data);
+        event.grid.isLoading = false;
+        this.hGrid.cdr.detectChanges();
+    });
+}
+
+private buildUrl(event: IGridCreatedEventArgs) {
+    const parentKey = (event.grid.parent as any).key ?? 'Customers';
+    const url = `${API_ENDPOINT}/${parentKey}/${event.parentID}/${event.owner.key}`;
+    return url;
+}
+````
+
+## Referências da API
+- <ApiLink type="HierarchicalGrid" />
+- <ApiLink type="RowIsland" />
+## Recursos adicionais
+
+
+- [Componente Grade Hierárquica](/hierarchicalgrid/hierarchical-grid)
+
+Nossa comunidade é ativa e sempre receptiva a novas ideias.
+
+- [Ignite UI for Angular **Fóruns**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular

@@ -1,0 +1,158 @@
+---
+title: "Enlace de datos unidireccional en Angular | Guía de WPF a Angular | Infragistics"
+description: "Aprenda sobre el enlace de datos unidireccional en Angular y cómo se usa para mostrar información al usuario final manteniéndola sincronizada con los cambios de los datos subyacentes."
+keywords: "enlace de datos unidireccional en angular, ignite ui for angular, infragistics"
+_language: es
+llms:
+  description: "El enlace de datos unidireccional en Angular (es decir, el enlace unidireccional) es una forma de enlazar datos desde el componente a la vista (DOM) o viceversa: de la vista al componente."
+---
+
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+
+# Qué es el enlace de datos unidireccional en Angular
+
+El enlace de datos unidireccional en Angular (es decir, el enlace unidireccional) es una forma de enlazar datos desde el componente a la vista (DOM) o viceversa: de la vista al componente. Se usa para mostrar información al usuario final, que se mantiene sincronizada automáticamente con cada cambio de los datos subyacentes. Es similar al enlace unidireccional de WPF.
+
+<iframe width="100%" height="600" src="https://www.youtube.com/embed/fP7iVhFNTOk">
+</iframe>
+
+## ¿Qué es el enlace de datos de Angular?
+
+Los programadores usan ampliamente el enlace de datos, ya que este tipo de servicios simplifica notablemente el proceso de actualizar cualquier interfaz y reduce la cantidad de código repetitivo al crear una aplicación. El enlace de datos en Angular es muy sencillo y, a diferencia de WPF, no tenemos que preocuparnos por un contexto de datos, un modelo de vista ni `INotifyPropertyChanged` (INPC). Lo único de lo que tenemos que preocuparnos es de un archivo HTML y un archivo TypeScript. Para cualquier enlace de datos, lo primero que se necesita son propiedades a las que enlazar. Así que vamos a añadir una propiedad llamada `text` a la clase del componente y a establecer su valor.
+En WPF, tenemos que establecer el DataContext y enlazar la propiedad en XAML:
+
+```csharp
+public class IgniteUIClass
+{
+  public string Text  { get; set; }
+  
+  public IgniteUIClass()
+  { 
+    this.Text = "IgniteUI for Angular";
+  }
+}
+...
+public MainWindow()
+{
+  InitializeComponent();
+  this.DataContext = new IgniteUIClass();
+}
+```
+
+```xml
+<Label Content="{Binding Path=Text, Mode=OneWay}"></Label>
+```
+
+En Angular, enlazamos directamente una propiedad del DOM a una propiedad del componente:
+
+```typescript
+export class SampleComponent implements OnInit {
+
+  text = 'IgniteUI for Angular';
+
+  constructor() { }
+  ngOnInit() {}
+}
+```
+
+```html
+<h2>{{ text }}</h2>
+```
+
+## Interpolación del enlace de datos de Angular
+
+En el código anterior, simplemente mostramos un texto en el HTML usando un enlace al valor de la propiedad `text`. En este caso, usamos `interpolation` para crear un enlace unidireccional. Lo hacemos escribiendo dos llaves de apertura, el nombre de la propiedad (en nuestro caso, `text`) y dos llaves de cierre. Otra forma de obtener el mismo resultado es crear una etiqueta h2 y enlazar la propiedad `text` a su propiedad innerHTML, usando de nuevo la sintaxis `interpolation`:
+
+```html
+<h2 innerHTML="{{ text }}"></h2>
+```
+
+Hay dos aspectos importantes sobre `interpolation`.
+
+- Primero, todo lo que está dentro de las llaves se renderiza como `string`.
+- Segundo, todo lo que está dentro de las llaves se denomina `template expression`. Esto nos permite hacer cosas más complejas, como concatenaciones.
+
+Por ejemplo, concatenemos un texto con el valor de la propiedad `text`:
+
+```html
+<h2>{{"Welcome to " + text }}</h2>
+```
+
+El uso de expresiones de plantilla también nos permite enlazar a propiedades y métodos de JavaScript. Por ejemplo, podemos enlazar a la propiedad `text` de la longitud, que dará como resultado el número 20:
+
+```html
+<h2>{{ text.length }}</h2>
+```
+
+También podemos enlazar a métodos de esa propiedad, por ejemplo a `toUpperCase()`:
+
+```html
+<h2>{{ text.toUpperCase() }}</h2>
+```
+
+Esto es mucho más potente que el enlace de datos de WPF y también mucho más fácil de usar. Incluso podemos hacer cálculos matemáticos dentro de la expresión de plantilla. Por ejemplo, basta con poner **2 + 2** en la expresión, y mostrará el resultado, que es igual a 4:
+
+```html
+<h2>{{ 2 + 2 }}</h2>
+```
+
+Otra cosa que podemos hacer es enlazar a métodos reales del archivo TypeScript. Este es un breve ejemplo de cómo lograrlo:
+
+```html
+<h2>{{ getTitle() }}</h2>
+```
+
+Este `getTitle()` es un método definido en el archivo TypeScript. El resultado en la página es el valor devuelto por ese método:
+
+```typescript
+getTitle() {
+  return 'Simple Title';
+}
+```
+
+Aunque la `interpolation` parece bastante potente, tiene sus limitaciones: por ejemplo, solo representa una **cadena**.
+Así que vamos a crear una propiedad booleana sencilla en la clase del componente:
+
+```typescript
+export class SampleComponent implements OnInit {
+
+  text = 'IgniteUI for Angular';
+  isDisabled = false;
+  constructor() { }
+...
+```
+
+Ahora crearemos un `input` sencillo de tipo texto y enlazaremos la propiedad `isDisabled` a la propiedad `disabled` de la entrada:
+
+```html
+<input type="text" disabled="{{ isDisabled }}"/>
+```
+
+El resultado esperado es que `input` debería estar activado, pero está desactivado. Esto se debe a que `interpolation` devuelve una cadena, pero la propiedad disabled de la entrada es de tipo booleano y requiere un valor booleano.
+Para que esto funcione correctamente, Angular proporciona `property binding`.
+
+## Enlace de propiedades de Angular
+
+El enlace de propiedades en Angular se usa para enlazar valores a propiedades de destino de elementos HTML o directivas. La sintaxis aquí es algo distinta de la de la interpolación. Con el enlace de propiedades, el nombre de la propiedad se encierra entre corchetes, y su valor no contiene llaves, solo el nombre de la propiedad a la que se enlaza.  
+
+```html
+<input type="text" [disabled]="isDisabled"/>
+```
+
+Usando el enlace de propiedades, la propiedad `disabled` de la entrada se enlaza a un resultado booleano, **no** a una cadena. El valor de `isDisabled` es false y, al ejecutar la aplicación, la entrada se mostraría como activada.
+
+<DocsAside type="info">
+Es muy importante recordar que, cuando un enlace depende del tipo de datos del resultado, ¡debe usarse un `property binding`! Si el enlace depende simplemente de un valor de cadena, debe usarse `interpolation`.
+</DocsAside>
+
+## Recursos adicionales
+
+- [De escritorio a web: enlace de datos unidireccional con la interpolación y el enlace de propiedades de Angular](https://www.youtube.com/watch?v=fP7iVhFNTOk&list=PLG8rj6Rr0BU-AqcJMuwggKy0GMIkjkt3j)
+- [Enlace bidireccional en Angular](/general/wpf-to-angular-guide/two-way-binding)
+- [Mostrar datos en Angular](https://angular.io/guide/displaying-data#displaying-data)
+
+<hr/>
+Nuestra comunidad está activa y siempre da la bienvenida a nuevas ideas.
+
+- [Ignite UI for Angular **Foros**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

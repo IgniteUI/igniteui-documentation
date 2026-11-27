@@ -1,0 +1,124 @@
+---
+title: "Cree su primera aplicación Angular | Guía de WPF a Angular | Infragistics"
+description: "Aprenda a crear su primera aplicación Angular 9 al migrar de WPF a Angular. Lea sobre los requisitos previos, su primer proyecto y su estructura."
+keywords: "crear aplicación angular, ignite ui for angular, infragistics"
+_language: es
+llms:
+  description: "Aprenda a empezar a crear una aplicación Angular al migrar de WPF a Angular."
+---
+
+import { Image } from 'astro:assets';
+import wpfProjectStructure from '../../../images/general/WPF_project_structure.png';
+import angularProjectStructure from '../../../images/general/Angular_project_structure.png';
+import firstAngularApp from '../../../images/general/First_angular_app.png';
+
+
+# Crear una aplicación Angular
+
+<iframe width="100%" height="600" src="https://www.youtube.com/embed/dhjrAPPad54">
+</iframe>
+
+Aprenda a empezar a crear una aplicación Angular al migrar de WPF a Angular.
+
+## Requisitos previos
+
+Para empezar a escribir aplicaciones Angular, necesita instalar Node.js y el gestor de paquetes npm. Node.js es un entorno de ejecución de JavaScript que ejecuta código JavaScript fuera del navegador. Para obtener Node.js, vaya a [nodejs.org](https://nodejs.org). NPM es un gestor de paquetes similar a NuGet para .NET. Se instala con Node.js de forma predeterminada. También necesitará un IDE. Uno de los mejores entornos para desarrollar aplicaciones Angular es Visual Studio Code. Es gratuito, de código abierto y funciona en todas las plataformas. Puede obtenerlo en [code.visualstudio.com](https://code.visualstudio.com/).
+
+## Crear un proyecto nuevo
+
+Si es desarrollador de WPF, crear proyectos nuevos en Visual Studio es bastante directo: basta con hacer clic en File -> New Project, seleccionar el tipo de proyecto, darle un nombre y pulsar OK. Como ahora entra en el mundo de Angular, quiere crear un proyecto nuevo dentro de Visual Studio Code. Sin embargo, aquí no hay una opción de nuevo proyecto, porque Visual Studio Code se basa en archivos y no en proyectos. Para crear una aplicación Angular nueva, vamos a usar el símbolo del sistema.
+
+Primero necesitará instalar [Angular CLI](https://cli.angular.io/).
+
+```cmd
+npm install -g @angular/cli
+```
+
+Después, desde el símbolo del sistema, vaya a la carpeta donde quiere crear la aplicación y ejecute el siguiente comando:
+
+```cmd
+ng new demo-app
+```
+
+Se le preguntará "¿Quiere añadir enrutamiento de Angular?". Para esta demostración, elegiremos NO. Después se le preguntará qué formato de hoja de estilos quiere usar. Nos quedaremos con CSS básico por ahora. El proceso tarda unos minutos, pero al final se completará y su nueva aplicación se creará en el disco.
+
+Ahora tenemos que cambiar al directorio demo-app que acabamos de crear y ejecutar un comando para abrir Visual Studio Code.
+
+```cmd
+cd demo-app
+code .
+```
+
+Esto abrirá una nueva instancia de Visual Studio Code que contiene su aplicación Angular. Ahora llega la parte que probablemente resulta más abrumadora para los desarrolladores de escritorio que están aprendiendo Angular: la estructura de carpetas.
+
+## Estructura del proyecto
+
+Veamos cada uno de estos archivos y cómo se relacionan con una aplicación WPF. La mejor forma de hacerlo es comparar cada proyecto lado a lado. A la izquierda tenemos nuestra aplicación WPF. A la derecha, nuestra aplicación Angular.
+
+<Image src={wpfProjectStructure} alt="Estructura del proyecto WPF" class="responsive-img" />
+<Image src={angularProjectStructure} alt="Estructura del proyecto Angular" class="responsive-img" />
+
+Es importante tener en cuenta que una aplicación Angular es una aplicación de una sola página (SPA), lo que significa que solo hay una página en toda la aplicación, que es su `index.html`. El archivo `index.html` podría compararse con el `App.xaml` de la aplicación WPF. Ambos son globales y todo lo que ponga allí aparecerá en cada página de su aplicación. El archivo `index.html` contiene una sección `<app-root></app-root>` similar al `StartupUri` del archivo `App.xaml` y especifica la primera página que queremos mostrar al iniciar la aplicación.
+
+Técnicamente, lo que ocurre es que al navegar a `index.html`, se invoca el archivo JavaScript `main.ts`, que carga el `AppModule`. Una aplicación Angular se compone de módulos y componentes. Por defecto, obtiene un módulo raíz y un componente raíz, que se encuentran en la carpeta `app`. Cuando se invoca el archivo `main.ts`, arrancamos el `AppModule`, que está en el archivo `app.module.ts` de la carpeta `app`.
+
+El módulo de la aplicación arranca después su propio `AppComponent`. El `AppComponent` se define en el archivo `app.component.ts` y su selector se establece en `app-root`. El `AppComponent` tiene su plantilla html definida en el archivo `app.component.html`. Básicamente, la sección `<app-root></app-root>` de la página `index.html` mostrará el contenido del archivo `app.component.html`.
+
+El archivo `main.ts` es similar al archivo `App.xaml.cs`, ya que es algo parecido a un code-behind. El `app.component.html`, que es el componente predeterminado que se muestra al ejecutar la aplicación, es muy parecido al `MainWindow.xaml` de WPF.
+
+En WPF tenemos un archivo `packages.config` que define todas las dependencias de los paquetes NuGet, mientras que Angular tiene un archivo `package.json` que contiene las dependencias que necesita su aplicación para ejecutarse. El archivo `package.json` también contiene una sección de scripts que puede ejecutar en la consola al probar, iniciar o compilar su aplicación.
+
+Veamos la carpeta `References`. En WPF tenemos un nodo `References` en la solución que muestra todas las referencias añadidas a este proyecto. En una aplicación Angular, eso será en realidad la carpeta `nodes_module`. Viniendo de WPF, puede sorprenderle la cantidad de dependencias que tiene un proyecto Angular. Estas se instalan mediante `npm`.
+
+Por desgracia, aquí terminan las similitudes. Veamos otros archivos y carpetas generados:
+
+- `e2e`: significa pruebas de extremo a extremo y contiene pruebas de integración o pruebas con escenarios reales, como un proceso de inicio de sesión.
+- `src`: aquí se encuentra la mayor parte del código de la aplicación.
+- `assets`: contiene sus imágenes u otros recursos.
+- `environment`: contiene información sobre sus entornos de compilación.
+- `favicon.ico`: el icono que aparece en el navegador cuando se visita su sitio.
+- `karma.conf.js`: contiene la configuración de las pruebas unitarias.
+- `style.css`: hoja de estilos con los estilos globales de su aplicación; es similar a un diccionario de recursos definido en `App.xaml` en WPF.
+
+## Ejecutar la aplicación
+
+Ahora estamos listos para ejecutar la aplicación, pero en Visual Studio Code no basta con pulsar F5. Vamos a abrir el terminal de Visual Studio Code desde el menú Terminal -> New Terminal, o pulsando <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>`</kbd>. Para ejecutar la aplicación, debe ejecutar el siguiente comando:
+
+```cmd
+ng serve
+```
+
+Después de iniciar la aplicación, puede abrirla en el navegador en la siguiente URL http://localhost:4200/. Si quiere que su aplicación se abra automáticamente en el navegador, debe usar el siguiente comando:
+
+```cmd
+ng serve -o
+```
+
+En este caso, `-o` significa open. Otra forma de iniciar la aplicación es usar los comandos de npm:
+
+```cmd
+npm start
+```
+
+Puede encontrar esos scripts definidos en el archivo `package.json` y modificar el comando `start` añadiendo la opción `-o`:
+
+```json
+  "scripts": {
+    "ng": "ng",
+    "start": "ng serve -o",
+```
+
+Su primera aplicación Angular debería tener este aspecto:
+
+<Image src={firstAngularApp} alt="Primera aplicación Angular" class="responsive-img" />
+
+## Recursos adicionales
+
+- [De escritorio a web: cree su primera aplicación Angular](https://www.youtube.com/watch?v=dhjrAPPad54&list=PLG8rj6Rr0BU-AqcJMuwggKy0GMIkjkt3j)
+- [Shell de la aplicación Angular](https://angular.io/tutorial/toh-pt0)
+
+<hr/>
+Nuestra comunidad está activa y siempre da la bienvenida a nuevas ideas.
+
+- [Ignite UI for Angular **Foros**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

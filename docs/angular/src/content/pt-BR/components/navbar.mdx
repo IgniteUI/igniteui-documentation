@@ -1,0 +1,382 @@
+---
+title: "Componente Angular Navbar – Ignite UI for Angular | Infragistics | Licença MIT"
+description: "O controle Navbar do Ignite UI for Angular oferece uma experiência de UI ideal, com integração perfeita, para que os usuários se movam pela aplicação com fluidez."
+keywords: "Ignite UI for Angular, controles de UI, widgets Angular, widgets web, widgets de UI, Angular, Native Angular Components Suite, componentes de UI Angular, Native Angular Components Library, componente Angular NavBar, controle Angular Navbar, barra de navegação Angular, componente barra de navegação Angular"
+license: MIT
+_language: pt-BR
+llms:
+  description: "O Navbar do Ignite UI for Angular é um componente de cabeçalho da aplicação que informa ao usuário a sua posição atual em um aplicativo e o ajuda a voltar (muito parecido com o botão \"voltar\" de um navegador)."
+---
+
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+# Visão geral do componente Angular Navbar
+
+O <ApiLink type="Navbar" /> do Ignite UI for Angular é um componente de cabeçalho da aplicação que informa ao usuário a sua posição atual em um aplicativo e o ajuda a voltar (muito parecido com o botão "voltar" de um navegador). A barra de navegação também pode oferecer links para ações rápidas, como pesquisa ou favoritos, ajudando os usuários a navegar com fluidez por uma aplicação sem tentar acessar rotas ou estados inválidos. A barra fica no topo do contêiner em que é colocada.
+
+## Exemplo de Angular Navbar
+
+<Sample src="/menus/navbar" height={300} alt="Exemplo de Angular Navbar" />
+
+<hr/>
+
+## Primeiros passos com o Navbar do Ignite UI for Angular
+
+Para começar com o componente Navbar do Ignite UI for Angular, primeiro é preciso instalar o Ignite UI for Angular. Em um aplicativo Angular existente, digite o seguinte comando:
+
+```cmd
+ng add igniteui-angular
+```
+
+Para uma introdução completa ao Ignite UI for Angular, leia o tópico [_primeiros passos_](./general/getting-started.mdx).
+
+O primeiro passo é importar o `IgxNavbarModule` no nosso arquivo **app.module.ts**.
+
+```typescript
+// app.module.ts
+
+import { IgxNavbarModule } from 'igniteui-angular/navbar';
+// import { IgxNavbarModule } from '@infragistics/igniteui-angular'; for licensed package
+
+@NgModule({
+    ...
+    imports: [..., IgxNavbarModule],
+    ...
+})
+export class AppModule {}
+```
+
+Alternativamente, a partir de `16.0.0` você pode importar o `IgxNavbarComponent` como uma dependência independente, ou usar o token [`IGX_NAVBAR_DIRECTIVES`](https://github.com/IgniteUI/igniteui-angular/blob/master/projects/igniteui-angular/navbar/src/navbar/public_api.ts) para importar o componente e todos os seus componentes e diretivas de apoio.
+
+```typescript
+// home.component.ts
+
+import { IGX_NAVBAR_DIRECTIVES } from 'igniteui-angular/navbar';
+// import { IGX_NAVBAR_DIRECTIVES } from '@infragistics/igniteui-angular'; for licensed package
+
+@Component({
+  selector: 'app-home',
+  template: '<igx-navbar title="Ignite UI for Angular"></igx-navbar>',
+  styleUrls: ['home.component.scss'],
+  standalone: true,
+  imports: [IGX_NAVBAR_DIRECTIVES],
+  /* or imports: [IgxNavbarComponent] */
+})
+export class HomeComponent {}
+```
+
+Agora que você importou o módulo ou as diretivas do Navbar do Ignite UI for Angular, pode começar a usar o componente `igx-navbar`.
+
+## Usando o Navbar do Angular
+
+Em seguida, no template do nosso componente, podemos adicionar o seguinte código para mostrar uma barra de navegação básica com um título:
+
+```html
+{/*navbar.component.html*/}
+
+<igx-navbar title="Ignite UI for Angular"> </igx-navbar>
+```
+
+### Adicionar botão de menu
+
+Para adicionar um botão de menu, vamos mostrar o botão de ação usando a propriedade `actionButtonIcon` e fazer com que ele use um ícone de menu, assim:
+
+```html
+{/*navbar.component.html*/}
+
+<igx-navbar title="Sample App" actionButtonIcon="menu" [isActionButtonVisible]="true"></igx-navbar>
+```
+
+<DocsAside type="info">
+O <ApiLink type="Navbar" member="actionButtonIcon" label="actionButtonIcon" /> usa, por design, o conjunto de fontes Material.
+</DocsAside>
+
+### Adicionar botões de ícone
+
+Podemos tornar a nossa aplicação um pouco mais funcional adicionando opções de pesquisa, favoritos e outras. Para isso, vamos importar os módulos [**IgxIconButton**](./icon-button.mdx) e [**IgxIcon**](./layouts/icon.mdx) e importá-los no nosso arquivo **app.module.ts**.
+
+```typescript
+// app.module.ts
+
+...
+import { IgxNavbarModule } from 'igniteui-angular/navbar';
+import { IgxIconButtonDirective } from 'igniteui-angular/directives';
+import { IgxIconModule } from 'igniteui-angular/icon';
+// import { IgxNavbarModule, IgxButtonModule, IgxIconModule } from '@infragistics/igniteui-angular'; for licensed package
+
+@NgModule({
+    ...
+    imports: [..., IgxIconButtonDirective, IgxIconModule],
+})
+export class AppModule {}
+```
+
+Em seguida, precisamos atualizar o nosso template com um botão de ícone para cada uma das opções que queremos que a aplicação ofereça:
+
+```html
+{/*navbar.component.html*/}
+
+<igx-navbar title="Sample App">
+  <button igxIconButton="flat">
+    <igx-icon>search</igx-icon>
+  </button>
+  <button igxIconButton="flat">
+    <igx-icon>favorite</igx-icon>
+  </button>
+  <button igxIconButton="flat">
+    <igx-icon>more_vert</igx-icon>
+  </button>
+</igx-navbar>
+```
+
+<DocsAside type="info">
+Este componente usa Material Icons. Adicione o seguinte link ao seu `index.html`: `<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">`
+</DocsAside>
+
+Se tudo correu bem, você deve ver o seguinte no seu navegador:
+
+<Sample src="/menus/navbar-sample-1" height={300} alt="" />
+
+<hr/>
+
+### Adicionar ação personalizada
+
+E se quisermos usar um template personalizado para a navegação da aplicação na parte mais à esquerda da barra de navegação? Podemos fazer isso facilmente usando a diretiva `igx-navbar-action`, que renderizará o conteúdo que fornecemos. Vamos fazer isso usando um botão com o ícone de casa do Font Awesome.
+
+```css
+/* navbar.component.css */
+
+@import url("https://unpkg.com/@fortawesome/fontawesome-free-webfonts@^1.0.9/css/fontawesome.css");
+@import url("https://unpkg.com/@fortawesome/fontawesome-free-webfonts@^1.0.9/css/fa-regular.css");
+@import url("https://unpkg.com/@fortawesome/fontawesome-free-webfonts@^1.0.9/css/fa-solid.css");
+```
+
+```html
+{/*navbar.component.html*/}
+
+<igx-navbar title="Sample App">
+  <igx-navbar-action>
+    <button igxIconButton="flat">
+      <igx-icon family="fa" name="fa-home"></igx-icon>
+    </button>
+  </igx-navbar-action>
+
+  <button igxIconButton="flat">
+    <igx-icon>search</igx-icon>
+  </button>
+  <button igxIconButton="flat">
+    <igx-icon>favorite</igx-icon>
+  </button>
+  <button igxIconButton="flat">
+    <igx-icon>more_vert</igx-icon>
+  </button>
+</igx-navbar>
+```
+
+Por fim, é assim que a nossa barra de navegação deve ficar com o seu botão de ação personalizado:
+
+<Sample src="/menus/navbar-sample-2" height={300} alt="" />
+
+<hr/>
+
+### Adicionar ícone de navegação
+
+Se quisermos criar uma barra de navegação com um ícone para voltar, devemos seguir algumas etapas. Primeiro, podemos usar a propriedade `actionButtonIcon` para escolher um ícone adequado do conjunto de fontes Material. Depois, podemos fazer uma verificação simples para saber se há páginas visitadas anteriormente para voltar, e passar o resultado para a propriedade <ApiLink type="Navbar" member="isActionButtonVisible" label="isActionButtonVisible" />. A última etapa é criar um método para voltar e associá-lo à propriedade <ApiLink type="Navbar" member="action" label="action" />.
+
+```html
+{/*navbar.component.html*/}
+
+<igx-navbar
+  title="Ignite UI for Angular"
+  actionButtonIcon="arrow_back"
+  [isActionButtonVisible]="canGoBack()"
+  (action)="navigateBack()"
+>
+</igx-navbar>
+```
+
+```typescript
+export class NavbarSample3Component {
+  constructor(private _location: Location) {}
+
+  public ngOnInit() {}
+
+  public navigateBack() {
+    this._location.back();
+  }
+
+  public canGoBack() {
+    return window.history.length > 0;
+  }
+}
+```
+
+Se o exemplo estiver configurado corretamente, você deve ver o seguinte no seu navegador:
+
+<Sample src="/menus/navbar-sample-3" height={300} alt="" />
+
+<DocsAside type="info">
+Se <ApiLink type="NavbarActionDirective" label="igx-navbar-action" /> ou <ApiLink type="NavbarActionDirective" label="igxNavbarAction" /> for informado, o <ApiLink type="Navbar" member="actionButtonIcon" label="actionButtonIcon" /> padrão não será usado.
+</DocsAside>
+
+<hr/>
+
+### Adicionar título personalizado
+
+Se quisermos fornecer um conteúdo personalizado para o título da navbar, podemos fazer isso usando a diretiva `igx-navbar-title` ou `igxNavbarTitle`. Elas substituirão o título padrão da navbar, fornecido pela propriedade de entrada `title`. O exemplo a seguir tem um título personalizado que contém um link com uma imagem:
+
+```html
+{/*navbar.component.html*/}
+
+<div class="sample-column">
+
+  <igx-navbar>
+    <igx-navbar-action>
+      <button igxIconButton="flat">
+        <igx-icon>menu</igx-icon>
+      </button>
+    </igx-navbar-action>
+
+    <div igxNavbarTitle>
+      <a href="https://www.infragistics.com/products/ignite-ui-angular" target="_blank">
+        <img
+          src="https://static.infragistics.com/marketing/Website/products/ignite-ui-landing/ignite-ui-logo.svg"
+          width="120px"
+          height="50px"
+          alt
+          style="margin-top: 7px;"
+        />
+      </a>
+    
+</div>
+
+    <button igxIconButton="flat">
+      <igx-icon>search</igx-icon>
+    </button>
+    <button igxIconButton="flat">
+      <igx-icon>favorite</igx-icon>
+    </button>
+    <button igxIconButton="flat">
+      <igx-icon>more_vert</igx-icon>
+    </button>
+  </igx-navbar>
+</div>
+```
+
+<DocsAside type="info">
+Se <ApiLink type="NavbarTitleDirective" label="igx-navbar-title" /> ou <ApiLink type="NavbarTitleDirective" label="igxNavbarTitle" /> for informado, o <ApiLink type="Navbar" member="title" label="title" /> padrão não será usado.
+</DocsAside>
+
+<Sample src="/menus/navbar-custom-title" height={300} alt="" />
+
+<hr/>
+
+## Estilização
+
+### Mapa de propriedades de tema da Navbar
+
+Quando você modifica uma propriedade primária, todas as propriedades dependentes relacionadas são atualizadas automaticamente para refletir a mudança:
+
+| Propriedade primária | Propriedade dependente | Descrição |
+| --- | --- | --- |
+| **$background** | $text-color | A cor do texto da navbar |
+|  | $idle-icon-color | A cor dos ícones da navbar em estado ocioso |
+|  | $hover-icon-color | A cor dos ícones da navbar ao passar o mouse |
+|  | $border-color (muda apenas para a variante indigo) | A cor da borda da navbar |
+| **$idle-icon-color** | $hover-icon-color | A cor dos ícones da navbar ao passar o mouse |
+
+Para começar a estilizar a navbar, precisamos importar o arquivo `index`, onde são exportadas todas as funções de tema e o mixin `tokens()`:
+
+```scss
+@use "igniteui-angular/theming" as *;
+
+// IMPORTANT: Prior to Ignite UI for Angular version 13 use:
+// @import '~igniteui-angular/lib/core/styles/themes/index';
+```
+
+Seguindo a abordagem mais simples, criamos um novo tema que estende o <ApiLink kind="sass" module="themes" type="function-navbar-theme" label="navbar-theme" code={true} /> e define apenas os parâmetros `$background` e `$idle-icon-color`. O tema calcula automaticamente todas as cores de fundo e de primeiro plano necessárias para os diversos estados de interação. Se necessário, você também pode substituir manualmente propriedades específicas para um controle mais fino da aparência.
+
+```scss
+$custom-navbar-theme: navbar-theme(
+  $background: #011627,
+  $idle-icon-color: #ecaa53,
+);
+```
+
+<DocsAside type="info">
+Em vez de definir os valores de cor diretamente, como acabamos de fazer, podemos obter mais flexibilidade em relação às cores usando as funções <ApiLink kind="sass" module="palettes" type="function-palette" label="palette" code={true} /> e <ApiLink kind="sass" module="palettes" type="function-color" label="color" code={true} />. Consulte o tópico [`Palettes`](./themes/sass/palettes.mdx) para orientações detalhadas sobre como usá-las.
+</DocsAside>
+
+A última etapa é passar o novo tema criado para o mixin `tokens`:
+
+```scss
+:host {
+  @include tokens($custom-navbar-theme);
+}
+```
+
+### Demonstração
+
+<Sample src="/menus/navbar-style" height={150} alt="" />
+
+<hr/>
+
+### Estilizando com Tailwind
+
+Você pode estilizar a navbar usando as nossas classes utilitárias personalizadas do Tailwind. Antes, certifique-se de [configurar o Tailwind](./themes/tailwind.mdx).
+
+Junto com a importação do tailwind na sua folha de estilos global, você pode aplicar os utilitários de tema desejados da seguinte forma:
+
+```scss
+@import "tailwindcss";
+...
+@use 'igniteui-theming/tailwind/utilities/material.css';
+```
+
+O arquivo de utilitários inclui as variantes de tema `light` e `dark`.
+
+- Use as classes `light-*` para o tema claro.
+- Use as classes `dark-*` para o tema escuro.
+- Acrescente o nome do componente depois do prefixo, por exemplo, `light-navbar`, `dark-navbar`.
+
+Depois de aplicadas, essas classes habilitam cálculos dinâmicos de tema. A partir daí, você pode substituir as variáveis CSS geradas usando `arbitrary properties`. Depois dos dois-pontos, informe qualquer formato de cor CSS válido (HEX, variável CSS, RGB etc.).
+
+Você pode encontrar a lista completa de propriedades em <ApiLink kind="sass" module="themes" type="function-navbar-theme" label="navbar-theme" />. A sintaxe é a seguinte:
+
+```html
+<igx-navbar class="!light-navbar ![--background:#7B9E89] ![--text-color:#121E17]" title="Sample App">
+  ...
+</igx-navbar>
+```
+
+<DocsAside type="info">
+O ponto de exclamação (`!`) é obrigatório para garantir que a classe utilitária tenha precedência. O Tailwind aplica estilos em camadas e, sem marcar esses estilos como importantes, eles serão sobrescritos pelo tema padrão do componente.
+</DocsAside>
+
+No final, a sua navbar deve ficar assim:
+
+<Sample src="/menus/navbar-tailwind-style/" height={120} iframeOnly />
+
+## Referências da API
+<hr/>
+- <ApiLink type="Navbar" />
+- <ApiLink type="NavbarActionDirective" />
+- <ApiLink type="NavbarTitleDirective" />
+- <ApiLink kind="sass" module="themes" type="function-navbar-theme" label="Estilos do IgxNavbarComponent" />
+Componentes e/ou diretivas adicionais com APIs relacionadas que foram usados:
+- <ApiLink type="Icon" />
+- <ApiLink kind="sass" module="themes" type="function-icon-theme" label="Estilos do IgxIconComponent" />
+## Dependências de tema
+
+- <ApiLink kind="sass" module="themes" type="function-icon-theme" label="Tema do IgxIconComponent" />
+- <ApiLink kind="sass" module="themes" type="function-button-theme" label="Tema do IgxButtonComponent" />
+
+## Recursos adicionais
+
+<hr/>
+Nossa comunidade é ativa e sempre receptiva a novas ideias.
+
+- [Ignite UI for Angular **Fóruns**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

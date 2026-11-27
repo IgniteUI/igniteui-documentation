@@ -1,0 +1,119 @@
+---
+title: "{Platform} {ComponentTitle} 가상화 및 성능 - {ProductName}"
+description: "{ProductName} 가상화는 대용량 데이터 세트를 처리할 때 그리드의 속도와 성능을 뒷받침하는 핵심 메커니즘입니다. 무료로 사용해 보십시오!"
+keywords: "{Platform} {ComponentTitle}, {ComponentTitle} 성능, 데이터 테이블 가상화, {ProductName}"
+license: commercial
+sharedComponents: ["Grid", "TreeGrid", "HierarchicalGrid"]
+namespace: Infragistics.Controls
+_canonicalLink: "{CanonicalLinkToGridVirtualization}"
+_language: ko
+llms:
+  description: "{ProductName}에서 {ComponentName} 컨트롤은 콘텐츠를 세로와 가로 방향 모두로 가상화합니다."
+---
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+
+# {Platform} {ComponentTitle} 가상화 및 성능
+
+{ProductName}에서 <ApiLink type="{ComponentName}" /> 컨트롤은 콘텐츠를 세로와 가로 방향 모두로 가상화합니다.
+
+<ComponentBlock for="Grid, HierarchicalGrid">
+## {Platform} {ComponentTitle} 가상화 및 성능 예제
+
+<Sample src="/{ComponentSample}/data-performance-virtualization" height={550} alt="{Platform} {ComponentTitle} 가상화 및 성능 예제" />
+
+</ComponentBlock>
+
+## 가상화 활성화하기
+
+<ApiLink type="{ComponentName}" />는 이제 뷰포트에 현재 보이는 것만 렌더링하고, 사용자가 데이터를 가로/세로로 스크롤하는 동안 표시되는 데이터를 교체하여 DOM 렌더링과 메모리 사용을 최적화합니다. <ApiLink type="{ComponentName}" />의 <ApiLink type="{ComponentName}" member="width" /> 및 <ApiLink type="{ComponentName}" member="height" /> 기본값은 `100%`이며, 표시되는 콘텐츠가 사용 가능한 공간에 맞지 않아 세로 또는 가로 스크롤바가 필요한 경우 가상화가 활성화됩니다.
+
+하지만 <ApiLink type="{ComponentName}" />의 <ApiLink type="{ComponentName}" member="width" /> 및/또는 <ApiLink type="{ComponentName}" member="height" />를 `null`로 명시적으로 설정할 수도 있습니다. 이렇게 하면 해당 차원의 크기는 내부 항목의 전체 크기로 결정됩니다. 그러면 스크롤바는 표시되지 않으며, 모든 항목이 해당 차원을 따라 렌더링됩니다(<ApiLink type="{ComponentName}" member="width" />가 `null`이면 열, <ApiLink type="{ComponentName}" member="height" />이 `null`이면 행).
+
+데이터 청크의 크기는 다음에 따라 결정됩니다:
+
+- 세로(행) 가상화를 위한 행 높이입니다. 이는 <ApiLink type="{ComponentName}" member="rowHeight" /> 옵션으로 결정되며, 기본값은 50(px)입니다.
+- 가로(열) 가상화를 위한 개별 열 너비(픽셀)입니다. 각 열 컴포넌트에 명시적 너비를 설정하거나, <ApiLink type="{ComponentName}" />의 <ApiLink type="{ComponentName}" member="columnWidth" /> 옵션을 설정하여 정할 수 있으며, 후자는 명시적 너비가 설정되지 않은 모든 열에 적용됩니다.
+
+대부분의 경우 차원을 설정하지 않고 그리드가 기본 동작을 적용하도록 두면 원하는 레이아웃이 나옵니다. 열 너비는 열의 개수, 너비가 설정된 열, 그리고 <ApiLink type="{ComponentName}" /> 컨테이너의 계산된 너비로 결정됩니다. 그리드는 할당하려는 너비가 136(px) 아래로 떨어지지 않는 한, 모든 열을 사용 가능한 공간 안에 맞추려고 합니다. 그런 경우 너비가 할당되지 않은 열은 최소 136(px)을 받고 가로 스크롤바가 표시됩니다. 그리드는 가로로 가상화됩니다.
+
+열 너비를 백분율(%)로 명시적으로 설정하면, 대부분의 경우 가로 스크롤바가 없으므로 가로로 가상화되지 않은 그리드가 만들어집니다.
+
+<PlatformBlock for="Angular">
+## 원격 가상화
+
+<ApiLink type="{ComponentName}" />는 원격 가상화를 지원하며, 이는 [원격 데이터 작업](remote-data-operations.mdx) 항목에서 보여 줍니다.
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+## 템플릿
+
+그리드의 기존 템플릿 중 하나를 사용자 지정해야 할 때, Blazor는 템플릿을 정의하는 두 가지 방법을 제공합니다:
+
+- 관련 컴포넌트 속성(예: <ApiLink type="Column" member="bodyTemplate" label="BodyTemplate" /> 속성)을 사용하거나 템플릿 이름으로 선언하여 서버 측 템플릿을 사용합니다. 예:
+
+```razor
+<IgbColumn>
+    <BodyTemplate>
+        Template content here
+    </BodyTemplate>
+</IgbColumn>
+```
+
+이 방식은 서버에서 먼저 템플릿을 요청하고 해석한 다음 렌더링합니다.
+
+- 속성의 `Script` 상당 항목(즉 `BodyTemplateScript`)을 사용하여 클라이언트 측 함수 핸들러의 이름으로 설정하는 클라이언트 템플릿을 사용합니다. 예:
+
+```razor
+<IgbColumn BodyTemplateScript="CellTemplate">
+</IgbColumn>
+```
+
+```javascript
+igRegisterScript("CellTemplate", (ctx) => {
+    var html = window.igTemplating.html;
+    return html`Template content here`;
+}, false);
+
+```
+
+그러면 핸들러가 필요에 따라 제공된 lit 템플릿을 DOM에 직접 렌더링합니다.
+
+<DocsAside type="info">
+두 방식 모두 유효하지만, 서버 측 템플릿은 클라이언트에서 렌더링하기 전에 사용자 지정 템플릿을 가져와 해석하기 위해 서버에 왕복 요청이 필요합니다. 따라서 클라이언트 템플릿 방식이 더 최적화되어 있으며 권장됩니다. 특히 자주 업데이트해야 하는 템플릿이 많은 시나리오에서는, 관련 사용자 상호 작용과 템플릿 업데이트 사이에 눈에 띄는 지연이 생길 수 있기 때문입니다.
+</DocsAside>
+
+</PlatformBlock>
+
+## 가상화 제한 사항
+
+시스템 옵션 "스크롤할 때만 스크롤바 표시"가 true(기본값)로 설정된 macOS에서는 가로 스크롤바가 보이지 않습니다. 이는 <ApiLink type="{ComponentName}" />의 행 컨테이너에 overflow가 hidden으로 설정되어 있기 때문입니다. 옵션을 "항상"으로 변경하면 스크롤바가 나타납니다.
+
+## FAQ
+
+### 가상화가 작동하려면 {ComponentTitle}에 차원이 필요한 이유는 무엇입니까?
+
+항목을 렌더링하기 전에 컨테이너와 항목의 크기 정보가 없으면, 스크롤바의 너비나 높이를 설정하거나 <ApiLink type="{ComponentName}" />의 임의의 위치로 스크롤할 때 어떤 항목이 보기에 있어야 하는지 판단하는 것이 잘못됩니다. 실제 차원에 대한 어떤 가정이든 스크롤바의 부자연스러운 동작을 일으키고, 결국 최종 사용자에게 최적이 아닌 경험을 줄 수 있습니다. 이것이 가상화가 적용되려면 관련 차원을 설정하는 것이 강제되는 이유입니다.
+
+## API 참조
+<ApiLink type="{ComponentName}" />
+<ApiLink type="Column" />
+## 추가 리소스
+
+- [페이징](paging.mdx)
+- [필터링](filtering.mdx)
+- [정렬](sorting.mdx)
+- [요약](summaries.mdx)
+- [열 이동](column-moving.mdx)
+- [열 고정](column-pinning.mdx)
+- [열 크기 조정](column-resizing.mdx)
+- [선택](selection.mdx)
+
+커뮤니티는 활발하며 새로운 아이디어를 언제나 환영합니다.
+
+- [{ProductName} **포럼**]({ForumsLink})
+- [{ProductName} **GitHub**]({GithubLink})

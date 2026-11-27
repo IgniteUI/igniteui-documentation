@@ -1,0 +1,58 @@
+---
+title: "인쇄 레이아웃"
+description:
+keywords: "Ignite UI for Angular, UI 컨트롤, Angular 위젯, 웹 위젯, UI 위젯, Angular, Native Angular Components Suite, Native Angular Controls, Native Angular Components Library, 인쇄 스타일, @media print" 
+_language: ko
+llms:
+  description: "Ignite UI for Angular 테마 엔진은 기본 인쇄 스타일을 제공하여, 종이에 인쇄했을 때도 컴포넌트가 최소한 웹 페이지에 표시되는 것과 같은 모습을 유지하도록 보장합니다."
+---
+
+# 인쇄 스타일
+
+<div class="highlight">
+Ignite UI for Angular 테마 엔진은 기본 인쇄 스타일을 제공하여, 종이에 인쇄했을 때도 컴포넌트가 최소한 웹 페이지에 표시되는 것과 같은 모습을 유지하도록 보장합니다.
+</div>
+<hr/>
+
+## 인쇄 스타일을 사용하는 방법
+
+컴포넌트가 종이에 완전히 보이도록 하려면, 컴포넌트가 인쇄 문서와 같은 크기이거나 더 작아야 합니다. 그렇지 않으면 잘리게 됩니다.
+
+`default`하면 `printing styles`이(가) `compiled CSS`에 포함됩니다.
+인쇄할 계획이 없다면, 출력되는 CSS의 크기를 줄이기 위해 이를 끄는 것을 권장합니다.
+
+테마 `SCSS` 파일에서 이를 수행할 수 있습니다:
+
+```scss
+@use "igniteui-angular/theming" as *;
+
+// IMPORTANT: Prior to Ignite UI for Angular version 13 use:
+// @import '~igniteui-angular/lib/core/styles/themes/index';
+
+// Turn the print styles off by setting the $print-layout param to false.
+@include core($print-layout: false)
+
+// Add the theme and the palette.
+@include theme($default-palette);
+```
+
+**v13.2**부터는 어떤 부분이 종이에서 보여야 하는지 알 수 없으므로 기본적으로 어떤 컴포넌트도 숨기지 않기로 했습니다. 이는 사용자가 결정하도록 남겨 두었습니다.
+
+인쇄된 페이지에서 일부 또는 전체 컴포넌트를 제거하려면, 인쇄하지 않을 요소/컴포넌트에 .igx-no-print 클래스를 추가하거나, DOM에 접근할 수 없다면 해당 요소 태그나 클래스를 직접 대상으로 하여 display: none으로 설정할 수 있습니다.
+
+DOM에서 버튼에 `.igx-no-print`을(를) 붙이기 위해 접근할 수 없다고 가정해 보겠습니다.
+SCSS를 사용하면 여전히 인쇄 스타일에서 그 버튼을 숨길 수 있습니다.
+
+```scss
+@media print {
+    [igxButton] {
+        display: none;
+    }
+}
+```
+
+여기서 @media print를 사용하는 이유는 그 안에 작성한 스타일이 인쇄할 때만 적용되도록 하기 위해서입니다.
+
+흑백으로 인쇄하고 싶다면 아무 요소에나 `.igx-bw-print` 클래스를 사용할 수 있으며, 그 요소와 그 안의 모든 것이 인쇄될 때 흑백으로 바뀝니다.
+
+[`igx-grid`](/grid/grid)을(를) 인쇄하려면 [`export to excel`](/grid/export-excel) 기능을 사용하거나 그리드의 스크린샷을 찍어 인쇄하는 것을 권장합니다.

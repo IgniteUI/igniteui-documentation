@@ -1,0 +1,329 @@
+---
+title: "Angular 일괄 편집 | Angular Crud | Ignite UI for Angular | Infragistics"
+description: "Transaction 서비스를 사용하여 Ignite UI Angular 컴포넌트에 일괄 편집을 구성하고 이들에 대해 CRUD 작업을 실행하는 방법입니다."
+keywords: batch editing, igniteui for angular, infragistics
+_language: ko
+llms:
+  description: "데이터 소스의 상태를 유지하고 여러 트랜잭션을 한 번에 커밋해야 하는 컴포넌트를 사용할 때 Transaction Service를 활용할 수 있습니다."
+---
+
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+# Transaction 서비스 사용 방법
+
+데이터 소스의 상태를 유지하고 여러 트랜잭션을 한 번에 커밋해야 하는 컴포넌트를 사용할 때 <ApiLink kind="interface" type="TransactionService" label="Transaction 서비스" />을(를) 활용할 수 있습니다.
+
+Ignite UI for Angular 그리드 컴포넌트와 작업할 때는 그리드와 통합되어 기본으로 일괄 편집을 제공하는 <ApiLink type="TransactionService" /> 및 <ApiLink type="HierarchicalTransactionService" />를 사용할 수 있습니다. 하지만 다른 Ignite UI for Angular 컴포넌트나 사용자 지정 컴포넌트와 함께 트랜잭션을 사용해야 한다면, 다시 <ApiLink type="TransactionService" />을(를) 사용하고 비슷한 동작을 구현할 수 있습니다.
+
+## Angular Transaction 서비스 사용 방법 예제
+
+이 주제에서는 트랜잭션을 활성화하는 방법을 보여 주기 위해 <ApiLink type="List" label="igxList" /> 컴포넌트를 사용합니다. 트랜잭션을 추가하는 방법, [파이프](https://angular.io/guide/pipes)를 통해 데이터를 변환하는 방법, 그리고 사용자가 커밋될 변경 사항을 볼 수 있도록 뷰를 시각적으로 업데이트하는 방법을 보여 드리겠습니다.
+
+<Sample src="/services/transaction-base" height={550} alt="Angular Transaction 서비스 사용 방법 예제" />
+
+<hr/>
+
+## Transaction Service 포함하기
+
+### 프로젝트에 Transaction Service 포함하기
+
+애플리케이션에 `IgxTransactionService`을(를) 포함하는 방법은 두 가지입니다. 첫 번째는 위 데모에서 한 것처럼 `AppModule` 또는 애플리케이션의 다른 상위 모듈에 추가하는 것입니다:
+
+```typescript
+@NgModule({
+    ...
+    providers: [
+        IgxTransactionService
+    ]
+})
+export class AppModule { }
+```
+
+다른 방법은 트랜잭션 서비스가 사용되는 컴포넌트에 제공하는 것입니다:
+
+```typescript
+@Component({
+    selector: 'transaction-base',
+    styleUrls: ['./transaction-base.component.scss'],
+    templateUrl: 'transaction-base.component.html',
+    providers: [IgxTransactionService]
+})
+export class TransactionBaseComponent { }
+```
+
+### 컴포넌트에 Transaction Service 주입하기
+
+`ts` 파일에서는 애플리케이션에 필요한 <ApiLink type="State" kind="interface" /> 및 <ApiLink type="Transaction" kind="interface" /> 인터페이스와 <ApiLink pkg="core" type="TransactionType" kind="enum" /> 열거형뿐만 아니라, `igniteui-angular` 라이브러리에서 <ApiLink type="TransactionService" />을(를) 가져와야 합니다:
+
+```typescript
+import { IgxTransactionService, State, Transaction, TransactionType } from 'igniteui-angular/core';
+// import { IgxTransactionService, State, Transaction, TransactionType } from '@infragistics/igniteui-angular'; for licensed package
+```
+
+그다음 Transaction Service를 생성자에서 가져와야 합니다:
+
+```typescript
+constructor(private _transactions: IgxTransactionService<Transaction, State>) { ... }
+```
+
+## igxList 정의하기
+
+HTML 템플릿에서는 목록과 그 항목을 수정하는 **편집**, **삭제**, **추가** 작업이 있는 <ApiLink type="List" label="igxList" /> 컴포넌트를 정의합니다:
+
+```html
+<igx-list>
+    <igx-list-item [isHeader]="true">Wishlist</igx-list-item>
+    <igx-list-item *ngFor="let item of this.wishlist | transactionBasePipe"
+        [ngClass]="{ deleted: isDeleted(item.id), edited: isEdited(item.id) }">
+        <p igxListLineTitle>{{item.name}}</p>
+        <p igxListLineSubTitle>Costs: {{item.price}}</p>
+        @if (item.id === 1 && item.price !== '$999') {
+            <igx-icon igxListAction (click)="onEdit()">edit</igx-icon>
+        }
+        @if (item.id === 2 && !isDeleted(item.id)) {
+            <igx-icon igxListAction (click)="onDelete()">delete</igx-icon>
+        }
+    </igx-list-item>
+    <button igxButton (click)="onAdd()" [disabled]="itemAdded(4)">Add New</button>
+</igx-list>
+```
+
+
+<DocsAside type="info">
+이 예제는 기본 Material Icons 글꼴 패밀리와 함께 `igx-icon`을(를) 사용합니다. 애플리케이션의 `index.html`에 다음 링크를 추가하십시오: `<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">`
+</DocsAside>
+
+## 보류 중인 변경을 위한 파이프
+
+위의 목록 컴포넌트는 원본 데이터에 영향을 주지 않으면서 위시리스트 항목의 변경 사항을 표시하기 위해 `transactionBasePipe`을(를) 사용합니다. 파이프는 다음과 같습니다:
+
+```typescript
+@Pipe({
+    name: 'transactionBasePipe',
+    pure: false
+})
+export class TransactionBasePipe implements PipeTransform {
+    /**
+     * @param transactions Injected Transaction Service.
+     */
+    constructor(public transactions: IgxTransactionService<Transaction, State>) { }
+
+    public transform(data: WishlistItem[]) {
+        // the pipe should NOT operate on the original dataset
+        // we create a copy of the original data and then use it for visualization only
+        const _data = [...data];
+        const pendingStates = this.transactions.getAggregatedChanges(false);
+
+        for (const state of pendingStates) {
+            switch (state.type) {
+                case TransactionType.ADD:
+                    // push the newValue property of the current `ADD` state
+                    _data.push(state.newValue);
+                    break;
+                case TransactionType.DELETE:
+                    // pipe doesn't delete items because the demo displays them with a different style
+                    // the record will be deleted once the state is committed
+                    break;
+                case TransactionType.UPDATE:
+                    const index = _data.findIndex(x => x.id === state.id);
+                    // merge changes with the item into a new object
+                    // to avoid modifying the original data item
+                    _data[index] = Object.assign({}, _data[index], state.newValue);
+                    break;
+                default:
+                    return _data;
+            }
+        }
+
+        return _data;
+    }
+}
+```
+
+## 편집, 삭제, 추가 기능
+
+### 편집 기능 정의하기
+
+두 번째 목록 항목에는 항목의 데이터를 업데이트하는 편집 버튼이 있습니다.
+
+```html
+@if (item.id === 1 && item.price !== '$999') {
+    <igx-icon igxListAction (click)="onEdit()">edit</igx-icon>
+}
+```
+
+버튼을 누르면 `onEdit` 이벤트 핸들러 안에서 'UPDATE' 트랜잭션이 생성됩니다:
+
+```typescript
+public onEdit(): void {
+    const newPrice = "$999";
+    // there can be multiple `UPDATE` transactions for the same item `id`
+    // the `newValue` property should hold only the changed properties
+    const editTransaction: Transaction = {
+        id: this.wishlist[0].id,
+        type: TransactionType.UPDATE,
+        newValue: { price: newPrice }
+    };
+    // provide the first wishlist item as a `recordRef` argument
+    this.transactions.add(editTransaction, this.wishlist[0]);
+}
+```
+
+또한 항목에 저장되지 않은 편집 내용이 있는지 확인하는 함수도 있습니다:
+
+```typescript
+public isEdited(id): boolean {
+    const state = this.transactions.getState(id);
+    return state && state.type === TransactionType.UPDATE;
+}
+```
+
+### 삭제 기능 정의하기
+
+세 번째 목록 항목에는 항목의 데이터를 삭제하는 삭제 버튼이 있습니다.
+
+```html
+@if (item.id === 2 && !isDeleted(item.id)) {
+    <igx-icon igxListAction (click)="onDelete()">delete</igx-icon>
+}
+```
+
+버튼을 누르면 `onDelete` 이벤트 핸들러 안에서 'DELETE' 트랜잭션이 생성됩니다:
+
+```typescript
+public onDelete(): void {
+    // after a `DELETE` transaction, no further changes should be made for the same `id`
+    // the `newValue` property should be set to `null` since we do not change any values,
+    const deleteTransaction: Transaction = {
+        id: this.wishlist[1].id,
+        type: TransactionType.DELETE,
+        newValue: null
+    };
+    // provide the second wishlist item as a `recordRef` argument
+    this.transactions.add(deleteTransaction, this.wishlist[1]);
+}
+```
+
+또한 항목에 저장되지 않은 삭제 내용이 있는지 확인하는 함수도 있습니다:
+
+```typescript
+public isDeleted(id): boolean {
+    const state = this.transactions.getState(id);
+    return state && state.type === TransactionType.DELETE;
+}
+```
+
+### 추가 기능 정의하기
+
+목록의 끝에는 목록에 새 항목을 추가하는 ADD 버튼이 추가됩니다.
+
+```html
+<button igxButton (click)="onAdd()" [disabled]="itemAdded(4)">Add New</button>```
+```
+
+버튼을 누르면 `onAdd` 이벤트 핸들러 안에서 'ADD' 트랜잭션이 생성됩니다:
+
+```typescript
+public onAdd(): void {
+    // it must have a unique 'id' property
+    const item: WishlistItem = { id: 4, name: 'Yacht', price: 'A lot!' };
+
+    // in an `ADD` transaction you do not need to provide a `recordRef` argument,
+    // since there is nothing to refer to yet
+    this.transactions.add({ id: 4, type: TransactionType.ADD, newValue: item });
+}
+```
+
+또한 항목에 저장되지 않은 추가 내용이 있는지 확인하는 함수도 있습니다:
+
+```typescript
+public itemAdded(id: number): boolean {
+    const found = this.transactions.getState(id) || this.wishlist.find(x => x.id === 4);
+    return !!found;
+}
+```
+
+## 트랜잭션 로그
+
+데모는 로그 안에서 보류 중인 트랜잭션을 보여 줍니다:
+
+```html
+<div>
+    <h5>Transaction Log</h5>
+    <div *ngFor="let transaction of this.getTransactionLog()">
+        {{transaction.type.toUpperCase()}} -> {{transaction.name}} Costs: {{transaction.price}}
+    
+</div>
+</div>
+```
+
+```typescript
+public getTransactionLog(): any[] {
+    return this.transactions.getTransactionLog().map(transaction => {
+        const item = this.wishlist.find(x => x.id === transaction.id);
+        return Object.assign({ type: transaction.type }, item, transaction.newValue);
+    });
+}
+```
+
+또한 목록의 현재 상태를 나타내는 항목도 추가하겠습니다. 이는 보류 중인 트랜잭션이 커밋되기 전 데이터가 어떻게 보이는지 보여 줄 것입니다:
+
+```html
+<div>
+    <h5>Data Items</h5>
+    <div *ngFor="let item of this.wishlist">
+        <div>{{item.name}} - {{item.price}}
+</div>
+    
+</div>
+</div>
+```
+
+## 보류 중인 트랜잭션 커밋하기
+
+모든 변경을 마치면 <ApiLink type="TransactionService" />의 <ApiLink type="TransactionService" member="commit" label="commit" /> 메서드를 사용하여 한 번에 모두 커밋할 수 있습니다. 이 메서드는 제공된 데이터에 모든 트랜잭션을 적용합니다:
+
+```html
+<button igxButton="contained" (click)="onCommit()" [disabled]="this.getTransactionLog().length === 0">Commit Transactions</button>
+```
+
+```typescript
+public onCommit(): void {
+    // the `commit` function expects the original data array as its parameter
+    this.transactions.commit(this.wishlist);
+}
+
+```
+
+<ApiLink type="HierarchicalTransactionService" kind="interface" />을(를) 사용하는 경우, primaryKey와 childDataKey를 인수로 받는 <ApiLink type="TransactionService" member="commit" label="commit" /> 메서드의 오버로드도 사용할 수 있습니다.
+
+```typescript
+public onCommit(): void {
+    this.transactions.commit(this.wishlist, primaryKey, childDataKey);
+}
+```
+
+## 보류 중인 트랜잭션 지우기
+
+목록과 상호 작용하는 어느 시점에서든 <ApiLink type="TransactionService" member="clear" label="clear" /> 메서드를 사용하여 Transaction 로그를 지울 수 있습니다.
+
+```html
+<button igxButton="contained" (click)="onClear()" [disabled]="this.getTransactionLog().length === 0">Clear Transactions</button>
+```
+
+```typescript
+public onClear(): void {
+    this.transactions.clear();
+}
+
+```
+
+## 추가 리소스
+
+<hr/>
+
+- <ApiLink kind="interface" type="TransactionService" label="Transaction Service API" />
+- [Transaction Service](/transaction)
+- [Transaction Service 클래스 계층 구조](/transaction-classes)

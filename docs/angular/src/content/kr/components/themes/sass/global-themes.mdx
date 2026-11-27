@@ -1,0 +1,191 @@
+---
+title: "전역 테마"
+description: "Ignite UI for Angular Theming 컴포넌트는 SASS로 개발되었으며, 하나의 컴포넌트, 여러 컴포넌트 또는 전체 제품군의 스타일을 다시 지정할 수 있는 복잡하지 않은 API를 제공합니다."
+keywords: "Ignite UI for Angular, UI 컨트롤, Angular 위젯, 웹 위젯, UI 위젯, Angular, Native Angular Components Suite, Native Angular Controls, Native Angular Components Library, Native Angular Components, Angular Theming Component, Angular Theming"
+_language: ko
+llms:
+  description: "전역 테마를 사용하면 사용자 지정 색상 팔레트, 스키마, 고도를 사용하는 테마를 빠르게 생성할 수 있습니다."
+---
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+
+# 전역 테마
+
+<div class="highlight">
+전역 테마를 사용하면 사용자 지정 색상 팔레트, 스키마, 고도를 사용하는 테마를 빠르게 생성할 수 있습니다. 색상 팔레트, 스키마, 고도는 자체 사용자 지정 테마가 없는 모든 컴포넌트에 전파됩니다.
+</div>
+<igc-divider></igc-divider>
+
+## 개요
+
+애플리케이션 프로젝트에 _`igniteui-angular.css`_ 파일을 포함했다면, 지금 제거하기 좋은 때입니다. 애플리케이션의 모든 컴포넌트에 대한 전역 테마를 만들기 위해 우리 자체 _`my-app-theme.scss`_ 파일을 사용할 것입니다.
+
+**Ignite UI for Angular**는 기본적으로 전역 테마를 사용하여 전체 컴포넌트 제품군의 테마를 지정합니다. 하지만 사용 사례에 따라 앱에 있는 컴포넌트에 범위가 지정된 테마를 만들 수도 있습니다. 지금은 모든 테마를 하나의 파일에 포함하겠습니다.
+전역 테마를 생성하려면 `core`와 `theme` 두 믹스인을 포함하겠습니다. 두 믹스인 모두 몇 가지 인수를 받습니다:
+
+### 코어 믹스인  
+
+<hr/>
+
+|                   이름    |   타입  | 기본값 |                                                       설명         |
+| :-----------------------: | :-----: | :-----: | :-----------------------------------------------------------------------: |
+|         `$print-layout`   | boolean |   true  |                             인쇄용 스타일을 포함하거나 제외합니다.      |
+| `$enhanced-accessibility` | boolean |  false  | 차트 색상 브러시를 색맹 친화적인 팔레트로 전환합니다.            |
+
+
+### 테마 믹스인
+
+<hr/>
+
+|        이름   |   타입  |               기본값    |                                                                                     설명              |
+| :-----------: | :-----: | :----------------------: | :----------------------------------------------------------------------------------------------------------: |
+|   `$palette`  |    map  |                `null`    |                                  모든 컴포넌트의 기본 테마가 사용할 팔레트 맵입니다.      |
+|    `$schema`  |    map  | `$light-material-schema` |                                                  컴포넌트 스타일 지정의 기반으로 사용되는 스키마입니다.        |
+|   `$exclude`  |   list  |                  `()`    |                                       전역 테마에서 제외할 컴포넌트 테마의 목록입니다.       |
+| `$roundness`  | Number  |                `null`    | 모든 컴포넌트의 전역 둥근 정도 계수를 설정합니다(값은 0과 1 사이의 모든 소수 분수가 될 수 있습니다). |
+| `$elevation`  | boolean |                `true`    |                                              테마의 모든 컴포넌트에 대해 고도를 켜거나 끕니다.        |
+| `$elevations` |    Map  |  `$material-elevations`  |                                                 모든 컴포넌트 테마가 사용할 고도 맵입니다.        |
+
+회사의 주, 보조, 표면 색상을 사용하는 사용자 지정 전역 테마를 만들어 보겠습니다.
+
+```scss
+// Import the theming module
+@use "igniteui-angular/theming" as *;
+
+// IMPORTANT: Prior to Ignite UI for Angular version 13 use:
+// @import '~igniteui-angular/lib/core/styles/themes/index';
+
+$primary-color: #2ab759;
+$secondary-color: #f96a88;
+$surface-color: #fff;
+
+$my-color-palette: palette(
+    $primary: $primary-color,
+    $secondary: $secondary-color,
+    $surface: $surface-color
+);
+
+// IMPORTANT: Make sure you always include core first!
+@include core();
+@include typography();
+// Pass the color palette we generated to the theme mixin.
+@include theme($my-color-palette);
+```
+
+`core()` 믹스인은 크기 조정, 간격, 향상된 접근성, 전역 디렉티브 스타일, 인쇄 스타일과 같은 공유 기반 구조를 구성합니다. `theme()` 믹스인은 선택된 스키마에 대해 팔레트, 고도, 테마 메타데이터, 컴포넌트 토큰 선언을 내보냅니다. 22.1.0부터 컴포넌트의 구조적 스타일은 `theme()`에 의해 생성되지 않으며, 각 컴포넌트 번들에 포함되어 자동으로 트리 셰이킹됩니다.
+
+<DocsAside type="info">
+`theme` 앞에 `core`을(를) 포함하는 것은 필수입니다. `core` 믹스인은 `theme` 믹스인이 올바르게 작동하는 데 필요한 모든 기본 정의를 제공합니다.
+</DocsAside>
+
+## 컴포넌트 제외하기
+
+<hr/>
+
+<DocsAside type="info">
+Ignite UI for Angular 22.1.0부터 컴포넌트의 구조적 스타일은 각 컴포넌트 자체 번들 안에 포함되며, 애플리케이션이 가져오는 항목에 따라 이미 자동으로 트리 셰이킹됩니다. 사용하지 않는 컴포넌트 CSS를 빌드에서 제외하기 위해 `$exclude`을(를) 사용할 필요가 없습니다. `theme` 믹스인의 `$exclude` 목록은 이제 전역 스타일시트에 내보내지는 공유 디자인 **토큰**(`--ig-*` CSS 사용자 지정 속성)만 제어하며, 이는 구조적 스타일보다 훨씬 적은 양의 CSS입니다.
+</DocsAside>
+
+`theme` 믹스인을 사용하면 전역 테마의 토큰 출력에서 제외할 컴포넌트 이름 목록을 제공할 수 있습니다. 예를 들어 애플리케이션에서 절대 사용하지 않을 것을 알고 있으므로 `igx-avatar`과(와) `igx-badge`에 대해 생성된 토큰을 제거하고 싶다면, 다음과 같이 컴포넌트 목록을 전달하면 됩니다:
+
+```scss
+// ...
+$unnecessary: (igx-avatar, igx-badge);
+
+@include theme($my-color-palette, $exclude: $unnecessary);
+```
+
+앱이 일부 컴포넌트를 사용하지 않는다는 것을 알고 있다면, 그 컴포넌트들을 `$exclude`에 추가하여 토큰 선언을 생략할 수 있습니다. 이것은 구조적 CSS를 제어하지 않으며, 사용하지 않는 컴포넌트 번들은 이미 애플리케이션 빌드에서 제거됩니다.
+
+반대로, 아래 방법을 사용하여 원하는 컴포넌트에 대해서만 토큰을 내보낼 수도 있습니다:
+
+```scss
+@use 'sass:map';
+
+@function include($items, $register) {
+    @return map.keys(map.remove($register, $items...));
+}
+
+$allowed: (igx-avatar, igx-badge);
+
+@include theme(
+    $exclude: include($allowed, $components)
+);
+```
+
+## 서드파티 리셋
+
+Ignite UI는 레이어를 `ig.reset` → `ig.base` → 활성 디자인 시스템 레이어 → `ig.derived` 순서로 선언합니다. 서드파티 리셋 또는 노멀라이즈 스타일시트는 우선순위가 가장 낮은 `ig.reset` 레이어로 감싸십시오:
+
+```scss
+@layer ig.reset {
+  @import "minireset.css";
+}
+```
+
+레이어에 속하지 않은 애플리케이션 스타일은 여전히 Ignite UI의 레이어 스타일보다 우선합니다.
+
+## 밝은 테마와 어두운 테마
+
+또한 네 가지 테마 - Material, Fluent, Indigo, Bootstrap - 각각에 대해 _**밝은**_ 버전과 _**어두운**_ 버전을 제공합니다.
+
+두 버전 중 하나를 사용하려면 <ApiLink kind="sass" module="themes" type="mixin-theme" label="theme" /> 믹스인에 전달하기만 하면 됩니다:
+
+_**밝은**_
+
+```scss
+@include core();
+@include typography(
+    $font-family: $material-typeface,
+    $type-scale: $material-type-scale
+);
+@include theme(
+    $schema: $light-material-schema,
+    $palette: $light-material-palette,
+);
+```
+
+***어두운**_
+
+```scss
+@include core();
+@include typography(
+    $font-family: $material-typeface,
+    $type-scale: $material-type-scale
+);
+@include theme(
+    $schema: $dark-material-schema,
+    $palette: $dark-material-palette,
+);
+```
+
+### 사용 가능한 테마
+
+Ignite UI for Angular는 미리 정의된 테마 집합 중에서 선택할 수 있는 옵션을 제공합니다.
+아래 표는 바로 사용할 수 있는 모든 내장 테마를 보여 줍니다.
+
+| 테마                                                           | 스키마                    | 색상 팔레트                                                                          |
+| :-------------------------------------------------------------- | :------------------------ | :------------------------------------------------------------------------------------- |
+| [**Material Light**](./presets/material.mdx#기본-테마)         |  `$light-material-schema` | $light-material-palette                                                                |
+| [**Material Dark**](./presets/material.mdx#material-어두운-테마)    |  `$dark-material-schema`  | $dark-material-palette                                                                 |
+| [**Fluent Light**](./presets/fluent.mdx)                           | `$light-fluent-schema`    | $light-fluent-palette <br /> $light-fluent-excel-palette <br /> $light-fluent-word-palette |
+| [**Fluent Dark**](./presets/fluent.mdx#fluent-어두운-테마)          |  `$dark-fluent-schema`    | $dark-fluent-palette <br /> $dark-fluent-excel-palette <br /> $dark-fluent-word-palette    |
+| [**Bootstrap Light**](./presets/bootstrap.mdx)                     | `$light-bootstrap-schema` | $light-bootstrap-palette                                                               |
+| [**Bootstrap Dark**](./presets/bootstrap.mdx#bootstrap-어두운-테마) |  `$dark-bootstrap-schema` | $dark-bootstrap-palette                                                                |
+| [**Indigo Light**](./presets/indigo.mdx)                           | `$light-indigo-schema`    | $light-indigo-palette                                                                  |
+| [**Indigo Dark**](./presets/indigo.mdx#indigo-어두운-테마)          |   `$dark-indigo-schema`   | $dark-indigo-palette                                                                   |
+
+
+## 추가 리소스
+
+<hr/>
+
+개별 컴포넌트 테마를 만드는 방법을 알아보십시오:
+
+- [컴포넌트 테마](/themes/sass/component-themes)
+
+커뮤니티는 활발하며 새로운 아이디어를 언제나 환영합니다.
+
+- [Ignite UI for Angular **포럼**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

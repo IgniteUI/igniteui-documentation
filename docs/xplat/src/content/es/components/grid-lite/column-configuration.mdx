@@ -1,0 +1,391 @@
+---
+title: "Plantilla de celda de {Platform} {GridLiteTitle} | {ProductName} | Licencia MIT"
+description: "Configuración de columnas y propiedades de columna de Grid Lite. Pruebe nuestro {Platform} {GridLiteTitle} de código abierto: ligero y con las funciones esenciales."
+keywords: "configuración de columnas, {Platform}, {ComponentKeywords}, {ProductName}, Infragistics"
+mentionedTypes: [{ComponentApiMembers}]
+namespace: Infragistics.Controls
+license: MIT
+_language: es
+llms:
+  description: "Las columnas se definen de forma declarativa mediante componentes hijos de columna dentro de la cuadrícula."
+---
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+
+# Configuración de columnas
+
+<PlatformBlock for="React, WebComponents">
+
+
+
+Las columnas se definen de forma declarativa mediante componentes hijos de columna dentro de la cuadrícula. La propiedad `field` es la única obligatoria para una columna, ya que sirve como identificador de la columna. También es la propiedad que se usa para asignar y renderizar los datos correspondientes en las filas de la cuadrícula.
+
+
+</PlatformBlock>
+
+
+
+<PlatformBlock for="WebComponents">
+
+
+```html
+<igc-grid-lite .data=${data}>
+  <igc-grid-lite-column
+    field="account"
+    header="Account Number"
+    ...
+  ></igc-grid-lite-column>
+  <!-- Additional columns follow -->
+</igc-grid-lite>
+```
+
+</PlatformBlock>
+
+
+<PlatformBlock for="React">
+
+```tsx
+return (
+  <IgrGridLite data={data}>
+    <IgrGridLiteColumn
+      field="account"
+      header="Account Number"
+      ...
+    ></IgrGridLiteColumn>
+    {/* Additional columns follow */}
+  </IgrGridLite>
+);
+```
+
+</PlatformBlock>
+
+
+<PlatformBlock for="Blazor">
+
+
+
+Las columnas se definen de forma declarativa con elementos hijos `<IgbGridLiteColumn>` dentro de la cuadrícula. La propiedad <ApiLink type="Column" member="field" label="Field" /> es la única obligatoria para una columna, ya que sirve como identificador de columna. También es la propiedad que se usa para asignar y renderizar los datos correspondientes en las filas de la cuadrícula.
+
+```razor
+<IgbGridLite Data="@products">
+    <IgbGridLiteColumn 
+        Field="Name"
+        Header="Product Name"
+        DataType="GridLiteColumnDataType.String" />
+    <!-- Additional columns follow -->
+</IgbGridLite>
+```
+
+## Configuración basada en el origen de datos
+
+La cuadrícula admite inferir la configuración de columnas a partir del origen de datos proporcionado cuando `AutoGenerate` se establece en true. Intenta inferir las propiedades <ApiLink type="Column" member="field" label="Field" /> y <ApiLink type="Column" member="dataType" label="DataType" /> adecuadas a partir de los registros de los datos.
+
+```razor
+<IgbGridLite AutoGenerate=true Data="@products"/>
+@code {
+    private List<ProductInfo> products;
+
+    protected override void OnInitialized()
+    {
+        products = new List<ProductInfo>
+        {
+            new ProductInfo { Id = "1", Name = "example", Price = 10 },
+            ...
+        };
+    }
+
+    public class ProductInfo
+    {
+        public string Id { get; set; }
+        public string Name { get; set; }
+        public double Price { get; set; }
+    }
+}
+```
+
+
+</PlatformBlock>
+
+
+
+<PlatformBlock for="React, WebComponents">
+
+
+
+## Configuración basada en el origen de datos
+
+La cuadrícula admite inferir la configuración de columnas a partir del origen de datos proporcionado cuando `autoGenerate` está establecido en true. Intenta inferir las `field` y `dataType` adecuadas a partir de los registros de los datos.
+
+```typescript
+const data: Record[] = [
+  { entryId: "1234", source: "https://example.com", ts: 1373521917579 },
+  ...
+];
+```
+
+</PlatformBlock>
+
+
+
+<PlatformBlock for="WebComponents">
+
+
+```html
+<igc-grid-lite auto-generate .data=${data}></igc-grid-lite>
+```
+
+</PlatformBlock>
+
+
+<PlatformBlock for="React">
+
+```tsx
+return (
+  <IgrGridLite data={data} autoGenerate={true}></IgrGridLite>
+);
+```
+
+</PlatformBlock>
+
+El fragmento anterior hará que la cuadrícula cree automáticamente columnas equivalentes a:
+
+
+<PlatformBlock for="WebComponents">
+
+
+```html
+<igc-grid-lite .data=${data}>
+  <igc-grid-lite-column field="entryId" data-type="string"></igc-grid-lite-column>
+  <igc-grid-lite-column field="source" data-type="string"></igc-grid-lite-column>
+  <igc-grid-lite-column field="ts" data-type="number"></igc-grid-lite-column>
+</igc-grid-lite>
+```
+
+</PlatformBlock>
+
+
+<PlatformBlock for="React">
+
+```tsx
+return (
+  <IgrGridLite data={data}>
+    <IgrGridLiteColumn field="entryId" dataType="string"></IgrGridLiteColumn>
+    <IgrGridLiteColumn field="source" dataType="string"></IgrGridLiteColumn>
+    <IgrGridLiteColumn field="ts" dataType="number"></IgrGridLiteColumn>
+  </IgrGridLite>
+);
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbGridLite Data="@products">
+    <IgbGridLiteColumn Field="Id" DataType="GridLiteColumnDataType.String" />
+    <IgbGridLiteColumn Field="Name" DataType="GridLiteColumnDataType.String" />
+    <IgbGridLiteColumn Field="Price" DataType="GridLiteColumnDataType.Number" />
+</IgbGridLite>
+```
+
+</PlatformBlock>
+
+Resulta útil para renderizar rápidamente algunos datos sin personalizaciones adicionales.
+
+
+## Configuración adicional de columnas
+
+La columna expone varias propiedades más para personalizarla:
+
+### Ancho de columna
+
+De forma predeterminada, las columnas tienen un ancho de **minmax(136px, 1fr)**, que equivale a un ancho mínimo de 136px y a un máximo de
+1 parte del espacio disponible en {GridLiteTitle}. Así, las columnas son fluidas y responsivas, y se adaptan a los cambios
+en el ancho de la cuadrícula.
+
+
+<PlatformBlock for="React, WebComponents">
+
+
+Para cambiar el ancho de una columna, use la propiedad `width` de la columna.
+
+</PlatformBlock>
+
+
+
+
+<PlatformBlock for="WebComponents">
+
+
+```html
+<igc-grid-lite-column field="price" width="250px"></igc-grid-lite-column>
+```
+
+</PlatformBlock>
+
+
+<PlatformBlock for="React">
+
+```tsx
+return (
+  <IgrGridLite>
+    <IgrGridLiteColumn field="price" width="250px"></IgrGridLiteColumn>
+  </IgrGridLite>
+);
+```
+
+</PlatformBlock>
+
+
+<PlatformBlock for="Blazor">
+
+
+Para cambiar el ancho de una columna, use el parámetro <ApiLink type="Column" member="width" label="Width" /> del componente <ApiLink type="IgbGridLiteColumn" />.
+
+```razor
+<IgbGridLiteColumn Field="Price" Width="250px" />
+```
+
+
+</PlatformBlock>
+
+
+La propiedad acepta <a href="https://developer.mozilla.org/en-US/docs/Learn/CSS/Building_blocks/Values_and_units#numbers_lengths_and_percentages" target="_blank">unidades de longitud CSS válidas</a>.
+
+### Ocultar columnas
+
+<PlatformBlock for="React, WebComponents">
+
+
+Las columnas pueden ocultarse o mostrarse estableciendo la propiedad `hidden` de la columna.
+
+</PlatformBlock>
+
+
+
+
+<PlatformBlock for="WebComponents">
+
+
+```html
+<igc-grid-lite-column field="price" hidden></igc-grid-lite-column>
+```
+
+</PlatformBlock>
+
+
+<PlatformBlock for="React">
+
+```tsx
+return (
+  <IgrGridLite>
+    <IgrGridLiteColumn field="price" hidden></IgrGridLiteColumn>
+  </IgrGridLite>
+);
+```
+
+</PlatformBlock>
+
+
+<PlatformBlock for="Blazor">
+
+
+Las columnas pueden ocultarse o mostrarse estableciendo el parámetro <ApiLink type="Column" member="hidden" label="Hidden" /> en el componente <ApiLink type="IgbGridLiteColumn" />.
+
+```razor
+<IgbGridLiteColumn Field="Price" Hidden="true" />
+```
+
+
+</PlatformBlock>
+
+
+### Redimensionar columnas
+
+
+<PlatformBlock for="React, WebComponents">
+
+
+Cada columna de {GridLiteTitle} puede configurarse para que sea redimensionable estableciendo la propiedad `resizable` del elemento de columna.
+
+</PlatformBlock>
+
+
+
+<PlatformBlock for="WebComponents">
+
+
+```html
+<igc-grid-lite-column field="price" resizable></igc-grid-lite-column>
+```
+
+</PlatformBlock>
+
+
+<PlatformBlock for="React">
+
+```tsx
+return (
+  <IgrGridLite>
+    <IgrGridLiteColumn field="price" resizable></IgrGridLiteColumn>
+  </IgrGridLite>
+);
+```
+
+</PlatformBlock>
+
+
+<PlatformBlock for="Blazor">
+
+
+Cada columna de {GridLiteTitle} puede configurarse para que sea redimensionable estableciendo el parámetro <ApiLink type="Column" member="resizable" label="Resizable" /> en el componente <ApiLink type="IgbGridLiteColumn" />.
+
+```razor
+<IgbGridLiteColumn Field="Price" Resizable="true" />
+```
+
+
+</PlatformBlock>
+
+
+Si una columna está configurada como redimensionable, puede arrastrar el borde derecho del encabezado de la columna para aumentar o reducir su ancho. Al hacer doble clic en el área de redimensionado, se activará el autoajuste de la columna, que intentará ajustar su ancho según el contenido más grande de sus celdas o de su encabezado.
+
+<DocsAside type="info">
+Las columnas con anchos "fluidos" (fr, %, etc.) pueden comportarse de forma errática al redimensionar la cuadrícula, ya que intentan adaptarse a las nuevas dimensiones. Según el escenario de la aplicación, puede ser preferible usar unidades "fijas" para que los usuarios no vean cambios de disposición.
+</DocsAside>
+
+En el ejemplo siguiente puede probar las distintas propiedades de columna y ver cómo se reflejan en la cuadrícula renderizada.
+
+<Sample src="/{GridLiteSample}/column-config-dynamic" height={600} alt="Configuración dinámica de columnas de {Platform} {GridLiteTitle}" />
+
+
+<PlatformBlock for="WebComponents, Blazor">
+
+## Referencias de API
+
+<PlatformBlock for="WebComponents">
+<ApiLink type="GridLite" /><br />
+<ApiLink type="GridLiteColumn" /><br />
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+<ApiLink type="GridLite<TItem>" /><br />
+<ApiLink type="GridLiteColumn" /><br />
+
+</PlatformBlock>
+
+</PlatformBlock>
+
+## Recursos adicionales
+
+- [Enlace de datos](./binding.mdx)
+- [Ordenación](./sorting.mdx)
+- [Filtrado](./filtering.mdx)
+- [Temas y estilos](./theming.mdx)
+
+Nuestra comunidad está activa y siempre da la bienvenida a nuevas ideas.
+
+- [{GridLiteTitle} **GitHub**]({GithubLinkLite})

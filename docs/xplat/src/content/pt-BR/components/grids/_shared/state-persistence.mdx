@@ -1,0 +1,1263 @@
+---
+title: "Persistência de estado do {Platform} {ComponentTitle} - {ProductName}"
+description: "Salve e restaure o estado da grade com facilidade, usando o conjunto abrangente de ferramentas do Ignite UI para {Platform}. Saiba como restaurar colunas, explore o uso e veja demos!"
+keywords: "persistência de estado, {Platform}, {ProductName}, Infragistics"
+license: commercial
+mentionedTypes: ["GridStateBaseDirective", "GridState", "PivotConfiguration", "PivotDimension", "PivotValue"]
+sharedComponents: ["Grid", "TreeGrid", "PivotGrid", "HierarchicalGrid"]
+namespace: Infragistics.Controls
+_canonicalLink: "{CanonicalLinkToGridStatePersistence}"
+_language: pt-BR
+llms:
+  description: "O recurso de Persistência de estado do {ProductName} em {Platform} {ComponentTitle} permite que os desenvolvedores salvem e restaurem facilmente o estado da grade."
+---
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+
+# Persistência de estado do {Platform} {ComponentTitle}
+
+<PlatformBlock for="Angular">
+O recurso de Persistência de estado do {ProductName} em {Platform} {ComponentTitle} permite que os desenvolvedores salvem e restaurem facilmente o estado da grade. Quando o <ApiLink type="GridState" /> é aplicado ao {Platform} <ApiLink type="{ComponentName}" />, ele expõe os métodos <ApiLink type="GridState" member="getState" /> e <ApiLink type="{ComponentName}" member="setState" /> que os desenvolvedores podem usar para obter persistência de estado em qualquer cenário.
+</PlatformBlock>
+
+<PlatformBlock for="React, WebComponents">
+O recurso de Persistência de estado do {ProductName} em {Platform} {ComponentTitle} permite que os desenvolvedores salvem e restaurem facilmente o estado da grade. Quando o <ApiLink type="GridState" /> é aplicado ao {Platform} <ApiLink type="{ComponentName}" />, ele expõe os métodos <ApiLink type="GridState" member="getState" />, <ApiLink type="GridState" member="getStateAsString" />, <ApiLink type="GridState" member="applyState" /> e <ApiLink type="GridState" member="applyStateFromString" /> que os desenvolvedores podem usar para obter persistência de estado em qualquer cenário.
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+O recurso de Persistência de estado do {ProductName} em {Platform} {ComponentTitle} permite que os desenvolvedores salvem e restaurem facilmente o estado da grade. Quando o <ApiLink type="GridState" /> é aplicado ao {Platform} <ApiLink type="{ComponentName}" />, ele expõe os métodos `GetStateAsStringAsync` e `ApplyStateFromStringAsync` que os desenvolvedores podem usar para obter persistência de estado em qualquer cenário.
+</PlatformBlock>
+
+## Recursos suportados
+
+O <ApiLink type="GridState" /> oferece suporte a salvar e restaurar o estado dos seguintes recursos:
+
+<ComponentBlock for="Grid, TreeGrid">
+- **Ordenação**
+- **Filtragem**
+- **Filtragem avançada**
+- **Paginação**
+- **CellSelection**
+- **RowSelection**
+- **ColumnSelection**
+- **RowPinning**
+- **Expansion**
+- **GroupBy**
+- **Columns**
+  - Cabeçalhos de várias colunas
+  - Ordem das colunas
+  - Propriedades de coluna definidas pela interface <ApiLink type="ColumnState" />.
+
+</ComponentBlock>
+
+<ComponentBlock for="HierarchicalGrid">
+- **RowIslands**
+  - salvar/restaurar recursos de todos os grids filhos na hierarquia
+- **Ordenação**
+- **Filtragem**
+- **AdvancedFiltering**
+- **Paginação**
+- **CellSelection**
+- **RowSelection**
+- **ColumnSelection**
+- **RowPinning**
+- **Expansion**
+- **Columns**
+  - Cabeçalhos de várias colunas
+  - Ordem das colunas
+  - Propriedades de coluna definidas pela interface <ApiLink type="ColumnState" />.
+
+</ComponentBlock>
+
+<ComponentBlock for="PivotGrid">
+<PlatformBlock for="Angular, WebComponents">
+- <ApiLink type="GridStateInfo" member="sorting" label="Sorting" />
+- <ApiLink type="GridStateInfo" member="filtering" label="Filtering" />
+- <ApiLink type="{ComponentName}" member="cellSelection" />
+- <ApiLink type="{ComponentName}" member="columnSelection" />
+- <ApiLink type="GridStateInfo" member="expansion" label="Expansion" />
+- <ApiLink type="PivotConfiguration" />
+  - Propriedades de configuração do Pivot definidas pela interface <ApiLink type="PivotConfiguration" />.
+  - As funções de dimensão e de valor do Pivot são restauradas usando código no nível da aplicação; veja a seção [Restaurando a configuração do Pivot](state-persistence.mdx#restaurando-a-configuração-do-pivot).
+  - As estratégias de linha e de coluna do Pivot também são restauradas usando código no nível da aplicação; veja a seção [Restaurando estratégias do Pivot](state-persistence.mdx#restaurando-estratégias-do-pivot).
+</PlatformBlock>
+
+<PlatformBlock for="Blazor, React">
+- <ApiLink type="GridStateInfo" member="sorting" label="Sorting" />
+- <ApiLink type="GridStateInfo" member="filtering" label="Filtering" />
+- <ApiLink type="{ComponentName}" member="cellSelection" />
+- <ApiLink type="{ComponentName}" member="columnSelection" />
+- <ApiLink type="GridStateInfo" member="expansion" label="Expansion" />
+- <ApiLink type="PivotConfiguration" />
+  - Propriedades de configuração do Pivot definidas pela interface <ApiLink type="PivotConfiguration" />.
+  - As funções de dimensão e de valor do Pivot são restauradas usando código no nível da aplicação; veja a seção [Restaurando a configuração do Pivot](state-persistence.mdx#restaurando-a-configuração-do-pivot).
+</PlatformBlock>
+
+
+</ComponentBlock>
+
+<PlatformBlock for="Angular">
+<ComponentBlock for="Grid, HierarchicalGrid, TreeGrid">
+> O <ApiLink type="GridState" /> não cuida de templates. Vá até a seção [Restoring Column](state-persistence.mdx#restoring-columns) para ver como restaurar templates de coluna.
+
+</ComponentBlock>
+</PlatformBlock>
+
+## Uso
+
+<PlatformBlock for="Angular">
+O método <ApiLink type="GridState" member="getState" /> retorna o estado da grade em uma string JSON serializada, para que os desenvolvedores possam simplesmente pegá-la e salvá-la em qualquer armazenamento de dados (banco de dados, nuvem, localStorage do navegador etc.). O método aceita como primeiro parâmetro opcional `Serialize`, que determina se <ApiLink type="GridState" member="getState" /> retornará um objeto <ApiLink type="IGridState" /> ou uma string JSON serializada.
+
+O desenvolvedor pode optar por obter apenas o estado de um ou mais recursos, passando o nome do recurso ou um array com os nomes dos recursos como segundo argumento.
+</PlatformBlock>
+
+<PlatformBlock for="React, WebComponents">
+O método <ApiLink type="GridState" member="getState" /> retorna o estado da grade em um objeto <ApiLink type="GridStateInfo" />, contendo todas as informações de estado. Etapas adicionais podem ser necessárias para salvá-lo.
+</PlatformBlock>
+
+<PlatformBlock for="React, WebComponents">
+O <ApiLink type="GridState" member="getStateAsString" /> retorna uma string JSON serializada, para que os desenvolvedores possam simplesmente pegá-la e salvá-la em qualquer armazenamento de dados (banco de dados, nuvem, localStorage do navegador etc.).
+
+O desenvolvedor pode optar por obter apenas o estado de um ou mais recursos, passando como argumento um array com os nomes dos recursos. Um array vazio resultará no uso das opções de estado padrão.
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+O `GetStateAsStringAsync` retorna uma string JSON serializada, para que os desenvolvedores possam simplesmente pegá-la e salvá-la em qualquer armazenamento de dados (banco de dados, nuvem, localStorage do navegador etc.).
+
+O desenvolvedor pode optar por obter apenas o estado de um ou mais recursos, passando como argumento um array com os nomes dos recursos. Um array vazio resultará no uso das opções de estado padrão.
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+```typescript
+// get all features` state in a serialized JSON string
+const gridState = state.getState();
+
+// get an `IGridState` object, containing all features original state objects, as returned by the grid public API
+const gridState: IGridState = state.getState(false);
+
+// get the sorting and filtering expressions
+const sortingFilteringStates: IGridState = state.getState(false, ['sorting', 'filtering']);
+
+```
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+<ComponentBlock for="Grid, HierarchicalGrid, TreeGrid, PivotGrid">
+```html
+<{ComponentSelector} id="grid">
+    <igc-grid-state id="gridState"></igc-grid-state>
+</{ComponentSelector}>
+```
+
+```typescript
+var gridState = document.getElementById('gridState') as IgcGridStateComponent;
+
+// get an `IgcGridStateInfo` object, containing all features original state objects, as returned by the grid public API
+const state: IgcGridStateInfo = gridState.getState();
+
+// get all features` state in a serialized JSON string
+const stateString: string = gridState.getStateAsString();
+
+// get the sorting and filtering expressions
+const sortingFilteringStates: IgcGridStateInfo = gridState.getState(['sorting', 'filtering']);
+```
+
+</ComponentBlock>
+</PlatformBlock>
+
+<ComponentBlock for="Grid, HierarchicalGrid, TreeGrid, PivotGrid">
+<PlatformBlock for="React">
+```tsx
+<{ComponentSelector}>
+    <IgrGridState ref={gridStateRef}></IgrGridState>
+</{ComponentSelector}>
+```
+</PlatformBlock>
+</ComponentBlock>
+
+<ComponentBlock for="Grid, HierarchicalGrid, TreeGrid, PivotGrid">
+<PlatformBlock for="React">
+```tsx
+// get an `GridStateInfo` object, containing all features original state objects, as returned by the grid public API
+const state: IgrGridStateInfo = gridStateRef.current.getState([]);
+
+// get all features` state in a serialized JSON string
+const stateString: string = gridStateRef.current.getStateAsString([]);
+
+// get the sorting and filtering expressions
+const sortingFilteringStates: IgrGridStateInfo = gridStateRef.current.getState(['sorting', 'filtering']);
+
+```
+</PlatformBlock>
+</ComponentBlock>
+
+<PlatformBlock for="Blazor">
+```razor
+<{ComponentSelector}>
+    <IgbGridState @ref="gridState"></IgbGridState>
+</{ComponentSelector}>
+
+@code {
+    // get all features` state in a serialized JSON string
+    string stateString = gridState.GetStateAsStringAsync(new string[0]);
+
+    // get the sorting and filtering expressions
+    string sortingFilteringStates = gridState.GetStateAsStringAsync(new string[] { "sorting", "filtering" });
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+<ApiLink type="{ComponentName}" member="setState" /> - O método <ApiLink type="{ComponentName}" member="setState" /> aceita como argumento a string JSON serializada ou o objeto <ApiLink type="IGridState" /> e restaurará o estado de cada recurso encontrado no objeto/string JSON.
+</PlatformBlock>
+
+<PlatformBlock for="React, WebComponents">
+<ApiLink type="GridState" member="applyState" /> - O método aceita um objeto <ApiLink type="GridStateInfo" /> como argumento e restaurará o estado de cada recurso encontrado no objeto ou dos recursos especificados como segundo argumento.
+</PlatformBlock>
+
+<PlatformBlock for="React, WebComponents">
+<ApiLink type="GridState" member="applyStateFromString" /> - O método aceita uma string JSON serializada como argumento e restaurará o estado de cada recurso encontrado na string JSON ou dos recursos especificados como segundo argumento.
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+`ApplyStateFromStringAsync` - O método aceita uma string JSON serializada como argumento e restaurará o estado de cada recurso encontrado na string JSON ou dos recursos especificados como segundo argumento.
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+```typescript
+state.setState(gridState);
+state.setState(sortingFilteringStates)
+```
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+```typescript
+gridState.applyState(gridState);
+gridState.applyStateFromString(gridStateString);
+gridState.applyState(sortingFilteringStates)
+```
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+gridStateRef.current.applyState(gridState, []);
+gridStateRef.current.applyStateFromString(gridStateString, []);
+gridStateRef.current.applyState(sortingFilteringStates, [])
+```
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```csharp
+gridState.ApplyStateFromStringAsync(gridStateString, new string[0]);
+gridState.ApplyStateFromStringAsync(sortingFilteringStates, new string[0])
+```
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+O objeto <ApiLink type="GridStateBaseDirective" member="options" label="Options" /> implementa a interface `IGridStateOptions`, ou seja, para cada chave, que é o nome de um determinado recurso, há um valor booleano indicando se o estado desse recurso será rastreado. O método <ApiLink type="GridState" member="getState" /> não incluirá o estado desses recursos no valor retornado, e o método <ApiLink type="{ComponentName}" member="setState" /> não restaurará o estado deles.
+</PlatformBlock>
+
+<PlatformBlock for="React, WebComponents">
+O objeto <ApiLink type="GridStateBaseDirective" member="options" label="Options" /> implementa a interface <ApiLink type="GridStateOptions" />, ou seja, para cada chave, que é o nome de um determinado recurso, há um valor booleano indicando se o estado desse recurso será rastreado. Os métodos <ApiLink type="GridState" member="getState" />/<ApiLink type="GridState" member="getStateAsString" /> não incluirão o estado desses recursos no valor retornado, e os métodos <ApiLink type="GridState" member="applyState" />/<ApiLink type="GridState" member="applyStateFromString" /> não restaurarão o estado deles.
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+O objeto <ApiLink type="GridStateBaseDirective" member="options" label="Options" /> implementa a interface <ApiLink type="GridStateOptions" />, ou seja, para cada chave, que é o nome de um determinado recurso, há um valor booleano indicando se o estado desse recurso será rastreado. Os métodos `GetStateAsStringAsync` não incluirão o estado desses recursos no valor retornado, e os métodos `ApplyStateFromStringAsync` não restaurarão o estado deles.
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+```typescript
+public options =  { cellSelection: false, sorting: false };
+```
+
+```html
+<{ComponentSelector} [igxGridState]="options">
+</{ComponentSelector}>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+```typescript
+gridState.options = { cellSelection: false, sorting: false };
+```
+</PlatformBlock>
+
+<ComponentBlock for="Grid, HierarchicalGrid, TreeGrid, PivotGrid">
+<PlatformBlock for="React">
+```tsx
+<IgrGridState options={{ cellSelection: false, sorting: false }}></IgrGridState>
+```
+</PlatformBlock>
+</ComponentBlock>
+
+<PlatformBlock for="Blazor">
+```csharp
+gridState.Options = new IgbGridStateOptions
+    {
+        CellSelection = false,
+        Sorting = false
+    };
+```
+</PlatformBlock>
+
+A API simples de usar, de ponto único, permite obter uma persistência completa do estado com poucas linhas de código. **Copie e cole o código abaixo** — ele salvará o estado do grid no objeto `LocalStorage` do navegador sempre que o usuário sair da página atual. Sempre que o usuário voltar à página principal, o estado do grid será restaurado. Não é mais preciso configurar expressões avançadas de filtragem e ordenação toda vez para obter os dados desejados — faça isso uma vez e deixe o código abaixo fazer o resto para os seus usuários:
+
+<PlatformBlock for="Angular">
+```typescript
+@ViewChild(IgxGridStateDirective, { static: true })
+public state!: IgxGridStateDirective;
+
+public ngOnInit() {
+    this.router.events.pipe(take(1)).subscribe((event: NavigationStart) => {
+        this.saveGridState();
+    });
+}
+
+public ngAfterViewInit() {
+    this.restoreGridState();
+}
+
+public saveGridState() {
+    const state = this.state.getState() as string;
+    window.sessionStorage.setItem('grid1-state', state);
+}
+
+public restoreGridState() {
+    const state = window.sessionStorage.getItem('grid1-state');
+    this.state.setState(state);
+}
+
+```
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+```typescript
+constructor() {
+    window.addEventListener("load", () => { this.restoreGridState(); });
+    window.addEventListener("beforeunload", () => { this.saveGridState(); });
+}
+
+// Using methods that work with IgcGridStateInfo object.
+public saveGridState() {
+    const state = this.gridState.getState();
+    window.localStorage.setItem('grid-state', JSON.stringify(state));
+}
+
+public restoreGridState() {
+    const state = window.localStorage.getItem('grid-state');
+    if (state) {
+        this.gridState.applyState(JSON.parse(state));
+    }
+}
+
+// Or using string alternative methods.
+public saveGridStateString() {
+    const state = this.gridState.getStateAsString();
+    window.localStorage.setItem('grid-state', state);
+}
+
+public restoreGridStateString() {
+    const state = window.localStorage.getItem('grid-state');
+    if (state) {
+        this.gridState.applyStateFromString(state);
+    }
+}
+```
+
+</PlatformBlock>
+<ComponentBlock for="Grid, HierarchicalGrid, TreeGrid, PivotGrid">
+<PlatformBlock for="React">
+```tsx
+<{ComponentSelector} onRendered={restoreGridState}>
+    <IgrGridState ref={gridStateRef}></IgrGridState>
+</{ComponentSelector}>
+```
+</PlatformBlock>
+</ComponentBlock>
+
+<ComponentBlock for="Grid, HierarchicalGrid, TreeGrid, PivotGrid">
+<PlatformBlock for="React">
+```tsx
+useEffect(() => {
+    restoreGridState();
+    window.addEventListener('beforeunload', saveGridState);
+    return () => {
+      window.removeEventListener('beforeunload', saveGridState);
+    }
+}, []);
+
+// Using methods that work with IgrGridStateInfo object.
+const saveGridState = () => {
+    const state = gridStateRef.current.getState([]);
+    window.localStorage.setItem('grid-state', JSON.stringify(state));
+}
+
+const restoreGridState = () => {
+    const state = window.localStorage.getItem('grid-state');
+    if (state) {
+        gridStateRef.current.applyState(JSON.parse(state), []);
+    }
+}
+
+//Or using string alternative methods.
+const saveGridState = () => {
+    const state = gridStateRef.current.getStateAsString([]);
+    window.localStorage.setItem('grid-state', state);
+}
+
+const restoreGridState = () => {
+    const state = window.localStorage.getItem('grid-state');
+    if (state) {
+        gridStateRef.current.applyStateFromString(state, []);
+    }
+}
+
+```
+</PlatformBlock>
+</ComponentBlock>
+
+<PlatformBlock for="Blazor">
+```razor
+@using IgniteUI.Blazor.Controls
+@using Newtonsoft.Json
+@implements IDisposable
+
+@inject IJSRuntime JS
+@inject NavigationManager Navigation
+
+<{ComponentSelector} Rendered="OnGridRendered">
+    <IgbGridState @ref="gridState"></IgbGridState>
+    <IgbColumn Field="ContactName" Header="Name" MinWidth="200px" ></IgbColumn>
+    <IgbColumn Field="ContactTitle" Header="Title" MinWidth="200px" Sortable="true" Filterable="true" Groupable="true"></IgbColumn>
+    <IgbColumn Field="CompanyName" Header="Company" MinWidth="200px" Sortable="true" Filterable="true" Groupable="true"></IgbColumn>
+</{ComponentSelector}>
+
+@code {
+    protected override void OnAfterRender(bool firstRender)
+    {
+        Navigation.LocationChanged += OnLocationChanged;
+    }
+
+    void OnLocationChanged(object sender, LocationChangedEventArgs e)
+    {
+        SaveGridState();
+    }
+
+    void IDisposable.Dispose()
+    {
+        // Unsubscribe from the event when our component is disposed
+        Navigation.LocationChanged -= OnLocationChanged;
+    }
+
+    void OnGridRendered()
+    {
+        RestoreGridState();
+    }
+
+    async void SaveGridState() {
+        string state = gridState.GetStateAsStringAsync(new string[0]);
+        await JS.InvokeVoidAsync("window.localStorage.setItem", "grid-state", state);
+    }
+
+    async void RestoreGridState() {
+        string state = await JS.InvokeAsync<string>("window.localStorage.getItem", "grid-state");
+        if (state) {
+            gridState.ApplyStateFromStringAsync(state, new string[0]);
+        }
+    }
+}
+```
+
+</PlatformBlock>
+
+<ComponentBlock for="Grid, HierarchicalGrid, TreeGrid">
+## Restaurando colunas
+
+<ApiLink type="GridState" /> não persiste, por padrão, templates de colunas, formatadores de colunas etc. (veja as [limitações](state-persistence.mdx#limitações)). Restaurar qualquer um desses pode ser feito com código no nível da aplicação. Vamos mostrar como fazer isso para colunas com template:
+
+1 - Defina uma variável de referência de template (no exemplo abaixo, é `#activeTemplate`) e atribua um handler de evento para o evento `ColumnInit`:
+
+</ComponentBlock>
+
+<ComponentBlock for="Grid">
+
+<PlatformBlock for="Angular">
+```html
+<igx-grid id="grid" #grid igxGridState (columnInit)="onColumnInit($event)">
+    <igx-column [field]="'IsActive'" header="IsActive">
+        <ng-template igxCell #activeTemplate let-column let-val="val">
+            <igx-checkbox [checked]="val"></igx-checkbox>
+        </ng-template>
+    </igx-column>
+</igx-grid>
+```
+</PlatformBlock>
+
+
+<PlatformBlock for="WebComponents">
+```html
+<igc-grid id="grid">
+    <igc-grid-state id="gridState"></igc-grid-state>
+    <igc-column id="isActive" field="IsActive" header="IsActive"></igc-column>
+</igc-grid>
+```
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+```ts
+constructor() {
+    var grid = this.grid = document.getElementById('grid') as IgcGridComponent;
+    var isActiveCol = this.isActive = document.getElementById('isActive') as IgcColumnComponent;
+    this.onColumnInit = this.onColumnInit.bind(this);
+
+    this._bind = () => {
+        grid.data = this.data;
+        grid.addEventListener("columnInit", this.onColumnInit);
+        isActiveCol.bodyTemplate = this.activeTemplate;
+    }
+    this._bind();
+}
+
+public activeTemplate = (ctx: IgcCellTemplateContext) => {
+    return html`<igc-checkbox checked="${ctx.cell.value}"></igc-checkbox>`;
+}
+
+```
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+<IgrGrid columnInit={onColumnInit}>
+    <IgrGridState></IgrGridState>
+    <IgrColumn field="IsActive" header="IsActive" bodyTemplate={activeTemplate}></IgrColumn>
+</IgrGrid>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+function activeTemplate(ctx: { dataContext: IgrCellTemplateContext }) {
+    return (<IgrCheckbox checked={ctx.dataContext.cell.value}></IgrCheckbox>);
+}
+```
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```razor
+<IgbGrid ColumnInit="OnColumnInit">
+    <IgbGridState @ref="gridState"></IgbGridState>
+    <IgbColumn Field="IsActive" Header="IsActive" BodyTemplate="ActiveTemplate">
+    </IgbColumn>
+</IgbGrid>
+
+@code {
+    public static RenderFragment<IgbCellTemplateContext> ActiveTemplate = (context) =>
+    {
+        bool value = Convert.ToBoolean(context.Cell.Value);
+        return @<IgbCheckbox Checked="@value"></IgbCheckbox>;
+    };
+}
+
+```
+</PlatformBlock>
+
+</ComponentBlock>
+
+<ComponentBlock for="TreeGrid">
+
+<PlatformBlock for="Angular">
+```html
+<igx-tree-grid id="grid" #grid igxGridState (columnInit)="onColumnInit($event)">
+    <igx-column [field]="'IsActive'" header="IsActive">
+        <ng-template igxCell #activeTemplate let-column let-val="val">
+            <igx-checkbox [checked]="val"></igx-checkbox>
+        </ng-template>
+    </igx-column>
+</igx-tree-grid>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+```html
+<igc-tree-grid id="grid">
+    <igc-grid-state id="gridState"></igc-grid-state>
+    <igc-column id="isActive" field="IsActive" header="IsActive">
+    </igc-column>
+</igc-tree-grid>
+```
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+```ts
+constructor() {
+    var grid = this.grid = document.getElementById('grid') as IgctreeGridComponent;
+    var isActive = this.isActive = document.getElementById('isActive') as IgcColumnComponent;
+    this.onColumnInit = this.onColumnInit.bind(this);
+
+    this._bind = () => {
+        grid.data = this.data;
+        grid.addEventListener("columnInit", this.onColumnInit);
+        isActive.bodyTemplate = this.activeTemplate;
+    }
+    this._bind();
+}
+
+public activeTemplate = (ctx: IgcCellTemplateContext) => {
+    return html`<igc-checkbox checked="${ctx.cell.value}"></igc-checkbox>`;
+}
+
+```
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```razor
+<IgbTreeGrid>
+    <IgbGridState @ref="gridState"></IgbGridState>
+    <IgbColumn Field="IsActive" Header="IsActive" BodyTemplate="ActiveTemplate">
+    </IgbColumn>
+</IgbTreeGrid>
+
+@code {
+    public static RenderFragment<IgbCellTemplateContext> ActiveTemplate = (context) =>
+    {
+        bool value = Convert.ToBoolean(context.Cell.Value);
+        return @<IgbCheckbox Checked="@value"></IgbCheckbox>;
+    };
+}
+```
+
+</PlatformBlock>
+
+</ComponentBlock>
+
+<ComponentBlock for="HierarchicalGrid">
+
+<PlatformBlock for="Angular">
+```html
+<igx-hierarchical-grid id="grid" #grid igxGridState (columnInit)="onColumnInit($event)">
+    <igx-column [field]="'IsActive'" header="IsActive">
+        <ng-template igxCell #activeTemplate let-column let-val="val">
+            <igx-checkbox [checked]="val"></igx-checkbox>
+        </ng-template>
+    </igx-column>
+</igx-hierarchical-grid>
+```
+</PlatformBlock>
+
+
+<PlatformBlock for="WebComponents">
+```html
+<igc-hierarchical-grid id="grid">
+    <igc-column id="isActive" field="IsActive" header="IsActive">
+    </igc-column>
+</igc-hierarchical-grid>
+```
+
+
+```ts
+constructor() {
+    var grid = this.grid = document.getElementById('grid') as IgcHierarchicalGridComponent;
+    var isActive = this.isActive = document.getElementById('isActive') as IgcColumnComponent;
+    this.onColumnInit = this.onColumnInit.bind(this);
+
+    this._bind = () => {
+        grid.data = this.data;
+        grid.addEventListener("columnInit", this.onColumnInit);
+        isActive.bodyTemplate = this.activeTemplate;
+    }
+    this._bind();
+}
+
+public activeTemplate = (ctx: IgcCellTemplateContext) => {
+    return html`<igc-checkbox checked="${ctx.cell.value}"></igc-checkbox>`;
+}
+```
+
+</PlatformBlock>
+
+</ComponentBlock>
+
+<ComponentBlock for="Grid, HierarchicalGrid, TreeGrid">
+
+<PlatformBlock for="Angular">
+2 - Consulte a view do template no componente usando o decorador @ViewChild ou @ViewChildren. No handler do evento `ColumnInit`, atribua o template à propriedade <ApiLink type="Column" member="bodyTemplate" label="BodyTemplate" /> da coluna:
+
+```typescript
+@ViewChild('activeTemplate', { static: true }) public activeTemplate: TemplateRef<any>;
+public onColumnInit(column: IgxColumnComponent) {
+    if (column.field === 'IsActive') {
+        column.bodyTemplate = this.activeTemplate;
+    }
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor, React, WebComponents">
+2 - No handler do evento `ColumnInit`, atribua o template à propriedade <ApiLink type="Column" member="bodyTemplate" label="BodyTemplate" /> da coluna:
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+```typescript
+public onColumnInit(event: any) {
+    const column = event.detail as IgcColumnComponent;
+    if (column.field === 'IsActive') {
+        column.bodyTemplate = this.activeTemplate;
+    }
+}
+```
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+function onColumnInit(s: IgrGridComponent, e: IgrColumnComponentEventArgs) {
+    const column: IgrColumn = e.detail;
+    if (column.field === 'IsActive') {
+        column.bodyTemplate = this.activeTemplate;
+    }
+}
+```
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+@code {
+    public void OnColumnInit(IgbColumnComponentEventArgs args)
+    {
+        IgbColumn column = args.Detail;
+        if (column.Field == "IsActive")
+        {
+            column.BodyTemplate = ActiveTemplate;
+        }
+    }
+}
+```
+
+</PlatformBlock>
+
+</ComponentBlock>
+
+
+<ComponentBlock for="PivotGrid">
+## Restaurando a configuração do Pivot
+
+<ApiLink type="GridState" /> não persiste, por padrão, funções de dimensão de pivô, formatadores de valor etc. (veja as [limitações](state-persistence.mdx#limitações)). Restaurar qualquer um desses pode ser feito com código no nível da aplicação. O <ApiLink type="{ComponentName}" /> expõe dois eventos que podem ser usados para restaurar quaisquer funções personalizadas que você tenha na configuração: `DimensionInit` e `ValueInit`. Vamos mostrar como fazer isso:
+
+- Atribua manipuladores de evento para os eventos `DimensionInit` e `ValueInit`:
+
+<PlatformBlock for="Angular">
+```html
+<igx-pivot-grid #grid1 [data]="data" [pivotConfiguration]="pivotConfig" [igxGridState]="options"
+    (valueInit)='onValueInit($event)' (dimensionInit)='onDimensionInit($event)'>
+</igx-pivot-grid>
+```
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+```html
+<igc-pivot-grid id="grid">
+    <igc-grid-state id="gridState"></igc-grid-state>
+</igc-pivot-grid>
+```
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+```ts
+ constructor() {
+    var grid = document.getElementById('grid') as IgcPivotGridComponent;
+    grid.pivotConfiguration = this.pivotConfiguration;
+    grid.addEventListener("valueInit", (ev:any) => this.onValueInit(ev));
+    grid.addEventListener("dimensionInit", (ev:any) => this.onDimensionInit(ev));
+}
+```
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+      <IgrPivotGrid
+        ref={gridRef}
+        data={gridData}
+        pivotConfiguration={pivotConfiguration}
+        valueInit={onValueInit}
+      >
+        <IgrGridState ref={gridStateRef}></IgrGridState>
+      </IgrPivotGrid>
+```
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```razor
+    <IgbPivotGrid
+        @ref="grid"
+        Width="95%"
+        Height="500px"
+        PivotConfiguration="PivotConfiguration"
+        ValueInitScript="OnValueInit">
+    </IgbPivotGrid>
+```
+</PlatformBlock>
+
+> Os eventos `DimensionInit` e `ValueInit` são emitidos para cada valor e dimensão definidos na propriedade <ApiLink type="{ComponentName}" member="pivotConfiguration" />.
+
+- No manipulador do evento `ValueInit`, defina todos os agregadores, formatadores e estilos personalizados:
+
+<PlatformBlock for="Angular">
+```typescript
+public onValueInit(value: IPivotValue) {
+    // Needed only for custom aggregators, formatter or styles.
+    if (value.member === 'AmountofSale') {
+        value.aggregate.aggregator = IgxTotalSaleAggregate.totalSale;
+        value.aggregateList?.forEach((aggr: IPivotAggregator) => {
+            switch (aggr.key) {
+                case 'SUM':
+                    aggr.aggregator = IgxTotalSaleAggregate.totalSale;
+                    break;
+                case 'MIN':
+                    aggr.aggregator = IgxTotalSaleAggregate.totalMin;
+                    break;
+                case 'MAX':
+                    aggr.aggregator = IgxTotalSaleAggregate.totalMax;
+                    break;
+            }
+        });
+    } else if (value.member === 'Value') {
+        value.formatter = (value) => value ? '$' + parseFloat(value).toFixed(3) : undefined;
+        value.styles.upFontValue = (rowData: any, columnKey: any): boolean => parseFloat(rowData.aggregationValues.get(columnKey.field)) > 150
+        value.styles.downFontValue = (rowData: any, columnKey: any): boolean => parseFloat(rowData.aggregationValues.get(columnKey.field)) <= 150;
+    }
+}
+```
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+```ts
+public onValueInit(event: any) {
+    const value: IgcPivotValue = event.detail;
+    if (value.member === 'AmountofSale') {
+        value.aggregate.aggregator = this.totalSale;
+        value.aggregateList?.forEach((aggr: any) => {
+            switch (aggr.key) {
+                case 'SUM':
+                    aggr.aggregator = this.totalSale;
+                    break;
+                case 'MIN':
+                    aggr.aggregator = this.totalMin;
+                    break;
+                case 'MAX':
+                    aggr.aggregator = this.totalMax;
+                    break;
+            }
+        });
+    } else if (value.member === 'Value') {
+        value.formatter = (value: any) => value ? '$' + parseFloat(value).toFixed(3) : undefined;
+        value.styles.upFontValue = (rowData: any, columnKey: any): boolean => parseFloat(rowData.aggregationValues.get(columnKey.field)) > 150
+        value.styles.downFontValue = (rowData: any, columnKey: any): boolean => parseFloat(rowData.aggregationValues.get(columnKey.field)) <= 150;
+    }
+}
+```
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+  const onValueInit = (event: IgrPivotValueEventArgs) => {
+    const value: IgrPivotValueDetail = event.detail;
+    if (value.member === "AmountofSale") {
+      value.aggregate.aggregator = totalSale;
+      value.aggregateList?.forEach((aggr: any) => {
+        switch (aggr.key) {
+          case "SUM":
+            aggr.aggregator = totalSale;
+            break;
+          case "MIN":
+            aggr.aggregator = totalMin;
+            break;
+          case "MAX":
+            aggr.aggregator = totalMax;
+            break;
+        }
+      });
+    } else if (value.member === "Value") {
+      value.styles.upFontValue = (rowData: any, columnKey: any): boolean =>
+        parseFloat(rowData.aggregationValues.get(columnKey.field)) > 150;
+      value.styles.downFontValue = (rowData: any, columnKey: any): boolean =>
+        parseFloat(rowData.aggregationValues.get(columnKey.field)) <= 150;
+    }
+  }
+```
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```javascript
+const totalSale = (members, data) => {
+    return data.reduce((accumulator, value) => accumulator + value.ProductUnitPrice * value.NumberOfUnits, 0);
+};
+
+const totalMin = (members, data) => {
+    let min = 0;
+    if (data.length === 1) {
+        min = data[0].ProductUnitPrice *data[0].NumberOfUnits;
+    } else if (data.length > 1) {
+        const mappedData = data.map(x => x.ProductUnitPrice* x.NumberOfUnits);
+        min = mappedData.reduce((a, b) => Math.min(a, b));
+    }
+    return min;
+};
+
+const totalMax = (members, data) => {
+    let max = 0;
+    if (data.length === 1) {
+        max = data[0].ProductUnitPrice *data[0].NumberOfUnits;
+    } else if (data.length > 1) {
+        const mappedData = data.map(x => x.ProductUnitPrice* x.NumberOfUnits);
+        max = mappedData.reduce((a, b) => Math.max(a, b));
+    }
+    return max;
+};
+
+igRegisterScript("OnValueInit", (args) => {
+    const value = args.detail;
+    if (value.member === "AmountOfSale") {
+      value.aggregate.aggregator = totalSale;
+      value.aggregateList?.forEach((aggr) => {
+        switch (aggr.key) {
+          case "SUM":
+            aggr.aggregator = totalSale;
+            break;
+          case "MIN":
+            aggr.aggregator = totalMin;
+            break;
+          case "MAX":
+            aggr.aggregator = totalMax;
+            break;
+        }
+      });
+    }
+}, false);
+
+```
+
+</PlatformBlock>
+<PlatformBlock for="Angular, WebComponents">
+- No manipulador do evento `DimensionInit`, defina todas as implementações personalizadas de <ApiLink type="PivotDimension" member="memberFunction" label="MemberFunction" />:
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+```typescript
+public onDimensionInit(dim: IPivotDimension) {
+    switch (dim.memberName) {
+        case 'AllProducts':
+            dim.memberFunction = () => 'All Products';
+            break;
+        case 'ProductCategory':
+            dim.memberFunction = (data) => data.Product.Name;
+            break;
+        case 'City':
+            dim.memberFunction = (data) => data.Seller.City;
+            break;
+        case 'SellerName':
+            dim.memberFunction = (data) => data.Seller.Name;
+            break;
+    }
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+```ts
+public onDimensionInit(event: any) {
+    const dim: IgcPivotDimension = event.detail;
+    switch (dim.memberName) {
+        case 'AllProducts':
+            dim.memberFunction = () => 'All Products';
+            break;
+        case 'ProductCategory':
+            dim.memberFunction = (data: any) => data.ProductName;
+            break;
+        case 'City':
+            dim.memberFunction = (data: any) => data.City;
+            break;
+        case 'SellerName':
+            dim.memberFunction = (data: any) => data.SellerName;
+            break;
+    }
+}
+```
+</PlatformBlock>
+
+</ComponentBlock>
+
+
+<ComponentBlock for="HierarchicalGrid">
+## Restaurando grids filhos
+O salvamento/restauração do estado dos grids filhos é controlado pela propriedade <ApiLink type="GridStateInfo" member="rowIslands" label="RowIslands" /> e vem habilitado por padrão. <ApiLink type="GridState" /> usará as mesmas opções para salvar/restaurar recursos tanto do grid raiz quanto de todos os grids filhos na hierarquia. Por exemplo, se passarmos as seguintes opções:
+
+<PlatformBlock for="Angular">
+```html
+<!-- public options = {selection: false, sorting: false, rowIslands: true} -->
+<igx-grid [igxGridState]="options"></igx-grid>
+```
+</PlatformBlock>
+
+<PlatformBlock for="Angular, WebComponents">
+```ts
+gridState.options = { cellSelection: false, sorting: false, rowIslands: true };
+```
+</PlatformBlock>
+
+</ComponentBlock>
+
+<ComponentBlock for="HierarchicalGrid">
+<PlatformBlock for="React">
+```tsx
+<IgrHierarchicalGrid>
+    <IgrGridState options={{ cellSelection: false, sorting: false, rowIslands: true }}></IgrGridState>
+</IgrHierarchicalGrid>
+```
+</PlatformBlock>
+</ComponentBlock>
+
+<ComponentBlock for="HierarchicalGrid">
+<PlatformBlock for="Blazor">
+```razor
+<IgbHierarchicalGrid>
+    <IgbGridState @ref="gridState"></IgbGridState>
+</IgbHierarchicalGrid>
+
+@code {
+    private IgbGridState gridState;
+
+    gridState.Options = new IgbGridStateOptions
+    {
+        CellSelection = false,
+        Sorting = false,
+        RowIslands = true
+    };
+}
+
+```
+</PlatformBlock>
+</ComponentBlock>
+
+<ComponentBlock for="HierarchicalGrid">
+Então a API <ApiLink type="GridState" member="getState" /> retornará o estado de todos os grids (grid raiz e grids filhos), excluindo os recursos `Selection` e <ApiLink type="GridStateInfo" member="sorting" label="Sorting" />. Se, mais tarde, o desenvolvedor quiser restaurar apenas o estado de <ApiLink type="GridStateInfo" member="filtering" label="Filtering" /> de todos os grids, use:
+
+<PlatformBlock for="Angular, WebComponents">
+```typescript
+this.state.applyState(state, ['filtering', 'rowIslands']);
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+state.applyState(state, ['filtering', 'rowIslands']);
+```
+</PlatformBlock>
+
+
+<PlatformBlock for="Blazor">
+Então a API <ApiLink type="GridState" member="getState" /> retornará o estado de todos os grids (grid raiz e grids filhos), excluindo os recursos `Selection` e <ApiLink type="GridStateInfo" member="sorting" label="Sorting" />. Se, mais tarde, o desenvolvedor quiser restaurar apenas o estado de <ApiLink type="GridStateInfo" member="filtering" label="Filtering" /> de todos os grids, use:
+
+```csharp
+gridState.ApplyStateFromStringAsync(gridStateString, new string[] { "filtering", "rowIslands" });
+```
+
+</PlatformBlock>
+</ComponentBlock>
+
+
+## Demonstração
+
+<Sample src="/{ComponentSample}/state-persistence-main" height={763} alt="Persistência de estado do {Platform} {ComponentTitle}" />
+
+<ComponentBlock for="PivotGrid">
+<PlatformBlock for="Angular, WebComponents">
+## Restaurando estratégias do Pivot
+
+<ApiLink type="GridState" /> não persiste nem operações de pivô remotas nem estratégias de dimensão personalizadas.
+ Restaurar qualquer uma delas pode ser feito com código no nível da aplicação. O <ApiLink type="GridState" /> expõe um evento chamado `StateParsed`, que pode ser usado para modificar adicionalmente o estado da grade antes de ele ser aplicado. Vamos mostrar como fazer isso:
+
+> `StateParsed` só é emitido quando usamos <ApiLink type="{ComponentName}" member="setState" /> com argumento de string.
+
+- Defina uma estratégia de ordenação personalizada e estratégias personalizadas de dimensão de coluna e de linha do pivot:
+
+<PlatformBlock for="Angular">
+```html
+<igx-pivot-grid #grid [data]="data" [pivotConfiguration]="pivotConfigHierarchy" [defaultExpandState]='true'
+    [igxGridState]="options" [sortStrategy]="customStrategy" [showPivotConfigurationUI]='false' [superCompactMode]="true" [height]="'500px'">
+</igx-pivot-grid>
+```
+
+```typescript
+@ViewChild(IgxGridStateDirective, { static: true })
+public state!: IgxGridStateDirective;
+
+public customStrategy = NoopSortingStrategy.instance();
+public options: IGridStateOptions = {...};
+public pivotConfigHierarchy: IPivotConfiguration = {
+    columnStrategy: NoopPivotDimensionsStrategy.instance(),
+    rowStrategy: NoopPivotDimensionsStrategy.instance(),
+    columns: [...],
+    rows: [...],
+    values: [...],
+    filters: [...]
+};
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```html
+    <igc-pivot-grid default-expand-state="true" super-compact-mode="true" show-pivot-configuration-ui="false"
+        height="600px" id="grid">
+        <igc-grid-state id="gridState"></igc-grid-state>
+    </igc-pivot-grid>
+```
+
+
+```ts
+public pivotConfiguration: IgcPivotConfiguration = {
+    columnStrategy: IgcNoopPivotDimensionsStrategy.instance(),
+    rowStrategy: IgcNoopPivotDimensionsStrategy.instance(),
+    columns: [...],
+    rows: [...],
+    values: [...],
+    filters: [...]
+};
+private gridState: IgcGridStateComponent;
+
+constructor() {
+    var grid = document.getElementById("grid") as IgcPivotGridComponent;
+    this.gridState = document.getElementById('gridState') as IgcGridStateComponent;
+    grid.pivotConfiguration = this.pivotConfiguration;
+    PivotNoopData.getData().then((value) => {
+        grid.data = value;
+    });
+    this.gridState.addEventListener('stateParsed', (ev:any) => this.stateParsedHandler(ev) );
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```razor
+Add snippet for blazor
+```
+</PlatformBlock>
+
+- Restaurar o estado a partir do `LocalStorage` e aplicar as estratégias personalizadas fica assim:
+
+<PlatformBlock for="Angular">
+```typescript
+public restoreState() {
+    const state = window.sessionStorage.getItem('grid-state');
+    this.state.stateParsed.pipe(take(1)).subscribe(parsedState => {
+        parsedState.sorting.forEach(x => x.strategy = NoopSortingStrategy.instance());
+        parsedState.pivotConfiguration.rowStrategy = NoopPivotDimensionsStrategy.instance();
+        parsedState.pivotConfiguration.columnStrategy = NoopPivotDimensionsStrategy.instance();
+    });
+    this.state.setState(state as string);
+}
+```
+</PlatformBlock>
+<PlatformBlock for="WebComponents">
+```ts
+public restoreGridState() {
+    const state = window.localStorage.getItem(this.stateKey);
+    if (state) {
+        this.gridState.applyStateFromString(state);
+    }
+}
+
+public stateParsedHandler(ev: any) {
+    const parsedState = ev.detail;
+    parsedState.pivotConfiguration.rowStrategy = IgcNoopPivotDimensionsStrategy.instance();
+    parsedState.pivotConfiguration.columnStrategy = IgcNoopPivotDimensionsStrategy.instance();
+}
+
+```
+</PlatformBlock>
+
+
+<PlatformBlock for="Blazor">
+```razor
+Add snippet for blazor for restore state
+```
+
+</PlatformBlock>
+
+
+<Sample src="/{ComponentSample}/data-persistence-noop" height={580} alt="Persistência de dados noop do {Platform} {ComponentTitle}" />
+</PlatformBlock>
+
+
+</ComponentBlock>
+
+## Limitações
+
+<ComponentBlock for="HierarchicalGrid">
+- Ao restaurar todos os recursos da grade de uma só vez (usando a API `applyState` sem parâmetros), as propriedades de coluna da grade raiz podem ser redefinidas para o padrão. Se isso acontecer, restaure as colunas ou o recurso de seleção de colunas separadamente depois disso:
+
+```typescript
+state.applyState(gridState);
+state.applyState(gridState.columns);
+state.applyState(gridState.columnSelection);
+```
+
+</ComponentBlock>
+
+<ComponentBlock for="Grid, HierarchicalGrid, TreeGrid">
+<PlatformBlock for="Angular">
+- O método <ApiLink type="GridState" member="getState" /> usa o método JSON.stringify() para converter os objetos originais em uma string JSON. O JSON.stringify() não oferece suporte a funções; por isso, a diretiva <ApiLink type="GridState" /> ignorará as propriedades <ApiLink type="Column" member="formatter" label="Formatter" />, <ApiLink type="PivotConfiguration" member="filters" label="Filters" />, <ApiLink type="Column" member="summaries" label="Summaries" />, <ApiLink type="{ComponentName}" member="sortStrategy" />, <ApiLink type="Column" member="cellClasses" />, <ApiLink type="Column" member="cellStyles" label="CellStyles" />, <ApiLink type="Column" member="headerTemplate" label="HeaderTemplate" /> e <ApiLink type="Column" member="bodyTemplate" label="BodyTemplate" /> das colunas.
+</PlatformBlock>
+
+<PlatformBlock for="React, WebComponents">
+- O método <ApiLink type="GridState" member="getStateAsString" /> usa o método JSON.stringify() para converter os objetos originais em uma string JSON. O JSON.stringify() não oferece suporte a funções; por isso, o componente <ApiLink type="GridState" /> ignorará as propriedades <ApiLink type="Column" member="formatter" label="Formatter" />, <ApiLink type="PivotConfiguration" member="filters" label="Filters" />, <ApiLink type="Column" member="summaries" label="Summaries" />, <ApiLink type="{ComponentName}" member="sortStrategy" />, <ApiLink type="Column" member="cellClasses" />, <ApiLink type="Column" member="cellStyles" label="CellStyles" />, <ApiLink type="Column" member="headerTemplate" label="HeaderTemplate" /> e <ApiLink type="Column" member="bodyTemplate" label="BodyTemplate" /> das colunas.
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+- O método <ApiLink type="GridState" member="getStateAsString" /> usa o método JSON.stringify() para converter os objetos originais em uma string JSON. O JSON.stringify() não oferece suporte a funções; por isso, o componente <ApiLink type="GridState" /> ignorará as propriedades <ApiLink type="Column" member="formatter" label="Formatter" />, <ApiLink type="PivotConfiguration" member="filters" label="Filters" />, <ApiLink type="Column" member="summaries" label="Summaries" />, <ApiLink type="{ComponentName}" member="sortStrategy" />, <ApiLink type="Column" member="cellClasses" />, <ApiLink type="Column" member="cellStyles" label="CellStyles" />, <ApiLink type="Column" member="headerTemplate" label="HeaderTemplate" /> e <ApiLink type="Column" member="bodyTemplate" label="BodyTemplate" /> das colunas.
+</PlatformBlock>
+
+</ComponentBlock>
+
+<ComponentBlock for="PivotGrid">
+- O método <ApiLink type="GridState" member="getState" /> usa o método JSON.stringify() para converter os objetos originais em uma string JSON. O JSON.stringify() não oferece suporte a funções; por isso, a diretiva <ApiLink type="GridState" /> ignorará a <ApiLink type="PivotDimension" member="memberFunction" label="MemberFunction" /> da dimensão de pivô, os <ApiLink type="PivotValue" member="member" label="Member" /> de pivô, <ApiLink type="Column" member="formatter" label="Formatter" />, as funções personalizadas de <ApiLink type="PivotValue" member="aggregate" label="Aggregate" />, <ApiLink type="PivotValue" member="styles" label="Styles" /> e as estratégias de configuração de pivô: <ApiLink type="PivotConfiguration" member="columnStrategy" label="ColumnStrategy" /> e <ApiLink type="PivotConfiguration" member="rowStrategy" label="RowStrategy" />.
+
+</ComponentBlock>
+
+
+<ComponentBlock for="Grid, HierarchicalGrid, TreeGrid">
+
+## Referências da API
+
+<ApiLink type="{ComponentName}" /><br />
+<ApiLink type="GridState" /><br />
+<ApiLink type="PivotConfiguration" /><br />
+<ApiLink type="PivotDimension" /><br />
+<ApiLink type="PivotValue" /><br />
+
+## Recursos adicionais
+
+- [Paginação](paging.mdx)
+- [Filtragem](filtering.mdx)
+- [Ordenação](sorting.mdx)
+- [Seleção](selection.mdx)
+</ComponentBlock>
+
+<ComponentBlock for="PivotGrid">
+
+<PlatformBlock for="WebComponents">
+- [Operações remotas do Pivot Grid](remote-operations.mdx)
+</PlatformBlock>
+</ComponentBlock>

@@ -1,0 +1,174 @@
+---
+title: "{Platform} 지도 | 데이터 시각화 도구 | Infragistics"
+description: "Infragistics의 {Platform} 지도를 사용하여 히트맵 이미지를 표시하십시오. {ProductName} 지도 데모를 확인하십시오!"
+keywords: "{Platform} 지도, 히트맵 이미지, {ProductName}, Infragistics"
+license: commercial
+mentionedTypes: ["GeographicMap", "ShapeDataSource", "ShapefileRecord", "HeatTileGenerator", "GeographicTileSeries"]
+_language: ko
+llms:
+  description: "{ProductName} 지도 컨트롤은 타일 시리즈에 셰이프 파일을 불러와 지리 공간 데이터를 불러옴으로써 ShapeDataSource가 생성한 ShapefileRecord를 사용하여 히트맵 이미지를 표시할 수 있습니다."
+platformType: xplat
+---
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+# {Platform} 열 이미지 표시
+
+{ProductName} 지도 컨트롤은 타일 시리즈에 셰이프 파일을 불러와 지리 공간 데이터를 불러옴으로써 `ShapeDataSource`가 생성한 `ShapefileRecord`를 사용하여 히트맵 이미지를 표시할 수 있습니다.
+
+이 항목의 선행 조건으로 [지리 공간 데이터가 있는 셰이프 파일 바인딩](./geo-map-binding-shp-file.mdx) 항목을 검토하는 것을 강력히 권장합니다.
+
+## {Platform} 열 이미지 표시 예제
+
+<Sample src="/maps/geo-map/display-heat-imagery" height={500} alt="{Platform} 열 이미지 표시 예제" />
+
+
+
+
+`ShapeDataSource`가 셰이프 파일을 불러오면, 해당 데이터를 `ShapefileRecord` 객체로 변환합니다. 이 객체들은 `ShapeDataSource`의 `GetPointData()` 메서드에서 가져올 수 있으며, 그런 다음 `TileGeneratorMapImagery.TileGenerator` 속성에 할당된 `HeatTileGenerator`를 가진 `TileGeneratorMapImagery` 객체를 사용하여 히트맵을 만드는 데 사용할 수 있습니다. 이 `TileGeneratorMapImagery`는 `GeographicTileSeries`의 `tileImagery` 소스로 사용할 수 있습니다.
+
+`HeatTileGenerator` 객체는 세 가지 값 경로인 `xValues`, `yValues`, `Values`를 가지고 있습니다. 이 경로들이 어떻게 사용될 수 있는지 예를 들어, 인구 정보가 있는 셰이프 파일의 경우 `xValues`를 경도, `yValues`를 위도, `Values`를 인구 데이터로 볼 수 있습니다. 이 속성들 각각은 `number[]`를 받습니다.
+
+히트맵 기능을 사용할 때 지리 타일 시리즈의 표시는 `minimumColor`와 `maximumColor` 속성을 `HeatTileGenerator`의 `Values` 속성에 할당된 컬렉션의 최솟값과 최댓값에 대응하고자 하는 색상을 설명하는 "rgba" 문자열로 설정하여 사용자 지정할 수 있습니다. 생성기의 `scaleColors` 속성을 색상을 설명하는 문자열의 컬렉션으로 설정하여 더 사용자 지정할 수 있습니다. 이는 `HeatTileGenerator`에게 지도에 표시되는 값에 어떤 색상을 사용할지 알려 줍니다. `blurRadius`, `maxBlurRadius`, `useBlurRadiusAdjustedForZoom` 속성을 사용하면 `scaleColors` 컬렉션의 색상이 서로 번지는 방식도 사용자 지정할 수 있습니다.
+
+`HeatTileGenerator`는 로그 척도도 사용할 수 있습니다. 이를 사용하려면 `useLogarithmicScale` 속성을 **true**로 설정하십시오.
+
+
+<PlatformBlock for="Web">
+
+## 웹 워커
+
+`HeatTileGenerator`는 셰이프 파일에서 타일 이미지를 불러오는 무거운 작업을 별도의 스레드에서 처리하기 위해 웹 워커도 지원합니다. 히트맵 기능을 사용할 때 지리 맵의 성능을 크게 개선할 수 있습니다. 생성기와 함께 웹 워커를 사용하려면 `useWebWorkers` 속성을 **true**로 설정한 다음 `webWorkerInstance` 속성을 웹 워커의 인스턴스로 설정하십시오.
+
+<PlatformBlock for="Angular">
+```ts
+// heatworker.worker.ts
+import { HeatTileGeneratorWebWorker } from 'igniteui-angular-core';
+
+const worker: Worker = self as any;
+worker.onmessage = HeatTileGeneratorWebWorker.onmessage;
+HeatTileGeneratorWebWorker.postmessage = heatWorkerPostMessage;
+function heatWorkerPostMessage() {
+  (self as any).postMessage.apply(self, Array.prototype.slice.call(arguments));
+}
+HeatTileGeneratorWebWorker.start();
+export default {} as typeof Worker & (new () => Worker);
+
+```
+
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```ts
+// heatworker.worker.ts
+import { HeatTileGeneratorWebWorker } from 'igniteui-react-core';
+
+let worker: Worker = self as any;
+worker.onmessage = HeatTileGeneratorWebWorker.onmessage;
+HeatTileGeneratorWebWorker.postmessage = postMessageFunction;
+HeatTileGeneratorWebWorker.start();
+function postMessageFunction() {
+    self.postMessage.apply(self, Array.prototype.slice.call(arguments));
+}
+export default {} as typeof Worker & (new () => Worker);
+```
+
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+```ts
+// heatworker.worker.ts
+import { HeatTileGeneratorWebWorker } from 'igniteui-webcomponents-core';
+
+let worker: Worker = self as any;
+worker.onmessage = HeatTileGeneratorWebWorker.onmessage;
+HeatTileGeneratorWebWorker.postmessage = postMessageFunction;
+HeatTileGeneratorWebWorker.start();
+function postMessageFunction() {
+    self.postMessage.apply(self, Array.prototype.slice.call(arguments));
+}
+export default {} as typeof Worker & (new () => Worker);
+
+```
+
+</PlatformBlock>
+</PlatformBlock>
+
+
+## 종속성
+
+```json-snippet source="/maps/geo-map/display-heat-imagery" channel="bindingImports,handlersImports,modulesImports...moduleRegistration"
+{
+    "descriptions": {
+        "content": {
+            "type": "GeographicMap",
+            "name": "map",
+            "height": "100%",
+            "width": "100%",
+            "zoomable": true
+        }
+    },
+    "onViewInit": [
+        "MapDisplayHeatImageryOnViewInit"
+    ],
+    "modules": [
+        "maps/GeographicMapModule",
+        "charts/DataChartInteractivityModule"
+    ],
+    "$modules": [
+        "+doc:modulesImports",
+        "+doc:moduleRegistration"
+    ]
+}
+```
+
+## 히트맵 만들기
+
+다음 코드 조각은 {ProductName} 지도 컴포넌트에 인구 기반 히트맵을 표시하는 방법을 보여 줍니다:
+
+```json-snippet source="/maps/geo-map/display-heat-imagery"
+{
+    "descriptions": {
+        "content": {
+            "type": "GeographicMap",
+            "name": "map",
+            "$type": "+doc:markup",
+            "height": "100%",
+            "width": "100%",
+            "zoomable": true
+        }
+    },
+    "onViewInit": [
+        "MapDisplayHeatImageryOnViewInit"
+    ]
+}
+```
+
+```json-snippet source="/maps/geo-map/display-heat-imagery" channel="handlersImports,bindingFields...handler"
+{
+    "descriptions": {
+        "content": {
+            "type": "GeographicMap",
+            "name": "map",
+            "height": "100%",
+            "width": "100%",
+            "zoomable": true
+        }
+    },
+    "onViewInit": [
+        "MapDisplayHeatImageryOnViewInit"
+    ]
+}
+```
+
+
+
+## API 참조
+`GeographicTileSeries`
+`HeatTileGenerator`
+`ShapeDataSource`
+`ShapefileRecord`
+`TileGeneratorMapImagery`

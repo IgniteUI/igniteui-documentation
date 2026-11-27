@@ -1,0 +1,819 @@
+---
+title: "{Platform} {ComponentTitle} 행 편집 - {ProductName}"
+description: "{Platform} {ComponentTitle}에서 행 편집을 활성화하고 싶으십니까? CRUD 작업을 위한 강력한 API가 필요하십니까? {ProductName} {ComponentTitle} 행 편집 컴포넌트를 사용해 보십시오!"
+keywords: "{Platform}, {ComponentKeywords}, {ProductName}, Infragistics"
+license: commercial
+mentionedTypes: [{ComponentApiMembers}]
+sharedComponents: ["Grid", "TreeGrid", "PivotGrid", "HierarchicalGrid"]
+namespace: Infragistics.Controls
+_canonicalLink: "{CanonicalLinkToGridRowEditing}"
+_language: ko
+llms:
+  description: "{Platform} {ComponentTitle}의 {ProductName} 행 편집 기능을 사용하면 {ComponentName} 안에서 직접 데이터를 편집할 수 있습니다."
+---
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+
+# {Platform} {ComponentTitle} 행 편집
+
+{Platform} {ComponentTitle}의 {ProductName} 행 편집 기능을 사용하면 `{ComponentName}` 안에서 직접 데이터를 편집할 수 있습니다. 이처럼 편리하게 데이터를 조작하는 방법 외에도, 완전한 CRUD 작업을 위한 강력한 API가 있습니다. 행을 클릭하고 **Enter 키**를 누르면 그리드 행 편집을 수행할 수 있습니다. 또 다른 빠른 방법은 수정할 행을 마우스로 더블 클릭하는 것입니다.
+
+## {Platform} {ComponentTitle} 행 편집 예제
+
+다음 샘플은 `{ComponentName}`에서 행 편집을 활성화하는 방법을 보여 줍니다. 셀 값을 바꾼 다음 같은 행의 다른 셀을 클릭하거나 그쪽으로 이동해도, **완료** 버튼으로 확인하거나 **취소** 버튼으로 버리기 전까지는 행 값이 업데이트되지 않습니다.
+
+<Sample src="/{ComponentSample}/row-editing-options" height={550} alt="{Platform} {ComponentTitle} 행 편집 예제" />
+
+
+
+<DocsAside type="info">
+행이 편집 모드일 때 다른 행의 셀을 클릭하면 "완료" 버튼을 누른 것처럼 동작하여, 이전 행에서 한 모든 변경 사항을 제출합니다. 새로 포커스된 셀을 편집할 수 있다면 새 행도 편집 모드로 들어갑니다. 하지만 셀을 편집할 수 없다면 이전 행만 편집 모드를 나갑니다.
+</DocsAside>
+
+## 행 편집 사용법
+
+<PlatformBlock for="Angular">
+시작하려면 **app.module.ts** 파일에서 <ApiLink type="{ComponentModule}" />을(를) 가져오십시오:
+
+```typescript
+// app.module.ts
+
+import { {ComponentModule} } from 'igniteui-{Platform}';
+
+@NgModule({
+    imports: [{ComponentModule}],
+})
+export class AppModule {}
+```
+
+</PlatformBlock>
+
+바인딩된 데이터 소스와 <ApiLink type="{ComponentName}" member="rowEditable" />가 true로 설정된 `{ComponentName}`를 정의하십시오:
+
+<ComponentBlock for="Grid">
+<PlatformBlock for="Angular">
+```html
+<{ComponentSelector} [data]="data" [primaryKey]="'ProductID'" width="100%" height="500px" [rowEditable]="true">
+    <igx-column field="ProductID" header="Product ID" editable="false"></igx-column>
+    <igx-column field="ReorderLevel" header="Reorder Level" [dataType]="'number'"></igx-column>
+    <igx-column field="ProductName" header="Product Name" [dataType]="'string'"></igx-column>
+    <igx-column field="UnitsInStock" header="Units In Stock" [dataType]="'number'">
+        <ng-template igxCellEditor let-cell="cell">
+            <input name="units" [(ngModel)]="cell.value" style="color: black" />
+        </ng-template>
+    </igx-column>
+    <igx-column field="OrderDate" header="Order Date" [dataType]="'date'"></igx-column>
+    <igx-column field="Discontinued" [dataType]="'boolean'"></igx-column>
+</{ComponentSelector}>
+```
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+```html
+<{ComponentSelector} id="grid" primary-key="ProductID" width="100%" height="500px" row-editable="true">
+    <igc-column field="ProductID" header="Product ID" editable="false"></igc-column>
+    <igc-column field="ReorderLevel" header="Reorder Level" data-type="number"></igc-column>
+    <igc-column field="ProductName" header="Product Name" data-type="string"></igc-column>
+    <igc-column id="unitsInStock" field="UnitsInStock" header="Units In Stock" data-type="number"></igc-column>
+    <igc-column field="OrderDate" header="Order Date" data-type="date"></igc-column>
+    <igc-column field="Discontinued" data-type="boolean"></igc-column>
+</{ComponentSelector}>
+```
+
+```ts
+constructor() {
+    var grid  = document.getElementById('grid') as {ComponentName}Component;
+    var unitsInStock = document.getElementById('unitsInStock') as IgcColumnComponent;
+    grid.data = this.data;
+    unitsInStock.bodyTemplate = this.unitsInStockCellTemplate;
+}
+
+public unitsInStockCellTemplate = (ctx: IgcCellTemplateContext) => {
+    return html`<input name="units" value="${ctx.cell.value}" style="color: black" />`;
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+const unitsInStockCellTemplate = (ctx: IgrCellTemplateContext) => {
+    return (
+        <>
+            <input name="units" value={ctx.cell.value} style={{color: "black"}} />;
+        </>
+    );
+}
+
+<{ComponentSelector} primaryKey="ProductID" width="100%" height="500px" rowEditable={true}>
+    <IgrColumn field="ProductID" header="Product ID" editable={false}></IgrColumn>
+    <IgrColumn field="ReorderLevel" header="Reorder Level" dataType="number"></IgrColumn>
+    <IgrColumn field="ProductName" header="Product Name" dataType="string"></IgrColumn>
+    <IgrColumn field="UnitsInStock" header="Units In Stock" dataType="number" bodyTemplate={unitsInStockCellTemplate}></IgrColumn>
+    <IgrColumn field="OrderDate" header="Order Date" dataType="date"></IgrColumn>
+    <IgrColumn field="Discontinued" header="Discontinued" dataType="boolean"></IgrColumn>
+</{ComponentSelector}>
+
+```
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```razor
+ <{ComponentSelector} Width="100%"  
+             Height="100%"
+             PrimaryKey="Key"
+             AutoGenerate="false"
+             Data="northwindEmployees"
+             RowEditable="true">
+        <IgbColumn Field="ID" Editable="false"></IgbColumn>
+        <IgbColumn Field="ContactName"></IgbColumn>
+        <IgbColumn Field="ContactTitle"></IgbColumn>
+        <IgbColumn Field="City"></IgbColumn>
+        <IgbColumn Field="CompanyName"></IgbColumn>
+        <IgbColumn Field="Fax"></IgbColumn>
+        <IgbColumn Field="Address"></IgbColumn>
+        <IgbColumn Field="PostalCode"></IgbColumn>
+        <IgbColumn Field="Country"></IgbColumn>
+        <IgbColumn Field="Phone"></IgbColumn>
+    </{ComponentSelector}>
+
+    @code {
+        public string Key = "ID";
+        private Northwind.EmployeesType[] northwindEmployees = Array.Empty<Northwind.EmployeesType>();
+        protected override async Task OnInitializedAsync()
+        {
+            northwindEmployees = await this.northwindService.GetEmployees() ?? northwindEmployees;
+
+        }
+    }
+```
+
+</PlatformBlock>
+</ComponentBlock>
+
+<ComponentBlock for="TreeGrid">
+<PlatformBlock for="Angular">
+```html
+<{ComponentSelector} [data]="data" [primaryKey]="'ID'" width="100%" height="500px" [rowEditable]="true">
+    <igx-column field="Name" header="Name" [dataType]="'string'"></igx-column>
+    <igx-column field="Age" header="Reorder Level" [dataType]="'number'"></igx-column>
+    <igx-column field="Title" header="Title" [dataType]="'string'"></igx-column>
+    <igx-column field="HireDate" header="Hire Date" [dataType]="'date'"></igx-column>
+</{ComponentSelector}>
+```
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+```html
+<{ComponentSelector} id="grid" primary-key="ID" width="100%" height="500px" row-editable="true">
+    <igc-column field="Name" header="Name" data-type="string"></igc-column>
+    <igc-column field="Age" header="Age" data-type="number"></igc-column>
+    <igc-column field="Title" header="Title" data-type="string"></igc-column>
+    <igc-column field="HireDate" header="Hire Date" data-type="date"></igc-column>
+</{ComponentSelector}>
+```
+
+```ts
+constructor() {
+    var grid  = document.getElementById('grid') as {ComponentName}Component;
+    grid.data = this.data;
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+<{ComponentSelector} primaryKey="ID" width="100%" height="500px" rowEditable={true}>
+    <IgrColumn field="Name" header="Name" dataType="string"></IgrColumn>
+    <IgrColumn field="Age" header="Age" dataType="number"></IgrColumn>
+    <IgrColumn field="Title" header="Title" dataType="string"></IgrColumn>
+    <IgrColumn field="HireDate" header="Hire Date" dataType="date"></IgrColumn>
+</{ComponentSelector}>
+```
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```razor
+ <{ComponentSelector} Width="100%" Height="100%" PrimaryKey="ID" AutoGenerate="false" Data="data" RowEditable="true">
+        <IgbColumn Field="Name" Header="Name" DataType="GridColumnDataType.String"></IgbColumn>
+        <IgbColumn Field="Age" Header="Age" DataType="GridColumnDataType.Number"></IgbColumn>
+        <IgbColumn Field="Title" Header="Title" DataType="GridColumnDataType.String"></IgbColumn>
+        <IgbColumn Field="HireDate" Header="Hire Date" DataType="GridColumnDataType.Date"></IgbColumn>
+</{ComponentSelector}>
+```
+</PlatformBlock>
+</ComponentBlock>
+
+<ComponentBlock for="HierarchicalGrid">
+<PlatformBlock for="Angular">
+```html
+<{ComponentSelector} [data]="data" [primaryKey]="'ProductID'" width="100%" height="500px" [rowEditable]="true">
+    <igx-column field="ProductID" header="Product ID" editable="false"></igx-column>
+    <igx-column field="ReorderLevel" header="Reorder Level" [dataType]="'number'"></igx-column>
+    <igx-column field="ProductName" header="Product Name" [dataType]="'string'"></igx-column>
+    <igx-column field="UnitsInStock" header="Units In Stock" [dataType]="'number'">
+        <ng-template igxCellEditor let-cell="cell">
+            <input name="units" [(ngModel)]="cell.value" style="color: black" />
+        </ng-template>
+    </igx-column>
+    <igx-column field="OrderDate" header="Order Date" [dataType]="'date'"></igx-column>
+    <igx-column field="Discontinued" [dataType]="'boolean'"></igx-column>
+</{ComponentSelector}>
+```
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+```html
+<igc-hierarchical-grid auto-generate="false" name="hierarchicalGrid" id="hierarchicalGrid" primary-key="ID" row-editable="true">
+    <igc-column field="Artist" header="Artist" data-type="string"> </igc-column>
+    <igc-column field="Photo" header="Photo" data-type="image" editable="false"> </igc-column>
+    <igc-column field="Debut" header="Debut" data-type="number"> </igc-column>
+    <igc-column field="GrammyNominations" header="Grammy Nominations" data-type="number"> </igc-column>
+    <igc-column field="GrammyAwards" header="Grammy Awards" data-type="number"> </igc-column>
+
+    <igc-row-island child-data-key="Albums" auto-generate="false" primary-key="Album" row-editable="true">
+        <igc-column field="Album" header="Album" data-type="string"> </igc-column>
+        <igc-column field="LaunchDate" header="Launch Date" data-type="date"> </igc-column>
+        <igc-column field="BillboardReview" header="Billboard Review" data-type="string"> </igc-column>
+        <igc-column field="USBillboard200" header="US Billboard 200" data-type="string"> </igc-column>
+        <igc-row-island child-data-key="Songs" auto-generate="false" primary-key="Number" row-editable="true">
+            <igc-column field="Number" header="No." data-type="string"> </igc-column>
+            <igc-column field="Title" header="Title" data-type="string"> </igc-column>
+            <igc-column field="Released" header="Released" data-type="date"> </igc-column>
+            <igc-column field="Genre" header="Genre" data-type="string"> </igc-column>
+        </igc-row-island>
+    </igc-row-island>
+
+    <igc-row-island child-data-key="Tours" auto-generate="false" primary-key="Tour" row-editable="true">
+        <igc-column field="Tour" header="Tour" data-type="string"> </igc-column>
+        <igc-column field="StartedOn" header="Started on" data-type="string"> </igc-column>
+        <igc-column field="Location" header="Location" data-type="string"> </igc-column>
+        <igc-column field="Headliner" header="Headliner" data-type="string"> </igc-column>
+    </igc-row-island>
+</igc-hierarchical-grid>
+```
+
+```ts
+constructor() {
+    var grid  = document.getElementById('hierarchicalGrid') as {ComponentName}Component;
+    grid.data = this.data;
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+<IgrHierarchicalGrid autoGenerate={false} data={singersData} ref={hierarchicalGridRef} id="hierarchicalGrid" primaryKey="ID" rowEditable={true}>
+    <IgrColumn field="Artist" header="Artist" dataType="string" />
+    <IgrColumn field="Photo" header="Photo" dataType="image" editable={false} />
+    <IgrColumn field="Debut" header="Debut" dataType="number" />
+    <IgrColumn field="GrammyNominations" header="Grammy Nominations" dataType="number" />
+    <IgrColumn field="GrammyAwards" header="Grammy Awards" dataType="number" />
+
+    <IgrRowIsland childDataKey="Albums" autoGenerate={false} primaryKey="Album" rowEditable={true}>
+        <IgrColumn field="Album" header="Album" dataType="string" />
+        <IgrColumn field="LaunchDate" header="Launch Date" dataType="date" />
+        <IgrColumn field="BillboardReview" header="Billboard Review" dataType="string" />
+        <IgrColumn field="USBillboard200" header="US Billboard 200" dataType="string" />
+
+        <IgrRowIsland childDataKey="Songs" autoGenerate={false} primaryKey="Number" rowEditable={true}>
+            <IgrColumn field="Number" header="No." dataType="string" />
+            <IgrColumn field="Title" header="Title" dataType="string" />
+            <IgrColumn field="Released" header="Released" dataType="date" />
+            <IgrColumn field="Genre" header="Genre" dataType="string" />
+        </IgrRowIsland>
+    </IgrRowIsland>
+
+    <IgrRowIsland childDataKey="Tours" autoGenerate={false} primaryKey="Tour" rowEditable={true}>
+        <IgrColumn field="Tour" header="Tour" dataType="string" />
+        <IgrColumn field="StartedOn" header="Started on" dataType="string" />
+        <IgrColumn field="Location" header="Location" dataType="string" />
+        <IgrColumn field="Headliner" header="Headliner" dataType="string" />
+    </IgrRowIsland>
+</IgrHierarchicalGrid>
+
+```
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```razor
+<IgbHierarchicalGrid
+AutoGenerate="false"
+Data="SingersData"
+Name="hierarchicalGrid"
+@ref="hierarchicalGrid"
+Id="hierarchicalGrid"
+PrimaryKey="ID"
+RowEditable="true">
+    <IgbColumn
+    Field="Artist"
+    Header="Artist"
+    DataType="GridColumnDataType.String">
+    </IgbColumn>
+    <IgbColumn
+    Field="Photo"
+    Header="Photo"
+    DataType="GridColumnDataType.Image"
+    Editable="false">
+    </IgbColumn>
+    <IgbColumn
+    Field="Debut"
+    Header="Debut"
+    DataType="GridColumnDataType.Number">
+    </IgbColumn>
+    <IgbColumn
+    Field="GrammyNominations"
+    Header="Grammy Nominations"
+    DataType="GridColumnDataType.Number">
+    </IgbColumn>
+    <IgbColumn
+    Field="GrammyAwards"
+    Header="Grammy Awards"
+    DataType="GridColumnDataType.Number">
+    </IgbColumn>
+
+    <IgbRowIsland
+    ChildDataKey="Albums"
+    AutoGenerate="false"
+    PrimaryKey="Album"
+    RowEditable="true">
+        <IgbColumn
+        Field="Album"
+        Header="Album"
+        DataType="GridColumnDataType.String">
+        </IgbColumn>
+        <IgbColumn
+        Field="LaunchDate"
+        Header="Launch Date"
+        DataType="GridColumnDataType.Date">
+        </IgbColumn>
+        <IgbColumn
+        Field="BillboardReview"
+        Header="Billboard Review"
+        DataType="GridColumnDataType.String">
+        </IgbColumn>
+        <IgbColumn
+        Field="USBillboard200"
+        Header="US Billboard 200"
+        DataType="GridColumnDataType.String">
+        </IgbColumn>
+
+        <IgbRowIsland
+        ChildDataKey="Songs"
+        AutoGenerate="false"
+        PrimaryKey="Number"
+        RowEditable="true">
+            <IgbColumn
+            Field="Number"
+            Header="No."
+            DataType="GridColumnDataType.String">
+            </IgbColumn>
+            <IgbColumn
+            Field="Title"
+            Header="Title"
+            DataType="GridColumnDataType.String">
+            </IgbColumn>
+            <IgbColumn
+            Field="Released"
+            Header="Released"
+            DataType="GridColumnDataType.Date">
+            </IgbColumn>
+            <IgbColumn
+            Field="Genre"
+            Header="Genre"
+            DataType="GridColumnDataType.String">
+            </IgbColumn>
+        </IgbRowIsland>
+    </IgbRowIsland>
+
+    <IgbRowIsland
+    ChildDataKey="Tours"
+    AutoGenerate="false"
+    PrimaryKey="Tour"
+    RowEditable="true">
+        <IgbColumn
+        Field="Tour"
+        Header="Tour"
+        DataType="GridColumnDataType.String">
+        </IgbColumn>
+        <IgbColumn
+        Field="StartedOn"
+        Header="Started on"
+        DataType="GridColumnDataType.String">
+        </IgbColumn>
+        <IgbColumn
+        Field="Location"
+        Header="Location"
+        DataType="GridColumnDataType.String">
+        </IgbColumn>
+        <IgbColumn
+        Field="Headliner"
+        Header="Headliner"
+        DataType="GridColumnDataType.String">
+        </IgbColumn>
+    </IgbRowIsland>
+</IgbHierarchicalGrid>
+```
+
+</PlatformBlock>
+</ComponentBlock>
+
+<DocsAside type="info">
+행 편집 작업에는 기본 키를 설정하는 것이 필수입니다.
+</DocsAside>
+
+<DocsAside type="info">
+개별 열에 대해 편집을 활성화할 필요는 없습니다. `{ComponentName}`의 <ApiLink type="{ComponentName}" member="rowEditable" /> 속성을 사용하면, 정의된 `Field` 속성을 가진 모든 행(기본 행 제외)이 편집 가능해집니다. 특정 열의 편집을 비활성화하려면 해당 열의 <ApiLink type="{ComponentName}" member="editable" /> 입력을 `false`로 설정하기만 하면 됩니다.
+</DocsAside>
+
+<PlatformBlock for="Angular">
+```typescript
+import { Component, ViewChild } from '@{Platform}/core';
+import { data } from './data';
+import { {ComponentName} } from 'igniteui-{Platform}';
+
+@Component({
+    selector: 'app-grid-row-edit',
+    styleUrls: [app-grid-row-edit.component.css],
+    templateUrl: 'app-grid-row-edit.component.html'
+})
+export class {ComponentName}RowEditSampleComponent {
+    @ViewChild('gridRowEdit', { read: {ComponentName} }) public gridRowEdit: {ComponentName};
+
+    public data: any[];
+
+    constructor() {
+        this.data = data;
+    }
+}
+
+```
+</PlatformBlock>
+
+
+<DocsAside type="info">
+`{ComponentName}`는 `BaseTransactionService`를 사용합니다. 이는 행 상태가 제출되거나 취소될 때까지 보류 중인 셀 변경 사항을 보관하는 내부 공급자입니다.
+</DocsAside>
+
+## 위치 지정
+
+- 오버레이의 기본 위치는 편집 모드에 있는 행의 아래입니다
+
+- 행 아래에 공간이 없으면 오버레이는 행의 위에 나타납니다.
+
+- 위 또는 아래에 한번 표시되면, 오버레이는 닫힐 때까지 스크롤하는 동안 그 위치를 유지합니다.
+
+## 동작
+
+- 행이 편집 모드에 있는 동안 같은 행의 셀을 클릭하면 편집이 계속됩니다.
+
+- "Done" 버튼을 클릭하면 행 편집이 끝나고, 변경 사항은 데이터 소스에 제출되거나, 가능하다면 트랜잭션에 제출됩니다. 또한 행은 편집 모드를 벗어납니다.
+
+- "Cancel" 버튼을 클릭하면 행의 현재 모든 변경 사항이 되돌아가고, 행은 편집 모드를 벗어납니다.
+
+- 행이 편집 모드에 있을 때 다른 행의 셀을 클릭하면, 현재 행 편집을 끝내고 새 행의 변경 사항을 제출합니다("Done" 버튼을 클릭한 것과 같은 동작). 새로 포커스를 받은 셀이 편집 가능하면 새 행도 편집 모드에 들어가고, 셀이 편집 불가능하면 이전 행만 편집 모드를 벗어납니다.
+
+- 행이 편집 모드에 있고 `{ComponentName}`이(가) 스크롤되어 그 행이 보이는 영역 밖으로 나가더라도, 그 행은 여전히 편집 모드에 있습니다. `{ComponentName}`가 다시 스크롤되어 그 행이 다시 보이게 되면, 행은 여전히 편집 모드에 있습니다. `{ComponentName}` 바깥을 클릭해도 그 셀은 여전히 편집 모드에 남습니다.
+
+- **정렬**, **필터링**, **검색** 및 **숨기기** 작업을 수행하면, 행의 현재 모든 변경 사항이 되돌아가고 행은 편집 모드를 벗어납니다.
+
+- **페이징**, **크기 조정**, **고정** 및 **이동** 작업을 수행하면 편집 모드를 벗어나고 최신 값을 제출합니다.
+
+- 행 편집이 끝날 때까지 수정된 각 셀에는 편집 스타일이 적용됩니다. 이는 `{ComponentName}`에 트랜잭션이 제공되지 않은 경우의 동작입니다. 트랜잭션을 사용할 수 있는 경우에는 모든 변경 사항이 커밋될 때까지 셀 편집 스타일이 적용됩니다.
+
+
+## 키보드 탐색
+
+- <kbd>ENTER</kbd> 및 <kbd>F2</kbd>는 행 편집 모드로 들어갑니다
+
+- <kbd>ESC</kbd>는 행 편집 모드를 나가며, 행이 편집 모드였던 동안 한 셀 변경 사항은 어느 것도 제출하지 않습니다.
+
+- <kbd>TAB</kbd>은 포커스를 행의 편집 가능한 한 셀에서 다음 셀로 옮기고, 가장 오른쪽 편집 가능한 셀에서는 CANCEL 및 DONE 버튼으로 옮깁니다. DONE 버튼에서의 탐색은 현재 편집 중인 행의 가장 왼쪽 편집 가능한 셀로 이동합니다.
+
+
+## 기능 통합
+
+- 데이터를 바꾸는 모든 작업은 행 편집 작업을 끝내고 현재 행 변경 사항을 제출합니다. 여기에는 정렬, 그룹화 또는 필터링 기준 변경, 페이징 등의 작업이 포함됩니다.
+
+- 행 편집이 끝나면 요약이 업데이트됩니다. 정렬, 필터링 등 다른 기능에도 같은 내용이 적용됩니다.
+
+<ComponentBlock for="Grid">
+- 그룹화된 행을 펼치고 접어도 현재 행의 편집은 끝나지 않습니다.
+
+</ComponentBlock>
+
+## 행 편집 오버레이 사용자 지정하기
+
+### 텍스트 사용자 지정하기
+
+템플릿화를 통해 행 편집 오버레이의 텍스트를 사용자 지정할 수 있습니다.
+
+<PlatformBlock for="Angular">
+`RowChangesCount` 속성이 노출되며, 변경된 셀의 개수를 담고 있습니다.
+
+
+```html
+<ng-template igxRowEditText let-rowChangesCount>
+    Changes: {{rowChangesCount}}
+</ng-template>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```javascript
+igRegisterScript("RowEditTextTemplate", (ctx) => {
+    var html = window.igTemplating.html;
+    return html`<div>
+   Changes: ${ctx.implicit}
+</div>`;
+}, false);
+```
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+```ts
+public rowEditTextTemplate = (ctx: IgcGridRowEditTextTemplateContext) => {
+    return html`Changes: ${ctx.implicit}`;
+}
+```
+</PlatformBlock>
+
+<PlatformBlock for="React">
+<ComponentBlock for="Grid, TreeGrid, HierarchicalGrid">
+```tsx
+const rowEditTextTemplate = (ctx: IgrGridRowEditTextTemplateContext) =>{
+    return (
+        <>
+            Changes: {ctx.implicit}
+        </>
+    );
+}
+```
+</ComponentBlock>
+</PlatformBlock>
+
+### 버튼 사용자 지정하기
+
+행 편집 오버레이의 버튼 또한 템플릿화를 통해 사용자 지정할 수 있습니다.
+
+<PlatformBlock for="Angular">
+버튼이 키보드 탐색의 일부가 되기를 원한다면, 각 버튼에 `RowEditTabStopDirective`가 있어야 합니다.
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+```html
+ <ng-template igxRowEditActions let-endRowEdit>
+    <button igxButton igxRowEditTabStop (click)="endRowEdit(false)">Cancel</button>
+    <button igxButton igxRowEditTabStop (click)="endRowEdit(true)">Apply</button>
+</ng-template>
+```
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```javascript
+ igRegisterScript("RowEditActionsTemplate", (ctx) => {
+    var html = window.igTemplating.html;
+    window.endRowEdit = ctx.implicit;
+    return html`<div>
+  <button @click="(event) => endRowEdit(false, event)">Cancel</button>
+    <button @click="(event) => endRowEdit(true, event)">Apply</button>
+</div>`;
+}, false);
+```
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+```ts
+public rowEditActionsTemplate = (ctx: IgcGridRowEditActionsTemplateContext) => {
+    const endRowEdit = ctx.implicit;
+    return html`
+        <button @click="${(event) => endRowEdit(false, event)}">Cancel</button>
+        <button @click="${(event) => endRowEdit(true, event)}">Apply</button>
+    `;
+}
+```
+</PlatformBlock>
+
+<PlatformBlock for="React">
+<ComponentBlock for="Grid, TreeGrid, HierarchicalGrid">
+```tsx
+const rowEditActionsTemplate =(ctx: IgrGridRowEditActionsTemplateContext) => {
+    const endRowEdit = ctx.implicit;
+    return (
+        <>
+            <button onClick={(event) => endRowEdit(false, event)}>Cancel</button>
+            <button onClick={(event) => endRowEdit(true, event)}>Apply</button>
+        </>
+    );
+}
+```
+</ComponentBlock>
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+## 스타일링
+
+[{ProductName} 테마 라이브러리](themes/index.mdx)를 사용하면 행 편집 오버레이를 크게 바꿀 수 있습니다.
+
+행 편집 오버레이는 복합 요소입니다. 그 UI는 여러 다른 컴포넌트로 구성됩니다:
+
+- 내용을 렌더링하기 위한 [igx-banner](banner.mdx)
+- 기본 템플릿에서 [igx-button](button.mdx)이 렌더링됩니다(`Done` 및 `Cancel` 버튼용).
+
+아래 예제에서는 이 두 컴포넌트의 스타일 옵션([버튼 스타일 지정](button.mdx#styling) 및 [배너 스타일 지정](../banner.mdx#styling))을 사용하여, `{ComponentName}`의 행 편집 경험을 사용자 지정하겠습니다.
+
+또한 현재 셀의 편집기와 배경도 스타일을 지정하여 더 뚜렷하게 만들겠습니다. 셀 스타일 지정에 대해서는 이 [항목](cell-editing.mdx#styling)에서 더 자세히 알아볼 수 있습니다.
+
+### 테마 가져오기
+
+행 편집 배너의 스타일을 지정하는 가장 쉬운 방법은 `app`의 전역 스타일 파일(보통 `styles.scss`)에 스타일을 정의하는 것입니다.
+가장 먼저 할 일은 `themes/index` 파일을 import하는 것입니다. 이렇게 하면 {ProductName} Sass 프레임워크의 모든 강력한 도구를 사용할 수 있습니다:
+
+```scss
+@use "igniteui-{Platform}/theming" as *;
+
+// IMPORTANT: Prior to {ProductName} version 13 use:
+// @import '~igniteui-{Platform}/lib/core/styles/themes/index';
+```
+
+테마 파일을 가져왔으면 사용자 지정 테마를 만들 수 있습니다.
+
+#### 테마 정의하기
+
+이제 행 편집의 배경에 영향을 주고, 미리 정의된 팔레트 중 하나인 `$purple-palette`를 사용하는 사용자 지정 <ApiLink type="function-banner-theme" label="배너 테마" kind="sass" module="index.html" />을 정의할 수 있습니다:
+
+```scss
+    $my-light-gray: #e3e3e3;
+    $my-banner-palette: $purple-palette;
+
+    $banner-theme: banner-theme(
+        $banner-background: $my-light-gray,
+        $banner-message-color: color($my-banner-palette, "secondary", 600)
+    );
+```
+
+여기서는 색상을 생성하기 위해 `my-banner-palette`을(를) 테마 라이브러리가 노출하는 `igx-color`와 함께 사용하고 있습니다.
+
+### 테마 include하기
+
+이제 남은 일은 Sass `@include` 문으로 테마를 적용하는 것입니다. 새로 정의한 `$banner-theme`를 **igx-banner 믹스인**에 전달합니다:
+
+```scss
+@include banner($banner-theme);
+```
+
+이렇게 하면 사용자 지정 배너 테마가 행 편집 오버레이에 적용됩니다. 하지만 이 스타일은 전역 스타일 파일에 정의되어 있으므로, 애플리케이션의 **모든** 배너에도 적용됩니다.
+
+### 컴포넌트 스타일
+
+행 편집 오버레이는 다른 여러 컴포넌트의 테마를 많이 사용하므로, 전역 스타일로 스타일을 지정하면 애플리케이션의 다른 부분(예: 배너, 버튼 등)에 영향을 줄 수 있습니다. 이를 방지하는 가장 좋은 방법은 배너 테마의 범위를 지정하는 것입니다. [테마 import](#테마-가져오기)를 포함하여 스타일을 `{ComponentName}`를 포함하는 컴포넌트에 정의할 수 있습니다.
+
+<DocsAside type="info">
+컴포넌트가 [Emulated](themes/styles.mdx#view-encapsulation) ViewEncapsulation을 사용한다면, 그리드의 스타일을 지정하려면 `::ng-deep`를 사용하여 이 캡슐화를 관통해야 합니다.
+스타일이 컴포넌트 바깥의 요소에 영향을 주지 않도록, 구문을 `:host` 선택자 안에 넣습니다:
+</DocsAside>
+
+```scss
+// custom.component.scss
+
+:host {
+    ::ng-deep {
+        @include banner($banner-theme);
+    }
+}
+```
+
+위 구문을 사용하면 사용자 지정 배너 테마가 그리드의 행 편집 오버레이에 올바르게 적용됩니다.
+
+### 사용자 지정 템플릿
+
+행 편집 오버레이를 더 사용자 지정하기 위해, `Done`과 `Cancel` 버튼의 스타일을 따로 지정할 수 있도록 사용자 지정 템플릿을 전달할 수 있습니다:
+
+```html
+<!-- in component.html -->
+<{ComponentSelector}>
+    <ng-template igxRowEditActions let-endRowEdit>
+        <div class="custom-buttons">
+            <button igxIconButton="flat" class="custom-button" igxRowEditTabStop (click)="endRowEdit(false)">
+                <igx-icon>clear</igx-icon>
+            </button>
+            <button igxIconButton="flat" class="custom-button" igxRowEditTabStop (click)="endRowEdit(true)">
+                <igx-icon>check</igx-icon>
+            </button>
+        </div>
+    </ng-template>
+</{ComponentSelector}>
+```
+
+사용자 지정 버튼을 정의한 후에는 <ApiLink type="function-flat-icon-button-theme" label="flat-icon-button-theme" kind="sass" module="index.html" />을(를) 사용하여 해당 버튼의 스타일을 지정할 수 있습니다. `igx-icon-button` 스타일 지정에 대해서는 이 [항목](../icon-button.mdx#styling)에서 더 자세히 알아볼 수 있습니다. `Done` 및 `Cancel`를 위한 사용자 지정 테마를 만들 수 있습니다:
+
+```scss
+// custom.component.scss
+// ...
+
+$button-theme: flat-icon-button-theme(
+  $background: #e3e3e3,
+  $foreground: #423589
+);
+
+.custom-buttons {
+  @include tokens($button-theme);
+}
+```
+
+배너와 버튼에만 적용되도록 `@include` 구문을 `.custom-buttons` 안에 범위 지정합니다. 대상은 `Done`과 `Cancel` 버튼입니다.
+
+### 데모
+
+배너와 버튼의 스타일을 지정한 후에는 [편집 모드에 있는 셀](cell-editing.mdx#styling)에 대한 사용자 지정 스타일도 정의합니다. 모든 결합된 스타일의 결과는 아래에서 볼 수 있습니다:
+
+
+<Sample src="/{ComponentSample}/row-editing-style" height={560} alt="{Platform} {ComponentTitle} 행 편집 스타일 지정 예제" />
+
+
+
+<DocsAside type="info">
+이 샘플은 **테마 변경**에서 선택한 전역 테마의 영향을 받지 않습니다.
+</DocsAside>
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents, Blazor, React">
+## 스타일링
+
+기본 제공 테마 외에도, 사용 가능한 CSS 속성 몇 가지를 설정하여 그리드를 더 사용자 지정할 수 있습니다. 몇 가지 색상만으로 완전한 테마를 만드는 방법은 [테마 지정 항목](theming.mdx)을 참조하십시오.
+일부 색상을 바꾸려면 먼저 그리드에 클래스를 설정해야 합니다:
+
+<PlatformBlock for="WebComponents">
+```html
+<{ComponentSelector} class="grid"></{ComponentSelector}>
+```
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+<{ComponentSelector} className="grid"></{ComponentSelector}>
+```
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```razor
+<{ComponentSelector} class="grid"></{ComponentSelector}>
+```
+</PlatformBlock>
+
+그다음 해당 클래스에 관련 CSS 속성을 설정하십시오:
+
+```css
+.grid {
+    --ig-banner-banner-background: #e3e3e3;
+    --ig-banner-banner-message-color: #423589;
+}
+```
+
+### 데모
+
+<Sample src="/{ComponentSample}/row-editing-style" height={560} alt="{Platform} {ComponentTitle} 행 편집 스타일 지정 예제" />
+
+
+</PlatformBlock>
+
+## 알려진 문제와 제한 사항
+
+- 그리드에 <ApiLink type="{ComponentName}" member="primaryKey" />이(가) 설정되어 있지 않고 원격 데이터 시나리오가 활성화되어 있으면(페이징, 정렬, 필터링, 스크롤이 표시할 데이터를 가져오기 위해 원격 서버에 요청을 트리거할 때), 데이터 요청이 완료된 후 행은 다음 상태를 잃게 됩니다:
+
+- 행 선택
+- 행 펼치기/접기
+- 행 편집
+- 행 고정
+
+## API 참조
+<ApiLink type="{ComponentName}" />
+## 추가 리소스
+
+<PlatformBlock for="Angular">
+- [igxGrid로 CRUD 작업 구현하기](/general/how-to/how-to-perform-crud.mdx)
+
+- [{ComponentTitle} 편집](editing.mdx)
+- [{ComponentTitle} 트랜잭션](batch-editing.mdx)
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+<ComponentBlock for="Grid">
+- [{ComponentTitle} 편집](editing.mdx)
+</ComponentBlock>
+
+</PlatformBlock>
+
+커뮤니티는 활발하며 새로운 아이디어를 언제나 환영합니다.
+
+- [{ProductName} **포럼**]({ForumsLink})
+- [{ProductName} **GitHub**]({GithubLink})

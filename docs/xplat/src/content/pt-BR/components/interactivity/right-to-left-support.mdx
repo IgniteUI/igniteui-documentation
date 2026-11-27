@@ -1,0 +1,358 @@
+---
+title: "Suporte a Right-to-Left (RTL) no {Platform}"
+description: "Os componentes {ProductName} oferecem suporte a layouts da direita para a esquerda (RTL) por meio do atributo HTML dir, com o mesmo tema para as duas direções."
+keywords: "{ProductName}, Infragistics, RTL, da direita para a esquerda, atributo dir, espelhamento, navegação por teclado"
+license: MIT
+last_updated: "2026-10-27"
+platformType: web-only
+mentionedTypes: ["Icon"]
+_language: pt-BR
+llms:
+  description: "Os componentes {ProductName} oferecem suporte a layouts da direita para a esquerda (RTL): defina dir=\"rtl\" na página e os componentes espelham o seu layout e a maior parte da sua interação por teclado, sem um tema RTL separado."
+---
+
+{/*This topic serves Angular, React, Web Components and Blazor. The Angular doc set generates its copy from this file, so the Angular path is listed in docs/angular/src/content/en/.gitignore. Never write a literal platform block tag in prose or a comment - the generator strips blocks with a regex that does not skip comments, and an unpaired tag swallows the rest of the page.*/}
+
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import Faq from 'igniteui-astro-components/components/mdx/Faq.astro';
+import FaqItem from 'igniteui-astro-components/components/mdx/FaqItem.astro';
+
+# Suporte a Right-to-Left (RTL)
+
+Os componentes {ProductName} oferecem suporte a layouts da direita para a esquerda (RTL): defina `dir="rtl"` na página, e os componentes espelham o seu layout e a maior parte da sua interação por teclado, sem um tema RTL separado.
+
+## Visão geral
+
+O {ProductName} obtém a direção a partir do atributo HTML padrão `dir`. Nenhum componente tem uma propriedade de direção, e não existe uma versão RTL de um tema: o tema que você já carrega atende às duas direções.
+
+| Camada | Como ele acompanha a direção |
+|---|---|
+| **Estilos** | Os estilos dos componentes usam propriedades lógicas do CSS, como `margin-inline-start`, e seletores de direção; por isso, o layout é espelhado assim que a direção muda. |
+| **Interação** | Os componentes com interação horizontal por teclado ou ponteiro, como Carousel, Slider, Stepper e Tabs, leem a direção quando o usuário interage com eles. Em RTL, as teclas <kbd>Seta para a esquerda</kbd> e <kbd>Seta para a direita</kbd> seguem a direção de leitura. |
+
+Alguns poucos componentes seguem a direção apenas em parte. [Limitações conhecidas](#limitações-conhecidas) os lista para o {Platform}.
+
+## Antes de começar
+
+**O RTL espelha o layout; não traduz o texto.** O atributo `dir` altera apenas a direção de leitura. <PlatformBlock for="Angular">Para exibir as strings dos componentes em outro idioma, veja [Localização](../general/localization.mdx).</PlatformBlock><PlatformBlock for="React,WebComponents">Para exibir as strings dos componentes em outro idioma, veja [Localização](../localization.mdx).</PlatformBlock>
+
+**Defina a direção em um só lugar.** Para uma aplicação inteira, defina `dir="rtl"` no elemento `body`. Para espelhar apenas parte de uma página, defina-o em um contêiner, conforme descrito em [Aplicar RTL a parte de uma página](#aplicar-rtl-a-parte-de-uma-página).
+
+**O seu próprio conteúdo também precisa de propriedades lógicas.** Os componentes se espelham sozinhos, mas os estilos que você escreve com propriedades físicas, como `margin-left`, permanecem onde você os colocou. Veja [Estilizar o seu próprio conteúdo para RTL](#estilizar-o-seu-próprio-conteúdo-para-rtl).
+
+## Próximos passos
+
+- [Habilite o RTL para a aplicação inteira](#habilitar-rtl-para-a-aplicação-inteira) na página host.
+- [Troque a direção em tempo de execução](#trocar-a-direção-em-tempo-de-execução) quando o usuário alterar o idioma.
+- Verifique as [Limitações conhecidas](#limitações-conhecidas) dos componentes que a sua aplicação usa.
+
+## Ferramentas disponíveis
+
+| Ferramenta | Onde | O que faz |
+|---|---|---|
+| Atributo `dir` | Qualquer elemento HTML, geralmente `body` | Define a direção do elemento e de tudo o que está dentro dele. Aceita `rtl`, `ltr` e `auto`. |
+| Propriedades lógicas do CSS | Suas folhas de estilo | Posicione o conteúdo em relação à direção de leitura, como `padding-inline-start` no lugar de `padding-left`. |
+| Pseudoclasse `:dir(rtl)` | Suas folhas de estilo | Seleciona um elemento cuja direção é da direita para a esquerda, seja o atributo `dir` no próprio elemento ou em um ancestral. |
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+Para ícones direcionais, o Icon e o Icon Button também têm uma propriedade <ApiLink pkg="core" type="Icon" member="mirrored" label="mirrored" />. Veja [Espelhar um ícone direcional](#espelhar-um-ícone-direcional).
+
+</PlatformBlock>
+
+## Fluxos de trabalho comuns
+
+### Habilitar RTL para a aplicação inteira
+
+Defina `dir="rtl"` no elemento `body` da página host. Todo componente {ProductName} da página é renderizado da direita para a esquerda.
+
+<PlatformBlock for="Angular">
+
+Defina o atributo em `src/index.html`:
+
+```html
+<!doctype html>
+<html lang="ar">
+  <head>
+    <meta charset="utf-8" />
+    <title>My App</title>
+  </head>
+  <body dir="rtl">
+    <app-root></app-root>
+  </body>
+</html>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents">
+
+Defina o atributo no `index.html` da sua aplicação:
+
+```html
+<!doctype html>
+<html lang="ar">
+  <head>
+    <meta charset="utf-8" />
+    <title>My App</title>
+  </head>
+  <body dir="rtl">
+    <!-- application content -->
+  </body>
+</html>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+Defina o atributo no elemento `body` da página host: `Components/App.razor` em uma Blazor Web App, `wwwroot/index.html` em uma aplicação Blazor WebAssembly, ou `Pages/_Host.cshtml` em uma aplicação Blazor Server. Em uma Blazor Web App:
+
+```razor
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="utf-8" />
+    <base href="/" />
+    <HeadOutlet />
+</head>
+<body dir="rtl">
+    <Routes />
+    <script src="_content/IgniteUI.Blazor/app.bundle.js"></script>
+    <script src="_framework/blazor.web.js"></script>
+</body>
+</html>
+```
+
+</PlatformBlock>
+
+### Trocar a direção em tempo de execução
+
+Para alterar a direção enquanto a aplicação está em execução, por exemplo quando o usuário escolhe outro idioma, defina o atributo `dir` do elemento `body`. Os estilos dos componentes são atualizados imediatamente, e os componentes leem a nova direção na próxima vez que o usuário interagir com eles.
+
+<PlatformBlock for="Angular">
+
+```ts
+import { Component, DOCUMENT, inject } from '@angular/core';
+
+@Component({
+    selector: 'app-root',
+    templateUrl: './app.component.html'
+})
+export class AppComponent {
+    private readonly document = inject(DOCUMENT);
+
+    public setDirection(dir: 'ltr' | 'rtl') {
+        this.document.body.dir = dir;
+    }
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+function setDirection(dir: 'ltr' | 'rtl') {
+  document.body.dir = dir;
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```ts
+function setDirection(dir: 'ltr' | 'rtl') {
+  document.body.dir = dir;
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+Defina o atributo por meio da interoperabilidade com JavaScript da seguinte forma:
+
+```razor
+@inject IJSRuntime JS
+
+<button @onclick='() => SetDirection("rtl")'>Right to left</button>
+<button @onclick='() => SetDirection("ltr")'>Left to right</button>
+
+@code {
+    private async Task SetDirection(string dir)
+    {
+        await JS.InvokeVoidAsync("document.body.setAttribute", "dir", dir);
+    }
+}
+```
+
+</PlatformBlock>
+
+### Aplicar RTL a parte de uma página
+
+Para espelhar apenas parte de uma página, como um painel com conteúdo em árabe ou hebraico, defina `dir="rtl"` no elemento que o contém e deixe o `body` da esquerda para a direita. Os componentes dentro do elemento seguem a direção dele.
+
+O exemplo a seguir coloca um Calendar em um contêiner com `dir="rtl"`. Selecione **Change Directionality** para alternar o contêiner entre da direita para a esquerda e da esquerda para a direita.
+
+<PlatformBlock for="Angular">
+
+<Sample src="/scheduling/calendar-rtl" showThemePicker height={600} alt="{Platform} Calendar em um contêiner da direita para a esquerda, com um botão que alterna a direção" />
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+<Sample src="/scheduling/calendar/rtl" showThemePicker height={600} alt="{Platform} Calendar em um contêiner da direita para a esquerda, com um botão que alterna a direção" />
+
+O Carousel e o Navigation Drawer espelham os seus botões de navegação, os indicadores e a direção dos slides somente quando `dir="rtl"` está no elemento `body` ou no próprio componente. Dentro de um contêiner da direita para a esquerda, defina `dir="rtl"` também nesses dois componentes:
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```html
+<div dir="rtl">
+  <igc-carousel dir="rtl"></igc-carousel>
+</div>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<div dir="rtl">
+  <IgrCarousel dir="rtl"></IgrCarousel>
+</div>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<div dir="rtl">
+    <IgbCarousel dir="rtl"></IgbCarousel>
+</div>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+### Espelhar um ícone direcional
+
+Os ícones não são espelhados automaticamente, porque a maioria deles tem a mesma aparência nas duas direções. Para um ícone que aponta na direção de leitura, como uma seta, defina <ApiLink pkg="core" type="Icon" member="mirrored" label="mirrored" /> para inverti-lo em um layout da direita para a esquerda. O [Icon](../layouts/icon.mdx#espelhado) e o [Icon Button](../inputs/icon-button.mdx#espelhado) oferecem suporte a isso.
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+### Espelhar um ícone direcional
+
+Os ícones não são espelhados automaticamente, e o Icon do Angular não tem opção para espelhar um ícone. Para um ícone direcional em um layout da direita para a esquerda, use um ícone que aponte na direção de leitura, como `arrow_back` no lugar de `arrow_forward`.
+
+</PlatformBlock>
+
+### Estilizar o seu próprio conteúdo para RTL
+
+Escreva os estilos do seu próprio conteúdo com propriedades lógicas do CSS, para que eles sejam espelhados junto com os componentes. Use a pseudoclasse `:dir(rtl)` para uma regra que se aplica somente em uma direção:
+
+```css
+.toolbar {
+  padding-inline-start: 16px; /* left in LTR, right in RTL */
+}
+
+.next-icon:dir(rtl) {
+  transform: scaleX(-1);
+}
+```
+
+## Limitações conhecidas
+
+Os componentes a seguir seguem a direção apenas em parte no {ProductName}.
+
+<PlatformBlock for="Angular">
+
+| Componente | O que não segue a direção |
+|---|---|
+| [Grid](../grid/grid.mdx), [Tree Grid](../treegrid/tree-grid.mdx), [Hierarchical Grid](../hierarchicalgrid/hierarchical-grid.mdx), [Pivot Grid](../pivotgrid/pivot-grid.mdx) | O layout e a rolagem horizontal seguem a direção, mas a navegação por teclado não. <kbd>Seta para a esquerda</kbd> move o foco para a coluna anterior e <kbd>Seta para a direita</kbd> para a seguinte; assim, em RTL, <kbd>Seta para a esquerda</kbd> move o foco para a direita. |
+| [Calendar](../calendar.mdx), incluindo o calendário do [Date Picker](../date-picker.mdx) e do [Date Range Picker](../date-range-picker.mdx) | <kbd>Seta para a esquerda</kbd> move para o dia anterior e <kbd>Seta para a direita</kbd> para o seguinte, nas duas direções. |
+| [Tree](../tree.mdx) | <kbd>Seta para a esquerda</kbd> recolhe um nó ou move para o seu pai, e <kbd>Seta para a direita</kbd> o expande, nas duas direções. |
+| [Icon](../layouts/icon.mdx) | Não tem opção para espelhar um ícone. Veja [Espelhar um ícone direcional](#espelhar-um-ícone-direcional). |
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+| Componente | O que não segue a direção |
+|---|---|
+| [Grid](../grids/data-grid.mdx), [Tree Grid](../grids/tree-grid/overview.mdx), [Hierarchical Grid](../grids/hierarchical-grid/overview.mdx), [Pivot Grid](../grids/pivot-grid/overview.mdx) | O layout e a rolagem horizontal seguem a direção, mas a navegação por teclado não. <kbd>Seta para a esquerda</kbd> move o foco para a coluna anterior e <kbd>Seta para a direita</kbd> para a seguinte; assim, em RTL, <kbd>Seta para a esquerda</kbd> move o foco para a direita. |
+| [Calendar](../scheduling/calendar.mdx), incluindo o calendário do [Date Picker](../scheduling/date-picker.mdx) e do [Date Range Picker](../scheduling/date-range-picker.mdx) | <kbd>Seta para a esquerda</kbd> move para o dia anterior e <kbd>Seta para a direita</kbd> para o seguinte, nas duas direções. |
+| [Carousel](../layouts/carousel.mdx), [Navigation Drawer](../menus/navigation-drawer.mdx) | Os botões de navegação, os indicadores e a direção dos slides são espelhados somente quando `dir="rtl"` está no elemento `body` ou no próprio componente, e não no elemento `html` ou em outro ancestral. |
+
+</PlatformBlock>
+
+Se um componente não seguir a direção como descrito nesta página, relate-o no <a href="{GithubLink}/issues" target="_blank" rel="noopener noreferrer">{ProductName} issue tracker</a>.
+
+## Solução de problemas
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+### Por que as setas do Carousel apontam para o lado errado?
+
+O Carousel e o Navigation Drawer combinam a direção do elemento `body` com o seu próprio atributo `dir`. Quando `dir="rtl"` está somente no elemento `html`, eles são renderizados da esquerda para a direita; quando está tanto no elemento `body` quanto no componente, os dois se anulam. Defina `dir="rtl"` em um só lugar: no elemento `body` para a página inteira, ou no componente para um componente dentro de um contêiner da direita para a esquerda.
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+### Por que `$direction: rtl` não compila?
+
+O mixin `core()`, chamado `igx-core()` antes da versão 13.1.0, não tem mais o parâmetro `$direction`. A versão 13.2.0 o removeu, junto com os arquivos de tema `*-rtl.css` específicos de RTL, porque os temas regulares oferecem suporte às duas direções. Substitua `@include igx-core($direction: rtl)` ou `@include core($direction: rtl)` por `@include core()`, use os arquivos de tema regulares e defina o atributo `dir`, conforme descrito em [Habilitar RTL para a aplicação inteira](#habilitar-rtl-para-a-aplicação-inteira). Atualizar `ng update` para a versão 13.2.0 ou posterior faz essas duas alterações no seu Sass automaticamente.
+
+### Por que os componentes não seguem uma mudança de direção em tempo de execução?
+
+As versões anteriores à 21.2.0 leem a direção uma única vez, a partir do elemento `body` ou do elemento `html`, quando a aplicação inicia. Nessas versões, defina o atributo `dir` antes de a aplicação ser inicializada, ou atualize para a versão 21.2.0 ou posterior, em que os componentes leem a direção sempre que o usuário interage com eles.
+
+</PlatformBlock>
+
+### Por que o meu próprio conteúdo permanece à esquerda em RTL?
+
+Estilos que usam propriedades físicas, como `margin-left` ou `float: left`, não são espelhados. Substitua-os por propriedades lógicas, como `margin-inline-start` ou `float: inline-start`, conforme mostrado em [Estilizar o seu próprio conteúdo para RTL](#estilizar-o-seu-próprio-conteúdo-para-rtl).
+
+## Recursos adicionais
+
+- [Conformidade de acessibilidade](accessibility-compliance.mdx) — os padrões de acessibilidade que o {ProductName} visa.
+- <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Global_attributes/dir" target="_blank" rel="noopener noreferrer">O atributo `dir` no MDN</a> — valores e herança.
+- <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_logical_properties_and_values" target="_blank" rel="noopener noreferrer">Propriedades e valores lógicos do CSS no MDN</a> — as propriedades que são espelhadas com a direção.
+- <a href="https://www.w3.org/International/questions/qa-html-dir" target="_blank" rel="noopener noreferrer">Markup estrutural e texto da direita para a esquerda em HTML (W3C)</a> — onde definir a direção em um documento.
+
+## Perguntas frequentes
+
+<Faq>
+  <FaqItem question="Como habilito o RTL no {ProductName}?" indicatorPosition="end">
+    Defina `dir="rtl"` no elemento `body` da página host. Os componentes {ProductName} obtêm a sua direção do atributo `dir`; por isso, não é necessária nenhuma configuração do componente nem um pacote extra. Para espelhar apenas parte de uma página, defina o atributo em um elemento contêiner.
+  </FaqItem>
+
+  <FaqItem question="Preciso de um tema separado para RTL no {ProductName}?" indicatorPosition="end">
+    Não. Os temas do {ProductName} oferecem suporte às duas direções, e o mesmo CSS de tema atende páginas da esquerda para a direita e da direita para a esquerda. <PlatformBlock for="Angular">Os arquivos de tema `*-rtl.css` específicos de RTL foram removidos na versão 13.2.0.</PlatformBlock>
+  </FaqItem>
+
+  <FaqItem question="Posso alternar entre LTR e RTL sem recarregar a página?" indicatorPosition="end">
+    Sim. Altere o atributo `dir` do elemento `body`, ou do contêiner que contém os componentes. Os estilos dos componentes {ProductName} são atualizados imediatamente, e os componentes leem a nova direção na próxima vez que o usuário interagir com eles.
+  </FaqItem>
+
+  <FaqItem question="As grades {ProductName} oferecem suporte a RTL?" indicatorPosition="end">
+    Em parte. A Grid, o Tree Grid, a Hierarchical Grid e a Pivot Grid organizam as suas colunas e rolam horizontalmente na direção da página, mas a navegação pelas teclas de seta não é espelhada. Em RTL, Seta para a esquerda move o foco para a coluna anterior, que fica à direita.
+  </FaqItem>
+
+  <FaqItem question="O RTL traduz o texto dos componentes {ProductName}?" indicatorPosition="end">
+    Não. O atributo `dir` altera apenas a direção de leitura e o layout. Traduzir as strings integradas dos componentes é uma etapa de localização separada.
+  </FaqItem>
+</Faq>

@@ -1,0 +1,105 @@
+---
+title: "Mapa {Platform} | Ferramentas de visualização de dados | Vinculação de arquivos de forma geográfica | Infragistics"
+description: "Use o mapa {Platform} da Infragistics para carregar dados geoespaciais de arquivos de forma. Veja os demos de mapa de {ProductName}!"
+keywords: "Mapa {Platform}, shapefiles, {ProductName}, Infragistics, vinculação de dados"
+license: commercial
+mentionedTypes: ["GeographicMap", "ShapeDataSource", "ShapefileRecord", "Series", "GeographicShapeSeriesBase"]
+_language: pt-BR
+llms:
+  description: "No componente de mapa {ProductName}, os dados geoespaciais (pontos/localizações, polilinhas, polígonos) são carregados de arquivos de forma e convertidos em uma coleção de registros de arquivo de forma, um por forma."
+platformType: xplat
+---
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+# {Platform} Vinculando arquivos de forma com dados geoespaciais
+
+No componente de mapa {ProductName}, a classe `ShapeDataSource` carrega dados geoespaciais (pontos/localizações, polilinhas, polígonos) de arquivos de forma e os converte em uma coleção de objetos `ShapefileRecord`.
+
+
+## {Platform} Exemplo de vinculação de arquivos de forma com dados geoespaciais
+
+
+<Sample src="/maps/geo-map/binding-shp-file" height={500} alt="{Platform} Exemplo de vinculação de arquivos de forma com dados geoespaciais" />
+
+
+
+
+A tabela a seguir explica as propriedades da classe `ShapeDataSource` para carregar arquivos de forma.
+
+
+| Propriedade | Tipo | Descrição   |
+|----------|------|---------------|
+| `ShapefileSource` | string |Especifica o Uri de um arquivo de forma (.shp) que contém os itens de dados geoespaciais.|
+|`DatabaseSource` | string |Especifica o Uri de um arquivo de banco de dados de forma (.dbf) que contém uma tabela de dados para os itens de dados geoespaciais.|
+
+{/*TODO add for WPF only: */}
+{/* Both of the source properties for shape files are of Uri type. This means that shape files can be embedded resources in the application assembly and on the internet (via http). Refer to the previous section for more information on this process. The rules for resolving Uri objects are equivalent to any standard Uri property, for example the BitmapImage.UriSource property.*/}
+
+Quando as duas propriedades de origem são definidas com valores não nulos, o método ImportAsync do objeto `ShapeDataSource` é invocado, o que realiza a obtenção e a leitura dos arquivos de forma e, por fim, a conversão. Depois que essa operação é concluída, o `ShapeDataSource` é preenchido com objetos `ShapefileRecord`, e o evento `ImportCompleted` é disparado para notificar que o processo de carregamento e conversão dos dados geoespaciais dos arquivos de forma foi concluído.
+
+## Carregando arquivos de forma
+O código a seguir cria uma instância do objeto `ShapeDataSource` para carregar um arquivo de forma que contém as rotas de cabos submarinos do mundo. Ele também demonstra como tratar o evento `ImportCompleted` como pré-requisito para vincular dados ao componente de mapa.
+
+```json-snippet source="/maps/geo-map/binding-shp-file" channel="handlersImports,bindingFields...supportingTypes...handler" item="MapBindingShpFileLoad"
+{
+    "descriptions": {
+        "content": {
+            "type": "GeographicMap",
+            "name": "map",
+            "height": "100%",
+            "width": "100%",
+            "zoomable": true
+        }
+    },
+    "onViewInit": [
+        "MapBindingShpFileLoad"
+    ]
+}
+```
+
+## Vinculando arquivos de forma
+No componente de mapa, as séries geográficas são usadas para exibir dados geoespaciais carregados de arquivos de forma. Todos os tipos de séries geográficas têm uma propriedade `dataSource`, que pode ser vinculada a um array de objetos. O que um `ShapeDataSource` produz é um exemplo desse array, porque cada item dele é um `ShapefileRecord`.
+
+A classe `ShapefileRecord` oferece propriedades para armazenar dados geoespaciais, listadas na tabela a seguir.
+
+| Propriedade     | Descrição   |
+|--------------|---------------|<PlatformBlock for="Angular, React, WebComponents, WinUI, Uno">
+|<PlatformBlock for="Angular, React, WebComponents"><ApiLink raw type="ShapefileRecord" prefixed={true} suffix={false} member="points" /></PlatformBlock><PlatformBlock for="WinUI, Uno"><ApiLink raw type="ShapefileRecord" prefixed={false} suffix={false} member="Points" /></PlatformBlock>|Contém todos os pontos de uma forma geoespacial carregada de um arquivo de forma (.shp). Por exemplo, o país Japão no arquivo de forma seria representado como uma lista de listas de objetos de pontos, em que:<ul><li>A primeira lista de pontos descreve a forma da ilha de Hokkaido</li><li>A segunda lista de pontos descreve a forma da ilha de Honshu</li><li>A terceira lista de pontos descreve a forma da ilha de Kyushu</li><li>A quarta lista de pontos descreve a forma da ilha de Shikoku</li></ul>|</PlatformBlock>
+| <PlatformBlock for="Angular, React, WebComponents"><ApiLink raw type="ShapefileRecord" prefixed={true} suffix={false} member="fieldValues" /></PlatformBlock><PlatformBlock for="Blazor"><ApiLink raw type="ShapefileRecord" prefixed={true} suffix={false} member="FieldValues" /></PlatformBlock><PlatformBlock for="WinUI, Uno"><ApiLink raw type="ShapefileRecord" prefixed={false} suffix={false} member="Fields" /></PlatformBlock> |Contém uma linha de dados do arquivo de banco de dados de forma (.dbf), identificada por um nome de coluna. Por exemplo, dados sobre uma prefeitura do Japão, que incluem população, área, nome da capital etc.|
+
+Esta estrutura de dados é adequada para uso na maioria das séries geográficas, desde que as colunas de dados apropriadas sejam mapeadas para elas.
+
+## Trecho de código
+Este exemplo de código pressupõe que os arquivos de forma foram carregados usando o `ShapeDataSource`.
+O código a seguir vincula `GeographicPolylineSeries` no componente de mapa aos registros que essa fonte produziu e mapeia a <PlatformBlock for="Angular, React, WebComponents"><ApiLink raw type="ShapefileRecord" prefixed={true} suffix={false} member="points" /></PlatformBlock><PlatformBlock for="WinUI, Uno"><ApiLink raw type="ShapefileRecord" prefixed={false} suffix={false} member="Points" /></PlatformBlock><PlatformBlock for="Blazor">`\Points`</PlatformBlock> propriedade de cada `ShapefileRecord` por meio de `shapeMemberPath`.
+
+```json-snippet source="/maps/geo-map/binding-shp-file"
+{
+    "type": "GeographicMap",
+    "name": "map",
+    "height": "100%",
+    "width": "100%",
+    "zoomable": true,
+    "series": [
+        {
+            "type": "GeographicPolylineSeries",
+            "name": "lineSeries",
+            "shapeMemberPath": "points",
+            "shapeFilterResolution": 0.0,
+            "shapeStrokeThickness": 3,
+            "shapeStroke": "rgb(82, 82, 82, 0.4)"
+        }
+    ]
+}
+```
+
+
+## Referências da API
+`GeographicPolylineSeries`
+`ShapefileRecord`
+`fields`
+`ShapeDataSource.ImportCompleted`
+`dataSource`<PlatformBlock for="Angular, React, WebComponents, WinUI, Uno">
+<PlatformBlock for="Angular, React, WebComponents"><ApiLink raw type="ShapefileRecord" prefixed={true} suffix={false} member="points" /></PlatformBlock><PlatformBlock for="WinUI, Uno"><ApiLink raw type="ShapefileRecord" prefixed={false} suffix={false} member="Points" /></PlatformBlock></PlatformBlock>

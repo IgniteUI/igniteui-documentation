@@ -1,0 +1,122 @@
+---
+title: "Guia de atualização | Ignite UI for React | Infragistics"
+description: "Confira este artigo sobre como atualizar para uma versão mais recente da biblioteca Ignite UI for React."
+keywords: "ignite ui for react, atualização, pacote npm, componentes material"
+mentionedTypes: ["Input", "Button"]
+_language: pt-BR
+llms:
+  description: "No versionamento do Ignite UI for React, o primeiro número sempre corresponde à versão principal do React com a qual o código é compatível, e o segundo é reservado para os lançamentos de versões principais."
+---
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+
+# Guia de atualização
+
+No versionamento do Ignite UI for React, o primeiro número sempre corresponde à versão principal do React com a qual o código é compatível, e o segundo é reservado para os lançamentos de versões principais. Mudanças incompatíveis podem ser introduzidas entre as versões principais. Uma lista completa das alterações de cada versão do Ignite UI for React pode ser encontrada no [CHANGELOG](./general-changelog-dv-react.mdx) do produto.
+
+
+## Da 18.9.0 para a 19.0.0
+
+Esta versão inclui uma reformulação importante de partes internas de alguns dos nossos componentes React, levando às alterações a seguir nos pacotes **igniteui-react** e **igniteui-react-grids**:
+
+### Geral
+
+#### Mudanças que quebram compatibilidade
+
+- Os componentes do Ignite UI for React agora usam Function Components do React; por isso, as referências obtidas com **useRef** passam a ser um encaminhamento do elemento nativo, e não mais uma instância de componente de classe. Muitos casos de uso podem permanecer inalterados, mas podem ser necessárias mudanças, como não precisar mais de uma propriedade extra para acessar o próprio elemento DOM.
+- Os componentes não aceitam mais união alternativa de strings em todos os tipos de propriedade (por exemplo, **boolean | string** ou **number | string**). Além disso, as uniões de strings não diferenciam mais maiúsculas de minúsculas.
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrColumn dataType="String" sortable="true"></IgrColumn>
+```
+
+</PlatformBlock>
+
+Passa a ser:
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrColumn dataType="string" sortable={true}></IgrColumn>
+```
+
+</PlatformBlock>
+
+- Os eventos dos componentes agora têm o prefixo **on**, por exemplo:
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrGrid columnPin={handlePinning}></IgrGrid>
+```
+
+</PlatformBlock>
+
+Passa a ser
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrGrid onColumnPin={handlePinning}></IgrGrid>
+```
+
+</PlatformBlock>
+
+- Os eventos dos componentes emitem um único argumento _CustomEvent_ padrão, em vez de `sender` como primeiro argumento. Por isso, propriedades personalizadas como _sender.nativeElement_ não estão mais disponíveis, mas todas as propriedades de eventos nativos continuam disponíveis. Além disso, os tipos dos argumentos de evento estão disponíveis como aliases do evento personalizado específico; assim, o uso que acessa `detail` continua o mesmo. Com a nova assinatura do manipulador, `event.detail` continua igual, e `event.target` é o equivalente, no DOM, ao sender:
+
+<PlatformBlock for="React">
+
+```tsx
+    const handlePinning = (sender: IgrGridBaseDirective, event: IgrPinColumnCancellableEventArgs) => {};
+```
+
+</PlatformBlock>
+
+Passa a ser:
+
+<PlatformBlock for="React">
+
+```tsx
+    const handlePinning = (event: IgrPinColumnCancellableEventArgs) => {}
+    // equivalent to
+    const handlePinning = (event: CustomEvent<IgrPinColumnCancellableEventArgsDetail>) => {}
+```
+
+</PlatformBlock>
+
+- Os componentes não têm mais, por padrão, a propriedade `name` sem função. A propriedade `name` permanece apenas nos componentes do **igniteui-react**, principalmente em inputs de formulário como [IgrInput](./inputs/input.mdx) e [IgrCombo](./inputs/combo/overview.mdx), onde ela tem funcionalidade nativa.
+- Os componentes do Ignite UI for React não exigem mais uma propriedade `key`, a menos que seja necessário de acordo com a [documentação](https://react.dev/learn/rendering-lists#keeping-list-items-in-order-with-key) do React
+- O [IgrDataGrid](./grids/data-grid.mdx) não faz mais parte do pacote **igniteui-react-grids**. Ele foi movido para o **igniteui-react-data-grids**, tornando o **igniteui-react-grids** mais leve.
+- Vários tipos que eram expostos como classes na versão **18.9.0** deixaram de ser assim. Agora eles são exportados como tipos e podem ser usados desta forma:
+
+<PlatformBlock for="React">
+
+```tsx
+const pivotConfiguration = new IgrPivotConfiguration();
+```
+
+</PlatformBlock>
+
+Passa a ser:
+
+<PlatformBlock for="React">
+
+```tsx
+const pivotConfiguration: IgrPivotConfiguration = {
+  rows: [],
+  columns: [],
+  values: []
+}
+```
+
+</PlatformBlock>
+
+- <ApiLink pkg="core" type="Button" />
+  - **Mudanças que quebram compatibilidade**
+  - O evento `clicked` foi removido. Use o <ApiLink pkg="core" type="Button" member="click" label="onClick" /> nativo.
+- <ApiLink pkg="core" type="Input" />
+  - **Mudanças que quebram compatibilidade**
+  - O evento `inputOccurred` foi renomeado para <ApiLink type="Input" member="onInput" label="onInput" />

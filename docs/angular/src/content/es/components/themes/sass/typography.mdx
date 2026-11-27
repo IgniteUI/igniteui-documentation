@@ -1,0 +1,273 @@
+---
+title: "Tipografía"
+description:
+keywords: "Ignite UI for Angular, controles de interfaz, widgets de Angular, widgets web, widgets de interfaz, Angular, Native Angular Components Suite, Native Angular Controls, Native Angular Components Library"
+_extraFont: https://fonts.googleapis.com/css?family=Titillium+Web:300,400,600,700
+_language: es
+llms:
+  description: "El módulo Sass de tipografía de Ignite UI for Angular le permite modificar la tipografía de todos los componentes de su aplicación, una escala tipográfica específica o componentes concretos."
+---
+
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+
+# Tipografía
+
+<div class="highlight">
+El módulo Sass de tipografía de Ignite UI for Angular le permite modificar la tipografía de todos los componentes de su aplicación, una escala tipográfica específica o componentes concretos.
+</div>
+<igc-divider></igc-divider>
+
+## Descripción general
+
+Una aplicación puede definir varios `scales` tipográficos que pueden compartir categorías de escala entre sí. Un `scale category` es un conjunto de `type styles` que contiene información sobre `font-family`, `font-size`, `font-weight`, `line-height`, `letter-spacing` y `text-transform`.
+
+Ignite UI for Angular expone 4 escalas tipográficas predeterminadas para cada uno de sus temas: `$material-type-scale`, `$fluent-type-scale`, `$bootstrap-type-scale` y `$indigo-type-scale`, que a su vez usa el mixin `typography` para establecer los estilos tipográficos. Sin embargo, puede crear escalas tipográficas adicionales.
+
+En muchos casos solo necesitará hacer pequeñas modificaciones en la tipografía, por lo que se recomienda que, si todavía no lo ha hecho, lea primero la sección [Tipografía](/themes/typography) de la documentación de variables CSS. Usar Sass para modificar la tipografía solo es necesario si quiere hacer cambios más profundos que afecten a toda la escala tipográfica.
+
+## Uso
+
+<DocsAside type="info">
+De forma predeterminada no aplicamos ningún estilo tipográfico. Para usar nuestra tipografía en su aplicación, debe aplicar la clase CSS `ig-typography` a un elemento de nivel superior e incluir el mixin `typography` en su archivo base `.scss`.
+</DocsAside>
+
+Hemos elegido [Titillium Web](https://fonts.google.com/selection?selection.family=Titillium+Web:300,400,600,700) como fuente predeterminada del tema Material de Ignite UI for Angular. Para usarla, debe alojarla usted mismo o incluirla desde Google Fonts:
+
+```html
+<link href="https://fonts.googleapis.com/css?family=Titillium+Web:300,400,600,700" rel="stylesheet"/>
+```
+
+Hay varios mixins y funciones que se usan para establecer y obtener estilos de categoría desde una escala tipográfica y hacia ella. Son los siguientes:
+
+- `type-style` [function] - Devuelve un conjunto de reglas de estilo que usará una categoría de la escala tipográfica.
+- `type-scale` [function] - Devuelve un conjunto de 13 categorías de estilo.
+- `type-scale-category` [function] - Devuelve un mapa de reglas de estilo a partir de una escala tipográfica y una categoría.
+- `type-style` [mixin] - Agrega reglas de estilo a un selector a partir de una escala tipográfica y una categoría específicas.
+- `type-style-vars` [mixin] - Agrega reglas de estilo a un selector a partir de un estilo tipográfico específico.
+- `typography` [mixin] - Define los estilos tipográficos globales de la aplicación.
+
+Veamos con más detalle qué hace cada uno de los mixins y funciones mencionados.
+
+### El estilo tipográfico
+
+La función `type-style` es una función de tipo interfaz que simplemente garantiza que ciertos argumentos se pasen como parte del conjunto de estilos de una categoría de escala. Por ejemplo, si queremos definir un nuevo conjunto de reglas de estilo para la categoría de escala `h1`, podríamos escribir simplemente:
+
+```scss
+$h1-style: type-style(
+  $font-size: rem(112px),
+  $font-weight: 600,
+  $line-height: rem(96px),
+  ...,
+);
+```
+
+### La escala tipográfica
+
+La escala tipográfica produce un mapa de 13 estilos tipográficos que se usan como categorías de escala. Para generar una nueva escala tipográfica, haga lo siguiente:
+
+```scss
+$my-type-scale: type-scale(...);
+```
+
+<DocsAside type="info">
+Debe proporcionar un estilo tipográfico para cada una de las 13 categorías de escala. Un estilo puede generarse con la función `type-style`, como se muestra arriba.
+</DocsAside>
+
+```scss
+$my-type-scale: type-scale(
+  $h1: $h1-style,
+  [$h2...$overline],
+);
+```
+
+Puede modificar una escala tipográfica existente extendiéndola. Para cambiar el estilo tipográfico `h1` de `$material-type-scale`, puede hacer lo siguiente:
+
+```scss
+$my-type-scale: extend(
+  $material-type-scale,
+  (
+    h1: type-style(...),
+  )
+);
+```
+
+Añadir estilos tipográficos adicionales a una escala es igual de fácil:
+
+```scss
+$my-type-category: type-style(
+  $font-weight: 600,
+  $font-size: rem(42px),
+  $text-transform: uppercase,
+  ...,
+);
+
+$my-type-scale: extend(
+  $my-type-scale,
+  (
+    "my-category": $my-type-category,
+  )
+);
+```
+
+### El mixin de tipografía
+
+El mixin de tipografía define los estilos tipográficos globales de una aplicación, incluido el modo en que se dan estilo a los elementos nativos h1-h6 y p.
+
+Actualmente acepta 2 argumentos:
+
+- `$font-family`: la familia tipográfica global que usará la aplicación.
+- `$type-scale`: la escala tipográfica predeterminada que usará la aplicación.
+
+Para usar los estilos tipográficos, incluya el mixin `typography` en cualquier lugar después de `core`. Aprovechemos la escala tipográfica `$my-type-scale` que definimos antes y hagámosla la escala predeterminada.
+
+```scss
+@include typography(
+  $font-family: $material-typeface,
+  $type-scale: $my-type-scale
+);
+```
+
+Exponemos cuatro variables para las familias tipográficas, similares a type-scale: `$material-typeface`, `$fluent-typeface`, `$bootstrap-typeface` y `$indigo-typeface`. Puede usar cualquiera de ellas en combinación con cualquier escala tipográfica al incluir el mixin `typography`.
+
+## Estilos tipográficos personalizados
+
+El mixin `type-style` puede usarse para obtener las reglas de estilo de una categoría de escala desde una escala tipográfica concreta. Además, le permite añadir reglas de estilo adicionales.
+
+```scss
+.my-fancy-h1 {
+  @include type-style('h1') {
+    color: royalblue;
+  }
+}
+```
+
+El código anterior generará un selector de clase `.my-fancy-h1`, que contiene todas las reglas de estilo de la categoría de escala `h1` de `$my-type-scale`, con la adición de la propiedad `color` establecida al color `royalblue`. Ahora, si asigna a cualquier elemento la clase `.my-fancy-h1`, tendrá el mismo aspecto que cualquier otro elemento `h1`, pero también será de color `royalblue`.
+
+## Tipografía de componentes
+
+La mayoría de los componentes de Ignite UI for Angular usan categorías de escala para dar estilo al texto. Por ejemplo, el componente `igx-card` usa las siguientes categorías de escala:
+
+- `h6`: se usa para dar estilo al título de la tarjeta.
+- `subtitle-2`: se usa para dar estilo al subtítulo y al título pequeño de la tarjeta.
+- `body-2`: se usa para dar estilo al contenido de texto de la tarjeta.
+
+Hay dos formas de cambiar los estilos de texto de una tarjeta. La primera es modificar las escalas `h6`, `subtitle-2` y/o `body-2` de la **_escala tipográfica material_** que pasamos al mixin de tipografía. Así, si quisiéramos que el título de una tarjeta fuera más pequeño, solo tendríamos que cambiar el font-size de la categoría de escala `h6`.
+
+```scss
+// Create a custom h6 scale category style
+$my-h6: type-style(
+  $font-size: rem(12px),
+);
+
+// Create a custom type scale with the modified h6
+$my-type-scale: extend(
+  $material-type-scale,
+  (
+    h6: $my-h6,
+  )
+);
+
+// Pass the custom scale to the global typography mixin
+@include typography($type-scale: $my-type-scale);
+```
+
+<DocsAside type="warning">
+El código anterior modificará la categoría de escala `h6` de forma global, lo que afectará al aspecto de todos los componentes que usan la escala `h6`. Esto se hace para mantener la coherencia, de modo que todos los elementos `h6` tengan el mismo aspecto en toda su aplicación. Entendemos que quizá quiera aplicar la modificación para `h6` solo a componentes concretos, como el componente `igx-card` en nuestro caso. La tipografía de cada componente se aplica a través de los mismos tokens de diseño universales `--ig-{category}-*` (por ejemplo, `--ig-h6-font-size`), así que puede limitar una sobrescritura solo a los elementos que le interesen, dirigiéndola a esos tokens con el mixin `type-style-vars` en lugar de cambiar la escala tipográfica global.
+</DocsAside>
+
+```scss
+// Create a custom h6 scale category style
+$my-h6: type-style(
+  $font-size: rem(12px),
+);
+
+.my-cool-card {
+  // Overwrite the 'h6' tokens for this scope only.
+  // Because CSS custom properties inherit, this affects every
+  // descendant that reads the '--ig-h6-*' tokens, including the
+  // card title inside .my-cool-card.
+  @include type-style-vars('h6', $my-h6);
+}
+```
+
+La tipografía se aplica automáticamente como parte de los tokens de cada componente, de modo que todas las partes de un componente se mantienen visualmente coherentes con el resto de su aplicación desde el primer momento. Cuando quiera dar a una instancia concreta de un componente un aspecto propio y distinto (por ejemplo, un título más pequeño en una sola tarjeta), limite una sobrescritura `type-style-vars` para esa categoría a la instancia del componente, como se muestra arriba. También puede usar directamente los tokens `--ig-{category}-*` subyacentes como propiedades personalizadas CSS normales, sin necesidad de Sass:
+
+```css
+.my-cool-card {
+  --ig-h6-font-size: 0.75rem;
+}
+```
+
+## Conversión de unidades
+
+También tenemos tres funciones tipográficas para convertir unidades de propiedades. Con ellas podemos convertir valores en unidades `px` a `em` o `rem`, y también valores en unidades `em` o `rem` a `px`.
+Lo único que hay que hacer es llamar a una de las tres funciones y pasarle el valor que queremos convertir.
+
+### A 'px'
+
+```scss
+.my-component {
+  margin: px(3.23rem);
+}
+```
+
+### A 'rem'
+
+```scss
+.my-component {
+  margin: rem(10px) rem(5px);
+}
+```
+
+### A 'em'
+
+```scss
+.my-component {
+  margin: em(10px) em(5px);
+}
+```
+
+Es importante recordar que, al convertir un valor, la conversión se basa en un tamaño de fuente base predeterminado de 16px (donde 16px = 1em/rem). Si lo necesitamos, podemos proporcionar un tamaño de fuente base personalizado como argumento de la función de conversión. Así nos aseguramos de que el valor resultante se calcule en relación con el tamaño de fuente base indicado.
+
+```scss
+.my-component {
+  margin: rem(10px, 26px);
+  // The result will be 0.385rem
+}
+```
+
+Esto convertirá el valor de 10px a rem, según el tamaño de fuente de 26px.
+
+## Clases CSS
+
+Además de añadir estilos de texto a todos los componentes basándonos en las categorías de escala tipográfica, también damos estilo a los elementos predeterminados h1-h6 y p. Así podemos separar la semántica del estilo. Por ejemplo, aunque la etiqueta `h1` tenga cierto estilo predeterminado que proporcionamos al usar `typography`, puede modificarla para que se vea como un `h3` asignándole la clase `ig-typography__h3`.
+
+```html
+<h1 class="ig-typography__h3">Some text</h1>
+```
+
+Esta es una lista de todas las clases CSS que proporcionamos de forma predeterminada:
+
+- `ig-typography__h1`
+- `ig-typography__h2`
+- `ig-typography__h3`
+- `ig-typography__h4`
+- `ig-typography__h5`
+- `ig-typography__h6`
+- `ig-typography__subtitle-1`
+- `ig-typography__subtitle-2`
+- `ig-typography__body-1`
+- `ig-typography__body-2`
+- `ig-typography__button`
+- `ig-typography__caption`
+- `ig-typography__overline`
+
+<igc-divider></igc-divider>
+
+## Recursos adicionales
+
+<hr/>
+Nuestra comunidad está activa y siempre da la bienvenida a nuevas ideas.
+
+- [Ignite UI for Angular **Foros**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

@@ -1,0 +1,194 @@
+---
+title: "Carga a demanda de Hierarchical Grid: Angular nativo | Ignite UI for Angular"
+description: "El Hierarchical Grid de Ignite UI for Angular ofrece las herramientas necesarias para cargar datos a demanda para cada grid hijo que se expande. Así, el volumen de datos se reduce notablemente y solo se recupera cuando el usuario lo necesita."
+keywords: "Ignite UI for Angular, controles de interfaz, widgets de Angular, widgets web, widgets de interfaz, Angular, conjunto de componentes nativos de Angular, controles nativos de Angular, biblioteca de componentes nativos de Angular, componente Angular Hierarchical Grid, componente Angular Hierarchical Data Table, control Angular Hierarchical Grid, control Angular Hierarchical Data Table, Angular Hierarchical Grid de alto rendimiento, Angular Hierarchical Data Table de alto rendimiento, Hierarchical Grid, Hierarchical Data Table"
+license: commercial
+_language: es
+llms:
+  description: "El HierarchicalGrid de Ignite UI for Angular permite un renderizado rápido solicitando la mínima cantidad de datos desde el servidor, para que el usuario pueda ver el resultado e interactuar con los datos visibles lo antes posible."
+---
+
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+import { Image } from 'astro:assets';
+import hgridDatabase from '../../images/hgrid-database.jpg';
+
+
+# Carga a demanda de Hierarchical Grid
+
+El <ApiLink type="HierarchicalGrid" /> de Ignite UI for Angular permite un renderizado rápido solicitando la mínima cantidad de datos desde el servidor, para que el usuario pueda ver el resultado e interactuar con los datos visibles lo antes posible. Al principio solo se recuperan y renderizan los datos del grid raíz; solo cuando el usuario expande una fila que contiene un grid hijo recibe los datos de ese grid hijo concreto. Este mecanismo, también conocido como carga a demanda, puede configurarse fácilmente para funcionar con cualquier dato remoto.
+
+Este tema muestra cómo configurar la carga a demanda solicitando datos de una [Northwind WebAPI](https://data-northwind.indigo.design/swagger/index.html). Aquí tiene la demostración funcionando; después la recorreremos paso a paso y describiremos el proceso de creación.
+
+## Ejemplo de carga a demanda del Angular Hierarchical Grid
+
+<Sample src="/hierarchical-grid/hierarchical-grid-lod" height={620} alt="Ejemplo de carga a demanda del Angular Hierarchical Grid" />
+
+
+### Configuración del Hierarchical Grid
+
+Vamos a configurar nuestro grid jerárquico. Primero definiremos la plantilla del grid jerárquico con los niveles de jerarquía que esperamos tener. Sabemos que nuestro grid raíz <ApiLink type="HierarchicalGrid" member="primaryKey" label="primaryKey" /> de clientes es `customerId`, para sus pedidos en el primer nivel, `orderId`, y para los detalles de los pedidos, `productId`. Conocer cada tabla de la base de datos y sus claves nos permite definir nuestra plantilla inicial:
+
+```html
+<igx-hierarchical-grid #hGrid [primaryKey]="'customerId'" [autoGenerate]="true" [height]="'600px'" [width]="'100%'">
+    <igx-row-island [key]="'Orders'" [primaryKey]="'orderId'" [autoGenerate]="true">
+        <igx-row-island [key]="'Details'" [primaryKey]="'productId'" [autoGenerate]="true">
+        </igx-row-island>
+    </igx-row-island>
+</igx-hierarchical-grid>
+```
+
+Estableceremos fácilmente los datos de la cuadrícula raíz después de obtenerlos del endpoint en nuestro código, ya que podemos usar la referencia `#hGrid`. Establecer los datos de cualquier hijo que se haya expandido es un poco distinto.
+
+Cuando una fila se expande por primera vez, se renderiza un nuevo `IgxHierarchicalGrid` hijo para ella y necesitamos obtener la referencia al grid recién creado para establecer sus datos. Por eso cada componente <ApiLink type="RowIsland" /> proporciona el evento <ApiLink type="RowIsland" member="gridCreated" label="gridCreated" />, que se dispara cuando se crea un nuevo grid hijo para esa isla de filas concreta. Podemos usarlo para obtener la referencia que necesitamos para el nuevo grid, solicitar sus datos al endpoint y aplicarlos.
+
+Podemos usar un único método para todas las islas de filas, ya que el endpoint solo necesita la clave de la isla de filas, la clave primaria de la fila padre y su identificador único. Toda esta información está disponible directamente en los argumentos del evento.
+
+#### Configuración del indicador de carga
+
+Ahora mejoremos la experiencia de usuario informándole de que los datos siguen cargándose, para que no tenga que mirar un grid vacío mientras tanto. Por eso el <ApiLink type="HierarchicalGrid" /> admite un indicador de carga que puede mostrarse mientras el grid está vacío.
+
+Mostramos un indicador de carga estableciendo la propiedad <ApiLink type="HierarchicalGrid" member="isLoading" label="isLoading" /> en `true` mientras no hay datos. Hay que establecerla inicialmente para el grid raíz y también al crear nuevos grids hijos, hasta que se carguen sus datos. Podríamos dejarla siempre en `true` en nuestra plantilla, pero queremos ocultarla (estableciéndola en `false`) y mostrar que el grid no tiene datos si el servicio devuelve un array vacío.
+
+Por último, desactivemos la propiedad <ApiLink type="Grid" member="autoGenerate" label="autoGenerate" /> y definamos la colección de columnas en el marcado.
+
+El archivo de plantilla `hierarchical-grid-lod.component.html`, una vez añadidos todos los cambios, tendría este aspecto:
+
+```html
+    <igx-hierarchical-grid #hGrid [data]="remoteData" [isLoading]="true" [primaryKey]="'customerId'" [autoGenerate]="false" [height]="'580px'" [width]="'100%'" [igxPreventDocumentScroll]="true" [allowAdvancedFiltering]="true" (advancedFilteringExpressionsTreeChange)="refreshRootGridData()">
+            <igx-grid-toolbar></igx-grid-toolbar>
+
+            <igx-column field="customerId" [dataType]="'string'"></igx-column>
+            <igx-column field="companyName" [dataType]="'string'"></igx-column>
+            <igx-column field="contactName" [dataType]="'string'"></igx-column>
+            <igx-column field="contactTitle" [dataType]="'string'"></igx-column>
+
+        <igx-row-island #rowIsland1 [key]="'Orders'" [primaryKey]="'orderId'" [autoGenerate]="false" (gridCreated)="gridCreated($event)">
+            <igx-column field="orderId" [dataType]="'number'"></igx-column>
+            <igx-column field="customerId" [dataType]="'string'"></igx-column>
+            <igx-column field="shipVia" [dataType]="'string'"></igx-column>
+            <igx-column field="freight" [dataType]="'number'"></igx-column>
+
+            <igx-row-island #rowIsland2 [key]="'Details'" [primaryKey]="'productId'" [autoGenerate]="false" (gridCreated)="gridCreated($event)">
+                <igx-column field="orderId" [dataType]="'number'"></igx-column>
+                <igx-column field="productId" [dataType]="'number'"></igx-column>
+                <igx-column field="unitPrice" [dataType]="'number'"></igx-column>
+                <igx-column field="quantity" [dataType]="'number'"></igx-column>
+                <igx-column field="discount" [dataType]="'number'"></igx-column>
+            </igx-row-island>
+        </igx-row-island>
+    </igx-hierarchical-grid>
+```
+
+### Filtrado avanzado
+
+El cuadro de diálogo de filtrado avanzado de `IgxHierarchicalGrid` toma sus campos de las columnas declaradas en el grid raíz y en cada isla de filas. Esto incluye las islas de filas anidadas cuyos datos hijos todavía no se han cargado, así que pueden crearse expresiones de filtrado con consultas anidadas antes de expandir cualquier grid hijo.
+
+El cuadro de diálogo ofrece las condiciones y el editor que coinciden con el `dataType` de una columna, y una columna sin `dataType` se trata como una cadena. En el cuadro de diálogo solo están disponibles las columnas declaradas.
+
+#### Establecer el filtro inicial
+
+Ahora añadamos reglas de filtrado iniciales a nuestro grid, de modo que el grid raíz se filtre la primera vez que se carga. Crearemos un <ApiLink type="FilteringExpressionsTree" /> y lo asignaremos a la propiedad <ApiLink type="HierarchicalGrid" member="advancedFilteringExpressionsTree" label="advancedFilteringExpressionsTree" /> de `IgxHierarchicalGrid` usando el hook de ciclo de vida `ngOnInit`.
+
+Supongamos que queremos filtrar los clientes cuyo flete de pedido sea al menos `500`. Aprovecharemos la posibilidad de crear consultas anidadas en las expresiones de filtrado, y este es el resultado:
+
+```TypeScript
+public ngOnInit() {
+    const ordersTree = new FilteringExpressionsTree(FilteringLogic.And, undefined, 'Orders', ['customerId']);
+    ordersTree.filteringOperands.push({
+        fieldName: 'freight',
+        ignoreCase: false,
+        condition: IgxNumberFilteringOperand.instance().condition('greaterThanOrEqualTo'),
+        conditionName: IgxNumberFilteringOperand.instance().condition('greaterThanOrEqualTo').name,
+        searchVal: 500
+    });
+
+    const customersTree = new FilteringExpressionsTree(FilteringLogic.And, undefined, 'Customers', ['customerId', 'companyName', 'contactName', 'contactTitle']);
+    customersTree.filteringOperands.push({
+        fieldName: 'customerId',
+        condition: IgxStringFilteringOperand.instance().condition('inQuery'),
+        conditionName: IgxStringFilteringOperand.instance().condition('inQuery').name,
+        ignoreCase: false,
+        searchTree: ordersTree
+    });
+    this.hGrid.advancedFilteringExpressionsTree = customersTree;
+}
+```
+
+### Conectar con el endpoint
+
+Nos comunicaremos con el endpoint a través del protocolo HTTP usando la interfaz XMLHttpRequest que proporcionan los navegadores. Para hacerlo más fácilmente, usaremos el módulo [`HttpClient`](https://angular.io/api/common/http/HttpClient) de Angular, que ofrece una API de cliente HTTP simplificada.
+
+#### Obtener los datos de la cuadrícula raíz
+
+La [Northwind WebAPI](https://data-northwind.indigo.design/swagger/index.html) nos proporciona un endpoint POST que acepta un `IFilteringExpressionsTree` como parámetro, y lo usaremos para aprovechar la funcionalidad de filtrado avanzado de `IgxHierarchicalGrid` y filtrar los registros del grid raíz. El endpoint necesita el nombre de la tabla raíz en el `entity` del árbol de expresiones. Un árbol de expresiones creado o editado en el cuadro de diálogo de filtrado avanzado no tiene `entity` para el grid raíz, porque el grid no conoce ese nombre, así que lo estableceremos al enviar la solicitud. Lo haremos en el método `refreshRootGridData`:
+
+```typescript
+public refreshRootGridData() {
+    const tree = this.hGrid.advancedFilteringExpressionsTree;
+    this.hGrid.isLoading = true;
+    if (tree) {
+        const query = { ...tree, entity: 'Customers' };
+        this.http.post(`${API_ENDPOINT}/QueryBuilder/ExecuteQuery`, query).subscribe(data =>{
+            this.remoteData = Object.values(data)[0];
+            this.hGrid.isLoading = false;
+            this.hGrid.cdr.detectChanges();
+        });
+    } else {
+        this.http.get(`${API_ENDPOINT}/Customers`).subscribe(data => {
+            this.remoteData = Object.values(data);
+            this.hGrid.isLoading = false;
+            this.hGrid.cdr.detectChanges();
+        });
+    }
+}
+```
+
+Como puede ver, `this.http` será una referencia a nuestro módulo `HttpCLient`. El método `subscribe` forma parte de los Observable de Angular y se usa para gestionar la respuesta asíncrona de la solicitud HTTP. Cuando se reciben los datos, asigna los datos obtenidos a la cuadrícula correspondiente, actualiza su estado de carga a false y activa la detección de cambios para que la interfaz refleje los cambios.
+
+Para cargar los datos después de que el grid raíz se haya renderizado por primera vez, usaremos el hook de ciclo de vida `ngAfterViewInit` y llamaremos al método `refreshRootGridData`:
+
+````TypeScript
+public ngAfterViewInit() {
+    this.refreshRootGridData();
+}
+````
+
+#### Obtener los datos de los grids hijos
+
+A continuación definiremos cómo construir la URL de la solicitud GET para obtener los datos de nuestros grids hijos. Esta es la representación visual de las relaciones entre las tablas:
+
+<Image src={hgridDatabase} alt="Base de datos jerárquica relacional" class="responsive-img" />
+
+Por último, necesitamos implementar nuestro método `gridCreated`, que solicitará los datos de cualquier nuevo grid hijo creado. Será similar a la obtención de los datos del grid de nivel raíz, solo que esta vez usaremos los datos proporcionados en el evento <ApiLink type="RowIsland" member="gridCreated" label="gridCreated" /> para construir nuestra URL:
+
+````TypeScript
+public gridCreated(event: IGridCreatedEventArgs) {
+    event.grid.isLoading = true;
+    const url = this.buildUrl(event);
+    this.http.get(url).subscribe(data => {
+        event.grid.data = Object.values(data);
+        event.grid.isLoading = false;
+        this.hGrid.cdr.detectChanges();
+    });
+}
+
+private buildUrl(event: IGridCreatedEventArgs) {
+    const parentKey = (event.grid.parent as any).key ?? 'Customers';
+    const url = `${API_ENDPOINT}/${parentKey}/${event.parentID}/${event.owner.key}`;
+    return url;
+}
+````
+
+## Referencias de API
+- <ApiLink type="HierarchicalGrid" />
+- <ApiLink type="RowIsland" />
+## Recursos adicionales
+
+
+- [Componente Hierarchical Grid](/hierarchicalgrid/hierarchical-grid)
+
+Nuestra comunidad está activa y siempre da la bienvenida a nuevas ideas.
+
+- [Ignite UI for Angular **Foros**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [**GitHub** de Ignite UI for Angular](https://github.com/IgniteUI/igniteui-angular
