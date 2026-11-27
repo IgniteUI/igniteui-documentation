@@ -41,22 +41,25 @@ jobs:
 
       - run: npm ci
 
+      # The names are kept in a file, separated by NUL, and never pasted into a command line:
+      # a name with a parenthesis or a space would break it.
       - name: Get changed markdown files
         id: changed
         run: |
-          FILES=$(git diff --name-only --diff-filter=ACMR origin/${{ github.base_ref }}...HEAD -- 'docs/**/*.mdx' 'docs/**/*.md' | tr '\n' ' ')
-          echo "files=$FILES" >> "$GITHUB_OUTPUT"
-          echo "Found changed files: $FILES"
+          git diff --name-only -z --diff-filter=ACMR origin/${{ github.base_ref }}...HEAD -- 'docs/**/*.mdx' 'docs/**/*.md' > "$RUNNER_TEMP/changed-files"
+          echo "count=$(tr -cd '\0' < "$RUNNER_TEMP/changed-files" | wc -c)" >> "$GITHUB_OUTPUT"
+          echo "Found changed files:"
+          tr '\0' '\n' < "$RUNNER_TEMP/changed-files"
 
       - name: Markdownlint (changed files)
-        if: steps.changed.outputs.files != ''
-        run: npx markdownlint ${{ steps.changed.outputs.files }}
+        if: steps.changed.outputs.count != '0'
+        run: xargs -0 -a "$RUNNER_TEMP/changed-files" npx markdownlint
 
       - name: Summary
-        if: always() && steps.changed.outputs.files != ''
+        if: always() && steps.changed.outputs.count != '0'
         run: |
           echo "## Markdownlint Results" >> "$GITHUB_STEP_SUMMARY"
-          RESULT=$(npx markdownlint ${{ steps.changed.outputs.files }} 2>&1 || true)
+          RESULT=$(xargs -0 -a "$RUNNER_TEMP/changed-files" npx markdownlint 2>&1 || true)
           ERRORS=$(echo "$RESULT" | grep -c "MD[0-9]" || echo "0")
           FILES_WITH_ERRORS=$(echo "$RESULT" | grep "MD[0-9]" | cut -d: -f1 | sort -u | wc -l || echo "0")
           echo "**$ERRORS errors** in **$FILES_WITH_ERRORS files**" >> "$GITHUB_STEP_SUMMARY"
@@ -80,21 +83,22 @@ jobs:
 
       - run: npm ci
 
+      # As in markdown-lint: the names go through a file, never through a command line.
       - name: Get changed markdown files
         id: changed
         run: |
-          FILES=$(git diff --name-only --diff-filter=ACMR origin/${{ github.base_ref }}...HEAD -- 'docs/**/*.mdx' 'docs/**/*.md' | tr '\n' ' ')
-          echo "files=$FILES" >> "$GITHUB_OUTPUT"
+          git diff --name-only -z --diff-filter=ACMR origin/${{ github.base_ref }}...HEAD -- 'docs/**/*.mdx' 'docs/**/*.md' > "$RUNNER_TEMP/changed-files"
+          echo "count=$(tr -cd '\0' < "$RUNNER_TEMP/changed-files" | wc -c)" >> "$GITHUB_OUTPUT"
 
       - name: CSpell (changed files)
-        if: steps.changed.outputs.files != ''
-        run: npx cspell --no-progress ${{ steps.changed.outputs.files }}
+        if: steps.changed.outputs.count != '0'
+        run: xargs -0 -a "$RUNNER_TEMP/changed-files" npx cspell --no-progress
 
       - name: Summary
-        if: always() && steps.changed.outputs.files != ''
+        if: always() && steps.changed.outputs.count != '0'
         run: |
           echo "## CSpell Results" >> "$GITHUB_STEP_SUMMARY"
-          RESULT=$(npx cspell --no-progress ${{ steps.changed.outputs.files }} 2>&1 || true)
+          RESULT=$(xargs -0 -a "$RUNNER_TEMP/changed-files" npx cspell --no-progress 2>&1 || true)
           ERRORS=$(echo "$RESULT" | grep -c "Unknown word" || echo "0")
           FILES_WITH_ERRORS=$(echo "$RESULT" | grep "Unknown word" | cut -d: -f1 | sort -u | wc -l || echo "0")
           echo "**$ERRORS errors** in **$FILES_WITH_ERRORS files**" >> "$GITHUB_STEP_SUMMARY"
